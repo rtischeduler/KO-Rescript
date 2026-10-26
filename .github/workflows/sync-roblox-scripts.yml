@@ -1,0 +1,211 @@
+name: Sync Roblox Scripts
+
+# Save as .github/workflows/sync-roblox-scripts.yml in lotsacookie/KO-Rescript
+#
+# Required repo secret:   ROBLOX_API_KEY   (Open Cloud key owned by your group)
+#   Key permissions:      universe.place (read) + assets (read)
+#                         (add legacy-asset:manage if the download step returns 401/403)
+# Default universe ID is 10772894009; override with the manual input or the
+# ROBLOX_UNIVERSE_ID repo variable. If the universe -> place lookup ever fails,
+# set the ROBLOX_PLACE_ID variable (or the place_id input) to skip it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      universe_id:
+        description: "Roblox Universe ID (default 10772894009)"
+        required: false
+        default: "10772894009"
+        type: string
+      place_id:
+        description: "Optional place ID; skips the universe lookup"
+        required: false
+        type: string
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours; delete this block for manual-only
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-roblox-scripts
+  cancel-in-progress: false
+
+env:
+  LUNE_VERSION: "0.8.9"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve universe ID -> root place ID
+        id: place
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '10772894009' }}
+          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID }}
+        run: |
+          set -uo pipefail
+          PLACE_ID="${PLACE_ID_OVERRIDE:-}"
+
+          # 1) Open Cloud universe lookup (may need universe:read on the key)
+          if [ -z "$PLACE_ID" ]; then
+            PLACE_ID=$(curl -fsS -H "x-api-key: $ROBLOX_API_KEY" \
+              "https://apis.roblox.com/cloud/v2/universes/$UNIVERSE_ID" 2>/dev/null \
+              | jq -r '.rootPlace // empty' | sed 's#.*/places/##') || PLACE_ID=""
+          fi
+
+          # 2) Fallback: public games endpoint (works for public experiences, no key needed)
+          if ! [[ "$PLACE_ID" =~ ^[0-9]+$ ]]; then
+            PLACE_ID=$(curl -fsS \
+              "https://games.roblox.com/v1/games?universeIds=$UNIVERSE_ID" 2>/dev/null \
+              | jq -r '.data[0].rootPlaceId // empty') || PLACE_ID=""
+          fi
+
+          if ! [[ "$PLACE_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::Could not resolve a place for universe $UNIVERSE_ID. Set the ROBLOX_PLACE_ID repo variable (or place_id input)."
+            exit 1
+          fi
+          echo "Using place $PLACE_ID"
+          echo "place_id=$PLACE_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Download .rbxl via Asset Delivery API
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          PLACE_ID: ${{ steps.place.outputs.place_id }}
+        run: |
+          set -euo pipefail
+          LOCATION=$(curl -fsS -H "x-api-key: $ROBLOX_API_KEY" \
+            "https://apis.roblox.com/asset-delivery-api/v1/assetId/$PLACE_ID" \
+            | jq -r '.location')
+          if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
+            echo "::error::Asset delivery returned no download location (check key permissions / place ownership)"
+            exit 1
+          fi
+          curl -fsSL "$LOCATION" -o place.rbxl
+          # binary rbxl files start with this magic header
+          head -c 8 place.rbxl | grep -q "<roblox!" || { echo "::error::Downloaded file is not a binary rbxl"; exit 1; }
+          ls -l place.rbxl
+
+      - name: Install Lune (open-source Roblox toolchain)
+        run: |
+          set -euo pipefail
+          curl -fsSL -o lune.zip \
+            "https://github.com/lune-org/lune/releases/download/v${LUNE_VERSION}/lune-${LUNE_VERSION}-linux-x86_64.zip"
+          unzip -q lune.zip -d "$RUNNER_TEMP/lune"
+          chmod +x "$RUNNER_TEMP/lune/lune"
+          echo "$RUNNER_TEMP/lune" >> "$GITHUB_PATH"
+
+      - name: Write extractor script
+        run: |
+          cat > extract.luau <<'EOF'
+          local fs = require("@lune/fs")
+          local roblox = require("@lune/roblox")
+          local process = require("@lune/process")
+
+          local inputPath, outDir, xmlPath = process.args[1], process.args[2], process.args[3]
+
+          local game = roblox.deserializePlace(fs.readFile(inputPath))
+
+          -- rbxl -> rbxlx
+          fs.writeFile(xmlPath, roblox.serializePlace(game, true))
+
+          local function sanitize(name: string): string
+              local s = name:gsub('[<>:"/\\|?*%c]', "_")
+              s = s:gsub("^%s+", ""):gsub("%s+$", "")
+              if s == "" or s == "." or s == ".." then s = "_" end
+              return s
+          end
+
+          local function isScript(i): boolean
+              local c = i.ClassName
+              return c == "Script" or c == "LocalScript" or c == "ModuleScript"
+          end
+
+          local function hasScriptDescendant(i): boolean
+              for _, d in i:GetDescendants() do
+                  if isScript(d) then return true end
+              end
+              return false
+          end
+
+          local function suffixFor(i): string
+              if i.ClassName == "ModuleScript" then return ".lua" end
+              if i.ClassName == "LocalScript" then return ".client.lua" end
+              local ok, rc = pcall(function() return i.RunContext end)
+              if ok and rc and rc.Name == "Client" then return ".client.lua" end
+              return ".server.lua"
+          end
+
+          local count = 0
+
+          local function walk(inst, dir: string)
+              local taken = {}
+              for _, child in inst:GetChildren() do
+                  local isS = isScript(child)
+                  if not isS and not hasScriptDescendant(child) then continue end
+
+                  local base = sanitize(child.Name)
+                  local name, n = base, 1
+                  while taken[name:lower()] do
+                      n += 1
+                      name = base .. " (" .. n .. ")"
+                  end
+                  taken[name:lower()] = true
+
+                  if isS then
+                      local src = child.Source
+                      if hasScriptDescendant(child) then
+                          -- script that contains other scripts -> folder + init file
+                          local folder = dir .. "/" .. name
+                          fs.writeDir(folder)
+                          fs.writeFile(folder .. "/init" .. suffixFor(child), src)
+                          count += 1
+                          walk(child, folder)
+                      else
+                          fs.writeFile(dir .. "/" .. name .. suffixFor(child), src)
+                          count += 1
+                      end
+                  else
+                      local folder = dir .. "/" .. name
+                      fs.writeDir(folder)
+                      walk(child, folder)
+                  end
+              end
+          end
+
+          fs.writeDir(outDir)
+          walk(game, outDir)
+          print(("Extracted %d scripts into %s"):format(count, outDir))
+          EOF
+
+      - name: Convert rbxl -> rbxlx and extract scripts
+        run: |
+          set -euo pipefail
+          rm -rf scripts
+          lune run extract.luau place.rbxl scripts place.rbxlx
+          rm extract.luau lune.zip
+
+      - name: Upload rbxlx as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: place-rbxlx
+          path: place.rbxlx
+          retention-days: 14
+
+      - name: Commit scripts folder
+        run: |
+          set -euo pipefail
+          rm -f place.rbxl place.rbxlx
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A scripts
+          if git diff --cached --quiet; then
+            echo "No script changes."
+          else
+            git commit -m "Sync scripts from Roblox universe"
+            git push
+          fi
