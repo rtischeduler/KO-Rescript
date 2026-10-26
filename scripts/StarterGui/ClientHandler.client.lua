@@ -1,0 +1,382 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local GuiService = game:GetService("GuiService")
+local StarterGui = game:GetService("StarterGui")
+local Lighting = game:GetService("Lighting")
+
+local player = Players.LocalPlayer
+local camera = Workspace.CurrentCamera
+
+local function getCamera()
+	return Workspace.CurrentCamera
+end
+
+local function waitForLocalPlayer()
+	if player then return player end
+	return Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+end
+
+player = waitForLocalPlayer()
+
+local function initDisableResetButton()
+	task.wait(1)
+	local success, err = pcall(function()
+		StarterGui:SetCore("ResetButtonCallback", false)
+	end)
+	if not success then
+		warn("Failed to disable reset button: " .. tostring(err))
+	end
+end
+
+local function initOldCursor()
+	local mouse = player:GetMouse()
+	mouse.Icon = "http://www.roblox.com/asset/?id=7025168168"
+end
+
+local function initGamepassFriends()
+	
+end
+
+local function initUnderwaterEffect()
+	local blur = Lighting:FindFirstChild("UnderwaterBlur")
+	local correction = Lighting:FindFirstChild("UnderwaterCorrection")
+
+	if not blur or not correction then
+		warn("UnderwaterEffect: UnderwaterBlur or UnderwaterCorrection not found in Lighting")
+		return
+	end
+
+	RunService.RenderStepped:Connect(function()
+		local ocean = Workspace:FindFirstChild("Ocean")
+		if ocean and ocean:IsA("BasePart") then
+			local cameraY = camera.CFrame.Position.Y
+			local oceanY = ocean.Position.Y
+			if cameraY < oceanY then
+				blur.Enabled = true
+				correction.Enabled = true
+			else
+				blur.Enabled = false
+				correction.Enabled = false
+			end
+		end
+	end)
+end
+
+local function initCameraToggle()
+	local isConsole = GuiService:IsTenFootInterface()
+	local maxZoomDistance = isConsole and 200 or 100
+	local isHeadMode = false
+	local currentHeadPart = nil
+	local connections = {}
+
+	local function findHeadPart(character)
+		if not character then return nil end
+		local fakeHead = character:FindFirstChild("FakeHead")
+		if fakeHead and fakeHead:IsA("BasePart") then
+			return fakeHead
+		end
+		local head = character:FindFirstChild("Head")
+		if head and head:IsA("BasePart") then
+			return head
+		end
+		local headPart = character:FindFirstChild("HeadPart")
+		if headPart and headPart:IsA("BasePart") then
+			return headPart
+		end
+		return nil
+	end
+
+	local function enforceMaxZoom()
+		player.CameraMaxZoomDistance = maxZoomDistance
+		player.CameraMinZoomDistance = 0.5
+	end
+
+	local function updateCameraSubject()
+		if player:GetAttribute("MenuCameraActive") then return end
+		local character = player.Character
+		if not character then return end
+		local cam = getCamera()
+		if not cam then return end
+
+		if isHeadMode then
+			local headPart = findHeadPart(character)
+			if headPart then
+				currentHeadPart = headPart
+				cam.CameraSubject = headPart
+			else
+				local humanoid = character:FindFirstChildOfClass("Humanoid")
+				if humanoid then
+					cam.CameraSubject = humanoid
+				end
+				currentHeadPart = nil
+			end
+		else
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				cam.CameraSubject = humanoid
+			end
+			currentHeadPart = nil
+		end
+	end
+
+	local function startHeadMonitor(character)
+		if connections.headMonitor then
+			connections.headMonitor:Disconnect()
+		end
+		connections.headMonitor = RunService.Heartbeat:Connect(function()
+			if not isHeadMode then return end
+			if player:GetAttribute("MenuCameraActive") then return end
+			if not character or not character.Parent then return end
+			if currentHeadPart and currentHeadPart.Parent then return end
+			local newHeadPart = findHeadPart(character)
+			if newHeadPart and newHeadPart ~= currentHeadPart then
+				currentHeadPart = newHeadPart
+				local cam = getCamera()
+				if cam then
+					cam.CameraSubject = newHeadPart
+				end
+			end
+		end)
+	end
+
+	local function onCharacterAdded(character)
+		enforceMaxZoom()
+		updateCameraSubject()
+		startHeadMonitor(character)
+		character.ChildAdded:Connect(function(child)
+			if isHeadMode and (child.Name == "FakeHead" or child.Name == "Head" or child.Name == "HeadPart") then
+				if child:IsA("BasePart") and not player:GetAttribute("MenuCameraActive") then
+					currentHeadPart = child
+					local cam = getCamera()
+					if cam then
+						cam.CameraSubject = child
+					end
+				end
+			end
+			if child:IsA("Humanoid") then
+				enforceMaxZoom()
+			end
+		end)
+		character.ChildRemoved:Connect(function(child)
+			if isHeadMode and child == currentHeadPart then
+				task.wait(0.1)
+				updateCameraSubject()
+			end
+		end)
+	end
+
+	-- H key toggle for head mode removed (head/fakehead camera disabled)
+
+	player.CharacterAdded:Connect(onCharacterAdded)
+	if player.Character then
+		onCharacterAdded(player.Character)
+	end
+
+	RunService.Heartbeat:Connect(function()
+		local detectedConsole = GuiService:IsTenFootInterface()
+		if detectedConsole ~= isConsole then
+			isConsole = detectedConsole
+			maxZoomDistance = isConsole and 200 or 100
+		end
+		if player.CameraMaxZoomDistance ~= maxZoomDistance then
+			player.CameraMaxZoomDistance = maxZoomDistance
+		end
+		if player.CameraMinZoomDistance ~= 0.5 then
+			player.CameraMinZoomDistance = 0.5
+		end
+	end)
+end
+
+local function initShiftLock()
+	local isMobile = UserInputService.TouchEnabled
+	local isShiftLocked = false
+	local renderConnection = nil
+	local cameraOffset = 8
+	
+
+	player:SetAttribute("ShiftLockEnabled", false)
+	if not isMobile then
+		UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+	end
+
+	local function getShiftLockButton()
+		local gui = player:FindFirstChild("PlayerGui")
+		if not gui then return nil end
+		local gameGui = gui:FindFirstChild("GameGui")
+		if not gameGui then return nil end
+		local mainFrame = gameGui:FindFirstChild("MainFrame")
+		if not mainFrame then return nil end
+		local interface = mainFrame:FindFirstChild("Interface")
+		if not interface then return nil end
+		local mobile = interface:FindFirstChild("Mobile")
+		if not mobile then return nil end
+		return mobile:FindFirstChild("ShiftLock")
+	end
+
+	local function getCtrlLockButton()
+		local gui = player:FindFirstChild("PlayerGui")
+		if not gui then return nil end
+		local gameGui = gui:FindFirstChild("GameGui")
+		if not gameGui then return nil end
+		local mainFrame = gameGui:FindFirstChild("MainFrame")
+		if not mainFrame then return nil end
+		local interface = mainFrame:FindFirstChild("Interface")
+		if not interface then return nil end
+		local buttons = interface:FindFirstChild("Buttons")
+		if not buttons then return nil end
+		return buttons:FindFirstChild("CtrlLock")
+	end
+
+	local function stopRotation()
+		if renderConnection then
+			renderConnection:Disconnect()
+			renderConnection = nil
+		end
+		local character = player.Character
+		if character then
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				humanoid.AutoRotate = true
+			end
+		end
+	end
+
+	local function startRotation()
+		if renderConnection then
+			renderConnection:Disconnect()
+		end
+		renderConnection = RunService.RenderStepped:Connect(function()
+			local character = player.Character
+			if not character then return end
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			local hrp = character:FindFirstChild("HumanoidRootPart")
+			if not humanoid or not hrp then return end
+			humanoid.AutoRotate = false
+			local lookVector = camera.CFrame.LookVector
+			local yaw = math.atan2(-lookVector.X, -lookVector.Z)
+			hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, yaw, 0)
+			camera.CFrame = camera.CFrame * CFrame.new(cameraOffset, 1.5, 0)
+		end)
+	end
+
+	local ctrlLockNormalImage = "rbxassetid://5044539836"
+	local ctrlLockHoverImage = "rbxassetid://5044539486"
+
+	local function updateCtrlLockVisuals()
+		local button = getCtrlLockButton()
+		if button then
+			button.Image = isShiftLocked and ctrlLockHoverImage or ctrlLockNormalImage
+		end
+	end
+
+	local function setShiftLock(enabled)
+		isShiftLocked = enabled
+		player:SetAttribute("ShiftLockEnabled", enabled)
+		if enabled then
+			if not isMobile then
+				UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+			end
+			startRotation()
+		else
+			if not isMobile then
+				UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+			end
+			stopRotation()
+		end
+		updateCtrlLockVisuals()
+	end
+
+	local function connectMobileButton()
+		local button = getShiftLockButton()
+		if button then
+			button.MouseButton1Click:Connect(function()
+				setShiftLock(not isShiftLocked)
+			end)
+			return true
+		end
+		return false
+	end
+
+	local function connectCtrlLockButton()
+		local button = getCtrlLockButton()
+		if button then
+			button.MouseButton1Click:Connect(function()
+				setShiftLock(not isShiftLocked)
+			end)
+			return true
+		end
+		return false
+	end
+
+	if not isMobile then
+		UserInputService.InputBegan:Connect(function(input, gameProcessed)
+			if gameProcessed then return end
+			if input.KeyCode == Enum.KeyCode.LeftControl or input.KeyCode == Enum.KeyCode.RightControl then
+				setShiftLock(not isShiftLocked)
+			end
+		end)
+	end
+
+	player.CharacterAdded:Connect(function(character)
+		task.wait(0.1)
+		if isShiftLocked then
+			startRotation()
+		else
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				humanoid.AutoRotate = true
+			end
+		end
+	end)
+
+	task.spawn(function()
+		for i = 1, 20 do
+			if connectMobileButton() then break end
+			task.wait(0.5)
+		end
+	end)
+
+	task.spawn(function()
+		for i = 1, 20 do
+			if connectCtrlLockButton() then break end
+			task.wait(0.5)
+		end
+	end)
+
+	if player.Character and isShiftLocked then
+		startRotation()
+	end
+end
+
+local function safeInit(name, func)
+	local success, err = pcall(func)
+	if not success then
+		warn("ClientHandler: " .. name .. " failed: " .. tostring(err))
+	end
+end
+
+task.spawn(function()
+	safeInit("DisableResetButton", initDisableResetButton)
+end)
+
+task.spawn(function()
+	safeInit("OldCursor", initOldCursor)
+end)
+
+task.spawn(function()
+	safeInit("GamepassFriends", initGamepassFriends)
+end)
+
+task.spawn(function()
+	safeInit("UnderwaterEffect", initUnderwaterEffect)
+end)
+
+task.spawn(function()
+	safeInit("CameraToggle", initCameraToggle)
+end)
+
+task.spawn(function()
+	safeInit("ShiftLock", initShiftLock)
+end)

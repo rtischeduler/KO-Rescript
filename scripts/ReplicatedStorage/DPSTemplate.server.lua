@@ -1,0 +1,104 @@
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local attackerName = script:GetAttribute("Attacker")
+local hitDebounce = {}
+
+
+local charRadiusCache = {}
+local function getCharRadius(char)
+	local cached = charRadiusCache[char]
+	if cached then return cached end
+	local ok, size = pcall(function()
+		local _, s = char:GetBoundingBox()
+		return s
+	end)
+	local radius = (ok and size) and math.max(size.X, size.Y, size.Z) / 2 or 30
+	charRadiusCache[char] = radius
+	return radius
+end
+
+local function awardGCells(attacker)
+	local leaderstats = attacker:FindFirstChild("leaderstats")
+	if leaderstats then
+		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
+		if gcells and gcells:IsA("IntValue") then
+			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 2) end
+			gcells.Value = gcells.Value + 2
+		end
+	end
+end
+
+local DAMAGE_INTERVAL = 0.1
+
+local beamDuration = script:GetAttribute("BeamDuration") or 6
+local beamDamage = script:GetAttribute("BeamDamage") or 0
+
+local DAMAGE_AMOUNT
+if beamDamage > 0 then
+	local numTicks = beamDuration / DAMAGE_INTERVAL
+	DAMAGE_AMOUNT = beamDamage / numTicks
+else
+	DAMAGE_AMOUNT = 6
+end
+
+local MAX_LIFETIME = beamDuration + 5
+task.delay(MAX_LIFETIME, function()
+	if script.Parent and script.Parent.Parent then
+		script.Parent:Destroy()
+	end
+end)
+
+task.spawn(function()
+	while script.Parent and script.Parent.Parent do
+		local hitbox = script.Parent
+		if not hitbox:IsA("BasePart") then break end
+
+		local attacker = Players:FindFirstChild(attackerName)
+		if attacker then
+			local attackerChar = attacker.Character
+			local hitboxPos = hitbox.Position
+			local hitRadius = hitbox.Size.Magnitude / 2
+
+			
+			
+			for _, player in ipairs(Players:GetPlayers()) do
+				local char = player.Character
+				if char and char ~= attackerChar then
+					if not hitDebounce[char] then
+						local humanoid = char:FindFirstChildOfClass("Humanoid")
+						if humanoid and humanoid.Health > 0 then
+							local hrp = char:FindFirstChild("HumanoidRootPart")
+							if hrp then
+								local dist = (hitboxPos - hrp.Position).Magnitude
+								local charRadius = getCharRadius(char)
+								if dist <= hitRadius + charRadius then
+									hitDebounce[char] = true
+
+									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
+									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
+									awardGCells(attacker)
+
+									task.spawn(function()
+										task.wait(DAMAGE_INTERVAL)
+										hitDebounce[char] = nil
+									end)
+								end
+							end
+						end
+					end
+				end
+				end
+			end
+
+		
+		for char in pairs(charRadiusCache) do
+			if not char.Parent then
+				charRadiusCache[char] = nil
+			end
+		end
+
+		task.wait(0.1)
+	end
+end)
