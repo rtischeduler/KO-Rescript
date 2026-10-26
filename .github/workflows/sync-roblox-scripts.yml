@@ -85,9 +85,27 @@ jobs:
             echo "::error::Asset delivery returned no download location (check key permissions / place ownership)"
             exit 1
           fi
-          curl -fsSL "$LOCATION" -o place.rbxl
-          # binary rbxl files start with this magic header
-          head -c 8 place.rbxl | grep -q "<roblox!" || { echo "::error::Downloaded file is not a binary rbxl"; exit 1; }
+          echo "Download host: $(echo "$LOCATION" | cut -d/ -f1-3)"
+          ok=0
+          for attempt in 1 2 3; do
+            curl -fsSL --compressed "$LOCATION" -o place.rbxl || true
+            # unwrap gzip if the CDN served the file gzipped
+            if [ "$(head -c 2 place.rbxl | od -An -tx1 | tr -d ' \n')" = "1f8b" ]; then
+              mv place.rbxl place.gz && gunzip -c place.gz > place.rbxl && rm place.gz
+            fi
+            # binary rbxl starts with "<roblox!", XML rbxlx with "<roblox "; Lune reads both
+            if head -c 7 place.rbxl | grep -aq '<roblox'; then ok=1; break; fi
+            echo "::warning::Attempt $attempt returned unexpected content"
+            ls -l place.rbxl || true
+            od -An -tx1 -N64 place.rbxl || true
+            head -c 300 place.rbxl | strings | head -5 || true
+            sleep $((attempt * 5))
+          done
+          if [ "$ok" != "1" ]; then
+            echo "::error::Downloaded file is not a Roblox place file (see hex/text dump above)"
+            exit 1
+          fi
+          head -c 8 place.rbxl | grep -aq '<roblox!' && echo "Format: binary rbxl" || echo "Format: XML (rbxlx)"
           ls -l place.rbxl
 
       - name: Install Lune (open-source Roblox toolchain)
