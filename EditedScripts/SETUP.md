@@ -10,7 +10,18 @@ Everything you need to copy into Roblox Studio, and exactly what to delete after
 
 In Studio: **File > Save to File As...** and keep the `.rbxl`. Do the whole setup, playtest, and only then **Publish**. Nothing is live until you publish.
 
-## 1. Server: install KOFramework
+## Quick install (importable models)
+
+The `Build Roblox models` workflow turns `EditedScripts/` into two ready-made model files in `build/`, rebuilt on every change (also downloadable from the workflow run's **Artifacts**).
+
+1. Download `build/KOFramework.rbxmx` and `build/KOClient.rbxmx`.
+2. In Studio, right-click **ServerScriptService** > **Insert from File...** > `KOFramework.rbxmx`.
+3. Right-click **StarterPlayer > StarterPlayerScripts** > **Insert from File...** > `KOClient.rbxmx`. This also adds the empty `RbxCharacterSounds`.
+4. Delete the old scripts listed below, and delete the original `RbxCharacterSounds` first if one already exists (otherwise you will have two).
+
+The models cannot delete anything for you. Sections 1 and 2 below are only needed if you prefer to build by hand; the delete and keep lists still apply either way.
+
+## 1. Server: install KOFramework (by hand)
 
 Create this tree in **ServerScriptService**. Class names matter: the top item is a `Script`, everything under it is a `ModuleScript` or `Folder`.
 
@@ -59,7 +70,7 @@ If you would rather not delete yet, set `Disabled = true` on each instead. The f
 | `KnitServices` | `KnitService` registers it |
 | `DamageBoost`, `Gcells`, `HealthCommandFix` | untouched by the framework |
 
-## 2. Client: install KOClient
+## 2. Client: install KOClient (by hand)
 
 Create this tree in **StarterPlayer > StarterPlayerScripts**. The top item is a `LocalScript`.
 

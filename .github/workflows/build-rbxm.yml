@@ -1,0 +1,50 @@
+name: Build Roblox models
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "EditedScripts/**"
+      - "tools/build_rbxmx.py"
+      - ".github/workflows/build-rbxm.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-rbxm
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build models
+        run: python3 tools/build_rbxmx.py
+
+      - name: Upload models as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: roblox-models
+          path: build/*.rbxmx
+          retention-days: 30
+
+      - name: Commit models
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add build
+          if git diff --cached --quiet; then
+            echo "No model changes."
+          else
+            git commit -m "Build Roblox models"
+            for attempt in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep $((attempt * 5))
+            done
+          fi
