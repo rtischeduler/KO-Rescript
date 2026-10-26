@@ -1,10 +1,5 @@
--- Replaces: SettingsStore.server.lua. Same DataStore ("PlayerSettings"), key ("Player_<id>"), value ({ fov = n })
--- and same GetSettingsData remote contract: number -> clamp, store, return true; anything else -> return stored FOV.
--- Fixes: retries on DataStore errors, saves on server shutdown, only writes when the FOV changed, and a failed
--- load can no longer overwrite a player's saved FOV with the default when they leave.
 local SettingsService = { Name = "Settings", Async = true }
 
--- Returns a clamped number, or nil if the value is not a usable number (non-number or NaN).
 function SettingsService.normalizeFov(value, cfg)
 	if type(value) ~= "number" or value ~= value then
 		return nil
@@ -69,10 +64,10 @@ function SettingsService:Init()
 		end, cfg.DataStoreAttempts, 1)
 
 		if not player.Parent then
-			return -- left while loading
+			return
 		end
 		if dirty[userId] then
-			return -- the client already set a value while we were loading; keep theirs
+			return
 		end
 		local loaded = ok and type(data) == "table" and SettingsService.normalizeFov(data.fov, cfg)
 		values[userId] = loaded or cfg.DefaultFov

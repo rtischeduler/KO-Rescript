@@ -1,4 +1,3 @@
--- Plain-Luau unit tests for the pure logic (no Roblox needed):  luau EditedScripts/tests/run.luau
 local Util = require("../ServerScriptService/KOFramework/Core/Util")
 local Lifecycle = require("../ServerScriptService/KOFramework/Core/Lifecycle")
 local Config = require("../ServerScriptService/KOFramework/Config")
@@ -18,7 +17,6 @@ local function near(a, b)
 	return math.abs(a - b) < 1e-9
 end
 
--- stub logger: records warnings instead of calling Roblox's warn()
 local function stubLog()
 	local log = { warnings = {} }
 	function log:warn(message) table.insert(self.warnings, message) end
@@ -27,7 +25,6 @@ local function stubLog()
 end
 local function immediate(fn, ...) fn(...) end
 
--- Util ----------------------------------------------------------------------------------------------------
 local set = Util.lowerSet({ "Foo", "BAR", "d" })
 check("lowerSet lowercases keys", set.foo and set.bar and set.d and not set.Foo)
 
@@ -45,7 +42,6 @@ waits = {}
 local ok2, err2 = Util.retry(function() error("nope") end, 2, 1, function(s) table.insert(waits, s) end)
 check("retry gives up with the last error", ok2 == false and string.find(tostring(err2), "nope") ~= nil and #waits == 1)
 
--- Lifecycle -----------------------------------------------------------------------------------------------
 do
 	local log = stubLog()
 	local order = {}
@@ -98,7 +94,6 @@ do
 	check("only Async services are spawned", spawned == 1)
 end
 
--- Health --------------------------------------------------------------------------------------------------
 local h = Config.Health
 check("regen matches old formula (no points)", near(Health.regenAmount(1000, nil, h), 1000 * 0.01015))
 check("regen matches old formula (2 points)", near(Health.regenAmount(1000, 2, h), 1000 * 0.01015 * 1.3))
@@ -108,12 +103,10 @@ check("never damaged regens immediately", Health.canRegen(50, 100, nil, nil, 0.1
 check("recent damage blocks regen", Health.canRegen(50, 100, nil, 100, 110, 20) == false)
 check("regen resumes after the delay", Health.canRegen(50, 100, nil, 100, 120, 20) == true)
 
--- GCell guard ---------------------------------------------------------------------------------------------
 check("granted increase passes", GCell.isIncreaseAllowed(100, 100, 0.5) == true)
 check("rounding tolerance passes", GCell.isIncreaseAllowed(100, 99.6, 0.5) == true)
 check("ungranted increase is rejected", GCell.isIncreaseAllowed(5, 0, 0.5) == false)
 
--- Settings ------------------------------------------------------------------------------------------------
 local s = Config.Settings
 check("fov clamps high", Settings.normalizeFov(500, s) == 120)
 check("fov clamps low", Settings.normalizeFov(10, s) == 70)
@@ -121,12 +114,10 @@ check("fov keeps valid", Settings.normalizeFov(90, s) == 90)
 check("fov rejects non-numbers", Settings.normalizeFov("90", s) == nil and Settings.normalizeFov(nil, s) == nil)
 check("fov rejects NaN", Settings.normalizeFov(0 / 0, s) == nil)
 
--- Eliminator ----------------------------------------------------------------------------------------------
 check("rank entry matches name case-insensitively", Eliminator.entryMatches("BlueEnderCookie_2", "blueendercookie_2", 1))
 check("rank entry matches userId", Eliminator.entryMatches(42, "x", 42))
 check("rank entry ignores blanks and mismatches", not Eliminator.entryMatches("", "x", 1) and not Eliminator.entryMatches(7, "x", 8))
 
--- Config parity with the original scripts -------------------------------------------------------------------
 check("config: regen constants unchanged", h.RegenDelay == 20 and h.RegenInterval == 3 and h.RegenBasePercent == 0.01015 and h.RegenPerPoint == 0.15)
 check("config: restricted kaiju + allowed players unchanged", #Config.Morph.RestrictedKaiju == 7 and #Config.Morph.AllowedPlayers == 4)
 check("config: legacy module order unchanged", table.concat(Config.LegacyModules, ",") == "Character,Combat,Data,World")

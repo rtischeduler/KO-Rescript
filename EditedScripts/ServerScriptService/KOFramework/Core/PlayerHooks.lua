@@ -1,7 +1,3 @@
--- One PlayerAdded / CharacterAdded / PlayerRemoving connection for the whole framework.
--- Services register handlers instead of each wiring their own "for existing players + PlayerAdded" boilerplate.
--- Handlers run in their own thread inside a pcall, exactly like separate Signal connections did before.
--- OnPlayer / OnCharacter replay for players and characters that already exist when you register.
 local PlayerHooks = {}
 
 local playerHandlers = {}
@@ -53,7 +49,6 @@ local function connect()
 	end
 end
 
--- handler(player)
 function PlayerHooks.OnPlayer(handler)
 	connect()
 	table.insert(playerHandlers, handler)
@@ -62,7 +57,6 @@ function PlayerHooks.OnPlayer(handler)
 	end
 end
 
--- handler(player, character)
 function PlayerHooks.OnCharacter(handler)
 	connect()
 	table.insert(characterHandlers, handler)
@@ -73,7 +67,6 @@ function PlayerHooks.OnCharacter(handler)
 	end
 end
 
--- handler(player)
 function PlayerHooks.OnRemoving(handler)
 	connect()
 	table.insert(removingHandlers, handler)

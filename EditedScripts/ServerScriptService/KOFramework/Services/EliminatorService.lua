@@ -1,10 +1,5 @@
--- Replaces: PlayerEliminator.server.lua. Still driven by the _G.PlayerEliminatorActive flag (set by admin commands)
--- and HD Admin via _G.HDAdminMain, so existing commands keep working.
--- Differences from the old script: hooks attach immediately (the old one waited up to 60s for HD Admin before
--- connecting anything), the EliminatorPopup remote is looked up when needed, and group ranks are fetched once per group.
 local EliminatorService = { Name = "Eliminator" }
 
--- Matches one entry of an HD Admin rank list (a username or a UserId) against a player.
 function EliminatorService.entryMatches(entry, playerName, userId)
 	if type(entry) == "string" and entry ~= "" then
 		return string.lower(playerName) == string.lower(entry)
@@ -61,7 +56,7 @@ function EliminatorService:Init()
 				if type(groupId) == "number" and groupId > 0 then
 					local okIn, inGroup = pcall(player.IsInGroupAsync, player, groupId)
 					if okIn and inGroup then
-						local playerRank -- fetched lazily, once per group
+						local playerRank
 						for groupRank, rankName in pairs(ranks) do
 							if adminRankNames[rankName] and type(groupRank) == "number" and groupRank > 0 then
 								if playerRank == nil then

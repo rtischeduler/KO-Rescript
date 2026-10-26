@@ -1,6 +1,3 @@
--- Replaces: ServerHandler's inline morph block AND MorphBootstrap.server.lua (they were two copies of the same code,
--- raced via the MorphBootstrapActive attribute, and sent MorphResult with different argument orders).
--- Client contract (NEWMenu/UIScript): MorphResult:FireClient(player, success, morphName, message)
 local MorphService = { Name = "Morph" }
 
 function MorphService:Init()
@@ -14,7 +11,6 @@ function MorphService:Init()
 	local cfg = require(framework.Config).Morph
 	local log = Logger.new("Morph")
 
-	-- The legacy Character module checks this attribute and skips its own fallback morph handler.
 	if ServerScriptService:GetAttribute("MorphBootstrapActive") then
 		error("MorphBootstrapActive already set by another script; not registering a second morph handler")
 	end

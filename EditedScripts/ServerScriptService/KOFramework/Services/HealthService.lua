@@ -1,13 +1,10 @@
--- Replaces: HealthEnforcer.server.lua + framework/modules/Regen.lua (same per-character hooks, now one place).
 local HealthService = { Name = "Health" }
 
--- Heal per tick. Same formula as the old Regen module.
 function HealthService.regenAmount(maxHealth, regenPoints, cfg)
 	local multiplier = 1 + ((regenPoints or 0) * cfg.RegenPerPoint)
 	return maxHealth * cfg.RegenBasePercent * multiplier
 end
 
--- lastDamage == nil means "never damaged" (eligible immediately, like the old tick()-0 behaviour).
 function HealthService.canRegen(health, maxHealth, bossMode, lastDamage, now, delay)
 	if health >= maxHealth or bossMode then
 		return false

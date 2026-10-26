@@ -1,13 +1,3 @@
--- Service registry with ordered, error-isolated Init / Start phases.
---
--- A service definition is a table:
---   Name      string, required, unique
---   Init      optional function(def)   -- set up hooks, create remotes, etc.
---   Start     optional function(def)   -- runs after every Init has been kicked off (always in its own thread)
---   Requires  optional { "OtherService" }   -- init ordering; also skips this service if a dependency failed
---   Async     optional bool -- run Init in its own thread (use for anything that can yield for a long time)
---
--- One failing service never stops the others from starting.
 local Lifecycle = {}
 Lifecycle.__index = Lifecycle
 
@@ -19,7 +9,7 @@ function Lifecycle.new(log, options)
 		_failed = {},
 		_ordered = {},
 		_log = log,
-		_spawn = options.spawn, -- injectable for tests; defaults to task.spawn
+		_spawn = options.spawn,
 		status = {},
 	}, Lifecycle)
 end
@@ -33,13 +23,12 @@ function Lifecycle:Register(def)
 	return def
 end
 
--- Stable topological order: registration order, except dependencies always come first.
 function Lifecycle:_order()
 	local ordered, state = {}, {}
 
 	local function fail(def, reason)
 		if self._failed[def.Name] then
-			return false -- keep the first (root-cause) reason
+			return false
 		end
 		state[def.Name] = "failed"
 		self._failed[def.Name] = true

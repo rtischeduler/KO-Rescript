@@ -1,4 +1,3 @@
--- Replaces the Knit startup block at the bottom of ServerHandler. Runs in the Start phase, after every Init is kicked off.
 local KnitService = { Name = "Knit" }
 
 function KnitService:Start()

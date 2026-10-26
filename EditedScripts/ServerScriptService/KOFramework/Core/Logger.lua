@@ -1,4 +1,3 @@
--- Tiny tagged logger so every framework message is easy to grep in the output window.
 local Logger = {}
 Logger.__index = Logger
 

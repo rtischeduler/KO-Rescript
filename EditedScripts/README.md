@@ -1,17 +1,28 @@
 # EditedScripts
 
-A consolidated server framework (`KOFramework`) for the game. `scripts/` is the live mirror written by the sync workflow
-and is **never touched**; everything here is additive and only takes effect when you copy it into the place.
+Consolidated server (`KOFramework`) and client (`KOClient`) frameworks for the game. `scripts/` is the live mirror written
+by the sync workflow and is **never touched**; everything here is additive and only takes effect when you copy it into the
+place.
+
+**To install, and to see exactly what to delete, follow [SETUP.md](SETUP.md).**
 
 ## Layout
 
 ```
 EditedScripts/
+  SETUP.md                             step-by-step install, delete lists, troubleshooting, rollback
   ServerScriptService/KOFramework/     <- one Script (init.server.lua) with child ModuleScripts
     init.server.lua                    bootstrap: safety check, registers services, Init -> Start, prints a status report
     Config.lua                         every constant that used to be hard-coded across scripts (values unchanged)
     Core/  Lifecycle, PlayerHooks, Util, Logger
     Services/  Morph, Health, GCellGuard, Eliminator, Settings, Legacy, Knit
+  StarterPlayer/StarterPlayerScripts/
+    KOClient/                          <- one LocalScript (init.client.lua) with child ModuleScripts
+      init.client.lua                  bootstrap: safety check, registers controllers, prints a status report
+      Config.lua                       menu, FOV, HUD, rain, pulse and ocean tunables (values unchanged)
+      Core/  Lifecycle, Logger, Util
+      Controllers/  Knit, Menu, Settings, Touch, Chat, Hud, Ocean, Effects, Sounds
+    RbxCharacterSounds.client.lua      intentionally empty: keeps Roblox from injecting its default sounds
   tests/run.luau                       unit tests:  luau EditedScripts/tests/run.luau
 ```
 
@@ -30,19 +41,33 @@ Deliberately **left exactly as they are** (loaded in place by `LegacyService`): 
 `Data`, `World`. They are 120 KB of tightly coupled code sharing `_G` hooks, and `World` reads a `HitSound` child off its
 own ModuleScript, so moving or rewriting them blind would risk breaking the game for no gain. They now start under the
 same lifecycle (in the same order, each in its own thread) so a failure in one is reported instead of silent.
-Also untouched: `SecurityPolicy`, `Levels`, `KnitServices`, `DamageBoost`, `Gcells`, `HealthCommandFix`, everything client-side.
+Also untouched: `SecurityPolicy`, `Levels`, `KnitServices`, `DamageBoost`, `Gcells`, `HealthCommandFix`.
 
-## Install (test in a copy of the place first)
+## What KOClient replaces
 
-1. Copy `KOFramework` into `ServerScriptService` (Script named `KOFramework`, children as above).
-2. **Disable or delete** the replaced scripts: `ServerHandler`, `MorphBootstrap`, `HealthEnforcer`, `GCellIntegrityGuard`,
-   `PlayerEliminator`, `SettingsStore`. (`framework/modules/Regen` can stay; nothing loads it any more.)
-3. Playtest. The output shows `[KOFramework] Started` followed by one status line per service.
+All 15 scripts that used to sit loose in `StarterPlayerScripts`:
 
-If any replaced script is still enabled, the framework prints which ones and **does nothing**, so the old setup keeps
-running untouched instead of double-initialising Data/Combat.
+| Old script | Now |
+|---|---|
+| `KnitClientBootstrap` | `Controllers/Knit` |
+| `MenuCameraController`, `Daiju` | `Controllers/Menu` |
+| `SettingsSaver` | `Controllers/Settings` |
+| `TouchControlHider` | `Controllers/Touch` |
+| `KillMessageDisplay`, `EliminatorPopupDisplay` | `Controllers/Chat` |
+| `BossHUD`, `RaffleHUD`, `BlindEffect`, `HideOwnTag` | `Controllers/Hud` |
+| `Ocean` | `Controllers/Ocean` |
+| `RainClient`, `PulseRenderer` | `Controllers/Effects` |
+| `RbxCharacterSounds` | `Controllers/Sounds` (the original script stays, emptied) |
 
-**Rollback:** re-enable the old scripts and delete `KOFramework`.
+Behaviour is unchanged. Each feature now runs in its own protected thread, so one failing feature is reported by name
+instead of taking the others down, and every tunable number sits in `Config.lua`.
+
+## Install
+
+See [SETUP.md](SETUP.md). If any replaced script is still enabled, each framework prints which ones and **does nothing**,
+so the old setup keeps running untouched instead of double-initialising.
+
+**Rollback:** delete `KOFramework` / `KOClient` and restore the old scripts (details in SETUP.md).
 
 ## Fixes folded in
 
@@ -59,5 +84,6 @@ running untouched instead of double-initialising Data/Combat.
 
 ## Not verified
 
-Unit tests cover the pure logic only. The services need a real Roblox server to exercise, which I could not do here, so
-playtest in a copy of the place before publishing.
+Unit tests cover the pure logic of the server framework only. Every file was syntax-checked with a Luau parser, but the
+services and controllers need a real Roblox server and client to exercise, which I could not do here, so playtest in a
+copy of the place before publishing.

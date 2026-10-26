@@ -1,7 +1,3 @@
--- Loads the big existing modules (Character, Combat, Data, World) exactly where they live today,
--- ServerScriptService.framework.modules, and calls their Init() in their own thread like the old ServerHandler did.
--- They are deliberately NOT moved or rewritten: World reads a HitSound child off its own ModuleScript and the
--- modules share several _G hooks, so relocating them is a risk with no upside.
 local LegacyService = {}
 
 function LegacyService.Create(moduleName)

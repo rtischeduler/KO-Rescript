@@ -1,8 +1,5 @@
--- Replaces: GCellIntegrityGuard.server.lua. Rejects any GCells increase that wasn't announced via
--- _G.GCellGuardAllow(value, amount) (Combat/World already call it). The global keeps its exact signature.
 local GCellGuardService = { Name = "GCellGuard" }
 
--- An increase of `delta` is fine if the granted allowance (plus rounding tolerance) covers it.
 function GCellGuardService.isIncreaseAllowed(delta, allowed, tolerance)
 	return allowed + tolerance >= delta
 end

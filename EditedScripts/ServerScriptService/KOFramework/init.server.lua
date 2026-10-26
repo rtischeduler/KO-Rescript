@@ -1,4 +1,3 @@
--- KOFramework: single entry point for the server. See EditedScripts/README.md for install + rollback.
 local ServerScriptService = game:GetService("ServerScriptService")
 
 if ServerScriptService:GetAttribute("KOFrameworkActive") then
@@ -12,8 +11,6 @@ local Lifecycle = require(Core.Lifecycle)
 local Config = require(script:WaitForChild("Config"))
 local log = Logger.new("KOFramework")
 
--- Safety net: these scripts are replaced by the framework. If any is still enabled we do nothing, so the old
--- setup keeps running untouched instead of double-initialising Data/Combat (duplicate remotes, double saves).
 local REPLACED = {
 	"ServerHandler",
 	"MorphBootstrap",
@@ -38,9 +35,8 @@ ServerScriptService:SetAttribute("KOFrameworkActive", true)
 
 local lifecycle = Lifecycle.new(log)
 
--- Order matters: Morph claims MorphBootstrapActive before the legacy Character module initialises.
 lifecycle:Register(require(Services.MorphService))
-lifecycle:Register(require(Services.GCellGuardService)) -- installs _G.GCellGuardAllow before Combat/World run
+lifecycle:Register(require(Services.GCellGuardService))
 lifecycle:Register(require(Services.EliminatorService))
 lifecycle:Register(require(Services.SettingsService))
 lifecycle:Register(require(Services.HealthService))

@@ -1,7 +1,5 @@
--- Shared helpers. Nothing in here touches `game` at load time, so it can be unit-tested outside Roblox.
 local Util = {}
 
--- Returns parent[name] if it exists with the right class, otherwise (re)creates it.
 function Util.getOrCreate(parent, className, name)
 	local object = parent:FindFirstChild(name)
 	if object and not object:IsA(className) then
@@ -16,7 +14,6 @@ function Util.getOrCreate(parent, className, name)
 	return object
 end
 
--- { "Foo", "Bar" } -> { foo = true, bar = true }
 function Util.lowerSet(list)
 	local set = {}
 	for _, value in ipairs(list) do
@@ -25,8 +22,6 @@ function Util.lowerSet(list)
 	return set
 end
 
--- Runs fn up to `attempts` times, waiting delaySeconds * attemptNumber between tries.
--- Returns (true, result) on success or (false, lastError). waitFn is injectable for tests.
 function Util.retry(fn, attempts, delaySeconds, waitFn)
 	waitFn = waitFn or task.wait
 	local lastError
