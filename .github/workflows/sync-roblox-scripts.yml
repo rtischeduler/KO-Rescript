@@ -224,16 +224,35 @@ jobs:
           path: place.rbxlx
           retention-days: 14
 
-      - name: Commit scripts folder
+      - name: Commit scripts and place file
         run: |
           set -euo pipefail
-          rm -f place.rbxl place.rbxlx
+          rm -f place.rbxl
+          rm -rf place
+          mkdir -p place
+          SIZE=$(stat -c%s place.rbxlx)
+          echo "rbxlx size: $SIZE bytes"
+          if [ "$SIZE" -le 95000000 ]; then
+            mv place.rbxlx place/place.rbxlx
+          else
+            gzip -9 -c place.rbxlx > place/place.rbxlx.gz
+            rm place.rbxlx
+            GZ=$(stat -c%s place/place.rbxlx.gz)
+            echo "gzip size: $GZ bytes"
+            if [ "$GZ" -gt 95000000 ]; then
+              split -b 90m -d place/place.rbxlx.gz place/place.rbxlx.gz.part-
+              rm place/place.rbxlx.gz
+            fi
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A scripts
+          git add -A scripts place
           if git diff --cached --quiet; then
-            echo "No script changes."
+            echo "No script or place changes."
           else
-            git commit -m "Sync scripts from Roblox universe"
-            git push
+            git commit -m "Sync scripts and place from Roblox universe"
+            for attempt in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              sleep $((attempt * 5))
+            done
           fi
