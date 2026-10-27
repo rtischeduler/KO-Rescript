@@ -10,6 +10,9 @@ TARGETS = {
     "KOFramework.rbxmx": [
         SRC / "ServerScriptService" / "KOFramework",
     ],
+    "KOBeamCombat.rbxmx": [
+        SRC / "BeamCombat",
+    ],
     "KOClient.rbxmx": [
         SRC / "StarterPlayer" / "StarterPlayerScripts" / "KOClient",
         SRC / "StarterPlayer" / "StarterPlayerScripts" / "RbxCharacterSounds.client.lua",

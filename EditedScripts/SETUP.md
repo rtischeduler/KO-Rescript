@@ -21,6 +21,18 @@ The `Build Roblox models` workflow turns `EditedScripts/` into two ready-made mo
 
 The models cannot delete anything for you. Sections 1 and 2 below are only needed if you prefer to build by hand; the delete and keep lists still apply either way.
 
+## Beam / Combat update (KOBeamCombat.rbxmx)
+
+`build/KOBeamCombat.rbxmx` holds the beam and combat edits (tween in/out, impact effect, beam slow, smoothed clashing, clash effect, winner overpower finisher). Source lives in `EditedScripts/BeamCombat/`.
+
+1. In Studio, right-click **Workspace** (or anywhere neutral) > **Insert from File...** > `KOBeamCombat.rbxmx`. You get one folder, `BeamCombat`, whose subfolders mirror where each script goes.
+2. Replace these three scripts with the ones inside the folder, then delete the `BeamCombat` folder:
+   - `ReplicatedStorage/BeamSystem` (ModuleScript)
+   - `ReplicatedStorage/DPSTemplate` (Script)
+   - `ServerScriptService/framework/modules/Combat` (ModuleScript)
+
+The old per-kaiju `HitParts/*/DPS` scripts are not touched and do not apply the beam slow.
+
 ## 1. Server: install KOFramework (by hand)
 
 Create this tree in **ServerScriptService**. Class names matter: the top item is a `Script`, everything under it is a `ModuleScript` or `Folder`.
