@@ -15,6 +15,12 @@ local function startRain(cfg)
 
 	local TweenService = game:GetService("TweenService")
 	local FADE = 6
+	local UserInputService = game:GetService("UserInputService")
+	local okQuality, quality = pcall(function()
+		return UserSettings().GameSettings.SavedQualityLevel.Value
+	end)
+	local lowEnd = UserInputService.TouchEnabled or (okQuality and quality > 0 and quality <= 4)
+	local rainScale = lowEnd and 0.5 or 1
 	local okCfg, HolidayConfigs = pcall(function()
 		return require(ReplicatedStorage:WaitForChild("HolidayConfigs", 5))
 	end)
@@ -47,7 +53,7 @@ local function startRain(cfg)
 		for _, child in clone:GetChildren() do
 			if child:IsA("ParticleEmitter") then
 				if tint then child.Color = ColorSequence.new(tint) end
-				local rate = child.Rate
+				local rate = child.Rate * rainScale
 				child.Rate = 0
 				child.Enabled = true
 				TweenService:Create(child, info, { Rate = rate }):Play()

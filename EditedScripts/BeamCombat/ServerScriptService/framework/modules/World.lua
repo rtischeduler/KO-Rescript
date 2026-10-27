@@ -3,6 +3,7 @@ local World = {}
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local Debris = game:GetService("Debris")
+local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -325,6 +326,7 @@ local function initWindowLights()
 			l.Brightness = LIGHT_BRIGHTNESS
 			l.Range = LIGHT_RANGE
 			l.Shadows = false
+			CollectionService:AddTag(l, "BuildingGlowLight")
 			l.Parent = base
 			lights[base] = l
 		end)

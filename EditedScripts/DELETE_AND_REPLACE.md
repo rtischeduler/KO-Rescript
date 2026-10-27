@@ -155,6 +155,8 @@ build/ was cleared of Client, RecolorPopulator, Recolors, Server, Shared and Bea
 | --- | --- | --- |
 | KO-Rescript/ReplicatedStorage/BeamSystem | ModuleScript | ReplicatedStorage.BeamSystem |
 | KO-Rescript/StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects | ModuleScript | StarterPlayer.StarterPlayerScripts.Client.Controllers.Effects (the Client folder in the model is only a container, drop Effects into your existing Client.Controllers) |
+| KO-Rescript/StarterPlayer/StarterPlayerScripts/Client/Controllers/Ocean | ModuleScript | StarterPlayer.StarterPlayerScripts.Client.Controllers.Ocean (drop into your existing Client.Controllers) |
+| KO-Rescript/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript | LocalScript | StarterGui.GameGui.MainFrame.Interface.Backpack.BackpackScript (replace the existing LocalScript, the folders in the model are only containers) |
 | KO-Rescript/ReplicatedStorage/HolidayConfigs | ModuleScript | ReplicatedStorage.HolidayConfigs (new, nothing to delete) |
 | KO-Rescript/ServerScriptService/framework/modules/World | ModuleScript | ServerScriptService.framework.modules.World |
 | KO-Rescript/ReplicatedStorage/PlayerScripts/Control | LocalScript | ReplicatedStorage.PlayerScripts.Control |
@@ -180,3 +182,15 @@ Set the ReplicatedStorage attribute HolidayOverride to Halloween, Christmas or N
 ## Weather and timing smoothing
 
 World: the day is now 30 minutes long (DAY_LENGTH_MIN at the top of initDayNight), dawn and dusk use an eased curve, and rain or snow blends the fog, atmosphere and cloud values in and out over 10 seconds (WEATHER_FADE) instead of snapping. Halloween rain fog is now a grayer purple. Effects: rain particles are tinted by HolidayConfigs RainColor (purple for Halloween) and fade in and out over 6 seconds along with the rain sound. The rain sky swap still switches instantly because a Sky cannot be faded.
+
+## Performance pass
+
+| Change | File | Effect |
+| --- | --- | --- |
+| Building glow lights get a BuildingGlowLight tag | World | lets clients cull them |
+| Client turns off glow lights beyond 300 studs and keeps only the nearest 60 on (160 studs and 20 on touch devices or quality 1 to 4) | ClientHandler | far fewer dynamic lights on low end devices, nothing replicates |
+| Ocean mesh update rate drops toward 12 per second when the frame rate falls under 30 and recovers above 45 | Ocean | the biggest per frame client cost scales down on weak devices |
+| Beam aim is only sent when the aim or shift lock changed | BackpackScript | fewer remote calls while a beam is held |
+| Rain particle rate is halved on touch devices or quality 1 to 4 | Effects | fewer particles on low end |
+
+Not changed on purpose: the 0.1 second damage loop in DPSTemplate and the hit scans in Combat are already cheap, and caching building windows in World would need invalidation logic that risks visual changes.
