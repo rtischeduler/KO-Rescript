@@ -220,6 +220,9 @@ function BeamSystem.SetComm(comm)
 	beamEndedSignal = comm.BeamEnded
 end
 Players.PlayerRemoving:Connect(function(player)
+	if activeBeams[player] then
+		pcall(BeamSystem.ForceCleanup, player)
+	end
 	activeBeams[player] = nil
 	beamGenerations[player] = nil
 	playerAims[player] = nil
@@ -403,6 +406,11 @@ function BeamSystem.ActivateBeam(config)
 	local myGeneration = beamGenerationCounter
 	beamGenerations[player] = myGeneration
 	activeBeams[player] = {character = character, hitbox = nil, dpsScript = nil, player = player, clashRequestedBy = nil, sideHitboxes = {}}
+	character.AncestryChanged:Connect(function(_, parent)
+		if not parent and activeBeams[player] and activeBeams[player].character == character then
+			BeamSystem.ForceCleanup(player)
+		end
+	end)
 
 
 	task.spawn(function()
@@ -635,7 +643,7 @@ function BeamSystem.ActivateBeam(config)
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
 			end
 		end
-		local impactSurfacePos, impactSurfaceNormal = nil, Vector3.yAxis
+		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
 		local function updateImpact(endPos, extent, now, clashInfo)
 			if clashInfo and not clashInfo.lead then
 				setFxIntensity(0)
@@ -666,7 +674,7 @@ function BeamSystem.ActivateBeam(config)
 				impactLight.Brightness = 3 * extent
 				setFxIntensity(extent * 1.4)
 			else
-				if beamIteration % 3 == 0 or not impactSurfacePos then
+				if beamIteration % 2 == 0 or not impactSurfaceOffset then
 					local filter = {character, impactFolder, hitbox}
 					for _, plr in ipairs(Players:GetPlayers()) do
 						if plr.Character then table.insert(filter, plr.Character) end
@@ -674,16 +682,17 @@ function BeamSystem.ActivateBeam(config)
 					local params = RaycastParams.new()
 					params.FilterType = Enum.RaycastFilterType.Exclude
 					params.FilterDescendantsInstances = filter
-					local result = Workspace:Raycast(endPos + Vector3.new(0, 5, 0), Vector3.new(0, -25, 0), params)
-					if result then
-						impactSurfacePos = result.Position + result.Normal * 0.15
+					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), params)
+					if result and (result.Position - endPos).Magnitude <= 7 then
+						impactSurfaceOffset = result.Position + result.Normal * 0.15 - endPos
 						impactSurfaceNormal = result.Normal
 					else
-						impactSurfacePos = endPos
+						impactSurfaceOffset = Vector3.zero
 						impactSurfaceNormal = Vector3.yAxis
 					end
 				end
-				impactAnchor.CFrame = CFrame.lookAt(impactSurfacePos, impactSurfacePos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local impactPos = endPos + impactSurfaceOffset
+				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
 				impactLight.Color = impactColor
 				impactLight.Brightness = 1.5 * extent
 				setFxIntensity(extent)
@@ -3920,6 +3929,30 @@ local function initWindowLights()
 	local buildings = {}
 	local pool = {}
 	local winToken = setmetatable({}, { __mode = "k" })
+	local LIGHT_BRIGHTNESS = 1.6
+	local LIGHT_RANGE = 30
+	local LIGHTS_PER_FRAME = 3
+	local TURN_ON_SPREAD = 6
+	local TURN_OFF_SPREAD = 5
+	local jobs, jobHead, jobTail = {}, 1, 0
+	local pending = {}
+	local function enqueue(fn)
+		jobTail += 1
+		jobs[jobTail] = fn
+	end
+	task.spawn(function()
+		while true do
+			local n = 0
+			while jobHead <= jobTail and n < LIGHTS_PER_FRAME do
+				local fn = jobs[jobHead]
+				jobs[jobHead] = nil
+				jobHead += 1
+				n += 1
+				pcall(fn)
+			end
+			task.wait()
+		end
+	end)
 
 	local function owningBuilding(inst)
 		local p = inst.Parent
@@ -4017,23 +4050,34 @@ local function initWindowLights()
 	end
 
 	local function ensureLight(base)
-		if lights[base] or not base.Parent then return end
-		local l = Instance.new("PointLight")
-		l.Name = "BuildingGlowLight"
-		l.Color = LIT
-		l.Brightness = 0.8
-		l.Range = 40
-		l.Shadows = false
-		l.Parent = base
-		lights[base] = l
+		if lights[base] or pending[base] or not base.Parent then return end
+		pending[base] = true
+		enqueue(function()
+			pending[base] = nil
+			if lights[base] or not base.Parent or not windowsOn then return end
+			local l = Instance.new("PointLight")
+			l.Name = "BuildingGlowLight"
+			l.Color = LIT
+			l.Brightness = LIGHT_BRIGHTNESS
+			l.Range = LIGHT_RANGE
+			l.Shadows = false
+			l.Parent = base
+			lights[base] = l
+		end)
 	end
 
 	local function removeLight(base)
 		local l = lights[base]
-		if l then l:Destroy() lights[base] = nil end
+		if l then
+			lights[base] = nil
+			enqueue(function()
+				if l.Parent then l:Destroy() end
+			end)
+		end
 	end
 
 	local function lightBuilding(building, windows, myEpoch)
+		if epoch ~= myEpoch then return end
 		local destroyed = isDestroyed(building)
 		local base = building:FindFirstChild("BuildingBase")
 		if not destroyed and base and base:IsA("BasePart") then ensureLight(base) end
@@ -4065,7 +4109,7 @@ local function initWindowLights()
 		epoch += 1
 		local myEpoch = epoch
 		for building, windows in buildings do
-			task.spawn(lightBuilding, building, table.clone(windows), myEpoch)
+			task.delay(math.random() * TURN_ON_SPREAD, lightBuilding, building, table.clone(windows), myEpoch)
 		end
 	end
 
@@ -4073,12 +4117,14 @@ local function initWindowLights()
 		if not windowsOn then return end
 		windowsOn = false
 		epoch += 1
-		for base in lights do removeLight(base) end
+		local stale = {}
+		for base in lights do table.insert(stale, base) end
+		for _, base in stale do removeLight(base) end
 		pool = {}
 		for _, windows in buildings do
 			for _, w in windows do
 				winToken[w] = (winToken[w] or 0) + 1
-				task.delay(math.random() * 0.3 + 0.2, restoreWindow, w)
+				task.delay(math.random() * TURN_OFF_SPREAD + 0.2, restoreWindow, w)
 			end
 		end
 	end
