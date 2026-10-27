@@ -26,11 +26,12 @@ The models cannot delete anything for you. Sections 1 and 2 below are only neede
 `build/KOBeamCombat.rbxmx` holds the beam and combat edits (tween in/out, impact effect, beam slow, smoothed clashing, clash effect, winner overpower finisher). Source lives in `EditedScripts/BeamCombat/`.
 
 1. In Studio, right-click **Workspace** (or anywhere neutral) > **Insert from File...** > `KOBeamCombat.rbxmx`. You get one folder, `BeamCombat`, whose subfolders mirror where each script goes.
-2. Replace these four scripts with the ones inside the folder (copy the Source across), then delete the `BeamCombat` folder:
+2. Replace these five scripts with the ones inside the folder (copy the Source across), then delete the `BeamCombat` folder:
    - `ReplicatedStorage/BeamSystem` (ModuleScript)
    - `ReplicatedStorage/DPSTemplate` (Script)
    - `ServerScriptService/framework/modules/Combat` (ModuleScript)
    - `StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript` (LocalScript, the client beam prediction: it now follows the server tween/retract/clash instead of snapping to the cursor)
+   - `StarterGui/ClientHandler` (LocalScript, shift lock: smooth toggle in/out, camera sits a bit further right and back)
 
 The impact and clash effects are built from the particle emitters already inside each kaiju's `BeamEnd` attachment (same color and texture), and the beam texture pans faster while the tip is moving.
 
