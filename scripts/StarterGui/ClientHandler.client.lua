@@ -193,7 +193,14 @@ local function initShiftLock()
 	local isMobile = UserInputService.TouchEnabled
 	local isShiftLocked = false
 	local renderConnection = nil
-	local cameraOffset = 8
+	local TARGET_OFFSET = Vector3.new(9.5, 1.5, 3.5)
+	local OFFSET_RATE = 9
+	local currentOffset = Vector3.new(0, 0, 0)
+	local toggleTime = 0
+	local function lerpAngle(a, b, t)
+		local diff = (b - a + math.pi) % (2 * math.pi) - math.pi
+		return a + diff * t
+	end
 	
 
 	player:SetAttribute("ShiftLockEnabled", false)
@@ -229,11 +236,41 @@ local function initShiftLock()
 		return buttons:FindFirstChild("CtrlLock")
 	end
 
+	local function ensureRender()
+		if renderConnection then return end
+		renderConnection = RunService.RenderStepped:Connect(function(dt)
+			dt = math.clamp(dt, 0, 0.1)
+			local target = isShiftLocked and TARGET_OFFSET or Vector3.new(0, 0, 0)
+			currentOffset = currentOffset:Lerp(target, 1 - math.exp(-OFFSET_RATE * dt))
+			if isShiftLocked then
+				local character = player.Character
+				local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+				local hrp = character and character:FindFirstChild("HumanoidRootPart")
+				if humanoid and hrp then
+					humanoid.AutoRotate = false
+					local lookVector = camera.CFrame.LookVector
+					local targetYaw = math.atan2(-lookVector.X, -lookVector.Z)
+					local currentLook = hrp.CFrame.LookVector
+					local currentYaw = math.atan2(-currentLook.X, -currentLook.Z)
+					local t = math.clamp((tick() - toggleTime) / 0.35, 0, 1)
+					local rate = 8 + 72 * t * t
+					local yaw = lerpAngle(currentYaw, targetYaw, 1 - math.exp(-rate * dt))
+					hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, yaw, 0)
+				end
+			end
+			if currentOffset.Magnitude > 0.01 then
+				camera.CFrame = camera.CFrame * CFrame.new(currentOffset)
+			elseif not isShiftLocked then
+				currentOffset = Vector3.new(0, 0, 0)
+				if renderConnection then
+					renderConnection:Disconnect()
+					renderConnection = nil
+				end
+			end
+		end)
+	end
+
 	local function stopRotation()
-		if renderConnection then
-			renderConnection:Disconnect()
-			renderConnection = nil
-		end
 		local character = player.Character
 		if character then
 			local humanoid = character:FindFirstChildOfClass("Humanoid")
@@ -244,21 +281,7 @@ local function initShiftLock()
 	end
 
 	local function startRotation()
-		if renderConnection then
-			renderConnection:Disconnect()
-		end
-		renderConnection = RunService.RenderStepped:Connect(function()
-			local character = player.Character
-			if not character then return end
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			local hrp = character:FindFirstChild("HumanoidRootPart")
-			if not humanoid or not hrp then return end
-			humanoid.AutoRotate = false
-			local lookVector = camera.CFrame.LookVector
-			local yaw = math.atan2(-lookVector.X, -lookVector.Z)
-			hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, yaw, 0)
-			camera.CFrame = camera.CFrame * CFrame.new(cameraOffset, 1.5, 0)
-		end)
+		ensureRender()
 	end
 
 	local ctrlLockNormalImage = "rbxassetid://5044539836"
@@ -273,6 +296,7 @@ local function initShiftLock()
 
 	local function setShiftLock(enabled)
 		isShiftLocked = enabled
+		toggleTime = tick()
 		player:SetAttribute("ShiftLockEnabled", enabled)
 		if enabled then
 			if not isMobile then

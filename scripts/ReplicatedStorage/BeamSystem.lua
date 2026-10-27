@@ -28,61 +28,133 @@ local function easeInOutQuad(t)
 	if t < 0.5 then return 2 * t * t end
 	return 1 - (-2 * t + 2) ^ 2 / 2
 end
-local function spawnClashExplosion(position, colorA, colorB)
+local function scaleSequence(seq, k)
+	local points = {}
+	for _, kp in ipairs(seq.Keypoints) do
+		table.insert(points, NumberSequenceKeypoint.new(kp.Time, kp.Value * k, kp.Envelope * k))
+	end
+	return NumberSequence.new(points)
+end
+local function collectTemplateEmitters(beamEnds)
+	local list = {}
+	for _, beamEnd in ipairs(beamEnds) do
+		for _, child in ipairs(beamEnd:GetChildren()) do
+			if child:IsA("ParticleEmitter") and #list < 4 then
+				table.insert(list, child)
+			end
+		end
+	end
+	return list
+end
+local function makeFallbackEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Color = ColorSequence.new(color)
+	emitter.LightEmission = 1
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 1.6), NumberSequenceKeypoint.new(1, 0)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
+	return emitter
+end
+local function makeFxEmitter(source, kind, power)
+	power = power or 1
+	local emitter = source:Clone() or makeFallbackEmitter(Color3.new(1, 1, 1))
+	for _, child in ipairs(emitter:GetChildren()) do child:Destroy() end
+	emitter.Enabled = false
+	emitter.Rate = 0
+	emitter.Acceleration = Vector3.new(0, 0, 0)
+	emitter.VelocityInheritance = 0
+	emitter.RotSpeed = NumberRange.new(0, 0)
+	emitter.Rotation = NumberRange.new(0, 0)
+	emitter.LockedToPart = false
+	if kind == "ring" then
+		emitter.Shape = Enum.ParticleEmitterShape.Disc
+		emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Surface
+		emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+		emitter.EmissionDirection = Enum.NormalId.Top
+		emitter.SpreadAngle = Vector2.new(0, 0)
+		emitter.Orientation = Enum.ParticleOrientation.VelocityParallel
+		emitter.Speed = NumberRange.new(32 * power, 48 * power)
+		emitter.Lifetime = NumberRange.new(0.4, 0.65)
+		emitter.Drag = 0
+		emitter.Size = scaleSequence(source.Size, 1.4 * power)
+	else
+		emitter.Shape = Enum.ParticleEmitterShape.Sphere
+		emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+		emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+		emitter.SpreadAngle = Vector2.new(180, 180)
+		emitter.Orientation = Enum.ParticleOrientation.FacingCamera
+		emitter.Speed = NumberRange.new(5 * power, 12 * power)
+		emitter.Lifetime = NumberRange.new(0.25, 0.45)
+		emitter.Drag = 2
+		emitter.Size = scaleSequence(source.Size, 2.2 * power)
+	end
+	return emitter
+end
+local function restoreBeamTextures(list)
+	if not list then return end
+	for _, entry in ipairs(list) do
+		if entry.beam and entry.beam.Parent then
+			pcall(function() entry.beam.TextureSpeed = entry.base end)
+		end
+	end
+end
+local function spawnClashExplosion(position, sourcesA, sourcesB, colorA, colorB)
 	local folder = Instance.new("Folder")
 	folder.Name = "BeamClashExplosion"
 	folder.Parent = Workspace
-	Debris:AddItem(folder, 2.5)
-	local mixed = colorA:Lerp(colorB, 0.5)
-	local function makePart(shape, size, color)
-		local part = Instance.new("Part")
-		part.Shape = shape
-		part.Size = size
-		part.Anchored = true
-		part.CanCollide = false
-		part.CanTouch = false
-		part.CanQuery = false
-		part.CastShadow = false
-		part.Material = Enum.Material.Neon
-		part.Color = color
-		part.Transparency = 0.1
-		part.CFrame = CFrame.new(position)
-		part.Parent = folder
-		return part
+	Debris:AddItem(folder, 3)
+	local anchor = Instance.new("Part")
+	anchor.Name = "ExplosionAnchor"
+	anchor.Size = Vector3.new(1, 1, 1)
+	anchor.Transparency = 1
+	anchor.Anchored = true
+	anchor.CanCollide = false
+	anchor.CanTouch = false
+	anchor.CanQuery = false
+	anchor.CFrame = CFrame.new(position)
+	anchor.Parent = folder
+	local ringAtts = {}
+	for _, rot in ipairs({CFrame.new(), CFrame.Angles(0, 0, math.pi / 2), CFrame.Angles(math.pi / 2, 0, 0)}) do
+		local att = Instance.new("Attachment")
+		att.CFrame = rot
+		att.Parent = anchor
+		table.insert(ringAtts, att)
 	end
-	local ball = makePart(Enum.PartType.Ball, Vector3.new(4, 4, 4), mixed)
-	TweenService:Create(ball, TweenInfo.new(0.55, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Vector3.new(36, 36, 36), Transparency = 1}):Play()
-	local flash = makePart(Enum.PartType.Ball, Vector3.new(2, 2, 2), Color3.new(1, 1, 1))
-	TweenService:Create(flash, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Vector3.new(20, 20, 20), Transparency = 1}):Play()
-	local orientations = {
-		CFrame.Angles(0, 0, math.pi / 2),
-		CFrame.Angles(0, math.pi / 2, 0),
-		CFrame.Angles(0, 0, 0),
-	}
-	for i, rot in ipairs(orientations) do
-		local ring = makePart(Enum.PartType.Cylinder, Vector3.new(0.4, 3, 3), (i % 2 == 1) and colorA or colorB)
-		ring.CFrame = CFrame.new(position) * rot
-		local finalSize = 55 + i * 12
-		TweenService:Create(ring, TweenInfo.new(0.6 + i * 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Vector3.new(0.4, finalSize, finalSize), Transparency = 1}):Play()
+	local sources = {}
+	for i = 1, math.min(#sourcesA, 3) do table.insert(sources, sourcesA[i]) end
+	for i = 1, math.min(#sourcesB, 3) do table.insert(sources, sourcesB[i]) end
+	if #sources == 0 then
+		table.insert(sources, makeFallbackEmitter(colorA))
+		table.insert(sources, makeFallbackEmitter(colorB))
+	end
+	local bursts = {}
+	for _, source in ipairs(sources) do
+		for _, att in ipairs(ringAtts) do
+			local ring = makeFxEmitter(source, "ring", 1.6)
+			ring.Lifetime = NumberRange.new(0.5, 0.9)
+			ring.Parent = att
+			table.insert(bursts, {emitter = ring, rate = 260})
+		end
+		local core = makeFxEmitter(source, "core", 2.4)
+		core.Parent = anchor
+		table.insert(bursts, {emitter = core, rate = 140})
 	end
 	local light = Instance.new("PointLight")
-	light.Color = mixed
+	light.Color = colorA:Lerp(colorB, 0.5)
 	light.Range = 45
 	light.Brightness = 6
-	light.Parent = flash
-	TweenService:Create(light, TweenInfo.new(0.6), {Brightness = 0}):Play()
-	local emitter = Instance.new("ParticleEmitter")
-	emitter.Rate = 0
-	emitter.Lifetime = NumberRange.new(0.5, 1)
-	emitter.Speed = NumberRange.new(40, 90)
-	emitter.Drag = 2
-	emitter.SpreadAngle = Vector2.new(180, 180)
-	emitter.LightEmission = 1
-	emitter.Color = ColorSequence.new(colorA, colorB)
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2.5), NumberSequenceKeypoint.new(1, 0)})
-	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
-	emitter.Parent = flash
-	emitter:Emit(45)
+	light.Parent = anchor
+	for _, burst in ipairs(bursts) do
+		burst.emitter.Rate = burst.rate
+		burst.emitter.Enabled = true
+	end
+	TweenService:Create(light, TweenInfo.new(0.7), {Brightness = 0}):Play()
+	task.delay(0.14, function()
+		for _, burst in ipairs(bursts) do
+			if burst.emitter.Parent then
+				burst.emitter.Enabled = false
+			end
+		end
+	end)
 end
 local slowedHumanoids = {}
 local slowConnection = nil
@@ -220,6 +292,7 @@ function BeamSystem.ForceCleanup(player)
 			end
 		end
 	end
+	restoreBeamTextures(data.beamTextureBases)
 	if data.impactFolder and data.impactFolder.Parent then
 		pcall(function() data.impactFolder:Destroy() end)
 	end
@@ -338,6 +411,7 @@ function BeamSystem.ActivateBeam(config)
 	hitbox.Material = Enum.Material.Neon
 	hitbox.Color = Color3.fromRGB(255, 255, 255)
 	hitbox:SetAttribute("Attacker", player.Name)
+	hitbox:SetAttribute("BeamMain", true)
 	hitbox.Parent = Workspace
 	local dpsScript = createDPSScript(hitbox, player, character, duration)
 	activeBeams[player].hitbox = hitbox
@@ -488,169 +562,119 @@ function BeamSystem.ActivateBeam(config)
 		impactFolder.Parent = Workspace
 		activeBeams[player].impactFolder = impactFolder
 		activeBeams[player].impactColor = impactColor
-		local function makeImpactPart(shape, size)
-			local part = Instance.new("Part")
-			part.Name = "ImpactPart"
-			part.Shape = shape
-			part.Size = size
-			part.Anchored = true
-			part.CanCollide = false
-			part.CanTouch = false
-			part.CanQuery = false
-			part.CastShadow = false
-			part.Material = Enum.Material.Neon
-			part.Color = impactColor
-			part.Transparency = 1
-			part.Parent = impactFolder
-			return part
+		local templateEmitters = collectTemplateEmitters(beamEnds)
+		activeBeams[player].templateEmitters = templateEmitters
+		local ownSources = templateEmitters
+		if #ownSources == 0 then
+			ownSources = {makeFallbackEmitter(impactColor)}
 		end
-		local impactCore = makeImpactPart(Enum.PartType.Ball, Vector3.new(1, 1, 1))
-		local impactRings = {
-			makeImpactPart(Enum.PartType.Cylinder, Vector3.new(0.25, 1, 1)),
-			makeImpactPart(Enum.PartType.Cylinder, Vector3.new(0.25, 1, 1)),
-		}
+		local beamTextures = {}
+		for _, beamStart in ipairs(beamStarts) do
+			for _, child in ipairs(beamStart:GetChildren()) do
+				if child:IsA("Beam") and (not beamNameFilter or beamNameFilter[child.Name]) then
+					table.insert(beamTextures, {beam = child, base = child.TextureSpeed})
+				end
+			end
+		end
+		activeBeams[player].beamTextureBases = beamTextures
+		local texBoost = 1
+		local lastEndPos = nil
+		local lastTexTime = tick()
+		local impactAnchor = Instance.new("Part")
+		impactAnchor.Name = "ImpactAnchor"
+		impactAnchor.Size = Vector3.new(1, 1, 1)
+		impactAnchor.Transparency = 1
+		impactAnchor.Anchored = true
+		impactAnchor.CanCollide = false
+		impactAnchor.CanTouch = false
+		impactAnchor.CanQuery = false
+		impactAnchor.Parent = impactFolder
 		local impactLight = Instance.new("PointLight")
 		impactLight.Color = impactColor
-		impactLight.Range = 22
+		impactLight.Range = 24
 		impactLight.Brightness = 0
-		impactLight.Parent = impactCore
-		local impactEmitter = Instance.new("ParticleEmitter")
-		impactEmitter.Rate = 0
-		impactEmitter.Lifetime = NumberRange.new(0.35, 0.7)
-		impactEmitter.Speed = NumberRange.new(18, 38)
-		impactEmitter.Drag = 3
-		impactEmitter.SpreadAngle = Vector2.new(180, 180)
-		impactEmitter.LightEmission = 1
-		impactEmitter.Color = ColorSequence.new(impactColor)
-		impactEmitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 1.6), NumberSequenceKeypoint.new(1, 0)})
-		impactEmitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
-		impactEmitter.Parent = impactCore
+		impactLight.Parent = impactAnchor
+		local fxGroup = {}
+		local fxKey = nil
+		local function clearFx()
+			for _, entry in ipairs(fxGroup) do
+				entry.emitter:Destroy()
+			end
+			fxGroup = {}
+			fxKey = nil
+		end
+		local function buildFx(key, sources)
+			clearFx()
+			fxKey = key
+			for _, source in ipairs(sources) do
+				local ring = makeFxEmitter(source, "ring", 1)
+				ring.Parent = impactAnchor
+				table.insert(fxGroup, {emitter = ring, rate = 55})
+				local core = makeFxEmitter(source, "core", 1)
+				core.Parent = impactAnchor
+				table.insert(fxGroup, {emitter = core, rate = 22})
+			end
+		end
+		local function setFxIntensity(intensity)
+			local enabled = intensity > 0.05
+			for _, entry in ipairs(fxGroup) do
+				local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
+				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
+				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+			end
+		end
 		local impactSurfacePos, impactSurfaceNormal = nil, Vector3.yAxis
-		local lastEmit = 0
-		local clashCore, clashInner, clashLight, clashEmitter = nil, nil, nil, nil
-		local clashRings = {}
-		local lastClashEmit = 0
-		local function ensureClashFx()
-			if clashCore then return end
-			clashCore = makeImpactPart(Enum.PartType.Ball, Vector3.new(1, 1, 1))
-			clashInner = makeImpactPart(Enum.PartType.Ball, Vector3.new(1, 1, 1))
-			for i = 1, 4 do
-				clashRings[i] = makeImpactPart(Enum.PartType.Cylinder, Vector3.new(0.3, 1, 1))
-			end
-			clashLight = Instance.new("PointLight")
-			clashLight.Range = 32
-			clashLight.Brightness = 0
-			clashLight.Parent = clashCore
-			clashEmitter = Instance.new("ParticleEmitter")
-			clashEmitter.Rate = 0
-			clashEmitter.Lifetime = NumberRange.new(0.4, 0.8)
-			clashEmitter.Speed = NumberRange.new(14, 34)
-			clashEmitter.Drag = 2
-			clashEmitter.SpreadAngle = Vector2.new(180, 180)
-			clashEmitter.LightEmission = 1
-			clashEmitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 1.8), NumberSequenceKeypoint.new(1, 0)})
-			clashEmitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
-			clashEmitter.Parent = clashCore
-		end
-		local function hideClashFx()
-			if not clashCore then return end
-			clashCore.Transparency = 1
-			clashInner.Transparency = 1
-			for _, ring in ipairs(clashRings) do ring.Transparency = 1 end
-			clashLight.Brightness = 0
-		end
-		local function hideGroundImpact()
-			impactCore.Transparency = 1
-			for _, ring in ipairs(impactRings) do ring.Transparency = 1 end
-			impactLight.Brightness = 0
-		end
-		local function updateClashFx(pos, ext, now, info)
-			ensureClashFx()
-			if ext < 0.02 then
-				hideClashFx()
-				return
-			end
-			local partnerColor = info.partnerColor or impactColor
-			local mix = (math.sin(now * 9) + 1) / 2
-			local mixed = impactColor:Lerp(partnerColor, mix)
-			local coreSize = math.max(0.05, (8 + math.sin(now * 20) * 1.5) * ext)
-			clashCore.Size = Vector3.new(coreSize, coreSize, coreSize)
-			clashCore.CFrame = CFrame.new(pos)
-			clashCore.Color = mixed
-			clashCore.Transparency = 0.25
-			local innerSize = coreSize * 0.55
-			clashInner.Size = Vector3.new(innerSize, innerSize, innerSize)
-			clashInner.CFrame = CFrame.new(pos)
-			clashInner.Color = mixed:Lerp(Color3.new(1, 1, 1), 0.65)
-			clashInner.Transparency = 0.1
-			clashLight.Color = mixed
-			clashLight.Brightness = 3 * ext
-			local axis = info.axis or Vector3.zAxis
-			local ringBase = CFrame.lookAt(pos, pos + axis) * CFrame.Angles(0, math.pi / 2, 0)
-			for i, ring in ipairs(clashRings) do
-				local p = ((now / 0.8) + (i - 1) / #clashRings) % 1
-				local diameter = math.max(0.05, (4 + 40 * p) * ext)
-				ring.Size = Vector3.new(0.3, diameter, diameter)
-				ring.CFrame = ringBase
-				ring.Color = (i % 2 == 1) and impactColor or partnerColor
-				ring.Transparency = math.clamp(0.2 + 0.8 * p ^ 1.2 + (1 - ext) * 0.5, 0, 1)
-			end
-			if now - lastClashEmit > 0.06 then
-				lastClashEmit = now
-				clashEmitter.Color = ColorSequence.new(impactColor, partnerColor)
-				clashEmitter:Emit(4)
-			end
-		end
 		local function updateImpact(endPos, extent, now, clashInfo)
-			if clashInfo then
-				hideGroundImpact()
-				if clashInfo.lead then
-					updateClashFx(endPos, extent, now, clashInfo)
-				else
-					hideClashFx()
-				end
-				return
-			end
-			hideClashFx()
-			if beamIteration % 3 == 0 or not impactSurfacePos then
-				local filter = {character, impactFolder, hitbox}
-				for _, plr in ipairs(Players:GetPlayers()) do
-					if plr.Character then table.insert(filter, plr.Character) end
-				end
-				local params = RaycastParams.new()
-				params.FilterType = Enum.RaycastFilterType.Exclude
-				params.FilterDescendantsInstances = filter
-				local result = Workspace:Raycast(endPos + Vector3.new(0, 5, 0), Vector3.new(0, -25, 0), params)
-				if result then
-					impactSurfacePos = result.Position + result.Normal * 0.15
-					impactSurfaceNormal = result.Normal
-				else
-					impactSurfacePos = endPos
-					impactSurfaceNormal = Vector3.yAxis
-				end
-			end
-			if extent < 0.02 then
-				impactCore.Transparency = 1
-				for _, ring in ipairs(impactRings) do ring.Transparency = 1 end
+			if clashInfo and not clashInfo.lead then
+				setFxIntensity(0)
 				impactLight.Brightness = 0
 				return
 			end
-			local coreSize = math.max(0.05, (6 + math.sin(now * 16)) * extent)
-			impactCore.Size = Vector3.new(coreSize, coreSize, coreSize)
-			impactCore.CFrame = CFrame.new(impactSurfacePos + impactSurfaceNormal * (coreSize * 0.3))
-			impactCore.Transparency = 0.3 + (1 - extent) * 0.7
-			impactLight.Brightness = 1.5 * extent
-			local ringBase = CFrame.lookAt(impactSurfacePos, impactSurfacePos + impactSurfaceNormal) * CFrame.Angles(0, math.pi / 2, 0)
-			for i, ring in ipairs(impactRings) do
-				local p = ((now / 0.7) + (i - 1) * 0.5) % 1
-				local diameter = math.max(0.05, (3 + 30 * p) * extent)
-				ring.Size = Vector3.new(0.25, diameter, diameter)
-				ring.CFrame = ringBase
-				ring.Transparency = math.clamp(0.25 + 0.75 * p ^ 1.3 + (1 - extent) * 0.5, 0, 1)
+			local key = "normal"
+			local sources = ownSources
+			if clashInfo then
+				key = "clash" .. tostring(clashInfo.partnerData)
+				sources = {}
+				for _, src in ipairs(ownSources) do table.insert(sources, src) end
+				local partnerSources = clashInfo.partnerSources
+				if partnerSources and #partnerSources > 0 then
+					for _, src in ipairs(partnerSources) do table.insert(sources, src) end
+				else
+					table.insert(sources, makeFallbackEmitter(clashInfo.partnerColor or impactColor))
+				end
 			end
-			if extent > 0.5 and now - lastEmit > 0.12 then
-				lastEmit = now
-				impactEmitter:Emit(5)
+			if key ~= fxKey then
+				buildFx(key, sources)
+			end
+			if clashInfo then
+				local axis = clashInfo.axis or Vector3.zAxis
+				impactAnchor.CFrame = CFrame.lookAt(endPos, endPos + axis) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local mix = (math.sin(now * 9) + 1) / 2
+				impactLight.Color = impactColor:Lerp(clashInfo.partnerColor or impactColor, mix)
+				impactLight.Brightness = 3 * extent
+				setFxIntensity(extent * 1.4)
+			else
+				if beamIteration % 3 == 0 or not impactSurfacePos then
+					local filter = {character, impactFolder, hitbox}
+					for _, plr in ipairs(Players:GetPlayers()) do
+						if plr.Character then table.insert(filter, plr.Character) end
+					end
+					local params = RaycastParams.new()
+					params.FilterType = Enum.RaycastFilterType.Exclude
+					params.FilterDescendantsInstances = filter
+					local result = Workspace:Raycast(endPos + Vector3.new(0, 5, 0), Vector3.new(0, -25, 0), params)
+					if result then
+						impactSurfacePos = result.Position + result.Normal * 0.15
+						impactSurfaceNormal = result.Normal
+					else
+						impactSurfacePos = endPos
+						impactSurfaceNormal = Vector3.yAxis
+					end
+				end
+				impactAnchor.CFrame = CFrame.lookAt(impactSurfacePos, impactSurfacePos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+				impactLight.Color = impactColor
+				impactLight.Brightness = 1.5 * extent
+				setFxIntensity(extent)
 			end
 		end
 		local startTime = tick()
@@ -691,6 +715,31 @@ function BeamSystem.ActivateBeam(config)
 			if not myHRP then return end
 			local startPos = getHeadPosition(character) or myHRP.Position
 			local endPos = startPos:Lerp(tip, ext)
+			local roundedExt = math.floor(ext * 100 + 0.5) / 100
+			if hitbox:GetAttribute("BeamExtent") ~= roundedExt then
+				hitbox:SetAttribute("BeamExtent", roundedExt)
+			end
+			if beamIteration % 2 == 0 and #beamTextures > 0 then
+				local texDt = math.max(now - lastTexTime, 0.016)
+				if lastEndPos then
+					local speed = (endPos - lastEndPos).Magnitude / texDt
+					local targetBoost = 1 + math.clamp(speed / 30, 0, 5)
+					texBoost = texBoost + (targetBoost - texBoost) * 0.5
+					for _, tex in ipairs(beamTextures) do
+						local want
+						if tex.base ~= 0 then
+							want = tex.base * texBoost
+						else
+							want = (texBoost - 1) * 2
+						end
+						if tex.beam.Parent and math.abs(tex.beam.TextureSpeed - want) > 0.1 then
+							tex.beam.TextureSpeed = want
+						end
+					end
+				end
+				lastEndPos = endPos
+				lastTexTime = now
+			end
 			hitbox.CFrame = orientHitbox(clashing and startPos or myHRP.Position, tip, endPos)
 			positionSideHitboxes(startPos, hitbox.CFrame, sideHitboxes, ext)
 			for _, be in ipairs(beamEndOffsets) do
@@ -751,6 +800,8 @@ function BeamSystem.ActivateBeam(config)
 					renderFrame(extent, clashPoint, true, now, {
 						lead = true,
 						partnerColor = loser.impactColor or impactColor,
+						partnerData = loser,
+						partnerSources = loser.templateEmitters,
 						axis = toLoser.Magnitude > 0.01 and toLoser.Unit or Vector3.zAxis,
 					})
 					if t >= 1 then
@@ -767,7 +818,7 @@ function BeamSystem.ActivateBeam(config)
 							loserHum:SetAttribute("LastDPSAttacker", player.UserId)
 							loserHum:TakeDamage(OVERPOWER_DAMAGE)
 						end
-						spawnClashExplosion(loserHead, impactColor, loser.impactColor or impactColor)
+						spawnClashExplosion(loserHead, ownSources, loser.templateEmitters or {}, impactColor, loser.impactColor or impactColor)
 					end
 				end
 				if finished then
@@ -867,6 +918,8 @@ function BeamSystem.ActivateBeam(config)
 					clashInfo = {
 						lead = lead,
 						partnerColor = clashPartner.impactColor or impactColor,
+						partnerData = clashPartner,
+						partnerSources = clashPartner.templateEmitters,
 						axis = toPartner.Magnitude > 0.01 and toPartner.Unit or Vector3.zAxis,
 					}
 				end
@@ -970,6 +1023,7 @@ function BeamSystem.ActivateBeam(config)
 			end
 			if activeBeams[player] then activeBeams[player].ending = true end
 			hitbox:SetAttribute("IsClashing", false)
+			hitbox:SetAttribute("BeamEnding", true)
 			if dpsScript then dpsScript.Enabled = false end
 			for _, side in ipairs(sideHitboxes) do
 				if side.dps then side.dps.Enabled = false end
@@ -990,6 +1044,8 @@ function BeamSystem.ActivateBeam(config)
 						renderFrame(1, point, true, now, {
 							lead = false,
 							partnerColor = winnerData.impactColor or impactColor,
+							partnerData = winnerData,
+							partnerSources = winnerData.templateEmitters,
 							axis = toPoint.Magnitude > 0.01 and toPoint.Unit or Vector3.zAxis,
 						})
 					end
@@ -1037,6 +1093,7 @@ function BeamSystem.ActivateBeam(config)
 		for _, side in ipairs(sideHitboxes) do
 			pcall(function() side.hitbox:Destroy() end)
 		end
+		restoreBeamTextures(activeBeams[player] and activeBeams[player].beamTextureBases)
 		local ib = activeBeams[player] and activeBeams[player].impactFolder
 		if ib then ib:Destroy() end
 		hitbox:Destroy()

@@ -317,27 +317,53 @@ stopBeamRotation = function()
 	end
 end
 
-local function orientHitbox(charPos, targetPos)
-		local flatDir = Vector3.new(targetPos.X - charPos.X, 0, targetPos.Z - charPos.Z)
-		if flatDir.Magnitude < 0.01 then
-			return CFrame.new(targetPos)
-		end
-		local lookCF = CFrame.lookAt(Vector3.new(charPos.X, 0, charPos.Z), Vector3.new(targetPos.X, 0, targetPos.Z))
-		local rotation = lookCF - lookCF.Position
-		return CFrame.new(targetPos) * rotation
+local PRED_INTRO_TIME = 0.4
+local PRED_FOLLOW_RATE = 40
+local PRED_SERVER_RATE = 14
+local PRED_TRANSITION_RATE = 6
+local PRED_TRANSITION_TIME = 0.7
+local beamPredictStartTime = 0
+local beamPredictTip = nil
+local beamPredictEnd = nil
+local beamPredictServerMode = false
+local beamPredictTransitionUntil = 0
+local beamPredictServerHitbox = nil
+local beamPredictLastTime = 0
+
+local function easeOutCubic(t)
+	return 1 - (1 - t) ^ 3
+end
+
+local function getBeamHeadPosition(character)
+	local head = character:FindFirstChild("Head")
+	if head and head:IsA("BasePart") then
+		return head.Position
 	end
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	return hrp and hrp.Position or nil
+end
+
+local function orientHitbox(charPos, targetPos, placePos)
+	placePos = placePos or targetPos
+	local flatDir = Vector3.new(targetPos.X - charPos.X, 0, targetPos.Z - charPos.Z)
+	if flatDir.Magnitude < 0.01 then
+		return CFrame.new(placePos)
+	end
+	local lookCF = CFrame.lookAt(Vector3.new(charPos.X, 0, charPos.Z), Vector3.new(targetPos.X, 0, targetPos.Z))
+	local rotation = lookCF - lookCF.Position
+	return CFrame.new(placePos) * rotation
+end
 
 local function findServerBeamHitbox()
+	if beamPredictServerHitbox and beamPredictServerHitbox.Parent then
+		return beamPredictServerHitbox
+	end
+	beamPredictServerHitbox = nil
 	local playerName = player.Name
 	for _, child in ipairs(workspace:GetChildren()) do
-		if child:IsA("BasePart") and child.Name == "BeamHitbox" and child:GetAttribute("Attacker") == playerName then
-			if child:FindFirstChild("BeamEnd") then
-				return child
-			end
-		end
-	end
-	for _, child in ipairs(workspace:GetChildren()) do
-		if child:IsA("BasePart") and child.Name == "BeamHitbox" and child:GetAttribute("Attacker") == playerName then
+		if child:IsA("BasePart") and child.Name == "BeamHitbox" and child:GetAttribute("Attacker") == playerName
+			and child:GetAttribute("BeamMain") then
+			beamPredictServerHitbox = child
 			return child
 		end
 	end
@@ -348,7 +374,6 @@ local function startBeamPrediction()
 	beamPredictChar = player.Character
 	if not beamPredictChar then return end
 
-	
 	beamPredictBeamStart = nil
 	for _, descendant in ipairs(beamPredictChar:GetDescendants()) do
 		if descendant:IsA("Attachment") and descendant.Name == "BeamStart" then
@@ -361,15 +386,17 @@ local function startBeamPrediction()
 		beamPredictionConnection:Disconnect()
 	end
 
-	
 	if beamPredictHitbox then
 		beamPredictHitbox:Destroy()
 		beamPredictHitbox = nil
 	end
 	beamEndsReparented = false
+	beamPredictServerHitbox = nil
+	beamPredictServerMode = false
+	beamPredictTransitionUntil = 0
+	beamPredictStartTime = tick()
+	beamPredictLastTime = beamPredictStartTime
 
-	
-	
 	beamPredictHitbox = Instance.new("Part")
 	beamPredictHitbox.Name = "BeamPredictionHitbox"
 	beamPredictHitbox.Size = Vector3.new(6, 6, 6)
@@ -380,66 +407,84 @@ local function startBeamPrediction()
 	beamPredictHitbox.Transparency = 1
 	beamPredictHitbox.Parent = beamPredictChar
 
-	
-	local initialTarget = getAimPosition(beamPredictChar)
-	if initialTarget then
-		local charHRP = beamPredictChar:FindFirstChild("HumanoidRootPart")
-		if charHRP then
-			beamPredictHitbox.CFrame = orientHitbox(charHRP.Position, initialTarget)
-		else
-			beamPredictHitbox.CFrame = CFrame.new(initialTarget)
-		end
+	local charHRP = beamPredictChar:FindFirstChild("HumanoidRootPart")
+	local startPos = getBeamHeadPosition(beamPredictChar) or (charHRP and charHRP.Position) or Vector3.new()
+	beamPredictTip = getAimPosition(beamPredictChar)
+	if not beamPredictTip and charHRP then
+		beamPredictTip = charHRP.Position + charHRP.CFrame.LookVector * 50
 	end
+	beamPredictEnd = startPos
+	beamPredictHitbox.CFrame = CFrame.new(startPos)
 
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
 		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
+		local hrp = beamPredictChar:FindFirstChild("HumanoidRootPart")
+		if not hrp or not beamPredictHitbox or not beamPredictHitbox.Parent then return end
 
-		
-		
-		if not beamEndsReparented and beamPredictHitbox and beamPredictHitbox.Parent then
-			local serverHitbox = findServerBeamHitbox()
-			if serverHitbox then
-				for _, child in ipairs(serverHitbox:GetChildren()) do
-					if child:IsA("Attachment") and child.Name == "BeamEnd" then
-						child.Parent = beamPredictHitbox
-						local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
-						child.CFrame = CFrame.new(offset)
-					end
+		local now = tick()
+		local dt = math.clamp(now - beamPredictLastTime, 0.001, 0.25)
+		beamPredictLastTime = now
+
+		local serverHitbox = findServerBeamHitbox()
+
+		if not beamEndsReparented and serverHitbox then
+			local reparentedAny = false
+			for _, child in ipairs(serverHitbox:GetChildren()) do
+				if child:IsA("Attachment") and child.Name == "BeamEnd" then
+					child.Parent = beamPredictHitbox
+					reparentedAny = true
 				end
+			end
+			if reparentedAny then
 				beamEndsReparented = true
 			end
 		end
 
-		local targetPos = getAimPosition(beamPredictChar)
-		if not targetPos then return end
+		local startPos = getBeamHeadPosition(beamPredictChar) or hrp.Position
+		local serverMode = serverHitbox ~= nil
+			and (serverHitbox:GetAttribute("IsClashing") == true or serverHitbox:GetAttribute("BeamEnding") == true)
 
-		
-		
-		
-		local serverHitbox = findServerBeamHitbox()
-		if serverHitbox and serverHitbox.Parent and serverHitbox:GetAttribute("IsClashing") then
-			targetPos = serverHitbox.Position
-		end
-
-		
-		if beamPredictHitbox and beamPredictHitbox.Parent then
-			local charHRP = beamPredictChar and beamPredictChar:FindFirstChild("HumanoidRootPart")
-			if charHRP then
-				beamPredictHitbox.CFrame = orientHitbox(charHRP.Position, targetPos)
-			else
-				beamPredictHitbox.CFrame = CFrame.new(targetPos)
+		if serverMode ~= beamPredictServerMode then
+			beamPredictServerMode = serverMode
+			beamPredictTransitionUntil = now + PRED_TRANSITION_TIME
+			if not serverMode and beamPredictEnd then
+				beamPredictTip = beamPredictEnd
 			end
 		end
 
-		
-		local hrp = beamPredictChar:FindFirstChild("HumanoidRootPart")
-		if hrp and beamPredictBeamStart and beamPredictBeamStart.Parent then
-			local startPos = beamPredictBeamStart.WorldPosition
+		local extent
+		local dirTarget
+		if serverMode then
+			extent = serverHitbox:GetAttribute("BeamExtent") or 1
+			beamPredictEnd = beamPredictEnd:Lerp(serverHitbox.Position, 1 - math.exp(-PRED_SERVER_RATE * dt))
+			beamPredictTip = beamPredictEnd
+			dirTarget = beamPredictEnd
+		else
+			local aim = getAimPosition(beamPredictChar)
+			if aim and beamPredictTip then
+				local rate = now < beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
+				beamPredictTip = beamPredictTip:Lerp(aim, 1 - math.exp(-rate * dt))
+			end
+			extent = easeOutCubic(math.clamp((now - beamPredictStartTime) / PRED_INTRO_TIME, 0, 1))
+			beamPredictEnd = startPos:Lerp(beamPredictTip or startPos, extent)
+			dirTarget = beamPredictTip or beamPredictEnd
+		end
+
+		beamPredictHitbox.CFrame = orientHitbox(serverMode and startPos or hrp.Position, dirTarget, beamPredictEnd)
+
+		for _, child in ipairs(beamPredictHitbox:GetChildren()) do
+			if child:IsA("Attachment") and child.Name == "BeamEnd" then
+				local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
+				child.CFrame = CFrame.new(offset * extent)
+			end
+		end
+
+		if beamPredictBeamStart and beamPredictBeamStart.Parent then
+			local beamStartPos = beamPredictBeamStart.WorldPosition
 			for i = 1, 6 do
 				local att = hrp:FindFirstChild("BeamGlowLight" .. i)
 				if att then
-					local t = i / 7
-					att.WorldPosition = startPos:Lerp(targetPos, t)
+					att.WorldPosition = beamStartPos:Lerp(beamPredictEnd, i / 7)
 				end
 			end
 		end
@@ -496,6 +541,10 @@ local function stopBeamPrediction()
 	end
 	beamPredictChar = nil
 	beamPredictBeamStart = nil
+	beamPredictServerHitbox = nil
+	beamPredictTip = nil
+	beamPredictEnd = nil
+	beamPredictServerMode = false
 end
 
 startBeamRotation = function()
