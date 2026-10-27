@@ -690,14 +690,9 @@ function Data.Init()
 				return ModifierDataStore:GetAsync("Player_" .. player.UserId)
 			end)
 			
-			--------------------------------------------------
-			-- RESETTING SKILL POINTS ONCE FOR LVL 1000 MINYA
-			--------------------------------------------------
 
 			if success and data and type(data) == "table" then
-				-- Check if player has already received the one-time skill point reset
 				if not data["_HasResetSkillPoints_v1"] then
-					-- Clear all spent skill point modifiers
 					data = {
 						["_HasResetSkillPoints_v1"] = true
 					}
