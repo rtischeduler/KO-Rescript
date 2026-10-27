@@ -20,6 +20,12 @@ TARGETS = {
         SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client",
         SRC / "StarterPlayer" / "StarterPlayerScripts" / "RbxCharacterSounds.client.lua",
     ],
+    "Recolors.rbxmx": [
+        SRC / "ReplicatedStorage" / "Recolors.lua",
+    ],
+    "RecolorPopulator.rbxmx": [
+        SRC / "StarterGui" / "NEWMenu" / "Kaijus" / "Stats" / "Recolors" / "RecolorPopulator.client.lua",
+    ],
 }
 
 INIT_NAMES = ("init.lua", "init.server.lua", "init.client.lua")
