@@ -224,7 +224,7 @@ Non-stub scripts only (over 3 bytes): 11 groups, 19 redundant files, 15.1 KB red
 | `scripts/ReplicatedStorage/Knit/_Index/sleitnick_timer@1.1.2/Signal.lua` | 2 | 74 |
 | `scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/Promise.lua` | 2 | 73 |
 
-EditedScripts files that are byte-identical to a mirrored script, so the edit changes nothing and can be dropped:
+EditedScripts files that match a mirrored script byte for byte. These are already installed in the place (the mirror is synced from it), so they are not duplicates to delete; they only show which edits are already live. Files missing from this list still need to be copied in.
 
 | EditedScripts file | Same as |
 | --- | --- |
