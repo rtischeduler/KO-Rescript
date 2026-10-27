@@ -276,3 +276,12 @@ Collapse chunks use the CollapseDebris collision group, which does not collide w
 ## 15. Halloween day dimming and daytime lights
 
 Halloween day brightness is now 0.85 with darker ambient light. During the Halloween day, `HolidayConfigs.Halloween.DayLights` lights a random 35 percent of buildings, and about half the windows in each, spread over 25 seconds with the usual flicker. They are cleared at night start, when every building lights as before, and a fresh random set is chosen each morning. The building point lights are dimmer (brightness 1.6 to 1.25).
+
+## 16. Skys folder
+
+| Delete in the place | Replaced by |
+| --- | --- |
+| Any Sky object sitting directly in `Lighting` (World destroys them on start anyway) | `Lighting/Skys` folder holding three Sky objects named `Dark`, `Rainy` and `Sunny` |
+| `ReplicatedFirst/Rainy` | `Lighting/Skys/Rainy` |
+
+`World` now keeps one active Sky in `Lighting`, cloned from `Skys`. During Halloween it is always `Dark` (set by `HolidayConfigs.Halloween.Sky`) and never changes, rain included. Otherwise it is `Sunny`, switching to `Rainy` while it rains. The swap checks once a second. If `Lighting/Skys` is missing, World leaves the sky alone after 30 seconds.

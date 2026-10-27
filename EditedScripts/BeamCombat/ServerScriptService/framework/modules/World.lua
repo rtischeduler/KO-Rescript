@@ -640,8 +640,32 @@ local function initHolidayGround()
 	end
 end
 
+local function initSky()
+	local skys = Lighting:WaitForChild("Skys", 30)
+	if not skys then return end
+	for _, child in Lighting:GetChildren() do
+		if child:IsA("Sky") then child:Destroy() end
+	end
+
+	local active, activeName = nil, nil
+	while true do
+		local holiday = HolidayConfigs.getActive()
+		local desired = holiday and holiday.Sky or (state.IsRaining and "Rainy" or "Sunny")
+		if desired ~= activeName then
+			local template = skys:FindFirstChild(desired)
+			if template and template:IsA("Sky") then
+				local sky = template:Clone()
+				sky.Name = "ActiveSky"
+				sky.Parent = Lighting
+				if active then active:Destroy() end
+				active, activeName = sky, desired
+			end
+		end
+		task.wait(1)
+	end
+end
+
 local function initRain()
-	local rainySky = ReplicatedFirst:FindFirstChild("Rainy")
 	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
 	local toggleSnow = ReplicatedStorage:FindFirstChild("ToggleSnow")
 
@@ -651,19 +675,12 @@ local function initRain()
 
 		weather = HolidayConfigs.getWeather()
 		local snow = weather.Kind == "Snow"
-		local originalSky = Lighting:FindFirstChildOfClass("Sky")
-		local clonedSky
 		if snow then
 			state.IsSnowing = true
 			if toggleSnow then toggleSnow:FireAllClients(true) end
 		else
 			state.IsRaining = true
 			if toggleRain then toggleRain:FireAllClients(true) end
-			if rainySky then
-				clonedSky = rainySky:Clone()
-				clonedSky.Parent = Lighting
-				if originalSky then originalSky.Parent = nil end
-			end
 		end
 
 		task.wait(math.random(weather.Duration[1], weather.Duration[2]))
@@ -674,8 +691,6 @@ local function initRain()
 		else
 			state.IsRaining = false
 			if toggleRain then toggleRain:FireAllClients(false) end
-			if clonedSky then clonedSky:Destroy() end
-			if originalSky then originalSky.Parent = Lighting end
 		end
 	end
 end
@@ -1287,6 +1302,7 @@ function World.Init()
 	task.spawn(initCollisions)
 	initDebrisCollision()
 	task.spawn(initHolidayGround)
+	task.spawn(initSky)
 end
 
 function World.IsRaining()

@@ -13,6 +13,7 @@ HolidayConfigs.DefaultWeather = { Kind = "Rain", Gap = { 120, 200 }, Duration = 
 HolidayConfigs.Halloween = {
 	Name = "Halloween",
 	Months = { 10 },
+	Sky = "Dark",
 	Lighting = {
 		Day = {
 			Brightness = 0.85, Ambient = Color3.new(0.36, 0.22, 0.42),
