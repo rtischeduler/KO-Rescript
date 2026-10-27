@@ -1944,9 +1944,70 @@ play(Idle)]]></ProtectedString>
 				<Properties>
 					<string name="Name">StarterPlayerScripts</string>
 				</Properties>
-				<Item class="Folder" referent="RBX9">
+				<Item class="LocalScript" referent="RBX9">
 					<Properties>
 						<string name="Name">Client</string>
+						<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+
+if player:GetAttribute("ClientActive") then
+	return
+end
+
+local Controllers = script:WaitForChild("Controllers")
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
+local log = Logger.new("Client")
+
+local REPLACED = {
+	"BlindEffect",
+	"BossHUD",
+	"Daiju",
+	"EliminatorPopupDisplay",
+	"HideOwnTag",
+	"KillMessageDisplay",
+	"KnitClientBootstrap",
+	"MenuCameraController",
+	"Ocean",
+	"PulseRenderer",
+	"RaffleHUD",
+	"RainClient",
+	"SettingsSaver",
+	"TouchControlHider",
+}
+local stillActive = {}
+for _, name in ipairs(REPLACED) do
+	local found = script.Parent:FindFirstChild(name)
+	if found and found ~= script and found:IsA("BaseScript") and not found.Disabled then
+		table.insert(stillActive, name)
+	end
+end
+if #stillActive > 0 then
+	log:warn("Not starting: delete or disable these replaced scripts first: " .. table.concat(stillActive, ", "))
+	return
+end
+
+player:SetAttribute("ClientActive", true)
+
+local lifecycle = Lifecycle.new(log)
+
+lifecycle:Register(require(Controllers.Knit))
+lifecycle:Register(require(Controllers.Menu))
+lifecycle:Register(require(Controllers.Settings))
+lifecycle:Register(require(Controllers.Touch))
+lifecycle:Register(require(Controllers.Chat))
+lifecycle:Register(require(Controllers.Hud))
+lifecycle:Register(require(Controllers.Ocean))
+lifecycle:Register(require(Controllers.WaterFX))
+lifecycle:Register(require(Controllers.Effects))
+lifecycle:Register(require(Controllers.Sounds))
+
+lifecycle:InitAll()
+lifecycle:StartAll()
+
+log:info("Started. Controller status:\n" .. lifecycle:Report())
+]]></ProtectedString>
 					</Properties>
 					<Item class="Folder" referent="RBX10">
 						<Properties>
@@ -2746,31 +2807,328 @@ return OceanController
 ]]></ProtectedString>
 							</Properties>
 						</Item>
+						<Item class="ModuleScript" referent="RBX13">
+							<Properties>
+								<string name="Name">WaterFX</string>
+								<ProtectedString name="Source"><![CDATA[local WaterFX = { Name = "WaterFX" }
+
+local FOAM = "rbxasset://textures/particles/smoke_main.dds"
+local SPRAY = "rbxasset://textures/particles/sparkles_main.dds"
+
+local function sizeSequence(a, b)
+	return NumberSequence.new({
+		NumberSequenceKeypoint.new(0, a),
+		NumberSequenceKeypoint.new(1, b),
+	})
+end
+
+local function build(folder, fx)
+	local part = Instance.new("Part")
+	part.Name = "WaterFXEmitter"
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanQuery = false
+	part.CanTouch = false
+	part.CastShadow = false
+	part.Transparency = 1
+	part.Size = Vector3.one
+	part.Parent = folder
+
+	local attachment = Instance.new("Attachment")
+	attachment.Parent = part
+
+	local wake = Instance.new("ParticleEmitter")
+	wake.Texture = FOAM
+	wake.Rate = 0
+	wake.Lifetime = NumberRange.new(fx.WakeLifetime * 0.7, fx.WakeLifetime)
+	wake.Speed = NumberRange.new(0.5, 2)
+	wake.SpreadAngle = Vector2.new(180, 180)
+	wake.Drag = 3
+	wake.LightEmission = 0.3
+	wake.Color = ColorSequence.new(fx.FoamColor)
+	wake.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.45),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	wake.Size = sizeSequence(1, 3)
+	wake.Parent = attachment
+
+	local spray = Instance.new("ParticleEmitter")
+	spray.Texture = SPRAY
+	spray.Rate = 0
+	spray.Lifetime = NumberRange.new(0.5, 0.9)
+	spray.Speed = NumberRange.new(8, 16)
+	spray.SpreadAngle = Vector2.new(35, 35)
+	spray.EmissionDirection = Enum.NormalId.Top
+	spray.Acceleration = Vector3.new(0, -workspace.Gravity * 0.6, 0)
+	spray.LightEmission = 0.5
+	spray.Color = ColorSequence.new(fx.SprayColor)
+	spray.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.1),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	spray.Size = sizeSequence(0.6, 0.2)
+	spray.Parent = attachment
+
+	return part, wake, spray
+end
+
+function WaterFX:Start()
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+	local config = require(script:FindFirstAncestor("Client").Config)
+	local fx = config.WaterFX
+	local levelOffset = config.Ocean.LevelOffset
+
+	local ocean = workspace:WaitForChild("Ocean", config.Ocean.WaitTimeout)
+	if not ocean or not ocean:IsA("BasePart") then
+		return
+	end
+
+	local folder = Instance.new("Folder")
+	folder.Name = "WaterFX"
+	folder.Parent = workspace
+
+	local tracked = {}
+
+	local function untrack(player)
+		local entry = tracked[player]
+		if entry then
+			entry.part:Destroy()
+			tracked[player] = nil
+		end
+	end
+
+	local function track(player, character)
+		untrack(player)
+		local root = character:WaitForChild("HumanoidRootPart", 10)
+		if not root then
+			return
+		end
+		local part, wake, spray = build(folder, fx)
+		tracked[player] = {
+			root = root,
+			part = part,
+			wake = wake,
+			spray = spray,
+			scale = 0,
+			wasIn = false,
+			nextSplash = 0,
+		}
+	end
+
+	local function hook(player)
+		player.CharacterAdded:Connect(function(character)
+			track(player, character)
+		end)
+		player.CharacterRemoving:Connect(function()
+			untrack(player)
+		end)
+		if player.Character then
+			task.spawn(track, player, player.Character)
+		end
+	end
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		hook(player)
+	end
+	Players.PlayerAdded:Connect(hook)
+	Players.PlayerRemoving:Connect(untrack)
+
+	local function applyScale(entry, scale)
+		if math.abs(entry.scale - scale) < 0.25 then
+			return
+		end
+		entry.scale = scale
+		entry.wake.Size = sizeSequence(scale, scale * 3)
+		entry.spray.Size = sizeSequence(scale * 0.6, scale * 0.2)
+		entry.spray.Speed = NumberRange.new(8 * scale ^ 0.5, 16 * scale ^ 0.5)
+	end
+
+	local interval = 1 / fx.UpdateRate
+	local elapsed = 0
+
+	RunService.Heartbeat:Connect(function(dt)
+		elapsed += dt
+		if elapsed < interval then
+			return
+		end
+		elapsed = 0
+
+		local camera = workspace.CurrentCamera
+		if not camera or not ocean.Parent then
+			return
+		end
+
+		local camPos = camera.CFrame.Position
+		local level = ocean.Position.Y + ocean.Size.Y / 2 + levelOffset
+		local now = os.clock()
+
+		for player, entry in pairs(tracked) do
+			local root = entry.root
+			if not root.Parent then
+				untrack(player)
+			else
+				local pos = root.Position
+				local halfHeight = root.Size.Y / 2
+				local inWater = pos.Y - halfHeight <= level + fx.SurfaceMargin
+					and pos.Y > level - fx.MaxDepth
+					and (pos - camPos).Magnitude <= fx.MaxDistance
+
+				if inWater then
+					local velocity = root.AssemblyLinearVelocity
+					local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
+					local scale = math.clamp(math.max(root.Size.X, root.Size.Z) / fx.ReferenceSize, 1, fx.MaxScale)
+					applyScale(entry, scale)
+					entry.part.CFrame = CFrame.new(pos.X, level + fx.SurfaceLift, pos.Z)
+
+					entry.wake.Rate = speed > fx.MinSpeed and math.min(speed * fx.RatePerSpeed, fx.MaxRate) or 0
+					entry.spray.Rate = speed > fx.SprayMinSpeed
+							and math.min((speed - fx.SprayMinSpeed) * fx.SprayPerSpeed, fx.SprayMaxRate)
+						or 0
+
+					if not entry.wasIn and now >= entry.nextSplash then
+						local count = math.clamp(-velocity.Y * fx.SplashPerSpeed * scale ^ 0.5, fx.SplashMinCount, fx.SplashMaxCount)
+						entry.spray:Emit(math.floor(count))
+						entry.wake:Emit(math.floor(count * 0.5))
+						entry.nextSplash = now + fx.SplashCooldown
+					end
+				else
+					entry.wake.Rate = 0
+					entry.spray.Rate = 0
+				end
+
+				entry.wasIn = inWater
+			end
+		end
+	end)
+end
+
+return WaterFX
+]]></ProtectedString>
+							</Properties>
+						</Item>
+					</Item>
+					<Item class="ModuleScript" referent="RBX14">
+						<Properties>
+							<string name="Name">Config</string>
+							<ProtectedString name="Source"><![CDATA[return {
+	Menu = {
+		CameraName = "MenuCameraControl",
+		CameraPriorityOffset = 1000,
+		TweenSeconds = 0.6,
+		DeathReturnDelay = 4,
+		EntityUnlockUser = "L0tzie",
+	},
+
+	Settings = {
+		MinFov = 70,
+		MaxFov = 120,
+	},
+
+	Hud = {
+		BossEndSeconds = 10,
+		BlindHoldSeconds = 5,
+		BlindFadeSeconds = 1,
+	},
+
+	Rain = {
+		OffsetY = 60,
+	},
+
+	Pulse = {
+		WaitTimeout = 10,
+		BurstTime = 0.4,
+		SustainTime = 0.5,
+		DissipateTime = 0.6,
+		BurstOvershoot = 1.1,
+		DissipateGrowth = 1.25,
+		MaxActive = 12,
+		DefaultSize = 300,
+		MinSize = 5,
+		MaxSize = 2000,
+	},
+
+	Ocean = {
+		WaitTimeout = 30,
+		LevelOffset = 0,
+		UpdateRate = 30,
+		WaveSpeed = 0.7,
+		WaveHeight = 0.45,
+		NormalStrength = 5,
+		Darken = 0.85,
+		RippleHeight = 0.4,
+		RippleSpeed = 9,
+		RippleWidth = 4,
+		RippleLife = 1.8,
+		RippleBrightness = 1,
+		MaxRipples = 32,
+		MaxTriangles = 14000,
+		RingSegments = 72,
+		DetailRadius = 320,
+		DetailPower = 1.3,
+		DetailRings = 40,
+		OuterRadius = 1000,
+		OuterRings = 6,
+		FarDrop = 3,
+		Waves = {
+			{ angle = 15,   length = 160, amp = 1.6,  fade = 1.00 },
+			{ angle = -40,  length = 95,  amp = 1.1,  fade = 0.85 },
+			{ angle = 70,   length = 60,  amp = 0.65, fade = 0.65 },
+			{ angle = -110, length = 42,  amp = 0.35, fade = 0.5 },
+		},
+	},
+
+	WaterFX = {
+		UpdateRate = 20,
+		MaxDistance = 250,
+		MaxDepth = 30,
+		SurfaceMargin = 2,
+		SurfaceLift = 0.3,
+		ReferenceSize = 4,
+		MaxScale = 8,
+		MinSpeed = 4,
+		RatePerSpeed = 1.2,
+		MaxRate = 60,
+		SprayMinSpeed = 14,
+		SprayPerSpeed = 2,
+		SprayMaxRate = 80,
+		SplashPerSpeed = 1.5,
+		SplashMinCount = 6,
+		SplashMaxCount = 80,
+		SplashCooldown = 0.5,
+		WakeLifetime = 1.6,
+		FoamColor = Color3.fromRGB(235, 248, 255),
+		SprayColor = Color3.fromRGB(190, 225, 245),
+	},
+}
+]]></ProtectedString>
+						</Properties>
 					</Item>
 				</Item>
 			</Item>
 		</Item>
-		<Item class="Folder" referent="RBX13">
+		<Item class="Folder" referent="RBX15">
 			<Properties>
 				<string name="Name">StarterGui</string>
 			</Properties>
-			<Item class="Folder" referent="RBX14">
+			<Item class="Folder" referent="RBX16">
 				<Properties>
 					<string name="Name">GameGui</string>
 				</Properties>
-				<Item class="Folder" referent="RBX15">
+				<Item class="Folder" referent="RBX17">
 					<Properties>
 						<string name="Name">MainFrame</string>
 					</Properties>
-					<Item class="Folder" referent="RBX16">
+					<Item class="Folder" referent="RBX18">
 						<Properties>
 							<string name="Name">Interface</string>
 						</Properties>
-						<Item class="Folder" referent="RBX17">
+						<Item class="Folder" referent="RBX19">
 							<Properties>
 								<string name="Name">Backpack</string>
 							</Properties>
-							<Item class="LocalScript" referent="RBX18">
+							<Item class="LocalScript" referent="RBX20">
 								<Properties>
 									<string name="Name">BackpackScript</string>
 									<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
@@ -3962,7 +4320,7 @@ end)
 					</Item>
 				</Item>
 			</Item>
-			<Item class="LocalScript" referent="RBX19">
+			<Item class="LocalScript" referent="RBX21">
 				<Properties>
 					<string name="Name">ClientHandler</string>
 					<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
@@ -4423,19 +4781,19 @@ end)
 				</Properties>
 			</Item>
 		</Item>
-		<Item class="Folder" referent="RBX20">
+		<Item class="Folder" referent="RBX22">
 			<Properties>
 				<string name="Name">ServerScriptService</string>
 			</Properties>
-			<Item class="Folder" referent="RBX21">
+			<Item class="Folder" referent="RBX23">
 				<Properties>
 					<string name="Name">framework</string>
 				</Properties>
-				<Item class="Folder" referent="RBX22">
+				<Item class="Folder" referent="RBX24">
 					<Properties>
 						<string name="Name">modules</string>
 					</Properties>
-					<Item class="ModuleScript" referent="RBX23">
+					<Item class="ModuleScript" referent="RBX25">
 						<Properties>
 							<string name="Name">World</string>
 							<ProtectedString name="Source"><![CDATA[local World = {}
@@ -5613,6 +5971,194 @@ function World.IsRaining()
 end
 
 return World]]></ProtectedString>
+						</Properties>
+					</Item>
+				</Item>
+			</Item>
+			<Item class="Script" referent="RBX26">
+				<Properties>
+					<string name="Name">Server</string>
+					<token name="RunContext">0</token>
+					<ProtectedString name="Source"><![CDATA[local ServerScriptService = game:GetService("ServerScriptService")
+
+if ServerScriptService:GetAttribute("ServerFrameworkActive") then
+	return
+end
+
+local Services = script:WaitForChild("Services")
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
+local Config = require(script:WaitForChild("Config"))
+local log = Logger.new("Server")
+
+local REPLACED = {
+	"ServerHandler",
+	"MorphBootstrap",
+	"HealthEnforcer",
+	"GCellIntegrityGuard",
+	"PlayerEliminator",
+	"SettingsStore",
+}
+local stillActive = {}
+for _, name in ipairs(REPLACED) do
+	local found = ServerScriptService:FindFirstChild(name)
+	if found and found ~= script and not (found:IsA("BaseScript") and found.Disabled) then
+		table.insert(stillActive, name)
+	end
+end
+if #stillActive > 0 then
+	log:warn("Not starting: disable or delete these replaced scripts first: " .. table.concat(stillActive, ", "))
+	return
+end
+
+ServerScriptService:SetAttribute("ServerFrameworkActive", true)
+
+local lifecycle = Lifecycle.new(log)
+
+lifecycle:Register(require(Services.MorphService))
+lifecycle:Register(require(Services.GCellGuardService))
+lifecycle:Register(require(Services.EliminatorService))
+lifecycle:Register(require(Services.SettingsService))
+lifecycle:Register(require(Services.HealthService))
+lifecycle:Register(require(Services.OceanDepthService))
+
+local LegacyService = require(Services.LegacyService)
+for _, moduleName in ipairs(Config.LegacyModules) do
+	lifecycle:Register(LegacyService.Create(moduleName))
+end
+
+lifecycle:Register(require(Services.KnitService))
+
+lifecycle:InitAll()
+lifecycle:StartAll()
+
+ServerScriptService:SetAttribute("ServerReady", true)
+log:info("Started. Service status:\n" .. lifecycle:Report())
+]]></ProtectedString>
+				</Properties>
+				<Item class="ModuleScript" referent="RBX27">
+					<Properties>
+						<string name="Name">Config</string>
+						<ProtectedString name="Source"><![CDATA[return {
+	Morph = {
+		TankSpawnMorphs = { "MILITARY TANK [FREE]", "F16C [FREE]" },
+		TankSpawnHeight = 10,
+		SpawnHeight = 50,
+
+		RestrictedKaiju = { "EVOLVED GOJIRA", "D.E.M.O.N", "Homelander", "d", "A-train", "e", "MG21" },
+		AllowedPlayers = { "AthosGame2023", "mr_bolde2", "DenisTheCheeseKing", "BlueEnderCookie_2" },
+		AllowedUserIds = {},
+	},
+
+	Health = {
+		RegenDelay = 20,
+		RegenInterval = 3,
+		RegenBasePercent = 0.01015,
+		RegenPerPoint = 0.15,
+		CharacterParentTimeout = 30,
+	},
+
+	GCellGuard = {
+		ReadyDelay = 1,
+		AllowanceTtl = 1,
+		Tolerance = 0.5,
+		ValueNames = { "GCells", "gcells" },
+	},
+
+	Eliminator = {
+		MinAdminRank = 2,
+		AdminRankNames = { "Admin", "HeadAdmin", "Owner" },
+		JoinCheckDelay = 2,
+		DeathKickDelay = 1,
+	},
+
+	Settings = {
+		StoreName = "PlayerSettings",
+		KeyPrefix = "Player_",
+		RemoteName = "GetSettingsData",
+		DefaultFov = 70,
+		MinFov = 70,
+		MaxFov = 120,
+		DataStoreAttempts = 3,
+		RemoteWaitTimeout = 60,
+	},
+
+	LegacyModules = { "Character", "Combat", "Data", "World" },
+
+	OceanDepth = {
+		Enabled = true,
+		Material = "Sand",
+		DepthDrop = 120,
+		WedgeGrow = 120,
+		ColorTolerance = 0.02,
+		MinUpright = 0.9,
+		YieldEvery = 3000,
+	},
+}
+]]></ProtectedString>
+					</Properties>
+				</Item>
+				<Item class="Folder" referent="RBX28">
+					<Properties>
+						<string name="Name">Services</string>
+					</Properties>
+					<Item class="ModuleScript" referent="RBX29">
+						<Properties>
+							<string name="Name">OceanDepthService</string>
+							<ProtectedString name="Source"><![CDATA[local OceanDepthService = { Name = "OceanDepth", Async = true }
+
+local function sameColor(a, b, tolerance)
+	return math.abs(a.R - b.R) <= tolerance and math.abs(a.G - b.G) <= tolerance and math.abs(a.B - b.B) <= tolerance
+end
+
+function OceanDepthService.Init()
+	local cfg = require(script:FindFirstAncestor("Server").Config).OceanDepth
+	if not cfg.Enabled or workspace:GetAttribute("OceanDeepened") then
+		return
+	end
+
+	local material = Enum.Material[cfg.Material]
+	local best, bestVolume = nil, 0
+	local wedges = {}
+
+	for index, inst in ipairs(workspace:GetDescendants()) do
+		if inst:IsA("BasePart") and inst.Material == material then
+			if inst:IsA("WedgePart") then
+				table.insert(wedges, inst)
+			elseif not inst:IsA("CornerWedgePart") then
+				local volume = inst.Size.X * inst.Size.Y * inst.Size.Z
+				if volume > bestVolume then
+					best, bestVolume = inst, volume
+				end
+			end
+		end
+		if index % cfg.YieldEvery == 0 then
+			task.wait()
+		end
+	end
+
+	if not best then
+		return
+	end
+
+	workspace:SetAttribute("OceanDeepened", true)
+
+	local floorColor = best.Color
+	best.CFrame = best.CFrame - Vector3.new(0, cfg.DepthDrop, 0)
+
+	for _, wedge in ipairs(wedges) do
+		local upright = wedge.CFrame.UpVector.Y >= cfg.MinUpright
+		if upright and sameColor(wedge.Color, floorColor, cfg.ColorTolerance) then
+			local cf = wedge.CFrame
+			local size = wedge.Size
+			wedge.Size = Vector3.new(size.X, size.Y + cfg.WedgeGrow, size.Z)
+			wedge.CFrame = cf * CFrame.new(0, -cfg.WedgeGrow / 2, 0)
+		end
+	end
+end
+
+return OceanDepthService
+]]></ProtectedString>
 						</Properties>
 					</Item>
 				</Item>
