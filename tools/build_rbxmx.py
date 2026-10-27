@@ -9,6 +9,7 @@ MODEL = "KO-Rescript.rbxmx"
 
 FILES = [
     (SRC / "BeamCombat" / "ReplicatedStorage" / "BeamSystem.lua", "BeamSystem", "ModuleScript", ["ReplicatedStorage"]),
+    (SRC / "BeamCombat" / "ReplicatedStorage" / "HolidayConfigs.lua", "HolidayConfigs", "ModuleScript", ["ReplicatedStorage"]),
     (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "World.lua", "World", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
     (SRC / "BeamCombat" / "StarterGui" / "ClientHandler.client.lua", "ClientHandler", "LocalScript", ["StarterGui"]),
     (SRC / "ReplicatedStorage" / "PlayerScripts" / "Control" / "init.client.lua", "Control", "LocalScript", ["ReplicatedStorage", "PlayerScripts"]),

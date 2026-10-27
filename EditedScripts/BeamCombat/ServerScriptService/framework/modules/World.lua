@@ -6,8 +6,9 @@ local Debris = game:GetService("Debris")
 local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HolidayConfigs = require(ReplicatedStorage:WaitForChild("HolidayConfigs"))
 
-local state = { IsRaining = false }
+local state = { IsRaining = false, IsSnowing = false }
 local initialized = false
 local windowApi = {}
 local savedWindowState = setmetatable({}, { __mode = "k" })
@@ -68,6 +69,11 @@ local function initDayNight()
 		Cloud = Color3.new(0.15, 0.15, 0.18),
 	}
 
+	local SNOW = RAIN
+	local DEFAULT = { Day = DAY, Night = NIGHT, Rain = RAIN }
+	local lastCheck = -math.huge
+	local baseDecay = nil
+
 	local function dayFactor(m)
 		if m >= 420 and m <= 1020 then return 1
 		elseif m >= 1140 or m <= 300 then return 0
@@ -76,6 +82,16 @@ local function initDayNight()
 	end
 
 	while true do
+		local clock = os.clock()
+		if clock - lastCheck >= 30 then
+			lastCheck = clock
+			local holiday = HolidayConfigs.getActive()
+			local set = holiday and holiday.Lighting or DEFAULT
+			DAY, NIGHT = set.Day or DEFAULT.Day, set.Night or DEFAULT.Night
+			RAIN = set.Rain or DEFAULT.Rain
+			SNOW = set.Snow or set.Rain or DEFAULT.Rain
+		end
+
 		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
 		local clouds = workspace.Terrain:FindFirstChildOfClass("Clouds")
 
@@ -93,15 +109,16 @@ local function initDayNight()
 		local density = lerp(NIGHT.Density, DAY.Density, t)
 		local haze = lerp(NIGHT.Haze, DAY.Haze, t)
 
-		if state.IsRaining then
-			Lighting.FogColor = RAIN.FogColor
-			Lighting.FogEnd = fogEnd * RAIN.FogEndMul
+		local wx = state.IsRaining and RAIN or state.IsSnowing and SNOW or nil
+		if wx then
+			Lighting.FogColor = wx.FogColor
+			Lighting.FogEnd = fogEnd * wx.FogEndMul
 			if atmosphere then
-				atmosphere.Density = density + RAIN.DensityAdd
-				atmosphere.Color = RAIN.AtmColor
-				atmosphere.Haze = haze + RAIN.HazeAdd
+				atmosphere.Density = density + wx.DensityAdd
+				atmosphere.Color = wx.AtmColor
+				atmosphere.Haze = haze + wx.HazeAdd
 			end
-			if clouds then clouds.Color = RAIN.Cloud end
+			if clouds then clouds.Color = wx.Cloud end
 		else
 			Lighting.FogColor = NIGHT.FogColor:Lerp(DAY.FogColor, t)
 			Lighting.FogEnd = fogEnd
@@ -111,6 +128,11 @@ local function initDayNight()
 				atmosphere.Haze = haze
 			end
 			if clouds then clouds.Color = NIGHT.Cloud:Lerp(DAY.Cloud, t) end
+		end
+
+		if atmosphere then
+			if baseDecay == nil then baseDecay = atmosphere.Decay end
+			atmosphere.Decay = DAY.AtmDecay and NIGHT.AtmDecay and NIGHT.AtmDecay:Lerp(DAY.AtmDecay, t) or baseDecay
 		end
 
 		task.wait(1 / 15)
@@ -208,11 +230,37 @@ local function initWindowLights()
 		end
 	end
 
+	local colorCache = setmetatable({}, { __mode = "k" })
+	local winBuilding = setmetatable({}, { __mode = "k" })
+	local palette = nil
+
+	local function buildingColor(building)
+		if not palette or not building then return LIT end
+		local c = colorCache[building]
+		if not c then
+			local base = building:FindFirstChild("BuildingBase")
+			local p = base and base:IsA("BasePart") and base.Position or Vector3.zero
+			local h = math.floor(math.abs(p.X * 7.13 + p.Z * 13.37 + p.Y * 3.1))
+			c = palette[h % #palette + 1]
+			colorCache[building] = c
+		end
+		return c
+	end
+
+	local function colorOf(window)
+		local b = winBuilding[window]
+		if not b then
+			b = owningBuilding(window)
+			winBuilding[window] = b
+		end
+		return buildingColor(b)
+	end
+
 	local function setWindow(window, lit)
 		if not window.Parent then return end
 		capture(window)
 		window.Material = Enum.Material.Neon
-		window.Color = lit and LIT or DARK
+		window.Color = lit and colorOf(window) or DARK
 	end
 
 	local function restoreWindow(window)
@@ -232,9 +280,10 @@ local function initWindowLights()
 		local mine = winToken[window]
 		task.spawn(function()
 			local stop = os.clock() + duration
+			local litColor = colorOf(window)
 			while winToken[window] == mine and window.Parent and os.clock() < stop do
 				window.Material = Enum.Material.Neon
-				window.Color = math.random() < 0.5 and LIT or DARK
+				window.Color = math.random() < 0.5 and litColor or DARK
 				task.wait(0.03 + math.random() * 0.09)
 			end
 			if winToken[window] ~= mine or not window.Parent then return end
@@ -256,7 +305,7 @@ local function initWindowLights()
 			if lights[base] or not base.Parent or not windowsOn then return end
 			local l = Instance.new("PointLight")
 			l.Name = "BuildingGlowLight"
-			l.Color = LIT
+			l.Color = buildingColor(base.Parent)
 			l.Brightness = LIGHT_BRIGHTNESS
 			l.Range = LIGHT_RANGE
 			l.Shadows = false
@@ -305,6 +354,9 @@ local function initWindowLights()
 	local function turnOn()
 		if windowsOn then return end
 		windowsOn = true
+		local holiday = HolidayConfigs.getActive()
+		palette = holiday and holiday.WindowColors or nil
+		table.clear(colorCache)
 		epoch += 1
 		local myEpoch = epoch
 		for building, windows in buildings do
@@ -401,29 +453,93 @@ local function initWindowLights()
 	end
 end
 
+local function initHolidayGround()
+	local terrain = workspace.Terrain
+	local terrainBase = terrain:GetMaterialColor(Enum.Material.Grass)
+	local saved = setmetatable({}, { __mode = "k" })
+	local activeColor, activeName = nil, nil
+
+	local function tint(part)
+		if activeColor and part ~= terrain and part:IsA("BasePart") and part.Material == Enum.Material.Grass and saved[part] == nil then
+			saved[part] = part.Color
+			part.Color = activeColor
+		end
+	end
+
+	workspace.DescendantAdded:Connect(tint)
+
+	local function sweep(color)
+		local n = 0
+		for _, d in workspace:GetDescendants() do
+			if activeColor ~= color then return end
+			tint(d)
+			n += 1
+			if n % 300 == 0 then task.wait() end
+		end
+	end
+
+	local function clear()
+		activeColor, activeName = nil, nil
+		for part, c in saved do
+			if part.Parent then part.Color = c end
+			saved[part] = nil
+		end
+		terrain:SetMaterialColor(Enum.Material.Grass, terrainBase)
+	end
+
+	while true do
+		local holiday = HolidayConfigs.getActive()
+		local color = holiday and holiday.GroundColor or nil
+		local name = color and holiday.Name or nil
+		if name ~= activeName then
+			if activeName then clear() end
+			if color then
+				activeColor, activeName = color, name
+				terrain:SetMaterialColor(Enum.Material.Grass, color)
+				task.spawn(sweep, color)
+			end
+		end
+		task.wait(60)
+	end
+end
+
 local function initRain()
 	local rainySky = ReplicatedFirst:FindFirstChild("Rainy")
 	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
+	local toggleSnow = ReplicatedStorage:FindFirstChild("ToggleSnow")
 
 	while true do
-		task.wait(math.random(120, 200))
+		local weather = HolidayConfigs.getWeather()
+		task.wait(math.random(weather.Gap[1], weather.Gap[2]))
 
+		weather = HolidayConfigs.getWeather()
+		local snow = weather.Kind == "Snow"
 		local originalSky = Lighting:FindFirstChildOfClass("Sky")
 		local clonedSky
-		state.IsRaining = true
-		if toggleRain then toggleRain:FireAllClients(true) end
-		if rainySky then
-			clonedSky = rainySky:Clone()
-			clonedSky.Parent = Lighting
-			if originalSky then originalSky.Parent = nil end
+		if snow then
+			state.IsSnowing = true
+			if toggleSnow then toggleSnow:FireAllClients(true) end
+		else
+			state.IsRaining = true
+			if toggleRain then toggleRain:FireAllClients(true) end
+			if rainySky then
+				clonedSky = rainySky:Clone()
+				clonedSky.Parent = Lighting
+				if originalSky then originalSky.Parent = nil end
+			end
 		end
 
-		task.wait(math.random(20, 120))
+		task.wait(math.random(weather.Duration[1], weather.Duration[2]))
 
-		state.IsRaining = false
-		if toggleRain then toggleRain:FireAllClients(false) end
-		if clonedSky then clonedSky:Destroy() end
-		if originalSky then originalSky.Parent = Lighting end
+		if snow then
+			state.IsSnowing = false
+			if toggleSnow then toggleSnow:FireAllClients(false) end
+		else
+			state.IsRaining = false
+			if toggleRain then toggleRain:FireAllClients(false) end
+			if clonedSky then clonedSky:Destroy() end
+			if originalSky then originalSky.Parent = Lighting end
+		end
 	end
 end
 
@@ -1031,6 +1147,7 @@ function World.Init()
 	task.spawn(initRain)
 	task.spawn(initBuilding)
 	task.spawn(initCollisions)
+	task.spawn(initHolidayGround)
 end
 
 function World.IsRaining()

@@ -154,6 +154,7 @@ build/ was cleared of Client, RecolorPopulator, Recolors, Server, Shared and Bea
 | Model path | Class | Goes to |
 | --- | --- | --- |
 | KO-Rescript/ReplicatedStorage/BeamSystem | ModuleScript | ReplicatedStorage.BeamSystem |
+| KO-Rescript/ReplicatedStorage/HolidayConfigs | ModuleScript | ReplicatedStorage.HolidayConfigs (new, nothing to delete) |
 | KO-Rescript/ServerScriptService/framework/modules/World | ModuleScript | ServerScriptService.framework.modules.World |
 | KO-Rescript/ReplicatedStorage/PlayerScripts/Control | LocalScript | ReplicatedStorage.PlayerScripts.Control |
 | KO-Rescript/StarterGui/ClientHandler | LocalScript | StarterGui.ClientHandler |
@@ -163,3 +164,14 @@ Drag each service folder's contents onto the matching service, replacing the old
 ## Optimization pass
 
 Behavior and visuals are unchanged. ClientHandler: the per frame underwater blur check now caches the Ocean part and only writes Enabled when the value changes. BeamSystem: the impact raycast reuses one RaycastParams instead of allocating a new one every other frame.
+
+## Holiday configs
+
+HolidayConfigs is a new ModuleScript in ReplicatedStorage. World now reads it, so World and HolidayConfigs must go in together.
+
+| Holiday | Months | Lighting and weather | Building lights | Ground |
+| --- | --- | --- | --- | --- |
+| Halloween | October, November | purple and orange day and night, green accents, purple rain fog | one color per building from orange, purple, magenta, green | Grass parts and Grass terrain turn purple |
+| Christmas (placeholder) | December, January | cool white and blue, snow weather | one color per building from red, green, warm white | unchanged |
+
+Set the ReplicatedStorage attribute HolidayOverride to Halloween, Christmas or None to test a holiday outside its months. Snow fires a ToggleSnow RemoteEvent in ReplicatedStorage if one exists; nothing client side listens to it yet.
