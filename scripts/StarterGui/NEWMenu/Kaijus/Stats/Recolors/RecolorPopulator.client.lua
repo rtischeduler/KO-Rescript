@@ -7,7 +7,8 @@ local LevelManager = require(ReplicatedStorage:WaitForChild("LevelManager"))
 local getKaijuDataFunc = ReplicatedStorage:WaitForChild("GetKaijuData", 10)
 
 local RECOLOR_GAMEPASS_ID = 1819433033
-local GOLD_REQUIRED_LEVEL = 50
+local Recolors = require(ReplicatedStorage:WaitForChild("Recolors"))
+local GOLD_REQUIRED_LEVEL = Recolors.Unlock.Gold.level
 local localPlayer = Players.LocalPlayer
 
 local ownsRecolorGamepass = nil
@@ -199,34 +200,18 @@ local function populateRecolors()
 	noSkinBtn.LayoutOrder = 0
 	noSkinBtn.Parent = recolorsFrame
 
-	local recolorsFolder = ReplicatedStorage:FindFirstChild("Recolors")
-	if not recolorsFolder then
-		warn("RecolorPopulator: ReplicatedStorage.Recolors not found!")
-		return
-	end
-
 	local order = 1
-	for _, recolorFolder in ipairs(recolorsFolder:GetChildren()) do
-		if recolorFolder:IsA("Folder") then
-			local primary = recolorFolder:FindFirstChild("Primary")
-			local secondary = recolorFolder:FindFirstChild("Secondary")
-			local tertiary = recolorFolder:FindFirstChild("Tertiary")
-			local eyeColor = recolorFolder:FindFirstChild("EyeColor")
-			local primaryColor = primary and primary.Value or Color3.new(1, 1, 1)
-			local secondaryColor = secondary and secondary.Value or nil
-			local tertiaryColor = tertiary and tertiary.Value or nil
-			local eyeColorVal = eyeColor and eyeColor.Value or nil
-
-			local button = createRecolorButton(recolorFolder.Name, primaryColor, secondaryColor, tertiaryColor, eyeColorVal, false)
-			button.LayoutOrder = order
-			button.Parent = recolorsFrame
-			if recolorFolder.Name == "Diamond" then
-				diamondButton = button
-			elseif recolorFolder.Name == "Gold" then
-				goldButton = button
-			end
-			order = order + 1
+	for _, name in ipairs(Recolors.Order) do
+		local d = Recolors.Get(name)
+		local button = createRecolorButton(name, d.Primary or Color3.new(1, 1, 1), d.Secondary, d.Tertiary, d.EyeColor, false)
+		button.LayoutOrder = order
+		button.Parent = recolorsFrame
+		if name == "Diamond" then
+			diamondButton = button
+		elseif name == "Gold" then
+			goldButton = button
 		end
+		order = order + 1
 	end
 end
 

@@ -1073,6 +1073,122 @@ local function initAttackHandler()
 	end)
 end
 
+local function initDPS()
+	local CollectionService = game:GetService("CollectionService")
+	local connected = setmetatable({}, { __mode = "k" })
+
+	local function findAttacker(part)
+		local model = part:FindFirstAncestorOfClass("Model")
+		while model do
+			local player = Players:GetPlayerFromCharacter(model)
+			if player then return player end
+			model = model:FindFirstAncestorOfClass("Model")
+		end
+		local nameValue = part:FindFirstChild("PlayerName")
+		if nameValue and nameValue:IsA("StringValue") then
+			return Players:FindFirstChild(nameValue.Value)
+		end
+		return nil
+	end
+
+	local function levelScale(attacker)
+		local perLevel = ReplicatedStorage:FindFirstChild("DamageMultiplierPerLevel")
+		if not perLevel then return 1 end
+		local character = attacker and attacker.Character
+		local levelValue = character and character:FindFirstChild("Level")
+		local level = levelValue and levelValue.Value or 1
+		return perLevel.Value ^ (level - 1)
+	end
+
+	local function payGCells(attacker, amount)
+		local leaderstats = attacker:FindFirstChild("leaderstats")
+		if not leaderstats then return end
+		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
+		if gcells and gcells:IsA("IntValue") then
+			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
+			gcells.Value = gcells.Value + amount
+		end
+	end
+
+	local function hook(part)
+		if connected[part] or not part:IsA("BasePart") then return end
+		connected[part] = true
+		local lastHit = setmetatable({}, { __mode = "k" })
+		part.Touched:Connect(function(other)
+			if part:GetAttribute("RequireBlastActive") and not part:GetAttribute("BlastActive") then return end
+			local character = other.Parent
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if not humanoid or humanoid.Health <= 0 then return end
+			local attacker = findAttacker(part)
+			if attacker and attacker.Character == character then return end
+			local cooldown = part:GetAttribute("Cooldown") or 0.5
+			local now = os.clock()
+			if cooldown > 0 and lastHit[character] and now - lastHit[character] < cooldown then return end
+			lastHit[character] = now
+			local multiplier = part:GetAttribute("DamageMultiplier") or 1
+			if part:GetAttribute("LevelScaled") then
+				multiplier = multiplier * levelScale(attacker)
+			end
+			humanoid.Health = humanoid.Health - (part:GetAttribute("Damage") or 0.9) * multiplier
+			if attacker then
+				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
+				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2)
+			end
+		end)
+	end
+
+	for _, part in ipairs(CollectionService:GetTagged("DPSPart")) do
+		hook(part)
+	end
+	CollectionService:GetInstanceAddedSignal("DPSPart"):Connect(hook)
+end
+
+local function initRoar()
+	local connected = setmetatable({}, { __mode = "k" })
+
+	local function hook(event)
+		if not event:IsA("RemoteEvent") or connected[event] then return end
+		local scripts = event.Parent
+		if not scripts or scripts.Name ~= "CharacterScripts" then return end
+		local roarName = event.Name
+		if not roarName:match("^Roar%d*$") then return end
+		connected[event] = true
+		event.OnServerEvent:Connect(function(player)
+			local character = player.Character
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if not humanoid then return end
+			local debounce = scripts:FindFirstChild("Debounce")
+			if not debounce or debounce.Value then return end
+			debounce.Value = true
+			local animations = scripts.Parent and scripts.Parent:FindFirstChild("Animations")
+			local roarAnim = animations and animations:FindFirstChild(roarName)
+			local animator = roarAnim and humanoid:FindFirstChild("Animator")
+			if animator then
+				local track = animator:LoadAnimation(roarAnim)
+				track.Looped = false
+				track.Priority = Enum.AnimationPriority.Action
+				track:Play(0.1, 10)
+			end
+			local sounds = scripts:FindFirstChild("Sounds")
+			local roarSound = sounds and sounds:FindFirstChild(roarName)
+			if roarSound then
+				local clone = roarSound:Clone()
+				clone.Parent = character:FindFirstChild("Head") or character:FindFirstChild("Torso") or character
+				clone.Looped = false
+				clone:Play()
+				task.wait(clone.TimeLength / math.max(clone.PlaybackSpeed, 0.01))
+				clone:Destroy()
+			end
+			debounce.Value = false
+		end)
+	end
+
+	for _, inst in ipairs(workspace:GetDescendants()) do
+		hook(inst)
+	end
+	workspace.DescendantAdded:Connect(hook)
+end
+
 function Combat.Init()
 	if initialized then return end
 	initialized = true
@@ -1082,6 +1198,8 @@ function Combat.Init()
 	task.spawn(initWaterBubbles)
 	task.spawn(initPulse)
 	task.spawn(initAttackHandler)
+	task.spawn(initDPS)
+	task.spawn(initRoar)
 end
 
 return Combat

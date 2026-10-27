@@ -955,10 +955,10 @@ function Data.Init()
 		local MarketplaceService = game:GetService("MarketplaceService")
 
 		local RECOLOR_GAMEPASS_ID = 1819433033
-		local GOLD_REQUIRED_LEVEL = 50
+		local Recolors = require(ReplicatedStorage:WaitForChild("Recolors"))
+		local GOLD_REQUIRED_LEVEL = Recolors.Unlock.Gold.level
 
 		local setRecolorEvent = ReplicatedStorage:WaitForChild("SetRecolor", 10)
-		local recolorsFolder = ReplicatedStorage:WaitForChild("Recolors", 10)
 
 		local recolorStore = DataStoreService:GetDataStore("PlayerRecolors_v1")
 		local levelStore = DataStoreService:GetDataStore("PlayerLevels_v3")
@@ -974,30 +974,7 @@ function Data.Init()
 		local playerRecolors = {}
 
 		local function getRecolorData(recolorName)
-			if not recolorsFolder then return nil end
-			local folder = recolorsFolder:FindFirstChild(recolorName)
-			if not folder then return nil end
-
-			local primary = folder:FindFirstChild("Primary")
-			local secondary = folder:FindFirstChild("Secondary")
-			local tertiary = folder:FindFirstChild("Tertiary")
-			local eyeColor = folder:FindFirstChild("EyeColor")
-			local primaryMaterial = folder:FindFirstChild("PrimaryMaterial")
-			local secondaryMaterial = folder:FindFirstChild("SecondaryMaterial")
-			local tertiaryMaterial = folder:FindFirstChild("TertiaryMaterial")
-			local eyeMaterial = folder:FindFirstChild("EyeMaterial")
-
-			return {
-				Primary = primary and primary.Value or nil,
-				Secondary = secondary and secondary.Value or nil,
-				Tertiary = tertiary and tertiary.Value or nil,
-				EyeColor = eyeColor and eyeColor.Value or nil,
-				PrimaryMaterial = primaryMaterial and primaryMaterial.Value or nil,
-				SecondaryMaterial = secondaryMaterial and secondaryMaterial.Value or nil,
-				TertiaryMaterial = tertiaryMaterial and tertiaryMaterial.Value or nil,
-				EyeMaterial = eyeMaterial and eyeMaterial.Value or nil,
-				KeepColor = folder:GetAttribute("KeepColor") or false,
-			}
+			return Recolors.Get(recolorName)
 		end
 
 		local function parseMaterial(materialStr)

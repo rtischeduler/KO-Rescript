@@ -3,6 +3,7 @@ local World = {}
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local Debris = game:GetService("Debris")
+local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -33,7 +34,7 @@ local function easeInOut(p)
 	if p < 0.5 then return 2 * p * p end
 	return 1 - (-2 * p + 2) ^ 2 / 2
 end
-local function easeCollapse(p) return p ^ 2.4 end
+local function easeCollapse(p) return p ^ 1.7 end
 local function easeTilt(p) return p ^ 1.6 end
 
 local function initDayNight()
@@ -391,9 +392,9 @@ end
 
 local function initBuilding()
 	local RUMBLE_TIME = 0.8
-	local COLLAPSE_TIME = 3.8
+	local COLLAPSE_TIME = 2.6
 	local RESPAWN_DELAY = 60
-	local DEBRIS_CHUNKS = 10
+	local DEBRIS_CHUNKS = 12
 
 	local touchingParts = {}
 	local hitboxOwners = {}
@@ -558,7 +559,7 @@ local function initBuilding()
 			if d:IsA("BasePart") and not d.Name:lower():find("leftover") then
 				table.insert(parts, d)
 				table.insert(origCFs, d.CFrame)
-				original[d] = { Material = d.Material, Color = d.Color }
+				original[d] = { Material = d.Material, Color = d.Color, CanCollide = d.CanCollide }
 				minY = math.min(minY, d.Position.Y - d.Size.Y / 2)
 				if d.Name:lower():find("window", 1, true) and not savedWindowState[d] then
 					savedWindowState[d] = { Material = d.Material, Color = d.Color }
@@ -684,15 +685,20 @@ local function initBuilding()
 				chunk.Name = "CollapseChunk"
 				chunk.Size = Vector3.new(rand(1, 3.5), rand(1, 3.5), rand(1, 3.5))
 				chunk.Material = Enum.Material.CorrodedMetal
+				chunk.Transparency = 0
 				chunk.Color = base.Color
 				chunk.CanTouch = false
 				chunk.CanQuery = false
 				chunk.CFrame = CFrame.new(pivot + Vector3.new(rand(-footW / 2, footW / 2), rand(2, 15), rand(-footD / 2, footD / 2)))
 					* CFrame.Angles(rand(0, 6), rand(0, 6), rand(0, 6))
 				chunk.Parent = workspace
-				chunk.AssemblyLinearVelocity = Vector3.new(rand(-1, 1), rand(0.4, 1.2), rand(-1, 1)).Unit * rand(25, 60)
+				chunk.AssemblyLinearVelocity = Vector3.new(rand(-1, 1), rand(0.4, 1.2), rand(-1, 1)).Unit * rand(18, 45)
 				chunk.AssemblyAngularVelocity = Vector3.new(rand(-8, 8), rand(-8, 8), rand(-8, 8))
-				Debris:AddItem(chunk, 5)
+				local life = rand(2.4, 3.4)
+				task.delay(life - 1, function()
+					if chunk.Parent then TweenService:Create(chunk, TweenInfo.new(1), { Transparency = 1 }):Play() end
+				end)
+				Debris:AddItem(chunk, life)
 			end
 		end
 
@@ -722,7 +728,7 @@ local function initBuilding()
 			if sound then sound:Stop() end
 			for _, p in parts do
 				local o = original[p]
-				p.Material, p.Color = o.Material, o.Color
+				p.Material, p.Color, p.CanCollide = o.Material, o.Color, o.CanCollide
 			end
 			destroyed[building] = nil
 			if windowApi.resetBuilding then windowApi.resetBuilding(building) end
@@ -732,7 +738,7 @@ local function initBuilding()
 			if destroyed[building] then return end
 			destroyed[building] = true
 
-			for _, p in parts do p.Material = Enum.Material.CorrodedMetal end
+			for _, p in parts do p.Material, p.CanCollide = Enum.Material.CorrodedMetal, false end
 			local sound = base:FindFirstChildOfClass("Sound")
 			if sound then sound:Play() end
 
@@ -751,11 +757,17 @@ local function initBuilding()
 				local dir = math.random() * math.pi * 2
 				startAnim(base.Size.Y, ang * math.cos(dir), ang * math.sin(dir), COLLAPSE_TIME, 3.4, easeCollapse, easeTilt)
 				dust(35, 4)
+				task.spawn(function()
+					local t0 = os.clock()
+					while base.Parent and os.clock() - t0 < COLLAPSE_TIME do
+						throwChunks(1)
+						task.wait(COLLAPSE_TIME / DEBRIS_CHUNKS)
+					end
+				end)
 
 				task.delay(COLLAPSE_TIME, function()
 					if not base.Parent then return end
 					dust(80, 5)
-					throwChunks(DEBRIS_CHUNKS)
 					addJolt(5, 0.9)
 					task.delay(RESPAWN_DELAY, respawn)
 				end)
