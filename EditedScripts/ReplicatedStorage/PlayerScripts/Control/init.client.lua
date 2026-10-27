@@ -536,10 +536,9 @@ local function updateAir(dt, now, wet, level)
 		turn = GLIDE_TURN
 	end
 
-	if groundDistance and (mode == "Swim" or (mode == "Fly" and wet)) and groundDistance < bodyHalf + 3 then
-		local limit = math.min((bodyHalf + 1 - groundDistance) * 5, 14)
-		if flightVel.Y < limit then
-			flightVel = Vector3.new(flightVel.X, limit, flightVel.Z)
+	if groundDistance and (mode == "Swim" or (mode == "Fly" and wet)) and groundDistance < bodyHalf + 1 then
+		if flightVel.Y < 0 then
+			flightVel = Vector3.new(flightVel.X, 0, flightVel.Z)
 		end
 	end
 

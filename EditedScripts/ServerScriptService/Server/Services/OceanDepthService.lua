@@ -16,7 +16,7 @@ function OceanDepthService.Init()
 	for index, inst in ipairs(game:GetDescendants()) do
 		if inst:IsA("WedgePart") then
 			table.insert(wedges, inst)
-		elseif inst.Name == cfg.FloorName and inst:IsA("BasePart") and inst:IsDescendantOf(workspace) then
+		elseif table.find(cfg.FloorNames, inst.Name) and inst:IsA("BasePart") and inst:IsDescendantOf(workspace) then
 			table.insert(floors, inst)
 		end
 		if index % cfg.YieldEvery == 0 then
