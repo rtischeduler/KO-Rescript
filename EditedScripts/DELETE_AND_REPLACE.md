@@ -51,7 +51,7 @@ The module is generated from `exports/recolors.json`, which the sync workflow no
 
 ## 6. Empty stubs
 
-Delete all scripts of 3 bytes or smaller once their parent copy is gone. 296 of them are `DestroyBuilding` stubs inside `Workspace/Map`. Before deleting those, search the place for the name `DestroyBuilding`: code search of this repo found references in [].
+Delete all scripts of 3 bytes or smaller once their parent copy is gone. 296 of them are `DestroyBuilding` stubs inside `Workspace/Map`. Before deleting those, search the place for the name `DestroyBuilding`: code search of this repo returned no hits for it, but that search can miss files, so confirm in Studio.
 
 ## Do not touch
 
