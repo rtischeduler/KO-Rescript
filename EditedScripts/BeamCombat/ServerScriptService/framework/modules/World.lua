@@ -128,6 +128,30 @@ local function initWindowLights()
 	local buildings = {}
 	local pool = {}
 	local winToken = setmetatable({}, { __mode = "k" })
+	local LIGHT_BRIGHTNESS = 1.6
+	local LIGHT_RANGE = 30
+	local LIGHTS_PER_FRAME = 3
+	local TURN_ON_SPREAD = 6
+	local TURN_OFF_SPREAD = 5
+	local jobs, jobHead, jobTail = {}, 1, 0
+	local pending = {}
+	local function enqueue(fn)
+		jobTail += 1
+		jobs[jobTail] = fn
+	end
+	task.spawn(function()
+		while true do
+			local n = 0
+			while jobHead <= jobTail and n < LIGHTS_PER_FRAME do
+				local fn = jobs[jobHead]
+				jobs[jobHead] = nil
+				jobHead += 1
+				n += 1
+				pcall(fn)
+			end
+			task.wait()
+		end
+	end)
 
 	local function owningBuilding(inst)
 		local p = inst.Parent
@@ -225,23 +249,34 @@ local function initWindowLights()
 	end
 
 	local function ensureLight(base)
-		if lights[base] or not base.Parent then return end
-		local l = Instance.new("PointLight")
-		l.Name = "BuildingGlowLight"
-		l.Color = LIT
-		l.Brightness = 0.8
-		l.Range = 40
-		l.Shadows = false
-		l.Parent = base
-		lights[base] = l
+		if lights[base] or pending[base] or not base.Parent then return end
+		pending[base] = true
+		enqueue(function()
+			pending[base] = nil
+			if lights[base] or not base.Parent or not windowsOn then return end
+			local l = Instance.new("PointLight")
+			l.Name = "BuildingGlowLight"
+			l.Color = LIT
+			l.Brightness = LIGHT_BRIGHTNESS
+			l.Range = LIGHT_RANGE
+			l.Shadows = false
+			l.Parent = base
+			lights[base] = l
+		end)
 	end
 
 	local function removeLight(base)
 		local l = lights[base]
-		if l then l:Destroy() lights[base] = nil end
+		if l then
+			lights[base] = nil
+			enqueue(function()
+				if l.Parent then l:Destroy() end
+			end)
+		end
 	end
 
 	local function lightBuilding(building, windows, myEpoch)
+		if epoch ~= myEpoch then return end
 		local destroyed = isDestroyed(building)
 		local base = building:FindFirstChild("BuildingBase")
 		if not destroyed and base and base:IsA("BasePart") then ensureLight(base) end
@@ -273,7 +308,7 @@ local function initWindowLights()
 		epoch += 1
 		local myEpoch = epoch
 		for building, windows in buildings do
-			task.spawn(lightBuilding, building, table.clone(windows), myEpoch)
+			task.delay(math.random() * TURN_ON_SPREAD, lightBuilding, building, table.clone(windows), myEpoch)
 		end
 	end
 
@@ -281,12 +316,14 @@ local function initWindowLights()
 		if not windowsOn then return end
 		windowsOn = false
 		epoch += 1
-		for base in lights do removeLight(base) end
+		local stale = {}
+		for base in lights do table.insert(stale, base) end
+		for _, base in stale do removeLight(base) end
 		pool = {}
 		for _, windows in buildings do
 			for _, w in windows do
 				winToken[w] = (winToken[w] or 0) + 1
-				task.delay(math.random() * 0.3 + 0.2, restoreWindow, w)
+				task.delay(math.random() * TURN_OFF_SPREAD + 0.2, restoreWindow, w)
 			end
 		end
 	end
