@@ -36,9 +36,9 @@ HolidayConfigs.Halloween = {
 		},
 		Rain = {
 			FogEndMul = 0.4, DensityAdd = 0.15, HazeAdd = 1,
-			FogColor = Color3.new(0.3, 0.15, 0.4),
-			AtmColor = Color3.new(0.35, 0.18, 0.45),
-			Cloud = Color3.new(0.18, 0.1, 0.25),
+			FogColor = Color3.new(0.33, 0.27, 0.38),
+			AtmColor = Color3.new(0.4, 0.34, 0.46),
+			Cloud = Color3.new(0.2, 0.16, 0.26),
 		},
 	},
 	Weather = { Kind = "Rain", Gap = { 100, 180 }, Duration = { 30, 120 } },
@@ -49,6 +49,7 @@ HolidayConfigs.Halloween = {
 		rgb(110, 230, 60),
 	},
 	GroundColor = rgb(96, 52, 128),
+	RainColor = rgb(165, 95, 235),
 }
 
 HolidayConfigs.Christmas = {

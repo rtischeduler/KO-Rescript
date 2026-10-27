@@ -39,7 +39,8 @@ local function easeCollapse(p) return p ^ 1.7 end
 local function easeTilt(p) return p ^ 1.6 end
 
 local function initDayNight()
-	local DAY_LENGTH_MIN = 12
+	local DAY_LENGTH_MIN = 30
+	local WEATHER_FADE = 10
 	local START_MINUTES = 720
 	local timeRatio = (24 * 60) / (math.max(DAY_LENGTH_MIN, 1) * 60)
 	local t0 = os.clock()
@@ -73,12 +74,19 @@ local function initDayNight()
 	local DEFAULT = { Day = DAY, Night = NIGHT, Rain = RAIN }
 	local lastCheck = -math.huge
 	local baseDecay = nil
+	local wxLevel, wxTable = 0, nil
+	local lastWx = os.clock()
 
-	local function dayFactor(m)
+	local function rawDayFactor(m)
 		if m >= 420 and m <= 1020 then return 1
 		elseif m >= 1140 or m <= 300 then return 0
 		elseif m < 420 then return (m - 300) / 120
 		else return 1 - (m - 1020) / 120 end
+	end
+
+	local function dayFactor(m)
+		local x = rawDayFactor(m)
+		return x * x * (3 - 2 * x)
 	end
 
 	while true do
@@ -109,26 +117,34 @@ local function initDayNight()
 		local density = lerp(NIGHT.Density, DAY.Density, t)
 		local haze = lerp(NIGHT.Haze, DAY.Haze, t)
 
-		local wx = state.IsRaining and RAIN or state.IsSnowing and SNOW or nil
-		if wx then
-			Lighting.FogColor = wx.FogColor
-			Lighting.FogEnd = fogEnd * wx.FogEndMul
-			if atmosphere then
-				atmosphere.Density = density + wx.DensityAdd
-				atmosphere.Color = wx.AtmColor
-				atmosphere.Haze = haze + wx.HazeAdd
-			end
-			if clouds then clouds.Color = wx.Cloud end
-		else
-			Lighting.FogColor = NIGHT.FogColor:Lerp(DAY.FogColor, t)
-			Lighting.FogEnd = fogEnd
-			if atmosphere then
-				atmosphere.Density = density
-				atmosphere.Color = NIGHT.AtmColor:Lerp(DAY.AtmColor, t)
-				atmosphere.Haze = haze
-			end
-			if clouds then clouds.Color = NIGHT.Cloud:Lerp(DAY.Cloud, t) end
+		local target = (state.IsRaining or state.IsSnowing) and 1 or 0
+		local active = state.IsRaining and RAIN or state.IsSnowing and SNOW or nil
+		if active then wxTable = active end
+		local maxStep = math.max(clock - lastWx, 0) / WEATHER_FADE
+		lastWx = clock
+		wxLevel += math.clamp(target - wxLevel, -maxStep, maxStep)
+		if wxLevel <= 0 then wxTable = nil end
+		local k = wxLevel * wxLevel * (3 - 2 * wxLevel)
+
+		local fogColor = NIGHT.FogColor:Lerp(DAY.FogColor, t)
+		local atmColor = NIGHT.AtmColor:Lerp(DAY.AtmColor, t)
+		local cloudColor = NIGHT.Cloud:Lerp(DAY.Cloud, t)
+		if wxTable and k > 0 then
+			fogColor = fogColor:Lerp(wxTable.FogColor, k)
+			atmColor = atmColor:Lerp(wxTable.AtmColor, k)
+			cloudColor = cloudColor:Lerp(wxTable.Cloud, k)
+			fogEnd *= lerp(1, wxTable.FogEndMul, k)
+			density += wxTable.DensityAdd * k
+			haze += wxTable.HazeAdd * k
 		end
+		Lighting.FogColor = fogColor
+		Lighting.FogEnd = fogEnd
+		if atmosphere then
+			atmosphere.Density = density
+			atmosphere.Color = atmColor
+			atmosphere.Haze = haze
+		end
+		if clouds then clouds.Color = cloudColor end
 
 		if atmosphere then
 			if baseDecay == nil then baseDecay = atmosphere.Decay end

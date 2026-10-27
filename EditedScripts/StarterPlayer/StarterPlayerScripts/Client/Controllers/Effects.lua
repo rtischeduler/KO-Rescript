@@ -13,51 +13,76 @@ local function startRain(cfg)
 
 	local RAIN_OFFSET = Vector3.new(0, cfg.OffsetY, 0)
 
+	local TweenService = game:GetService("TweenService")
+	local FADE = 6
+	local okCfg, HolidayConfigs = pcall(function()
+		return require(ReplicatedStorage:WaitForChild("HolidayConfigs", 5))
+	end)
+
+	local function follow(clone)
+		local conn
+		conn = RunService.RenderStepped:Connect(function()
+			if not clone.Parent then
+				conn:Disconnect()
+				return
+			end
+			local camera = Workspace.CurrentCamera
+			if camera then
+				clone.CFrame = CFrame.new(camera.CFrame.Position + RAIN_OFFSET)
+			end
+		end)
+		return conn
+	end
+
 	local function startRain()
 		if rainClone then return end
 
-		rainClone = rainTemplate:Clone()
-		rainClone.Parent = Workspace
-		for _, child in rainClone:GetChildren() do
+		local clone = rainTemplate:Clone()
+		rainClone = clone
+		clone.Parent = Workspace
+
+		local holiday = okCfg and HolidayConfigs.getActive() or nil
+		local tint = holiday and holiday.RainColor or nil
+		local info = TweenInfo.new(FADE, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+		for _, child in clone:GetChildren() do
 			if child:IsA("ParticleEmitter") then
+				if tint then child.Color = ColorSequence.new(tint) end
+				local rate = child.Rate
+				child.Rate = 0
 				child.Enabled = true
+				TweenService:Create(child, info, { Rate = rate }):Play()
 			end
 		end
 
-
-		local sound = rainClone:FindFirstChild("Raining")
+		local sound = clone:FindFirstChild("Raining")
 		if sound then
+			local volume = sound.Volume
+			sound.Volume = 0
 			sound:Play()
+			TweenService:Create(sound, info, { Volume = volume }):Play()
 		end
-		renderConn = RunService.RenderStepped:Connect(function()
-			if not rainClone or not rainClone.Parent then
-				renderConn:Disconnect()
-				renderConn = nil
-				return
-			end
-
-			local camera = Workspace.CurrentCamera
-			if camera then
-				rainClone.CFrame = CFrame.new(camera.CFrame.Position + RAIN_OFFSET)
-			end
-		end)
+		renderConn = follow(clone)
 	end
 
 	local function stopRain()
-		if renderConn then
-			renderConn:Disconnect()
-			renderConn = nil
-		end
+		local old, oldConn = rainClone, renderConn
+		rainClone, renderConn = nil, nil
+		if not old then return end
 
-		if rainClone then
-			local sound = rainClone:FindFirstChild("Raining")
-			if sound then
-				sound:Stop()
+		local info = TweenInfo.new(FADE, Enum.EasingStyle.Sine, Enum.EasingDirection.In)
+		for _, child in old:GetChildren() do
+			if child:IsA("ParticleEmitter") then
+				TweenService:Create(child, info, { Rate = 0 }):Play()
 			end
-
-			rainClone.Parent = nil
-			rainClone = nil
 		end
+		local sound = old:FindFirstChild("Raining")
+		if sound then
+			TweenService:Create(sound, info, { Volume = 0 }):Play()
+		end
+		task.delay(FADE + 1, function()
+			if oldConn then oldConn:Disconnect() end
+			old:Destroy()
+		end)
 	end
 
 	toggleEvent.OnClientEvent:Connect(function(isRaining)

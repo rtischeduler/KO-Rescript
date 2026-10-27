@@ -154,6 +154,7 @@ build/ was cleared of Client, RecolorPopulator, Recolors, Server, Shared and Bea
 | Model path | Class | Goes to |
 | --- | --- | --- |
 | KO-Rescript/ReplicatedStorage/BeamSystem | ModuleScript | ReplicatedStorage.BeamSystem |
+| KO-Rescript/StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects | ModuleScript | StarterPlayer.StarterPlayerScripts.Client.Controllers.Effects (the Client folder in the model is only a container, drop Effects into your existing Client.Controllers) |
 | KO-Rescript/ReplicatedStorage/HolidayConfigs | ModuleScript | ReplicatedStorage.HolidayConfigs (new, nothing to delete) |
 | KO-Rescript/ServerScriptService/framework/modules/World | ModuleScript | ServerScriptService.framework.modules.World |
 | KO-Rescript/ReplicatedStorage/PlayerScripts/Control | LocalScript | ReplicatedStorage.PlayerScripts.Control |
@@ -175,3 +176,7 @@ HolidayConfigs is a new ModuleScript in ReplicatedStorage. World now reads it, s
 | Christmas (placeholder) | December, January | cool white and blue, snow weather | one color per building from red, green, warm white | unchanged |
 
 Set the ReplicatedStorage attribute HolidayOverride to Halloween, Christmas or None to test a holiday outside its months. Snow fires a ToggleSnow RemoteEvent in ReplicatedStorage if one exists; nothing client side listens to it yet.
+
+## Weather and timing smoothing
+
+World: the day is now 30 minutes long (DAY_LENGTH_MIN at the top of initDayNight), dawn and dusk use an eased curve, and rain or snow blends the fog, atmosphere and cloud values in and out over 10 seconds (WEATHER_FADE) instead of snapping. Halloween rain fog is now a grayer purple. Effects: rain particles are tinted by HolidayConfigs RainColor (purple for Halloween) and fade in and out over 6 seconds along with the rain sound. The rain sky swap still switches instantly because a Sky cannot be faded.
