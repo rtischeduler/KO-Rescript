@@ -208,6 +208,9 @@ function BeamSystem.SetComm(comm)
 	beamEndedSignal = comm.BeamEnded
 end
 Players.PlayerRemoving:Connect(function(player)
+	if activeBeams[player] then
+		pcall(BeamSystem.ForceCleanup, player)
+	end
 	activeBeams[player] = nil
 	beamGenerations[player] = nil
 	playerAims[player] = nil
@@ -391,6 +394,11 @@ function BeamSystem.ActivateBeam(config)
 	local myGeneration = beamGenerationCounter
 	beamGenerations[player] = myGeneration
 	activeBeams[player] = {character = character, hitbox = nil, dpsScript = nil, player = player, clashRequestedBy = nil, sideHitboxes = {}}
+	character.AncestryChanged:Connect(function(_, parent)
+		if not parent and activeBeams[player] and activeBeams[player].character == character then
+			BeamSystem.ForceCleanup(player)
+		end
+	end)
 
 
 	task.spawn(function()
@@ -623,7 +631,7 @@ function BeamSystem.ActivateBeam(config)
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
 			end
 		end
-		local impactSurfacePos, impactSurfaceNormal = nil, Vector3.yAxis
+		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
 		local function updateImpact(endPos, extent, now, clashInfo)
 			if clashInfo and not clashInfo.lead then
 				setFxIntensity(0)
@@ -654,7 +662,7 @@ function BeamSystem.ActivateBeam(config)
 				impactLight.Brightness = 3 * extent
 				setFxIntensity(extent * 1.4)
 			else
-				if beamIteration % 3 == 0 or not impactSurfacePos then
+				if beamIteration % 2 == 0 or not impactSurfaceOffset then
 					local filter = {character, impactFolder, hitbox}
 					for _, plr in ipairs(Players:GetPlayers()) do
 						if plr.Character then table.insert(filter, plr.Character) end
@@ -662,16 +670,17 @@ function BeamSystem.ActivateBeam(config)
 					local params = RaycastParams.new()
 					params.FilterType = Enum.RaycastFilterType.Exclude
 					params.FilterDescendantsInstances = filter
-					local result = Workspace:Raycast(endPos + Vector3.new(0, 5, 0), Vector3.new(0, -25, 0), params)
-					if result then
-						impactSurfacePos = result.Position + result.Normal * 0.15
+					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), params)
+					if result and (result.Position - endPos).Magnitude <= 7 then
+						impactSurfaceOffset = result.Position + result.Normal * 0.15 - endPos
 						impactSurfaceNormal = result.Normal
 					else
-						impactSurfacePos = endPos
+						impactSurfaceOffset = Vector3.zero
 						impactSurfaceNormal = Vector3.yAxis
 					end
 				end
-				impactAnchor.CFrame = CFrame.lookAt(impactSurfacePos, impactSurfacePos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local impactPos = endPos + impactSurfaceOffset
+				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
 				impactLight.Color = impactColor
 				impactLight.Brightness = 1.5 * extent
 				setFxIntensity(extent)
