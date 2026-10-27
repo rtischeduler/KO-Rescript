@@ -115,3 +115,17 @@ Behaviour changes to know about:
 | 10 chunks thrown in one burst after the collapse ended | 12 chunks thrown one at a time across the collapse (`DEBRIS_CHUNKS`), slower launch speed 18 to 45 |
 | Chunks vanished after 5 s | each chunk fades out over its last second, then is removed (lives 2.4 to 3.4 s) |
 | Building parts kept their collision | `CanCollide` is off on every building part when it starts to collapse, restored from the saved value on respawn |
+
+## Update: building lights, beam end effect, fly animation
+
+| Delete | Replace with |
+| --- | --- |
+| ServerScriptService/framework/modules/World (whole ModuleScript source) | EditedScripts/BeamCombat/ServerScriptService/framework/modules/World.lua |
+| ReplicatedStorage/BeamSystem (whole ModuleScript source) | EditedScripts/BeamCombat/ReplicatedStorage/BeamSystem.lua |
+| ReplicatedStorage/PlayerScripts/Control (LocalScript source) | EditedScripts/ReplicatedStorage/PlayerScripts/Control/init.client.lua |
+
+Inside World.lua, initWindowLights: the old ensureLight, removeLight, turnOn, turnOff and the Brightness 0.8 / Range 40 light are replaced by a queued builder (3 lights per frame), a 6 second staggered turn on, a 5 second staggered turn off, and Brightness 1.6 / Range 30. Tune LIGHT_BRIGHTNESS and LIGHT_RANGE at the top of initWindowLights.
+
+Inside BeamSystem.lua: PlayerRemoving now runs ForceCleanup before clearing state, the character AncestryChanged hook cleans up when the character leaves mid beam, and the impact anchor now follows the beam end every frame instead of using a stale raycast hit.
+
+Inside Control: endFlight now stops the Fly and Swim tracks explicitly and re-checks one frame later, and the per frame airTrack replay is skipped once the mode is Land.
