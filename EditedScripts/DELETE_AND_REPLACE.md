@@ -42,12 +42,12 @@ Recolors are many separate values today. They become one module.
 
 | Old | Replaced by |
 |---|---|
-| Per-kaiju recolor values (names, primary, secondary, tertiary and eye colors) | `ReplicatedStorage/Recolors` ModuleScript returning one table keyed by kaiju, then recolor name |
+| `ReplicatedStorage/Recolors` Folder: 29 child Folders, 231 Color3Value/StringValue (Primary, Secondary, Tertiary, EyeColor and their Material values) plus `RandomGreen`/`KeepColor` attributes | `ReplicatedStorage/Recolors` ModuleScript (`EditedScripts/ReplicatedStorage/Recolors.lua`), `Data[name]` holds every color, material and flag; `Order` lists names; `Unlock` holds the Diamond and Gold rules. Delete the Folder, then add the ModuleScript under the same name |
 | `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/*` (`LocalRecolor`, `RecolorScript` x6, all empty) | deleted, no replacement needed |
 | `Interface/Recolor/LocalScript` (empty) | deleted |
 | `StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator` (hard-codes Diamond and Gold) | same script, but reads the Recolors module and the unlock rules from it |
 
-The module is generated from `exports/recolors.json`, which the sync workflow now writes. Run the workflow, tell me when it is done, and I will build the module from the real values. `exports/value-overview.json` lists every value-type instance grouped by parent, so anything else that should become a module can be picked from it.
+The module was generated from `exports/recolors.json`. Readers that did `Recolors:FindFirstChild(name).Primary.Value` now do `require(Recolors).Data[name].Primary`. `exports/value-overview.json` lists every value-type instance grouped by parent, so anything else that should become a module can be picked from it.
 
 ## 6. Empty stubs
 
