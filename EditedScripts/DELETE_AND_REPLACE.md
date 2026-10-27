@@ -56,3 +56,12 @@ Delete all scripts of 3 bytes or smaller once their parent copy is gone. 296 of 
 ## Do not touch
 
 `ReplicatedStorage/Knit/_Index` (package shims such as `Signal`, `Promise`, `Trove` repeat on purpose), `HD Admin`, `Chat`, `GuiAnimatorPlugin`.
+
+## 7. Framework duplicates
+
+| Old | Replaced by |
+|---|---|
+| `KOFramework/Core/Lifecycle`, `Logger`, `Util` | `ReplicatedStorage/KOShared/Lifecycle`, `Logger`, `Util` |
+| `KOClient/Core` (Lifecycle, Logger, Util) | `ReplicatedStorage/KOShared`, folder deleted |
+
+Client `Util.spawn` was merged into the shared `Util`.

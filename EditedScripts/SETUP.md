@@ -172,3 +172,7 @@ The sync workflow will mirror the new setup into `scripts/` within 6 hours, so `
 - Both frameworks were syntax-checked with a Luau parser, and the server unit tests cover the pure logic. Neither could be run inside Roblox from here, so playtest in a copy of the place before publishing.
 - The client merge keeps every original behaviour. Each feature runs in its own protected thread, so one failing feature no longer takes others down with it.
 - Left as in the original: the ENTITY menu entry unlock is tied to the username in `Config.Menu.EntityUnlockUser`; `Sounds` still uses the `rbxassetid://IDHERE` placeholders; chat messages are silently skipped when the `RBXSystem` channel is missing (the legacy-chat fallback only runs if TextChatService errors).
+
+## Shared modules
+
+`Lifecycle`, `Logger` and `Util` now exist once, in `ReplicatedStorage/KOShared` (build output `build/KOShared.rbxmx`). Insert that model first. `KOFramework/Core` keeps only `PlayerHooks`, and `KOClient/Core` is gone. Ignore the older tree above where it lists Lifecycle, Logger or Util under `Core`.

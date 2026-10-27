@@ -7,6 +7,9 @@ SRC = ROOT / "EditedScripts"
 OUT = ROOT / "build"
 
 TARGETS = {
+    "KOShared.rbxmx": [
+        SRC / "ReplicatedStorage" / "KOShared",
+    ],
     "KOFramework.rbxmx": [
         SRC / "ServerScriptService" / "KOFramework",
     ],

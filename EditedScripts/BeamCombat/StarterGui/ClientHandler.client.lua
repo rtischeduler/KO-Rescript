@@ -167,7 +167,6 @@ local function initCameraToggle()
 		end)
 	end
 
-	-- H key toggle for head mode removed (head/fakehead camera disabled)
 
 	player.CharacterAdded:Connect(onCharacterAdded)
 	if player.Character then

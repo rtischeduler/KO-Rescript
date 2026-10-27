@@ -14,13 +14,13 @@ EditedScripts/
   ServerScriptService/KOFramework/     <- one Script (init.server.lua) with child ModuleScripts
     init.server.lua                    bootstrap: safety check, registers services, Init -> Start, prints a status report
     Config.lua                         every constant that used to be hard-coded across scripts (values unchanged)
-    Core/  Lifecycle, PlayerHooks, Util, Logger
+    Core/  PlayerHooks
     Services/  Morph, Health, GCellGuard, Eliminator, Settings, Legacy, Knit
   StarterPlayer/StarterPlayerScripts/
     KOClient/                          <- one LocalScript (init.client.lua) with child ModuleScripts
       init.client.lua                  bootstrap: safety check, registers controllers, prints a status report
       Config.lua                       menu, FOV, HUD, rain, pulse and ocean tunables (values unchanged)
-      Core/  Lifecycle, Logger, Util
+      (shared modules live in ReplicatedStorage/KOShared)
       Controllers/  Knit, Menu, Settings, Touch, Chat, Hud, Ocean, Effects, Sounds
     RbxCharacterSounds.client.lua      intentionally empty: keeps Roblox from injecting its default sounds
   tests/run.luau                       unit tests:  luau EditedScripts/tests/run.luau

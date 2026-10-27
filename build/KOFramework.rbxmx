@@ -9,10 +9,9 @@ if ServerScriptService:GetAttribute("KOFrameworkActive") then
 	return
 end
 
-local Core = script:WaitForChild("Core")
 local Services = script:WaitForChild("Services")
-local Logger = require(Core.Logger)
-local Lifecycle = require(Core.Lifecycle)
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
 local Config = require(script:WaitForChild("Config"))
 local log = Logger.new("KOFramework")
 
@@ -118,169 +117,6 @@ log:info("Started. Service status:\n" .. lifecycle:Report())
 			</Properties>
 			<Item class="ModuleScript" referent="RBX4">
 				<Properties>
-					<string name="Name">Lifecycle</string>
-					<ProtectedString name="Source"><![CDATA[local Lifecycle = {}
-Lifecycle.__index = Lifecycle
-
-function Lifecycle.new(log, options)
-	options = options or {}
-	return setmetatable({
-		_entries = {},
-		_byName = {},
-		_failed = {},
-		_ordered = {},
-		_log = log,
-		_spawn = options.spawn,
-		status = {},
-	}, Lifecycle)
-end
-
-function Lifecycle:Register(def)
-	assert(type(def) == "table" and type(def.Name) == "string", "service definition needs a string Name")
-	assert(not self._byName[def.Name], "duplicate service: " .. def.Name)
-	table.insert(self._entries, def)
-	self._byName[def.Name] = def
-	self.status[def.Name] = "registered"
-	return def
-end
-
-function Lifecycle:_order()
-	local ordered, state = {}, {}
-
-	local function fail(def, reason)
-		if self._failed[def.Name] then
-			return false
-		end
-		state[def.Name] = "failed"
-		self._failed[def.Name] = true
-		self.status[def.Name] = "failed: " .. reason
-		self._log:warn(def.Name .. " not started (" .. reason .. ")")
-		return false
-	end
-
-	local function visit(def)
-		local current = state[def.Name]
-		if current == "done" then
-			return true
-		end
-		if current == "failed" then
-			return false
-		end
-		if current == "visiting" then
-			return fail(def, "dependency cycle")
-		end
-		state[def.Name] = "visiting"
-		for _, depName in ipairs(def.Requires or {}) do
-			local dep = self._byName[depName]
-			if not dep then
-				return fail(def, "missing dependency " .. depName)
-			end
-			if not visit(dep) then
-				return fail(def, "dependency " .. depName .. " unavailable")
-			end
-		end
-		state[def.Name] = "done"
-		table.insert(ordered, def)
-		return true
-	end
-
-	for _, def in ipairs(self._entries) do
-		visit(def)
-	end
-	return ordered
-end
-
-function Lifecycle:_initOne(def)
-	for _, depName in ipairs(def.Requires or {}) do
-		if self._failed[depName] then
-			self._failed[def.Name] = true
-			self.status[def.Name] = "skipped: " .. depName .. " failed"
-			self._log:warn(def.Name .. " skipped because " .. depName .. " failed")
-			return
-		end
-	end
-
-	if type(def.Init) ~= "function" then
-		self.status[def.Name] = "initialised"
-		return
-	end
-
-	local function run()
-		self.status[def.Name] = "initialising"
-		local ok, err = pcall(def.Init, def)
-		if ok then
-			self.status[def.Name] = "initialised"
-		else
-			self._failed[def.Name] = true
-			self.status[def.Name] = "failed: " .. tostring(err)
-			self._log:warn(def.Name .. " failed to initialise: " .. tostring(err))
-		end
-	end
-
-	if def.Async then
-		(self._spawn or task.spawn)(run)
-	else
-		run()
-	end
-end
-
-function Lifecycle:InitAll()
-	self._ordered = self:_order()
-	for _, def in ipairs(self._ordered) do
-		self:_initOne(def)
-	end
-end
-
-function Lifecycle:StartAll()
-	for _, def in ipairs(self._ordered) do
-		if type(def.Start) == "function" and not self._failed[def.Name] then
-			(self._spawn or task.spawn)(function()
-				local ok, err = pcall(def.Start, def)
-				if not ok then
-					self.status[def.Name] = "start failed: " .. tostring(err)
-					self._log:warn(def.Name .. " failed to start: " .. tostring(err))
-				end
-			end)
-		end
-	end
-end
-
-function Lifecycle:Report()
-	local lines = {}
-	for _, def in ipairs(self._entries) do
-		table.insert(lines, ("  %-12s %s"):format(def.Name, self.status[def.Name] or "unknown"))
-	end
-	return table.concat(lines, "\n")
-end
-
-return Lifecycle
-]]></ProtectedString>
-				</Properties>
-			</Item>
-			<Item class="ModuleScript" referent="RBX5">
-				<Properties>
-					<string name="Name">Logger</string>
-					<ProtectedString name="Source"><![CDATA[local Logger = {}
-Logger.__index = Logger
-
-function Logger.new(tag)
-	return setmetatable({ tag = tag }, Logger)
-end
-
-function Logger:info(message)
-	print(("[%s] %s"):format(self.tag, tostring(message)))
-end
-
-function Logger:warn(message)
-	warn(("[%s] %s"):format(self.tag, tostring(message)))
-end
-
-return Logger
-]]></ProtectedString>
-				</Properties>
-			</Item>
-			<Item class="ModuleScript" referent="RBX6">
-				<Properties>
 					<string name="Name">PlayerHooks</string>
 					<ProtectedString name="Source"><![CDATA[local PlayerHooks = {}
 
@@ -360,7 +196,7 @@ return PlayerHooks
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX7">
+			<Item class="ModuleScript" referent="RBX5">
 				<Properties>
 					<string name="Name">Util</string>
 					<ProtectedString name="Source"><![CDATA[local Util = {}
@@ -408,11 +244,11 @@ return Util
 				</Properties>
 			</Item>
 		</Item>
-		<Item class="Folder" referent="RBX8">
+		<Item class="Folder" referent="RBX6">
 			<Properties>
 				<string name="Name">Services</string>
 			</Properties>
-			<Item class="ModuleScript" referent="RBX9">
+			<Item class="ModuleScript" referent="RBX7">
 				<Properties>
 					<string name="Name">EliminatorService</string>
 					<ProtectedString name="Source"><![CDATA[local EliminatorService = { Name = "Eliminator" }
@@ -430,7 +266,7 @@ function EliminatorService:Init()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local framework = script:FindFirstAncestor("KOFramework")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Logger = require(framework.Core.Logger)
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Eliminator
 	local log = Logger.new("Eliminator")
 
@@ -536,7 +372,7 @@ return EliminatorService
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX10">
+			<Item class="ModuleScript" referent="RBX8">
 				<Properties>
 					<string name="Name">GCellGuardService</string>
 					<ProtectedString name="Source"><![CDATA[local GCellGuardService = { Name = "GCellGuard" }
@@ -548,7 +384,7 @@ end
 function GCellGuardService:Init()
 	local framework = script:FindFirstAncestor("KOFramework")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Logger = require(framework.Core.Logger)
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).GCellGuard
 	local log = Logger.new("GCellGuard")
 
@@ -646,7 +482,7 @@ return GCellGuardService
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX11">
+			<Item class="ModuleScript" referent="RBX9">
 				<Properties>
 					<string name="Name">HealthService</string>
 					<ProtectedString name="Source"><![CDATA[local HealthService = { Name = "Health" }
@@ -737,7 +573,7 @@ return HealthService
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX12">
+			<Item class="ModuleScript" referent="RBX10">
 				<Properties>
 					<string name="Name">KnitService</string>
 					<ProtectedString name="Source"><![CDATA[local KnitService = { Name = "Knit" }
@@ -758,7 +594,7 @@ return KnitService
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX13">
+			<Item class="ModuleScript" referent="RBX11">
 				<Properties>
 					<string name="Name">LegacyService</string>
 					<ProtectedString name="Source"><![CDATA[local LegacyService = {}
@@ -788,7 +624,7 @@ return LegacyService
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX14">
+			<Item class="ModuleScript" referent="RBX12">
 				<Properties>
 					<string name="Name">MorphService</string>
 					<ProtectedString name="Source"><![CDATA[local MorphService = { Name = "Morph" }
@@ -799,8 +635,8 @@ function MorphService:Init()
 	local Workspace = game:GetService("Workspace")
 
 	local framework = script:FindFirstAncestor("KOFramework")
-	local Util = require(framework.Core.Util)
-	local Logger = require(framework.Core.Logger)
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Morph
 	local log = Logger.new("Morph")
 
@@ -956,7 +792,7 @@ return MorphService
 ]]></ProtectedString>
 				</Properties>
 			</Item>
-			<Item class="ModuleScript" referent="RBX15">
+			<Item class="ModuleScript" referent="RBX13">
 				<Properties>
 					<string name="Name">SettingsService</string>
 					<ProtectedString name="Source"><![CDATA[local SettingsService = { Name = "Settings", Async = true }
@@ -973,8 +809,8 @@ function SettingsService:Init()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local framework = script:FindFirstAncestor("KOFramework")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Util = require(framework.Core.Util)
-	local Logger = require(framework.Core.Logger)
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Settings
 	local log = Logger.new("Settings")
 

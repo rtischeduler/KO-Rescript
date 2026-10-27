@@ -1,5 +1,5 @@
-local Util = require("../ServerScriptService/KOFramework/Core/Util")
-local Lifecycle = require("../ServerScriptService/KOFramework/Core/Lifecycle")
+local Util = require("../ReplicatedStorage/KOShared/Util")
+local Lifecycle = require("../ReplicatedStorage/KOShared/Lifecycle")
 local Config = require("../ServerScriptService/KOFramework/Config")
 local Health = require("../ServerScriptService/KOFramework/Services/HealthService")
 local GCell = require("../ServerScriptService/KOFramework/Services/GCellGuardService")

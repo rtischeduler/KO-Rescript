@@ -347,8 +347,8 @@ end
 function MenuController:Start()
 	local framework = script:FindFirstAncestor("KOClient")
 	local cfg = require(framework.Config).Menu
-	local Util = require(framework.Core.Util)
-	local log = require(framework.Core.Logger).new("Menu")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Menu")
 
 	Util.spawn(log, "EntityUnlock", unlockEntity, cfg)
 	Util.spawn(log, "MenuCamera", runMenuCamera, cfg)

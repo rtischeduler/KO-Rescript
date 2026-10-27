@@ -4,10 +4,9 @@ if ServerScriptService:GetAttribute("KOFrameworkActive") then
 	return
 end
 
-local Core = script:WaitForChild("Core")
 local Services = script:WaitForChild("Services")
-local Logger = require(Core.Logger)
-local Lifecycle = require(Core.Lifecycle)
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
 local Config = require(script:WaitForChild("Config"))
 local log = Logger.new("KOFramework")
 

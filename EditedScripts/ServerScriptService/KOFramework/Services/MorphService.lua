@@ -6,8 +6,8 @@ function MorphService:Init()
 	local Workspace = game:GetService("Workspace")
 
 	local framework = script:FindFirstAncestor("KOFramework")
-	local Util = require(framework.Core.Util)
-	local Logger = require(framework.Core.Logger)
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Morph
 	local log = Logger.new("Morph")
 

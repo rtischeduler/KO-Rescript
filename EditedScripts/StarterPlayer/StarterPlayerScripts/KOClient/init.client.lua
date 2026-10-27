@@ -6,10 +6,9 @@ if player:GetAttribute("KOClientActive") then
 	return
 end
 
-local Core = script:WaitForChild("Core")
 local Controllers = script:WaitForChild("Controllers")
-local Logger = require(Core.Logger)
-local Lifecycle = require(Core.Lifecycle)
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
 local log = Logger.new("KOClient")
 
 local REPLACED = {

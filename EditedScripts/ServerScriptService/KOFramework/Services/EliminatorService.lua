@@ -13,7 +13,7 @@ function EliminatorService:Init()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local framework = script:FindFirstAncestor("KOFramework")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Logger = require(framework.Core.Logger)
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Eliminator
 	local log = Logger.new("Eliminator")
 

@@ -283,8 +283,8 @@ end
 function HudController:Start()
 	local framework = script:FindFirstAncestor("KOClient")
 	local cfg = require(framework.Config).Hud
-	local Util = require(framework.Core.Util)
-	local log = require(framework.Core.Logger).new("Hud")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Hud")
 
 	Util.spawn(log, "BossHud", startBossHud, cfg)
 	Util.spawn(log, "RaffleHud", startRaffleHud)
