@@ -272,3 +272,7 @@ Halloween is now October only (`Months = { 10 }`). The day and night sky, fog, c
 The place Lighting held Atmosphere Offset 0.25, Haze 2, Bloom Intensity 1 with Threshold 2, and SunRays Intensity 0.25. During Halloween, `World` now applies the `Effects` block in `HolidayConfigs.Halloween` on top of those (Atmosphere Offset and Glare 0, Bloom 0.2 at threshold 3, SunRays 0.02, ExposureCompensation -0.4) and restores the saved originals when no holiday is active. The Halloween atmosphere and horizon colors are also dimmer so they no longer clip to white.
 
 Collapse chunks use the CollapseDebris collision group, which does not collide with the Characters group. `World` puts every player character into Characters, so debris still hits the map and other debris but passes through players.
+
+## 15. Halloween day dimming and daytime lights
+
+Halloween day brightness is now 0.85 with darker ambient light. During the Halloween day, `HolidayConfigs.Halloween.DayLights` lights a random 35 percent of buildings, and about half the windows in each, spread over 25 seconds with the usual flicker. They are cleared at night start, when every building lights as before, and a fresh random set is chosen each morning. The building point lights are dimmer (brightness 1.6 to 1.25).

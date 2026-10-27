@@ -15,8 +15,8 @@ HolidayConfigs.Halloween = {
 	Months = { 10 },
 	Lighting = {
 		Day = {
-			Brightness = 1.4, Ambient = Color3.new(0.42, 0.26, 0.48),
-			OutdoorAmbient = Color3.new(0.34, 0.2, 0.5),
+			Brightness = 0.85, Ambient = Color3.new(0.36, 0.22, 0.42),
+			OutdoorAmbient = Color3.new(0.28, 0.17, 0.42),
 			ColorShift_Top = Color3.new(0.95, 0.4, 0.05),
 			ColorShift_Bottom = Color3.new(0.2, 0.6, 0.25),
 			FogColor = Color3.new(0.45, 0.2, 0.6), FogEnd = 5000,
@@ -41,6 +41,7 @@ HolidayConfigs.Halloween = {
 			Cloud = Color3.new(0.3, 0.14, 0.48),
 		},
 	},
+	DayLights = { Buildings = 0.35, Windows = 0.5, Spread = 25 },
 	Effects = {
 		AtmOffset = 0,
 		AtmGlare = 0,

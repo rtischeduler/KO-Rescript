@@ -232,7 +232,7 @@ local function initWindowLights()
 	local buildings = {}
 	local pool = {}
 	local winToken = setmetatable({}, { __mode = "k" })
-	local LIGHT_BRIGHTNESS = 1.6
+	local LIGHT_BRIGHTNESS = 1.25
 	local LIGHT_RANGE = 30
 	local LIGHTS_PER_FRAME = 3
 	local TURN_ON_SPREAD = 6
@@ -315,6 +315,9 @@ local function initWindowLights()
 	local colorCache = setmetatable({}, { __mode = "k" })
 	local winBuilding = setmetatable({}, { __mode = "k" })
 	local palette = nil
+	local dayLit = {}
+	local dayLitAt = 0
+	local dayLitOn = false
 
 	local function buildingColor(building)
 		if not palette or not building then return LIT end
@@ -448,6 +451,8 @@ local function initWindowLights()
 	local function turnOn()
 		if windowsOn then return end
 		windowsOn = true
+		dayLitOn = false
+		table.clear(dayLit)
 		refreshPalette()
 		epoch += 1
 		local myEpoch = epoch
@@ -459,6 +464,9 @@ local function initWindowLights()
 	local function turnOff()
 		if not windowsOn then return end
 		windowsOn = false
+		dayLitOn = false
+		table.clear(dayLit)
+		dayLitAt = os.clock() + TURN_OFF_SPREAD + 1
 		epoch += 1
 		local stale = {}
 		for base in lights do table.insert(stale, base) end
@@ -488,6 +496,40 @@ local function initWindowLights()
 		pool = newPool
 		for base in lights do
 			if not base.Parent then removeLight(base) end
+		end
+	end
+
+	local function clearDayLights()
+		for window in dayLit do
+			if window.Parent then restoreWindow(window) end
+		end
+		table.clear(dayLit)
+		dayLitOn = false
+	end
+
+	local function refreshDayLights()
+		if windowsOn then return end
+		local holiday = HolidayConfigs.getActive()
+		local cfg = holiday and holiday.DayLights or nil
+		if not cfg then
+			if dayLitOn then clearDayLights() end
+			return
+		end
+		if dayLitOn or os.clock() < dayLitAt or next(buildings) == nil then return end
+		dayLitOn = true
+		for building, windows in buildings do
+			if not isDestroyed(building) and math.random() < cfg.Buildings then
+				for _, window in windows do
+					if window.Parent and math.random() < cfg.Windows then
+						dayLit[window] = true
+						task.delay(math.random() * cfg.Spread, function()
+							if dayLitOn and dayLit[window] and not windowsOn then
+								flickerWindow(window, 0.3 + math.random() * 0.6, "lit")
+							end
+						end)
+					end
+				end
+			end
 		end
 	end
 
@@ -533,6 +575,7 @@ local function initWindowLights()
 			lastNight = night
 			if night then turnOn() else turnOff() end
 		end
+		refreshDayLights()
 		if windowsOn then
 			counter += 1
 			if counter >= 3 then counter = 0 syncLights() end
