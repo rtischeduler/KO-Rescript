@@ -5,27 +5,14 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "EditedScripts"
 OUT = ROOT / "build"
+MODEL = "KO-Rescript.rbxmx"
 
-TARGETS = {
-    "Shared.rbxmx": [
-        SRC / "ReplicatedStorage" / "Shared",
-    ],
-    "Server.rbxmx": [
-        SRC / "ServerScriptService" / "Server",
-    ],
-    "BeamCombat.rbxmx": [
-        SRC / "BeamCombat",
-    ],
-    "Client.rbxmx": [
-        SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client",
-        SRC / "StarterPlayer" / "StarterPlayerScripts" / "RbxCharacterSounds.client.lua",
-    ],
-    "Recolors.rbxmx": [
-        SRC / "ReplicatedStorage" / "Recolors.lua",
-    ],
-    "RecolorPopulator.rbxmx": [
-        SRC / "StarterGui" / "NEWMenu" / "Kaijus" / "Stats" / "Recolors" / "RecolorPopulator.client.lua",
-    ],
+SERVICES = {
+    "ReplicatedStorage": [SRC / "BeamCombat" / "ReplicatedStorage", SRC / "ReplicatedStorage"],
+    "ServerScriptService": [SRC / "BeamCombat" / "ServerScriptService", SRC / "ServerScriptService"],
+    "StarterGui": [SRC / "BeamCombat" / "StarterGui", SRC / "StarterGui"],
+    "StarterPlayer": [SRC / "StarterPlayer"],
+    "Migration": [SRC / "Migration"],
 }
 
 INIT_NAMES = ("init.lua", "init.server.lua", "init.client.lua")
@@ -49,15 +36,21 @@ def build_node(path):
         ]
         if init:
             class_name, _ = classify(init.name)
-            return {
-                "class": class_name,
-                "name": path.name,
-                "source": init.read_text(),
-                "children": children,
-            }
+            return {"class": class_name, "name": path.name, "source": init.read_text(), "children": children}
         return {"class": "Folder", "name": path.name, "source": None, "children": children}
     class_name, name = classify(path.name)
     return {"class": class_name, "name": name, "source": path.read_text(), "children": []}
+
+
+def merge(parent, node):
+    for existing in parent["children"]:
+        if existing["name"] == node["name"]:
+            if existing["class"] == "Folder" and node["class"] == "Folder":
+                for child in node["children"]:
+                    merge(existing, child)
+                return
+            raise SystemExit(f"collision: {node['name']}")
+    parent["children"].append(node)
 
 
 def cdata(text):
@@ -80,22 +73,24 @@ def emit(node, counter, depth):
     return lines
 
 
-def build_file(filename, paths):
+def main():
+    root = {"class": "Folder", "name": "KO-Rescript", "source": None, "children": []}
+    for service, dirs in SERVICES.items():
+        folder = {"class": "Folder", "name": service, "source": None, "children": []}
+        for d in dirs:
+            if not d.is_dir():
+                continue
+            for child in sorted(d.iterdir()):
+                if child.is_dir() or child.suffix == ".lua":
+                    merge(folder, build_node(child))
+        root["children"].append(folder)
     counter = [0]
     lines = ['<roblox version="4">']
-    for path in paths:
-        if not path.exists():
-            raise SystemExit(f"missing source: {path}")
-        lines.extend(emit(build_node(path), counter, 1))
+    lines.extend(emit(root, counter, 1))
     lines.append("</roblox>")
     OUT.mkdir(exist_ok=True)
-    (OUT / filename).write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"{filename}: {counter[0]} instances")
-
-
-def main():
-    for filename, paths in TARGETS.items():
-        build_file(filename, paths)
+    (OUT / MODEL).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"{MODEL}: {counter[0]} instances")
     return 0
 
 

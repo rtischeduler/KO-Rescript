@@ -129,3 +129,20 @@ Inside World.lua, initWindowLights: the old ensureLight, removeLight, turnOn, tu
 Inside BeamSystem.lua: PlayerRemoving now runs ForceCleanup before clearing state, the character AncestryChanged hook cleans up when the character leaves mid beam, and the impact anchor now follows the beam end every frame instead of using a stale raycast hit.
 
 Inside Control: endFlight now stops the Fly and Swim tracks explicitly and re-checks one frame later, and the per frame airTrack replay is skipped once the mode is Land.
+
+## Update: single model in build/
+
+| Delete | Replace with |
+| --- | --- |
+| build/BeamCombat.rbxmx, Client.rbxmx, Server.rbxmx, Shared.rbxmx, Recolors.rbxmx, RecolorPopulator.rbxmx | build/KO-Rescript.rbxmx |
+| tools/build_rbxmx.py (six targets) | tools/build_rbxmx.py (one merged model) |
+
+KO-Rescript.rbxmx holds one folder per place location. Drag the children of each folder into the matching service and merge or overwrite by name:
+
+| Model folder | Goes into |
+| --- | --- |
+| ReplicatedStorage | ReplicatedStorage |
+| ServerScriptService | ServerScriptService |
+| StarterGui | StarterGui |
+| StarterPlayer/StarterPlayerScripts | StarterPlayer/StarterPlayerScripts |
+| Migration | run once, then delete |
