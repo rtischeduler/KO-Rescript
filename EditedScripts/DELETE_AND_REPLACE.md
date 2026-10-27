@@ -256,3 +256,5 @@ EditedScripts files that match a mirrored script byte for byte. These are alread
 | `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch.lua` |
 | `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua` |
 | `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` |
+
+The ocean depth and water FX files are merged into `build/KO-Rescript.rbxmx` (same `StarterPlayer/StarterPlayerScripts/Client/Controllers` folder as Ocean and Effects), not a separate model. The Client and Server `init` scripts, both Config modules, WaterFX and OceanDepthService are in it, so inserting the model into the place replaces the old copies of those. `build-rbxm.yml` rebuilds it whenever `EditedScripts/` or `tools/build_rbxmx.py` changes.

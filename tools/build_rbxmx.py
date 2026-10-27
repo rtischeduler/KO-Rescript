@@ -16,6 +16,12 @@ FILES = [
     (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "World.lua", "World", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
     (SRC / "BeamCombat" / "StarterGui" / "ClientHandler.client.lua", "ClientHandler", "LocalScript", ["StarterGui"]),
     (SRC / "ReplicatedStorage" / "PlayerScripts" / "Control" / "init.client.lua", "Control", "LocalScript", ["ReplicatedStorage", "PlayerScripts"]),
+    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "init.client.lua", "Client", "LocalScript", ["StarterPlayer", "StarterPlayerScripts"]),
+    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Config.lua", "Config", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client"]),
+    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "WaterFX.lua", "WaterFX", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
+    (SRC / "ServerScriptService" / "Server" / "init.server.lua", "Server", "Script", ["ServerScriptService"]),
+    (SRC / "ServerScriptService" / "Server" / "Config.lua", "Config", "ModuleScript", ["ServerScriptService", "Server"]),
+    (SRC / "ServerScriptService" / "Server" / "Services" / "OceanDepthService.lua", "OceanDepthService", "ModuleScript", ["ServerScriptService", "Server", "Services"]),
 ]
 
 
@@ -55,7 +61,12 @@ def main():
                 nxt = folder(part)
                 cursor["children"].append(nxt)
             cursor = nxt
-        cursor["children"].append({"class": class_name, "name": name, "source": path.read_text(), "children": []})
+        existing = next((c for c in cursor["children"] if c["name"] == name), None)
+        if existing is not None:
+            existing["class"] = class_name
+            existing["source"] = path.read_text()
+        else:
+            cursor["children"].append({"class": class_name, "name": name, "source": path.read_text(), "children": []})
     counter = [0]
     lines = ['<roblox version="4">']
     lines.extend(emit(root, counter, 1))
