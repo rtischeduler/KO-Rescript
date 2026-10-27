@@ -369,22 +369,16 @@ jobs:
           mkdir -p place
           SIZE=$(stat -c%s place.rbxlx)
           echo "rbxlx size: $SIZE bytes"
-          if [ "$SIZE" -le 95000000 ]; then
-            mv place.rbxlx place/place.rbxlx
-          else
-            gzip -9 -c place.rbxlx > place/place.rbxlx.gz
-            rm place.rbxlx
-            GZ=$(stat -c%s place/place.rbxlx.gz)
-            echo "gzip size: $GZ bytes"
-            if [ "$GZ" -gt 95000000 ]; then
-              split -b 90m -d place/place.rbxlx.gz place/place.rbxlx.gz.part-
-              rm place/place.rbxlx.gz
-            fi
+          mv place.rbxlx place/place.rbxlx
+          if [ "$SIZE" -gt 95000000 ]; then
+            git lfs install --local
+            git lfs track "place/place.rbxlx"
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p exports
           git add -A scripts place exports
+          if [ -f .gitattributes ]; then git add .gitattributes; fi
           if git diff --cached --quiet; then
             echo "No script or place changes."
           else

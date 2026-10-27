@@ -39,6 +39,7 @@ lifecycle:Register(require(Services.GCellGuardService))
 lifecycle:Register(require(Services.EliminatorService))
 lifecycle:Register(require(Services.SettingsService))
 lifecycle:Register(require(Services.HealthService))
+lifecycle:Register(require(Services.OceanDepthService))
 
 local LegacyService = require(Services.LegacyService)
 for _, moduleName in ipairs(Config.LegacyModules) do

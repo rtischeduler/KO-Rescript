@@ -194,3 +194,65 @@ World: the day is now 30 minutes long (DAY_LENGTH_MIN at the top of initDayNight
 | Rain particle rate is halved on touch devices or quality 1 to 4 | Effects | fewer particles on low end |
 
 Not changed on purpose: the 0.1 second damage loop in DPSTemplate and the hit scans in Combat are already cheap, and caching building windows in World would need invalidation logic that risks visual changes.
+
+## 10. Ocean depth, water FX and workflow
+
+| Delete | Replaced by |
+| --- | --- |
+| `place/place.rbxlx.gz` and any `.part-*` files (the workflow removes them on its next run) | `place/place.rbxlx`, committed by `sync-roblox-scripts.yml`; stored with Git LFS only when the file is over 95 MB |
+| Any manual sand floor or shore edits you made to deepen the ocean | `Services/OceanDepthService`, driven by `Config.OceanDepth` |
+| Any old splash or wake scripts inside kaiju models | `Controllers/WaterFX`, driven by `Config.WaterFX` |
+
+OceanDepthService: finds every Sand part, moves the biggest non-wedge one down by `DepthDrop`, then grows every upright WedgePart with the same material and color (within `ColorTolerance`) by `WedgeGrow` studs downward with its top edge kept in place. It runs once per server (workspace attribute `OceanDeepened`). Set `Enabled = false` to turn it off.
+
+WaterFX: foam wake while moving in the water, spray at high speed, and a splash burst on entry, for every player, scaled by root part size and culled past `MaxDistance`. The existing Ocean ripples are untouched.
+
+## 11. Duplicate scan of scripts/ (by blob hash, nothing downloaded)
+
+Non-stub scripts only (over 3 bytes): 11 groups, 19 redundant files, 15.1 KB redundant.
+
+| Biggest duplicated script | Copies | Bytes each |
+| --- | --- | --- |
+| `scripts/ReplicatedStorage/Knit/_Index/sleitnick_signal@2.0.1/signal/init.spec.lua` | 2 | 4272 |
+| `scripts/Lighting/KaijusUnused/TITANUS GHIDORAH/HitParts/Beam3/DPS.server.lua` | 3 | 1415 |
+| `scripts/StarterGui/NEWMenu/Kaijus/GCells/GCellCounterLS.client.lua` | 3 | 1012 |
+| `scripts/ReplicatedStorage/MorphSupplies/Morphs/MINILLA/CharacterScripts/Minilla.server.lua` | 3 | 985 |
+| `scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/5000/LocalScript.client.lua` | 6 | 273 |
+| `scripts/Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2/Roar2Script.server.lua` | 2 | 1300 |
+| `scripts/Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1/Roar1Script.server.lua` | 2 | 1300 |
+| `scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/Signal.lua` | 3 | 74 |
+| `scripts/ReplicatedStorage/Knit/_Index/sleitnick_timer@1.1.2/Signal.lua` | 2 | 74 |
+| `scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/Promise.lua` | 2 | 73 |
+
+EditedScripts files that are byte-identical to a mirrored script, so the edit changes nothing and can be dropped:
+
+| EditedScripts file | Same as |
+| --- | --- |
+| `EditedScripts/BeamCombat/ReplicatedStorage/DPSTemplate.server.lua` | `scripts/ReplicatedStorage/DPSTemplate.server.lua` |
+| `EditedScripts/BeamCombat/ServerScriptService/framework/modules/Combat.lua` | `scripts/ServerScriptService/framework/modules/Combat.lua` |
+| `EditedScripts/BeamCombat/ServerScriptService/framework/modules/Data.lua` | `scripts/ServerScriptService/framework/modules/Data.lua` |
+| `EditedScripts/ReplicatedStorage/Recolors.lua` | `scripts/ReplicatedStorage/Recolors.lua` |
+| `EditedScripts/ReplicatedStorage/Shared/Lifecycle.lua` | `scripts/ReplicatedStorage/Shared/Lifecycle.lua` |
+| `EditedScripts/ReplicatedStorage/Shared/Logger.lua` | `scripts/ReplicatedStorage/Shared/Logger.lua` |
+| `EditedScripts/ReplicatedStorage/Shared/Util.lua` | `scripts/ReplicatedStorage/Shared/Util.lua` |
+| `EditedScripts/ServerScriptService/Server/Config.lua` | `scripts/ServerScriptService/Server/Config.lua` |
+| `EditedScripts/ServerScriptService/Server/Core/PlayerHooks.lua` | `scripts/ServerScriptService/Server/Core/PlayerHooks.lua` |
+| `EditedScripts/ServerScriptService/Server/Core/Util.lua` | `scripts/ServerScriptService/Server/Core/Util.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/EliminatorService.lua` | `scripts/ServerScriptService/Server/Services/EliminatorService.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/GCellGuardService.lua` | `scripts/ServerScriptService/Server/Services/GCellGuardService.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/HealthService.lua` | `scripts/ServerScriptService/Server/Services/HealthService.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/KnitService.lua` | `scripts/ServerScriptService/Server/Services/KnitService.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/LegacyService.lua` | `scripts/ServerScriptService/Server/Services/LegacyService.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/MorphService.lua` | `scripts/ServerScriptService/Server/Services/MorphService.lua` |
+| `EditedScripts/ServerScriptService/Server/Services/SettingsService.lua` | `scripts/ServerScriptService/Server/Services/SettingsService.lua` |
+| `EditedScripts/ServerScriptService/Server/init.server.lua` | `scripts/ServerScriptService/Server/init.server.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Config.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Config.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Chat.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Chat.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Hud.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Hud.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Knit.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Knit.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Settings.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Settings.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Sounds.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Sounds.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua` |
+| `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` |

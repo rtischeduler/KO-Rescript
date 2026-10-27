@@ -50,6 +50,7 @@ lifecycle:Register(require(Controllers.Touch))
 lifecycle:Register(require(Controllers.Chat))
 lifecycle:Register(require(Controllers.Hud))
 lifecycle:Register(require(Controllers.Ocean))
+lifecycle:Register(require(Controllers.WaterFX))
 lifecycle:Register(require(Controllers.Effects))
 lifecycle:Register(require(Controllers.Sounds))
 

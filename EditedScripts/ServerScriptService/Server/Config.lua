@@ -43,4 +43,14 @@ return {
 	},
 
 	LegacyModules = { "Character", "Combat", "Data", "World" },
+
+	OceanDepth = {
+		Enabled = true,
+		Material = "Sand",
+		DepthDrop = 120,
+		WedgeGrow = 120,
+		ColorTolerance = 0.02,
+		MinUpright = 0.9,
+		YieldEvery = 3000,
+	},
 }
