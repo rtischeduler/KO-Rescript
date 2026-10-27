@@ -3,6 +3,7 @@ local World = {}
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local Debris = game:GetService("Debris")
+local PhysicsService = game:GetService("PhysicsService")
 local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
@@ -13,6 +14,39 @@ local state = { IsRaining = false, IsSnowing = false }
 local initialized = false
 local windowApi = {}
 local savedWindowState = setmetatable({}, { __mode = "k" })
+
+local DEBRIS_GROUP = "CollapseDebris"
+local CHARACTER_GROUP = "Characters"
+local debrisReady = false
+
+local function initDebrisCollision()
+	local ok = pcall(function()
+		for _, name in { DEBRIS_GROUP, CHARACTER_GROUP } do
+			if not PhysicsService:IsCollisionGroupRegistered(name) then
+				PhysicsService:RegisterCollisionGroup(name)
+			end
+		end
+		PhysicsService:CollisionGroupSetCollidable(DEBRIS_GROUP, CHARACTER_GROUP, false)
+	end)
+	if not ok then return end
+	debrisReady = true
+
+	local function assign(character)
+		local function mark(d)
+			if d:IsA("BasePart") then d.CollisionGroup = CHARACTER_GROUP end
+		end
+		for _, d in character:GetDescendants() do mark(d) end
+		character.DescendantAdded:Connect(mark)
+	end
+
+	local function hook(player)
+		player.CharacterAdded:Connect(assign)
+		if player.Character then assign(player.Character) end
+	end
+
+	for _, player in Players:GetPlayers() do hook(player) end
+	Players.PlayerAdded:Connect(hook)
+end
 
 local function lerp(a, b, t) return a + (b - a) * t end
 
@@ -78,6 +112,36 @@ local function initDayNight()
 	local wxLevel, wxTable = 0, nil
 	local lastWx = os.clock()
 
+	local fxBase = setmetatable({}, { __mode = "k" })
+
+	local function setFx(inst, prop, value)
+		local saved = fxBase[inst]
+		if not saved then
+			saved = {}
+			fxBase[inst] = saved
+		end
+		if saved[prop] == nil then saved[prop] = inst[prop] end
+		if value ~= nil then inst[prop] = value else inst[prop] = saved[prop] end
+	end
+
+	local function applyEffects(fx)
+		fx = fx or {}
+		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
+		if atmosphere then
+			setFx(atmosphere, "Offset", fx.AtmOffset)
+			setFx(atmosphere, "Glare", fx.AtmGlare)
+		end
+		for _, child in Lighting:GetChildren() do
+			if child:IsA("BloomEffect") then
+				setFx(child, "Intensity", fx.BloomIntensity)
+				setFx(child, "Threshold", fx.BloomThreshold)
+			elseif child:IsA("SunRaysEffect") then
+				setFx(child, "Intensity", fx.SunRaysIntensity)
+			end
+		end
+		setFx(Lighting, "ExposureCompensation", fx.Exposure)
+	end
+
 	local function rawDayFactor(m)
 		if m >= 420 and m <= 1020 then return 1
 		elseif m >= 1140 or m <= 300 then return 0
@@ -99,6 +163,7 @@ local function initDayNight()
 			DAY, NIGHT = set.Day or DEFAULT.Day, set.Night or DEFAULT.Night
 			RAIN = set.Rain or DEFAULT.Rain
 			SNOW = set.Snow or set.Rain or DEFAULT.Rain
+			applyEffects(holiday and holiday.Effects or nil)
 		end
 
 		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
@@ -871,6 +936,7 @@ local function initBuilding()
 				chunk.Color = base.Color
 				chunk.CanTouch = false
 				chunk.CanQuery = false
+				if debrisReady then chunk.CollisionGroup = DEBRIS_GROUP end
 				chunk.CFrame = CFrame.new(pivot + Vector3.new(rand(-footW / 2, footW / 2), rand(2, 15), rand(-footD / 2, footD / 2)))
 					* CFrame.Angles(rand(0, 6), rand(0, 6), rand(0, 6))
 				chunk.Parent = workspace
@@ -1176,6 +1242,7 @@ function World.Init()
 	task.spawn(initRain)
 	task.spawn(initBuilding)
 	task.spawn(initCollisions)
+	initDebrisCollision()
 	task.spawn(initHolidayGround)
 end
 

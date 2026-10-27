@@ -257,7 +257,7 @@ EditedScripts files that match a mirrored script byte for byte. These are alread
 | `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua` |
 | `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` |
 
-`build/KO-Rescript.rbxmx` holds only the newest edits, because the earlier ones are already applied in the place: `ReplicatedStorage/HolidayConfigs`, `ReplicatedStorage/PlayerScripts/Control`, `ServerScriptService/Server/Config` and `ServerScriptService/Server/Services/OceanDepthService`. Drop each into the matching existing location and replace the old copy. `build-rbxm.yml` rebuilds it whenever `EditedScripts/` or `tools/build_rbxmx.py` changes.
+`build/KO-Rescript.rbxmx` holds only the newest edits, because the earlier ones are already applied in the place: `ReplicatedStorage/HolidayConfigs` and `ServerScriptService/framework/modules/World`. Drop each into the matching existing location and replace the old copy. `build-rbxm.yml` rebuilds it whenever `EditedScripts/` or `tools/build_rbxmx.py` changes.
 
 ## 12. Halloween update
 
@@ -266,3 +266,9 @@ Halloween is now October only (`Months = { 10 }`). The day and night sky, fog, c
 ## 13. Depth, swimming and sky retune
 
 `OceanDepth` now drops by 25 studs (`DepthDrop`, `WedgeGrow`) and finds floors through the `FloorNames` list, so any other part that acts as a wall at the old depth can be added by name. In `Control`, swimming near a surface no longer shoves you upward; it only stops you sinking into it. Halloween day is darker, with a purple atmosphere, orange horizon, purple clouds and a little green in the bounce light.
+
+## 14. White sky and collapse debris
+
+The place Lighting held Atmosphere Offset 0.25, Haze 2, Bloom Intensity 1 with Threshold 2, and SunRays Intensity 0.25. During Halloween, `World` now applies the `Effects` block in `HolidayConfigs.Halloween` on top of those (Atmosphere Offset and Glare 0, Bloom 0.2 at threshold 3, SunRays 0.02, ExposureCompensation -0.4) and restores the saved originals when no holiday is active. The Halloween atmosphere and horizon colors are also dimmer so they no longer clip to white.
+
+Collapse chunks use the CollapseDebris collision group, which does not collide with the Characters group. `World` puts every player character into Characters, so debris still hits the map and other debris but passes through players.

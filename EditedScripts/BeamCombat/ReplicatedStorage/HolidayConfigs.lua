@@ -20,8 +20,8 @@ HolidayConfigs.Halloween = {
 			ColorShift_Top = Color3.new(0.95, 0.4, 0.05),
 			ColorShift_Bottom = Color3.new(0.2, 0.6, 0.25),
 			FogColor = Color3.new(0.45, 0.2, 0.6), FogEnd = 5000,
-			Density = 0.42, AtmColor = Color3.new(0.55, 0.15, 0.95), Haze = 0.8,
-			AtmDecay = Color3.new(1, 0.5, 0.06),
+			Density = 0.42, AtmColor = Color3.new(0.5, 0.14, 0.85), Haze = 0.8,
+			AtmDecay = Color3.new(0.85, 0.36, 0.04),
 			Cloud = Color3.new(0.75, 0.4, 0.85),
 		},
 		Night = {
@@ -31,7 +31,7 @@ HolidayConfigs.Halloween = {
 			ColorShift_Bottom = Color3.new(0.12, 0.5, 0.18),
 			FogColor = Color3.new(0.28, 0.08, 0.5), FogEnd = 3200,
 			Density = 0.4, AtmColor = Color3.new(0.45, 0.1, 0.9), Haze = 1,
-			AtmDecay = Color3.new(0.85, 0.6, 0.08),
+			AtmDecay = Color3.new(0.7, 0.5, 0.06),
 			Cloud = Color3.new(0.4, 0.2, 0.7),
 		},
 		Rain = {
@@ -40,6 +40,14 @@ HolidayConfigs.Halloween = {
 			AtmColor = Color3.new(0.5, 0.2, 0.8),
 			Cloud = Color3.new(0.3, 0.14, 0.48),
 		},
+	},
+	Effects = {
+		AtmOffset = 0,
+		AtmGlare = 0,
+		BloomIntensity = 0.2,
+		BloomThreshold = 3,
+		SunRaysIntensity = 0.02,
+		Exposure = -0.4,
 	},
 	Weather = { Kind = "Rain", Gap = { 100, 180 }, Duration = { 30, 120 } },
 	WindowColors = {
