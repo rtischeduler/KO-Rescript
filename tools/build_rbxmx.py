@@ -8,18 +8,8 @@ OUT = ROOT / "build"
 MODEL = "KO-Rescript.rbxmx"
 
 FILES = [
-    (SRC / "BeamCombat" / "ReplicatedStorage" / "BeamSystem.lua", "BeamSystem", "ModuleScript", ["ReplicatedStorage"]),
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "Effects.lua", "Effects", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "Ocean.lua", "Ocean", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
-    (SRC / "BeamCombat" / "StarterGui" / "GameGui" / "MainFrame" / "Interface" / "Backpack" / "BackpackScript.client.lua", "BackpackScript", "LocalScript", ["StarterGui", "GameGui", "MainFrame", "Interface", "Backpack"]),
     (SRC / "BeamCombat" / "ReplicatedStorage" / "HolidayConfigs.lua", "HolidayConfigs", "ModuleScript", ["ReplicatedStorage"]),
     (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "World.lua", "World", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
-    (SRC / "BeamCombat" / "StarterGui" / "ClientHandler.client.lua", "ClientHandler", "LocalScript", ["StarterGui"]),
-    (SRC / "ReplicatedStorage" / "PlayerScripts" / "Control" / "init.client.lua", "Control", "LocalScript", ["ReplicatedStorage", "PlayerScripts"]),
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "init.client.lua", "Client", "LocalScript", ["StarterPlayer", "StarterPlayerScripts"]),
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Config.lua", "Config", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client"]),
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "WaterFX.lua", "WaterFX", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
-    (SRC / "ServerScriptService" / "Server" / "init.server.lua", "Server", "Script", ["ServerScriptService"]),
     (SRC / "ServerScriptService" / "Server" / "Config.lua", "Config", "ModuleScript", ["ServerScriptService", "Server"]),
     (SRC / "ServerScriptService" / "Server" / "Services" / "OceanDepthService.lua", "OceanDepthService", "ModuleScript", ["ServerScriptService", "Server", "Services"]),
 ]
