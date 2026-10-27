@@ -1,10 +1,10 @@
-local Util = require("../ReplicatedStorage/KOShared/Util")
-local Lifecycle = require("../ReplicatedStorage/KOShared/Lifecycle")
-local Config = require("../ServerScriptService/KOFramework/Config")
-local Health = require("../ServerScriptService/KOFramework/Services/HealthService")
-local GCell = require("../ServerScriptService/KOFramework/Services/GCellGuardService")
-local Settings = require("../ServerScriptService/KOFramework/Services/SettingsService")
-local Eliminator = require("../ServerScriptService/KOFramework/Services/EliminatorService")
+local Util = require("../ReplicatedStorage/Shared/Util")
+local Lifecycle = require("../ReplicatedStorage/Shared/Lifecycle")
+local Config = require("../ServerScriptService/Server/Config")
+local Health = require("../ServerScriptService/Server/Services/HealthService")
+local GCell = require("../ServerScriptService/Server/Services/GCellGuardService")
+local Settings = require("../ServerScriptService/Server/Services/SettingsService")
+local Eliminator = require("../ServerScriptService/Server/Services/EliminatorService")
 
 local failures, total = {}, 0
 local function check(name, condition)

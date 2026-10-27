@@ -1,19 +1,19 @@
 <roblox version="4">
 	<Item class="Script" referent="RBX1">
 		<Properties>
-			<string name="Name">KOFramework</string>
+			<string name="Name">Server</string>
 			<token name="RunContext">0</token>
 			<ProtectedString name="Source"><![CDATA[local ServerScriptService = game:GetService("ServerScriptService")
 
-if ServerScriptService:GetAttribute("KOFrameworkActive") then
+if ServerScriptService:GetAttribute("ServerFrameworkActive") then
 	return
 end
 
 local Services = script:WaitForChild("Services")
-local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
-local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
 local Config = require(script:WaitForChild("Config"))
-local log = Logger.new("KOFramework")
+local log = Logger.new("Server")
 
 local REPLACED = {
 	"ServerHandler",
@@ -35,7 +35,7 @@ if #stillActive > 0 then
 	return
 end
 
-ServerScriptService:SetAttribute("KOFrameworkActive", true)
+ServerScriptService:SetAttribute("ServerFrameworkActive", true)
 
 local lifecycle = Lifecycle.new(log)
 
@@ -55,7 +55,7 @@ lifecycle:Register(require(Services.KnitService))
 lifecycle:InitAll()
 lifecycle:StartAll()
 
-ServerScriptService:SetAttribute("KOFrameworkReady", true)
+ServerScriptService:SetAttribute("ServerReady", true)
 log:info("Started. Service status:\n" .. lifecycle:Report())
 ]]></ProtectedString>
 		</Properties>
@@ -264,9 +264,9 @@ end
 
 function EliminatorService:Init()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Eliminator
 	local log = Logger.new("Eliminator")
 
@@ -382,9 +382,9 @@ function GCellGuardService.isIncreaseAllowed(delta, allowed, tolerance)
 end
 
 function GCellGuardService:Init()
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).GCellGuard
 	local log = Logger.new("GCellGuard")
 
@@ -503,7 +503,7 @@ function HealthService.canRegen(health, maxHealth, bossMode, lastDamage, now, de
 end
 
 function HealthService:Init()
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
 	local cfg = require(framework.Config).Health
 
@@ -634,9 +634,9 @@ function MorphService:Init()
 	local ServerScriptService = game:GetService("ServerScriptService")
 	local Workspace = game:GetService("Workspace")
 
-	local framework = script:FindFirstAncestor("KOFramework")
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+	local framework = script:FindFirstAncestor("Server")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Morph
 	local log = Logger.new("Morph")
 
@@ -807,10 +807,10 @@ end
 function SettingsService:Init()
 	local DataStoreService = game:GetService("DataStoreService")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Settings
 	local log = Logger.new("Settings")
 

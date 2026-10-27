@@ -16,7 +16,7 @@ function HealthService.canRegen(health, maxHealth, bossMode, lastDamage, now, de
 end
 
 function HealthService:Init()
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
 	local cfg = require(framework.Config).Health
 

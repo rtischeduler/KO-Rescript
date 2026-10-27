@@ -1,7 +1,7 @@
 local OceanController = { Name = "Ocean" }
 
 function OceanController:Start()
-	local cfg = require(script:FindFirstAncestor("KOClient").Config).Ocean
+	local cfg = require(script:FindFirstAncestor("Client").Config).Ocean
 	local AssetService = game:GetService("AssetService")
 	local RunService = game:GetService("RunService")
 	local Players = game:GetService("Players")

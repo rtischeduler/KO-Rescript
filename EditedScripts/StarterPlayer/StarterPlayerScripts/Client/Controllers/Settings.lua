@@ -4,7 +4,7 @@ function SettingsController:Start()
 	local Players = game:GetService("Players")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local Workspace = game:GetService("Workspace")
-	local cfg = require(script:FindFirstAncestor("KOClient").Config).Settings
+	local cfg = require(script:FindFirstAncestor("Client").Config).Settings
 
 	local player = Players.LocalPlayer
 	local saveRemote = ReplicatedStorage:WaitForChild("GetSettingsData")

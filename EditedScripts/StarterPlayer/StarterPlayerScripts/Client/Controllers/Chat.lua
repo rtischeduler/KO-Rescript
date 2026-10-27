@@ -31,9 +31,9 @@ end
 
 function ChatController:Start()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local framework = script:FindFirstAncestor("KOClient")
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Chat")
+	local framework = script:FindFirstAncestor("Client")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Chat")
 
 	Util.spawn(log, "KillMessage", function()
 		local killMessageEvent = ReplicatedStorage:WaitForChild("KillMessage")

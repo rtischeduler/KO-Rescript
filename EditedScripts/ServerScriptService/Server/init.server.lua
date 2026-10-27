@@ -1,14 +1,14 @@
 local ServerScriptService = game:GetService("ServerScriptService")
 
-if ServerScriptService:GetAttribute("KOFrameworkActive") then
+if ServerScriptService:GetAttribute("ServerFrameworkActive") then
 	return
 end
 
 local Services = script:WaitForChild("Services")
-local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
-local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
 local Config = require(script:WaitForChild("Config"))
-local log = Logger.new("KOFramework")
+local log = Logger.new("Server")
 
 local REPLACED = {
 	"ServerHandler",
@@ -30,7 +30,7 @@ if #stillActive > 0 then
 	return
 end
 
-ServerScriptService:SetAttribute("KOFrameworkActive", true)
+ServerScriptService:SetAttribute("ServerFrameworkActive", true)
 
 local lifecycle = Lifecycle.new(log)
 
@@ -50,5 +50,5 @@ lifecycle:Register(require(Services.KnitService))
 lifecycle:InitAll()
 lifecycle:StartAll()
 
-ServerScriptService:SetAttribute("KOFrameworkReady", true)
+ServerScriptService:SetAttribute("ServerReady", true)
 log:info("Started. Service status:\n" .. lifecycle:Report())

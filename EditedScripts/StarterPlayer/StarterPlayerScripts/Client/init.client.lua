@@ -2,14 +2,14 @@ local Players = game:GetService("Players")
 
 local player = Players.LocalPlayer
 
-if player:GetAttribute("KOClientActive") then
+if player:GetAttribute("ClientActive") then
 	return
 end
 
 local Controllers = script:WaitForChild("Controllers")
-local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
-local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
-local log = Logger.new("KOClient")
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
+local log = Logger.new("Client")
 
 local REPLACED = {
 	"BlindEffect",
@@ -39,7 +39,7 @@ if #stillActive > 0 then
 	return
 end
 
-player:SetAttribute("KOClientActive", true)
+player:SetAttribute("ClientActive", true)
 
 local lifecycle = Lifecycle.new(log)
 

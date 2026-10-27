@@ -1,19 +1,19 @@
 <roblox version="4">
 	<Item class="LocalScript" referent="RBX1">
 		<Properties>
-			<string name="Name">KOClient</string>
+			<string name="Name">Client</string>
 			<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
 
 local player = Players.LocalPlayer
 
-if player:GetAttribute("KOClientActive") then
+if player:GetAttribute("ClientActive") then
 	return
 end
 
 local Controllers = script:WaitForChild("Controllers")
-local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
-local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Lifecycle"))
-local log = Logger.new("KOClient")
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
+local log = Logger.new("Client")
 
 local REPLACED = {
 	"BlindEffect",
@@ -43,7 +43,7 @@ if #stillActive > 0 then
 	return
 end
 
-player:SetAttribute("KOClientActive", true)
+player:SetAttribute("ClientActive", true)
 
 local lifecycle = Lifecycle.new(log)
 
@@ -176,9 +176,9 @@ end
 
 function ChatController:Start()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local framework = script:FindFirstAncestor("KOClient")
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Chat")
+	local framework = script:FindFirstAncestor("Client")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Chat")
 
 	Util.spawn(log, "KillMessage", function()
 		local killMessageEvent = ReplicatedStorage:WaitForChild("KillMessage")
@@ -523,10 +523,10 @@ local function startPulse(cfg)
 end
 
 function EffectsController:Start()
-	local framework = script:FindFirstAncestor("KOClient")
+	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config)
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Effects")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Effects")
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
 end
@@ -821,10 +821,10 @@ local function startHideOwnTag()
 end
 
 function HudController:Start()
-	local framework = script:FindFirstAncestor("KOClient")
+	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config).Hud
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Hud")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Hud")
 
 	Util.spawn(log, "BossHud", startBossHud, cfg)
 	Util.spawn(log, "RaffleHud", startRaffleHud)
@@ -1205,10 +1205,10 @@ local function runMenuCamera(cfg)
 end
 
 function MenuController:Start()
-	local framework = script:FindFirstAncestor("KOClient")
+	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config).Menu
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Menu")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Menu")
 
 	Util.spawn(log, "EntityUnlock", unlockEntity, cfg)
 	Util.spawn(log, "MenuCamera", runMenuCamera, cfg)
@@ -1224,7 +1224,7 @@ return MenuController
 					<ProtectedString name="Source"><![CDATA[local OceanController = { Name = "Ocean" }
 
 function OceanController:Start()
-	local cfg = require(script:FindFirstAncestor("KOClient").Config).Ocean
+	local cfg = require(script:FindFirstAncestor("Client").Config).Ocean
 	local AssetService = game:GetService("AssetService")
 	local RunService = game:GetService("RunService")
 	local Players = game:GetService("Players")
@@ -1643,7 +1643,7 @@ function SettingsController:Start()
 	local Players = game:GetService("Players")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local Workspace = game:GetService("Workspace")
-	local cfg = require(script:FindFirstAncestor("KOClient").Config).Settings
+	local cfg = require(script:FindFirstAncestor("Client").Config).Settings
 
 	local player = Players.LocalPlayer
 	local saveRemote = ReplicatedStorage:WaitForChild("GetSettingsData")

@@ -7,17 +7,17 @@ SRC = ROOT / "EditedScripts"
 OUT = ROOT / "build"
 
 TARGETS = {
-    "KOShared.rbxmx": [
-        SRC / "ReplicatedStorage" / "KOShared",
+    "Shared.rbxmx": [
+        SRC / "ReplicatedStorage" / "Shared",
     ],
-    "KOFramework.rbxmx": [
-        SRC / "ServerScriptService" / "KOFramework",
+    "Server.rbxmx": [
+        SRC / "ServerScriptService" / "Server",
     ],
-    "KOBeamCombat.rbxmx": [
+    "BeamCombat.rbxmx": [
         SRC / "BeamCombat",
     ],
-    "KOClient.rbxmx": [
-        SRC / "StarterPlayer" / "StarterPlayerScripts" / "KOClient",
+    "Client.rbxmx": [
+        SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client",
         SRC / "StarterPlayer" / "StarterPlayerScripts" / "RbxCharacterSounds.client.lua",
     ],
 }

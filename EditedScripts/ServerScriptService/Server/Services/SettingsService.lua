@@ -10,10 +10,10 @@ end
 function SettingsService:Init()
 	local DataStoreService = game:GetService("DataStoreService")
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).Settings
 	local log = Logger.new("Settings")
 

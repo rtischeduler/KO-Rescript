@@ -1,4 +1,4 @@
-# Setup: installing KOFramework (server) and KOClient (client)
+# Setup: installing Server (server) and Client (client)
 
 Everything you need to copy into Roblox Studio, and exactly what to delete afterwards.
 
@@ -14,18 +14,18 @@ In Studio: **File > Save to File As...** and keep the `.rbxl`. Do the whole setu
 
 The `Build Roblox models` workflow turns `EditedScripts/` into two ready-made model files in `build/`, rebuilt on every change (also downloadable from the workflow run's **Artifacts**).
 
-1. Download `build/KOFramework.rbxmx` and `build/KOClient.rbxmx`.
-2. In Studio, right-click **ServerScriptService** > **Insert from File...** > `KOFramework.rbxmx`.
-3. Right-click **StarterPlayer > StarterPlayerScripts** > **Insert from File...** > `KOClient.rbxmx`. This also adds the empty `RbxCharacterSounds`.
+1. Download `build/Server.rbxmx` and `build/Client.rbxmx`.
+2. In Studio, right-click **ServerScriptService** > **Insert from File...** > `Server.rbxmx`.
+3. Right-click **StarterPlayer > StarterPlayerScripts** > **Insert from File...** > `Client.rbxmx`. This also adds the empty `RbxCharacterSounds`.
 4. Delete the old scripts listed below, and delete the original `RbxCharacterSounds` first if one already exists (otherwise you will have two).
 
 The models cannot delete anything for you. Sections 1 and 2 below are only needed if you prefer to build by hand; the delete and keep lists still apply either way.
 
-## Beam / Combat update (KOBeamCombat.rbxmx)
+## Beam / Combat update (BeamCombat.rbxmx)
 
-`build/KOBeamCombat.rbxmx` holds the beam and combat edits (tween in/out, impact effect, beam slow, smoothed clashing, clash effect, winner overpower finisher). Source lives in `EditedScripts/BeamCombat/`.
+`build/BeamCombat.rbxmx` holds the beam and combat edits (tween in/out, impact effect, beam slow, smoothed clashing, clash effect, winner overpower finisher). Source lives in `EditedScripts/BeamCombat/`.
 
-1. In Studio, right-click **Workspace** (or anywhere neutral) > **Insert from File...** > `KOBeamCombat.rbxmx`. You get one folder, `BeamCombat`, whose subfolders mirror where each script goes.
+1. In Studio, right-click **Workspace** (or anywhere neutral) > **Insert from File...** > `BeamCombat.rbxmx`. You get one folder, `BeamCombat`, whose subfolders mirror where each script goes.
 2. Replace these five scripts with the ones inside the folder (copy the Source across), then delete the `BeamCombat` folder:
    - `ReplicatedStorage/BeamSystem` (ModuleScript)
    - `ReplicatedStorage/DPSTemplate` (Script)
@@ -37,13 +37,13 @@ The impact and clash effects are built from the particle emitters already inside
 
 The old per-kaiju `HitParts/*/DPS` scripts are not touched and do not apply the beam slow.
 
-## 1. Server: install KOFramework (by hand)
+## 1. Server: install Server (by hand)
 
 Create this tree in **ServerScriptService**. Class names matter: the top item is a `Script`, everything under it is a `ModuleScript` or `Folder`.
 
 ```
 ServerScriptService
-└── KOFramework              Script          <- EditedScripts/ServerScriptService/KOFramework/init.server.lua
+└── Server              Script          <- EditedScripts/ServerScriptService/Server/init.server.lua
     ├── Config               ModuleScript    <- Config.lua
     ├── Core                 Folder
     │   ├── Lifecycle        ModuleScript    <- Core/Lifecycle.lua
@@ -60,7 +60,7 @@ ServerScriptService
         └── SettingsService    ModuleScript  <- Services/SettingsService.lua
 ```
 
-How to fill each one: open the file on GitHub, click **Raw**, copy everything, and paste it over the script's default contents in Studio. Instance names must match the file name exactly (case-sensitive). The `init.server.lua` code goes into the `KOFramework` Script itself.
+How to fill each one: open the file on GitHub, click **Raw**, copy everything, and paste it over the script's default contents in Studio. Instance names must match the file name exactly (case-sensitive). The `init.server.lua` code goes into the `Server` Script itself.
 
 ### Delete these 6 server scripts (ServerScriptService)
 
@@ -86,14 +86,14 @@ If you would rather not delete yet, set `Disabled = true` on each instead. The f
 | `KnitServices` | `KnitService` registers it |
 | `DamageBoost`, `Gcells`, `HealthCommandFix` | untouched by the framework |
 
-## 2. Client: install KOClient (by hand)
+## 2. Client: install Client (by hand)
 
 Create this tree in **StarterPlayer > StarterPlayerScripts**. The top item is a `LocalScript`.
 
 ```
 StarterPlayer
 └── StarterPlayerScripts
-    ├── KOClient             LocalScript     <- EditedScripts/StarterPlayer/StarterPlayerScripts/KOClient/init.client.lua
+    ├── Client             LocalScript     <- EditedScripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua
     │   ├── Config           ModuleScript    <- Config.lua
     │   ├── Core             Folder
     │   │   ├── Lifecycle    ModuleScript    <- Core/Lifecycle.lua
@@ -139,9 +139,9 @@ Deleting the script gives you Roblox's default footsteps on top of yours. Leavin
 Press Play. Output should show:
 
 ```
-[KOFramework] Started. Service status:
+[Server] Started. Service status:
   Morph ... Knit      (one line per service)
-[KOClient] Started. Controller status:
+[Client] Started. Controller status:
   Knit ... Sounds     (one line per controller)
 [Knit] Client started successfully
 ```
@@ -152,20 +152,20 @@ Then check, in a local server with 2 players if you can: menu camera on join, pi
 
 | You see | Fix |
 |---|---|
-| `[KOFramework] Not starting: disable or delete these replaced scripts first: ...` | Delete or disable the scripts it names in ServerScriptService. Nothing was started, so the old setup keeps running. |
-| `[KOClient] Not starting: delete or disable these replaced scripts first: ...` | Same, in StarterPlayerScripts. |
-| No `[KOFramework]` / `[KOClient]` lines at all | Wrong class or location. `KOFramework` must be a `Script` in ServerScriptService, `KOClient` a `LocalScript` in StarterPlayerScripts. |
+| `[Server] Not starting: disable or delete these replaced scripts first: ...` | Delete or disable the scripts it names in ServerScriptService. Nothing was started, so the old setup keeps running. |
+| `[Client] Not starting: delete or disable these replaced scripts first: ...` | Same, in StarterPlayerScripts. |
+| No `[Server]` / `[Client]` lines at all | Wrong class or location. `Server` must be a `Script` in ServerScriptService, `Client` a `LocalScript` in StarterPlayerScripts. |
 | `module not found: ServerScriptService.framework.modules.X` | The `framework/modules` folder or that module was deleted. Restore it. |
 | `[Hud] BossHud failed: ...` (or any `[Controller] Feature failed`) | That one feature errored. The rest keep running. The message names the cause. |
 | Doubled or default footsteps | `RbxCharacterSounds` is missing (default injected) or still contains the old code (doubled). It must exist and be empty. |
 
 ## 5. Rollback
 
-Delete `KOFramework` and `KOClient`, then restore the deleted scripts from your `.rbxl` backup. The old versions are also in this repo's git history: every sync commit keeps the previous `scripts/` contents.
+Delete `Server` and `Client`, then restore the deleted scripts from your `.rbxl` backup. The old versions are also in this repo's git history: every sync commit keeps the previous `scripts/` contents.
 
 ## 6. After you publish
 
-The sync workflow will mirror the new setup into `scripts/` within 6 hours, so `KOFramework` and `KOClient` will appear there too. That is expected. Keep editing in `EditedScripts/`, not in the mirror, and copy any change you make in Studio back here.
+The sync workflow will mirror the new setup into `scripts/` within 6 hours, so `Server` and `Client` will appear there too. That is expected. Keep editing in `EditedScripts/`, not in the mirror, and copy any change you make in Studio back here.
 
 ## Notes
 
@@ -175,4 +175,4 @@ The sync workflow will mirror the new setup into `scripts/` within 6 hours, so `
 
 ## Shared modules
 
-`Lifecycle`, `Logger` and `Util` now exist once, in `ReplicatedStorage/KOShared` (build output `build/KOShared.rbxmx`). Insert that model first. `KOFramework/Core` keeps only `PlayerHooks`, and `KOClient/Core` is gone. Ignore the older tree above where it lists Lifecycle, Logger or Util under `Core`.
+`Lifecycle`, `Logger` and `Util` now exist once, in `ReplicatedStorage/Shared` (build output `build/Shared.rbxmx`). Insert that model first. `Server/Core` keeps only `PlayerHooks`, and `Client/Core` is gone. Ignore the older tree above where it lists Lifecycle, Logger or Util under `Core`.

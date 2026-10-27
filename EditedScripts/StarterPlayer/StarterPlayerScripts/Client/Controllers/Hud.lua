@@ -281,10 +281,10 @@ local function startHideOwnTag()
 end
 
 function HudController:Start()
-	local framework = script:FindFirstAncestor("KOClient")
+	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config).Hud
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Hud")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Hud")
 
 	Util.spawn(log, "BossHud", startBossHud, cfg)
 	Util.spawn(log, "RaffleHud", startRaffleHud)

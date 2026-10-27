@@ -5,9 +5,9 @@ function GCellGuardService.isIncreaseAllowed(delta, allowed, tolerance)
 end
 
 function GCellGuardService:Init()
-	local framework = script:FindFirstAncestor("KOFramework")
+	local framework = script:FindFirstAncestor("Server")
 	local PlayerHooks = require(framework.Core.PlayerHooks)
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger"))
+	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
 	local cfg = require(framework.Config).GCellGuard
 	local log = Logger.new("GCellGuard")
 

@@ -315,10 +315,10 @@ local function startPulse(cfg)
 end
 
 function EffectsController:Start()
-	local framework = script:FindFirstAncestor("KOClient")
+	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config)
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Util"))
-	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("KOShared"):WaitForChild("Logger")).new("Effects")
+	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
+	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Effects")
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
 end

@@ -25,16 +25,16 @@ Counts come from the git tree of `scripts/` (1056 script files). Identical files
 
 | Old | Copies | Replaced by |
 |---|---|---|
-| `Roar1` and `Roar2` scripts in each morph's `CharacterScripts` | 77 files in 39 places | one `RoarService` in `KOFramework/Services`; it reads `Sounds/RoarN` and `Animations/RoarN` from the morph and keeps the `Debounce` value behaviour |
-| `DPS.server.lua` in each `HitParts` model | 19 files | one `HitService` driven by a per-hitpart attribute for damage and GCell rate |
-| `GCellCounterLS` | 3 | `KOClient/Controllers/Hud` |
+| `Roar1Script` and `Roar2Script` in each morph's `CharacterScripts` | 77 files in 39 places | `initRoar` in `BeamCombat/ServerScriptService/framework/modules/Combat.lua`; it hooks every `Roar#` RemoteEvent under a `CharacterScripts` folder and keeps the `Debounce` value behaviour |
+| `DPS.server.lua` in each `HitParts` model | 19 files | `initDPS` in `Combat.lua`, driven by the `DPSPart` tag and per-part attributes |
+| `GCellCounterLS` | 3 | `Client/Controllers/Hud` |
 | `LocalScript` inside `BuyGCellWindow/GCells/<amount>` | 7 | one script that reads the button name as the amount |
 
 Copies of the Roar and DPS scripts are not all byte-identical: some differ slightly, so their differences have to be listed before the modules are written. Do this after the exports in section 5 exist.
 
 ## 4. Already replaced by the framework
 
-See `README.md` in this folder for the full table. Old `ServerHandler`, `MorphBootstrap`, `HealthEnforcer`, `GCellIntegrityGuard`, `PlayerEliminator`, `SettingsStore` and the 15 loose `StarterPlayerScripts` scripts are replaced by `KOFramework` and `KOClient`.
+See `README.md` in this folder for the full table. Old `ServerHandler`, `MorphBootstrap`, `HealthEnforcer`, `GCellIntegrityGuard`, `PlayerEliminator`, `SettingsStore` and the 15 loose `StarterPlayerScripts` scripts are replaced by `Server` and `Client`.
 
 ## 5. Recolors
 
@@ -61,7 +61,28 @@ Delete all scripts of 3 bytes or smaller once their parent copy is gone. 296 of 
 
 | Old | Replaced by |
 |---|---|
-| `KOFramework/Core/Lifecycle`, `Logger`, `Util` | `ReplicatedStorage/KOShared/Lifecycle`, `Logger`, `Util` |
-| `KOClient/Core` (Lifecycle, Logger, Util) | `ReplicatedStorage/KOShared`, folder deleted |
+| `Server/Core/Lifecycle`, `Logger`, `Util` | `ReplicatedStorage/Shared/Lifecycle`, `Logger`, `Util` |
+| `Client/Core` (Lifecycle, Logger, Util) | `ReplicatedStorage/Shared`, folder deleted |
 
 Client `Util.spawn` was merged into the shared `Util`.
+
+## 8. Roar and DPS handler
+
+Both handlers live in `Combat.lua` and start from `Combat.Init`. Run `Migration/MigrateDPSAndRoar.lua` in the Studio command bar (it prints only while `DRY_RUN = true`), check the list, set `DRY_RUN = false`, run it again, then publish. It reads each old script, writes its values onto the part as attributes, adds the `DPSPart` tag, then deletes the script. Roar scripts are deleted with no attributes.
+
+DPS attributes on the tagged part (defaults in brackets):
+
+| Attribute | Replaces |
+|---|---|
+| `Damage` (0.9) | the number in `h.Health - N`; seen values 0.9, 1, 2 |
+| `GCellRate` (0.2) | GCell gain per hit; seen values 0.2, 0.9 |
+| `Cooldown` (0.5) | the per-target debounce; 0 for the variants that had none |
+| `DamageMultiplier` (1) | `VOLCANIC_DAMAGE_MULTIPLIER = 1.5` in ZILLA `Firebomb` |
+| `LevelScaled` | the variants that read `ReplicatedStorage/DamageMultiplierPerLevel` (HEISEI, Space Godzilla, TITANUS beams) |
+| `RequireBlastActive` | the `BlastActive` gate in the HeiseiBlast variants |
+
+Behaviour changes to know about:
+- The attacker is the first player found walking up the part's ancestors, then the `PlayerName` StringValue. Hitting your own character is always ignored; the old `BlastHitbox` and `BurningHeiseiBlast` scripts never found an attacker from the part itself, so they now pay GCells.
+- Roar animation always plays at Action priority with fade 0.1 and weight 10, and the wait uses `TimeLength / PlaybackSpeed`. The old plain copies used default priority.
+- ZILLA's `Roar1Script` keeps a `roarTrack` variable the others lack. The handler does not stop the animation early, so check ZILLA's roar once in game.
+- `ROAR1` and `ROAR2` LocalScripts in `KaijusUnused/FireGodzilla` are a different, client-side script. They are not covered, and that kaiju is retired anyway.
