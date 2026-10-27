@@ -184,17 +184,19 @@ local function initCombat()
 			if healthPercent <= HEALTH_THRESHOLD then
 				if not isLowHealth then
 					isLowHealth = true
-					baseWalkSpeed = humanoid.WalkSpeed
+					local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
+					baseWalkSpeed = humanoid.WalkSpeed / beamFactor
 					humanoid:SetAttribute("Slowed", true)
 					isApplyingSlow = true
-					humanoid.WalkSpeed = baseWalkSpeed * (1 - SLOW_PERCENT)
+					humanoid.WalkSpeed = baseWalkSpeed * (1 - SLOW_PERCENT) * beamFactor
 					isApplyingSlow = false
 				end
 			elseif isLowHealth then
 				isLowHealth = false
 				humanoid:SetAttribute("Slowed", false)
 				isApplyingSlow = true
-				humanoid.WalkSpeed = baseWalkSpeed or humanoid.WalkSpeed / (1 - SLOW_PERCENT)
+				local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
+				humanoid.WalkSpeed = baseWalkSpeed and (baseWalkSpeed * beamFactor) or humanoid.WalkSpeed / (1 - SLOW_PERCENT)
 				isApplyingSlow = false
 				baseWalkSpeed = nil
 			end

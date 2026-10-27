@@ -3,6 +3,14 @@ local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local attackerName = script:GetAttribute("Attacker")
+local BeamSystem = nil
+task.spawn(function()
+	local module = ReplicatedStorage:WaitForChild("BeamSystem", 10)
+	if module then
+		local ok, result = pcall(require, module)
+		if ok then BeamSystem = result end
+	end
+end)
 local hitDebounce = {}
 
 
@@ -79,6 +87,9 @@ task.spawn(function()
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
 									awardGCells(attacker)
+									if BeamSystem and BeamSystem.ApplyBeamSlow then
+										BeamSystem.ApplyBeamSlow(humanoid)
+									end
 
 									task.spawn(function()
 										task.wait(DAMAGE_INTERVAL)
