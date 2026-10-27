@@ -17,6 +17,7 @@ Do these in order in Studio. Everything under `EditedScripts/` is the replacemen
 | 5 | `Interface/Colors/Colors/*` and `Interface/Recolor/LocalScript` | nothing, they are empty |
 | 6 | `Roar1Script`, `Roar2Script`, every `DPS` script | `initRoar` and `initDPS` in `Combat.lua`, then run `Migration/MigrateDPSAndRoar.lua` |
 | 7 | Duplicate models, retired kaijus, empty stubs | sections 1, 2 and 6 below |
+| 8 | Old `framework/modules/World` | edited copy, section 9 |
 
 After step 3, anything else that read `ReplicatedStorage.Recolors.<name>.Primary.Value` must use `require(Recolors).Data[name].Primary`. Only `Data` and `RecolorPopulator` did in this repo's scripts.
 
@@ -103,3 +104,14 @@ Behaviour changes to know about:
 - Roar animation always plays at Action priority with fade 0.1 and weight 10, and the wait uses `TimeLength / PlaybackSpeed`. The old plain copies used default priority.
 - ZILLA's `Roar1Script` keeps a `roarTrack` variable the others lack. The handler does not stop the animation early, so check ZILLA's roar once in game.
 - `ROAR1` and `ROAR2` LocalScripts in `KaijusUnused/FireGodzilla` are a different, client-side script. They are not covered, and that kaiju is retired anyway.
+
+## 9. Building collapse
+
+`framework/modules/World` is replaced by `EditedScripts/BeamCombat/ServerScriptService/framework/modules/World.lua`. Only `initBuilding` changed.
+
+| Old | Now |
+|---|---|
+| `COLLAPSE_TIME = 3.8`, ease `p ^ 2.4` | `2.6`, ease `p ^ 1.7`, so the fall starts sooner and finishes quicker |
+| 10 chunks thrown in one burst after the collapse ended | 12 chunks thrown one at a time across the collapse (`DEBRIS_CHUNKS`), slower launch speed 18 to 45 |
+| Chunks vanished after 5 s | each chunk fades out over its last second, then is removed (lives 2.4 to 3.4 s) |
+| Building parts kept their collision | `CanCollide` is off on every building part when it starts to collapse, restored from the saved value on respawn |
