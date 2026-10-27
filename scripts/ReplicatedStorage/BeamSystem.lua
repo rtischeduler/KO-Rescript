@@ -2,6 +2,8 @@ local BeamSystem = {}
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
 local Workspace = game:GetService("Workspace")
 local playerAims = {}
 local playerShiftLock = {}
@@ -15,6 +17,8 @@ local OUTRO_TIME = 0.35
 local AIM_FOLLOW_RATE = 22
 local CLASH_FOLLOW_RATE = 6
 local CLASH_TRANSITION_TIME = 0.7
+local OVERPOWER_TIME = 0.8
+local OVERPOWER_DAMAGE = 50
 local BEAM_SLOW_FACTOR = 0.7
 local BEAM_SLOW_LINGER = 0.35
 local function easeOutCubic(t)
@@ -23,6 +27,62 @@ end
 local function easeInOutQuad(t)
 	if t < 0.5 then return 2 * t * t end
 	return 1 - (-2 * t + 2) ^ 2 / 2
+end
+local function spawnClashExplosion(position, colorA, colorB)
+	local folder = Instance.new("Folder")
+	folder.Name = "BeamClashExplosion"
+	folder.Parent = Workspace
+	Debris:AddItem(folder, 2.5)
+	local mixed = colorA:Lerp(colorB, 0.5)
+	local function makePart(shape, size, color)
+		local part = Instance.new("Part")
+		part.Shape = shape
+		part.Size = size
+		part.Anchored = true
+		part.CanCollide = false
+		part.CanTouch = false
+		part.CanQuery = false
+		part.CastShadow = false
+		part.Material = Enum.Material.Neon
+		part.Color = color
+		part.Transparency = 0.1
+		part.CFrame = CFrame.new(position)
+		part.Parent = folder
+		return part
+	end
+	local ball = makePart(Enum.PartType.Ball, Vector3.new(4, 4, 4), mixed)
+	TweenService:Create(ball, TweenInfo.new(0.55, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Vector3.new(36, 36, 36), Transparency = 1}):Play()
+	local flash = makePart(Enum.PartType.Ball, Vector3.new(2, 2, 2), Color3.new(1, 1, 1))
+	TweenService:Create(flash, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Vector3.new(20, 20, 20), Transparency = 1}):Play()
+	local orientations = {
+		CFrame.Angles(0, 0, math.pi / 2),
+		CFrame.Angles(0, math.pi / 2, 0),
+		CFrame.Angles(0, 0, 0),
+	}
+	for i, rot in ipairs(orientations) do
+		local ring = makePart(Enum.PartType.Cylinder, Vector3.new(0.4, 3, 3), (i % 2 == 1) and colorA or colorB)
+		ring.CFrame = CFrame.new(position) * rot
+		local finalSize = 55 + i * 12
+		TweenService:Create(ring, TweenInfo.new(0.6 + i * 0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = Vector3.new(0.4, finalSize, finalSize), Transparency = 1}):Play()
+	end
+	local light = Instance.new("PointLight")
+	light.Color = mixed
+	light.Range = 45
+	light.Brightness = 6
+	light.Parent = flash
+	TweenService:Create(light, TweenInfo.new(0.6), {Brightness = 0}):Play()
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Rate = 0
+	emitter.Lifetime = NumberRange.new(0.5, 1)
+	emitter.Speed = NumberRange.new(40, 90)
+	emitter.Drag = 2
+	emitter.SpreadAngle = Vector2.new(180, 180)
+	emitter.LightEmission = 1
+	emitter.Color = ColorSequence.new(colorA, colorB)
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2.5), NumberSequenceKeypoint.new(1, 0)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
+	emitter.Parent = flash
+	emitter:Emit(45)
 end
 local slowedHumanoids = {}
 local slowConnection = nil
@@ -427,6 +487,7 @@ function BeamSystem.ActivateBeam(config)
 		impactFolder.Name = "BeamImpact"
 		impactFolder.Parent = Workspace
 		activeBeams[player].impactFolder = impactFolder
+		activeBeams[player].impactColor = impactColor
 		local function makeImpactPart(shape, size)
 			local part = Instance.new("Part")
 			part.Name = "ImpactPart"
@@ -466,7 +527,91 @@ function BeamSystem.ActivateBeam(config)
 		impactEmitter.Parent = impactCore
 		local impactSurfacePos, impactSurfaceNormal = nil, Vector3.yAxis
 		local lastEmit = 0
-		local function updateImpact(endPos, extent, now)
+		local clashCore, clashInner, clashLight, clashEmitter = nil, nil, nil, nil
+		local clashRings = {}
+		local lastClashEmit = 0
+		local function ensureClashFx()
+			if clashCore then return end
+			clashCore = makeImpactPart(Enum.PartType.Ball, Vector3.new(1, 1, 1))
+			clashInner = makeImpactPart(Enum.PartType.Ball, Vector3.new(1, 1, 1))
+			for i = 1, 4 do
+				clashRings[i] = makeImpactPart(Enum.PartType.Cylinder, Vector3.new(0.3, 1, 1))
+			end
+			clashLight = Instance.new("PointLight")
+			clashLight.Range = 32
+			clashLight.Brightness = 0
+			clashLight.Parent = clashCore
+			clashEmitter = Instance.new("ParticleEmitter")
+			clashEmitter.Rate = 0
+			clashEmitter.Lifetime = NumberRange.new(0.4, 0.8)
+			clashEmitter.Speed = NumberRange.new(14, 34)
+			clashEmitter.Drag = 2
+			clashEmitter.SpreadAngle = Vector2.new(180, 180)
+			clashEmitter.LightEmission = 1
+			clashEmitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 1.8), NumberSequenceKeypoint.new(1, 0)})
+			clashEmitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
+			clashEmitter.Parent = clashCore
+		end
+		local function hideClashFx()
+			if not clashCore then return end
+			clashCore.Transparency = 1
+			clashInner.Transparency = 1
+			for _, ring in ipairs(clashRings) do ring.Transparency = 1 end
+			clashLight.Brightness = 0
+		end
+		local function hideGroundImpact()
+			impactCore.Transparency = 1
+			for _, ring in ipairs(impactRings) do ring.Transparency = 1 end
+			impactLight.Brightness = 0
+		end
+		local function updateClashFx(pos, ext, now, info)
+			ensureClashFx()
+			if ext < 0.02 then
+				hideClashFx()
+				return
+			end
+			local partnerColor = info.partnerColor or impactColor
+			local mix = (math.sin(now * 9) + 1) / 2
+			local mixed = impactColor:Lerp(partnerColor, mix)
+			local coreSize = math.max(0.05, (8 + math.sin(now * 20) * 1.5) * ext)
+			clashCore.Size = Vector3.new(coreSize, coreSize, coreSize)
+			clashCore.CFrame = CFrame.new(pos)
+			clashCore.Color = mixed
+			clashCore.Transparency = 0.25
+			local innerSize = coreSize * 0.55
+			clashInner.Size = Vector3.new(innerSize, innerSize, innerSize)
+			clashInner.CFrame = CFrame.new(pos)
+			clashInner.Color = mixed:Lerp(Color3.new(1, 1, 1), 0.65)
+			clashInner.Transparency = 0.1
+			clashLight.Color = mixed
+			clashLight.Brightness = 3 * ext
+			local axis = info.axis or Vector3.zAxis
+			local ringBase = CFrame.lookAt(pos, pos + axis) * CFrame.Angles(0, math.pi / 2, 0)
+			for i, ring in ipairs(clashRings) do
+				local p = ((now / 0.8) + (i - 1) / #clashRings) % 1
+				local diameter = math.max(0.05, (4 + 40 * p) * ext)
+				ring.Size = Vector3.new(0.3, diameter, diameter)
+				ring.CFrame = ringBase
+				ring.Color = (i % 2 == 1) and impactColor or partnerColor
+				ring.Transparency = math.clamp(0.2 + 0.8 * p ^ 1.2 + (1 - ext) * 0.5, 0, 1)
+			end
+			if now - lastClashEmit > 0.06 then
+				lastClashEmit = now
+				clashEmitter.Color = ColorSequence.new(impactColor, partnerColor)
+				clashEmitter:Emit(4)
+			end
+		end
+		local function updateImpact(endPos, extent, now, clashInfo)
+			if clashInfo then
+				hideGroundImpact()
+				if clashInfo.lead then
+					updateClashFx(endPos, extent, now, clashInfo)
+				else
+					hideClashFx()
+				end
+				return
+			end
+			hideClashFx()
 			if beamIteration % 3 == 0 or not impactSurfacePos then
 				local filter = {character, impactFolder, hitbox}
 				for _, plr in ipairs(Players:GetPlayers()) do
@@ -539,7 +684,9 @@ function BeamSystem.ActivateBeam(config)
 		local wasClashing = false
 		local clashTransitionUntil = 0
 		local extent = 0
-		local function renderFrame(ext, tip, clashing, now)
+		local overpower = nil
+		local lastClashData = nil
+		local function renderFrame(ext, tip, clashing, now, clashInfo)
 			local myHRP = character:FindFirstChild("HumanoidRootPart")
 			if not myHRP then return end
 			local startPos = getHeadPosition(character) or myHRP.Position
@@ -558,15 +705,85 @@ function BeamSystem.ActivateBeam(config)
 					if light then light.Brightness = 0.3 * ext end
 				end
 			end
-			updateImpact(endPos, ext, now)
+			updateImpact(endPos, ext, now, clashInfo)
 		end
 		renderFrame(0, smoothTip, false, tick())
-		while tick() - startTime < duration do
+		while tick() - startTime < duration or overpower do
 			beamIteration += 1
 			if not character.Parent or not character:FindFirstChild("HumanoidRootPart") then
 				break
 			end
 			local myHRP = character:FindFirstChild("HumanoidRootPart")
+			local myData = activeBeams[player]
+			if not overpower and myData and myData.overpowerRequest then
+				local req = myData.overpowerRequest
+				myData.overpowerRequest = nil
+				if req.character and req.character.Parent and req.hitbox and req.hitbox.Parent then
+					overpower = {loser = req, t0 = tick(), startPoint = smoothTip}
+					myData.overpowering = true
+					myData.overpowerDone = false
+					currentClashPartner = nil
+					if dpsScript then dpsScript.Enabled = false end
+					for _, side in ipairs(sideHitboxes) do
+						if side.dps then side.dps.Enabled = false end
+					end
+				else
+					myData.overpowerDone = true
+				end
+			end
+			if overpower then
+				local now = tick()
+				local loser = overpower.loser
+				local loserHead = loser.character and loser.character.Parent and getHeadPosition(loser.character)
+				local finished = false
+				if not loserHead or not (loser.hitbox and loser.hitbox.Parent) then
+					finished = true
+				else
+					local t = math.clamp((now - overpower.t0) / OVERPOWER_TIME, 0, 1)
+					local clashPoint = overpower.startPoint:Lerp(loserHead, easeInOutQuad(t))
+					smoothTip = clashPoint
+					myData.clashPoint = clashPoint
+					myData.clashLead = true
+					extent = easeOutCubic(math.clamp((now - startTime) / INTRO_TIME, 0, 1))
+					hitbox:SetAttribute("IsClashing", true)
+					local myHead = getHeadPosition(character) or myHRP.Position
+					local toLoser = loserHead - myHead
+					renderFrame(extent, clashPoint, true, now, {
+						lead = true,
+						partnerColor = loser.impactColor or impactColor,
+						axis = toLoser.Magnitude > 0.01 and toLoser.Unit or Vector3.zAxis,
+					})
+					if t >= 1 then
+						finished = true
+						local loserHum = loser.character:FindFirstChildOfClass("Humanoid")
+						if loserHum and loserHum.Health > 0 then
+							local creator = loserHum:FindFirstChild("creator")
+							if not creator then
+								creator = Instance.new("ObjectValue")
+								creator.Name = "creator"
+								creator.Parent = loserHum
+							end
+							creator.Value = player
+							loserHum:SetAttribute("LastDPSAttacker", player.UserId)
+							loserHum:TakeDamage(OVERPOWER_DAMAGE)
+						end
+						spawnClashExplosion(loserHead, impactColor, loser.impactColor or impactColor)
+					end
+				end
+				if finished then
+					overpower = nil
+					wasClashing = true
+					clashTransitionUntil = now + CLASH_TRANSITION_TIME
+					lastFrameTime = now
+					if myData then
+						myData.overpowering = false
+						myData.overpowerDone = true
+						myData.clashPoint = nil
+					end
+				end
+				task.wait(0.03)
+				continue
+			end
 			local clashPartner = nil
 			if currentClashPartner then
 				local partner = currentClashPartner
@@ -625,6 +842,7 @@ function BeamSystem.ActivateBeam(config)
 					end
 				end
 			end
+			lastClashData = clashPartner
 			local now = tick()
 			local dt = math.clamp(now - lastFrameTime, 0.001, 0.25)
 			lastFrameTime = now
@@ -635,12 +853,22 @@ function BeamSystem.ActivateBeam(config)
 				clashTransitionUntil = now + CLASH_TRANSITION_TIME
 			end
 			local desiredTip = nil
+			local clashInfo = nil
 			if clashPartner then
 				hitbox:SetAttribute("IsClashing", true)
 				local myHeadPos = getHeadPosition(character)
 				local partnerHeadPos = getHeadPosition(clashPartner.character)
 				if myHeadPos and partnerHeadPos then
 					desiredTip = (myHeadPos + partnerHeadPos) / 2
+					local toPartner = partnerHeadPos - myHeadPos
+					local partnerUserId = clashPartner.player and clashPartner.player.UserId or 0
+					local lead = player.UserId < partnerUserId
+					if activeBeams[player] then activeBeams[player].clashLead = lead end
+					clashInfo = {
+						lead = lead,
+						partnerColor = clashPartner.impactColor or impactColor,
+						axis = toPartner.Magnitude > 0.01 and toPartner.Unit or Vector3.zAxis,
+					}
 				end
 				for _, side in ipairs(sideHitboxes) do
 					if side.dps and side.dps.Enabled then
@@ -671,7 +899,7 @@ function BeamSystem.ActivateBeam(config)
 			desiredTip = desiredTip or smoothTip
 			local followRate = (isClashingNow or now < clashTransitionUntil) and CLASH_FOLLOW_RATE or AIM_FOLLOW_RATE
 			smoothTip = smoothTip:Lerp(desiredTip, 1 - math.exp(-followRate * dt))
-			renderFrame(extent, smoothTip, isClashingNow, now)
+			renderFrame(extent, smoothTip, isClashingNow, now, clashInfo)
 			if beamIteration % 3 == 0 then
 				local ownerHum = character:FindFirstChildOfClass("Humanoid")
 				if ownerHum and ownerHum.Health > 0 then
@@ -734,21 +962,50 @@ function BeamSystem.ActivateBeam(config)
 			task.wait(0.03)
 		end
 		if character.Parent and character:FindFirstChild("HumanoidRootPart") then
+			local overpoweredBy = nil
+			if lastClashData and lastClashData.character and lastClashData.character.Parent
+				and lastClashData.hitbox and lastClashData.hitbox.Parent and not lastClashData.ending then
+				overpoweredBy = lastClashData
+				overpoweredBy.overpowerRequest = activeBeams[player]
+			end
 			if activeBeams[player] then activeBeams[player].ending = true end
 			hitbox:SetAttribute("IsClashing", false)
 			if dpsScript then dpsScript.Enabled = false end
 			for _, side in ipairs(sideHitboxes) do
 				if side.dps then side.dps.Enabled = false end
 			end
-			local outroStart = tick()
-			local retractTip = smoothTip
-			while character.Parent and character:FindFirstChild("HumanoidRootPart") do
-				beamIteration += 1
-				local now = tick()
-				local t = (now - outroStart) / OUTRO_TIME
-				if t >= 1 then break end
-				renderFrame(1 - easeInOutQuad(t), retractTip, false, now)
-				task.wait(0.03)
+			if overpoweredBy then
+				local winnerData = overpoweredBy
+				local deadline = tick() + OVERPOWER_TIME + 1.5
+				while character.Parent and character:FindFirstChild("HumanoidRootPart")
+					and not winnerData.overpowerDone and winnerData.hitbox and winnerData.hitbox.Parent
+					and tick() < deadline do
+					beamIteration += 1
+					local now = tick()
+					local point = winnerData.clashPoint
+					if point then
+						smoothTip = point
+						local myHead = getHeadPosition(character) or point
+						local toPoint = point - myHead
+						renderFrame(1, point, true, now, {
+							lead = false,
+							partnerColor = winnerData.impactColor or impactColor,
+							axis = toPoint.Magnitude > 0.01 and toPoint.Unit or Vector3.zAxis,
+						})
+					end
+					task.wait(0.03)
+				end
+			else
+				local outroStart = tick()
+				local retractTip = smoothTip
+				while character.Parent and character:FindFirstChild("HumanoidRootPart") do
+					beamIteration += 1
+					local now = tick()
+					local t = (now - outroStart) / OUTRO_TIME
+					if t >= 1 then break end
+					renderFrame(1 - easeInOutQuad(t), retractTip, false, now)
+					task.wait(0.03)
+				end
 			end
 		end
 	end)
