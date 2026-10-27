@@ -146,3 +146,15 @@ KO-Rescript.rbxmx holds one folder per place location. Drag the children of each
 | StarterGui | StarterGui |
 | StarterPlayer/StarterPlayerScripts | StarterPlayer/StarterPlayerScripts |
 | Migration | run once, then delete |
+
+## Model pack
+
+build/ was cleared of Client, RecolorPopulator, Recolors, Server, Shared and BeamCombat models. build/KO-Rescript.rbxmx now holds only the three edited scripts, laid out by their real paths:
+
+| Model path | Class | Goes to |
+| --- | --- | --- |
+| KO-Rescript/ReplicatedStorage/BeamSystem | ModuleScript | ReplicatedStorage.BeamSystem |
+| KO-Rescript/ServerScriptService/framework/modules/World | ModuleScript | ServerScriptService.framework.modules.World |
+| KO-Rescript/ReplicatedStorage/PlayerScripts/Control | LocalScript | ReplicatedStorage.PlayerScripts.Control |
+
+Drag each service folder's contents onto the matching service, replacing the old script of the same name.

@@ -7,54 +7,19 @@ SRC = ROOT / "EditedScripts"
 OUT = ROOT / "build"
 MODEL = "KO-Rescript.rbxmx"
 
-SERVICES = {
-    "ReplicatedStorage": [SRC / "BeamCombat" / "ReplicatedStorage", SRC / "ReplicatedStorage"],
-    "ServerScriptService": [SRC / "BeamCombat" / "ServerScriptService", SRC / "ServerScriptService"],
-    "StarterGui": [SRC / "BeamCombat" / "StarterGui", SRC / "StarterGui"],
-    "StarterPlayer": [SRC / "StarterPlayer"],
-    "Migration": [SRC / "Migration"],
-}
-
-INIT_NAMES = ("init.lua", "init.server.lua", "init.client.lua")
-
-
-def classify(filename):
-    if filename.endswith(".client.lua"):
-        return "LocalScript", filename[: -len(".client.lua")]
-    if filename.endswith(".server.lua"):
-        return "Script", filename[: -len(".server.lua")]
-    return "ModuleScript", filename[: -len(".lua")]
-
-
-def build_node(path):
-    if path.is_dir():
-        init = next((path / n for n in INIT_NAMES if (path / n).is_file()), None)
-        children = [
-            build_node(child)
-            for child in sorted(path.iterdir())
-            if child != init and (child.is_dir() or child.suffix == ".lua")
-        ]
-        if init:
-            class_name, _ = classify(init.name)
-            return {"class": class_name, "name": path.name, "source": init.read_text(), "children": children}
-        return {"class": "Folder", "name": path.name, "source": None, "children": children}
-    class_name, name = classify(path.name)
-    return {"class": class_name, "name": name, "source": path.read_text(), "children": []}
-
-
-def merge(parent, node):
-    for existing in parent["children"]:
-        if existing["name"] == node["name"]:
-            if existing["class"] == "Folder" and node["class"] == "Folder":
-                for child in node["children"]:
-                    merge(existing, child)
-                return
-            raise SystemExit(f"collision: {node['name']}")
-    parent["children"].append(node)
+FILES = [
+    (SRC / "BeamCombat" / "ReplicatedStorage" / "BeamSystem.lua", "BeamSystem", "ModuleScript", ["ReplicatedStorage"]),
+    (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "World.lua", "World", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
+    (SRC / "ReplicatedStorage" / "PlayerScripts" / "Control" / "init.client.lua", "Control", "LocalScript", ["ReplicatedStorage", "PlayerScripts"]),
+]
 
 
 def cdata(text):
     return "<![CDATA[" + text.replace("]]>", "]]]]><![CDATA[>") + "]]>"
+
+
+def folder(name):
+    return {"class": "Folder", "name": name, "source": None, "children": []}
 
 
 def emit(node, counter, depth):
@@ -74,16 +39,18 @@ def emit(node, counter, depth):
 
 
 def main():
-    root = {"class": "Folder", "name": "KO-Rescript", "source": None, "children": []}
-    for service, dirs in SERVICES.items():
-        folder = {"class": "Folder", "name": service, "source": None, "children": []}
-        for d in dirs:
-            if not d.is_dir():
-                continue
-            for child in sorted(d.iterdir()):
-                if child.is_dir() or child.suffix == ".lua":
-                    merge(folder, build_node(child))
-        root["children"].append(folder)
+    root = folder("KO-Rescript")
+    for path, name, class_name, parents in FILES:
+        if not path.is_file():
+            raise SystemExit(f"missing source: {path}")
+        cursor = root
+        for part in parents:
+            nxt = next((c for c in cursor["children"] if c["name"] == part), None)
+            if nxt is None:
+                nxt = folder(part)
+                cursor["children"].append(nxt)
+            cursor = nxt
+        cursor["children"].append({"class": class_name, "name": name, "source": path.read_text(), "children": []})
     counter = [0]
     lines = ['<roblox version="4">']
     lines.extend(emit(root, counter, 1))
