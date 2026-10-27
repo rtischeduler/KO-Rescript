@@ -46,7 +46,7 @@ return {
 
 	OceanDepth = {
 		Enabled = true,
-		Material = "Sand",
+		FloorName = "Bottom",
 		DepthDrop = 120,
 		WedgeGrow = 120,
 		ColorTolerance = 0.02,

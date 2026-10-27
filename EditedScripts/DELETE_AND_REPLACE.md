@@ -203,7 +203,7 @@ Not changed on purpose: the 0.1 second damage loop in DPSTemplate and the hit sc
 | Any manual sand floor or shore edits you made to deepen the ocean | `Services/OceanDepthService`, driven by `Config.OceanDepth` |
 | Any old splash or wake scripts inside kaiju models | `Controllers/WaterFX`, driven by `Config.WaterFX` |
 
-OceanDepthService: finds every Sand part, moves the biggest non-wedge one down by `DepthDrop`, then grows every upright WedgePart with the same material and color (within `ColorTolerance`) by `WedgeGrow` studs downward with its top edge kept in place. It runs once per server (workspace attribute `OceanDeepened`). Set `Enabled = false` to turn it off.
+OceanDepthService: moves every part named `FloorName` (default `Bottom`) under Workspace down by `DepthDrop`, then grows every upright WedgePart anywhere in the game tree that matches the material and color of a Bottom part (within `ColorTolerance`) by `WedgeGrow` studs downward with its top edge kept in place. It runs once per server (workspace attribute `OceanDeepened`). Set `Enabled = false` to turn it off.
 
 WaterFX: foam wake while moving in the water, spray at high speed, and a splash burst on entry, for every player, scaled by root part size and culled past `MaxDistance`. The existing Ocean ripples are untouched.
 
@@ -258,3 +258,7 @@ EditedScripts files that match a mirrored script byte for byte. These are alread
 | `EditedScripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` | `scripts/StarterPlayer/StarterPlayerScripts/Client/init.client.lua` |
 
 The ocean depth and water FX files are merged into `build/KO-Rescript.rbxmx` (same `StarterPlayer/StarterPlayerScripts/Client/Controllers` folder as Ocean and Effects), not a separate model. The Client and Server `init` scripts, both Config modules, WaterFX and OceanDepthService are in it, so inserting the model into the place replaces the old copies of those. `build-rbxm.yml` rebuilds it whenever `EditedScripts/` or `tools/build_rbxmx.py` changes.
+
+## 12. Halloween update
+
+Halloween is now October only (`Months = { 10 }`). The day and night sky, fog, cloud and rain colors in `HolidayConfigs` are saturated orange and purple with much lower haze, so the old grey wash is gone. In `World`, the building palette is refreshed every second and on every night start, so window flicker (including daytime and collapse flicker) and the building glow lights use the Halloween colors.

@@ -273,6 +273,17 @@ local function initWindowLights()
 		return buildingColor(b)
 	end
 
+	local function refreshPalette()
+		local holiday = HolidayConfigs.getActive()
+		local nextPalette = holiday and holiday.WindowColors or nil
+		if nextPalette == palette then return end
+		palette = nextPalette
+		table.clear(colorCache)
+		for base, light in lights do
+			if light.Parent and base.Parent then light.Color = buildingColor(base.Parent) end
+		end
+	end
+
 	local function setWindow(window, lit)
 		if not window.Parent then return end
 		capture(window)
@@ -372,9 +383,7 @@ local function initWindowLights()
 	local function turnOn()
 		if windowsOn then return end
 		windowsOn = true
-		local holiday = HolidayConfigs.getActive()
-		palette = holiday and holiday.WindowColors or nil
-		table.clear(colorCache)
+		refreshPalette()
 		epoch += 1
 		local myEpoch = epoch
 		for building, windows in buildings do
@@ -449,8 +458,10 @@ local function initWindowLights()
 		end
 	end)
 
+	refreshPalette()
 	local lastNight, counter = nil, 0
 	while true do
+		refreshPalette()
 		local m = Lighting:GetMinutesAfterMidnight()
 		local night = m >= 1080 or m < 360
 		if night ~= lastNight then

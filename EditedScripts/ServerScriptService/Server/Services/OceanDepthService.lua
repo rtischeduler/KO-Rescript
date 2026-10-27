@@ -10,42 +10,43 @@ function OceanDepthService.Init()
 		return
 	end
 
-	local material = Enum.Material[cfg.Material]
-	local best, bestVolume = nil, 0
+	local floors = {}
 	local wedges = {}
 
-	for index, inst in ipairs(workspace:GetDescendants()) do
-		if inst:IsA("BasePart") and inst.Material == material then
-			if inst:IsA("WedgePart") then
-				table.insert(wedges, inst)
-			elseif not inst:IsA("CornerWedgePart") then
-				local volume = inst.Size.X * inst.Size.Y * inst.Size.Z
-				if volume > bestVolume then
-					best, bestVolume = inst, volume
-				end
-			end
+	for index, inst in ipairs(game:GetDescendants()) do
+		if inst:IsA("WedgePart") then
+			table.insert(wedges, inst)
+		elseif inst.Name == cfg.FloorName and inst:IsA("BasePart") and inst:IsDescendantOf(workspace) then
+			table.insert(floors, inst)
 		end
 		if index % cfg.YieldEvery == 0 then
 			task.wait()
 		end
 	end
 
-	if not best then
+	if #floors == 0 then
 		return
 	end
 
 	workspace:SetAttribute("OceanDeepened", true)
 
-	local floorColor = best.Color
-	best.CFrame = best.CFrame - Vector3.new(0, cfg.DepthDrop, 0)
+	local signatures = {}
+	for _, floor in ipairs(floors) do
+		table.insert(signatures, { Material = floor.Material, Color = floor.Color })
+		floor.CFrame = floor.CFrame - Vector3.new(0, cfg.DepthDrop, 0)
+	end
 
 	for _, wedge in ipairs(wedges) do
-		local upright = wedge.CFrame.UpVector.Y >= cfg.MinUpright
-		if upright and sameColor(wedge.Color, floorColor, cfg.ColorTolerance) then
-			local cf = wedge.CFrame
-			local size = wedge.Size
-			wedge.Size = Vector3.new(size.X, size.Y + cfg.WedgeGrow, size.Z)
-			wedge.CFrame = cf * CFrame.new(0, -cfg.WedgeGrow / 2, 0)
+		if wedge.CFrame.UpVector.Y >= cfg.MinUpright then
+			for _, signature in ipairs(signatures) do
+				if wedge.Material == signature.Material and sameColor(wedge.Color, signature.Color, cfg.ColorTolerance) then
+					local cf = wedge.CFrame
+					local size = wedge.Size
+					wedge.Size = Vector3.new(size.X, size.Y + cfg.WedgeGrow, size.Z)
+					wedge.CFrame = cf * CFrame.new(0, -cfg.WedgeGrow / 2, 0)
+					break
+				end
+			end
 		end
 	end
 end

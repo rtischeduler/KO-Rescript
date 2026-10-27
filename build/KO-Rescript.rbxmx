@@ -1158,33 +1158,33 @@ HolidayConfigs.DefaultWeather = { Kind = "Rain", Gap = { 120, 200 }, Duration = 
 
 HolidayConfigs.Halloween = {
 	Name = "Halloween",
-	Months = { 10, 11 },
+	Months = { 10 },
 	Lighting = {
 		Day = {
-			Brightness = 1.6, Ambient = Color3.new(0.42, 0.3, 0.45),
-			OutdoorAmbient = Color3.new(0.35, 0.2, 0.4),
-			ColorShift_Top = Color3.new(1, 0.5, 0.15),
-			ColorShift_Bottom = Color3.new(0.35, 0.12, 0.5),
-			FogColor = Color3.new(0.62, 0.38, 0.55), FogEnd = 4200,
-			Density = 0.38, AtmColor = Color3.new(0.75, 0.5, 0.7), Haze = 2.6,
-			AtmDecay = Color3.new(1, 0.45, 0.1),
-			Cloud = Color3.new(0.7, 0.4, 0.6),
+			Brightness = 2.2, Ambient = Color3.new(0.62, 0.34, 0.6),
+			OutdoorAmbient = Color3.new(0.5, 0.26, 0.62),
+			ColorShift_Top = Color3.new(1, 0.45, 0.08),
+			ColorShift_Bottom = Color3.new(0.5, 0.1, 0.85),
+			FogColor = Color3.new(0.72, 0.26, 0.6), FogEnd = 6000,
+			Density = 0.3, AtmColor = Color3.new(1, 0.42, 0.06), Haze = 0.6,
+			AtmDecay = Color3.new(0.6, 0.1, 0.95),
+			Cloud = Color3.new(1, 0.5, 0.2),
 		},
 		Night = {
-			Brightness = 1, Ambient = Color3.new(0.25, 0.12, 0.38),
-			OutdoorAmbient = Color3.new(0.2, 0.08, 0.32),
-			ColorShift_Top = Color3.new(0.45, 0.15, 0.7),
-			ColorShift_Bottom = Color3.new(0.08, 0.2, 0.1),
-			FogColor = Color3.new(0.2, 0.08, 0.3), FogEnd = 2600,
-			Density = 0.45, AtmColor = Color3.new(0.25, 0.1, 0.4), Haze = 3.2,
-			AtmDecay = Color3.new(0.55, 0.15, 0.8),
-			Cloud = Color3.new(0.2, 0.08, 0.3),
+			Brightness = 1.3, Ambient = Color3.new(0.32, 0.1, 0.5),
+			OutdoorAmbient = Color3.new(0.26, 0.06, 0.45),
+			ColorShift_Top = Color3.new(0.55, 0.12, 0.9),
+			ColorShift_Bottom = Color3.new(0.1, 0.3, 0.12),
+			FogColor = Color3.new(0.32, 0.06, 0.52), FogEnd = 3400,
+			Density = 0.35, AtmColor = Color3.new(0.5, 0.1, 0.9), Haze = 1,
+			AtmDecay = Color3.new(1, 0.38, 0.04),
+			Cloud = Color3.new(0.45, 0.1, 0.72),
 		},
 		Rain = {
-			FogEndMul = 0.4, DensityAdd = 0.15, HazeAdd = 1,
-			FogColor = Color3.new(0.33, 0.27, 0.38),
-			AtmColor = Color3.new(0.4, 0.34, 0.46),
-			Cloud = Color3.new(0.2, 0.16, 0.26),
+			FogEndMul = 0.5, DensityAdd = 0.1, HazeAdd = 0.4,
+			FogColor = Color3.new(0.5, 0.18, 0.62),
+			AtmColor = Color3.new(0.6, 0.22, 0.8),
+			Cloud = Color3.new(0.38, 0.14, 0.52),
 		},
 	},
 	Weather = { Kind = "Rain", Gap = { 100, 180 }, Duration = { 30, 120 } },
@@ -5071,6 +5071,17 @@ local function initWindowLights()
 		return buildingColor(b)
 	end
 
+	local function refreshPalette()
+		local holiday = HolidayConfigs.getActive()
+		local nextPalette = holiday and holiday.WindowColors or nil
+		if nextPalette == palette then return end
+		palette = nextPalette
+		table.clear(colorCache)
+		for base, light in lights do
+			if light.Parent and base.Parent then light.Color = buildingColor(base.Parent) end
+		end
+	end
+
 	local function setWindow(window, lit)
 		if not window.Parent then return end
 		capture(window)
@@ -5170,9 +5181,7 @@ local function initWindowLights()
 	local function turnOn()
 		if windowsOn then return end
 		windowsOn = true
-		local holiday = HolidayConfigs.getActive()
-		palette = holiday and holiday.WindowColors or nil
-		table.clear(colorCache)
+		refreshPalette()
 		epoch += 1
 		local myEpoch = epoch
 		for building, windows in buildings do
@@ -5247,8 +5256,10 @@ local function initWindowLights()
 		end
 	end)
 
+	refreshPalette()
 	local lastNight, counter = nil, 0
 	while true do
+		refreshPalette()
 		local m = Lighting:GetMinutesAfterMidnight()
 		local night = m >= 1080 or m < 360
 		if night ~= lastNight then
@@ -6087,7 +6098,7 @@ log:info("Started. Service status:\n" .. lifecycle:Report())
 
 	OceanDepth = {
 		Enabled = true,
-		Material = "Sand",
+		FloorName = "Bottom",
 		DepthDrop = 120,
 		WedgeGrow = 120,
 		ColorTolerance = 0.02,
@@ -6117,42 +6128,43 @@ function OceanDepthService.Init()
 		return
 	end
 
-	local material = Enum.Material[cfg.Material]
-	local best, bestVolume = nil, 0
+	local floors = {}
 	local wedges = {}
 
-	for index, inst in ipairs(workspace:GetDescendants()) do
-		if inst:IsA("BasePart") and inst.Material == material then
-			if inst:IsA("WedgePart") then
-				table.insert(wedges, inst)
-			elseif not inst:IsA("CornerWedgePart") then
-				local volume = inst.Size.X * inst.Size.Y * inst.Size.Z
-				if volume > bestVolume then
-					best, bestVolume = inst, volume
-				end
-			end
+	for index, inst in ipairs(game:GetDescendants()) do
+		if inst:IsA("WedgePart") then
+			table.insert(wedges, inst)
+		elseif inst.Name == cfg.FloorName and inst:IsA("BasePart") and inst:IsDescendantOf(workspace) then
+			table.insert(floors, inst)
 		end
 		if index % cfg.YieldEvery == 0 then
 			task.wait()
 		end
 	end
 
-	if not best then
+	if #floors == 0 then
 		return
 	end
 
 	workspace:SetAttribute("OceanDeepened", true)
 
-	local floorColor = best.Color
-	best.CFrame = best.CFrame - Vector3.new(0, cfg.DepthDrop, 0)
+	local signatures = {}
+	for _, floor in ipairs(floors) do
+		table.insert(signatures, { Material = floor.Material, Color = floor.Color })
+		floor.CFrame = floor.CFrame - Vector3.new(0, cfg.DepthDrop, 0)
+	end
 
 	for _, wedge in ipairs(wedges) do
-		local upright = wedge.CFrame.UpVector.Y >= cfg.MinUpright
-		if upright and sameColor(wedge.Color, floorColor, cfg.ColorTolerance) then
-			local cf = wedge.CFrame
-			local size = wedge.Size
-			wedge.Size = Vector3.new(size.X, size.Y + cfg.WedgeGrow, size.Z)
-			wedge.CFrame = cf * CFrame.new(0, -cfg.WedgeGrow / 2, 0)
+		if wedge.CFrame.UpVector.Y >= cfg.MinUpright then
+			for _, signature in ipairs(signatures) do
+				if wedge.Material == signature.Material and sameColor(wedge.Color, signature.Color, cfg.ColorTolerance) then
+					local cf = wedge.CFrame
+					local size = wedge.Size
+					wedge.Size = Vector3.new(size.X, size.Y + cfg.WedgeGrow, size.Z)
+					wedge.CFrame = cf * CFrame.new(0, -cfg.WedgeGrow / 2, 0)
+					break
+				end
+			end
 		end
 	end
 end
