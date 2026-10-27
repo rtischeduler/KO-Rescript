@@ -48,18 +48,16 @@ local function initUnderwaterEffect()
 		return
 	end
 
+	local cachedOcean = nil
 	RunService.RenderStepped:Connect(function()
-		local ocean = Workspace:FindFirstChild("Ocean")
+		if not cachedOcean or not cachedOcean.Parent or cachedOcean.Parent ~= Workspace then
+			cachedOcean = Workspace:FindFirstChild("Ocean")
+		end
+		local ocean = cachedOcean
 		if ocean and ocean:IsA("BasePart") then
-			local cameraY = camera.CFrame.Position.Y
-			local oceanY = ocean.Position.Y
-			if cameraY < oceanY then
-				blur.Enabled = true
-				correction.Enabled = true
-			else
-				blur.Enabled = false
-				correction.Enabled = false
-			end
+			local below = camera.CFrame.Position.Y < ocean.Position.Y
+			if blur.Enabled ~= below then blur.Enabled = below end
+			if correction.Enabled ~= below then correction.Enabled = below end
 		end
 	end)
 end

@@ -632,6 +632,8 @@ function BeamSystem.ActivateBeam(config)
 			end
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
+		local impactParams = RaycastParams.new()
+		impactParams.FilterType = Enum.RaycastFilterType.Exclude
 		local function updateImpact(endPos, extent, now, clashInfo)
 			if clashInfo and not clashInfo.lead then
 				setFxIntensity(0)
@@ -667,10 +669,8 @@ function BeamSystem.ActivateBeam(config)
 					for _, plr in ipairs(Players:GetPlayers()) do
 						if plr.Character then table.insert(filter, plr.Character) end
 					end
-					local params = RaycastParams.new()
-					params.FilterType = Enum.RaycastFilterType.Exclude
-					params.FilterDescendantsInstances = filter
-					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), params)
+					impactParams.FilterDescendantsInstances = filter
+					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), impactParams)
 					if result and (result.Position - endPos).Magnitude <= 7 then
 						impactSurfaceOffset = result.Position + result.Normal * 0.15 - endPos
 						impactSurfaceNormal = result.Normal

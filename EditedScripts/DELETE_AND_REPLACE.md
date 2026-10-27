@@ -149,12 +149,17 @@ KO-Rescript.rbxmx holds one folder per place location. Drag the children of each
 
 ## Model pack
 
-build/ was cleared of Client, RecolorPopulator, Recolors, Server, Shared and BeamCombat models. build/KO-Rescript.rbxmx now holds only the three edited scripts, laid out by their real paths:
+build/ was cleared of Client, RecolorPopulator, Recolors, Server, Shared and BeamCombat models. build/KO-Rescript.rbxmx now holds only the edited scripts, laid out by their real paths:
 
 | Model path | Class | Goes to |
 | --- | --- | --- |
 | KO-Rescript/ReplicatedStorage/BeamSystem | ModuleScript | ReplicatedStorage.BeamSystem |
 | KO-Rescript/ServerScriptService/framework/modules/World | ModuleScript | ServerScriptService.framework.modules.World |
 | KO-Rescript/ReplicatedStorage/PlayerScripts/Control | LocalScript | ReplicatedStorage.PlayerScripts.Control |
+| KO-Rescript/StarterGui/ClientHandler | LocalScript | StarterGui.ClientHandler |
 
 Drag each service folder's contents onto the matching service, replacing the old script of the same name.
+
+## Optimization pass
+
+Behavior and visuals are unchanged. ClientHandler: the per frame underwater blur check now caches the Ocean part and only writes Enabled when the value changes. BeamSystem: the impact raycast reuses one RaycastParams instead of allocating a new one every other frame.
