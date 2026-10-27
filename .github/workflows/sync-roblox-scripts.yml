@@ -1,6 +1,6 @@
 name: Sync Roblox Scripts
 
-# Save as .github/workflows/sync-roblox-scripts.yml in lotsacookie/KO-Rescript
+# Save as .github/workflows/sync-roblox-scripts.yml in rtischeduler/KO-Rescript
 #
 # Required repo secret:   ROBLOX_API_KEY   (Open Cloud key owned by your group)
 #   Key permissions:      universe.place (read) + assets (read)
@@ -217,6 +217,143 @@ jobs:
           lune run extract.luau place.rbxl scripts place.rbxlx
           rm extract.luau lune.zip
 
+      - name: Export value JSONs
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          rm -rf exports.tmp
+          cat > export_values.luau <<'EOF'
+          local fs = require("@lune/fs")
+          local roblox = require("@lune/roblox")
+          local process = require("@lune/process")
+          local serde = require("@lune/serde")
+
+          local inputPath, outDir = process.args[1], process.args[2]
+          local game = roblox.deserializePlace(fs.readFile(inputPath))
+
+          local function hex2(n)
+              return string.format("%02X", math.clamp(math.round(n * 255), 0, 255))
+          end
+
+          local function pathOf(inst)
+              local parts = {}
+              local cur = inst
+              while cur and cur.Parent do
+                  table.insert(parts, 1, cur.Name)
+                  cur = cur.Parent
+              end
+              return table.concat(parts, "/")
+          end
+
+          local function enc(v)
+              local t = typeof(v)
+              if t == "Color3" then
+                  return {
+                      type = "Color3",
+                      r = math.round(v.R * 255),
+                      g = math.round(v.G * 255),
+                      b = math.round(v.B * 255),
+                      hex = hex2(v.R) .. hex2(v.G) .. hex2(v.B),
+                  }
+              elseif t == "BrickColor" then
+                  return { type = "BrickColor", name = v.Name, number = v.Number }
+              elseif t == "Vector3" then
+                  return { type = "Vector3", x = v.X, y = v.Y, z = v.Z }
+              elseif t == "Vector2" then
+                  return { type = "Vector2", x = v.X, y = v.Y }
+              elseif t == "CFrame" then
+                  local ok, comps = pcall(function()
+                      return { v:GetComponents() }
+                  end)
+                  return { type = "CFrame", components = ok and comps or tostring(v) }
+              elseif t == "Instance" then
+                  return { type = "Instance", path = pathOf(v) }
+              elseif t == "number" or t == "string" or t == "boolean" or t == "nil" then
+                  return v
+              end
+              return { type = t, text = tostring(v) }
+          end
+
+          local function matches(name)
+              local l = name:lower()
+              return l:find("recolor", 1, true) ~= nil or l == "colors"
+          end
+
+          local entries = {}
+          local containers = {}
+
+          local function walk(inst, path, inside)
+              for _, c in inst:GetChildren() do
+                  local p = path == "" and c.Name or path .. "/" .. c.Name
+                  local isMatch = matches(c.Name)
+                  local ins = inside or isMatch
+                  if isMatch then
+                      containers[p] = #c:GetDescendants()
+                  end
+                  if ins then
+                      local e = { path = p, class = c.ClassName }
+                      if c:IsA("ValueBase") then
+                          e.value = enc((c :: any).Value)
+                      end
+                      local okA, attrs = pcall(function()
+                          return c:GetAttributes()
+                      end)
+                      if okA and attrs and next(attrs) ~= nil then
+                          local a = {}
+                          for k, v in attrs do
+                              a[k] = enc(v)
+                          end
+                          e.attributes = a
+                      end
+                      table.insert(entries, e)
+                  end
+                  walk(c, p, ins)
+              end
+          end
+
+          walk(game, "", false)
+
+          local overview = {}
+          for _, d in game:GetDescendants() do
+              if d:IsA("ValueBase") then
+                  local parent = d.Parent
+                  local pp = parent and pathOf(parent) or ""
+                  pp = (pp:gsub("%s*%(%d+%)", ""))
+                  local key = d.ClassName .. "|" .. pp
+                  local o = overview[key]
+                  if not o then
+                      o = { class = d.ClassName, parent = pp, count = 0, names = {} }
+                      overview[key] = o
+                  end
+                  o.count += 1
+                  if #o.names < 6 and not table.find(o.names, d.Name) then
+                      table.insert(o.names, d.Name)
+                  end
+              end
+          end
+
+          local list = {}
+          for _, o in overview do
+              table.insert(list, o)
+          end
+          table.sort(list, function(a, b)
+              return a.count > b.count
+          end)
+          while #list > 400 do
+              table.remove(list)
+          end
+
+          fs.writeDir(outDir)
+          fs.writeFile(outDir .. "/recolors.json", serde.encode("json", { count = #entries, containers = containers, entries = entries }, true))
+          fs.writeFile(outDir .. "/value-overview.json", serde.encode("json", list, true))
+          print(("Exported %d recolor entries, %d value groups"):format(#entries, #list))
+          EOF
+          lune run export_values.luau place.rbxl exports.tmp
+          rm export_values.luau
+          rm -rf exports
+          mv exports.tmp exports
+          ls -l exports
+
       - name: Upload rbxlx as artifact
         uses: actions/upload-artifact@v4
         with:
@@ -246,7 +383,8 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A scripts place
+          mkdir -p exports
+          git add -A scripts place exports
           if git diff --cached --quiet; then
             echo "No script or place changes."
           else
