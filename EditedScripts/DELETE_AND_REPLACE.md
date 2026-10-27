@@ -4,6 +4,22 @@ Counts come from the git tree of `scripts/` (1056 script files). Identical files
 
 709 of the 1056 scripts are 3 bytes or smaller (empty stubs). Most of the duplication is stubs inside duplicated models, not duplicated logic.
 
+## Overall checklist
+
+Do these in order in Studio. Everything under `EditedScripts/` is the replacement; `scripts/` is only a mirror.
+
+| # | Delete | Replaced by |
+|---|---|---|
+| 1 | Loose scripts in `StarterPlayerScripts` (15) and `ServerHandler`, `MorphBootstrap`, `HealthEnforcer`, `GCellIntegrityGuard`, `PlayerEliminator`, `SettingsStore` | `Server` and `Client` frameworks, steps in `SETUP.md` |
+| 2 | `Server/Core` and `Client/Core` Lifecycle, Logger, Util | `ReplicatedStorage/Shared` |
+| 3 | `ReplicatedStorage/Recolors` Folder (29 folders, 231 values) | `ReplicatedStorage/Recolors` ModuleScript from `EditedScripts/ReplicatedStorage/Recolors.lua` |
+| 4 | Old `RecolorPopulator` and old `framework/modules/Data` | the two edited copies listed in section 5 (both now `require` the module, so step 3 must be done first) |
+| 5 | `Interface/Colors/Colors/*` and `Interface/Recolor/LocalScript` | nothing, they are empty |
+| 6 | `Roar1Script`, `Roar2Script`, every `DPS` script | `initRoar` and `initDPS` in `Combat.lua`, then run `Migration/MigrateDPSAndRoar.lua` |
+| 7 | Duplicate models, retired kaijus, empty stubs | sections 1, 2 and 6 below |
+
+After step 3, anything else that read `ReplicatedStorage.Recolors.<name>.Primary.Value` must use `require(Recolors).Data[name].Primary`. Only `Data` and `RecolorPopulator` did in this repo's scripts.
+
 ## 1. Delete, copy already exists elsewhere
 
 | Delete in the place | Scripts | Kept copy |
@@ -45,7 +61,8 @@ Recolors are many separate values today. They become one module.
 | `ReplicatedStorage/Recolors` Folder: 29 child Folders, 231 Color3Value/StringValue (Primary, Secondary, Tertiary, EyeColor and their Material values) plus `RandomGreen`/`KeepColor` attributes | `ReplicatedStorage/Recolors` ModuleScript (`EditedScripts/ReplicatedStorage/Recolors.lua`), `Data[name]` holds every color, material and flag; `Order` lists names; `Unlock` holds the Diamond and Gold rules. Delete the Folder, then add the ModuleScript under the same name |
 | `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/*` (`LocalRecolor`, `RecolorScript` x6, all empty) | deleted, no replacement needed |
 | `Interface/Recolor/LocalScript` (empty) | deleted |
-| `StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator` (hard-codes Diamond and Gold) | same script, but reads the Recolors module and the unlock rules from it |
+| `StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator` (loops the Folder, hard-codes Diamond and Gold level) | `EditedScripts/StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator.client.lua`: builds buttons from `Recolors.Order` and `Recolors.Get`, level 50 comes from `Recolors.Unlock.Gold.level` |
+| `ServerScriptService/framework/modules/Data` (`getRecolorData` read the Folder value by value) | `EditedScripts/BeamCombat/ServerScriptService/framework/modules/Data.lua`: `getRecolorData` returns `Recolors.Get(name)`; same keys, so the apply code is unchanged |
 
 The module was generated from `exports/recolors.json`. Readers that did `Recolors:FindFirstChild(name).Primary.Value` now do `require(Recolors).Data[name].Primary`. `exports/value-overview.json` lists every value-type instance grouped by parent, so anything else that should become a module can be picked from it.
 
