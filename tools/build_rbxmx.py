@@ -7,9 +7,8 @@ SRC = ROOT / "EditedScripts"
 OUT = ROOT / "build"
 MODEL = "KO-Rescript.rbxmx"
 
-FILES = [
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "Indicators.lua", "Indicators", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
-]
+SKIP_TOP = {"tests", "Migration"}
+STRIP_TOP = {"BeamCombat"}
 
 
 def cdata(text):
@@ -18,6 +17,22 @@ def cdata(text):
 
 def folder(name):
     return {"class": "Folder", "name": name, "source": None, "children": []}
+
+
+def classify(filename):
+    if filename.endswith(".server.lua"):
+        return filename[: -len(".server.lua")], "Script"
+    if filename.endswith(".client.lua"):
+        return filename[: -len(".client.lua")], "LocalScript"
+    return filename[: -len(".lua")], "ModuleScript"
+
+
+def child(parent, name):
+    found = next((c for c in parent["children"] if c["name"] == name), None)
+    if found is None:
+        found = folder(name)
+        parent["children"].append(found)
+    return found
 
 
 def emit(node, counter, depth):
@@ -30,37 +45,42 @@ def emit(node, counter, depth):
     if node["source"] is not None:
         lines.append(f'{pad}\t\t<ProtectedString name="Source">{cdata(node["source"])}</ProtectedString>')
     lines.append(f"{pad}\t</Properties>")
-    for child in node["children"]:
-        lines.extend(emit(child, counter, depth + 1))
+    for sub in node["children"]:
+        lines.extend(emit(sub, counter, depth + 1))
     lines.append(f"{pad}</Item>")
     return lines
 
 
 def main():
     root = folder("KO-Rescript")
-    for path, name, class_name, parents in FILES:
-        if not path.is_file():
-            raise SystemExit(f"missing source: {path}")
+    files = sorted(p for p in SRC.rglob("*.lua") if p.is_file())
+    count = 0
+    for path in files:
+        parts = list(path.relative_to(SRC).parts)
+        if parts[0] in SKIP_TOP:
+            continue
+        if parts[0] in STRIP_TOP:
+            parts = parts[1:]
+        name, class_name = classify(parts[-1])
         cursor = root
-        for part in parents:
-            nxt = next((c for c in cursor["children"] if c["name"] == part), None)
-            if nxt is None:
-                nxt = folder(part)
-                cursor["children"].append(nxt)
-            cursor = nxt
-        existing = next((c for c in cursor["children"] if c["name"] == name), None)
-        if existing is not None:
-            existing["class"] = class_name
-            existing["source"] = path.read_text()
+        for part in parts[:-1]:
+            cursor = child(cursor, part)
+        source = path.read_text(encoding="utf-8")
+        if name == "init":
+            cursor["class"] = class_name
+            cursor["source"] = source
         else:
-            cursor["children"].append({"class": class_name, "name": name, "source": path.read_text(), "children": []})
+            node = child(cursor, name)
+            node["class"] = class_name
+            node["source"] = source
+        count += 1
     counter = [0]
     lines = ['<roblox version="4">']
     lines.extend(emit(root, counter, 1))
     lines.append("</roblox>")
     OUT.mkdir(exist_ok=True)
     (OUT / MODEL).write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"{MODEL}: {counter[0]} instances")
+    print(f"{MODEL}: {count} scripts, {counter[0]} instances")
     return 0
 
 
