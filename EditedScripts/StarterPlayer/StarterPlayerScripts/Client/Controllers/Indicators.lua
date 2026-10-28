@@ -1,8 +1,15 @@
 local IndicatorsController = { Name = "Indicators" }
 
-local HOLD_TIME = 1.6
-local FADE_TIME = 0.45
-local ROW_HEIGHT = 32
+local HOLD_TIME = 1.1
+local FADE_TIME = 0.4
+local RISE_STUDS = 5
+local ROW_HEIGHT = 18
+local WIDTH = 140
+local TEXT_SIZE = 16
+local REF_DISTANCE = 70
+local MIN_SCALE = 0.3
+local MAX_DISTANCE = 450
+local MAX_ACTIVE = 24
 
 local ROWS = {
 	{ key = "damage", label = "Damage", color = Color3.fromRGB(255, 70, 70) },
@@ -21,105 +28,166 @@ function IndicatorsController:Start()
 	task.spawn(function()
 		local Players = game:GetService("Players")
 		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local RunService = game:GetService("RunService")
 		local TweenService = game:GetService("TweenService")
+		local Workspace = game:GetService("Workspace")
 
 		local player = Players.LocalPlayer
 		local remote = ReplicatedStorage:WaitForChild("RewardIndicator")
+		local playerGui = player:WaitForChild("PlayerGui")
 
-		local gui = Instance.new("ScreenGui")
-		gui.Name = "RewardIndicators"
-		gui.ResetOnSpawn = false
-		gui.IgnoreGuiInset = true
-		gui.DisplayOrder = 5
-		gui.Parent = player:WaitForChild("PlayerGui")
+		local guiFolder = Instance.new("Folder")
+		guiFolder.Name = "RewardIndicators"
+		guiFolder.Parent = playerGui
 
-		local holder = Instance.new("Frame")
-		holder.Name = "Stack"
-		holder.AnchorPoint = Vector2.new(0, 0.5)
-		holder.Position = UDim2.new(0.5, 90, 0.5, -20)
-		holder.Size = UDim2.fromOffset(300, ROW_HEIGHT * #ROWS)
-		holder.BackgroundTransparency = 1
-		holder.Parent = gui
+		local active = {}
+		local floatInfo = TweenInfo.new(HOLD_TIME + FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
 
-		local scale = Instance.new("UIScale")
-		scale.Parent = holder
-
-		local layout = Instance.new("UIListLayout")
-		layout.SortOrder = Enum.SortOrder.LayoutOrder
-		layout.Parent = holder
-
-		local labels = {}
-		local totals = {}
-		for index, row in ROWS do
-			local label = Instance.new("TextLabel")
-			label.Name = row.key
-			label.LayoutOrder = index
-			label.Size = UDim2.new(1, 0, 0, ROW_HEIGHT)
-			label.BackgroundTransparency = 1
-			label.Font = Enum.Font.GothamBlack
-			label.TextSize = 26
-			label.TextXAlignment = Enum.TextXAlignment.Left
-			label.TextColor3 = row.color
-			label.TextStrokeColor3 = Color3.new(0, 0, 0)
-			label.TextStrokeTransparency = 0.1
-			label.Text = ""
-			label.Parent = holder
-			labels[row.key] = label
-			totals[row.key] = 0
+		local function getAnchorFolder()
+			local camera = Workspace.CurrentCamera
+			if not camera then
+				return nil
+			end
+			local folder = camera:FindFirstChild("RewardAnchors")
+			if not folder then
+				folder = Instance.new("Folder")
+				folder.Name = "RewardAnchors"
+				folder.Parent = camera
+			end
+			return folder
 		end
 
-		local lastUpdate = 0
-		local token = 0
-		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-		local popInfo = TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+		local function destroyEntry(entry)
+			if entry.dead then
+				return
+			end
+			entry.dead = true
+			entry.gui:Destroy()
+			entry.anchor:Destroy()
+		end
 
-		local function render()
+		local function spawnIndicator(position, values)
+			local anchorFolder = getAnchorFolder()
+			if not anchorFolder then
+				return
+			end
+
+			local lines = {}
 			for _, row in ROWS do
-				local value = totals[row.key]
-				local label = labels[row.key]
-				label.Text = value > 0.05 and (row.label .. ": " .. formatAmount(value)) or ""
-				label.TextTransparency = 0
-				label.TextStrokeTransparency = 0.1
+				local value = values[row.key]
+				if value > 0.05 then
+					table.insert(lines, { row = row, text = row.label .. ": " .. formatAmount(value) })
+				end
 			end
-		end
-
-		local function clear()
-			for _, row in ROWS do
-				totals[row.key] = 0
-				labels[row.key].Text = ""
+			if #lines == 0 then
+				return
 			end
-		end
 
-		remote.OnClientEvent:Connect(function(damage, gcells, xp)
-			local now = os.clock()
-			if now - lastUpdate > HOLD_TIME + FADE_TIME then
-				clear()
+			while #active >= MAX_ACTIVE do
+				destroyEntry(table.remove(active, 1))
 			end
-			lastUpdate = now
 
-			totals.damage += tonumber(damage) or 0
-			totals.gcells += tonumber(gcells) or 0
-			totals.xp += tonumber(xp) or 0
-			render()
+			local anchor = Instance.new("Part")
+			anchor.Name = "Anchor"
+			anchor.Anchored = true
+			anchor.CanCollide = false
+			anchor.CanTouch = false
+			anchor.CanQuery = false
+			anchor.CastShadow = false
+			anchor.Transparency = 1
+			anchor.Size = Vector3.new(0.2, 0.2, 0.2)
+			anchor.Position = position
+			anchor.Parent = anchorFolder
 
-			scale.Scale = 1.12
-			TweenService:Create(scale, popInfo, { Scale = 1 }):Play()
+			local gui = Instance.new("BillboardGui")
+			gui.Name = "Indicator"
+			gui.Adornee = anchor
+			gui.AlwaysOnTop = true
+			gui.LightInfluence = 0
+			gui.ResetOnSpawn = false
+			gui.MaxDistance = MAX_DISTANCE
+			gui.Size = UDim2.fromOffset(WIDTH, ROW_HEIGHT * #lines)
+			gui.StudsOffsetWorldSpace = Vector3.new(math.random(-20, 20) / 10, 0, math.random(-20, 20) / 10)
 
-			token += 1
-			local mine = token
+			local container = Instance.new("Frame")
+			container.AnchorPoint = Vector2.new(0.5, 0.5)
+			container.Position = UDim2.fromScale(0.5, 0.5)
+			container.Size = UDim2.fromScale(1, 1)
+			container.BackgroundTransparency = 1
+			container.Parent = gui
+
+			local scale = Instance.new("UIScale")
+			scale.Parent = container
+
+			local layout = Instance.new("UIListLayout")
+			layout.SortOrder = Enum.SortOrder.LayoutOrder
+			layout.Parent = container
+
+			local labels = {}
+			for index, line in lines do
+				local label = Instance.new("TextLabel")
+				label.LayoutOrder = index
+				label.Size = UDim2.new(1, 0, 0, ROW_HEIGHT)
+				label.BackgroundTransparency = 1
+				label.Font = Enum.Font.GothamBlack
+				label.TextSize = TEXT_SIZE
+				label.TextColor3 = line.row.color
+				label.TextStrokeColor3 = Color3.new(0, 0, 0)
+				label.TextStrokeTransparency = 0.15
+				label.Text = line.text
+				label.Parent = container
+				table.insert(labels, label)
+			end
+
+			gui.Parent = guiFolder
+
+			local entry = { gui = gui, anchor = anchor, scale = scale, position = position, dead = false }
+			table.insert(active, entry)
+
+			TweenService:Create(gui, floatInfo, {
+				StudsOffsetWorldSpace = gui.StudsOffsetWorldSpace + Vector3.new(0, RISE_STUDS, 0),
+			}):Play()
+
 			task.delay(HOLD_TIME, function()
-				if mine ~= token then
+				if entry.dead then
 					return
 				end
 				for _, label in labels do
 					TweenService:Create(label, fadeInfo, { TextTransparency = 1, TextStrokeTransparency = 1 }):Play()
 				end
-				task.delay(FADE_TIME, function()
-					if mine == token then
-						clear()
-					end
-				end)
 			end)
+			task.delay(HOLD_TIME + FADE_TIME, function()
+				destroyEntry(entry)
+			end)
+		end
+
+		RunService.Heartbeat:Connect(function()
+			local camera = Workspace.CurrentCamera
+			if not camera or #active == 0 then
+				return
+			end
+			local cameraPosition = camera.CFrame.Position
+			for index = #active, 1, -1 do
+				local entry = active[index]
+				if entry.dead then
+					table.remove(active, index)
+				else
+					local distance = math.max((cameraPosition - entry.position).Magnitude, 1)
+					entry.scale.Scale = math.clamp(REF_DISTANCE / distance, MIN_SCALE, 1)
+				end
+			end
+		end)
+
+		remote.OnClientEvent:Connect(function(position, damage, gcells, xp)
+			if typeof(position) ~= "Vector3" then
+				return
+			end
+			spawnIndicator(position, {
+				damage = tonumber(damage) or 0,
+				gcells = tonumber(gcells) or 0,
+				xp = tonumber(xp) or 0,
+			})
 		end)
 	end)
 end

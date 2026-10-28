@@ -753,7 +753,7 @@ local function initBuilding()
 		end
 	end
 
-	local function reward(player, cells, damage)
+	local function reward(player, cells, damage, at)
 		if not player then return end
 		local ls = player:FindFirstChild("leaderstats")
 		local gcells = ls and (ls:FindFirstChild("GCells") or ls:FindFirstChild("gcells"))
@@ -768,7 +768,7 @@ local function initBuilding()
 			xpAmount = math.random(1, 3)
 			xp:Fire(xpAmount)
 		end
-		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount) end
+		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount, at) end
 	end
 
 	local function liveRefs()
@@ -1105,7 +1105,7 @@ local function initBuilding()
 				windowApi.flickerBuilding(building, 0.45, false)
 			end
 			playHitSound(base)
-			for player, cells in rewardsByPlayer do reward(player, cells, amount) end
+			for player, cells in rewardsByPlayer do reward(player, cells, amount, building) end
 			if HP.Value <= 0 then
 				HP.Value = 0
 				onDestroyed()

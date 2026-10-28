@@ -2,18 +2,50 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local REMOTE_NAME = "RewardIndicator"
-local FLUSH_INTERVAL = 0.2
+local FLUSH_INTERVAL = 0.25
 
 local IndicatorService = { Name = "Indicators" }
 
 local pending = {}
 local remote
 
+local function ownHead(player)
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	return root and (root.Position + Vector3.new(0, 4, 0)) or nil
+end
+
+local function resolve(at, player)
+	if typeof(at) == "Vector3" then
+		return at
+	end
+	if typeof(at) == "Instance" then
+		if at:IsA("Humanoid") then
+			at = at.Parent
+		end
+		if at and at:IsA("BasePart") then
+			return at.Position
+		end
+		if at and at:IsA("Model") then
+			local ok, cframe, size = pcall(at.GetBoundingBox, at)
+			if ok then
+				return cframe.Position + Vector3.new(0, size.Y * 0.35, 0)
+			end
+		end
+	end
+	return ownHead(player)
+end
+
 local function flush()
-	for player, entry in pending do
+	for player, bucket in pending do
 		pending[player] = nil
 		if player.Parent and remote then
-			remote:FireClient(player, entry.damage, entry.gcells, entry.xp)
+			for _, entry in bucket do
+				local position = resolve(entry.at, player)
+				if position then
+					remote:FireClient(player, position, entry.damage, entry.gcells, entry.xp)
+				end
+			end
 		end
 	end
 end
@@ -26,7 +58,7 @@ function IndicatorService:Init()
 		remote.Parent = ReplicatedStorage
 	end
 
-	_G.ShowIndicator = function(player, damage, gcells, xp)
+	_G.ShowIndicator = function(player, damage, gcells, xp, at)
 		if typeof(player) ~= "Instance" or not player:IsA("Player") then
 			return
 		end
@@ -36,10 +68,19 @@ function IndicatorService:Init()
 		if damage + gcells + xp <= 0 then
 			return
 		end
-		local entry = pending[player]
+		local key = at
+		if key == nil then
+			key = "self"
+		end
+		local bucket = pending[player]
+		if not bucket then
+			bucket = {}
+			pending[player] = bucket
+		end
+		local entry = bucket[key]
 		if not entry then
-			entry = { damage = 0, gcells = 0, xp = 0 }
-			pending[player] = entry
+			entry = { at = at, damage = 0, gcells = 0, xp = 0 }
+			bucket[key] = entry
 		end
 		entry.damage += damage
 		entry.gcells += gcells

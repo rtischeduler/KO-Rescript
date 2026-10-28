@@ -80,18 +80,50 @@ log:info("Started. Service status:\n" .. lifecycle:Report())
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local REMOTE_NAME = "RewardIndicator"
-local FLUSH_INTERVAL = 0.2
+local FLUSH_INTERVAL = 0.25
 
 local IndicatorService = { Name = "Indicators" }
 
 local pending = {}
 local remote
 
+local function ownHead(player)
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	return root and (root.Position + Vector3.new(0, 4, 0)) or nil
+end
+
+local function resolve(at, player)
+	if typeof(at) == "Vector3" then
+		return at
+	end
+	if typeof(at) == "Instance" then
+		if at:IsA("Humanoid") then
+			at = at.Parent
+		end
+		if at and at:IsA("BasePart") then
+			return at.Position
+		end
+		if at and at:IsA("Model") then
+			local ok, cframe, size = pcall(at.GetBoundingBox, at)
+			if ok then
+				return cframe.Position + Vector3.new(0, size.Y * 0.35, 0)
+			end
+		end
+	end
+	return ownHead(player)
+end
+
 local function flush()
-	for player, entry in pending do
+	for player, bucket in pending do
 		pending[player] = nil
 		if player.Parent and remote then
-			remote:FireClient(player, entry.damage, entry.gcells, entry.xp)
+			for _, entry in bucket do
+				local position = resolve(entry.at, player)
+				if position then
+					remote:FireClient(player, position, entry.damage, entry.gcells, entry.xp)
+				end
+			end
 		end
 	end
 end
@@ -104,7 +136,7 @@ function IndicatorService:Init()
 		remote.Parent = ReplicatedStorage
 	end
 
-	_G.ShowIndicator = function(player, damage, gcells, xp)
+	_G.ShowIndicator = function(player, damage, gcells, xp, at)
 		if typeof(player) ~= "Instance" or not player:IsA("Player") then
 			return
 		end
@@ -114,10 +146,19 @@ function IndicatorService:Init()
 		if damage + gcells + xp <= 0 then
 			return
 		end
-		local entry = pending[player]
+		local key = at
+		if key == nil then
+			key = "self"
+		end
+		local bucket = pending[player]
+		if not bucket then
+			bucket = {}
+			pending[player] = bucket
+		end
+		local entry = bucket[key]
 		if not entry then
-			entry = { damage = 0, gcells = 0, xp = 0 }
-			pending[player] = entry
+			entry = { at = at, damage = 0, gcells = 0, xp = 0 }
+			bucket[key] = entry
 		end
 		entry.damage += damage
 		entry.gcells += gcells
@@ -193,24 +234,24 @@ local function getGCells(player)
 	return nil
 end
 
-local function giveGCells(player, amount, isKillReward)
+local function giveGCells(player, amount, isKillReward, at)
 	local gcells = getGCells(player)
 	if not gcells then return end
 	if isKillReward and _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
 	if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 	gcells.Value += amount
-	if _G.ShowIndicator then _G.ShowIndicator(player, 0, amount, 0) end
+	if _G.ShowIndicator then _G.ShowIndicator(player, 0, amount, 0, at) end
 	if isKillReward and _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 end
 
-local function giveXP(player, minXP, maxXP)
+local function giveXP(player, minXP, maxXP, at)
 	local character = player.Character
 	local addXP = character and character:FindFirstChild("AddXP")
 	if addXP and addXP:IsA("BindableEvent") then
 		if _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
 		local xpAmount = math.random(minXP, maxXP)
 		addXP:Fire(xpAmount)
-		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount) end
+		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount, at) end
 		if _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 	end
 end
@@ -419,17 +460,17 @@ local function initCombat()
 
 				if topKiller and topKiller:IsA("Player") then
 					sendKillMessage(topKiller.Name, victimName)
-					giveGCells(topKiller, KILL_REWARD, true)
+					giveGCells(topKiller, KILL_REWARD, true, character)
 					local stats = topKiller:FindFirstChild("leaderstats")
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end
-					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX)
+					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
 					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
 				end
 				for _, attacker in ipairs(others) do
 					if attacker ~= topKiller and attacker:IsA("Player") then
-						giveGCells(attacker, ASSIST_REWARD, true)
-						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX)
+						giveGCells(attacker, ASSIST_REWARD, true, character)
+						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
 					end
 				end
 			end
@@ -466,16 +507,16 @@ local function initCombat()
 			local reward = math.floor(damagePercent * KILL_REWARD)
 			if reward > 0 then
 				sendKillMessage(topKiller.Name, player.Name)
-				giveGCells(topKiller, reward, true)
-				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX)
+				giveGCells(topKiller, reward, true, character)
+				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
 			end
 		end
 		for _, attacker in ipairs(others) do
 			if attacker ~= topKiller and attacker:IsA("Player") then
 				local reward = math.floor(damagePercent * ASSIST_REWARD)
 				if reward > 0 then
-					giveGCells(attacker, reward, true)
-					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX)
+					giveGCells(attacker, reward, true, character)
+					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
 				end
 			end
 		end
@@ -607,9 +648,9 @@ local function initPulse()
 					hitThisTick[hitPlayer] = true
 					setCreator(hitHumanoid, player)
 					hitHumanoid:TakeDamage(damagePerTick)
-					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0) end
+					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
 					pulseHitEvent:FireClient(hitPlayer)
-					giveGCells(player, gcellsPerTick, false)
+					giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
 				end
 			end
 
@@ -885,9 +926,9 @@ local function initAttackHandler()
 	local function registerHit(attacker, attackerChar, humanoid, damage, gcells)
 		setCreator(humanoid, attacker)
 		humanoid:TakeDamage(damage)
-		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0) end
+		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0, humanoid.Parent) end
 		playHitSound(attackerChar)
-		giveGCells(attacker, gcells, false)
+		giveGCells(attacker, gcells, false, humanoid.Parent)
 	end
 
 	local function enableHitParts(character, hitPlayers, player, damage)
@@ -1262,14 +1303,14 @@ local function initDPS()
 		return perLevel.Value ^ (level - 1)
 	end
 
-	local function payGCells(attacker, amount)
+	local function payGCells(attacker, amount, at)
 		local leaderstats = attacker:FindFirstChild("leaderstats")
 		if not leaderstats then return end
 		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 		if gcells and gcells:IsA("IntValue") then
 			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 			gcells.Value = gcells.Value + amount
-			if _G.ShowIndicator and amount >= 1 then _G.ShowIndicator(attacker, 0, amount, 0) end
+			if _G.ShowIndicator and amount >= 1 then _G.ShowIndicator(attacker, 0, amount, 0, at) end
 		end
 	end
 
@@ -1295,8 +1336,8 @@ local function initDPS()
 			humanoid.Health = humanoid.Health - (part:GetAttribute("Damage") or 0.9) * multiplier
 			if attacker then
 				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
-				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2)
-				if _G.ShowIndicator then _G.ShowIndicator(attacker, (part:GetAttribute("Damage") or 0.9) * multiplier, 0, 0) end
+				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2, character)
+				if _G.ShowIndicator then _G.ShowIndicator(attacker, (part:GetAttribute("Damage") or 0.9) * multiplier, 0, 0, character) end
 			end
 		end)
 	end
@@ -2127,7 +2168,7 @@ local function initBuilding()
 		end
 	end
 
-	local function reward(player, cells, damage)
+	local function reward(player, cells, damage, at)
 		if not player then return end
 		local ls = player:FindFirstChild("leaderstats")
 		local gcells = ls and (ls:FindFirstChild("GCells") or ls:FindFirstChild("gcells"))
@@ -2142,7 +2183,7 @@ local function initBuilding()
 			xpAmount = math.random(1, 3)
 			xp:Fire(xpAmount)
 		end
-		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount) end
+		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount, at) end
 	end
 
 	local function liveRefs()
@@ -2479,7 +2520,7 @@ local function initBuilding()
 				windowApi.flickerBuilding(building, 0.45, false)
 			end
 			playHitSound(base)
-			for player, cells in rewardsByPlayer do reward(player, cells, amount) end
+			for player, cells in rewardsByPlayer do reward(player, cells, amount, building) end
 			if HP.Value <= 0 then
 				HP.Value = 0
 				onDestroyed()
@@ -3706,7 +3747,7 @@ function BeamSystem.ActivateBeam(config)
 									end
 									creator.Value = attackerPlayer
 									ownerHum:TakeDamage(dmg)
-									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, 25, 0) end
+									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, 25, 0, ownerHum.Parent) end
 									local leaderstats = attackerPlayer:FindFirstChild("leaderstats")
 									if leaderstats then
 										local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
@@ -3866,14 +3907,14 @@ local function getCharRadius(char)
 	return radius
 end
 
-local function awardGCells(attacker)
+local function awardGCells(attacker, at)
 	local leaderstats = attacker:FindFirstChild("leaderstats")
 	if leaderstats then
 		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 		if gcells and gcells:IsA("IntValue") then
 			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 2) end
 			gcells.Value = gcells.Value + 2
-			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, 2, 0) end
+			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, 2, 0, at) end
 		end
 	end
 end
@@ -3926,8 +3967,8 @@ task.spawn(function()
 
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
-									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0) end
-									awardGCells(attacker)
+									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end
+									awardGCells(attacker, char)
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)
 									end
@@ -4744,9 +4785,16 @@ log:info("Started. Controller status:\n" .. lifecycle:Report())
 								<string name="Name">Indicators</string>
 								<ProtectedString name="Source"><![CDATA[local IndicatorsController = { Name = "Indicators" }
 
-local HOLD_TIME = 1.6
-local FADE_TIME = 0.45
-local ROW_HEIGHT = 32
+local HOLD_TIME = 1.1
+local FADE_TIME = 0.4
+local RISE_STUDS = 5
+local ROW_HEIGHT = 18
+local WIDTH = 140
+local TEXT_SIZE = 16
+local REF_DISTANCE = 70
+local MIN_SCALE = 0.3
+local MAX_DISTANCE = 450
+local MAX_ACTIVE = 24
 
 local ROWS = {
 	{ key = "damage", label = "Damage", color = Color3.fromRGB(255, 70, 70) },
@@ -4765,105 +4813,166 @@ function IndicatorsController:Start()
 	task.spawn(function()
 		local Players = game:GetService("Players")
 		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local RunService = game:GetService("RunService")
 		local TweenService = game:GetService("TweenService")
+		local Workspace = game:GetService("Workspace")
 
 		local player = Players.LocalPlayer
 		local remote = ReplicatedStorage:WaitForChild("RewardIndicator")
+		local playerGui = player:WaitForChild("PlayerGui")
 
-		local gui = Instance.new("ScreenGui")
-		gui.Name = "RewardIndicators"
-		gui.ResetOnSpawn = false
-		gui.IgnoreGuiInset = true
-		gui.DisplayOrder = 5
-		gui.Parent = player:WaitForChild("PlayerGui")
+		local guiFolder = Instance.new("Folder")
+		guiFolder.Name = "RewardIndicators"
+		guiFolder.Parent = playerGui
 
-		local holder = Instance.new("Frame")
-		holder.Name = "Stack"
-		holder.AnchorPoint = Vector2.new(0, 0.5)
-		holder.Position = UDim2.new(0.5, 90, 0.5, -20)
-		holder.Size = UDim2.fromOffset(300, ROW_HEIGHT * #ROWS)
-		holder.BackgroundTransparency = 1
-		holder.Parent = gui
+		local active = {}
+		local floatInfo = TweenInfo.new(HOLD_TIME + FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
 
-		local scale = Instance.new("UIScale")
-		scale.Parent = holder
-
-		local layout = Instance.new("UIListLayout")
-		layout.SortOrder = Enum.SortOrder.LayoutOrder
-		layout.Parent = holder
-
-		local labels = {}
-		local totals = {}
-		for index, row in ROWS do
-			local label = Instance.new("TextLabel")
-			label.Name = row.key
-			label.LayoutOrder = index
-			label.Size = UDim2.new(1, 0, 0, ROW_HEIGHT)
-			label.BackgroundTransparency = 1
-			label.Font = Enum.Font.GothamBlack
-			label.TextSize = 26
-			label.TextXAlignment = Enum.TextXAlignment.Left
-			label.TextColor3 = row.color
-			label.TextStrokeColor3 = Color3.new(0, 0, 0)
-			label.TextStrokeTransparency = 0.1
-			label.Text = ""
-			label.Parent = holder
-			labels[row.key] = label
-			totals[row.key] = 0
+		local function getAnchorFolder()
+			local camera = Workspace.CurrentCamera
+			if not camera then
+				return nil
+			end
+			local folder = camera:FindFirstChild("RewardAnchors")
+			if not folder then
+				folder = Instance.new("Folder")
+				folder.Name = "RewardAnchors"
+				folder.Parent = camera
+			end
+			return folder
 		end
 
-		local lastUpdate = 0
-		local token = 0
-		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-		local popInfo = TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+		local function destroyEntry(entry)
+			if entry.dead then
+				return
+			end
+			entry.dead = true
+			entry.gui:Destroy()
+			entry.anchor:Destroy()
+		end
 
-		local function render()
+		local function spawnIndicator(position, values)
+			local anchorFolder = getAnchorFolder()
+			if not anchorFolder then
+				return
+			end
+
+			local lines = {}
 			for _, row in ROWS do
-				local value = totals[row.key]
-				local label = labels[row.key]
-				label.Text = value > 0.05 and (row.label .. ": " .. formatAmount(value)) or ""
-				label.TextTransparency = 0
-				label.TextStrokeTransparency = 0.1
+				local value = values[row.key]
+				if value > 0.05 then
+					table.insert(lines, { row = row, text = row.label .. ": " .. formatAmount(value) })
+				end
 			end
-		end
-
-		local function clear()
-			for _, row in ROWS do
-				totals[row.key] = 0
-				labels[row.key].Text = ""
+			if #lines == 0 then
+				return
 			end
-		end
 
-		remote.OnClientEvent:Connect(function(damage, gcells, xp)
-			local now = os.clock()
-			if now - lastUpdate > HOLD_TIME + FADE_TIME then
-				clear()
+			while #active >= MAX_ACTIVE do
+				destroyEntry(table.remove(active, 1))
 			end
-			lastUpdate = now
 
-			totals.damage += tonumber(damage) or 0
-			totals.gcells += tonumber(gcells) or 0
-			totals.xp += tonumber(xp) or 0
-			render()
+			local anchor = Instance.new("Part")
+			anchor.Name = "Anchor"
+			anchor.Anchored = true
+			anchor.CanCollide = false
+			anchor.CanTouch = false
+			anchor.CanQuery = false
+			anchor.CastShadow = false
+			anchor.Transparency = 1
+			anchor.Size = Vector3.new(0.2, 0.2, 0.2)
+			anchor.Position = position
+			anchor.Parent = anchorFolder
 
-			scale.Scale = 1.12
-			TweenService:Create(scale, popInfo, { Scale = 1 }):Play()
+			local gui = Instance.new("BillboardGui")
+			gui.Name = "Indicator"
+			gui.Adornee = anchor
+			gui.AlwaysOnTop = true
+			gui.LightInfluence = 0
+			gui.ResetOnSpawn = false
+			gui.MaxDistance = MAX_DISTANCE
+			gui.Size = UDim2.fromOffset(WIDTH, ROW_HEIGHT * #lines)
+			gui.StudsOffsetWorldSpace = Vector3.new(math.random(-20, 20) / 10, 0, math.random(-20, 20) / 10)
 
-			token += 1
-			local mine = token
+			local container = Instance.new("Frame")
+			container.AnchorPoint = Vector2.new(0.5, 0.5)
+			container.Position = UDim2.fromScale(0.5, 0.5)
+			container.Size = UDim2.fromScale(1, 1)
+			container.BackgroundTransparency = 1
+			container.Parent = gui
+
+			local scale = Instance.new("UIScale")
+			scale.Parent = container
+
+			local layout = Instance.new("UIListLayout")
+			layout.SortOrder = Enum.SortOrder.LayoutOrder
+			layout.Parent = container
+
+			local labels = {}
+			for index, line in lines do
+				local label = Instance.new("TextLabel")
+				label.LayoutOrder = index
+				label.Size = UDim2.new(1, 0, 0, ROW_HEIGHT)
+				label.BackgroundTransparency = 1
+				label.Font = Enum.Font.GothamBlack
+				label.TextSize = TEXT_SIZE
+				label.TextColor3 = line.row.color
+				label.TextStrokeColor3 = Color3.new(0, 0, 0)
+				label.TextStrokeTransparency = 0.15
+				label.Text = line.text
+				label.Parent = container
+				table.insert(labels, label)
+			end
+
+			gui.Parent = guiFolder
+
+			local entry = { gui = gui, anchor = anchor, scale = scale, position = position, dead = false }
+			table.insert(active, entry)
+
+			TweenService:Create(gui, floatInfo, {
+				StudsOffsetWorldSpace = gui.StudsOffsetWorldSpace + Vector3.new(0, RISE_STUDS, 0),
+			}):Play()
+
 			task.delay(HOLD_TIME, function()
-				if mine ~= token then
+				if entry.dead then
 					return
 				end
 				for _, label in labels do
 					TweenService:Create(label, fadeInfo, { TextTransparency = 1, TextStrokeTransparency = 1 }):Play()
 				end
-				task.delay(FADE_TIME, function()
-					if mine == token then
-						clear()
-					end
-				end)
 			end)
+			task.delay(HOLD_TIME + FADE_TIME, function()
+				destroyEntry(entry)
+			end)
+		end
+
+		RunService.Heartbeat:Connect(function()
+			local camera = Workspace.CurrentCamera
+			if not camera or #active == 0 then
+				return
+			end
+			local cameraPosition = camera.CFrame.Position
+			for index = #active, 1, -1 do
+				local entry = active[index]
+				if entry.dead then
+					table.remove(active, index)
+				else
+					local distance = math.max((cameraPosition - entry.position).Magnitude, 1)
+					entry.scale.Scale = math.clamp(REF_DISTANCE / distance, MIN_SCALE, 1)
+				end
+			end
+		end)
+
+		remote.OnClientEvent:Connect(function(position, damage, gcells, xp)
+			if typeof(position) ~= "Vector3" then
+				return
+			end
+			spawnIndicator(position, {
+				damage = tonumber(damage) or 0,
+				gcells = tonumber(gcells) or 0,
+				xp = tonumber(xp) or 0,
+			})
 		end)
 	end)
 end
