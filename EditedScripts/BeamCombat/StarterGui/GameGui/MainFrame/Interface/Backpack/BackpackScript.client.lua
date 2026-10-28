@@ -693,6 +693,66 @@ local ROAR_EVENTS = {
 
 
 
+local RunService = game:GetService("RunService")
+
+local SHAKE_FREQ = 7
+local SHAKE_ROT = 0.014
+local SHAKE_POS = 0.06
+local ROAR_BOOST = 1.35
+local ROAR_TIME = 1.6
+local KICK_TIME = 0.6
+
+local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
+
+local function shakeNoise(t, seed)
+	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
+end
+
+local function onShakeAbility(eventName)
+	if isBeamEvent(eventName) then return end
+	local now = os.clock()
+	if ROAR_EVENTS[eventName] then
+		shakeState.roarStart = now
+		shakeState.roarEnd = now + ROAR_TIME
+	else
+		shakeState.kickStart = now
+		shakeState.kickDir = -shakeState.kickDir
+	end
+end
+
+pcall(function() RunService:UnbindFromRenderStep("KOCameraShake") end)
+RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 1, function(dt)
+	local camera = workspace.CurrentCamera
+	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
+	if player:GetAttribute("CameraShake") == false then return end
+	local now = os.clock()
+	local target = beamActive and 1 or 0
+	local rate = target > shakeState.beamLevel and 5 or 3
+	shakeState.beamLevel += (target - shakeState.beamLevel) * math.min(dt * rate, 1)
+	if shakeState.beamLevel < 0.01 then shakeState.beamLevel = 0 end
+	local roar = 0
+	if now < shakeState.roarEnd then
+		local x = math.clamp((now - shakeState.roarStart) / ROAR_TIME, 0, 1)
+		roar = math.sin(x * math.pi) ^ 0.5 * ROAR_BOOST
+	end
+	local kickAge = now - shakeState.kickStart
+	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 8) or 0
+	local amp = math.max(shakeState.beamLevel, roar)
+	if amp == 0 and kick == 0 then return end
+	local pitch = shakeNoise(now, 1) * SHAKE_ROT * amp
+	local yaw = shakeNoise(now, 2) * SHAKE_ROT * amp
+	local roll = shakeNoise(now, 3) * SHAKE_ROT * 0.7 * amp
+	local px = shakeNoise(now, 4) * SHAKE_POS * amp
+	local py = shakeNoise(now, 5) * SHAKE_POS * amp
+	if kick > 0 then
+		roll += shakeState.kickDir * 0.04 * kick * math.cos(kickAge * 20)
+		pitch -= 0.025 * kick * math.cos(kickAge * 16)
+		yaw += shakeState.kickDir * 0.012 * kick * math.sin(kickAge * 14)
+		py -= 0.12 * kick
+	end
+	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
+end)
+
 local function silenceServerRoarSound(char, roarName)
 	local targets = {}
 	local head = char:FindFirstChild("Head")
@@ -732,6 +792,7 @@ end
 local function playClientPrediction(eventName, char)
 	local animName = PREDICTION_ANIM_MAP[eventName]
 	if not animName then return end
+	onShakeAbility(eventName)
 
 	local humanoid = char:FindFirstChildOfClass("Humanoid")
 	if not humanoid then return end
