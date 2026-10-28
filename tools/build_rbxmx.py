@@ -53,7 +53,14 @@ def emit(node, counter, depth):
 
 def main():
     root = folder("KO-Rescript")
-    files = sorted(p for p in SRC.rglob("*.lua") if p.is_file())
+    manifest = ROOT / "tools" / "model_files.txt"
+    names = [l.strip() for l in manifest.read_text(encoding="utf-8").splitlines() if l.strip()]
+    files = []
+    for rel in names:
+        path = SRC / rel
+        if not path.is_file():
+            raise SystemExit(f"missing source: {path}")
+        files.append(path)
     count = 0
     for path in files:
         parts = list(path.relative_to(SRC).parts)

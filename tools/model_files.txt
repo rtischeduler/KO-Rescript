@@ -1,0 +1,13 @@
+ReplicatedStorage/CandyConfig.lua
+ServerScriptService/SecurityPolicy.lua
+ServerScriptService/Server/init.server.lua
+ServerScriptService/Server/Services/CandyService.lua
+ServerScriptService/Server/Services/IndicatorService.lua
+ServerScriptService/Server/Services/MorphService.lua
+BeamCombat/ServerScriptService/framework/modules/Character.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua
+BeamCombat/ServerScriptService/framework/modules/Data.lua
+StarterGui/NEWMenu/UIScript.client.lua
+StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
+StarterGui/NEWMenu/Kaijus/Stats/SkillPoints/Modifiers/ModifierUIHandler.client.lua
+StarterPlayer/StarterPlayerScripts/Client/Controllers/Indicators.lua
