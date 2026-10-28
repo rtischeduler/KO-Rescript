@@ -336,6 +336,11 @@ function Data.Init()
 
 			local price = getKaijuPrice(kaijuName)
 			if isCandyKaiju(kaijuName) then
+				local candyMorph = Morphs:FindFirstChild(kaijuName, true)
+				local candyStats = candyMorph and candyMorph:FindFirstChild("Stats")
+				if not (candyStats and candyStats:FindFirstChild("Price")) then
+					return false, "Not for sale yet"
+				end
 				if not CandyConfig.isSeason() then
 					return false, "Offsale until halloween"
 				end

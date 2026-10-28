@@ -86,6 +86,9 @@ local function formatBuyText(price, requirement, isCandy)
 	if isCandy and not isSeason() then
 		return "Offsale until halloween"
 	end
+	if price == math.huge then
+		return "Not for sale yet"
+	end
 	local text = "BUY (" .. tostring(price) .. (isCandy and " Candy" or "")
 	if requirement and requirement ~= "" then
 		local reqTexts = {}
@@ -195,6 +198,9 @@ local function getMorphPrice(morphModel)
 		if price then
 			return price.Value
 		end
+	end
+	if isCandyModel(morphModel) then
+		return math.huge
 	end
 	return 0
 end
@@ -412,7 +418,7 @@ if selectButton then
 			end
 		else
 			if buyKaijuEvent then
-				if not (currentIsCandy and not isSeason()) then
+				if not (currentIsCandy and not isSeason()) and currentPrice ~= math.huge then
 					buyKaijuEvent:FireServer(currentMorphName)
 				end
 			end

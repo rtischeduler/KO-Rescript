@@ -6,13 +6,18 @@ local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 local STORE_NAME = "Candy_v1"
 local ATTRIBUTE = "Candy"
+local STAT_NAME = "Candy"
 local AUTOSAVE_INTERVAL = 120
 local RETRIES = 3
+local LOAD_RETRY_INTERVAL = 30
+local LOAD_RETRY_LIMIT = 10
 
 local CandyService = { Name = "Candy" }
 
 local store
-local loaded = {}
+local ready = {}
+local synced = {}
+local delta = {}
 local busy = {}
 
 local function storeKey(player)
@@ -23,28 +28,45 @@ local function balance(player)
 	return math.max(math.floor(tonumber(player:GetAttribute(ATTRIBUTE)) or 0), 0)
 end
 
-local function load(player)
-	if not store then
-		return
+local function getStat(player)
+	local leaderstats = player:FindFirstChild("leaderstats")
+	if not leaderstats then
+		leaderstats = Instance.new("Folder")
+		leaderstats.Name = "leaderstats"
+		leaderstats.Parent = player
 	end
-	local value
+	local stat = leaderstats:FindFirstChild(STAT_NAME)
+	if not stat then
+		stat = Instance.new("IntValue")
+		stat.Name = STAT_NAME
+		stat.Value = balance(player)
+		stat.Parent = leaderstats
+	end
+	return stat
+end
+
+local function setBalance(player, value)
+	value = math.max(math.floor(value), 0)
+	player:SetAttribute(ATTRIBUTE, value)
+	getStat(player).Value = value
+end
+
+local function fetch(player)
+	if not store then
+		return nil
+	end
 	for attempt = 1, RETRIES do
 		local ok, result = pcall(store.GetAsync, store, storeKey(player))
 		if ok then
-			value = math.max(math.floor(tonumber(result) or 0), 0)
-			break
+			return math.max(math.floor(tonumber(result) or 0), 0)
 		end
 		task.wait(attempt)
 	end
-	if value == nil or not player.Parent then
-		return
-	end
-	player:SetAttribute(ATTRIBUTE, value)
-	loaded[player] = true
+	return nil
 end
 
 local function save(player)
-	if not store or not loaded[player] or busy[player] then
+	if not store or not synced[player] or busy[player] then
 		return
 	end
 	busy[player] = true
@@ -65,6 +87,41 @@ local function saveNow(player)
 	save(player)
 end
 
+local function load(player)
+	local value = fetch(player)
+	if not player.Parent then
+		return
+	end
+	if value ~= nil then
+		setBalance(player, value)
+		synced[player] = true
+		ready[player] = true
+		return
+	end
+	delta[player] = 0
+	synced[player] = false
+	ready[player] = true
+	warn("[Candy] DataStore unavailable for " .. player.Name .. ", Candy will not save until it reconnects")
+	for _ = 1, LOAD_RETRY_LIMIT do
+		task.wait(LOAD_RETRY_INTERVAL)
+		if not player.Parent then
+			return
+		end
+		local stored = fetch(player)
+		if stored ~= nil then
+			setBalance(player, stored + (delta[player] or 0))
+			synced[player] = true
+			save(player)
+			return
+		end
+	end
+end
+
+local function track(player)
+	getStat(player)
+	task.spawn(load, player)
+end
+
 function CandyService:Init()
 	local ok, result = pcall(DataStoreService.GetDataStore, DataStoreService, STORE_NAME)
 	if ok then
@@ -82,14 +139,17 @@ function CandyService:Init()
 		if typeof(player) ~= "Instance" or not player:IsA("Player") then
 			return 0
 		end
-		if not loaded[player] or not CandyConfig.isSeason() then
+		if not ready[player] or not CandyConfig.isSeason() then
 			return 0
 		end
 		local amount = CandyConfig.candyForHealth(maxHealth)
 		if amount <= 0 then
 			return 0
 		end
-		player:SetAttribute(ATTRIBUTE, balance(player) + amount)
+		setBalance(player, balance(player) + amount)
+		if not synced[player] then
+			delta[player] = (delta[player] or 0) + amount
+		end
 		if _G.ShowIndicator then
 			_G.ShowIndicator(player, 0, 0, 0, at, amount)
 		end
@@ -101,7 +161,7 @@ function CandyService:Init()
 			return false
 		end
 		amount = math.floor(tonumber(amount) or -1)
-		if amount < 0 or not loaded[player] then
+		if amount < 0 or not synced[player] then
 			return false
 		end
 		if amount == 0 then
@@ -111,21 +171,21 @@ function CandyService:Init()
 		if current < amount then
 			return false
 		end
-		player:SetAttribute(ATTRIBUTE, current - amount)
+		setBalance(player, current - amount)
 		task.spawn(save, player)
 		return true
 	end
 
-	Players.PlayerAdded:Connect(function(player)
-		task.spawn(load, player)
-	end)
+	Players.PlayerAdded:Connect(track)
 	for _, player in Players:GetPlayers() do
-		task.spawn(load, player)
+		track(player)
 	end
 
 	Players.PlayerRemoving:Connect(function(player)
 		saveNow(player)
-		loaded[player] = nil
+		ready[player] = nil
+		synced[player] = nil
+		delta[player] = nil
 		busy[player] = nil
 	end)
 end
