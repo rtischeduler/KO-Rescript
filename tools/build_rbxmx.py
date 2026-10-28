@@ -8,11 +8,6 @@ OUT = ROOT / "build"
 MODEL = "KO-Rescript.rbxmx"
 
 FILES = [
-    (SRC / "ServerScriptService" / "Server" / "Services" / "IndicatorService.lua", "IndicatorService", "ModuleScript", ["ServerScriptService", "Server", "Services"]),
-    (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "Combat.lua", "Combat", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
-    (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "World.lua", "World", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
-    (SRC / "BeamCombat" / "ReplicatedStorage" / "BeamSystem.lua", "BeamSystem", "ModuleScript", ["ReplicatedStorage"]),
-    (SRC / "BeamCombat" / "ReplicatedStorage" / "DPSTemplate.server.lua", "DPSTemplate", "Script", ["ReplicatedStorage"]),
     (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "Indicators.lua", "Indicators", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
 ]
 
