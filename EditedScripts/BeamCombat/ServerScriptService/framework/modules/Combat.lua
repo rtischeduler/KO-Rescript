@@ -42,6 +42,7 @@ local function giveGCells(player, amount, isKillReward)
 	if isKillReward and _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
 	if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 	gcells.Value += amount
+	if _G.ShowIndicator then _G.ShowIndicator(player, 0, amount, 0) end
 	if isKillReward and _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 end
 
@@ -50,7 +51,9 @@ local function giveXP(player, minXP, maxXP)
 	local addXP = character and character:FindFirstChild("AddXP")
 	if addXP and addXP:IsA("BindableEvent") then
 		if _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
-		addXP:Fire(math.random(minXP, maxXP))
+		local xpAmount = math.random(minXP, maxXP)
+		addXP:Fire(xpAmount)
+		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount) end
 		if _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 	end
 end
@@ -447,6 +450,7 @@ local function initPulse()
 					hitThisTick[hitPlayer] = true
 					setCreator(hitHumanoid, player)
 					hitHumanoid:TakeDamage(damagePerTick)
+					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0) end
 					pulseHitEvent:FireClient(hitPlayer)
 					giveGCells(player, gcellsPerTick, false)
 				end
@@ -724,6 +728,7 @@ local function initAttackHandler()
 	local function registerHit(attacker, attackerChar, humanoid, damage, gcells)
 		setCreator(humanoid, attacker)
 		humanoid:TakeDamage(damage)
+		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0) end
 		playHitSound(attackerChar)
 		giveGCells(attacker, gcells, false)
 	end
@@ -1107,6 +1112,7 @@ local function initDPS()
 		if gcells and gcells:IsA("IntValue") then
 			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 			gcells.Value = gcells.Value + amount
+			if _G.ShowIndicator and amount >= 1 then _G.ShowIndicator(attacker, 0, amount, 0) end
 		end
 	end
 
@@ -1133,6 +1139,7 @@ local function initDPS()
 			if attacker then
 				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2)
+				if _G.ShowIndicator then _G.ShowIndicator(attacker, (part:GetAttribute("Damage") or 0.9) * multiplier, 0, 0) end
 			end
 		end)
 	end

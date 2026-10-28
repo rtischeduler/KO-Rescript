@@ -1003,6 +1003,7 @@ function BeamSystem.ActivateBeam(config)
 									end
 									creator.Value = attackerPlayer
 									ownerHum:TakeDamage(dmg)
+									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, 25, 0) end
 									local leaderstats = attackerPlayer:FindFirstChild("leaderstats")
 									if leaderstats then
 										local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")

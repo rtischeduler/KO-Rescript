@@ -36,6 +36,7 @@ local lifecycle = Lifecycle.new(log)
 
 lifecycle:Register(require(Services.MorphService))
 lifecycle:Register(require(Services.GCellGuardService))
+lifecycle:Register(require(Services.IndicatorService))
 lifecycle:Register(require(Services.EliminatorService))
 lifecycle:Register(require(Services.SettingsService))
 lifecycle:Register(require(Services.HealthService))

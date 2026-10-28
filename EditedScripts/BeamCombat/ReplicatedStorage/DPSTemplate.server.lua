@@ -34,6 +34,7 @@ local function awardGCells(attacker)
 		if gcells and gcells:IsA("IntValue") then
 			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 2) end
 			gcells.Value = gcells.Value + 2
+			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, 2, 0) end
 		end
 	end
 end
@@ -86,6 +87,7 @@ task.spawn(function()
 
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
+									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0) end
 									awardGCells(attacker)
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)

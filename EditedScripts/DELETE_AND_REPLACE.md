@@ -18,6 +18,7 @@ Do these in order in Studio. Everything under `EditedScripts/` is the replacemen
 | 6 | `Roar1Script`, `Roar2Script`, every `DPS` script | `initRoar` and `initDPS` in `Combat.lua`, then run `Migration/MigrateDPSAndRoar.lua` |
 | 7 | Duplicate models, retired kaijus, empty stubs | sections 1, 2 and 6 below |
 | 8 | Old `framework/modules/World` | edited copy, section 9 |
+| 9 | Old `Combat`, `World`, `BeamSystem`, `DPSTemplate` and `Control`, plus the `Server` and `Client` init scripts | edited copies, section 17, and add `IndicatorService` and `Indicators` |
 
 After step 3, anything else that read `ReplicatedStorage.Recolors.<name>.Primary.Value` must use `require(Recolors).Data[name].Primary`. Only `Data` and `RecolorPopulator` did in this repo's scripts.
 
@@ -285,3 +286,25 @@ Halloween day brightness is now 0.85 with darker ambient light. During the Hallo
 | `ReplicatedFirst/Rainy` | `Lighting/Skys/Rainy` |
 
 `World` now keeps one active Sky in `Lighting`, cloned from `Skys`. During Halloween it is always `Dark` (set by `HolidayConfigs.Halloween.Sky`) and never changes, rain included. Otherwise it is `Sunny`, switching to `Rainy` while it rains. The swap checks once a second. If `Lighting/Skys` is missing, World leaves the sky alone after 30 seconds.
+
+## 17. Kaiju Universe style indicators, sprint FOV and lighter rubble
+
+| Delete in the place | Replaced by |
+| --- | --- |
+| `ServerScriptService/framework/modules/Combat` | `EditedScripts/BeamCombat/ServerScriptService/framework/modules/Combat.lua` |
+| `ServerScriptService/framework/modules/World` | `EditedScripts/BeamCombat/ServerScriptService/framework/modules/World.lua` |
+| `ReplicatedStorage/BeamSystem` | `EditedScripts/BeamCombat/ReplicatedStorage/BeamSystem.lua` |
+| `ReplicatedStorage/DPSTemplate` | `EditedScripts/BeamCombat/ReplicatedStorage/DPSTemplate.server.lua` |
+| `ReplicatedStorage/PlayerScripts/Control` | `EditedScripts/ReplicatedStorage/PlayerScripts/Control/init.client.lua` |
+| `ServerScriptService/Server/init` and `StarterPlayerScripts/Client/init` | the edited copies, which register the two new scripts below |
+| nothing, these are new | `ServerScriptService/Server/Services/IndicatorService` and `StarterPlayerScripts/Client/Controllers/Indicators` |
+
+Every earning hit now reports to `_G.ShowIndicator(player, damage, gcells, xp)`, which `IndicatorService` batches every 0.2 seconds into one `RewardIndicator` RemoteEvent call per player, so beam ticks do not spam the client. The sources are building damage and its G-Cell and XP reward in `World`, pulse, melee and beam hits and kill rewards in `Combat`, the `DPSTemplate` and `BeamSystem` beam hits, and the DPS part hook in `Combat`. The `Indicators` controller shows three fixed rows to the right of the crosshair: red `Damage: N` on top, green `Gcells: N` in the middle and yellow `Exp: N` at the bottom. Totals keep adding while you keep hitting and fade 1.6 seconds after the last hit. The DPS part hook only reports G-Cells of 1 or more, because its default rate of 0.2 is rounded away by the IntValue.
+
+`Control` raises the camera FOV by 12 over 0.3 seconds while sprinting and returns to whatever FOV the player had when they started sprinting. Change `SPRINT_FOV_BOOST` to tune it.
+
+Building rubble is lighter: `DEBRIS_CHUNKS` 12 to 9, chunk sides 1 to 3.5 studs down to 0.8 to 2.8, and chunk life 2.4 to 3.4 seconds down to 2 to 2.8.
+
+Duplicates: this update adds no copies and nothing new to delete. The 11 duplicate groups in section 11 still stand, and all of them are in the `scripts/` mirror.
+
+Workflow: `sync-roblox-scripts.yml` now always commits the place. It writes `place/place.rbxlx`, or `place/place.rbxlx.gz` when the XML is over 95 MB, and the old Git LFS path is removed. Each run rebuilds the `place` folder, so the existing `place/place.rbxlx.gz` is replaced by itself or by the plain file automatically and needs no manual delete.

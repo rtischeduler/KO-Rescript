@@ -699,7 +699,7 @@ local function initBuilding()
 	local RUMBLE_TIME = 0.8
 	local COLLAPSE_TIME = 2.6
 	local RESPAWN_DELAY = 60
-	local DEBRIS_CHUNKS = 12
+	local DEBRIS_CHUNKS = 9
 
 	local touchingParts = {}
 	local hitboxOwners = {}
@@ -753,7 +753,7 @@ local function initBuilding()
 		end
 	end
 
-	local function reward(player, cells)
+	local function reward(player, cells, damage)
 		if not player then return end
 		local ls = player:FindFirstChild("leaderstats")
 		local gcells = ls and (ls:FindFirstChild("GCells") or ls:FindFirstChild("gcells"))
@@ -763,7 +763,12 @@ local function initBuilding()
 		end
 		local char = player.Character
 		local xp = char and char:FindFirstChild("AddXP")
-		if xp and xp:IsA("BindableEvent") then xp:Fire(math.random(1, 3)) end
+		local xpAmount = 0
+		if xp and xp:IsA("BindableEvent") then
+			xpAmount = math.random(1, 3)
+			xp:Fire(xpAmount)
+		end
+		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount) end
 	end
 
 	local function liveRefs()
@@ -988,7 +993,7 @@ local function initBuilding()
 			for _ = 1, count do
 				local chunk = Instance.new("Part")
 				chunk.Name = "CollapseChunk"
-				chunk.Size = Vector3.new(rand(1, 3.5), rand(1, 3.5), rand(1, 3.5))
+				chunk.Size = Vector3.new(rand(0.8, 2.8), rand(0.8, 2.8), rand(0.8, 2.8))
 				chunk.Material = Enum.Material.CorrodedMetal
 				chunk.Transparency = 0
 				chunk.Color = base.Color
@@ -1000,7 +1005,7 @@ local function initBuilding()
 				chunk.Parent = workspace
 				chunk.AssemblyLinearVelocity = Vector3.new(rand(-1, 1), rand(0.4, 1.2), rand(-1, 1)).Unit * rand(18, 45)
 				chunk.AssemblyAngularVelocity = Vector3.new(rand(-8, 8), rand(-8, 8), rand(-8, 8))
-				local life = rand(2.4, 3.4)
+				local life = rand(2, 2.8)
 				task.delay(life - 1, function()
 					if chunk.Parent then TweenService:Create(chunk, TweenInfo.new(1), { Transparency = 1 }):Play() end
 				end)
@@ -1100,7 +1105,7 @@ local function initBuilding()
 				windowApi.flickerBuilding(building, 0.45, false)
 			end
 			playHitSound(base)
-			for player, cells in rewardsByPlayer do reward(player, cells) end
+			for player, cells in rewardsByPlayer do reward(player, cells, amount) end
 			if HP.Value <= 0 then
 				HP.Value = 0
 				onDestroyed()
