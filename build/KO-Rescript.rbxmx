@@ -3965,9 +3965,9 @@ end)
 local HOLD_TIME = 1.1
 local FADE_TIME = 0.4
 local RISE_STUDS = 5
-local ROW_HEIGHT = 18
-local WIDTH = 140
-local TEXT_SIZE = 16
+local ROW_HEIGHT = 12
+local WIDTH = 100
+local TEXT_SIZE = 10
 local REF_DISTANCE = 70
 local MIN_SCALE = 0.3
 local MAX_DISTANCE = 450
@@ -3976,7 +3976,7 @@ local MAX_ACTIVE = 24
 local ROWS = {
 	{ key = "damage", label = "Damage", color = Color3.fromRGB(255, 70, 70) },
 	{ key = "gcells", label = "Gcells", color = Color3.fromRGB(70, 255, 110) },
-	{ key = "xp", label = "Exp", color = Color3.fromRGB(255, 225, 60) },
+	{ key = "xp", label = "Exp", color = Color3.fromRGB(255, 245, 106) },
 }
 
 local function formatAmount(value)
@@ -4092,11 +4092,11 @@ function IndicatorsController:Start()
 				label.LayoutOrder = index
 				label.Size = UDim2.new(1, 0, 0, ROW_HEIGHT)
 				label.BackgroundTransparency = 1
-				label.Font = Enum.Font.GothamBlack
+				label.Font = Enum.Font.GothamMedium
 				label.TextSize = TEXT_SIZE
 				label.TextColor3 = line.row.color
 				label.TextStrokeColor3 = Color3.new(0, 0, 0)
-				label.TextStrokeTransparency = 0.15
+				label.TextStrokeTransparency = 0.5
 				label.Text = line.text
 				label.Parent = container
 				table.insert(labels, label)
