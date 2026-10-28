@@ -696,11 +696,14 @@ local ROAR_EVENTS = {
 local RunService = game:GetService("RunService")
 
 local SHAKE_FREQ = 7
-local SHAKE_ROT = 0.014
-local SHAKE_POS = 0.06
-local ROAR_BOOST = 1.35
-local ROAR_TIME = 1.6
-local KICK_TIME = 0.6
+local BEAM_ROT = 0.0022
+local BEAM_POS = 0.008
+local ROAR_ROT = 0.0038
+local ROAR_POS = 0.014
+local PULSE_ROT = 0.005
+local PULSE_POS = 0.02
+local ROAR_FALLBACK = 3
+local KICK_TIME = 0.45
 
 local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
 
@@ -713,11 +716,24 @@ local function onShakeAbility(eventName)
 	local now = os.clock()
 	if ROAR_EVENTS[eventName] then
 		shakeState.roarStart = now
-		shakeState.roarEnd = now + ROAR_TIME
+		shakeState.roarEnd = now + ROAR_FALLBACK
 	else
 		shakeState.kickStart = now
 		shakeState.kickDir = -shakeState.kickDir
 	end
+end
+
+local function syncRoarShakeToSound(sound)
+	local startedAt = shakeState.roarStart
+	task.spawn(function()
+		local t0 = os.clock()
+		while sound.Parent and sound.TimeLength == 0 and os.clock() - t0 < 1 do
+			task.wait()
+		end
+		if sound.TimeLength > 0 and shakeState.roarStart == startedAt then
+			shakeState.roarEnd = startedAt + sound.TimeLength / math.max(sound.PlaybackSpeed, 0.05)
+		end
+	end)
 end
 
 pcall(function() RunService:UnbindFromRenderStep("KOCameraShake") end)
@@ -732,23 +748,30 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 	if shakeState.beamLevel < 0.01 then shakeState.beamLevel = 0 end
 	local roar = 0
 	if now < shakeState.roarEnd then
-		local x = math.clamp((now - shakeState.roarStart) / ROAR_TIME, 0, 1)
-		roar = math.sin(x * math.pi) ^ 0.5 * ROAR_BOOST
+		roar = math.clamp(math.min((now - shakeState.roarStart) / 0.15, (shakeState.roarEnd - now) / 0.4, 1), 0, 1)
+	end
+	local pulse = 0
+	local pulseEnd = player:GetAttribute("PulseShakeEnd") or 0
+	if now < pulseEnd then
+		local pulseStart = player:GetAttribute("PulseShakeStart") or now
+		local env = math.clamp(math.min((now - pulseStart) / 0.08, (pulseEnd - now) / 0.5, 1), 0, 1)
+		pulse = env * (player:GetAttribute("PulseShakeAmp") or 0)
 	end
 	local kickAge = now - shakeState.kickStart
-	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 8) or 0
-	local amp = math.max(shakeState.beamLevel, roar)
-	if amp == 0 and kick == 0 then return end
-	local pitch = shakeNoise(now, 1) * SHAKE_ROT * amp
-	local yaw = shakeNoise(now, 2) * SHAKE_ROT * amp
-	local roll = shakeNoise(now, 3) * SHAKE_ROT * 0.7 * amp
-	local px = shakeNoise(now, 4) * SHAKE_POS * amp
-	local py = shakeNoise(now, 5) * SHAKE_POS * amp
+	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 9) or 0
+	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT)
+	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS)
+	if rotAmp == 0 and posAmp == 0 and kick == 0 then return end
+	local pitch = shakeNoise(now, 1) * rotAmp
+	local yaw = shakeNoise(now, 2) * rotAmp
+	local roll = shakeNoise(now, 3) * rotAmp * 0.7
+	local px = shakeNoise(now, 4) * posAmp
+	local py = shakeNoise(now, 5) * posAmp
 	if kick > 0 then
-		roll += shakeState.kickDir * 0.04 * kick * math.cos(kickAge * 20)
-		pitch -= 0.025 * kick * math.cos(kickAge * 16)
-		yaw += shakeState.kickDir * 0.012 * kick * math.sin(kickAge * 14)
-		py -= 0.12 * kick
+		roll += shakeState.kickDir * 0.016 * kick * math.cos(kickAge * 20)
+		pitch -= 0.009 * kick * math.cos(kickAge * 16)
+		yaw += shakeState.kickDir * 0.004 * kick * math.sin(kickAge * 14)
+		py -= 0.04 * kick
 	end
 	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
 end)
@@ -822,6 +845,7 @@ local function playClientPrediction(eventName, char)
 					soundClone:SetAttribute("ClientPrediction", true)
 					soundClone.Parent = char:FindFirstChild("Head") or char:FindFirstChild("Torso") or char
 					soundClone:Play()
+					syncRoarShakeToSound(soundClone)
 					local len = soundClone.TimeLength / soundClone.PlaybackSpeed
 					task.spawn(function()
 						task.wait(len > 0 and len or 5)

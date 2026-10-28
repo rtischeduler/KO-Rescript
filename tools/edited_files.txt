@@ -1,1 +1,2 @@
 BeamCombat/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
+StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
