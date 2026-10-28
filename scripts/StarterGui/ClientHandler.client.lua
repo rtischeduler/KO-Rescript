@@ -48,18 +48,16 @@ local function initUnderwaterEffect()
 		return
 	end
 
+	local cachedOcean = nil
 	RunService.RenderStepped:Connect(function()
-		local ocean = Workspace:FindFirstChild("Ocean")
+		if not cachedOcean or not cachedOcean.Parent or cachedOcean.Parent ~= Workspace then
+			cachedOcean = Workspace:FindFirstChild("Ocean")
+		end
+		local ocean = cachedOcean
 		if ocean and ocean:IsA("BasePart") then
-			local cameraY = camera.CFrame.Position.Y
-			local oceanY = ocean.Position.Y
-			if cameraY < oceanY then
-				blur.Enabled = true
-				correction.Enabled = true
-			else
-				blur.Enabled = false
-				correction.Enabled = false
-			end
+			local below = camera.CFrame.Position.Y < ocean.Position.Y
+			if blur.Enabled ~= below then blur.Enabled = below end
+			if correction.Enabled ~= below then correction.Enabled = below end
 		end
 	end)
 end
@@ -402,4 +400,55 @@ end)
 
 task.spawn(function()
 	safeInit("ShiftLock", initShiftLock)
+end)
+
+task.spawn(function()
+	local CollectionService = game:GetService("CollectionService")
+	local UserInputService = game:GetService("UserInputService")
+	local okQuality, quality = pcall(function()
+		return UserSettings().GameSettings.SavedQualityLevel.Value
+	end)
+	local lowEnd = UserInputService.TouchEnabled or (okQuality and quality > 0 and quality <= 4)
+	local MAX_LIGHTS = lowEnd and 20 or 60
+	local MAX_DISTANCE = lowEnd and 160 or 300
+	local TAG = "BuildingGlowLight"
+	local lights = {}
+	local entries = {}
+
+	local function add(light)
+		if light:IsA("PointLight") then lights[light] = true end
+	end
+
+	for _, light in CollectionService:GetTagged(TAG) do add(light) end
+	CollectionService:GetInstanceAddedSignal(TAG):Connect(add)
+	CollectionService:GetInstanceRemovedSignal(TAG):Connect(function(light)
+		lights[light] = nil
+	end)
+
+	while true do
+		task.wait(0.5)
+		local cam = workspace.CurrentCamera
+		if cam then
+			local origin = cam.CFrame.Position
+			table.clear(entries)
+			for light in lights do
+				local part = light.Parent
+				if part and part:IsA("BasePart") then
+					local d = (part.Position - origin).Magnitude
+					if d <= MAX_DISTANCE then
+						table.insert(entries, { light, d })
+					elseif light.Enabled then
+						light.Enabled = false
+					end
+				else
+					lights[light] = nil
+				end
+			end
+			table.sort(entries, function(a, b) return a[2] < b[2] end)
+			for i, entry in entries do
+				local on = i <= MAX_LIGHTS
+				if entry[1].Enabled ~= on then entry[1].Enabled = on end
+			end
+		end
+	end
 end)

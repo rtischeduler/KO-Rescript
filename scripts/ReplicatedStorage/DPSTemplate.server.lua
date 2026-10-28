@@ -27,13 +27,14 @@ local function getCharRadius(char)
 	return radius
 end
 
-local function awardGCells(attacker)
+local function awardGCells(attacker, at)
 	local leaderstats = attacker:FindFirstChild("leaderstats")
 	if leaderstats then
 		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 		if gcells and gcells:IsA("IntValue") then
 			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 2) end
 			gcells.Value = gcells.Value + 2
+			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, 2, 0, at) end
 		end
 	end
 end
@@ -86,7 +87,8 @@ task.spawn(function()
 
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
-									awardGCells(attacker)
+									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end
+									awardGCells(attacker, char)
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)
 									end

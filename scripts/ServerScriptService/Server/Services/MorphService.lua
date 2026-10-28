@@ -67,7 +67,7 @@ function MorphService:Init()
 		local ok, err = pcall(function()
 			local morphs = morphSupplies:FindFirstChild("Morphs")
 			if type(selectedCreature) == "string" and morphs then
-				selectedCreature = morphs:FindFirstChild(selectedCreature)
+				selectedCreature = morphs:FindFirstChild(selectedCreature, true)
 			end
 			if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
 				fail(player, "Invalid morph")

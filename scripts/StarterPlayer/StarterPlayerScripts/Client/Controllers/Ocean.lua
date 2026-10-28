@@ -336,11 +336,26 @@ function OceanController:Start()
 		end
 	end
 
-	local step = 1 / UPDATE_RATE
+	local rate = UPDATE_RATE
+	local MIN_RATE = math.min(12, UPDATE_RATE)
+	local step = 1 / rate
+	local fpsAcc, fpsN = 0, 0
 	local accumulator = 0
 	local lastUpdate = os.clock()
 
 	RunService.RenderStepped:Connect(function(dt)
+		fpsAcc += dt
+		fpsN += 1
+		if fpsN >= 60 then
+			local avg = fpsAcc / fpsN
+			fpsAcc, fpsN = 0, 0
+			if avg > 1 / 30 then
+				rate = math.max(rate - 3, MIN_RATE)
+			elseif avg < 1 / 45 then
+				rate = math.min(rate + 2, UPDATE_RATE)
+			end
+			step = 1 / rate
+		end
 		accumulator += dt
 		if accumulator < step then return end
 		accumulator %= step

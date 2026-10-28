@@ -164,7 +164,7 @@ function SecurityPolicy.CanUseMorph(player, selectedCreature)
 	end
 
 	local morphFolder = getMorphFolder()
-	if not morphFolder or selectedCreature.Parent ~= morphFolder then
+	if not morphFolder or not selectedCreature:IsDescendantOf(morphFolder) then
 		return false
 	end
 

@@ -649,13 +649,20 @@ end
 
 
 task.spawn(function()
+	local lastAim, lastLock = nil, nil
 	while task.wait(0.05) do
 		if beamActive and BeamService then
 			local character = player.Character
 			local targetPos = getAimPosition(character)
 			if targetPos then
-				BeamService.BeamAim:Fire(targetPos, getShiftLockState())
+				local lock = getShiftLockState()
+				if targetPos ~= lastAim or lock ~= lastLock then
+					lastAim, lastLock = targetPos, lock
+					BeamService.BeamAim:Fire(targetPos, lock)
+				end
 			end
+		else
+			lastAim, lastLock = nil, nil
 		end
 	end
 end)

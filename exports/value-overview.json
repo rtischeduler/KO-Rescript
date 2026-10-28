@@ -106,55 +106,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart"
   },
   {
     "class": "IntValue",
@@ -170,7 +122,47 @@
     "names": [
       "Null"
     ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes"
   },
   {
     "class": "NumberValue",
@@ -179,6 +171,14 @@
       "HP"
     ],
     "parent": "Lighting/mappiece/Building5Destroy/Stats"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
   },
   {
     "class": "StringValue",
@@ -206,19 +206,6 @@
     "count": 13,
     "names": [
       "prompt",
-      "SwimSpeed",
-      "prompt2",
-      "DMG3",
-      "WS",
-      "SS"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/FROSTBITE GODZILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 13,
-    "names": [
-      "prompt",
       "DMG3",
       "SwimSpeed",
       "prompt2",
@@ -232,13 +219,13 @@
     "count": 13,
     "names": [
       "prompt",
-      "DMG3",
       "SwimSpeed",
       "prompt2",
-      "Defense",
-      "Price"
+      "DMG3",
+      "WS",
+      "SS"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween (PRICES I SET ARE NOT GCELL, THEY ARE CANDY)/Pumpkin Biollante/Stats"
+    "parent": "Lighting/KaijusUnused/OldFire/Stats"
   },
   {
     "class": "NumberValue",
@@ -251,7 +238,7 @@
       "Defense",
       "Price"
     ],
-    "parent": "Lighting/KaijusUnused/VolcanicBio/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween/Pumpkin Biollante/Stats"
   },
   {
     "class": "NumberValue",
@@ -271,13 +258,13 @@
     "count": 13,
     "names": [
       "prompt",
+      "DMG3",
       "SwimSpeed",
       "prompt2",
-      "DMG3",
-      "WS",
-      "SS"
+      "Defense",
+      "Price"
     ],
-    "parent": "Lighting/KaijusUnused/OldFire/Stats"
+    "parent": "Lighting/KaijusUnused/VolcanicBio/Stats"
   },
   {
     "class": "NumberValue",
@@ -297,6 +284,19 @@
     "count": 13,
     "names": [
       "prompt",
+      "SwimSpeed",
+      "prompt2",
+      "DMG3",
+      "WS",
+      "SS"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/FROSTBITE GODZILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 13,
+    "names": [
+      "prompt",
       "Price",
       "MaxHP",
       "HP",
@@ -309,6 +309,19 @@
     "class": "NumberValue",
     "count": 12,
     "names": [
+      "SwimSpeed",
+      "prompt",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price"
+    ],
+    "parent": "Lighting/KaijusUnused/oldFrozen/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
       "REQ",
       "Price",
       "MaxHP",
@@ -316,7 +329,7 @@
       "GPA",
       "Defense"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS GHIDORAH/Stats"
+    "parent": "Lighting/KaijusUnused/TITANUS GHIDORAH/Stats"
   },
   {
     "class": "NumberValue",
@@ -348,19 +361,6 @@
     "class": "NumberValue",
     "count": 12,
     "names": [
-      "DMG4",
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/FINAL WARS GODZILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
       "REQ",
       "Price",
       "MaxHP",
@@ -368,7 +368,7 @@
       "GPA",
       "Defense"
     ],
-    "parent": "Lighting/KaijusUnused/TITANUS GHIDORAH/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS GHIDORAH/Stats"
   },
   {
     "class": "IntValue",
@@ -382,19 +382,6 @@
     "class": "NumberValue",
     "count": 12,
     "names": [
-      "SwimSpeed",
-      "prompt",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price"
-    ],
-    "parent": "Lighting/KaijusUnused/oldFrozen/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
       "DMG4",
       "SwimSpeed",
       "DMG3",
@@ -402,20 +389,7 @@
       "Price",
       "DMG2"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween (PRICES I SET ARE NOT GCELL, THEY ARE CANDY)/Godzilla in Hell (UNFINISHED)/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Defense",
-      "Price"
-    ],
-    "parent": "Lighting/KaijusUnused/HEISEI GODZILLA/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/FINAL WARS GODZILLA/Stats"
   },
   {
     "class": "NumberValue",
@@ -428,158 +402,7 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SHIN GOJIRA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS GOJIRA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "Price",
-      "Defense",
-      "DMG1",
-      "DMG2",
-      "DMG3",
-      "SwimSpeed"
-    ],
-    "parent": "ReplicatedStorage/MINILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "Lighting/KaijusUnused/Mosura/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/Tank/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "Price",
-      "Defense",
-      "DMG1",
-      "DMG2",
-      "DMG3",
-      "SwimSpeed"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/VOLCANIC BIOLLANTE/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MALE MUTO/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "WS",
-      "SwimSpeed",
-      "SS",
-      "Price",
-      "MaxHP",
-      "HP"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/UNCMINILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/Biollante/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "HP"
-    ],
-    "parent": "Workspace/Map/Building7Destroy/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "Lighting/KaijusUnused/Rodan/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/KamataKun/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MOTHRA/Stats"
   },
   {
     "class": "NumberValue",
@@ -605,111 +428,7 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "Lighting/KaijusUnused/ShinagawaKun/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/Shin/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS RODAN/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/MALE MUTO/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ANGUIRUS [FREE]/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/Anguirus/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SHIN FORM 3/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SPACE GODZILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS MOSURA/Stats"
+    "parent": "Lighting/KaijusUnused/KamataKun/Stats"
   },
   {
     "class": "NumberValue",
@@ -735,7 +454,319 @@
       "DMG2",
       "DMG1"
     ],
+    "parent": "Lighting/KaijusUnused/Tank/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "Price",
+      "Defense",
+      "DMG1",
+      "DMG2",
+      "DMG3",
+      "SwimSpeed"
+    ],
+    "parent": "ReplicatedStorage/MINILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Defense",
+      "Price"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/F16C [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/FinalWars/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "Lighting/KaijusUnused/Mosura/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "Price",
+      "Defense",
+      "DMG1",
+      "DMG2",
+      "DMG3",
+      "SwimSpeed"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween/Vampire Minilla/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS RODAN/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "Price",
+      "Defense",
+      "DMG1",
+      "DMG2",
+      "DMG3",
+      "SwimSpeed"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/VOLCANIC BIOLLANTE/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SHIN GOJIRA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/FINAL WARS GODZILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SHIN FORM 2 [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "WS",
+      "SwimSpeed",
+      "SS",
+      "Price",
+      "MaxHP",
+      "HP"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/UNCMINILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween/Godzilla in Hell /Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MALE MUTO/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price (in candy)",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween/Ghost Gojira/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/Shin/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "Lighting/KaijusUnused/Rodan/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/GOJIRA [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MILITARY TANK [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/LOTZIGAN/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Defense",
+      "Price"
+    ],
+    "parent": "Lighting/KaijusUnused/HEISEI GODZILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SPACE GODZILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/MALE MUTO/Stats"
   },
   {
     "class": "NumberValue",
@@ -754,14 +785,27 @@
     "class": "NumberValue",
     "count": 11,
     "names": [
-      "DMG3",
       "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS MOSURA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
       "Defense",
       "Price",
       "DMG2",
       "DMG1"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/GOJIRA [FREE]/Stats"
+    "parent": "Lighting/KaijusUnused/ShinagawaKun/Stats"
   },
   {
     "class": "NumberValue",
@@ -787,7 +831,15 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "Lighting/KaijusUnused/FinalWars/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SHIN FORM 3/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "HP"
+    ],
+    "parent": "Workspace/Map/Building7Destroy/Stats"
   },
   {
     "class": "NumberValue",
@@ -795,12 +847,38 @@
     "names": [
       "SwimSpeed",
       "DMG3",
-      "WS",
-      "SS",
       "Defense",
-      "Price"
+      "Price",
+      "DMG2",
+      "DMG1"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ANGUIRUS [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/Biollante/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "Price",
+      "Defense",
+      "DMG1",
+      "DMG2",
+      "DMG3",
+      "SwimSpeed"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MINILLA/Stats"
   },
   {
     "class": "NumberValue",
@@ -813,7 +891,33 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween (PRICES I SET ARE NOT GCELL, THEY ARE CANDY)/Ghost Gojira/Stats"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween/Candy Corn Space Godzilla/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/TITANUS GOJIRA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "Lighting/KaijusUnused/Behemoth/Stats"
   },
   {
     "class": "NumberValue",
@@ -839,111 +943,33 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "ReplicatedStorage/FINAL WARS GODZILLA/Stats"
+    "parent": "Lighting/KaijusUnused/Anguirus/Stats"
   },
   {
     "class": "NumberValue",
-    "count": 11,
+    "count": 10,
     "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MILITARY TANK [FREE]/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MOTHRA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price (in candy)",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween (PRICES I SET ARE NOT GCELL, THEY ARE CANDY)/Candy Corn Space Godzilla/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "Price",
-      "Defense",
-      "DMG1",
-      "DMG2",
-      "DMG3",
-      "SwimSpeed"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/MINILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/LOTZIGAN/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/SHIN FORM 2 [FREE]/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "Price",
-      "Defense",
-      "DMG1",
-      "DMG2",
-      "DMG3",
-      "SwimSpeed"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween (PRICES I SET ARE NOT GCELL, THEY ARE CANDY)/Vampire Minilla/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
       "WS",
       "SS",
-      "Price",
+      "DMG3",
+      "SwimSpeed",
+      "DMG1",
       "MaxHP"
     ],
-    "parent": "Lighting/KaijusUnused/Behemoth/Stats"
+    "parent": "Lighting/KaijusUnused/Human/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 10,
+    "names": [
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1",
+      "GPA"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween/RED/Stats"
   },
   {
     "class": "NumberValue",
@@ -969,33 +995,7 @@
       "DMG1",
       "GPA"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/Halloween (PRICES I SET ARE NOT GCELL, THEY ARE CANDY)/RED/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1",
-      "GPA"
-    ],
     "parent": "Lighting/KaijusUnused/Space Godzilla/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "WS",
-      "SS",
-      "DMG3",
-      "SwimSpeed",
-      "DMG1",
-      "MaxHP"
-    ],
-    "parent": "Lighting/KaijusUnused/Human/Stats"
   },
   {
     "class": "NumberValue",
@@ -1035,19 +1035,6 @@
     "class": "NumberValue",
     "count": 9,
     "names": [
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1",
-      "GPA",
-      "WS"
-    ],
-    "parent": "Lighting/GO/GO_Kaijus/Godzilla2014/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
       "WS",
       "SS",
       "Defense",
@@ -1058,12 +1045,25 @@
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ZILLA/Stats"
   },
   {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1",
+      "GPA",
+      "WS"
+    ],
+    "parent": "Lighting/GO/GO_Kaijus/Godzilla2014/Stats"
+  },
+  {
     "class": "IntValue",
     "count": 8,
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes"
   },
   {
     "class": "IntValue",
@@ -1087,23 +1087,23 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 8,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "IntValue",
-    "count": 8,
-    "names": [
-      "Null"
-    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "IntValue",
+    "count": 8,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "IntValue",
+    "count": 8,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
   },
   {
     "class": "IntValue",
@@ -1119,7 +1119,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
   },
   {
     "class": "IntValue",
@@ -1127,183 +1127,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2/Bip001_Neck"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2"
   },
   {
     "class": "IntValue",
@@ -1319,6 +1143,46 @@
     "names": [
       "Null"
     ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
   },
   {
@@ -1327,7 +1191,23 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1"
   },
   {
     "class": "IntValue",
@@ -1343,7 +1223,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes"
   },
   {
     "class": "IntValue",
@@ -1351,7 +1231,47 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
   },
   {
     "class": "IntValue",
@@ -1363,11 +1283,83 @@
   },
   {
     "class": "IntValue",
-    "count": 6,
+    "count": 7,
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2/Bip001_Neck"
   },
   {
     "class": "IntValue",
@@ -1376,38 +1368,6 @@
       "Null"
     ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "IntValue",
-    "count": 6,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 6,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2/Bip001_Neck"
-  },
-  {
-    "class": "IntValue",
-    "count": 6,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "IntValue",
-    "count": 6,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
   },
   {
     "class": "IntValue",
@@ -1431,7 +1391,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
   },
   {
     "class": "IntValue",
@@ -1439,7 +1399,15 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2/Bip001_Neck"
+  },
+  {
+    "class": "IntValue",
+    "count": 6,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes"
   },
   {
     "class": "IntValue",
@@ -1455,7 +1423,47 @@
     "names": [
       "Null"
     ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2"
+  },
+  {
+    "class": "IntValue",
+    "count": 6,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "IntValue",
+    "count": 6,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 6,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "IntValue",
+    "count": 6,
+    "names": [
+      "Null"
+    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/alk/Keyframe/RootPart"
+  },
+  {
+    "class": "IntValue",
+    "count": 5,
+    "names": [
+      "Null"
+    ],
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
   },
   {
     "class": "IntValue",
@@ -1479,22 +1487,6 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 5,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
-  },
-  {
-    "class": "IntValue",
-    "count": 5,
-    "names": [
-      "Null"
-    ],
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart"
   },
   {
@@ -1503,23 +1495,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 5,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "IntValue",
-    "count": 5,
-    "names": [
-      "Null"
-    ],
-    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
   },
   {
     "class": "IntValue",
@@ -1538,1379 +1514,28 @@
     "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes"
   },
   {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item73"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item73"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item72"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item79"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item75"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item64"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item73"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item71"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item92"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item70"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item56"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item64"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item83"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item84"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item67"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item87"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item74"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item29"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item61"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item80"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item8"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item74"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item76"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item30"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item78"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item73"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item72"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item55"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item81"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item59"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item86"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item58"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item40"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item79"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item74"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item76"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item66"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item81"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item46"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item37"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item79"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item47"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item77"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item76"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item78"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item106"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item62"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item84"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item4"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item11"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item52"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item90"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item12"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item108"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item114"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item35"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item83"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item122"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item27"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item10"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item39"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item121"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item57"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item70"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item27"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item19"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item39"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item20"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item21"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item89"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item29"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item18"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item16"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item48"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item28"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item6"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item105"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item56"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item103"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item109"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item7"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item36"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item87"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item88"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item88"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item38"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item26"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item62"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item90"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item67"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item87"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item88"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item89"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item71"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item8"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item2"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item3"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item14"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item25"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item89"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item61"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item6"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item105"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item58"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item45"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item80"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item4"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item63"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item54"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item113"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item28"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item67"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item83"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item33"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item32"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item35"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item33"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item52"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item8"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item83"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item47"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item9"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
+    "class": "IntValue",
+    "count": 5,
     "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
+      "Null"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item50"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
   },
   {
-    "class": "ObjectValue",
-    "count": 4,
+    "class": "IntValue",
+    "count": 5,
     "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
+      "Null"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item104"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
   },
   {
-    "class": "ObjectValue",
-    "count": 4,
+    "class": "IntValue",
+    "count": 5,
     "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
+      "Null"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item48"
+    "parent": "ReplicatedStorage/MorphSupplies/Morphs/ENTITY/AnimSaves/a3/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
   },
   {
     "class": "ObjectValue",
@@ -2921,7 +1546,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item64"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item129"
   },
   {
     "class": "ObjectValue",
@@ -2932,7 +1557,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item27"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item23"
   },
   {
     "class": "ObjectValue",
@@ -2943,7 +1568,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item127"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item26"
   },
   {
     "class": "ObjectValue",
@@ -2954,7 +1579,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item42"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item28"
   },
   {
     "class": "ObjectValue",
@@ -2965,7 +1590,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item55"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item43"
   },
   {
     "class": "ObjectValue",
@@ -2976,7 +1601,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item42"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item23"
   },
   {
     "class": "ObjectValue",
@@ -2987,7 +1612,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item54"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item141"
   },
   {
     "class": "ObjectValue",
@@ -2998,7 +1623,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item42"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item12"
   },
   {
     "class": "ObjectValue",
@@ -3009,7 +1634,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item6"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item10"
   },
   {
     "class": "ObjectValue",
@@ -3020,7 +1645,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item75"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item29"
   },
   {
     "class": "ObjectValue",
@@ -3031,7 +1656,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item69"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item101"
   },
   {
     "class": "ObjectValue",
@@ -3053,7 +1678,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item28"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item30"
   },
   {
     "class": "ObjectValue",
@@ -3064,7 +1689,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item6"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item110"
   },
   {
     "class": "ObjectValue",
@@ -3075,7 +1700,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item68"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item31"
   },
   {
     "class": "ObjectValue",
@@ -3086,7 +1711,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item14"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item99"
   },
   {
     "class": "ObjectValue",
@@ -3097,7 +1722,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item5"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item90"
   },
   {
     "class": "ObjectValue",
@@ -3108,7 +1733,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item5"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item35"
   },
   {
     "class": "ObjectValue",
@@ -3119,7 +1744,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item42"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item38"
   },
   {
     "class": "ObjectValue",
@@ -3130,7 +1755,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item60"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item22"
   },
   {
     "class": "ObjectValue",
@@ -3141,7 +1766,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item21"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item9"
   },
   {
     "class": "ObjectValue",
@@ -3152,7 +1777,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item11"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item1"
   },
   {
     "class": "ObjectValue",
@@ -3163,7 +1788,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item42"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item32"
   },
   {
     "class": "ObjectValue",
@@ -3174,7 +1799,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item57"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item36"
   },
   {
     "class": "ObjectValue",
@@ -3185,7 +1810,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item63"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item36"
   },
   {
     "class": "ObjectValue",
@@ -3196,7 +1821,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item16"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item31"
   },
   {
     "class": "ObjectValue",
@@ -3207,7 +1832,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item52"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item107"
   },
   {
     "class": "ObjectValue",
@@ -3218,7 +1843,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item41"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item30"
   },
   {
     "class": "ObjectValue",
@@ -3229,7 +1854,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item15"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item50"
   },
   {
     "class": "ObjectValue",
@@ -3240,7 +1865,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item85"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item61"
   },
   {
     "class": "ObjectValue",
@@ -3251,7 +1876,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item58"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item62"
   },
   {
     "class": "ObjectValue",
@@ -3262,7 +1887,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item51"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item63"
   },
   {
     "class": "ObjectValue",
@@ -3273,7 +1898,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item19"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item7"
   },
   {
     "class": "ObjectValue",
@@ -3284,7 +1909,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item26"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item21"
   },
   {
     "class": "ObjectValue",
@@ -3295,7 +1920,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item23"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item131"
   },
   {
     "class": "ObjectValue",
@@ -3306,7 +1931,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item77"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item89"
   },
   {
     "class": "ObjectValue",
@@ -3317,7 +1942,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item107"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item49"
   },
   {
     "class": "ObjectValue",
@@ -3328,7 +1953,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item65"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item141"
   },
   {
     "class": "ObjectValue",
@@ -3339,7 +1964,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item80"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item65"
   },
   {
     "class": "ObjectValue",
@@ -3350,7 +1975,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item10"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item110"
   },
   {
     "class": "ObjectValue",
@@ -3361,7 +1986,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item22"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item124"
   },
   {
     "class": "ObjectValue",
@@ -3372,7 +1997,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item6"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item31"
   },
   {
     "class": "ObjectValue",
@@ -3383,7 +2008,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item113"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item9"
   },
   {
     "class": "ObjectValue",
@@ -3394,7 +2019,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item28"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item115"
   },
   {
     "class": "ObjectValue",
@@ -3405,7 +2030,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item124"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item33"
   },
   {
     "class": "ObjectValue",
@@ -3416,7 +2041,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item71"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item24"
   },
   {
     "class": "ObjectValue",
@@ -3427,7 +2052,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item4"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item116"
   },
   {
     "class": "ObjectValue",
@@ -3438,7 +2063,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item38"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item49"
   },
   {
     "class": "ObjectValue",
@@ -3449,7 +2074,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item18"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item117"
   },
   {
     "class": "ObjectValue",
@@ -3460,645 +2085,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item88"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item86"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item60"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item61"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item21"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item35"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item4"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item25"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item58"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item10"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item34"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item13"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item59"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item77"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item5"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item129"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item2"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item45"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item15"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item32"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item69"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item61"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item19"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item92"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item87"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item8"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item63"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item32"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item22"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item67"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item76"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item84"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item120"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item22"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item73"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item39"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item13"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item50"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item49"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item12"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item103"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item4"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item3"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item53"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item100"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item2"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item115"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item90"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item61"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item29"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item19"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item53"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item56"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item36"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item75"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item49"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item103"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item21"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 4,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item5"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item42"
   },
   {
     "class": "ObjectValue",
@@ -4120,7 +2107,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item24"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item82"
   },
   {
     "class": "ObjectValue",
@@ -4131,7 +2118,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item14"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item8"
   },
   {
     "class": "ObjectValue",
@@ -4142,7 +2129,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item17"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item149"
   },
   {
     "class": "ObjectValue",
@@ -4153,7 +2140,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item16"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item116"
   },
   {
     "class": "ObjectValue",
@@ -4164,7 +2151,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item24"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item65"
   },
   {
     "class": "ObjectValue",
@@ -4175,7 +2162,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item19"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item52"
   },
   {
     "class": "ObjectValue",
@@ -4186,7 +2173,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item18"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item51"
   },
   {
     "class": "ObjectValue",
@@ -4197,7 +2184,18 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item25"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item147"
+  },
+  {
+    "class": "NumberValue",
+    "count": 4,
+    "names": [
+      "TransparencySpeed",
+      "TransparencyDelay",
+      "Speed",
+      "Delay"
+    ],
+    "parent": "ReplicatedStorage/Pulse/Shock"
   },
   {
     "class": "ObjectValue",
@@ -4208,7 +2206,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item120"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item55"
   },
   {
     "class": "ObjectValue",
@@ -4219,7 +2217,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item46"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item57"
   },
   {
     "class": "ObjectValue",
@@ -4230,7 +2228,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item58"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item58"
   },
   {
     "class": "ObjectValue",
@@ -4241,7 +2239,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item14"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/EclipseTrackOrganization/Item117"
   },
   {
     "class": "ObjectValue",
@@ -4252,7 +2250,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item94"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item56"
   },
   {
     "class": "ObjectValue",
@@ -4263,7 +2261,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item69"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item57"
   },
   {
     "class": "ObjectValue",
@@ -4274,6 +2272,2008 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item65"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item97"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item49"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item133"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item39"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item6"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item5"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item110"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item28"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item11"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item40"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item85"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item13"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item52"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item83"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/Rigs/SPACE GODZILLA/Animation/EclipseTrackOrganization/Item10"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item81"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item79"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item84"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item120"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item77"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item61"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item60"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item102"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item122"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/EclipseTrackOrganization/Item11"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item92"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item87"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item53"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item128"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item27"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item38"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item78"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item76"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item58"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item64"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item19"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item88"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item66"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item123"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item59"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item52"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/EclipseTrackOrganization/Item5"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item57"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item58"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item99"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item56"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item26"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item74"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item42"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item75"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item80"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item9"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item103"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item33"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item93"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item72"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item70"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item55"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item4"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item3"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/EclipseTrackOrganization/Item18"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item5"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item27"
+  },
+  {
+    "class": "NumberValue",
+    "count": 4,
+    "names": [
+      "TransparencySpeed",
+      "TransparencyDelay",
+      "Speed",
+      "Delay"
+    ],
+    "parent": "ReplicatedStorage/Pulse/Shockwave"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item131"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item122"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/Rigs/SPACE GODZILLA/Animation/EclipseTrackOrganization/Item8"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item118"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item20"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item119"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item108"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item63"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item56"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/EclipseTrackOrganization/Item123"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item81"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item135"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item132"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item5"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item116"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item2"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item51"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item115"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item4"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item16"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item60"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item51"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item108"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item114"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item113"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item100"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item99"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item75"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item107"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item64"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item99"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item89"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item42"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item17"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item141"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item8"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item43"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item26"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/Rigs/MINILLA/Animation/EclipseTrackOrganization/Item1"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item108"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item107"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item111"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item70"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item3"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/EclipseTrackOrganization/Item95"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item105"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item14"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item107"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item103"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item67"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item80"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item115"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item22"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item79"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item57"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item97"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item110"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item111"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item106"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item62"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item131"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item54"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item109"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item58"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item10"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item65"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item85"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item13"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item104"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item123"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item64"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item35"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item112"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item62"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item80"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/EclipseTrackOrganization/Item84"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_2/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item104"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_1/Archive/Rigs/FINAL WARS GODZILLA/Animation/EclipseTrackOrganization/Item99"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item45"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_1/Archive/EclipseTrackOrganization/Item64"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item7"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item49"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item90"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item148"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item26"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item71"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/Rigs/Godzilla in Hell (UNFINISHED)/Animation/EclipseTrackOrganization/Item111"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item24"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_2/Archive/EclipseTrackOrganization/Item78"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item37"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item39"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy8_1/Archive/EclipseTrackOrganization/Item15"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item47"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item35"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item47"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/EclipseTrackOrganization/Item132"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item46"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/EclipseTrackOrganization/Item32"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item43"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item41"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item42"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/EclipseTrackOrganization/Item51"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item78"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy1_1/Archive/EclipseTrackOrganization/Item59"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item105"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item102"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy6_1/Archive/EclipseTrackOrganization/Item26"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item74"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item109"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item100"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item15"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item99"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy2_1/Archive/EclipseTrackOrganization/Item21"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy4_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item96"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item143"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item44"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_2/Archive/Rigs/SPACE GODZILLA/Animation/EclipseTrackOrganization/Item99"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy5_1/Archive/Rigs/Godzilla in Hell /Animation/EclipseTrackOrganization/Item111"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 4,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseRecovery/Copy3_2/Archive/EclipseTrackOrganization/Item49"
   }
 ]

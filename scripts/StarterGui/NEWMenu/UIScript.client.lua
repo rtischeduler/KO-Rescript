@@ -256,7 +256,7 @@ local function startPlay()
 		playing = false
 		return
 	end
-	if not morphs:FindFirstChild(selectedMorphName) then
+	if not morphs:FindFirstChild(selectedMorphName, true) then
 		warn("Could not find morph model: " .. tostring(selectedMorphName))
 		playing = false
 		return

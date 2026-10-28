@@ -66,6 +66,31 @@ local GROUND_RAY = bodyHalf + 14
 
 local mode = "Land"
 local sprintOn = false
+
+local SPRINT_FOV_BOOST = 12
+local sprintFovBase = nil
+local sprintFovTween = nil
+
+local function setSprintFov(on)
+	local camera = workspace.CurrentCamera
+	if not camera then return end
+	if sprintFovTween then
+		sprintFovTween:Cancel()
+		sprintFovTween = nil
+	end
+	local target
+	if on then
+		sprintFovBase = sprintFovBase or camera.FieldOfView
+		target = sprintFovBase + SPRINT_FOV_BOOST
+	elseif sprintFovBase then
+		target = sprintFovBase
+		sprintFovBase = nil
+	else
+		return
+	end
+	sprintFovTween = game:GetService("TweenService"):Create(camera, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { FieldOfView = target })
+	sprintFovTween:Play()
+end
 local currentAnim = "Idle"
 local flightVel = Vector3.zero
 local facing = Vector3.new(0, 0, -1)
@@ -355,6 +380,8 @@ local function endFlight(keepMomentum, fade)
 	applyWalkSpeed()
 
 	stopTrack(airTrack, fade)
+	stopTrack(Fly, fade)
+	stopTrack(Swim, fade)
 	airTrack = nil
 
 	if humanoid.Health > 0 then
@@ -373,6 +400,13 @@ local function endFlight(keepMomentum, fade)
 	if previous ~= "Fly" then
 		swimBlockedUntil = os.clock() + 0.35
 	end
+
+	task.defer(function()
+		if mode == "Land" then
+			stopTrack(Fly, fade)
+			stopTrack(Swim, fade)
+		end
+	end)
 end
 
 local function startManualFly(fade)
@@ -527,10 +561,9 @@ local function updateAir(dt, now, wet, level)
 		turn = GLIDE_TURN
 	end
 
-	if groundDistance and (mode == "Swim" or (mode == "Fly" and wet)) and groundDistance < bodyHalf + 3 then
-		local limit = math.min((bodyHalf + 1 - groundDistance) * 5, 14)
-		if flightVel.Y < limit then
-			flightVel = Vector3.new(flightVel.X, limit, flightVel.Z)
+	if groundDistance and (mode == "Swim" or (mode == "Fly" and wet)) and groundDistance < bodyHalf + 1 then
+		if flightVel.Y < 0 then
+			flightVel = Vector3.new(flightVel.X, 0, flightVel.Z)
 		end
 	end
 
@@ -542,7 +575,7 @@ local function updateAir(dt, now, wet, level)
 	align.CFrame = facingCFrame(facing)
 	linear.VectorVelocity = flightVel
 
-	if airTrack and not airTrack.IsPlaying then
+	if airTrack and mode ~= "Land" and not airTrack.IsPlaying then
 		airTrack:Play(0.1)
 	end
 end
@@ -608,6 +641,7 @@ local function onRunChanged()
 			return
 		end
 		sprintOn = true
+		setSprintFov(true)
 		applyWalkSpeed()
 		if mode == "Land" and currentAnim == "Walk" then
 			refreshGroundAnimation()
@@ -618,6 +652,7 @@ local function onRunChanged()
 		end
 	else
 		sprintOn = false
+		setSprintFov(false)
 		applyWalkSpeed()
 		if mode == "Fly" then
 			stopManualFly()

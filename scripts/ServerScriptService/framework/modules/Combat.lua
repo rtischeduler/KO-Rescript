@@ -36,21 +36,24 @@ local function getGCells(player)
 	return nil
 end
 
-local function giveGCells(player, amount, isKillReward)
+local function giveGCells(player, amount, isKillReward, at)
 	local gcells = getGCells(player)
 	if not gcells then return end
 	if isKillReward and _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
 	if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 	gcells.Value += amount
+	if _G.ShowIndicator then _G.ShowIndicator(player, 0, amount, 0, at) end
 	if isKillReward and _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 end
 
-local function giveXP(player, minXP, maxXP)
+local function giveXP(player, minXP, maxXP, at)
 	local character = player.Character
 	local addXP = character and character:FindFirstChild("AddXP")
 	if addXP and addXP:IsA("BindableEvent") then
 		if _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
-		addXP:Fire(math.random(minXP, maxXP))
+		local xpAmount = math.random(minXP, maxXP)
+		addXP:Fire(xpAmount)
+		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount, at) end
 		if _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 	end
 end
@@ -259,17 +262,20 @@ local function initCombat()
 
 				if topKiller and topKiller:IsA("Player") then
 					sendKillMessage(topKiller.Name, victimName)
-					giveGCells(topKiller, KILL_REWARD, true)
+					giveGCells(topKiller, KILL_REWARD, true, character)
+					if _G.AwardCandy then
+						_G.AwardCandy(topKiller, humanoid.MaxHealth, character)
+					end
 					local stats = topKiller:FindFirstChild("leaderstats")
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end
-					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX)
+					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
 					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
 				end
 				for _, attacker in ipairs(others) do
 					if attacker ~= topKiller and attacker:IsA("Player") then
-						giveGCells(attacker, ASSIST_REWARD, true)
-						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX)
+						giveGCells(attacker, ASSIST_REWARD, true, character)
+						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
 					end
 				end
 			end
@@ -306,16 +312,16 @@ local function initCombat()
 			local reward = math.floor(damagePercent * KILL_REWARD)
 			if reward > 0 then
 				sendKillMessage(topKiller.Name, player.Name)
-				giveGCells(topKiller, reward, true)
-				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX)
+				giveGCells(topKiller, reward, true, character)
+				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
 			end
 		end
 		for _, attacker in ipairs(others) do
 			if attacker ~= topKiller and attacker:IsA("Player") then
 				local reward = math.floor(damagePercent * ASSIST_REWARD)
 				if reward > 0 then
-					giveGCells(attacker, reward, true)
-					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX)
+					giveGCells(attacker, reward, true, character)
+					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
 				end
 			end
 		end
@@ -447,8 +453,9 @@ local function initPulse()
 					hitThisTick[hitPlayer] = true
 					setCreator(hitHumanoid, player)
 					hitHumanoid:TakeDamage(damagePerTick)
+					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
 					pulseHitEvent:FireClient(hitPlayer)
-					giveGCells(player, gcellsPerTick, false)
+					giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
 				end
 			end
 
@@ -724,8 +731,9 @@ local function initAttackHandler()
 	local function registerHit(attacker, attackerChar, humanoid, damage, gcells)
 		setCreator(humanoid, attacker)
 		humanoid:TakeDamage(damage)
+		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0, humanoid.Parent) end
 		playHitSound(attackerChar)
-		giveGCells(attacker, gcells, false)
+		giveGCells(attacker, gcells, false, humanoid.Parent)
 	end
 
 	local function enableHitParts(character, hitPlayers, player, damage)
@@ -1100,13 +1108,14 @@ local function initDPS()
 		return perLevel.Value ^ (level - 1)
 	end
 
-	local function payGCells(attacker, amount)
+	local function payGCells(attacker, amount, at)
 		local leaderstats = attacker:FindFirstChild("leaderstats")
 		if not leaderstats then return end
 		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 		if gcells and gcells:IsA("IntValue") then
 			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 			gcells.Value = gcells.Value + amount
+			if _G.ShowIndicator and amount >= 1 then _G.ShowIndicator(attacker, 0, amount, 0, at) end
 		end
 	end
 
@@ -1132,7 +1141,8 @@ local function initDPS()
 			humanoid.Health = humanoid.Health - (part:GetAttribute("Damage") or 0.9) * multiplier
 			if attacker then
 				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
-				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2)
+				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2, character)
+				if _G.ShowIndicator then _G.ShowIndicator(attacker, (part:GetAttribute("Damage") or 0.9) * multiplier, 0, 0, character) end
 			end
 		end)
 	end

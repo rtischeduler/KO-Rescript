@@ -3,14 +3,50 @@ local World = {}
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local Debris = game:GetService("Debris")
+local PhysicsService = game:GetService("PhysicsService")
+local CollectionService = game:GetService("CollectionService")
 local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HolidayConfigs = require(ReplicatedStorage:WaitForChild("HolidayConfigs"))
 
-local state = { IsRaining = false }
+local state = { IsRaining = false, IsSnowing = false }
 local initialized = false
 local windowApi = {}
 local savedWindowState = setmetatable({}, { __mode = "k" })
+
+local DEBRIS_GROUP = "CollapseDebris"
+local CHARACTER_GROUP = "Characters"
+local debrisReady = false
+
+local function initDebrisCollision()
+	local ok = pcall(function()
+		for _, name in { DEBRIS_GROUP, CHARACTER_GROUP } do
+			if not PhysicsService:IsCollisionGroupRegistered(name) then
+				PhysicsService:RegisterCollisionGroup(name)
+			end
+		end
+		PhysicsService:CollisionGroupSetCollidable(DEBRIS_GROUP, CHARACTER_GROUP, false)
+	end)
+	if not ok then return end
+	debrisReady = true
+
+	local function assign(character)
+		local function mark(d)
+			if d:IsA("BasePart") then d.CollisionGroup = CHARACTER_GROUP end
+		end
+		for _, d in character:GetDescendants() do mark(d) end
+		character.DescendantAdded:Connect(mark)
+	end
+
+	local function hook(player)
+		player.CharacterAdded:Connect(assign)
+		if player.Character then assign(player.Character) end
+	end
+
+	for _, player in Players:GetPlayers() do hook(player) end
+	Players.PlayerAdded:Connect(hook)
+end
 
 local function lerp(a, b, t) return a + (b - a) * t end
 
@@ -38,7 +74,8 @@ local function easeCollapse(p) return p ^ 1.7 end
 local function easeTilt(p) return p ^ 1.6 end
 
 local function initDayNight()
-	local DAY_LENGTH_MIN = 12
+	local DAY_LENGTH_MIN = 30
+	local WEATHER_FADE = 10
 	local START_MINUTES = 720
 	local timeRatio = (24 * 60) / (math.max(DAY_LENGTH_MIN, 1) * 60)
 	local t0 = os.clock()
@@ -68,14 +105,67 @@ local function initDayNight()
 		Cloud = Color3.new(0.15, 0.15, 0.18),
 	}
 
-	local function dayFactor(m)
+	local SNOW = RAIN
+	local DEFAULT = { Day = DAY, Night = NIGHT, Rain = RAIN }
+	local lastCheck = -math.huge
+	local baseDecay = nil
+	local wxLevel, wxTable = 0, nil
+	local lastWx = os.clock()
+
+	local fxBase = setmetatable({}, { __mode = "k" })
+
+	local function setFx(inst, prop, value)
+		local saved = fxBase[inst]
+		if not saved then
+			saved = {}
+			fxBase[inst] = saved
+		end
+		if saved[prop] == nil then saved[prop] = inst[prop] end
+		if value ~= nil then inst[prop] = value else inst[prop] = saved[prop] end
+	end
+
+	local function applyEffects(fx)
+		fx = fx or {}
+		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
+		if atmosphere then
+			setFx(atmosphere, "Offset", fx.AtmOffset)
+			setFx(atmosphere, "Glare", fx.AtmGlare)
+		end
+		for _, child in Lighting:GetChildren() do
+			if child:IsA("BloomEffect") then
+				setFx(child, "Intensity", fx.BloomIntensity)
+				setFx(child, "Threshold", fx.BloomThreshold)
+			elseif child:IsA("SunRaysEffect") then
+				setFx(child, "Intensity", fx.SunRaysIntensity)
+			end
+		end
+		setFx(Lighting, "ExposureCompensation", fx.Exposure)
+	end
+
+	local function rawDayFactor(m)
 		if m >= 420 and m <= 1020 then return 1
 		elseif m >= 1140 or m <= 300 then return 0
 		elseif m < 420 then return (m - 300) / 120
 		else return 1 - (m - 1020) / 120 end
 	end
 
+	local function dayFactor(m)
+		local x = rawDayFactor(m)
+		return x * x * (3 - 2 * x)
+	end
+
 	while true do
+		local clock = os.clock()
+		if clock - lastCheck >= 30 then
+			lastCheck = clock
+			local holiday = HolidayConfigs.getActive()
+			local set = holiday and holiday.Lighting or DEFAULT
+			DAY, NIGHT = set.Day or DEFAULT.Day, set.Night or DEFAULT.Night
+			RAIN = set.Rain or DEFAULT.Rain
+			SNOW = set.Snow or set.Rain or DEFAULT.Rain
+			applyEffects(holiday and holiday.Effects or nil)
+		end
+
 		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
 		local clouds = workspace.Terrain:FindFirstChildOfClass("Clouds")
 
@@ -93,24 +183,38 @@ local function initDayNight()
 		local density = lerp(NIGHT.Density, DAY.Density, t)
 		local haze = lerp(NIGHT.Haze, DAY.Haze, t)
 
-		if state.IsRaining then
-			Lighting.FogColor = RAIN.FogColor
-			Lighting.FogEnd = fogEnd * RAIN.FogEndMul
-			if atmosphere then
-				atmosphere.Density = density + RAIN.DensityAdd
-				atmosphere.Color = RAIN.AtmColor
-				atmosphere.Haze = haze + RAIN.HazeAdd
-			end
-			if clouds then clouds.Color = RAIN.Cloud end
-		else
-			Lighting.FogColor = NIGHT.FogColor:Lerp(DAY.FogColor, t)
-			Lighting.FogEnd = fogEnd
-			if atmosphere then
-				atmosphere.Density = density
-				atmosphere.Color = NIGHT.AtmColor:Lerp(DAY.AtmColor, t)
-				atmosphere.Haze = haze
-			end
-			if clouds then clouds.Color = NIGHT.Cloud:Lerp(DAY.Cloud, t) end
+		local target = (state.IsRaining or state.IsSnowing) and 1 or 0
+		local active = state.IsRaining and RAIN or state.IsSnowing and SNOW or nil
+		if active then wxTable = active end
+		local maxStep = math.max(clock - lastWx, 0) / WEATHER_FADE
+		lastWx = clock
+		wxLevel += math.clamp(target - wxLevel, -maxStep, maxStep)
+		if wxLevel <= 0 then wxTable = nil end
+		local k = wxLevel * wxLevel * (3 - 2 * wxLevel)
+
+		local fogColor = NIGHT.FogColor:Lerp(DAY.FogColor, t)
+		local atmColor = NIGHT.AtmColor:Lerp(DAY.AtmColor, t)
+		local cloudColor = NIGHT.Cloud:Lerp(DAY.Cloud, t)
+		if wxTable and k > 0 then
+			fogColor = fogColor:Lerp(wxTable.FogColor, k)
+			atmColor = atmColor:Lerp(wxTable.AtmColor, k)
+			cloudColor = cloudColor:Lerp(wxTable.Cloud, k)
+			fogEnd *= lerp(1, wxTable.FogEndMul, k)
+			density += wxTable.DensityAdd * k
+			haze += wxTable.HazeAdd * k
+		end
+		Lighting.FogColor = fogColor
+		Lighting.FogEnd = fogEnd
+		if atmosphere then
+			atmosphere.Density = density
+			atmosphere.Color = atmColor
+			atmosphere.Haze = haze
+		end
+		if clouds then clouds.Color = cloudColor end
+
+		if atmosphere then
+			if baseDecay == nil then baseDecay = atmosphere.Decay end
+			atmosphere.Decay = DAY.AtmDecay and NIGHT.AtmDecay and NIGHT.AtmDecay:Lerp(DAY.AtmDecay, t) or baseDecay
 		end
 
 		task.wait(1 / 15)
@@ -128,6 +232,30 @@ local function initWindowLights()
 	local buildings = {}
 	local pool = {}
 	local winToken = setmetatable({}, { __mode = "k" })
+	local LIGHT_BRIGHTNESS = 1.25
+	local LIGHT_RANGE = 30
+	local LIGHTS_PER_FRAME = 3
+	local TURN_ON_SPREAD = 6
+	local TURN_OFF_SPREAD = 5
+	local jobs, jobHead, jobTail = {}, 1, 0
+	local pending = {}
+	local function enqueue(fn)
+		jobTail += 1
+		jobs[jobTail] = fn
+	end
+	task.spawn(function()
+		while true do
+			local n = 0
+			while jobHead <= jobTail and n < LIGHTS_PER_FRAME do
+				local fn = jobs[jobHead]
+				jobs[jobHead] = nil
+				jobHead += 1
+				n += 1
+				pcall(fn)
+			end
+			task.wait()
+		end
+	end)
 
 	local function owningBuilding(inst)
 		local p = inst.Parent
@@ -184,11 +312,51 @@ local function initWindowLights()
 		end
 	end
 
+	local colorCache = setmetatable({}, { __mode = "k" })
+	local winBuilding = setmetatable({}, { __mode = "k" })
+	local palette = nil
+	local dayLit = {}
+	local dayLitAt = 0
+	local dayLitOn = false
+
+	local function buildingColor(building)
+		if not palette or not building then return LIT end
+		local c = colorCache[building]
+		if not c then
+			local base = building:FindFirstChild("BuildingBase")
+			local p = base and base:IsA("BasePart") and base.Position or Vector3.zero
+			local h = math.floor(math.abs(p.X * 7.13 + p.Z * 13.37 + p.Y * 3.1))
+			c = palette[h % #palette + 1]
+			colorCache[building] = c
+		end
+		return c
+	end
+
+	local function colorOf(window)
+		local b = winBuilding[window]
+		if not b then
+			b = owningBuilding(window)
+			winBuilding[window] = b
+		end
+		return buildingColor(b)
+	end
+
+	local function refreshPalette()
+		local holiday = HolidayConfigs.getActive()
+		local nextPalette = holiday and holiday.WindowColors or nil
+		if nextPalette == palette then return end
+		palette = nextPalette
+		table.clear(colorCache)
+		for base, light in lights do
+			if light.Parent and base.Parent then light.Color = buildingColor(base.Parent) end
+		end
+	end
+
 	local function setWindow(window, lit)
 		if not window.Parent then return end
 		capture(window)
 		window.Material = Enum.Material.Neon
-		window.Color = lit and LIT or DARK
+		window.Color = lit and colorOf(window) or DARK
 	end
 
 	local function restoreWindow(window)
@@ -208,9 +376,10 @@ local function initWindowLights()
 		local mine = winToken[window]
 		task.spawn(function()
 			local stop = os.clock() + duration
+			local litColor = colorOf(window)
 			while winToken[window] == mine and window.Parent and os.clock() < stop do
 				window.Material = Enum.Material.Neon
-				window.Color = math.random() < 0.5 and LIT or DARK
+				window.Color = math.random() < 0.5 and litColor or DARK
 				task.wait(0.03 + math.random() * 0.09)
 			end
 			if winToken[window] ~= mine or not window.Parent then return end
@@ -225,23 +394,35 @@ local function initWindowLights()
 	end
 
 	local function ensureLight(base)
-		if lights[base] or not base.Parent then return end
-		local l = Instance.new("PointLight")
-		l.Name = "BuildingGlowLight"
-		l.Color = LIT
-		l.Brightness = 0.8
-		l.Range = 40
-		l.Shadows = false
-		l.Parent = base
-		lights[base] = l
+		if lights[base] or pending[base] or not base.Parent then return end
+		pending[base] = true
+		enqueue(function()
+			pending[base] = nil
+			if lights[base] or not base.Parent or not windowsOn then return end
+			local l = Instance.new("PointLight")
+			l.Name = "BuildingGlowLight"
+			l.Color = buildingColor(base.Parent)
+			l.Brightness = LIGHT_BRIGHTNESS
+			l.Range = LIGHT_RANGE
+			l.Shadows = false
+			CollectionService:AddTag(l, "BuildingGlowLight")
+			l.Parent = base
+			lights[base] = l
+		end)
 	end
 
 	local function removeLight(base)
 		local l = lights[base]
-		if l then l:Destroy() lights[base] = nil end
+		if l then
+			lights[base] = nil
+			enqueue(function()
+				if l.Parent then l:Destroy() end
+			end)
+		end
 	end
 
 	local function lightBuilding(building, windows, myEpoch)
+		if epoch ~= myEpoch then return end
 		local destroyed = isDestroyed(building)
 		local base = building:FindFirstChild("BuildingBase")
 		if not destroyed and base and base:IsA("BasePart") then ensureLight(base) end
@@ -270,23 +451,31 @@ local function initWindowLights()
 	local function turnOn()
 		if windowsOn then return end
 		windowsOn = true
+		dayLitOn = false
+		table.clear(dayLit)
+		refreshPalette()
 		epoch += 1
 		local myEpoch = epoch
 		for building, windows in buildings do
-			task.spawn(lightBuilding, building, table.clone(windows), myEpoch)
+			task.delay(math.random() * TURN_ON_SPREAD, lightBuilding, building, table.clone(windows), myEpoch)
 		end
 	end
 
 	local function turnOff()
 		if not windowsOn then return end
 		windowsOn = false
+		dayLitOn = false
+		table.clear(dayLit)
+		dayLitAt = os.clock() + TURN_OFF_SPREAD + 1
 		epoch += 1
-		for base in lights do removeLight(base) end
+		local stale = {}
+		for base in lights do table.insert(stale, base) end
+		for _, base in stale do removeLight(base) end
 		pool = {}
 		for _, windows in buildings do
 			for _, w in windows do
 				winToken[w] = (winToken[w] or 0) + 1
-				task.delay(math.random() * 0.3 + 0.2, restoreWindow, w)
+				task.delay(math.random() * TURN_OFF_SPREAD + 0.2, restoreWindow, w)
 			end
 		end
 	end
@@ -307,6 +496,40 @@ local function initWindowLights()
 		pool = newPool
 		for base in lights do
 			if not base.Parent then removeLight(base) end
+		end
+	end
+
+	local function clearDayLights()
+		for window in dayLit do
+			if window.Parent then restoreWindow(window) end
+		end
+		table.clear(dayLit)
+		dayLitOn = false
+	end
+
+	local function refreshDayLights()
+		if windowsOn then return end
+		local holiday = HolidayConfigs.getActive()
+		local cfg = holiday and holiday.DayLights or nil
+		if not cfg then
+			if dayLitOn then clearDayLights() end
+			return
+		end
+		if dayLitOn or os.clock() < dayLitAt or next(buildings) == nil then return end
+		dayLitOn = true
+		for building, windows in buildings do
+			if not isDestroyed(building) and math.random() < cfg.Buildings then
+				for _, window in windows do
+					if window.Parent and math.random() < cfg.Windows then
+						dayLit[window] = true
+						task.delay(math.random() * cfg.Spread, function()
+							if dayLitOn and dayLit[window] and not windowsOn then
+								flickerWindow(window, 0.3 + math.random() * 0.6, "lit")
+							end
+						end)
+					end
+				end
+			end
 		end
 	end
 
@@ -342,14 +565,17 @@ local function initWindowLights()
 		end
 	end)
 
+	refreshPalette()
 	local lastNight, counter = nil, 0
 	while true do
+		refreshPalette()
 		local m = Lighting:GetMinutesAfterMidnight()
 		local night = m >= 1080 or m < 360
 		if night ~= lastNight then
 			lastNight = night
 			if night then turnOn() else turnOff() end
 		end
+		refreshDayLights()
 		if windowsOn then
 			counter += 1
 			if counter >= 3 then counter = 0 syncLights() end
@@ -364,29 +590,108 @@ local function initWindowLights()
 	end
 end
 
-local function initRain()
-	local rainySky = ReplicatedFirst:FindFirstChild("Rainy")
-	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
+local function initHolidayGround()
+	local terrain = workspace.Terrain
+	local terrainBase = terrain:GetMaterialColor(Enum.Material.Grass)
+	local saved = setmetatable({}, { __mode = "k" })
+	local activeColor, activeName = nil, nil
+
+	local function tint(part)
+		if activeColor and part ~= terrain and part:IsA("BasePart") and part.Material == Enum.Material.Grass and saved[part] == nil then
+			saved[part] = part.Color
+			part.Color = activeColor
+		end
+	end
+
+	workspace.DescendantAdded:Connect(tint)
+
+	local function sweep(color)
+		local n = 0
+		for _, d in workspace:GetDescendants() do
+			if activeColor ~= color then return end
+			tint(d)
+			n += 1
+			if n % 300 == 0 then task.wait() end
+		end
+	end
+
+	local function clear()
+		activeColor, activeName = nil, nil
+		for part, c in saved do
+			if part.Parent then part.Color = c end
+			saved[part] = nil
+		end
+		terrain:SetMaterialColor(Enum.Material.Grass, terrainBase)
+	end
 
 	while true do
-		task.wait(math.random(120, 200))
+		local holiday = HolidayConfigs.getActive()
+		local color = holiday and holiday.GroundColor or nil
+		local name = color and holiday.Name or nil
+		if name ~= activeName then
+			if activeName then clear() end
+			if color then
+				activeColor, activeName = color, name
+				terrain:SetMaterialColor(Enum.Material.Grass, color)
+				task.spawn(sweep, color)
+			end
+		end
+		task.wait(60)
+	end
+end
 
-		local originalSky = Lighting:FindFirstChildOfClass("Sky")
-		local clonedSky
-		state.IsRaining = true
-		if toggleRain then toggleRain:FireAllClients(true) end
-		if rainySky then
-			clonedSky = rainySky:Clone()
-			clonedSky.Parent = Lighting
-			if originalSky then originalSky.Parent = nil end
+local function initSky()
+	local skys = Lighting:WaitForChild("Skys", 30)
+	if not skys then return end
+	for _, child in Lighting:GetChildren() do
+		if child:IsA("Sky") then child:Destroy() end
+	end
+
+	local active, activeName = nil, nil
+	while true do
+		local holiday = HolidayConfigs.getActive()
+		local desired = holiday and holiday.Sky or (state.IsRaining and "Rainy" or "Sunny")
+		if desired ~= activeName then
+			local template = skys:FindFirstChild(desired)
+			if template and template:IsA("Sky") then
+				local sky = template:Clone()
+				sky.Name = "ActiveSky"
+				sky.Parent = Lighting
+				if active then active:Destroy() end
+				active, activeName = sky, desired
+			end
+		end
+		task.wait(1)
+	end
+end
+
+local function initRain()
+	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
+	local toggleSnow = ReplicatedStorage:FindFirstChild("ToggleSnow")
+
+	while true do
+		local weather = HolidayConfigs.getWeather()
+		task.wait(math.random(weather.Gap[1], weather.Gap[2]))
+
+		weather = HolidayConfigs.getWeather()
+		local snow = weather.Kind == "Snow"
+		if snow then
+			state.IsSnowing = true
+			if toggleSnow then toggleSnow:FireAllClients(true) end
+		else
+			state.IsRaining = true
+			if toggleRain then toggleRain:FireAllClients(true) end
 		end
 
-		task.wait(math.random(20, 120))
+		task.wait(math.random(weather.Duration[1], weather.Duration[2]))
 
-		state.IsRaining = false
-		if toggleRain then toggleRain:FireAllClients(false) end
-		if clonedSky then clonedSky:Destroy() end
-		if originalSky then originalSky.Parent = Lighting end
+		if snow then
+			state.IsSnowing = false
+			if toggleSnow then toggleSnow:FireAllClients(false) end
+		else
+			state.IsRaining = false
+			if toggleRain then toggleRain:FireAllClients(false) end
+		end
 	end
 end
 
@@ -394,7 +699,7 @@ local function initBuilding()
 	local RUMBLE_TIME = 0.8
 	local COLLAPSE_TIME = 2.6
 	local RESPAWN_DELAY = 60
-	local DEBRIS_CHUNKS = 12
+	local DEBRIS_CHUNKS = 9
 
 	local touchingParts = {}
 	local hitboxOwners = {}
@@ -448,7 +753,7 @@ local function initBuilding()
 		end
 	end
 
-	local function reward(player, cells)
+	local function reward(player, cells, damage, at)
 		if not player then return end
 		local ls = player:FindFirstChild("leaderstats")
 		local gcells = ls and (ls:FindFirstChild("GCells") or ls:FindFirstChild("gcells"))
@@ -458,7 +763,12 @@ local function initBuilding()
 		end
 		local char = player.Character
 		local xp = char and char:FindFirstChild("AddXP")
-		if xp and xp:IsA("BindableEvent") then xp:Fire(math.random(1, 3)) end
+		local xpAmount = 0
+		if xp and xp:IsA("BindableEvent") then
+			xpAmount = math.random(1, 3)
+			xp:Fire(xpAmount)
+		end
+		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount, at) end
 	end
 
 	local function liveRefs()
@@ -683,18 +993,19 @@ local function initBuilding()
 			for _ = 1, count do
 				local chunk = Instance.new("Part")
 				chunk.Name = "CollapseChunk"
-				chunk.Size = Vector3.new(rand(1, 3.5), rand(1, 3.5), rand(1, 3.5))
+				chunk.Size = Vector3.new(rand(0.8, 2.8), rand(0.8, 2.8), rand(0.8, 2.8))
 				chunk.Material = Enum.Material.CorrodedMetal
 				chunk.Transparency = 0
 				chunk.Color = base.Color
 				chunk.CanTouch = false
 				chunk.CanQuery = false
+				if debrisReady then chunk.CollisionGroup = DEBRIS_GROUP end
 				chunk.CFrame = CFrame.new(pivot + Vector3.new(rand(-footW / 2, footW / 2), rand(2, 15), rand(-footD / 2, footD / 2)))
 					* CFrame.Angles(rand(0, 6), rand(0, 6), rand(0, 6))
 				chunk.Parent = workspace
 				chunk.AssemblyLinearVelocity = Vector3.new(rand(-1, 1), rand(0.4, 1.2), rand(-1, 1)).Unit * rand(18, 45)
 				chunk.AssemblyAngularVelocity = Vector3.new(rand(-8, 8), rand(-8, 8), rand(-8, 8))
-				local life = rand(2.4, 3.4)
+				local life = rand(2, 2.8)
 				task.delay(life - 1, function()
 					if chunk.Parent then TweenService:Create(chunk, TweenInfo.new(1), { Transparency = 1 }):Play() end
 				end)
@@ -794,7 +1105,7 @@ local function initBuilding()
 				windowApi.flickerBuilding(building, 0.45, false)
 			end
 			playHitSound(base)
-			for player, cells in rewardsByPlayer do reward(player, cells) end
+			for player, cells in rewardsByPlayer do reward(player, cells, amount, building) end
 			if HP.Value <= 0 then
 				HP.Value = 0
 				onDestroyed()
@@ -994,6 +1305,9 @@ function World.Init()
 	task.spawn(initRain)
 	task.spawn(initBuilding)
 	task.spawn(initCollisions)
+	initDebrisCollision()
+	task.spawn(initHolidayGround)
+	task.spawn(initSky)
 end
 
 function World.IsRaining()

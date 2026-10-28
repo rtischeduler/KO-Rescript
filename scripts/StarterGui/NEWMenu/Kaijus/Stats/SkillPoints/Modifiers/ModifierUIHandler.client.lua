@@ -101,7 +101,7 @@ local function fetchBaseStats(morphName)
 	if morphs then morphs = morphs:FindFirstChild("Morphs") end
 	if not morphs then return end
 
-	local morphModel = morphs:FindFirstChild(morphName)
+	local morphModel = morphs:FindFirstChild(morphName, true)
 	if not morphModel then return end
 
 	local stats = morphModel:FindFirstChild("Stats")

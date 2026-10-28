@@ -22,6 +22,7 @@ function Data.Init()
 		end
 		local Morphs = ReplicatedStorage:FindFirstChild("MorphSupplies")
 		if Morphs then Morphs = Morphs:FindFirstChild("Morphs") end
+		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 		local playerKaijus = {}
 
@@ -120,9 +121,30 @@ function Data.Init()
 			return result
 		end
 
+		local function getAllMorphModels()
+			local list = {}
+			if not Morphs then return list end
+			for _, child in ipairs(Morphs:GetChildren()) do
+				if child:IsA("Model") then
+					table.insert(list, child)
+				elseif child:IsA("Folder") then
+					for _, nested in ipairs(child:GetChildren()) do
+						if nested:IsA("Model") then
+							table.insert(list, nested)
+						end
+					end
+				end
+			end
+			return list
+		end
+		local function isCandyKaiju(kaijuName)
+			local morph = Morphs and Morphs:FindFirstChild(kaijuName, true)
+			return morph ~= nil and CandyConfig.isCandyMorph(morph)
+		end
+
 		local function getKaijuPrice(kaijuName)
 			if Morphs then
-				local morph = Morphs:FindFirstChild(kaijuName)
+				local morph = Morphs:FindFirstChild(kaijuName, true)
 				if morph then
 					local stats = morph:FindFirstChild("Stats")
 					if stats then
@@ -149,7 +171,7 @@ function Data.Init()
 
 			local morphName = nameMapping[kaijuName]
 			if morphName and Morphs then
-				local morph = Morphs:FindFirstChild(morphName)
+				local morph = Morphs:FindFirstChild(morphName, true)
 				if morph then
 					local stats = morph:FindFirstChild("Stats")
 					if stats then
@@ -201,7 +223,7 @@ function Data.Init()
 			end
 
 			local canonicalName = nameMapping[kaijuName] or kaijuName
-			local morphForOwnership = Morphs and Morphs:FindFirstChild(canonicalName)
+			local morphForOwnership = Morphs and Morphs:FindFirstChild(canonicalName, true)
 			local morphStats = morphForOwnership and morphForOwnership:FindFirstChild("Stats")
 			local freePrice = morphStats and morphStats:FindFirstChild("Price")
 			if freePrice and tonumber(freePrice.Value) and tonumber(freePrice.Value) <= 0 then
@@ -259,7 +281,7 @@ function Data.Init()
 
 		local function checkRequirement(player, kaijuName)
 			if not Morphs then return true, nil end
-			local morph = Morphs:FindFirstChild(kaijuName)
+			local morph = Morphs:FindFirstChild(kaijuName, true)
 			if not morph then return true, nil end
 
 			local requirement = morph:GetAttribute("Requirement")
@@ -288,7 +310,7 @@ function Data.Init()
 				return false, "Invalid kaiju"
 			end
 			local canonicalName = nameMapping[kaijuName] or kaijuName
-			if not Morphs or not Morphs:FindFirstChild(canonicalName) then
+			if not Morphs or not Morphs:FindFirstChild(canonicalName, true) then
 				return false, "Unknown kaiju"
 			end
 			kaijuName = canonicalName
@@ -313,6 +335,21 @@ function Data.Init()
 			end
 
 			local price = getKaijuPrice(kaijuName)
+			if isCandyKaiju(kaijuName) then
+				if not CandyConfig.isSeason() then
+					return false, "Offsale until halloween"
+				end
+				if type(_G.SpendCandy) ~= "function" or not _G.SpendCandy(player, price) then
+					return false, "Not enough Candy"
+				end
+				playerKaijus[player.UserId][kaijuName] = true
+				local oldName = reverseNameMapping[kaijuName]
+				if oldName then
+					playerKaijus[player.UserId][oldName] = true
+				end
+				savePlayerKaijus(player)
+				return true, "Success"
+			end
 
 			local leaderstats = player:FindFirstChild("leaderstats")
 			if not leaderstats then
@@ -351,7 +388,7 @@ function Data.Init()
 			else
 				local result = {}
 				if Morphs then
-					for _, morph in ipairs(Morphs:GetChildren()) do
+					for _, morph in ipairs(getAllMorphModels()) do
 						local stats = morph:FindFirstChild("Stats")
 						local price = stats and stats:FindFirstChild("Price")
 						if price and tonumber(price.Value) and tonumber(price.Value) <= 0 then
@@ -410,7 +447,7 @@ function Data.Init()
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
 			if type(morphName) ~= "string" then return end
 			morphName = nameMapping[morphName] or morphName
-			if not Morphs or not Morphs:FindFirstChild(morphName) then return end
+			if not Morphs or not Morphs:FindFirstChild(morphName, true) then return end
 			if not ownsKaiju(player, morphName) then
 				warn("[Data] SetSelectedKaiju blocked: " .. player.Name .. " does not own " .. morphName)
 				return
@@ -690,14 +727,9 @@ function Data.Init()
 				return ModifierDataStore:GetAsync("Player_" .. player.UserId)
 			end)
 			
-			--------------------------------------------------
-			-- RESETTING SKILL POINTS ONCE FOR LVL 1000 MINYA
-			--------------------------------------------------
 
 			if success and data and type(data) == "table" then
-				-- Check if player has already received the one-time skill point reset
 				if not data["_HasResetSkillPoints_v1"] then
-					-- Clear all spent skill point modifiers
 					data = {
 						["_HasResetSkillPoints_v1"] = true
 					}

@@ -104,7 +104,7 @@ function Character.Init()
 				local morphFolder = ReplicatedStorage:FindFirstChild("MorphSupplies")
 				morphFolder = morphFolder and morphFolder:FindFirstChild("Morphs")
 				if type(selectedCreature) == "string" and morphFolder then
-					selectedCreature = morphFolder:FindFirstChild(selectedCreature)
+					selectedCreature = morphFolder:FindFirstChild(selectedCreature, true)
 				end
 				if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
 					morphResultEvent:FireClient(player, false, "Invalid morph")

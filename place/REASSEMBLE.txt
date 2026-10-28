@@ -1,0 +1,1 @@
+cat place/place.rbxlx.part* > place.rbxlx

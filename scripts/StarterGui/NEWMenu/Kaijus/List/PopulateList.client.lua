@@ -3,6 +3,22 @@ local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
 local player = Players.LocalPlayer
+local CANDY_COLOR = Color3.fromRGB(255, 140, 0)
+local candyModule = ReplicatedStorage:WaitForChild("CandyConfig", 15)
+local CandyConfig = candyModule and require(candyModule)
+local function isSeason()
+	return CandyConfig ~= nil and CandyConfig.isSeason()
+end
+local function isCandyModel(model)
+	local parent = model.Parent
+	while parent and parent.Name ~= "Morphs" do
+		if string.lower(string.sub(parent.Name, 1, 9)) == "halloween" then
+			return true
+		end
+		parent = parent.Parent
+	end
+	return false
+end
 local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
 if not scrollingFrame then return end
 local template = scrollingFrame:FindFirstChild("Template")
@@ -65,8 +81,12 @@ local currentKaijuName = nil
 local currentPrice = 0
 local currentOwned = false
 local currentRequirement = nil
-local function formatBuyText(price, requirement)
-	local text = "BUY (" .. tostring(price)
+local currentIsCandy = false
+local function formatBuyText(price, requirement, isCandy)
+	if isCandy and not isSeason() then
+		return "Offsale until halloween"
+	end
+	local text = "BUY (" .. tostring(price) .. (isCandy and " Candy" or "")
 	if requirement and requirement ~= "" then
 		local reqTexts = {}
 		for reqPart in requirement:gmatch("[^,]+") do
@@ -181,7 +201,6 @@ end
 local function isOwned(morphName, price)
 	if price <= 0 then return true end
 	if ownershipCache[morphName] then return true end
-	--if gamepassKaijusCache[morphName] and player.UserId == 274893778 then return true end
 	return false
 end
 local function getLayoutOrder(morphName)
@@ -201,11 +220,16 @@ local function getLayoutOrder(morphName)
 	end
 end
 local sortedMorphs = {}
-for _, model in ipairs(morphs:GetChildren()) do
-	if model:IsA("Model") then
-		table.insert(sortedMorphs, model)
+local function collectModels(folder)
+	for _, model in ipairs(folder:GetChildren()) do
+		if model:IsA("Model") then
+			table.insert(sortedMorphs, model)
+		elseif model:IsA("Folder") and string.lower(string.sub(model.Name, 1, 9)) == "halloween" then
+			collectModels(model)
+		end
 	end
 end
+collectModels(morphs)
 table.sort(sortedMorphs, function(a, b)
 	return a.Name < b.Name
 end)
@@ -258,6 +282,7 @@ local function selectKaiju(morphName)
 	currentPrice = info.morphPrice
 	currentOwned = isOwned(morphName, info.morphPrice)
 	currentRequirement = info.requirement
+	currentIsCandy = info.isCandy == true
 	if statsFrame then
 		statsFrame:SetAttribute("CurrentMorph", nil)
 		statsFrame:SetAttribute("CurrentMorph", morphName)
@@ -276,7 +301,7 @@ local function selectKaiju(morphName)
 					end
 			end
 		else
-			selectTxt.Text = formatBuyText(info.morphPrice, info.requirement)
+			selectTxt.Text = formatBuyText(info.morphPrice, info.requirement, info.isCandy)
 		end
 	end
 end
@@ -309,7 +334,7 @@ local function populate()
 			and player.Name ~= "DenisTheCheeseKing" then
 			clone.Visible = false
 		elseif model.Name == "RED"
-			and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then -- enderkind/cyn's model but public daiju, feel free to add yourself to the list
+			and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then
 			clone.Visible = false
 		else
 			clone.Visible = true
@@ -321,6 +346,9 @@ local function populate()
 		local nameLabel = clone:FindFirstChild("KaijuName")
 		if nameLabel then
 			nameLabel.Text = kaijuName
+			if isCandyModel(model) then
+				nameLabel.TextColor3 = CANDY_COLOR
+			end
 		end
 		local descLabel = clone:FindFirstChild("KaijuDescription")
 		if descLabel then
@@ -349,6 +377,7 @@ local function populate()
 			morphPrice = morphPrice,
 			visible = clone.Visible,
 			requirement = getMorphAttribute(model, "Requirement", nil),
+			isCandy = isCandyModel(model),
 		}
 		clickBtn.MouseButton1Click:Connect(function()
 			selectKaiju(morphName)
@@ -383,14 +412,14 @@ if selectButton then
 			end
 		else
 			if buyKaijuEvent then
-				buyKaijuEvent:FireServer(currentMorphName)
+				if not (currentIsCandy and not isSeason()) then
+					buyKaijuEvent:FireServer(currentMorphName)
+				end
 			end
 		end
 	end)
 	if buyKaijuEvent then
 		buyKaijuEvent.OnClientEvent:Connect(function(kaijuName, success, message)
-			-- Always record ownership in the cache even if the player has
-			-- switched to a different kaiju while waiting for the response.
 			if success or message == "Already owned" then
 				ownershipCache[kaijuName] = true
 			end
@@ -430,7 +459,7 @@ if selectButton then
 											selectTxt.Text = "BUY GAMEPASS"
 										end
 								else
-									selectTxt.Text = formatBuyText(currentPrice, currentRequirement)
+									selectTxt.Text = formatBuyText(currentPrice, currentRequirement, currentIsCandy)
 								end
 							end
 							end)
@@ -504,7 +533,7 @@ task.spawn(function()
 								selectTxt.Text = "BUY GAMEPASS"
 							end
 					else
-						selectTxt.Text = formatBuyText(currentPrice, currentRequirement)
+						selectTxt.Text = formatBuyText(currentPrice, currentRequirement, currentIsCandy)
 					end
 				end
 			end
@@ -519,17 +548,9 @@ if levelUpdateRemote then
 			if cached then
 				cached.level = data.level
 
-				---------------------------------------------------------
-				-- OLD (Hardcoded to divide by 5 for all Kaijus):
-				-- local total = math.floor((data.level or 1) / 5)
-				---------------------------------------------------------
 
-				---------------------------------------------------------
-				-- NEW (Uses 25 levels per point for Minilla):
-				---------------------------------------------------------
 				local pointsPerLevel = (data.kaiju == "MINILLA") and 25 or 5
 				local total = math.floor((data.level or 1) / pointsPerLevel)
-				---------------------------------------------------------
 
 				cached.availableSkillPoints = math.max(0, total - (cached.usedSkillPoints or 0))
 			else
