@@ -1,0 +1,4 @@
+BeamCombat/ReplicatedStorage/BeamSystem.lua
+BeamCombat/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
+ServerScriptService/Levels/Levels.server.lua
+StarterPlayer/StarterPlayerScripts/Client/Controllers/Indicators.lua

@@ -37,26 +37,31 @@ function IndicatorsController:Start()
 		local remote = ReplicatedStorage:WaitForChild("RewardIndicator")
 		local playerGui = player:WaitForChild("PlayerGui")
 
-		local guiFolder = Instance.new("Folder")
-		guiFolder.Name = "RewardIndicators"
-		guiFolder.Parent = playerGui
+		local guiFolder
+		local anchorFolder
+		local function ensureGuiFolder()
+			if guiFolder and guiFolder.Parent then
+				return guiFolder
+			end
+			guiFolder = Instance.new("Folder")
+			guiFolder.Name = "RewardIndicators"
+			guiFolder.Parent = player:FindFirstChildOfClass("PlayerGui") or playerGui
+			return guiFolder
+		end
+		ensureGuiFolder()
 
 		local active = {}
 		local floatInfo = TweenInfo.new(HOLD_TIME + FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
 
 		local function getAnchorFolder()
-			local camera = Workspace.CurrentCamera
-			if not camera then
-				return nil
+			if anchorFolder and anchorFolder.Parent then
+				return anchorFolder
 			end
-			local folder = camera:FindFirstChild("RewardAnchors")
-			if not folder then
-				folder = Instance.new("Folder")
-				folder.Name = "RewardAnchors"
-				folder.Parent = camera
-			end
-			return folder
+			anchorFolder = Instance.new("Folder")
+			anchorFolder.Name = "RewardAnchors"
+			anchorFolder.Parent = Workspace.Terrain
+			return anchorFolder
 		end
 
 		local function destroyEntry(entry)
@@ -141,7 +146,7 @@ function IndicatorsController:Start()
 				table.insert(labels, label)
 			end
 
-			gui.Parent = guiFolder
+			gui.Parent = ensureGuiFolder()
 
 			local entry = { gui = gui, anchor = anchor, scale = scale, position = position, dead = false }
 			table.insert(active, entry)
@@ -184,7 +189,7 @@ function IndicatorsController:Start()
 			if typeof(position) ~= "Vector3" then
 				return
 			end
-			spawnIndicator(position, {
+			pcall(spawnIndicator, position, {
 				damage = tonumber(damage) or 0,
 				gcells = tonumber(gcells) or 0,
 				xp = tonumber(xp) or 0,

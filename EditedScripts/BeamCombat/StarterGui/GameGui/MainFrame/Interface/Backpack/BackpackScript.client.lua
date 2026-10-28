@@ -218,7 +218,7 @@ local function raycastFiltered(origin, direction, character)
 		if not result then return nil end
 
 		local inst = result.Instance
-		local isTransparent = inst:IsA("BasePart") and inst.Transparency >= 1
+		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and (inst.Transparency >= 0.95 or not inst.CanCollide)
 		local isWater = result.Material == Enum.Material.Water
 
 		if isTransparent or isWater then
@@ -232,6 +232,15 @@ local function raycastFiltered(origin, direction, character)
 		end
 	end
 	return nil
+end
+
+local function advanceOrigin(origin, direction, character)
+	local hrp = character and character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return origin end
+	local unit = direction.Unit
+	local along = (hrp.Position - origin):Dot(unit)
+	if along > 0 then return origin + unit * along end
+	return origin
 end
 
 local function getAimPosition(character)
@@ -258,11 +267,11 @@ local function getAimPosition(character)
 			math.cos(charYaw) * cosPitch
 		).Unit
 
-		local result = raycastFiltered(camera.CFrame.Position, direction * 1000, character)
+		local result = raycastFiltered(advanceOrigin(camera.CFrame.Position, direction, character), direction * 1000, character)
 		if result then
 			return result.Position
 		else
-			return camera.CFrame.Position + direction * 1000
+			return advanceOrigin(camera.CFrame.Position, direction, character) + direction * 1000
 		end
 	else
 		local screenPos = nil
@@ -284,11 +293,11 @@ local function getAimPosition(character)
 			ray = camera:ViewportPointToRay(viewport.X / 2, viewport.Y / 2)
 		end
 
-		local result = raycastFiltered(ray.Origin, ray.Direction * 1000, character)
+		local result = raycastFiltered(advanceOrigin(ray.Origin, ray.Direction, character), ray.Direction * 1000, character)
 		if result then
 			return result.Position
 		else
-			return ray.Origin + ray.Direction * 1000
+			return advanceOrigin(ray.Origin, ray.Direction, character) + ray.Direction * 1000
 		end
 	end
 end

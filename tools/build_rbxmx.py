@@ -5,7 +5,7 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "EditedScripts"
 OUT = ROOT / "build"
-MODEL = "KO-Rescript.rbxmx"
+MODEL = sys.argv[2] if len(sys.argv) > 2 else "KO-Rescript.rbxmx"
 
 SKIP_TOP = {"tests", "Migration"}
 STRIP_TOP = {"BeamCombat"}
@@ -53,7 +53,7 @@ def emit(node, counter, depth):
 
 def main():
     root = folder("KO-Rescript")
-    manifest = ROOT / "tools" / "model_files.txt"
+    manifest = ROOT / "tools" / (sys.argv[1] if len(sys.argv) > 1 else "model_files.txt")
     names = [l.strip() for l in manifest.read_text(encoding="utf-8").splitlines() if l.strip()]
     files = []
     for rel in names:

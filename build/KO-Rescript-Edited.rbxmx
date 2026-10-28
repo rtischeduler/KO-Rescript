@@ -1,0 +1,3052 @@
+<roblox version="4">
+	<Item class="Folder" referent="RBX1">
+		<Properties>
+			<string name="Name">KO-Rescript</string>
+		</Properties>
+		<Item class="Folder" referent="RBX2">
+			<Properties>
+				<string name="Name">ReplicatedStorage</string>
+			</Properties>
+			<Item class="ModuleScript" referent="RBX3">
+				<Properties>
+					<string name="Name">BeamSystem</string>
+					<ProtectedString name="Source"><![CDATA[local BeamSystem = {}
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerStorage = game:GetService("ServerStorage")
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
+local Workspace = game:GetService("Workspace")
+local playerAims = {}
+local playerShiftLock = {}
+local activeBeams = {}
+local beamGenerations = {}
+local beamGenerationCounter = 0
+local beamStartedSignal = nil
+local beamEndedSignal = nil
+local INTRO_TIME = 0.4
+local OUTRO_TIME = 0.35
+local AIM_FOLLOW_RATE = 22
+local CLASH_FOLLOW_RATE = 6
+local CLASH_TRANSITION_TIME = 0.7
+local OVERPOWER_TIME = 0.8
+local OVERPOWER_DAMAGE = 50
+local BEAM_SLOW_FACTOR = 0.7
+local BEAM_SLOW_LINGER = 0.35
+local function easeOutCubic(t)
+	return 1 - (1 - t) ^ 3
+end
+local function easeInOutQuad(t)
+	if t < 0.5 then return 2 * t * t end
+	return 1 - (-2 * t + 2) ^ 2 / 2
+end
+local function scaleSequence(seq, k)
+	local points = {}
+	for _, kp in ipairs(seq.Keypoints) do
+		table.insert(points, NumberSequenceKeypoint.new(kp.Time, kp.Value * k, kp.Envelope * k))
+	end
+	return NumberSequence.new(points)
+end
+local function collectTemplateEmitters(beamEnds)
+	local list = {}
+	for _, beamEnd in ipairs(beamEnds) do
+		for _, child in ipairs(beamEnd:GetChildren()) do
+			if child:IsA("ParticleEmitter") and #list < 4 then
+				table.insert(list, child)
+			end
+		end
+	end
+	return list
+end
+local function makeFallbackEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Color = ColorSequence.new(color)
+	emitter.LightEmission = 1
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 1.6), NumberSequenceKeypoint.new(1, 0)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
+	return emitter
+end
+local function makeFxEmitter(source, kind, power)
+	power = power or 1
+	local emitter = source:Clone() or makeFallbackEmitter(Color3.new(1, 1, 1))
+	for _, child in ipairs(emitter:GetChildren()) do child:Destroy() end
+	emitter.Enabled = false
+	emitter.Rate = 0
+	emitter.Acceleration = Vector3.new(0, 0, 0)
+	emitter.VelocityInheritance = 0
+	emitter.RotSpeed = NumberRange.new(0, 0)
+	emitter.Rotation = NumberRange.new(0, 0)
+	emitter.LockedToPart = false
+	if kind == "ring" then
+		emitter.Shape = Enum.ParticleEmitterShape.Disc
+		emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Surface
+		emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+		emitter.EmissionDirection = Enum.NormalId.Top
+		emitter.SpreadAngle = Vector2.new(0, 0)
+		emitter.Orientation = Enum.ParticleOrientation.VelocityParallel
+		emitter.Speed = NumberRange.new(32 * power, 48 * power)
+		emitter.Lifetime = NumberRange.new(0.4, 0.65)
+		emitter.Drag = 0
+		emitter.Size = scaleSequence(source.Size, 1.4 * power)
+	else
+		emitter.Shape = Enum.ParticleEmitterShape.Sphere
+		emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+		emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+		emitter.SpreadAngle = Vector2.new(180, 180)
+		emitter.Orientation = Enum.ParticleOrientation.FacingCamera
+		emitter.Speed = NumberRange.new(5 * power, 12 * power)
+		emitter.Lifetime = NumberRange.new(0.25, 0.45)
+		emitter.Drag = 2
+		emitter.Size = scaleSequence(source.Size, 2.2 * power)
+	end
+	return emitter
+end
+local function restoreBeamTextures(list)
+	if not list then return end
+	for _, entry in ipairs(list) do
+		if entry.beam and entry.beam.Parent then
+			pcall(function() entry.beam.TextureSpeed = entry.base end)
+		end
+	end
+end
+local function spawnClashExplosion(position, sourcesA, sourcesB, colorA, colorB)
+	local folder = Instance.new("Folder")
+	folder.Name = "BeamClashExplosion"
+	folder.Parent = Workspace
+	Debris:AddItem(folder, 3)
+	local anchor = Instance.new("Part")
+	anchor.Name = "ExplosionAnchor"
+	anchor.Size = Vector3.new(1, 1, 1)
+	anchor.Transparency = 1
+	anchor.Anchored = true
+	anchor.CanCollide = false
+	anchor.CanTouch = false
+	anchor.CanQuery = false
+	anchor.CFrame = CFrame.new(position)
+	anchor.Parent = folder
+	local ringAtts = {}
+	for _, rot in ipairs({CFrame.new(), CFrame.Angles(0, 0, math.pi / 2), CFrame.Angles(math.pi / 2, 0, 0)}) do
+		local att = Instance.new("Attachment")
+		att.CFrame = rot
+		att.Parent = anchor
+		table.insert(ringAtts, att)
+	end
+	local sources = {}
+	for i = 1, math.min(#sourcesA, 3) do table.insert(sources, sourcesA[i]) end
+	for i = 1, math.min(#sourcesB, 3) do table.insert(sources, sourcesB[i]) end
+	if #sources == 0 then
+		table.insert(sources, makeFallbackEmitter(colorA))
+		table.insert(sources, makeFallbackEmitter(colorB))
+	end
+	local bursts = {}
+	for _, source in ipairs(sources) do
+		for _, att in ipairs(ringAtts) do
+			local ring = makeFxEmitter(source, "ring", 1.6)
+			ring.Lifetime = NumberRange.new(0.5, 0.9)
+			ring.Parent = att
+			table.insert(bursts, {emitter = ring, rate = 260})
+		end
+		local core = makeFxEmitter(source, "core", 2.4)
+		core.Parent = anchor
+		table.insert(bursts, {emitter = core, rate = 140})
+	end
+	local light = Instance.new("PointLight")
+	light.Color = colorA:Lerp(colorB, 0.5)
+	light.Range = 45
+	light.Brightness = 6
+	light.Parent = anchor
+	for _, burst in ipairs(bursts) do
+		burst.emitter.Rate = burst.rate
+		burst.emitter.Enabled = true
+	end
+	TweenService:Create(light, TweenInfo.new(0.7), {Brightness = 0}):Play()
+	task.delay(0.14, function()
+		for _, burst in ipairs(bursts) do
+			if burst.emitter.Parent then
+				burst.emitter.Enabled = false
+			end
+		end
+	end)
+end
+local slowedHumanoids = {}
+local slowConnection = nil
+local function releaseBeamSlow(humanoid)
+	local data = slowedHumanoids[humanoid]
+	if not data then return end
+	slowedHumanoids[humanoid] = nil
+	if humanoid.Parent then
+		humanoid:SetAttribute("BeamSlowFactor", nil)
+		if humanoid.WalkSpeed == data.applied then
+			humanoid.WalkSpeed = data.base
+		elseif humanoid:GetAttribute("Slowed") then
+			humanoid.WalkSpeed = humanoid.WalkSpeed / data.factor
+		end
+	end
+end
+local function ensureSlowLoop()
+	if slowConnection then return end
+	slowConnection = game:GetService("RunService").Heartbeat:Connect(function()
+		local now = os.clock()
+		local any = false
+		for humanoid, data in pairs(slowedHumanoids) do
+			if not humanoid.Parent or humanoid.Health <= 0 or now >= data.expires then
+				releaseBeamSlow(humanoid)
+			else
+				any = true
+			end
+		end
+		if not any and slowConnection then
+			slowConnection:Disconnect()
+			slowConnection = nil
+		end
+	end)
+end
+function BeamSystem.ApplyBeamSlow(humanoid)
+	if not humanoid or not humanoid.Parent then return end
+	local data = slowedHumanoids[humanoid]
+	if data then
+		data.expires = os.clock() + BEAM_SLOW_LINGER
+		return
+	end
+	local base = humanoid.WalkSpeed
+	local applied = base * BEAM_SLOW_FACTOR
+	slowedHumanoids[humanoid] = {base = base, applied = applied, factor = BEAM_SLOW_FACTOR, expires = os.clock() + BEAM_SLOW_LINGER}
+	humanoid:SetAttribute("BeamSlowFactor", BEAM_SLOW_FACTOR)
+	humanoid.WalkSpeed = applied
+	ensureSlowLoop()
+end
+function BeamSystem.SetComm(comm)
+	beamStartedSignal = comm.BeamStarted
+	beamEndedSignal = comm.BeamEnded
+end
+Players.PlayerRemoving:Connect(function(player)
+	if activeBeams[player] then
+		pcall(BeamSystem.ForceCleanup, player)
+	end
+	activeBeams[player] = nil
+	beamGenerations[player] = nil
+	playerAims[player] = nil
+	playerShiftLock[player] = nil
+end)
+local function cleanupStaleBeam(player)
+	local gen = beamGenerations[player]
+	activeBeams[player] = nil
+	beamGenerations[player] = nil
+	playerAims[player] = nil
+	playerShiftLock[player] = nil
+	if beamEndedSignal and player.Parent then
+		beamEndedSignal:Fire(player, gen)
+	end
+end
+local function findBeamAttachments(morphModel)
+	local beamStarts = {}
+	local beamEnds = {}
+	for _, descendant in ipairs(morphModel:GetDescendants()) do
+		if descendant:IsA("Attachment") then
+			if descendant.Name == "BeamStart" then
+				table.insert(beamStarts, descendant)
+			elseif descendant.Name == "BeamEnd" then
+				table.insert(beamEnds, descendant)
+			end
+		end
+	end
+	return beamStarts, beamEnds
+end
+local function beamBrightness()
+	local t = game:GetService("Lighting").ClockTime
+	if t >= 17.5 or t <= 6.5 then return 4 end
+	return 1
+end
+local function enableBeams(beamStarts, enabled, beamNameFilter)
+	for _, beamStart in ipairs(beamStarts) do
+		for _, child in ipairs(beamStart:GetChildren()) do
+			if child:IsA("Beam") then
+				if beamNameFilter and not beamNameFilter[child.Name] then
+				else
+					if enabled then
+						child.Transparency = NumberSequence.new(0)
+						child.LightEmission = 1
+						child.LightInfluence = 0
+						child.Brightness = beamBrightness()
+					end
+					child.Enabled = enabled
+				end
+			elseif child:IsA("Light") then
+				child.Enabled = enabled
+			end
+		end
+	end
+end
+local function enableParticles(beamEnds, enabled)
+	for _, beamEnd in ipairs(beamEnds) do
+		for _, child in ipairs(beamEnd:GetChildren()) do
+			if child:IsA("ParticleEmitter") then
+				child.Enabled = enabled
+				if not enabled then
+					child:Clear()
+				end
+			elseif child:IsA("Light") then
+				child.Enabled = enabled
+			end
+		end
+	end
+end
+function BeamSystem.ForceCleanup(player)
+	local data = activeBeams[player]
+	if not data then return end
+	if data.beamEndOriginals then
+		for beamEnd, original in pairs(data.beamEndOriginals) do
+			if beamEnd and beamEnd.Parent then
+				for _, child in ipairs(beamEnd:GetChildren()) do
+					if child:IsA("ParticleEmitter") then
+						child.Enabled = false
+						child:Clear()
+					elseif child:IsA("Light") then
+						child.Enabled = false
+					end
+				end
+				if original.parent and original.parent.Parent then
+					beamEnd.CFrame = original.cframe
+					beamEnd.Parent = original.parent
+				else
+					beamEnd.Parent = nil
+				end
+				beamEnd:SetAttribute("BeamEndOffset", nil)
+			end
+		end
+	end
+	restoreBeamTextures(data.beamTextureBases)
+	if data.impactFolder and data.impactFolder.Parent then
+		pcall(function() data.impactFolder:Destroy() end)
+	end
+	if data.hitbox and data.hitbox.Parent then
+		pcall(function() data.hitbox:Destroy() end)
+	end
+	if data.sideHitboxes then
+		for _, side in ipairs(data.sideHitboxes) do
+			if side.hitbox and side.hitbox.Parent then
+				pcall(function() side.hitbox:Destroy() end)
+			end
+		end
+	end
+	if data.character and data.character.Parent then
+		local beamStarts, beamEnds = findBeamAttachments(data.character)
+		pcall(function()
+			if #beamStarts > 0 then enableBeams(beamStarts, false, nil) end
+			if #beamEnds > 0 then enableParticles(beamEnds, false) end
+		end)
+	end
+	cleanupStaleBeam(player)
+end
+local function createDPSScript(hitbox, player, character, duration)
+	local dpsTemplate = ReplicatedStorage:FindFirstChild("DPSTemplate")
+	if not dpsTemplate then
+		warn("[BeamSystem] DPSTemplate not found in ReplicatedStorage!")
+		return nil
+	end
+	local dpsScript = dpsTemplate:Clone()
+	dpsScript.Name = "DPS"
+	dpsScript.Enabled = false
+	dpsScript:SetAttribute("Attacker", player.Name)
+	dpsScript:SetAttribute("BeamDuration", duration)
+	local beamDamage = 0
+	local stats = character and character:FindFirstChild("Stats")
+	if stats then
+		local dmg2 = stats:FindFirstChild("DMG2")
+		if dmg2 then
+			beamDamage = dmg2.Value
+		end
+	end
+	dpsScript:SetAttribute("BeamDamage", beamDamage)
+	dpsScript.Parent = hitbox
+	return dpsScript
+end
+local function evalColorSequence(seq, t)
+	local keypoints = seq.Keypoints
+	if not keypoints or #keypoints == 0 then return Color3.new(1, 1, 1) end
+	if t <= keypoints[1].Time then return keypoints[1].Value end
+	if t >= keypoints[#keypoints].Time then return keypoints[#keypoints].Value end
+	for i = 1, #keypoints - 1 do
+		local kp0 = keypoints[i]
+		local kp1 = keypoints[i + 1]
+		if t >= kp0.Time and t <= kp1.Time then
+			local alpha = (t - kp0.Time) / (kp1.Time - kp0.Time)
+			return kp0.Value:Lerp(kp1.Value, alpha)
+		end
+	end
+	return keypoints[#keypoints].Value
+end
+local function getHeadPosition(character)
+	local head = character:FindFirstChild("Head")
+	if head and head:IsA("BasePart") then
+		return head.Position
+	end
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	return hrp and hrp.Position or nil
+end
+function BeamSystem.ActivateBeam(config)
+	local character = config.character
+	local player = config.player
+	local initialTargetPosition = config.initialTargetPosition
+	local duration = config.duration or 6
+	local beamNames = config.beamNames
+	local beamNameFilter = nil
+	if beamNames then
+		beamNameFilter = {}
+		for _, name in ipairs(beamNames) do
+			beamNameFilter[name] = true
+		end
+	end
+	if not character or not player then return end
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return end
+	if activeBeams[player] then
+		local prevData = activeBeams[player]
+		local prevChar = prevData and prevData.character
+		local prevHum = prevChar and prevChar:FindFirstChildOfClass("Humanoid")
+		if prevChar and prevChar.Parent and prevChar:FindFirstChild("HumanoidRootPart")
+			and (not prevHum or prevHum.Health > 0) then
+			return
+		end
+		cleanupStaleBeam(player)
+	end
+	beamGenerationCounter = beamGenerationCounter + 1
+	local myGeneration = beamGenerationCounter
+	beamGenerations[player] = myGeneration
+	activeBeams[player] = {character = character, hitbox = nil, dpsScript = nil, player = player, clashRequestedBy = nil, sideHitboxes = {}}
+	character.AncestryChanged:Connect(function(_, parent)
+		if not parent and activeBeams[player] and activeBeams[player].character == character then
+			BeamSystem.ForceCleanup(player)
+		end
+	end)
+
+
+	task.spawn(function()
+		task.wait(duration + 2)
+		if activeBeams[player] and activeBeams[player].character == character then
+			BeamSystem.ForceCleanup(player)
+		end
+	end)	local beamStarts, beamEnds = findBeamAttachments(character)
+	local primaryBeamStart = beamStarts[1]
+	local hitbox = Instance.new("Part")
+	hitbox.Name = "BeamHitbox"
+	hitbox.Size = Vector3.new(6, 6, 6)
+	hitbox.Anchored = true
+	hitbox.CanCollide = false
+	hitbox.CanTouch = false
+	hitbox.CanQuery = false
+	hitbox.Transparency = 1
+	hitbox.Material = Enum.Material.Neon
+	hitbox.Color = Color3.fromRGB(255, 255, 255)
+	hitbox:SetAttribute("Attacker", player.Name)
+	hitbox:SetAttribute("BeamMain", true)
+	hitbox.Parent = Workspace
+	local dpsScript = createDPSScript(hitbox, player, character, duration)
+	activeBeams[player].hitbox = hitbox
+	activeBeams[player].dpsScript = dpsScript
+	local beamHitDebounce = {}
+	local beamEndOriginals = {}
+	local beamEndSpacing = 8
+	local beamEndCleanupTemplate = ServerStorage:FindFirstChild("BeamEndCleanup")
+	for _, beamEnd in ipairs(beamEnds) do
+		local originalParent = beamEnd.Parent
+		beamEndOriginals[beamEnd] = {
+			parent = originalParent,
+			cframe = beamEnd.CFrame
+		}
+		local origParentOV = Instance.new("ObjectValue")
+		origParentOV.Name = "BeamOriginalParent"
+		origParentOV.Value = originalParent
+		origParentOV.Parent = beamEnd
+		beamEnd:SetAttribute("BeamDuration", duration)
+		if beamEndCleanupTemplate then
+			local cleanupClone = beamEndCleanupTemplate:Clone()
+			cleanupClone.Parent = beamEnd
+		end
+		beamEnd.Parent = hitbox
+		local offset = Vector3.new(0, 0, 0)
+		if originalParent then
+			local parentName = originalParent.Name
+			if parentName == "LHead" then
+				offset = Vector3.new(-beamEndSpacing, 0, 0)
+			elseif parentName == "RHead" or parentName == "RUmouth" then
+				offset = Vector3.new(beamEndSpacing, 0, 0)
+			end
+		end
+		beamEnd:SetAttribute("BeamEndOffset", offset)
+		beamEnd.CFrame = CFrame.new(offset)
+	end
+	activeBeams[player].beamEndOriginals = beamEndOriginals
+	local sideHitboxes = {}
+	local NUM_SIDE_HITBOXES = 5
+	for _, beamEnd in ipairs(beamEnds) do
+		local offset = beamEnd:GetAttribute("BeamEndOffset")
+		if offset and offset ~= Vector3.new(0, 0, 0) then
+			for i = 1, NUM_SIDE_HITBOXES do
+				local t = i / NUM_SIDE_HITBOXES
+				local sideHitbox = Instance.new("Part")
+				sideHitbox.Name = "BeamHitbox"
+				sideHitbox.Size = Vector3.new(6, 6, 6)
+				sideHitbox.Anchored = true
+				sideHitbox.CanCollide = false
+				sideHitbox.CanTouch = false
+				sideHitbox.CanQuery = false
+				sideHitbox.Transparency = 1
+				sideHitbox.Material = Enum.Material.Neon
+				sideHitbox.Color = Color3.fromRGB(255, 255, 255)
+				sideHitbox:SetAttribute("Attacker", player.Name)
+				sideHitbox.Parent = Workspace
+				local sideDps = nil 
+				table.insert(sideHitboxes, {hitbox = sideHitbox, dps = sideDps, offset = offset, t = t})
+			end
+		end
+	end
+	activeBeams[player].sideHitboxes = sideHitboxes
+	local glowAttachments = {}
+	local NUM_GLOW_LIGHTS = 8
+	local success, err = pcall(function()
+		if #beamStarts > 0 then
+			enableBeams(beamStarts, true, beamNameFilter)
+		end
+		if #beamEnds > 0 then
+			enableParticles(beamEnds, true)
+		end
+		local beamColorSeq = nil
+		for _, beamStart in ipairs(beamStarts) do
+			for _, child in ipairs(beamStart:GetChildren()) do
+				if child:IsA("Beam") and child.Color then
+					if not beamNameFilter or beamNameFilter[child.Name] then
+						beamColorSeq = child.Color
+						break
+					end
+				end
+			end
+			if beamColorSeq then break end
+		end
+		local fallbackColor = Color3.fromRGB(255, 255, 255)
+		if beamColorSeq and #beamColorSeq.Keypoints > 0 then
+			fallbackColor = beamColorSeq.Keypoints[1].Value
+		end
+		if primaryBeamStart then
+			for i = 1, NUM_GLOW_LIGHTS do
+				local att = Instance.new("Attachment")
+				att.Name = "BeamGlowLight" .. i
+				att.Parent = hrp
+				local light = Instance.new("PointLight")
+				light.Name = "GlowLight"
+				if beamColorSeq then
+					local t = i / (NUM_GLOW_LIGHTS + 1)
+					light.Color = evalColorSequence(beamColorSeq, t)
+				else
+					light.Color = fallbackColor
+				end
+				light.Range = 32
+			light.Brightness = 0.3
+				light.Enabled = true
+				light.Parent = att
+				table.insert(glowAttachments, att)
+			end
+		end
+		if beamStartedSignal then
+			beamStartedSignal:Fire(player, myGeneration)
+		end
+		local currentTarget = initialTargetPosition
+		if not currentTarget then
+			currentTarget = primaryBeamStart.WorldPosition + primaryBeamStart.WorldCFrame.LookVector * 1000
+		end
+		playerAims[player] = currentTarget
+		local beamIteration = 0
+		local function orientHitbox(charPos, targetPos, placePos)
+			placePos = placePos or targetPos
+			local flatDir = Vector3.new(targetPos.X - charPos.X, 0, targetPos.Z - charPos.Z)
+			if flatDir.Magnitude < 0.01 then
+				return CFrame.new(placePos)
+			end
+			local lookCF = CFrame.lookAt(Vector3.new(charPos.X, 0, charPos.Z), Vector3.new(targetPos.X, 0, targetPos.Z))
+			local rotation = lookCF - lookCF.Position
+			return CFrame.new(placePos) * rotation
+		end
+		local function positionSideHitboxes(headPos, mainHitboxCF, sides, extent)
+			local rotation = mainHitboxCF - mainHitboxCF.Position
+			for _, side in ipairs(sides) do
+				local endSidePos = (mainHitboxCF * CFrame.new(side.offset * extent)).Position
+				local pos = headPos:Lerp(endSidePos, side.t)
+				side.hitbox.CFrame = CFrame.new(pos) * rotation
+			end
+		end
+		local beamEndOffsets = {}
+		for _, beamEnd in ipairs(beamEnds) do
+			local offset = beamEnd:GetAttribute("BeamEndOffset")
+			if offset and offset ~= Vector3.new(0, 0, 0) then
+				table.insert(beamEndOffsets, {att = beamEnd, offset = offset})
+			end
+		end
+		local impactColor = fallbackColor
+		if beamColorSeq and #beamColorSeq.Keypoints > 0 then
+			impactColor = evalColorSequence(beamColorSeq, 1)
+		end
+		local impactFolder = Instance.new("Folder")
+		impactFolder.Name = "BeamImpact"
+		impactFolder.Parent = Workspace
+		activeBeams[player].impactFolder = impactFolder
+		activeBeams[player].impactColor = impactColor
+		local templateEmitters = collectTemplateEmitters(beamEnds)
+		activeBeams[player].templateEmitters = templateEmitters
+		local ownSources = templateEmitters
+		if #ownSources == 0 then
+			ownSources = {makeFallbackEmitter(impactColor)}
+		end
+		local beamTextures = {}
+		for _, beamStart in ipairs(beamStarts) do
+			for _, child in ipairs(beamStart:GetChildren()) do
+				if child:IsA("Beam") and (not beamNameFilter or beamNameFilter[child.Name]) then
+					table.insert(beamTextures, {beam = child, base = child.TextureSpeed})
+				end
+			end
+		end
+		activeBeams[player].beamTextureBases = beamTextures
+		local texBoost = 1
+		local lastEndPos = nil
+		local lastTexTime = tick()
+		local impactAnchor = Instance.new("Part")
+		impactAnchor.Name = "ImpactAnchor"
+		impactAnchor.Size = Vector3.new(1, 1, 1)
+		impactAnchor.Transparency = 1
+		impactAnchor.Anchored = true
+		impactAnchor.CanCollide = false
+		impactAnchor.CanTouch = false
+		impactAnchor.CanQuery = false
+		impactAnchor.Parent = impactFolder
+		local impactLight = Instance.new("PointLight")
+		impactLight.Color = impactColor
+		impactLight.Range = 24
+		impactLight.Brightness = 0
+		impactLight.Parent = impactAnchor
+		local fxGroup = {}
+		local fxKey = nil
+		local function clearFx()
+			for _, entry in ipairs(fxGroup) do
+				entry.emitter:Destroy()
+			end
+			fxGroup = {}
+			fxKey = nil
+		end
+		local function buildFx(key, sources)
+			clearFx()
+			fxKey = key
+			for _, source in ipairs(sources) do
+				local ring = makeFxEmitter(source, "ring", 1)
+				ring.Parent = impactAnchor
+				table.insert(fxGroup, {emitter = ring, rate = 55})
+				local core = makeFxEmitter(source, "core", 1)
+				core.Parent = impactAnchor
+				table.insert(fxGroup, {emitter = core, rate = 22})
+			end
+		end
+		local function setFxIntensity(intensity)
+			local enabled = intensity > 0.05
+			for _, entry in ipairs(fxGroup) do
+				local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
+				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
+				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+			end
+		end
+		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
+		local impactParams = RaycastParams.new()
+		impactParams.FilterType = Enum.RaycastFilterType.Exclude
+		local function updateImpact(endPos, extent, now, clashInfo)
+			if clashInfo and not clashInfo.lead then
+				setFxIntensity(0)
+				impactLight.Brightness = 0
+				return
+			end
+			local key = "normal"
+			local sources = ownSources
+			if clashInfo then
+				key = "clash" .. tostring(clashInfo.partnerData)
+				sources = {}
+				for _, src in ipairs(ownSources) do table.insert(sources, src) end
+				local partnerSources = clashInfo.partnerSources
+				if partnerSources and #partnerSources > 0 then
+					for _, src in ipairs(partnerSources) do table.insert(sources, src) end
+				else
+					table.insert(sources, makeFallbackEmitter(clashInfo.partnerColor or impactColor))
+				end
+			end
+			if key ~= fxKey then
+				buildFx(key, sources)
+			end
+			if clashInfo then
+				local axis = clashInfo.axis or Vector3.zAxis
+				impactAnchor.CFrame = CFrame.lookAt(endPos, endPos + axis) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local mix = (math.sin(now * 9) + 1) / 2
+				impactLight.Color = impactColor:Lerp(clashInfo.partnerColor or impactColor, mix)
+				impactLight.Brightness = 3 * extent
+				setFxIntensity(extent * 1.4)
+			else
+				if beamIteration % 2 == 0 or not impactSurfaceOffset then
+					local filter = {character, impactFolder, hitbox}
+					for _, plr in ipairs(Players:GetPlayers()) do
+						if plr.Character then table.insert(filter, plr.Character) end
+					end
+					impactParams.FilterDescendantsInstances = filter
+					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), impactParams)
+					if result and (result.Position - endPos).Magnitude <= 7 then
+						impactSurfaceOffset = result.Position + result.Normal * 0.15 - endPos
+						impactSurfaceNormal = result.Normal
+					else
+						impactSurfaceOffset = Vector3.zero
+						impactSurfaceNormal = Vector3.yAxis
+					end
+				end
+				local impactPos = endPos + impactSurfaceOffset
+				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+				impactLight.Color = impactColor
+				impactLight.Brightness = 1.5 * extent
+				setFxIntensity(extent)
+			end
+		end
+		local startTime = tick()
+		local currentClashPartner = nil
+		local function isFacing(hrp, targetPos)
+			local dir = targetPos - hrp.Position
+			local horizDir = Vector3.new(dir.X, 0, dir.Z)
+			if horizDir.Magnitude < 1 then return true end
+			local look = hrp.CFrame.LookVector
+			local horizLook = Vector3.new(look.X, 0, look.Z)
+			return horizLook:Dot(horizDir.Unit) > 0
+		end
+		local charRadiusCache = {}
+		local function getCharRadius(char)
+			if charRadiusCache[char] then return charRadiusCache[char] end
+			local ok, result = pcall(function()
+				local _, size = char:GetBoundingBox()
+				return math.max(size.X, size.Y, size.Z) / 2 + 5
+			end)
+			local radius = (ok and result) or 20
+			charRadiusCache[char] = radius
+			return radius
+		end
+		local function hitboxNearCharacter(hb, char)
+			local charHRP = char:FindFirstChild("HumanoidRootPart")
+			if not charHRP then return false end
+			return (hb.Position - charHRP.Position).Magnitude < getCharRadius(char)
+		end
+		local smoothTip = currentTarget
+		local lastFrameTime = tick()
+		local wasClashing = false
+		local clashTransitionUntil = 0
+		local extent = 0
+		local overpower = nil
+		local lastClashData = nil
+		local function renderFrame(ext, tip, clashing, now, clashInfo)
+			local myHRP = character:FindFirstChild("HumanoidRootPart")
+			if not myHRP then return end
+			local startPos = getHeadPosition(character) or myHRP.Position
+			if not clashing and playerShiftLock[player] then
+				local look = myHRP.CFrame.LookVector
+				local flat = Vector3.new(look.X, 0, look.Z)
+				if flat.Magnitude > 0.01 then
+					flat = flat.Unit
+					local d = tip - startPos
+					local f = d:Dot(flat)
+					if f < 8 then tip = startPos + d + flat * (8 - f) end
+				end
+			end
+			local endPos = startPos:Lerp(tip, ext)
+			local roundedExt = math.floor(ext * 100 + 0.5) / 100
+			if hitbox:GetAttribute("BeamExtent") ~= roundedExt then
+				hitbox:SetAttribute("BeamExtent", roundedExt)
+			end
+			if beamIteration % 2 == 0 and #beamTextures > 0 then
+				local texDt = math.max(now - lastTexTime, 0.016)
+				if lastEndPos then
+					local speed = (endPos - lastEndPos).Magnitude / texDt
+					local targetBoost = 1 + math.clamp(speed / 30, 0, 5)
+					texBoost = texBoost + (targetBoost - texBoost) * 0.5
+					for _, tex in ipairs(beamTextures) do
+						local want
+						if tex.base ~= 0 then
+							want = tex.base * texBoost
+						else
+							want = (texBoost - 1) * 2
+						end
+						if tex.beam.Parent and math.abs(tex.beam.TextureSpeed - want) > 0.1 then
+							tex.beam.TextureSpeed = want
+						end
+					end
+				end
+				lastEndPos = endPos
+				lastTexTime = now
+			end
+			hitbox.CFrame = orientHitbox(clashing and startPos or myHRP.Position, tip, endPos)
+			positionSideHitboxes(startPos, hitbox.CFrame, sideHitboxes, ext)
+			for _, be in ipairs(beamEndOffsets) do
+				be.att.CFrame = CFrame.new(be.offset * ext)
+			end
+			if beamIteration % 2 == 0 and #glowAttachments > 0 and primaryBeamStart and primaryBeamStart.Parent then
+				local beamStartPos = primaryBeamStart.WorldPosition
+				local glowRange = math.clamp((endPos - beamStartPos).Magnitude / (NUM_GLOW_LIGHTS + 1) * 1.4, 20, 60)
+				for i, att in ipairs(glowAttachments) do
+					local t = i / (NUM_GLOW_LIGHTS + 1)
+					att.WorldPosition = beamStartPos:Lerp(endPos, t)
+					local light = att:FindFirstChildOfClass("PointLight")
+					if light then light.Brightness = 0.9 * ext light.Range = glowRange end
+				end
+			end
+			updateImpact(endPos, ext, now, clashInfo)
+		end
+		renderFrame(0, smoothTip, false, tick())
+		while tick() - startTime < duration or overpower do
+			beamIteration += 1
+			if not character.Parent or not character:FindFirstChild("HumanoidRootPart") then
+				break
+			end
+			local myHRP = character:FindFirstChild("HumanoidRootPart")
+			local myData = activeBeams[player]
+			if not overpower and myData and myData.overpowerRequest then
+				local req = myData.overpowerRequest
+				myData.overpowerRequest = nil
+				if req.character and req.character.Parent and req.hitbox and req.hitbox.Parent then
+					overpower = {loser = req, t0 = tick(), startPoint = smoothTip}
+					myData.overpowering = true
+					myData.overpowerDone = false
+					currentClashPartner = nil
+					if dpsScript then dpsScript.Enabled = false end
+					for _, side in ipairs(sideHitboxes) do
+						if side.dps then side.dps.Enabled = false end
+					end
+				else
+					myData.overpowerDone = true
+				end
+			end
+			if overpower then
+				local now = tick()
+				local loser = overpower.loser
+				local loserHead = loser.character and loser.character.Parent and getHeadPosition(loser.character)
+				local finished = false
+				if not loserHead or not (loser.hitbox and loser.hitbox.Parent) then
+					finished = true
+				else
+					local t = math.clamp((now - overpower.t0) / OVERPOWER_TIME, 0, 1)
+					local clashPoint = overpower.startPoint:Lerp(loserHead, easeInOutQuad(t))
+					smoothTip = clashPoint
+					myData.clashPoint = clashPoint
+					myData.clashLead = true
+					extent = easeOutCubic(math.clamp((now - startTime) / INTRO_TIME, 0, 1))
+					hitbox:SetAttribute("IsClashing", true)
+					local myHead = getHeadPosition(character) or myHRP.Position
+					local toLoser = loserHead - myHead
+					renderFrame(extent, clashPoint, true, now, {
+						lead = true,
+						partnerColor = loser.impactColor or impactColor,
+						partnerData = loser,
+						partnerSources = loser.templateEmitters,
+						axis = toLoser.Magnitude > 0.01 and toLoser.Unit or Vector3.zAxis,
+					})
+					if t >= 1 then
+						finished = true
+						local loserHum = loser.character:FindFirstChildOfClass("Humanoid")
+						if loserHum and loserHum.Health > 0 then
+							local creator = loserHum:FindFirstChild("creator")
+							if not creator then
+								creator = Instance.new("ObjectValue")
+								creator.Name = "creator"
+								creator.Parent = loserHum
+							end
+							creator.Value = player
+							loserHum:SetAttribute("LastDPSAttacker", player.UserId)
+							loserHum:TakeDamage(OVERPOWER_DAMAGE)
+						end
+						spawnClashExplosion(loserHead, ownSources, loser.templateEmitters or {}, impactColor, loser.impactColor or impactColor)
+					end
+				end
+				if finished then
+					overpower = nil
+					wasClashing = true
+					clashTransitionUntil = now + CLASH_TRANSITION_TIME
+					lastFrameTime = now
+					if myData then
+						myData.overpowering = false
+						myData.overpowerDone = true
+						myData.clashPoint = nil
+					end
+				end
+				task.wait(0.03)
+				continue
+			end
+			local clashPartner = nil
+			if currentClashPartner then
+				local partner = currentClashPartner
+				local clashStillValid = false
+				for _, otherData in pairs(activeBeams) do
+					if otherData == partner and otherData.character and otherData.character.Parent
+						and otherData.hitbox and otherData.hitbox.Parent and not otherData.ending then
+						local partnerHRP = partner.character:FindFirstChild("HumanoidRootPart")
+						if partnerHRP and myHRP then
+							if isFacing(myHRP, partnerHRP.Position) and isFacing(partnerHRP, myHRP.Position) then
+								clashStillValid = true
+							end
+						end
+						break
+					end
+				end
+				if clashStillValid then
+					clashPartner = partner
+				else
+					currentClashPartner = nil
+				end
+			end
+			if not clashPartner and myHRP and activeBeams[player].clashRequestedBy then
+				local requester = activeBeams[player].clashRequestedBy
+				activeBeams[player].clashRequestedBy = nil
+				if requester and requester.character and requester.character.Parent
+					and requester.hitbox and requester.hitbox.Parent and not requester.ending then
+					local requesterHRP = requester.character:FindFirstChild("HumanoidRootPart")
+					if requesterHRP then
+						if isFacing(myHRP, requesterHRP.Position) and isFacing(requesterHRP, myHRP.Position) then
+							clashPartner = requester
+							currentClashPartner = requester
+						end
+					end
+				end
+			end
+			if not clashPartner and myHRP then
+				for otherPlayer, otherData in pairs(activeBeams) do
+					if otherPlayer ~= player and otherData and otherData.hitbox and otherData.hitbox.Parent and not otherData.ending
+						and otherData.character and otherData.character.Parent then
+						local otherHRP = otherData.character:FindFirstChild("HumanoidRootPart")
+						if otherHRP then
+							if isFacing(myHRP, otherHRP.Position) and isFacing(otherHRP, myHRP.Position) then
+								if hitboxNearCharacter(hitbox, otherData.character)
+									and hitboxNearCharacter(otherData.hitbox, character) then
+									clashPartner = otherData
+									currentClashPartner = otherData
+									otherData.clashRequestedBy = activeBeams[player]
+									if otherData.dpsScript then
+										otherData.dpsScript.Enabled = false
+									end
+									break
+								end
+							end
+						end
+					end
+				end
+			end
+			lastClashData = clashPartner
+			local now = tick()
+			local dt = math.clamp(now - lastFrameTime, 0.001, 0.25)
+			lastFrameTime = now
+			extent = easeOutCubic(math.clamp((now - startTime) / INTRO_TIME, 0, 1))
+			local isClashingNow = clashPartner ~= nil
+			if isClashingNow ~= wasClashing then
+				wasClashing = isClashingNow
+				clashTransitionUntil = now + CLASH_TRANSITION_TIME
+			end
+			local desiredTip = nil
+			local clashInfo = nil
+			if clashPartner then
+				hitbox:SetAttribute("IsClashing", true)
+				local myHeadPos = getHeadPosition(character)
+				local partnerHeadPos = getHeadPosition(clashPartner.character)
+				if myHeadPos and partnerHeadPos then
+					desiredTip = (myHeadPos + partnerHeadPos) / 2
+					local toPartner = partnerHeadPos - myHeadPos
+					local partnerUserId = clashPartner.player and clashPartner.player.UserId or 0
+					local lead = player.UserId < partnerUserId
+					if activeBeams[player] then activeBeams[player].clashLead = lead end
+					clashInfo = {
+						lead = lead,
+						partnerColor = clashPartner.impactColor or impactColor,
+						partnerData = clashPartner,
+						partnerSources = clashPartner.templateEmitters,
+						axis = toPartner.Magnitude > 0.01 and toPartner.Unit or Vector3.zAxis,
+					}
+				end
+				for _, side in ipairs(sideHitboxes) do
+					if side.dps and side.dps.Enabled then
+						side.dps.Enabled = false
+					end
+				end
+				if dpsScript and dpsScript.Enabled then
+					dpsScript.Enabled = false
+				end
+			else
+				hitbox:SetAttribute("IsClashing", false)
+				local latestAim = playerAims[player]
+				if latestAim then
+					currentTarget = latestAim
+				end
+				desiredTip = currentTarget
+				if extent >= 0.5 then
+					if dpsScript and not dpsScript.Enabled then
+						dpsScript.Enabled = true
+					end
+					for _, side in ipairs(sideHitboxes) do
+						if side.dps and not side.dps.Enabled then
+							side.dps.Enabled = true
+						end
+					end
+				end
+			end
+			desiredTip = desiredTip or smoothTip
+			local followRate = (isClashingNow or now < clashTransitionUntil) and CLASH_FOLLOW_RATE or AIM_FOLLOW_RATE
+			smoothTip = smoothTip:Lerp(desiredTip, 1 - math.exp(-followRate * dt))
+			renderFrame(extent, smoothTip, isClashingNow, now, clashInfo)
+			if beamIteration % 3 == 0 then
+				local ownerHum = character:FindFirstChildOfClass("Humanoid")
+				if ownerHum and ownerHum.Health > 0 then
+					local ownerHRP = character:FindFirstChild("HumanoidRootPart")
+					local atkParams = OverlapParams.new()
+					atkParams.FilterDescendantsInstances = {character}
+					atkParams.FilterType = Enum.RaycastFilterType.Exclude
+					local atkParts = workspace:GetPartsInPart(hitbox, atkParams)
+					for _, atkPart in ipairs(atkParts) do
+						if atkPart.Name == "AttackHitbox" or atkPart:GetAttribute("MeleeHit") then
+							local attackerChar = atkPart.Parent
+							local attackerPlayer = Players:GetPlayerFromCharacter(attackerChar)
+							if attackerPlayer and attackerPlayer ~= player and not beamHitDebounce[attackerPlayer] then
+								local attackerHRP = attackerChar:FindFirstChild("HumanoidRootPart")
+								local withinRange = true
+								if ownerHRP and attackerHRP then
+									local dist = (ownerHRP.Position - attackerHRP.Position).Magnitude
+									local maxCounterRange = getCharRadius(character) + getCharRadius(attackerChar)
+									withinRange = dist <= maxCounterRange
+								end
+								if withinRange then
+									beamHitDebounce[attackerPlayer] = true
+									local dmg = 10
+									local atkStats = attackerChar:FindFirstChild("Stats")
+									if atkStats then
+										for _, dmgName in ipairs({"DMG1", "DMG2", "DMG3"}) do
+											local dmgVal = atkStats:FindFirstChild(dmgName)
+											if dmgVal then
+												dmg = dmgVal.Value
+												break
+											end
+										end
+									end
+									local creator = ownerHum:FindFirstChild("creator")
+									if not creator then
+										creator = Instance.new("ObjectValue")
+										creator.Name = "creator"
+										creator.Parent = ownerHum
+									end
+									creator.Value = attackerPlayer
+									ownerHum:TakeDamage(dmg)
+									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, 25, 0, ownerHum.Parent) end
+									local leaderstats = attackerPlayer:FindFirstChild("leaderstats")
+									if leaderstats then
+										local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
+										if gcells and gcells:IsA("IntValue") then
+											if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 25) end
+											gcells.Value = gcells.Value + 25
+										end
+									end
+									task.spawn(function()
+										task.wait(0.5)
+										beamHitDebounce[attackerPlayer] = nil
+									end)
+								end
+							end
+						end
+					end
+				end
+			end
+			task.wait(0.03)
+		end
+		if character.Parent and character:FindFirstChild("HumanoidRootPart") then
+			local overpoweredBy = nil
+			if lastClashData and lastClashData.character and lastClashData.character.Parent
+				and lastClashData.hitbox and lastClashData.hitbox.Parent and not lastClashData.ending then
+				overpoweredBy = lastClashData
+				overpoweredBy.overpowerRequest = activeBeams[player]
+			end
+			if activeBeams[player] then activeBeams[player].ending = true end
+			hitbox:SetAttribute("IsClashing", false)
+			hitbox:SetAttribute("BeamEnding", true)
+			if dpsScript then dpsScript.Enabled = false end
+			for _, side in ipairs(sideHitboxes) do
+				if side.dps then side.dps.Enabled = false end
+			end
+			if overpoweredBy then
+				local winnerData = overpoweredBy
+				local deadline = tick() + OVERPOWER_TIME + 1.5
+				while character.Parent and character:FindFirstChild("HumanoidRootPart")
+					and not winnerData.overpowerDone and winnerData.hitbox and winnerData.hitbox.Parent
+					and tick() < deadline do
+					beamIteration += 1
+					local now = tick()
+					local point = winnerData.clashPoint
+					if point then
+						smoothTip = point
+						local myHead = getHeadPosition(character) or point
+						local toPoint = point - myHead
+						renderFrame(1, point, true, now, {
+							lead = false,
+							partnerColor = winnerData.impactColor or impactColor,
+							partnerData = winnerData,
+							partnerSources = winnerData.templateEmitters,
+							axis = toPoint.Magnitude > 0.01 and toPoint.Unit or Vector3.zAxis,
+						})
+					end
+					task.wait(0.03)
+				end
+			else
+				local outroStart = tick()
+				local retractTip = smoothTip
+				while character.Parent and character:FindFirstChild("HumanoidRootPart") do
+					beamIteration += 1
+					local now = tick()
+					local t = (now - outroStart) / OUTRO_TIME
+					if t >= 1 then break end
+					renderFrame(1 - easeInOutQuad(t), retractTip, false, now)
+					task.wait(0.03)
+				end
+			end
+		end
+	end)
+	pcall(function()
+		if #beamStarts > 0 then
+			enableBeams(beamStarts, false, beamNameFilter)
+		end
+		if #beamEnds > 0 then
+			enableParticles(beamEnds, false)
+		end
+		for _, att in ipairs(glowAttachments) do
+			pcall(function() att:Destroy() end)
+		end
+		if dpsScript then
+			dpsScript.Enabled = false
+		end
+		for _, side in ipairs(sideHitboxes) do
+			if side.dps then
+				side.dps.Enabled = false
+			end
+		end
+		for beamEnd, original in pairs(beamEndOriginals) do
+			beamEnd.CFrame = original.cframe
+			beamEnd.Parent = original.parent
+			beamEnd:SetAttribute("BeamEndOffset", nil)
+		end
+	end)
+	pcall(function()
+		for _, side in ipairs(sideHitboxes) do
+			pcall(function() side.hitbox:Destroy() end)
+		end
+		restoreBeamTextures(activeBeams[player] and activeBeams[player].beamTextureBases)
+		local ib = activeBeams[player] and activeBeams[player].impactFolder
+		if ib then ib:Destroy() end
+		hitbox:Destroy()
+	end)
+	activeBeams[player] = nil
+	beamGenerations[player] = nil
+	playerAims[player] = nil
+	playerShiftLock[player] = nil
+	if beamEndedSignal then
+		beamEndedSignal:Fire(player, myGeneration)
+	end
+	if not success then
+		warn("[BeamSystem] Error during beam activation:", err)
+	end
+end
+function BeamSystem.SetAim(player, targetPosition, isShiftLock)
+	if typeof(targetPosition) == "Vector3" then
+		playerAims[player] = targetPosition
+		if isShiftLock ~= nil then
+			playerShiftLock[player] = isShiftLock == true
+		end
+	end
+end
+return BeamSystem]]></ProtectedString>
+				</Properties>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX4">
+			<Properties>
+				<string name="Name">StarterGui</string>
+			</Properties>
+			<Item class="Folder" referent="RBX5">
+				<Properties>
+					<string name="Name">GameGui</string>
+				</Properties>
+				<Item class="Folder" referent="RBX6">
+					<Properties>
+						<string name="Name">MainFrame</string>
+					</Properties>
+					<Item class="Folder" referent="RBX7">
+						<Properties>
+							<string name="Name">Interface</string>
+						</Properties>
+						<Item class="Folder" referent="RBX8">
+							<Properties>
+								<string name="Name">Backpack</string>
+							</Properties>
+							<Item class="LocalScript" referent="RBX9">
+								<Properties>
+									<string name="Name">BackpackScript</string>
+									<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local backpack = script.Parent
+local template = backpack:FindFirstChild("Template")
+
+local TweenService = game:GetService("TweenService")
+local CooldownManager = require(game:GetService("ReplicatedStorage"):WaitForChild("CooldownManager"))
+local ChargeManager = require(game:GetService("ReplicatedStorage"):WaitForChild("ChargeManager"))
+local UserInputService = game:GetService("UserInputService")
+local isMobile = UserInputService.TouchEnabled
+
+local function getDeviceSettings()
+	if not UserInputService.TouchEnabled then
+
+		return { buttonSize = 110, spacing = 14, backpackWidth = 800, backpackHeight = 130 }
+	end
+
+	return { buttonSize = 70, spacing = 8, backpackWidth = 500, backpackHeight = 90 }
+end
+
+local deviceSettings = getDeviceSettings()
+local BUTTON_SIZE = deviceSettings.buttonSize
+local SPACING = deviceSettings.spacing
+local SCALE = BUTTON_SIZE / 80
+
+backpack.Size = UDim2.new(0, deviceSettings.backpackWidth, 0, deviceSettings.backpackHeight)
+backpack.Position = UDim2.new(0.5, -deviceSettings.backpackWidth / 2, 1, -deviceSettings.backpackHeight - 15)
+
+local function scaleButtonChildren(button)
+	local r = function(n) return math.round(n * SCALE) end
+
+	local num = button:FindFirstChild("Num")
+	if num then
+		num.Size = UDim2.new(0, r(28), 0, r(9))
+	end
+
+	local title = button:FindFirstChild("Title")
+	if title then
+		if button.Name == "Sprint" then
+			title.Size = UDim2.new(1, 0, 0, r(18))
+			title.Position = UDim2.new(0, 0, 1, -r(18))
+			title.TextScaled = true
+		else
+			title.Size = UDim2.new(0, r(69), 0, r(10))
+			title.Position = UDim2.new(0, r(5), 0, r(66))
+		end
+	end
+
+	local indicator = button:FindFirstChild("ActiveIndicator")
+	if indicator then
+		indicator.Size = UDim2.new(1, -r(4), 1, -r(4))
+		indicator.Position = UDim2.new(0, r(2), 0, r(2))
+	end
+
+	local corner = button:FindFirstChild("UICorner")
+	if corner then
+		local originalRadius = (button.Name == "Sprint") and 4 or 7
+		corner.CornerRadius = UDim.new(0, r(originalRadius))
+	end
+end
+
+local sprintBtn = backpack:FindFirstChild("Sprint")
+if sprintBtn then
+	sprintBtn.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
+	scaleButtonChildren(sprintBtn)
+end
+if template then
+	template.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
+	scaleButtonChildren(template)
+end
+
+local bars = backpack.Parent:FindFirstChild("Bars")
+if bars then
+	bars.Position = UDim2.new(0.5, -185, 1, -deviceSettings.backpackHeight - 40)
+end
+
+local activeButtons = {}
+
+local slotToEvent = {}
+
+local activeCooldowns = {}
+
+local RunService = game:GetService("RunService")
+local Knit = require(game:GetService("ReplicatedStorage"):WaitForChild("Knit"):WaitForChild("Knit"))
+local BeamService = nil
+local beamActive = false
+local currentBeamGeneration = nil
+local beamLockedYaw = nil
+local beamDelayToken = nil
+local beamStartTimeout = nil
+local beamRotationConnection = nil
+local currentScreenPos = nil
+local activeTouches = {}
+local beamPredictionConnection = nil
+local beamPredictChar = nil
+local beamPredictBeamStart = nil
+local beamPredictHitbox = nil
+local beamEndsReparented = false
+
+local stopBeamRotation
+local startBeamRotation
+
+local SPRINT_IMAGE_NORMAL = "rbxassetid://85803878121852"
+local SPRINT_IMAGE_FLYING = ""
+
+local function getDisplayName(event)
+	local attackName = event:GetAttribute("AttackName")
+	if attackName and attackName ~= "" then
+		return attackName
+	end
+	local name = event.Name
+	if name == "Attack" or name == "Attack1Event" then return "Attack" end
+	if name == "Beam" or name == "Attack2Event" then return "Beam" end
+	if name == "Attack3" or name == "Attack3Event" then return "Attack 3" end
+	if name == "Roar1" or name == "Roar1Event" then return "Roar 1" end
+	if name == "Roar2" or name == "Roar2Event" then return "Roar 2" end
+	return name
+end
+
+local function isAttackEvent(event)
+	if not event:IsA("RemoteEvent") then return false end
+	local attackName = event:GetAttribute("AttackName")
+	if attackName then return true end
+	local lower = string.lower(event.Name)
+	return lower:find("attack") or lower:find("beam") or lower:find("roar")
+end
+
+local ORDER = {
+	Attack = 1, Attack1Event = 1,
+	Beam = 2, Attack2Event = 2,
+	Attack3 = 3, Attack3Event = 3,
+	Attack4 = 4, Attack4Event = 4,
+	Roar1 = 5, Roar1Event = 5,
+	Roar2 = 6, Roar2Event = 6,
+}
+
+local NUMBERS = {"ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX"}
+
+local function clearButtons()
+	for _, child in ipairs(backpack:GetChildren()) do
+		if child:IsA("ImageButton") and child.Name ~= "Template" and child.Name ~= "Sprint" then
+			child.Parent = nil
+		end
+	end
+end
+
+local function getShiftLockState()
+	return player:GetAttribute("ShiftLockEnabled") == true
+end
+
+local function isJoystickStart(position, gameProcessed)
+	if gameProcessed then return true end
+	local camera = workspace.CurrentCamera
+	if not camera then return false end
+	local viewport = camera.ViewportSize
+	return position.X < viewport.X * 0.5
+end
+
+local function pickBestTouchPos()
+	for input, data in pairs(activeTouches) do
+		if not data.isJoystick then
+			return data.pos
+		end
+	end
+	return nil
+end
+
+UserInputService.InputChanged:Connect(function(input, gameProcessed)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		currentScreenPos = Vector2.new(input.Position.X, input.Position.Y)
+	elseif input.UserInputType == Enum.UserInputType.Touch then
+		local data = activeTouches[input]
+		if data then
+			data.pos = Vector2.new(input.Position.X, input.Position.Y)
+			if not data.isJoystick then
+				currentScreenPos = data.pos
+			end
+		end
+	end
+end)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if input.UserInputType == Enum.UserInputType.Touch then
+		local pos = Vector2.new(input.Position.X, input.Position.Y)
+		local isJoystick = isJoystickStart(pos, gameProcessed)
+		activeTouches[input] = {pos = pos, isJoystick = isJoystick}
+		if not isJoystick then
+			currentScreenPos = pos
+		end
+	elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
+		currentScreenPos = Vector2.new(input.Position.X, input.Position.Y)
+	end
+end)
+
+UserInputService.InputEnded:Connect(function(input, gameProcessed)
+	if input.UserInputType == Enum.UserInputType.Touch then
+		activeTouches[input] = nil
+		local best = pickBestTouchPos()
+		if best then
+			currentScreenPos = best
+		end
+	end
+end)
+
+local function raycastFiltered(origin, direction, character)
+	local excluded = {character}
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+
+	local currentOrigin = origin
+	local dirUnit = direction.Unit
+	local remainingDist = direction.Magnitude
+
+	for i = 1, 30 do
+		params.FilterDescendantsInstances = excluded
+		local result = workspace:Raycast(currentOrigin, dirUnit * remainingDist, params)
+		if not result then return nil end
+
+		local inst = result.Instance
+		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and (inst.Transparency >= 0.95 or not inst.CanCollide)
+		local isWater = result.Material == Enum.Material.Water
+
+		if isTransparent or isWater then
+			local consumed = (result.Position - currentOrigin).Magnitude
+			remainingDist = remainingDist - consumed
+			if remainingDist <= 0.1 then return nil end
+			currentOrigin = result.Position
+			table.insert(excluded, inst)
+		else
+			return result
+		end
+	end
+	return nil
+end
+
+local function advanceOrigin(origin, direction, character)
+	local hrp = character and character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return origin end
+	local unit = direction.Unit
+	local along = (hrp.Position - origin):Dot(unit)
+	if along > 0 then return origin + unit * along end
+	return origin
+end
+
+local function getAimPosition(character)
+	local camera = workspace.CurrentCamera
+	if not camera then return nil end
+	if not character then return nil end
+
+	local isShiftLock = getShiftLockState()
+
+	if isShiftLock then
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return nil end
+
+		local camLook = camera.CFrame.LookVector
+		local camPitch = math.asin(math.clamp(camLook.Y, -1, 1))
+
+		local charLook = hrp.CFrame.LookVector
+		local charYaw = math.atan2(-charLook.X, charLook.Z)
+
+		local cosPitch = math.cos(camPitch)
+		local direction = Vector3.new(
+			-math.sin(charYaw) * cosPitch,
+			math.sin(camPitch),
+			math.cos(charYaw) * cosPitch
+		).Unit
+
+		local result = raycastFiltered(advanceOrigin(camera.CFrame.Position, direction, character), direction * 1000, character)
+		if result then
+			return result.Position
+		else
+			return advanceOrigin(camera.CFrame.Position, direction, character) + direction * 1000
+		end
+	else
+		local screenPos = nil
+
+		if UserInputService.MouseEnabled then
+			local mouseLocation = UserInputService:GetMouseLocation()
+			screenPos = Vector2.new(mouseLocation.X, mouseLocation.Y)
+		end
+
+		if not screenPos then
+			screenPos = currentScreenPos
+		end
+
+		local ray
+		if screenPos then
+			ray = camera:ScreenPointToRay(screenPos.X, screenPos.Y)
+		else
+			local viewport = camera.ViewportSize
+			ray = camera:ViewportPointToRay(viewport.X / 2, viewport.Y / 2)
+		end
+
+		local result = raycastFiltered(advanceOrigin(ray.Origin, ray.Direction, character), ray.Direction * 1000, character)
+		if result then
+			return result.Position
+		else
+			return advanceOrigin(ray.Origin, ray.Direction, character) + ray.Direction * 1000
+		end
+	end
+end
+
+local function needsAimPosition(eventName)
+	return eventName == "Beam" or eventName == "Attack2Event"
+		or eventName == "Attack3" or eventName == "Attack3Event"
+end
+
+local function isBeamEvent(eventName)
+	return eventName == "Beam" or eventName == "Attack2Event"
+		or eventName == "Attack3" or eventName == "Attack3Event"
+end
+
+stopBeamRotation = function()
+	if beamRotationConnection then
+		beamRotationConnection:Disconnect()
+		beamRotationConnection = nil
+	end
+	local character = player.Character
+	if character then
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if humanoid then
+			humanoid.AutoRotate = true
+		end
+	end
+end
+
+local PRED_INTRO_TIME = 0.4
+local PRED_FOLLOW_RATE = 40
+local PRED_SERVER_RATE = 14
+local PRED_TRANSITION_RATE = 6
+local PRED_TRANSITION_TIME = 0.7
+local beamPredictStartTime = 0
+local beamPredictTip = nil
+local beamPredictEnd = nil
+local beamPredictServerMode = false
+local beamPredictTransitionUntil = 0
+local beamPredictServerHitbox = nil
+local beamPredictLastTime = 0
+
+local function easeOutCubic(t)
+	return 1 - (1 - t) ^ 3
+end
+
+local function getBeamHeadPosition(character)
+	local head = character:FindFirstChild("Head")
+	if head and head:IsA("BasePart") then
+		return head.Position
+	end
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	return hrp and hrp.Position or nil
+end
+
+local function orientHitbox(charPos, targetPos, placePos)
+	placePos = placePos or targetPos
+	local flatDir = Vector3.new(targetPos.X - charPos.X, 0, targetPos.Z - charPos.Z)
+	if flatDir.Magnitude < 0.01 then
+		return CFrame.new(placePos)
+	end
+	local lookCF = CFrame.lookAt(Vector3.new(charPos.X, 0, charPos.Z), Vector3.new(targetPos.X, 0, targetPos.Z))
+	local rotation = lookCF - lookCF.Position
+	return CFrame.new(placePos) * rotation
+end
+
+local function findServerBeamHitbox()
+	if beamPredictServerHitbox and beamPredictServerHitbox.Parent then
+		return beamPredictServerHitbox
+	end
+	beamPredictServerHitbox = nil
+	local playerName = player.Name
+	for _, child in ipairs(workspace:GetChildren()) do
+		if child:IsA("BasePart") and child.Name == "BeamHitbox" and child:GetAttribute("Attacker") == playerName
+			and child:GetAttribute("BeamMain") then
+			beamPredictServerHitbox = child
+			return child
+		end
+	end
+	return nil
+end
+
+local function startBeamPrediction()
+	beamPredictChar = player.Character
+	if not beamPredictChar then return end
+
+	beamPredictBeamStart = nil
+	for _, descendant in ipairs(beamPredictChar:GetDescendants()) do
+		if descendant:IsA("Attachment") and descendant.Name == "BeamStart" then
+			beamPredictBeamStart = descendant
+			break
+		end
+	end
+
+	if beamPredictionConnection then
+		beamPredictionConnection:Disconnect()
+	end
+
+	if beamPredictHitbox then
+		beamPredictHitbox:Destroy()
+		beamPredictHitbox = nil
+	end
+	beamEndsReparented = false
+	beamPredictServerHitbox = nil
+	beamPredictServerMode = false
+	beamPredictTransitionUntil = 0
+	beamPredictStartTime = tick()
+	beamPredictLastTime = beamPredictStartTime
+
+	beamPredictHitbox = Instance.new("Part")
+	beamPredictHitbox.Name = "BeamPredictionHitbox"
+	beamPredictHitbox.Size = Vector3.new(6, 6, 6)
+	beamPredictHitbox.Anchored = true
+	beamPredictHitbox.CanCollide = false
+	beamPredictHitbox.CanTouch = false
+	beamPredictHitbox.CanQuery = false
+	beamPredictHitbox.Transparency = 1
+	beamPredictHitbox.Parent = beamPredictChar
+
+	local charHRP = beamPredictChar:FindFirstChild("HumanoidRootPart")
+	local startPos = getBeamHeadPosition(beamPredictChar) or (charHRP and charHRP.Position) or Vector3.new()
+	beamPredictTip = getAimPosition(beamPredictChar)
+	if not beamPredictTip and charHRP then
+		beamPredictTip = charHRP.Position + charHRP.CFrame.LookVector * 50
+	end
+	beamPredictEnd = startPos
+	beamPredictHitbox.CFrame = CFrame.new(startPos)
+
+	beamPredictionConnection = RunService.RenderStepped:Connect(function()
+		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
+		local hrp = beamPredictChar:FindFirstChild("HumanoidRootPart")
+		if not hrp or not beamPredictHitbox or not beamPredictHitbox.Parent then return end
+
+		local now = tick()
+		local dt = math.clamp(now - beamPredictLastTime, 0.001, 0.25)
+		beamPredictLastTime = now
+
+		local serverHitbox = findServerBeamHitbox()
+
+		if not beamEndsReparented and serverHitbox then
+			local reparentedAny = false
+			for _, child in ipairs(serverHitbox:GetChildren()) do
+				if child:IsA("Attachment") and child.Name == "BeamEnd" then
+					child.Parent = beamPredictHitbox
+					reparentedAny = true
+				end
+			end
+			if reparentedAny then
+				beamEndsReparented = true
+			end
+		end
+
+		local startPos = getBeamHeadPosition(beamPredictChar) or hrp.Position
+		local serverMode = serverHitbox ~= nil
+			and (serverHitbox:GetAttribute("IsClashing") == true or serverHitbox:GetAttribute("BeamEnding") == true)
+
+		if serverMode ~= beamPredictServerMode then
+			beamPredictServerMode = serverMode
+			beamPredictTransitionUntil = now + PRED_TRANSITION_TIME
+			if not serverMode and beamPredictEnd then
+				beamPredictTip = beamPredictEnd
+			end
+		end
+
+		local extent
+		local dirTarget
+		if serverMode then
+			extent = serverHitbox:GetAttribute("BeamExtent") or 1
+			beamPredictEnd = beamPredictEnd:Lerp(serverHitbox.Position, 1 - math.exp(-PRED_SERVER_RATE * dt))
+			beamPredictTip = beamPredictEnd
+			dirTarget = beamPredictEnd
+		else
+			local aim = getAimPosition(beamPredictChar)
+			if aim and beamPredictTip then
+				local rate = now < beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
+				beamPredictTip = beamPredictTip:Lerp(aim, 1 - math.exp(-rate * dt))
+			end
+			extent = easeOutCubic(math.clamp((now - beamPredictStartTime) / PRED_INTRO_TIME, 0, 1))
+			beamPredictEnd = startPos:Lerp(beamPredictTip or startPos, extent)
+			dirTarget = beamPredictTip or beamPredictEnd
+		end
+
+		beamPredictHitbox.CFrame = orientHitbox(serverMode and startPos or hrp.Position, dirTarget, beamPredictEnd)
+
+		for _, child in ipairs(beamPredictHitbox:GetChildren()) do
+			if child:IsA("Attachment") and child.Name == "BeamEnd" then
+				local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
+				child.CFrame = CFrame.new(offset * extent)
+			end
+		end
+
+		if beamPredictBeamStart and beamPredictBeamStart.Parent then
+			local beamStartPos = beamPredictBeamStart.WorldPosition
+			for i = 1, 6 do
+				local att = hrp:FindFirstChild("BeamGlowLight" .. i)
+				if att then
+					att.WorldPosition = beamStartPos:Lerp(beamPredictEnd, i / 7)
+				end
+			end
+		end
+	end)
+end
+
+local function cleanupBeamEndVisuals(beamEndAtt)
+	for _, child in ipairs(beamEndAtt:GetChildren()) do
+		if child:IsA("ParticleEmitter") then
+			child.Enabled = false
+			child:Clear()
+		elseif child:IsA("Light") then
+			child.Enabled = false
+		end
+	end
+end
+
+local function stopBeamPrediction()
+	if beamPredictionConnection then
+		beamPredictionConnection:Disconnect()
+		beamPredictionConnection = nil
+	end
+
+	
+	if beamPredictHitbox then
+		for _, child in ipairs(beamPredictHitbox:GetChildren()) do
+			if child:IsA("Attachment") and child.Name == "BeamEnd" then
+				if beamPredictChar and beamPredictChar.Parent then
+					local serverHitbox = findServerBeamHitbox()
+					if serverHitbox and serverHitbox.Parent then
+						child.Parent = serverHitbox
+						local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
+						child.CFrame = CFrame.new(offset)
+					else
+						child.Parent = nil
+					end
+				else
+					child.Parent = nil
+				end
+			end
+		end
+		beamPredictHitbox:Destroy()
+		beamPredictHitbox = nil
+	end
+
+	beamEndsReparented = false
+	if beamPredictChar and beamPredictChar.Parent then
+		for _, descendant in ipairs(beamPredictChar:GetDescendants()) do
+			if descendant:IsA("Attachment") and descendant.Name == "BeamEnd" then
+				cleanupBeamEndVisuals(descendant)
+				descendant:SetAttribute("BeamEndOffset", nil)
+			end
+		end
+	end
+	beamPredictChar = nil
+	beamPredictBeamStart = nil
+	beamPredictServerHitbox = nil
+	beamPredictTip = nil
+	beamPredictEnd = nil
+	beamPredictServerMode = false
+end
+
+startBeamRotation = function()
+	stopBeamRotation()
+	local character = player.Character
+	if not character then return end
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	if not humanoid or not hrp then return end
+
+	if not getShiftLockState() then
+		humanoid.AutoRotate = false
+	end
+
+	beamRotationConnection = RunService.RenderStepped:Connect(function()
+		if not beamActive then return end
+		if not character or not character.Parent then return end
+
+		if getShiftLockState() then return end
+		local currentHrp = character:FindFirstChild("HumanoidRootPart")
+		if not currentHrp then return end
+		local currentHum = character:FindFirstChildOfClass("Humanoid")
+		if currentHum then
+			currentHum.AutoRotate = false
+		end
+		local targetPos = getAimPosition(character)
+		if not targetPos then return end
+		local pos = currentHrp.Position
+		local lookDir = Vector3.new(targetPos.X - pos.X, 0, targetPos.Z - pos.Z)
+		if lookDir.Magnitude > 0.1 then
+			local yaw = math.atan2(-lookDir.X, -lookDir.Z)
+			currentHrp.CFrame = CFrame.new(pos) * CFrame.Angles(0, yaw, 0)
+		end
+	end)
+end
+
+
+Knit.OnStart():andThen(function()
+	BeamService = Knit.GetService("BeamService")
+
+	BeamService.BeamStarted:Connect(function(generation)
+		if beamStartTimeout then
+			task.cancel(beamStartTimeout)
+			beamStartTimeout = nil
+		end
+		currentBeamGeneration = generation
+
+		if getShiftLockState() then
+			local character = player.Character
+			if character then
+				local hrp = character:FindFirstChild("HumanoidRootPart")
+				if hrp then
+					local charLook = hrp.CFrame.LookVector
+					beamLockedYaw = math.atan2(-charLook.X, charLook.Z)
+				end
+			end
+		end
+		beamActive = true
+		startBeamRotation()
+		startBeamPrediction()
+	end)
+
+	BeamService.BeamEnded:Connect(function(generation)
+		if generation ~= nil and generation ~= currentBeamGeneration then return end
+		currentBeamGeneration = nil
+		beamActive = false
+		beamLockedYaw = nil
+		if beamStartTimeout then
+			task.cancel(beamStartTimeout)
+			beamStartTimeout = nil
+		end
+		if beamDelayToken then
+			task.cancel(beamDelayToken)
+			beamDelayToken = nil
+		end
+		stopBeamRotation()
+		stopBeamPrediction()
+	end)
+end):catch(warn)
+
+
+local function onCharacterDied(character)
+	local hum = character:WaitForChild("Humanoid", 5)
+	if hum then
+		hum.Died:Connect(function()
+			beamActive = false
+			currentBeamGeneration = nil
+			beamLockedYaw = nil
+			if beamStartTimeout then
+				task.cancel(beamStartTimeout)
+				beamStartTimeout = nil
+			end
+			if beamDelayToken then
+				task.cancel(beamDelayToken)
+				beamDelayToken = nil
+			end
+			stopBeamRotation()
+			stopBeamPrediction()
+		end)
+	end
+end
+
+
+task.spawn(function()
+	local lastAim, lastLock = nil, nil
+	while task.wait(0.05) do
+		if beamActive and BeamService then
+			local character = player.Character
+			local targetPos = getAimPosition(character)
+			if targetPos then
+				local lock = getShiftLockState()
+				if targetPos ~= lastAim or lock ~= lastLock then
+					lastAim, lastLock = targetPos, lock
+					BeamService.BeamAim:Fire(targetPos, lock)
+				end
+			end
+		else
+			lastAim, lastLock = nil, nil
+		end
+	end
+end)
+
+
+local PREDICTION_ANIM_MAP = {
+	Attack = "Attack1", Attack1Event = "Attack1",
+	Beam = "Attack2", Attack2Event = "Attack2",
+	Attack3 = "Attack3", Attack3Event = "Attack3",
+	Attack4 = "Attack4", Attack4Event = "Attack4",
+	Roar1 = "Roar1", Roar1Event = "Roar1",
+	Roar2 = "Roar2", Roar2Event = "Roar2",
+}
+
+local ROAR_EVENTS = {
+	Roar1 = true, Roar1Event = true,
+	Roar2 = true, Roar2Event = true,
+}
+
+
+
+local function silenceServerRoarSound(char, roarName)
+	local targets = {}
+	local head = char:FindFirstChild("Head")
+	local torso = char:FindFirstChild("Torso")
+	if head then table.insert(targets, head) end
+	if torso then table.insert(targets, torso) end
+	table.insert(targets, char)
+
+	local connections = {}
+	local TIMEOUT = 3
+
+	local function checkAndSilence(child)
+		if child:IsA("Sound") and child.Name == roarName and not child:GetAttribute("ClientPrediction") then
+			child.Volume = 0
+			child:Stop()
+		end
+	end
+
+	for _, target in ipairs(targets) do
+		
+		for _, child in ipairs(target:GetChildren()) do
+			checkAndSilence(child)
+		end
+		
+		local conn = target.ChildAdded:Connect(checkAndSilence)
+		table.insert(connections, conn)
+	end
+
+	
+	task.delay(TIMEOUT, function()
+		for _, conn in ipairs(connections) do
+			conn:Disconnect()
+		end
+	end)
+end
+
+local function playClientPrediction(eventName, char)
+	local animName = PREDICTION_ANIM_MAP[eventName]
+	if not animName then return end
+
+	local humanoid = char:FindFirstChildOfClass("Humanoid")
+	if not humanoid then return end
+
+	local animator = humanoid:FindFirstChild("Animator")
+	if not animator then return end
+
+	local animationsFolder = char:FindFirstChild("Animations")
+	if animationsFolder then
+		local anim = animationsFolder:FindFirstChild(animName)
+		if anim then
+			local track = animator:LoadAnimation(anim)
+			track.Looped = false
+			track.Priority = Enum.AnimationPriority.Action
+			track:Play()
+		end
+	end
+
+	if ROAR_EVENTS[eventName] then
+		local cs = char:FindFirstChild("CharacterScripts")
+		if cs then
+			local soundsFolder = cs:FindFirstChild("Sounds")
+			if soundsFolder then
+				local sound = soundsFolder:FindFirstChild(animName)
+				if sound then
+					local soundClone = sound:Clone()
+					soundClone:SetAttribute("ClientPrediction", true)
+					soundClone.Parent = char:FindFirstChild("Head") or char:FindFirstChild("Torso") or char
+					soundClone:Play()
+					local len = soundClone.TimeLength / soundClone.PlaybackSpeed
+					task.spawn(function()
+						task.wait(len > 0 and len or 5)
+						soundClone:Destroy()
+					end)
+					
+					silenceServerRoarSound(char, animName)
+				end
+			end
+		end
+	end
+end
+
+local function fireAbility(eventName)
+	local button = activeButtons[eventName]
+	if not button then return end
+
+	local char = player.Character
+	if not char then return end
+	local cs = char:FindFirstChild("CharacterScripts")
+	if not cs then return end
+
+	local evt = cs:FindFirstChild(eventName)
+	if not evt then
+		local ae = cs:FindFirstChild("AnimEvents")
+		if ae then
+			evt = ae:FindFirstChild(eventName)
+		end
+	end
+	if not evt then return end
+
+	local cdDuration = CooldownManager.getDuration(eventName)
+	if not CooldownManager.canUse(eventName) then
+		return
+	end
+	if not ChargeManager.canUseCharge(eventName) then
+		return
+	end
+
+	CooldownManager.start(eventName, cdDuration)
+	ChargeManager.consumeCharge(eventName)
+
+	playClientPrediction(eventName, char)
+
+	if needsAimPosition(eventName) then
+		local aimPos = getAimPosition(char)
+		if aimPos then
+			evt:FireServer(aimPos)
+		else
+			local hrp = char:FindFirstChild("HumanoidRootPart")
+			if hrp then
+				evt:FireServer(hrp.Position + hrp.CFrame.LookVector * 1000)
+			end
+		end
+	else
+		evt:FireServer()
+	end
+
+	if isBeamEvent(eventName) then
+		if beamStartTimeout then
+			task.cancel(beamStartTimeout)
+		end
+		beamStartTimeout = task.delay(5, function()
+			beamStartTimeout = nil
+			beamActive = false
+			currentBeamGeneration = nil
+			beamLockedYaw = nil
+			stopBeamRotation()
+			stopBeamPrediction()
+		end)
+	end
+
+	CooldownManager.startAttackDuration(eventName)
+
+	local attackDuration = CooldownManager.getAttackDuration(eventName)
+	local visualDuration = math.max(cdDuration, attackDuration)
+
+	local charge = button:FindFirstChild("Charge")
+	if charge then
+		charge.Size = UDim2.new(1, 0, -1, 0)
+		local tween = TweenService:Create(charge, TweenInfo.new(visualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
+		activeCooldowns[eventName] = true
+		tween.Completed:Connect(function()
+			activeCooldowns[eventName] = nil
+		end)
+		tween:Play()
+	end
+
+	for _, otherButton in ipairs(backpack:GetChildren()) do
+		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
+
+			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
+			local otherVisualDuration = math.max(otherRemaining, attackDuration)
+			local otherCharge = otherButton:FindFirstChild("Charge")
+			if otherCharge then
+				otherCharge.Size = UDim2.new(1, 0, -1, 0)
+				local otherTween = TweenService:Create(otherCharge, TweenInfo.new(otherVisualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
+				otherTween:Play()
+			end
+		end
+	end
+end
+
+local function buildButtons(character)
+	clearButtons()
+	activeButtons = {}
+	slotToEvent = {}
+
+	backpack.Size = UDim2.new(0, deviceSettings.backpackWidth, 0, deviceSettings.backpackHeight)
+	backpack.Position = UDim2.new(0.5, -deviceSettings.backpackWidth / 2, 1, -deviceSettings.backpackHeight - 15)
+	local barsFrame = backpack.Parent:FindFirstChild("Bars")
+	if barsFrame then
+		barsFrame.Position = UDim2.new(0.5, -185, 1, -deviceSettings.backpackHeight - 40)
+	end
+	if template then
+		template.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
+		scaleButtonChildren(template)
+	end
+
+	local sprint = backpack:FindFirstChild("Sprint")
+
+	local charScripts = character:FindFirstChild("CharacterScripts")
+	if not charScripts then
+		if sprint then sprint.Visible = false end
+		return
+	end
+
+	if sprint then
+		sprint.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
+		scaleButtonChildren(sprint)
+		sprint.Visible = true
+		local canFly = character:FindFirstChild("canFly")
+		local isFlying = canFly and canFly.Value == true
+		if isFlying then
+			sprint.Image = SPRINT_IMAGE_FLYING
+		else
+			sprint.Image = SPRINT_IMAGE_NORMAL
+		end
+
+		local sprintTitle = sprint:FindFirstChild("Title")
+		if sprintTitle then
+			sprintTitle.Text = isFlying and "Fly" or "Sprint"
+		end
+		local sprintNum = sprint:FindFirstChild("Num")
+		if sprintNum then
+			sprintNum.Text = "SHIFT"
+		end
+	end
+
+	local events = {}
+	local seenSlots = {}
+
+	local function addEvent(child)
+		if not isAttackEvent(child) then return end
+		local slot = ORDER[child.Name] or 99
+		local dedupKey = (slot == 99) and child.Name or tostring(slot)
+		if seenSlots[dedupKey] then return end
+		seenSlots[dedupKey] = true
+		table.insert(events, child)
+	end
+
+	for _, child in ipairs(charScripts:GetChildren()) do
+		addEvent(child)
+	end
+
+	local animEvents = charScripts:FindFirstChild("AnimEvents")
+	if animEvents then
+		for _, child in ipairs(animEvents:GetChildren()) do
+			addEvent(child)
+		end
+	end
+
+	table.sort(events, function(a, b)
+		return (ORDER[a.Name] or 99) < (ORDER[b.Name] or 99)
+	end)
+
+	local sprintCount = (sprint and sprint.Visible) and 1 or 0
+	local totalButtons = #events + sprintCount
+	local totalWidth = totalButtons * BUTTON_SIZE + math.max(totalButtons - 1, 0) * SPACING
+	local backpackWidth = backpack.Size.X.Offset
+	local startX = (backpackWidth - totalWidth) / 2
+
+	for i, event in ipairs(events) do
+		if template then
+			local button = template:Clone()
+			button.Name = event.Name
+			button.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
+			button.Visible = true
+			scaleButtonChildren(button)
+			button.Parent = backpack
+			activeButtons[event.Name] = button
+			slotToEvent[ORDER[event.Name] or 99] = event.Name
+
+			local attackImage = event:GetAttribute("AttackImage")
+			if attackImage and attackImage ~= "" then
+				button.Image = attackImage
+			end
+
+			local title = button:FindFirstChild("Title")
+			if title then
+				title.Text = getDisplayName(event)
+			end
+
+			local num = button:FindFirstChild("Num")
+			if num then
+				local eventName = event.Name
+				if eventName == "Roar1" or eventName == "Roar1Event" then
+					num.Text = "R"
+				elseif eventName == "Roar2" or eventName == "Roar2Event" then
+					num.Text = "T"
+				else
+					num.Text = NUMBERS[i] or tostring(i)
+				end
+			end
+
+			button.Position = UDim2.new(0, startX + (i - 1) * (BUTTON_SIZE + SPACING), 0, 0)
+
+			button.MouseButton1Click:Connect(function()
+				fireAbility(event.Name)
+			end)
+		end
+	end
+
+	if sprint then
+		sprint.Position = UDim2.new(0, startX + #events * (BUTTON_SIZE + SPACING), 0, 0)
+	end
+
+	return #events
+end
+
+local function onCharacterChanged(character)
+	clearButtons()
+
+	local connection
+	connection = character.ChildAdded:Connect(function(child)
+		if child.Name == "CharacterScripts" then
+			connection:Disconnect()
+			task.wait(0.2)
+			buildButtons(character)
+
+			child.ChildAdded:Connect(function(grandchild)
+				if grandchild:IsA("RemoteEvent") then
+					task.wait(0.1)
+					buildButtons(character)
+				end
+			end)
+			child.ChildRemoved:Connect(function()
+				task.wait(0.1)
+				buildButtons(character)
+			end)
+		end
+	end)
+
+	local existing = character:FindFirstChild("CharacterScripts")
+	if existing then
+		if connection then
+			connection:Disconnect()
+		end
+		task.wait(0.2)
+		buildButtons(character)
+
+		existing.ChildAdded:Connect(function(child)
+			if child:IsA("RemoteEvent") then
+				task.wait(0.1)
+				buildButtons(character)
+			end
+		end)
+		existing.ChildRemoved:Connect(function()
+			task.wait(0.1)
+			buildButtons(character)
+		end)
+	end
+end
+
+local sprintActive = false
+
+local function updateSprintVisual()
+	local sprint = backpack:FindFirstChild("Sprint")
+	if not sprint then return end
+	local indicator = sprint:FindFirstChild("ActiveIndicator")
+	if indicator then
+		indicator.BackgroundTransparency = sprintActive and 0.5 or 1
+	end
+end
+
+local function setSprintState(active)
+	sprintActive = active
+	updateSprintVisual()
+end
+
+local function getSprintRunningValue()
+	local character = player.Character
+	if not character then return nil end
+	local control = character:FindFirstChild("Control")
+	if not control then return nil end
+	local runFolder = control:FindFirstChild("Run")
+	if not runFolder then return nil end
+	return runFolder:FindFirstChild("Running")
+end
+
+local function playSprintCooldownFill()
+	local sprint = backpack:FindFirstChild("Sprint")
+	if not sprint then return end
+	local charge = sprint:FindFirstChild("Charge")
+	if charge then
+		charge.Size = UDim2.new(1, 0, -1, 0)
+		local tween = TweenService:Create(charge, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
+		tween:Play()
+	end
+end
+
+local function doSprintToggle()
+	if not CooldownManager.canUse("Sprint") then return end
+	local runningValue = getSprintRunningValue()
+	if not runningValue then return end
+	CooldownManager.start("Sprint", 0.5)
+	playSprintCooldownFill()
+	runningValue.Value = not runningValue.Value
+	setSprintState(runningValue.Value)
+end
+
+local function doSprintStart()
+	if not CooldownManager.canUse("Sprint") then return end
+	local runningValue = getSprintRunningValue()
+	if not runningValue then return end
+	CooldownManager.start("Sprint", 0.5)
+	playSprintCooldownFill()
+	runningValue.Value = true
+	setSprintState(true)
+end
+
+local function doSprintStop()
+	local runningValue = getSprintRunningValue()
+	if not runningValue then return end
+	runningValue.Value = false
+	setSprintState(false)
+end
+
+local sprintButton = backpack:FindFirstChild("Sprint")
+if sprintButton then
+	sprintButton.MouseButton1Click:Connect(doSprintToggle)
+end
+
+local function watchRunningValue(character)
+	task.spawn(function()
+		local control = character:WaitForChild("Control", 10)
+		if not control then return end
+		local runFolder = control:WaitForChild("Run", 5)
+		if not runFolder then return end
+		local runningValue = runFolder:WaitForChild("Running", 5)
+		if not runningValue then return end
+
+		runningValue:GetPropertyChangedSignal("Value"):Connect(function()
+			if character == player.Character then
+				setSprintState(runningValue.Value)
+			end
+		end)
+		setSprintState(runningValue.Value)
+	end)
+end
+
+if player.Character then
+	onCharacterChanged(player.Character)
+	watchRunningValue(player.Character)
+	onCharacterDied(player.Character)
+end
+
+player.CharacterAdded:Connect(function(character)
+	beamActive = false
+	currentBeamGeneration = nil
+	beamLockedYaw = nil
+	if beamStartTimeout then
+		task.cancel(beamStartTimeout)
+		beamStartTimeout = nil
+	end
+	if beamDelayToken then
+		task.cancel(beamDelayToken)
+		beamDelayToken = nil
+	end
+	stopBeamRotation()
+	stopBeamPrediction()
+	CooldownManager.reset()
+	ChargeManager.reset()
+	activeCooldowns = {}
+	setSprintState(false)
+	onCharacterChanged(character)
+	watchRunningValue(character)
+	onCharacterDied(character)
+end)
+
+local KEY_TO_SLOT = {
+	[Enum.KeyCode.R] = 5,
+	[Enum.KeyCode.T] = 6,
+	[Enum.KeyCode.One] = 1,
+	[Enum.KeyCode.Two] = 2,
+	[Enum.KeyCode.Three] = 3,
+	[Enum.KeyCode.Four] = 4,
+}
+
+local GAMEPAD_TO_SLOT = {
+	[Enum.KeyCode.ButtonY] = 2,
+	[Enum.KeyCode.ButtonX] = 1,
+	[Enum.KeyCode.ButtonB] = 3,
+	[Enum.KeyCode.ButtonR1] = 4,
+	[Enum.KeyCode.DPadLeft] = 5,
+	[Enum.KeyCode.DPadRight] = 6,
+}
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+
+	local slot = KEY_TO_SLOT[input.KeyCode] or GAMEPAD_TO_SLOT[input.KeyCode]
+	if slot then
+		local eventName = slotToEvent[slot]
+		if eventName then
+			fireAbility(eventName)
+		end
+	end
+end)
+
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+	if gameProcessed then return end
+	if input.KeyCode == Enum.KeyCode.ButtonL3 then
+		doSprintToggle()
+	end
+end)
+
+]]></ProtectedString>
+								</Properties>
+							</Item>
+						</Item>
+					</Item>
+				</Item>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX10">
+			<Properties>
+				<string name="Name">ServerScriptService</string>
+			</Properties>
+			<Item class="Folder" referent="RBX11">
+				<Properties>
+					<string name="Name">Levels</string>
+				</Properties>
+				<Item class="Script" referent="RBX12">
+					<Properties>
+						<string name="Name">Levels</string>
+						<token name="RunContext">0</token>
+						<ProtectedString name="Source"><![CDATA[local DataStoreService = game:GetService("DataStoreService")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LevelManager = require(ReplicatedStorage:WaitForChild("LevelManager"))
+local LevelDataStore = DataStoreService:GetDataStore("PlayerLevels_v3")
+local ModifierDataStore = DataStoreService:GetDataStore("PlayerModifiers_v1")
+
+local levelUpdateRemote = ReplicatedStorage:FindFirstChild("LevelUpdate")
+if not levelUpdateRemote then
+	levelUpdateRemote = Instance.new("RemoteEvent")
+	levelUpdateRemote.Name = "LevelUpdate"
+	levelUpdateRemote.Parent = ReplicatedStorage
+end
+
+local ServerStorage = game:GetService("ServerStorage")
+local levelChangedEvent = ServerStorage:FindFirstChild("LevelChanged")
+if not levelChangedEvent then
+	levelChangedEvent = Instance.new("BindableEvent")
+	levelChangedEvent.Name = "LevelChanged"
+	levelChangedEvent.Parent = ServerStorage
+end
+
+local player = Players:GetPlayerFromCharacter(script.Parent)
+local character = script.Parent
+
+local levelValue = Instance.new("IntValue")
+levelValue.Name = "Level"
+levelValue.Value = 1
+levelValue.Parent = character
+
+local xpValue = Instance.new("IntValue")
+xpValue.Name = "XP"
+xpValue.Value = 0
+xpValue.Parent = character
+
+local addXPEvent = Instance.new("BindableEvent")
+addXPEvent.Name = "AddXP"
+addXPEvent.Parent = character
+
+local kaijuName = "Unknown"
+local kaijuValue = character:FindFirstChild("Kaiju")
+if kaijuValue and kaijuValue:IsA("StringValue") then
+	kaijuName = kaijuValue.Value
+end
+
+local hitDebounce = {}
+
+local cachedData = nil
+local dataDirty = false
+local lastSaveTime = 0
+local SAVE_INTERVAL = 15
+local playerModifiers = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
+
+local MULTIPLIERS = {
+	Damage = 0.1,
+	Health = 0.1,
+	Regen = 0.15,
+	Speed = 0.05,
+}
+
+local MINILLA_MULTIPLIERS = {
+	Damage = 0.15,
+	Health = 0.15,
+	Regen = 0.3,
+	Speed = 0.055,
+}
+
+local fullPlayerData = nil
+
+local function getPlayerData(p)
+	if cachedData then
+		return cachedData
+	end
+
+	local success, data = pcall(function()
+		return LevelDataStore:GetAsync("Player_" .. p.UserId)
+	end)
+
+	if success and data and type(data) == "table" then
+		fullPlayerData = data
+		if data[kaijuName] then
+			cachedData = data[kaijuName]
+			if not cachedData.usedSkillPoints then
+				cachedData.usedSkillPoints = 0
+			end
+		else
+			cachedData = { level = 1, xp = 0, usedSkillPoints = 0 }
+			fullPlayerData[kaijuName] = cachedData
+		end
+	else
+		fullPlayerData = {}
+		cachedData = { level = 1, xp = 0, usedSkillPoints = 0 }
+		fullPlayerData[kaijuName] = cachedData
+	end
+	return cachedData
+end
+
+local function savePlayerData(p)
+	if not fullPlayerData then return end
+
+	fullPlayerData[kaijuName] = cachedData
+	pcall(function()
+		LevelDataStore:SetAsync("Player_" .. p.UserId, fullPlayerData)
+	end)
+	lastSaveTime = tick()
+	dataDirty = false
+end
+
+local function applyHPBonus(level, fullHeal)
+	if not character then return end
+
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if not humanoid then return end
+
+	
+	if character:GetAttribute("BossMode") then return end
+
+	local baseMaxHP = humanoid:GetAttribute("BaseMaxHP")
+	if not baseMaxHP then
+		baseMaxHP = humanoid.MaxHealth
+		humanoid:SetAttribute("BaseMaxHP", baseMaxHP)
+	end
+
+	local mults = (kaijuName == "MINILLA") and MINILLA_MULTIPLIERS or MULTIPLIERS
+	local healthMult = 1 + (playerModifiers.Health or 0) * mults.Health
+	local newMaxHP = math.floor(baseMaxHP * healthMult)
+	humanoid.MaxHealth = newMaxHP
+
+	
+	if fullHeal then
+		humanoid.Health = newMaxHP
+	end
+end
+
+local function updateLeaderstatLevel(lvl)
+	if not player then return end
+	local leaderstats = player:FindFirstChild("leaderstats")
+	if leaderstats then
+		local levelStat = leaderstats:FindFirstChild("Level")
+		if levelStat then
+			levelStat.Value = lvl
+		end
+	end
+end
+
+local function addXP(amount)
+	if not player then return end
+
+	local data = getPlayerData(player)
+	local oldLevel = data.level
+	local xpNeeded = LevelManager.GetXPForNextLevel(data.level, kaijuName)
+
+	data.xp = data.xp + amount
+
+	local leveledUp = false
+	while data.xp >= xpNeeded and data.level < LevelManager.GetMaxLevel(kaijuName) do
+		data.xp = data.xp - xpNeeded
+		data.level = data.level + 1
+		leveledUp = true
+		xpNeeded = LevelManager.GetXPForNextLevel(data.level, kaijuName)
+	end
+
+	if data.level >= LevelManager.GetMaxLevel(kaijuName) then
+		data.xp = 0
+	end
+
+	if levelValue and levelValue.Parent then
+		levelValue.Value = data.level
+	end
+	if xpValue and xpValue.Parent then
+		xpValue.Value = data.xp
+	end
+
+	if data.level ~= oldLevel then
+		updateLeaderstatLevel(data.level)
+	end
+
+	if leveledUp then
+		local levelUpTemplate = ReplicatedStorage:FindFirstChild("LevelUp")
+		if levelUpTemplate then
+			local targetPart = character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Torso")
+			if targetPart then
+				local effectClone = levelUpTemplate:Clone()
+				effectClone.Visible = true
+				effectClone.Parent = targetPart
+				for _, child in ipairs(effectClone:GetChildren()) do
+					if child:IsA("ParticleEmitter") then
+						child.Enabled = true
+					end
+				end
+				local function fadeOut(effect)
+					if not effect or effect:GetAttribute("Fading") then return end
+					effect:SetAttribute("Fading", true)
+					local life = 0.5
+					for _, d in ipairs(effect:GetDescendants()) do
+						if d:IsA("ParticleEmitter") then
+							d.Rate = 0
+							d.Enabled = false
+							life = math.max(life, d.Lifetime.Max)
+						end
+					end
+					task.delay(life + 0.25, function()
+						pcall(function() effect:Destroy() end)
+					end)
+				end
+				task.delay(2, function() fadeOut(effectClone) end)
+				targetPart.Destroying:Connect(function()
+					if effectClone.Parent ~= targetPart or effectClone:GetAttribute("Fading") then return end
+					pcall(function()
+						local ghost = Instance.new("Part")
+						ghost.Anchored = true
+						ghost.CanCollide = false
+						ghost.CanQuery = false
+						ghost.CanTouch = false
+						ghost.Transparency = 1
+						ghost.Size = Vector3.new(0.2, 0.2, 0.2)
+						ghost.CFrame = targetPart.CFrame
+						ghost.Parent = workspace
+						effectClone.Parent = ghost
+						fadeOut(effectClone)
+						game:GetService("Debris"):AddItem(ghost, 12)
+					end)
+				end)
+			end
+		end
+	end
+
+	levelUpdateRemote:FireClient(player, {
+		kaiju = kaijuName,
+		level = data.level,
+		xp = data.xp,
+		xpNeeded = LevelManager.GetXPForNextLevel(data.level, kaijuName),
+		levelUp = leveledUp
+	})
+
+	if leveledUp then
+		levelChangedEvent:Fire(player.UserId, kaijuName, data.level)
+	end
+
+	dataDirty = true
+end
+
+addXPEvent.Event:Connect(function(amount)
+	addXP(amount)
+end)
+
+local function isHitboxPart(partName)
+	local lowerName = string.lower(partName)
+	return lowerName:find("hitbox") or lowerName:find("beam") or lowerName:find("blast")
+end
+
+local function getPlayerFromPart(part)
+	local char = part.Parent
+	if char then
+		return Players:GetPlayerFromCharacter(char)
+	end
+	return nil
+end
+
+local cachedHitboxes = {}
+
+local function refreshHitboxCache()
+	table.clear(cachedHitboxes)
+	for _, descendant in ipairs(character:GetDescendants()) do
+		if descendant:IsA("BasePart") and isHitboxPart(descendant.Name) then
+			table.insert(cachedHitboxes, descendant)
+		end
+	end
+end
+
+refreshHitboxCache()
+
+character.DescendantAdded:Connect(function(desc)
+	if desc:IsA("BasePart") and isHitboxPart(desc.Name) then
+		table.insert(cachedHitboxes, desc)
+	end
+end)
+
+character.DescendantRemoving:Connect(function(desc)
+	for i, v in ipairs(cachedHitboxes) do
+		if v == desc then
+			table.remove(cachedHitboxes, i)
+			break
+		end
+	end
+end)
+
+local overlapParams = OverlapParams.new()
+overlapParams.FilterDescendantsInstances = {character}
+overlapParams.FilterType = Enum.RaycastFilterType.Exclude
+
+local function startDetection()
+	while character and character.Parent do
+		task.wait(0.5)
+
+		for _, hitbox in ipairs(cachedHitboxes) do
+			if hitbox and hitbox.Parent then
+				local touchingParts = workspace:GetPartsInPart(hitbox, overlapParams)
+
+				for _, part in ipairs(touchingParts) do
+					local hitPlayer = getPlayerFromPart(part)
+
+					if hitPlayer and hitPlayer ~= player then
+						local hitKey = hitbox.Name .. "_" .. hitPlayer.Name
+
+						if not hitDebounce[hitKey] then
+							hitDebounce[hitKey] = true
+
+							
+							local attackerLevel = levelValue and levelValue.Value or 1
+							local targetChar = hitPlayer.Character
+							local targetLevelVal = targetChar and targetChar:FindFirstChild("Level")
+							local targetLevel = targetLevelVal and targetLevelVal.Value or 1
+
+							if not (attackerLevel > 10 and targetLevel < 10) then
+								addXP(math.random(10, 20))
+							end
+
+							task.delay(0.5, function()
+								hitDebounce[hitKey] = nil
+							end)
+						end
+					end
+				end
+			end
+		end
+
+		if dataDirty and (tick() - lastSaveTime) >= SAVE_INTERVAL then
+			if cachedData then
+				savePlayerData(player)
+			end
+		end
+	end
+
+	if dataDirty and cachedData and player then
+		savePlayerData(player)
+	end
+end
+
+local function initialize()
+	if not player then return end
+
+	local data = getPlayerData(player)
+
+	if levelValue and levelValue.Parent then
+		levelValue.Value = data.level
+	end
+	if xpValue and xpValue.Parent then
+		xpValue.Value = data.xp
+	end
+
+	updateLeaderstatLevel(data.level)
+
+	local modSuccess, modData = pcall(function()
+		return ModifierDataStore:GetAsync("Player_" .. player.UserId)
+	end)
+
+	if modSuccess and modData and type(modData) == "table" and modData[kaijuName] then
+		playerModifiers = modData[kaijuName]
+		playerModifiers.Damage = playerModifiers.Damage or 0
+		playerModifiers.Health = playerModifiers.Health or 0
+		playerModifiers.Regen = playerModifiers.Regen or 0
+		playerModifiers.Speed = playerModifiers.Speed or 0
+	else
+		playerModifiers = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
+	end
+
+	character:SetAttribute("RegenModifier", playerModifiers.Regen or 0)
+
+	local stats = character:FindFirstChild("Stats")
+	if stats then
+		---------------------------------------------------------
+		-- NEW: Select correct multiplier table for Kaiju
+		---------------------------------------------------------
+		local mults = (kaijuName == "MINILLA") and MINILLA_MULTIPLIERS or MULTIPLIERS
+
+		local damageMult = 1 + (playerModifiers.Damage or 0) * mults.Damage
+		local regenMult = 1 + (playerModifiers.Regen or 0) * mults.Regen
+		local speedMult = 1 + (playerModifiers.Speed or 0) * mults.Speed
+
+		local dmg1 = stats:FindFirstChild("DMG1")
+		if dmg1 then dmg1.Value = dmg1.Value * damageMult end
+		local dmg2 = stats:FindFirstChild("DMG2")
+		if dmg2 then dmg2.Value = dmg2.Value * damageMult end
+		local dmg3 = stats:FindFirstChild("DMG3")
+		if dmg3 then dmg3.Value = dmg3.Value * damageMult end
+
+		local gpa = stats:FindFirstChild("GPA")
+		if gpa then gpa.Value = gpa.Value * regenMult end
+
+		local ws = stats:FindFirstChild("WS")
+		if ws then ws.Value = ws.Value * speedMult end
+		local ss = stats:FindFirstChild("SS")
+		if ss then ss.Value = ss.Value * speedMult end
+		local swimSpeed = stats:FindFirstChild("SwimSpeed")
+		if swimSpeed then swimSpeed.Value = swimSpeed.Value * speedMult end
+
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if humanoid and ws then
+			humanoid.WalkSpeed = ws.Value
+		end
+	end
+
+	task.wait(0.1)
+	applyHPBonus(data.level, true)
+
+	levelUpdateRemote:FireClient(player, {
+		kaiju = kaijuName,
+		level = data.level,
+		xp = data.xp,
+		xpNeeded = LevelManager.GetXPForNextLevel(data.level, kaijuName),
+		levelUp = false
+	})
+end
+
+task.spawn(startDetection)
+
+task.spawn(initialize)
+]]></ProtectedString>
+					</Properties>
+				</Item>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX13">
+			<Properties>
+				<string name="Name">StarterPlayer</string>
+			</Properties>
+			<Item class="Folder" referent="RBX14">
+				<Properties>
+					<string name="Name">StarterPlayerScripts</string>
+				</Properties>
+				<Item class="Folder" referent="RBX15">
+					<Properties>
+						<string name="Name">Client</string>
+					</Properties>
+					<Item class="Folder" referent="RBX16">
+						<Properties>
+							<string name="Name">Controllers</string>
+						</Properties>
+						<Item class="ModuleScript" referent="RBX17">
+							<Properties>
+								<string name="Name">Indicators</string>
+								<ProtectedString name="Source"><![CDATA[local IndicatorsController = { Name = "Indicators" }
+
+local HOLD_TIME = 1.1
+local FADE_TIME = 0.4
+local RISE_STUDS = 5
+local ROW_HEIGHT = 12
+local WIDTH = 100
+local TEXT_SIZE = 10
+local REF_DISTANCE = 70
+local MIN_SCALE = 0.3
+local MAX_DISTANCE = 450
+local MAX_ACTIVE = 24
+
+local ROWS = {
+	{ key = "damage", label = "Damage", color = Color3.fromRGB(255, 70, 70) },
+	{ key = "gcells", label = "Gcells", color = Color3.fromRGB(70, 255, 110) },
+	{ key = "xp", label = "Exp", color = Color3.fromRGB(255, 245, 106) },
+	{ key = "candy", label = "Candy", color = Color3.fromRGB(255, 140, 0) },
+}
+
+local function formatAmount(value)
+	if value >= 10 then
+		return tostring(math.floor(value + 0.5))
+	end
+	return tostring(math.floor(value * 10 + 0.5) / 10)
+end
+
+function IndicatorsController:Start()
+	task.spawn(function()
+		local Players = game:GetService("Players")
+		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local RunService = game:GetService("RunService")
+		local TweenService = game:GetService("TweenService")
+		local Workspace = game:GetService("Workspace")
+
+		local player = Players.LocalPlayer
+		local remote = ReplicatedStorage:WaitForChild("RewardIndicator")
+		local playerGui = player:WaitForChild("PlayerGui")
+
+		local guiFolder
+		local anchorFolder
+		local function ensureGuiFolder()
+			if guiFolder and guiFolder.Parent then
+				return guiFolder
+			end
+			guiFolder = Instance.new("Folder")
+			guiFolder.Name = "RewardIndicators"
+			guiFolder.Parent = player:FindFirstChildOfClass("PlayerGui") or playerGui
+			return guiFolder
+		end
+		ensureGuiFolder()
+
+		local active = {}
+		local floatInfo = TweenInfo.new(HOLD_TIME + FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+
+		local function getAnchorFolder()
+			if anchorFolder and anchorFolder.Parent then
+				return anchorFolder
+			end
+			anchorFolder = Instance.new("Folder")
+			anchorFolder.Name = "RewardAnchors"
+			anchorFolder.Parent = Workspace.Terrain
+			return anchorFolder
+		end
+
+		local function destroyEntry(entry)
+			if entry.dead then
+				return
+			end
+			entry.dead = true
+			entry.gui:Destroy()
+			entry.anchor:Destroy()
+		end
+
+		local function spawnIndicator(position, values)
+			local anchorFolder = getAnchorFolder()
+			if not anchorFolder then
+				return
+			end
+
+			local lines = {}
+			for _, row in ROWS do
+				local value = values[row.key]
+				if value > 0.05 then
+					table.insert(lines, { row = row, text = row.label .. ": " .. formatAmount(value) })
+				end
+			end
+			if #lines == 0 then
+				return
+			end
+
+			while #active >= MAX_ACTIVE do
+				destroyEntry(table.remove(active, 1))
+			end
+
+			local anchor = Instance.new("Part")
+			anchor.Name = "Anchor"
+			anchor.Anchored = true
+			anchor.CanCollide = false
+			anchor.CanTouch = false
+			anchor.CanQuery = false
+			anchor.CastShadow = false
+			anchor.Transparency = 1
+			anchor.Size = Vector3.new(0.2, 0.2, 0.2)
+			anchor.Position = position
+			anchor.Parent = anchorFolder
+
+			local gui = Instance.new("BillboardGui")
+			gui.Name = "Indicator"
+			gui.Adornee = anchor
+			gui.AlwaysOnTop = true
+			gui.LightInfluence = 0
+			gui.ResetOnSpawn = false
+			gui.MaxDistance = MAX_DISTANCE
+			gui.Size = UDim2.fromOffset(WIDTH, ROW_HEIGHT * #lines)
+			gui.StudsOffsetWorldSpace = Vector3.new(math.random(-20, 20) / 10, 0, math.random(-20, 20) / 10)
+
+			local container = Instance.new("Frame")
+			container.AnchorPoint = Vector2.new(0.5, 0.5)
+			container.Position = UDim2.fromScale(0.5, 0.5)
+			container.Size = UDim2.fromScale(1, 1)
+			container.BackgroundTransparency = 1
+			container.Parent = gui
+
+			local scale = Instance.new("UIScale")
+			scale.Parent = container
+
+			local layout = Instance.new("UIListLayout")
+			layout.SortOrder = Enum.SortOrder.LayoutOrder
+			layout.Parent = container
+
+			local labels = {}
+			for index, line in lines do
+				local label = Instance.new("TextLabel")
+				label.LayoutOrder = index
+				label.Size = UDim2.new(1, 0, 0, ROW_HEIGHT)
+				label.BackgroundTransparency = 1
+				label.Font = Enum.Font.GothamMedium
+				label.TextSize = TEXT_SIZE
+				label.TextColor3 = line.row.color
+				label.TextStrokeColor3 = Color3.new(0, 0, 0)
+				label.TextStrokeTransparency = 0.5
+				label.Text = line.text
+				label.Parent = container
+				table.insert(labels, label)
+			end
+
+			gui.Parent = ensureGuiFolder()
+
+			local entry = { gui = gui, anchor = anchor, scale = scale, position = position, dead = false }
+			table.insert(active, entry)
+
+			TweenService:Create(gui, floatInfo, {
+				StudsOffsetWorldSpace = gui.StudsOffsetWorldSpace + Vector3.new(0, RISE_STUDS, 0),
+			}):Play()
+
+			task.delay(HOLD_TIME, function()
+				if entry.dead then
+					return
+				end
+				for _, label in labels do
+					TweenService:Create(label, fadeInfo, { TextTransparency = 1, TextStrokeTransparency = 1 }):Play()
+				end
+			end)
+			task.delay(HOLD_TIME + FADE_TIME, function()
+				destroyEntry(entry)
+			end)
+		end
+
+		RunService.Heartbeat:Connect(function()
+			local camera = Workspace.CurrentCamera
+			if not camera or #active == 0 then
+				return
+			end
+			local cameraPosition = camera.CFrame.Position
+			for index = #active, 1, -1 do
+				local entry = active[index]
+				if entry.dead then
+					table.remove(active, index)
+				else
+					local distance = math.max((cameraPosition - entry.position).Magnitude, 1)
+					entry.scale.Scale = math.clamp(REF_DISTANCE / distance, MIN_SCALE, 1)
+				end
+			end
+		end)
+
+		remote.OnClientEvent:Connect(function(position, damage, gcells, xp, candy)
+			if typeof(position) ~= "Vector3" then
+				return
+			end
+			pcall(spawnIndicator, position, {
+				damage = tonumber(damage) or 0,
+				gcells = tonumber(gcells) or 0,
+				xp = tonumber(xp) or 0,
+				candy = tonumber(candy) or 0,
+			})
+		end)
+	end)
+end
+
+return IndicatorsController
+]]></ProtectedString>
+							</Properties>
+						</Item>
+					</Item>
+				</Item>
+			</Item>
+		</Item>
+	</Item>
+</roblox>
