@@ -240,6 +240,11 @@ local function findBeamAttachments(morphModel)
 	end
 	return beamStarts, beamEnds
 end
+local function beamBrightness()
+	local t = game:GetService("Lighting").ClockTime
+	if t >= 17.5 or t <= 6.5 then return 4 end
+	return 1
+end
 local function enableBeams(beamStarts, enabled, beamNameFilter)
 	for _, beamStart in ipairs(beamStarts) do
 		for _, child in ipairs(beamStart:GetChildren()) do
@@ -247,7 +252,10 @@ local function enableBeams(beamStarts, enabled, beamNameFilter)
 				if beamNameFilter and not beamNameFilter[child.Name] then
 				else
 					if enabled then
-						child.Transparency = NumberSequence.new(0.2)
+						child.Transparency = NumberSequence.new(0)
+						child.LightEmission = 1
+						child.LightInfluence = 0
+						child.Brightness = beamBrightness()
 					end
 					child.Enabled = enabled
 				end
@@ -483,7 +491,7 @@ function BeamSystem.ActivateBeam(config)
 	end
 	activeBeams[player].sideHitboxes = sideHitboxes
 	local glowAttachments = {}
-	local NUM_GLOW_LIGHTS = 6
+	local NUM_GLOW_LIGHTS = 8
 	local success, err = pcall(function()
 		if #beamStarts > 0 then
 			enableBeams(beamStarts, true, beamNameFilter)
@@ -723,6 +731,16 @@ function BeamSystem.ActivateBeam(config)
 			local myHRP = character:FindFirstChild("HumanoidRootPart")
 			if not myHRP then return end
 			local startPos = getHeadPosition(character) or myHRP.Position
+			if not clashing and playerShiftLock[player] then
+				local look = myHRP.CFrame.LookVector
+				local flat = Vector3.new(look.X, 0, look.Z)
+				if flat.Magnitude > 0.01 then
+					flat = flat.Unit
+					local d = tip - startPos
+					local f = d:Dot(flat)
+					if f < 8 then tip = startPos + d + flat * (8 - f) end
+				end
+			end
 			local endPos = startPos:Lerp(tip, ext)
 			local roundedExt = math.floor(ext * 100 + 0.5) / 100
 			if hitbox:GetAttribute("BeamExtent") ~= roundedExt then
@@ -756,11 +774,12 @@ function BeamSystem.ActivateBeam(config)
 			end
 			if beamIteration % 2 == 0 and #glowAttachments > 0 and primaryBeamStart and primaryBeamStart.Parent then
 				local beamStartPos = primaryBeamStart.WorldPosition
+				local glowRange = math.clamp((endPos - beamStartPos).Magnitude / (NUM_GLOW_LIGHTS + 1) * 1.4, 20, 60)
 				for i, att in ipairs(glowAttachments) do
 					local t = i / (NUM_GLOW_LIGHTS + 1)
 					att.WorldPosition = beamStartPos:Lerp(endPos, t)
 					local light = att:FindFirstChildOfClass("PointLight")
-					if light then light.Brightness = 0.3 * ext end
+					if light then light.Brightness = 0.9 * ext light.Range = glowRange end
 				end
 			end
 			updateImpact(endPos, ext, now, clashInfo)

@@ -189,19 +189,38 @@ local function addXP(amount)
 						child.Enabled = true
 					end
 				end
-				task.delay(2, function()
-					if effectClone and effectClone.Parent then
-						for _, child in ipairs(effectClone:GetChildren()) do
-							if child:IsA("ParticleEmitter") then
-								child.Rate = 0
-							end
+				local function fadeOut(effect)
+					if not effect or effect:GetAttribute("Fading") then return end
+					effect:SetAttribute("Fading", true)
+					local life = 0.5
+					for _, d in ipairs(effect:GetDescendants()) do
+						if d:IsA("ParticleEmitter") then
+							d.Rate = 0
+							d.Enabled = false
+							life = math.max(life, d.Lifetime.Max)
 						end
-						task.delay(1, function()
-							if effectClone and effectClone.Parent then
-								effectClone.Parent = nil
-							end
-						end)
 					end
+					task.delay(life + 0.25, function()
+						pcall(function() effect:Destroy() end)
+					end)
+				end
+				task.delay(2, function() fadeOut(effectClone) end)
+				targetPart.Destroying:Connect(function()
+					if effectClone.Parent ~= targetPart or effectClone:GetAttribute("Fading") then return end
+					pcall(function()
+						local ghost = Instance.new("Part")
+						ghost.Anchored = true
+						ghost.CanCollide = false
+						ghost.CanQuery = false
+						ghost.CanTouch = false
+						ghost.Transparency = 1
+						ghost.Size = Vector3.new(0.2, 0.2, 0.2)
+						ghost.CFrame = targetPart.CFrame
+						ghost.Parent = workspace
+						effectClone.Parent = ghost
+						fadeOut(effectClone)
+						game:GetService("Debris"):AddItem(ghost, 12)
+					end)
 				end)
 			end
 		end

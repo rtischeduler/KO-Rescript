@@ -855349,7 +855349,7 @@ return WaterFX
                 </null>
               </ContentId>
               <bool name="DefinesCapabilities">false</bool>
-              <string name="ScriptGuid">{98C92238-0C4E-47A5-A0A8-83069448D6D4}</string>
+              <string name="ScriptGuid">{0FD2B1A3-ACEC-4ABF-9987-D9896166B555}</string>
               <BinaryString name="SerializedOverrides">
               </BinaryString>
               <string name="Source"><![CDATA[local IndicatorsController = { Name = "Indicators" }
@@ -855391,26 +855391,31 @@ function IndicatorsController:Start()
 		local remote = ReplicatedStorage:WaitForChild("RewardIndicator")
 		local playerGui = player:WaitForChild("PlayerGui")
 
-		local guiFolder = Instance.new("Folder")
-		guiFolder.Name = "RewardIndicators"
-		guiFolder.Parent = playerGui
+		local guiFolder
+		local anchorFolder
+		local function ensureGuiFolder()
+			if guiFolder and guiFolder.Parent then
+				return guiFolder
+			end
+			guiFolder = Instance.new("Folder")
+			guiFolder.Name = "RewardIndicators"
+			guiFolder.Parent = player:FindFirstChildOfClass("PlayerGui") or playerGui
+			return guiFolder
+		end
+		ensureGuiFolder()
 
 		local active = {}
 		local floatInfo = TweenInfo.new(HOLD_TIME + FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 		local fadeInfo = TweenInfo.new(FADE_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
 
 		local function getAnchorFolder()
-			local camera = Workspace.CurrentCamera
-			if not camera then
-				return nil
+			if anchorFolder and anchorFolder.Parent then
+				return anchorFolder
 			end
-			local folder = camera:FindFirstChild("RewardAnchors")
-			if not folder then
-				folder = Instance.new("Folder")
-				folder.Name = "RewardAnchors"
-				folder.Parent = camera
-			end
-			return folder
+			anchorFolder = Instance.new("Folder")
+			anchorFolder.Name = "RewardAnchors"
+			anchorFolder.Parent = Workspace.Terrain
+			return anchorFolder
 		end
 
 		local function destroyEntry(entry)
@@ -855495,7 +855500,7 @@ function IndicatorsController:Start()
 				table.insert(labels, label)
 			end
 
-			gui.Parent = guiFolder
+			gui.Parent = ensureGuiFolder()
 
 			local entry = { gui = gui, anchor = anchor, scale = scale, position = position, dead = false }
 			table.insert(active, entry)
@@ -855538,7 +855543,7 @@ function IndicatorsController:Start()
 			if typeof(position) ~= "Vector3" then
 				return
 			end
-			spawnIndicator(position, {
+			pcall(spawnIndicator, position, {
 				damage = tonumber(damage) or 0,
 				gcells = tonumber(gcells) or 0,
 				xp = tonumber(xp) or 0,
@@ -855552,7 +855557,7 @@ return IndicatorsController
 ]]></string>
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">2c470eaac0f239510af2e43e0000125c</UniqueId>
+              <UniqueId name="UniqueId">1347f58cd107b5b00af466af00000fe0</UniqueId>
             </Properties>
           </Item>
         </Item>
@@ -866456,7 +866461,7 @@ button.Activated:Connect(activateMenu)</string>
                 </ContentId>
                 <token name="RunContext">0</token>
                 <bool name="DefinesCapabilities">false</bool>
-                <string name="ScriptGuid">{CCAB3614-EF0A-4988-BD1A-FD7B83000126}</string>
+                <string name="ScriptGuid">{A159138B-4CF2-4518-BE5B-D6DA538331BA}</string>
                 <BinaryString name="SerializedOverrides">
                 </BinaryString>
                 <string name="Source"><![CDATA[local Players = game:GetService("Players")
@@ -866679,7 +866684,7 @@ local function raycastFiltered(origin, direction, character)
 		if not result then return nil end
 
 		local inst = result.Instance
-		local isTransparent = inst:IsA("BasePart") and inst.Transparency >= 1
+		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and (inst.Transparency >= 0.95 or not inst.CanCollide)
 		local isWater = result.Material == Enum.Material.Water
 
 		if isTransparent or isWater then
@@ -866693,6 +866698,15 @@ local function raycastFiltered(origin, direction, character)
 		end
 	end
 	return nil
+end
+
+local function advanceOrigin(origin, direction, character)
+	local hrp = character and character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return origin end
+	local unit = direction.Unit
+	local along = (hrp.Position - origin):Dot(unit)
+	if along > 0 then return origin + unit * along end
+	return origin
 end
 
 local function getAimPosition(character)
@@ -866719,11 +866733,11 @@ local function getAimPosition(character)
 			math.cos(charYaw) * cosPitch
 		).Unit
 
-		local result = raycastFiltered(camera.CFrame.Position, direction * 1000, character)
+		local result = raycastFiltered(advanceOrigin(camera.CFrame.Position, direction, character), direction * 1000, character)
 		if result then
 			return result.Position
 		else
-			return camera.CFrame.Position + direction * 1000
+			return advanceOrigin(camera.CFrame.Position, direction, character) + direction * 1000
 		end
 	else
 		local screenPos = nil
@@ -866745,11 +866759,11 @@ local function getAimPosition(character)
 			ray = camera:ViewportPointToRay(viewport.X / 2, viewport.Y / 2)
 		end
 
-		local result = raycastFiltered(ray.Origin, ray.Direction * 1000, character)
+		local result = raycastFiltered(advanceOrigin(ray.Origin, ray.Direction, character), ray.Direction * 1000, character)
 		if result then
 			return result.Position
 		else
-			return ray.Origin + ray.Direction * 1000
+			return advanceOrigin(ray.Origin, ray.Direction, character) + ray.Direction * 1000
 		end
 	end
 end
@@ -867145,6 +867159,66 @@ local ROAR_EVENTS = {
 
 
 
+local RunService = game:GetService("RunService")
+
+local SHAKE_FREQ = 7
+local SHAKE_ROT = 0.014
+local SHAKE_POS = 0.06
+local ROAR_BOOST = 1.35
+local ROAR_TIME = 1.6
+local KICK_TIME = 0.6
+
+local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
+
+local function shakeNoise(t, seed)
+	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
+end
+
+local function onShakeAbility(eventName)
+	if isBeamEvent(eventName) then return end
+	local now = os.clock()
+	if ROAR_EVENTS[eventName] then
+		shakeState.roarStart = now
+		shakeState.roarEnd = now + ROAR_TIME
+	else
+		shakeState.kickStart = now
+		shakeState.kickDir = -shakeState.kickDir
+	end
+end
+
+pcall(function() RunService:UnbindFromRenderStep("KOCameraShake") end)
+RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 1, function(dt)
+	local camera = workspace.CurrentCamera
+	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
+	if player:GetAttribute("CameraShake") == false then return end
+	local now = os.clock()
+	local target = beamActive and 1 or 0
+	local rate = target > shakeState.beamLevel and 5 or 3
+	shakeState.beamLevel += (target - shakeState.beamLevel) * math.min(dt * rate, 1)
+	if shakeState.beamLevel < 0.01 then shakeState.beamLevel = 0 end
+	local roar = 0
+	if now < shakeState.roarEnd then
+		local x = math.clamp((now - shakeState.roarStart) / ROAR_TIME, 0, 1)
+		roar = math.sin(x * math.pi) ^ 0.5 * ROAR_BOOST
+	end
+	local kickAge = now - shakeState.kickStart
+	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 8) or 0
+	local amp = math.max(shakeState.beamLevel, roar)
+	if amp == 0 and kick == 0 then return end
+	local pitch = shakeNoise(now, 1) * SHAKE_ROT * amp
+	local yaw = shakeNoise(now, 2) * SHAKE_ROT * amp
+	local roll = shakeNoise(now, 3) * SHAKE_ROT * 0.7 * amp
+	local px = shakeNoise(now, 4) * SHAKE_POS * amp
+	local py = shakeNoise(now, 5) * SHAKE_POS * amp
+	if kick > 0 then
+		roll += shakeState.kickDir * 0.04 * kick * math.cos(kickAge * 20)
+		pitch -= 0.025 * kick * math.cos(kickAge * 16)
+		yaw += shakeState.kickDir * 0.012 * kick * math.sin(kickAge * 14)
+		py -= 0.12 * kick
+	end
+	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
+end)
+
 local function silenceServerRoarSound(char, roarName)
 	local targets = {}
 	local head = char:FindFirstChild("Head")
@@ -867184,6 +867258,7 @@ end
 local function playClientPrediction(eventName, char)
 	local animName = PREDICTION_ANIM_MAP[eventName]
 	if not animName then return end
+	onShakeAbility(eventName)
 
 	local humanoid = char:FindFirstChildOfClass("Humanoid")
 	if not humanoid then return end
@@ -867644,7 +867719,7 @@ end)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">2c470eaac0f239510af2e43e00001158</UniqueId>
+                <UniqueId name="UniqueId">1347f58cd107b5b00af466af0000103e</UniqueId>
               </Properties>
             </Item>
           </Item>
@@ -897574,7 +897649,7 @@ end)
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000e9c</UniqueId>
+        <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea0</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10133">
         <Properties>
@@ -897632,7 +897707,7 @@ end)
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000e9d</UniqueId>
+          <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea1</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10134">
@@ -897655,7 +897730,7 @@ end)
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000e9e</UniqueId>
+          <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea2</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10135">
@@ -897700,7 +897775,7 @@ end)
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000e9f</UniqueId>
+          <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea3</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -897749,7 +897824,7 @@ end)
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000ea0</UniqueId>
+          <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea4</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -897807,7 +897882,7 @@ end)
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000ea1</UniqueId>
+          <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea5</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10138">
@@ -897834,7 +897909,7 @@ end)
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">4951d9ce1f36d07f0af3079c00000ea2</UniqueId>
+          <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea6</UniqueId>
         </Properties>
       </Item>
     </Item>
@@ -2059316,68 +2059391,4 @@ script.Parent.Touched:connect(onTouched)
                               <int64 name="SourceAssetId">-1</int64>
                               <BinaryString name="Tags"></BinaryString>
                               <UniqueId name="UniqueId">000000000000000000000000000183be</UniqueId>
-                              <float name="Weight">1</float>
-                            </Properties>
-                          </Item>
-                        </Item>
-                      </Item>
-                    </Item>
-                  </Item>
-                </Item>
-              </Item>
-            </Item>
-            <Item class="Keyframe" referent="33026">
-              <Properties>
-                <string name="Name">Keyframe</string>
-                <BinaryString name="AttributesSerialize"></BinaryString>
-                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                <bool name="DefinesCapabilities">false</bool>
-                <BinaryString name="SerializedOverrides">
-                </BinaryString>
-                <int64 name="SourceAssetId">-1</int64>
-                <BinaryString name="Tags"></BinaryString>
-                <float name="Time">0.6</float>
-                <UniqueId name="UniqueId">000000000000000000000000000183bf</UniqueId>
-              </Properties>
-              <Item class="Pose" referent="33027">
-                <Properties>
-                  <string name="Name">HumanoidRootPart</string>
-                  <BinaryString name="AttributesSerialize"></BinaryString>
-                  <CoordinateFrame name="CFrame">
-                    <X>0</X>
-                    <Y>0</Y>
-                    <Z>0</Z>
-                    <R00>1</R00>
-                    <R01>0</R01>
-                    <R02>0</R02>
-                    <R10>0</R10>
-                    <R11>1</R11>
-                    <R12>0</R12>
-                    <R20>0</R20>
-                    <R21>0</R21>
-                    <R22>1</R22>
-                  </CoordinateFrame>
-                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                  <token name="EasingDirection">0</token>
-                  <token name="EasingStyle">0</token>
-                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                  <bool name="DefinesCapabilities">false</bool>
-                  <BinaryString name="SerializedOverrides">
-                  </BinaryString>
-                  <int64 name="SourceAssetId">-1</int64>
-                  <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">000000000000000000000000000183c0</UniqueId>
-                  <float name="Weight">0</float>
-                </Properties>
-                <Item class="Pose" referent="33028">
-                  <Properties>
-                    <string name="Name">Torso</string>
-                    <BinaryString name="AttributesSerialize"></BinaryString>
-                    <CoordinateFrame name="CFrame">
-                      <X>0.00010317564</X>
-                      <Y>6.3908997</Y>
-                      <Z>0.000017881393</Z>
-                      <R00>0.8817498</R00>
-                      <R01>0.20764321</R01>
-         
+                              <float
