@@ -9,6 +9,10 @@ Candy and the Halloween kaijus are only obtainable October through November (UTC
 - The Candy row only appears in the reward indicator when Candy was earned on that kill.
 - Halloween kaijus live in `ReplicatedStorage.MorphSupplies.Morphs.<folder starting with "Halloween">`. Same setup as other morphs; `Stats.Price` is a Candy price for these.
 - Menu list: names of Halloween kaijus are orange. The button reads `BUY (500 Candy)` during the season, and `Offsale until halloween` when the season is over and the kaiju is not owned. Owned ones stay selectable all year.
+- Leaderboard: Candy is an IntValue in `leaderstats`, shown on the player list for everyone.
+- A Halloween kaiju with no `Stats.Price` shows "Not for sale yet" and cannot be bought or selected. Ghost Gojira and Candy Corn Space Godzilla need a Price.
+- If the DataStore is unreachable (for example Studio without API access), Candy still works for the session and is merged back once the store reconnects.
+- Damage from any source now shows an indicator for the attacker, even for hits that did not call the indicator themselves.
 - Testing: set the `HolidayOverride` attribute on ReplicatedStorage to `Halloween` (force on) or `None` (force off). Clear it for real dates.
 
 ## Add (new in the game)

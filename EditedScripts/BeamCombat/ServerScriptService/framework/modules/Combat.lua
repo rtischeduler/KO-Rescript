@@ -230,6 +230,13 @@ local function initCombat()
 						damageLog[character] = log
 					end
 					log[attacker] = (log[attacker] or 0) + damageDealt
+					if _G.ShowIndicator and _G.WasIndicated then
+						task.delay(0.05, function()
+							if not _G.WasIndicated(attacker, character, 0.5) then
+								_G.ShowIndicator(attacker, damageDealt, 0, 0, character)
+							end
+						end)
+					end
 
 					local attackerChar = attacker.Character
 					if attackerChar and attackerChar:GetAttribute("BossMode") then

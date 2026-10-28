@@ -7,6 +7,7 @@ local FLUSH_INTERVAL = 0.25
 local IndicatorService = { Name = "Indicators" }
 
 local pending = {}
+local stamps = setmetatable({}, { __mode = "k" })
 local remote
 
 local function ownHead(player)
@@ -69,6 +70,15 @@ function IndicatorService:Init()
 		if damage + gcells + xp + candy <= 0 then
 			return
 		end
+		if damage > 0 and typeof(at) == "Instance" then
+			local model = at:IsA("Humanoid") and at.Parent or at
+			local mine = stamps[player]
+			if not mine then
+				mine = setmetatable({}, { __mode = "k" })
+				stamps[player] = mine
+			end
+			mine[model] = os.clock()
+		end
 		local key = at
 		if key == nil then
 			key = "self"
@@ -89,8 +99,19 @@ function IndicatorService:Init()
 		entry.candy += candy
 	end
 
+	_G.WasIndicated = function(player, at, window)
+		local mine = stamps[player]
+		if not mine or typeof(at) ~= "Instance" then
+			return false
+		end
+		local model = at:IsA("Humanoid") and at.Parent or at
+		local stamp = mine[model]
+		return stamp ~= nil and os.clock() - stamp <= (window or 0.5)
+	end
+
 	Players.PlayerRemoving:Connect(function(player)
 		pending[player] = nil
+		stamps[player] = nil
 	end)
 end
 
