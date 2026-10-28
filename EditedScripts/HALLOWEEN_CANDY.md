@@ -5,7 +5,7 @@ Candy and the Halloween kaijus are only obtainable October through November (UTC
 ## How it works
 
 - Kill reward: when a player gets the top kill, they earn 5 Candy per full 1000 max HP of the victim (1500 HP = 5, 2000 HP = 10, 999 HP = 0). Outside October and November nothing is awarded.
-- Candy is stored as the `Candy` attribute on the player and saved in the `Candy_v1` DataStore. It is not in leaderstats.
+- Candy is stored as the `Candy` attribute on the player and saved in the `Candy_v1` DataStore. A copy is mirrored into leaderstats for display.
 - The Candy row only appears in the reward indicator when Candy was earned on that kill.
 - Halloween kaijus live in `ReplicatedStorage.MorphSupplies.Morphs.<folder starting with "Halloween">`. Same setup as other morphs; `Stats.Price` is a Candy price for these.
 - Menu list: names of Halloween kaijus are orange. The button reads `BUY (500 Candy)` during the season, and `Offsale until halloween` when the season is over and the kaiju is not owned. Owned ones stay selectable all year.
