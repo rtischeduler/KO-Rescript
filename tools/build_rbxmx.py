@@ -8,14 +8,11 @@ OUT = ROOT / "build"
 MODEL = "KO-Rescript.rbxmx"
 
 FILES = [
-    (SRC / "ServerScriptService" / "Server" / "init.server.lua", "Server", "Script", ["ServerScriptService"]),
     (SRC / "ServerScriptService" / "Server" / "Services" / "IndicatorService.lua", "IndicatorService", "ModuleScript", ["ServerScriptService", "Server", "Services"]),
     (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "Combat.lua", "Combat", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
     (SRC / "BeamCombat" / "ServerScriptService" / "framework" / "modules" / "World.lua", "World", "ModuleScript", ["ServerScriptService", "framework", "modules"]),
     (SRC / "BeamCombat" / "ReplicatedStorage" / "BeamSystem.lua", "BeamSystem", "ModuleScript", ["ReplicatedStorage"]),
     (SRC / "BeamCombat" / "ReplicatedStorage" / "DPSTemplate.server.lua", "DPSTemplate", "Script", ["ReplicatedStorage"]),
-    (SRC / "ReplicatedStorage" / "PlayerScripts" / "Control" / "init.client.lua", "Control", "LocalScript", ["ReplicatedStorage", "PlayerScripts"]),
-    (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "init.client.lua", "Client", "LocalScript", ["StarterPlayer", "StarterPlayerScripts"]),
     (SRC / "StarterPlayer" / "StarterPlayerScripts" / "Client" / "Controllers" / "Indicators.lua", "Indicators", "ModuleScript", ["StarterPlayer", "StarterPlayerScripts", "Client", "Controllers"]),
 ]
 
