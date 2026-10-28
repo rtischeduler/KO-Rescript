@@ -263,6 +263,9 @@ local function initCombat()
 				if topKiller and topKiller:IsA("Player") then
 					sendKillMessage(topKiller.Name, victimName)
 					giveGCells(topKiller, KILL_REWARD, true, character)
+					if _G.AwardCandy then
+						_G.AwardCandy(topKiller, humanoid.MaxHealth, character)
+					end
 					local stats = topKiller:FindFirstChild("leaderstats")
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end

@@ -370,8 +370,9 @@ jobs:
           SIZE=$(stat -c%s place.rbxlx)
           echo "rbxlx size: $SIZE bytes"
           if [ "$SIZE" -gt 95000000 ]; then
-            gzip -9 -n -c place.rbxlx > place/place.rbxlx.gz
+            split -b 90M -d -a 3 place.rbxlx place/place.rbxlx.part
             rm place.rbxlx
+            printf "cat place/place.rbxlx.part* > place.rbxlx\n" > place/REASSEMBLE.txt
           else
             mv place.rbxlx place/place.rbxlx
           fi

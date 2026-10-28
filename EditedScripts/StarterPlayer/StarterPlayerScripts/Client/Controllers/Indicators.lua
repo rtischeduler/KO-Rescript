@@ -15,6 +15,7 @@ local ROWS = {
 	{ key = "damage", label = "Damage", color = Color3.fromRGB(255, 70, 70) },
 	{ key = "gcells", label = "Gcells", color = Color3.fromRGB(70, 255, 110) },
 	{ key = "xp", label = "Exp", color = Color3.fromRGB(255, 245, 106) },
+	{ key = "candy", label = "Candy", color = Color3.fromRGB(255, 140, 0) },
 }
 
 local function formatAmount(value)
@@ -179,7 +180,7 @@ function IndicatorsController:Start()
 			end
 		end)
 
-		remote.OnClientEvent:Connect(function(position, damage, gcells, xp)
+		remote.OnClientEvent:Connect(function(position, damage, gcells, xp, candy)
 			if typeof(position) ~= "Vector3" then
 				return
 			end
@@ -187,6 +188,7 @@ function IndicatorsController:Start()
 				damage = tonumber(damage) or 0,
 				gcells = tonumber(gcells) or 0,
 				xp = tonumber(xp) or 0,
+				candy = tonumber(candy) or 0,
 			})
 		end)
 	end)

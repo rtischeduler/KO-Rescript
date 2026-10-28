@@ -43,7 +43,7 @@ local function flush()
 			for _, entry in bucket do
 				local position = resolve(entry.at, player)
 				if position then
-					remote:FireClient(player, position, entry.damage, entry.gcells, entry.xp)
+					remote:FireClient(player, position, entry.damage, entry.gcells, entry.xp, entry.candy)
 				end
 			end
 		end
@@ -58,14 +58,15 @@ function IndicatorService:Init()
 		remote.Parent = ReplicatedStorage
 	end
 
-	_G.ShowIndicator = function(player, damage, gcells, xp, at)
+	_G.ShowIndicator = function(player, damage, gcells, xp, at, candy)
 		if typeof(player) ~= "Instance" or not player:IsA("Player") then
 			return
 		end
 		damage = math.max(tonumber(damage) or 0, 0)
 		gcells = math.max(tonumber(gcells) or 0, 0)
 		xp = math.max(tonumber(xp) or 0, 0)
-		if damage + gcells + xp <= 0 then
+		candy = math.max(tonumber(candy) or 0, 0)
+		if damage + gcells + xp + candy <= 0 then
 			return
 		end
 		local key = at
@@ -79,12 +80,13 @@ function IndicatorService:Init()
 		end
 		local entry = bucket[key]
 		if not entry then
-			entry = { at = at, damage = 0, gcells = 0, xp = 0 }
+			entry = { at = at, damage = 0, gcells = 0, xp = 0, candy = 0 }
 			bucket[key] = entry
 		end
 		entry.damage += damage
 		entry.gcells += gcells
 		entry.xp += xp
+		entry.candy += candy
 	end
 
 	Players.PlayerRemoving:Connect(function(player)
