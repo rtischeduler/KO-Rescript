@@ -34,8 +34,18 @@ ServerScriptService:SetAttribute("ServerFrameworkActive", true)
 
 local lifecycle = Lifecycle.new(log)
 
-lifecycle:Register(require(Services.PerformanceService))
-lifecycle:Register(require(Services.RewardScalingService))
+for _, name in ipairs({ "PerformanceService", "RewardScalingService" }) do
+	local module = Services:FindFirstChild(name)
+	local ok, def = false, nil
+	if module then
+		ok, def = pcall(require, module)
+	end
+	if ok and type(def) == "table" then
+		lifecycle:Register(def)
+	else
+		log:warn(name .. " not loaded")
+	end
+end
 lifecycle:Register(require(Services.MorphService))
 lifecycle:Register(require(Services.GCellGuardService))
 lifecycle:Register(require(Services.IndicatorService))

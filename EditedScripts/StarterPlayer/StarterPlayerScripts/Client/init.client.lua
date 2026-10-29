@@ -48,7 +48,18 @@ lifecycle:Register(require(Controllers.Menu))
 lifecycle:Register(require(Controllers.Settings))
 lifecycle:Register(require(Controllers.Touch))
 lifecycle:Register(require(Controllers.Chat))
-lifecycle:Register(require(Controllers.Graphics))
+do
+	local module = Controllers:FindFirstChild("Graphics")
+	local ok, def = false, nil
+	if module then
+		ok, def = pcall(require, module)
+	end
+	if ok and type(def) == "table" then
+		lifecycle:Register(def)
+	else
+		log:warn("Graphics not loaded")
+	end
+end
 lifecycle:Register(require(Controllers.Hud))
 lifecycle:Register(require(Controllers.Indicators))
 lifecycle:Register(require(Controllers.Ocean))

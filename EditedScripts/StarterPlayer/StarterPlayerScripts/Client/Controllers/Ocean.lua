@@ -11,7 +11,15 @@ function OceanController:Start()
 
 	local LEVEL_OFFSET = cfg.LevelOffset
 	local UPDATE_RATE = cfg.UpdateRate
-	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
+	local Quality = (function()
+		local ok, module = pcall(function()
+			return require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality", 5))
+		end)
+		if ok then
+			return module
+		end
+		return { Settings = function() return { OceanRate = nil, WaterFx = 1, ParticleScale = 1 } end }
+	end)()
 	local frozenDone = false
 	local WAVE_SPEED = cfg.WaveSpeed
 	local WAVE_HEIGHT = cfg.WaveHeight

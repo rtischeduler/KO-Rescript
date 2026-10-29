@@ -21,7 +21,15 @@ local function startRain(cfg)
 	end)
 	local lowEnd = UserInputService.TouchEnabled or (okQuality and quality > 0 and quality <= 4)
 	local rainScale = lowEnd and 0.5 or 1
-	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
+	local Quality = (function()
+		local ok, module = pcall(function()
+			return require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality", 5))
+		end)
+		if ok then
+			return module
+		end
+		return { Settings = function() return { OceanRate = nil, WaterFx = 1, ParticleScale = 1 } end }
+	end)()
 	local okCfg, HolidayConfigs = pcall(function()
 		return require(ReplicatedStorage:WaitForChild("HolidayConfigs", 5))
 	end)
