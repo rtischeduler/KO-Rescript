@@ -218,7 +218,9 @@ local function raycastFiltered(origin, direction, character)
 		if not result then return nil end
 
 		local inst = result.Instance
-		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and (inst.Transparency >= 0.95 or not inst.CanCollide)
+		local model = inst:FindFirstAncestorOfClass("Model")
+		local isCharacterPart = model ~= nil and model:FindFirstChildOfClass("Humanoid") ~= nil
+		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and not isCharacterPart and (inst.Transparency >= 0.95 or not inst.CanCollide)
 		local isWater = result.Material == Enum.Material.Water
 
 		if isTransparent or isWater then
