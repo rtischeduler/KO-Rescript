@@ -5,7 +5,7 @@ local RunService = game:GetService("RunService")
 local Knockback = {}
 
 local SETTINGS = {
-	attack = { speed = 60, lift = 10 },
+	attack = { speed = 110, lift = 14 },
 	beam = { speed = 6, lift = 0 },
 }
 if RunService:IsServer() then
@@ -33,7 +33,7 @@ if RunService:IsServer() then
 	end
 else
 	local remote = ReplicatedStorage:WaitForChild("KnockbackEvent")
-	local MAX_FLAT_SPEED = 80
+	local MAX_FLAT_SPEED = 140
 	local active = nil
 	local mover = nil
 
@@ -75,7 +75,7 @@ else
 		end
 		local now = os.clock()
 		local flat = Vector3.new(vec.X, 0, vec.Z)
-		local duration = flat.Magnitude > 20 and 0.35 or 0.15
+		local duration = flat.Magnitude > 20 and 0.45 or 0.15
 		local carried = Vector3.zero
 		if active then
 			carried = active.vel * math.clamp((active.untilT - now) / active.duration, 0, 1)

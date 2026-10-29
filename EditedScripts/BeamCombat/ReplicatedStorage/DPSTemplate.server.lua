@@ -35,6 +35,21 @@ local function getCharRadius(char)
 	return radius
 end
 
+local function characterTouchesHitbox(char, hitbox)
+	local cf = hitbox.CFrame
+	local half = hitbox.Size / 2
+	for _, part in ipairs(char:GetDescendants()) do
+		if part:IsA("BasePart") then
+			local lp = cf:PointToObjectSpace(part.Position)
+			local r = part.Size.Magnitude / 2
+			if math.abs(lp.X) <= half.X + r and math.abs(lp.Y) <= half.Y + r and math.abs(lp.Z) <= half.Z + r then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 local function awardGCells(attacker, at)
 	local leaderstats = attacker:FindFirstChild("leaderstats")
 	if leaderstats then
@@ -90,9 +105,7 @@ task.spawn(function()
 						if humanoid and humanoid.Health > 0 then
 							local hrp = char:FindFirstChild("HumanoidRootPart")
 							if hrp then
-								local dist = (hitboxPos - hrp.Position).Magnitude
-								local charRadius = getCharRadius(char)
-								if dist <= hitRadius + charRadius then
+								if characterTouchesHitbox(char, hitbox) then
 									hitDebounce[char] = true
 
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
@@ -100,12 +113,7 @@ task.spawn(function()
 									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end
 									awardGCells(attacker, char)
 									if Knockback and attackerChar then
-										local overlap = OverlapParams.new()
-										overlap.FilterType = Enum.RaycastFilterType.Include
-										overlap.FilterDescendantsInstances = { char }
-										if #Workspace:GetPartsInPart(hitbox, overlap) > 0 then
-											Knockback.push(char, attackerChar, "beam")
-										end
+										Knockback.push(char, attackerChar, "beam")
 									end
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)
