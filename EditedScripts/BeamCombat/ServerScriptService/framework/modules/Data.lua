@@ -20,8 +20,7 @@ function Data.Init()
 		if not KaijusUnused then
 			warn("KaijusUnused not found in Lighting at script start - will retry on demand")
 		end
-		local Morphs = ReplicatedStorage:FindFirstChild("MorphSupplies")
-		if Morphs then Morphs = Morphs:FindFirstChild("Morphs") end
+		local Morphs = ReplicatedStorage:FindFirstChild("Kaijus")
 		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 		local playerKaijus = {}

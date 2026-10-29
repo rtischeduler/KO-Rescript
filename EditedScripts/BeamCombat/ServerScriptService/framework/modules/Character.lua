@@ -32,27 +32,15 @@ function Character.Init()
 		morphReady.Value = false
 		morphReady:SetAttribute("Error", nil)
 
-		local morphSupplies = ReplicatedStorage:FindFirstChild("MorphSupplies")
-		if not morphSupplies then
-			morphSupplies = Instance.new("Folder")
-			morphSupplies.Name = "MorphSupplies"
-			morphSupplies.Parent = ReplicatedStorage
-		end
-		local eventsFolder = morphSupplies:FindFirstChild("Events")
-		if not eventsFolder then
-			eventsFolder = Instance.new("Folder")
-			eventsFolder.Name = "Events"
-			eventsFolder.Parent = morphSupplies
-		end
-		local event = eventsFolder:FindFirstChild("Fire")
+		local event = ReplicatedStorage:FindFirstChild("MorphFire")
 		if event and not event:IsA("RemoteEvent") then
 			event:Destroy()
 			event = nil
 		end
 		if not event then
 			event = Instance.new("RemoteEvent")
-			event.Name = "Fire"
-			event.Parent = eventsFolder
+			event.Name = "MorphFire"
+			event.Parent = ReplicatedStorage
 		end
 
 		local securityOk, SecurityPolicy = pcall(function()
@@ -101,8 +89,7 @@ function Character.Init()
 
 		event.OnServerEvent:Connect(function(player, selectedCreature)
 			local ok, err = pcall(function()
-				local morphFolder = ReplicatedStorage:FindFirstChild("MorphSupplies")
-				morphFolder = morphFolder and morphFolder:FindFirstChild("Morphs")
+				local morphFolder = ReplicatedStorage:FindFirstChild("Kaijus")
 				if type(selectedCreature) == "string" and morphFolder then
 					selectedCreature = morphFolder:FindFirstChild(selectedCreature, true)
 				end
@@ -494,7 +481,7 @@ function Character.Init()
 		local setHumanoids = {}
 		local teleportedPlayers = {}
 
-		local healthTemplate = game.ReplicatedStorage.MorphSupplies.Morphs:FindFirstChild("GOJIRA [FREE]")
+		local healthTemplate = game.ReplicatedStorage.Kaijus:FindFirstChild("GOJIRA [FREE]")
 		if healthTemplate then
 			local characterScripts = healthTemplate:FindFirstChild("CharacterScripts")
 			if characterScripts then

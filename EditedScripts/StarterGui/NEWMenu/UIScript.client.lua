@@ -218,9 +218,7 @@ local function getSelectedMorphName()
 end
 
 local function findMorphFireRemote()
-	local supplies = ReplicatedStorage:FindFirstChild("MorphSupplies")
-	local events = supplies and supplies:FindFirstChild("Events")
-	return events and events:FindFirstChild("Fire")
+	return ReplicatedStorage:FindFirstChild("MorphFire")
 end
 
 local function waitForMorphReady(timeout)
@@ -250,8 +248,7 @@ local function startPlay()
 		return
 	end
 
-	local supplies = ReplicatedStorage:FindFirstChild("MorphSupplies")
-	local morphs = supplies and supplies:FindFirstChild("Morphs")
+	local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
 	if not morphs then
 		playing = false
 		return

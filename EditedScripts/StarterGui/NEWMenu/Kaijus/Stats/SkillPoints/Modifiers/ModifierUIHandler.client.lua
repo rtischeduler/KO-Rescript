@@ -97,8 +97,7 @@ end
 
 local function fetchBaseStats(morphName)
 	baseStats = {}
-	local morphs = ReplicatedStorage:FindFirstChild("MorphSupplies")
-	if morphs then morphs = morphs:FindFirstChild("Morphs") end
+	local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
 	if not morphs then return end
 
 	local morphModel = morphs:FindFirstChild(morphName, true)

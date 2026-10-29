@@ -84,8 +84,7 @@ local legacyNames = {
 
 local function getMorphFolder()
 	local replicatedStorage = game:GetService("ReplicatedStorage")
-	local supplies = replicatedStorage:FindFirstChild("MorphSupplies")
-	return supplies and supplies:FindFirstChild("Morphs")
+	return replicatedStorage:FindFirstChild("Kaijus")
 end
 
 local function getPrice(model)

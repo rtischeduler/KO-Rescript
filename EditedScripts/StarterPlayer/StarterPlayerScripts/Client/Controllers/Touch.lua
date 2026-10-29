@@ -72,9 +72,7 @@ function TouchController:Start()
 		monitorTouchGui(existingTouchGui)
 	end
 
-	local morphSupplies = ReplicatedStorage:FindFirstChild("MorphSupplies")
-	local events = morphSupplies and morphSupplies:FindFirstChild("Events")
-	local fireEvent = events and events:FindFirstChild("Fire")
+	local fireEvent = ReplicatedStorage:FindFirstChild("MorphFire")
 	if fireEvent then
 		fireEvent.OnClientEvent:Connect(function()
 			hasMorphed = true

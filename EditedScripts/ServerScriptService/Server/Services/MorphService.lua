@@ -20,9 +20,7 @@ function MorphService:Init()
 	morphReady.Value = false
 	morphReady:SetAttribute("Error", nil)
 
-	local morphSupplies = Util.getOrCreate(ReplicatedStorage, "Folder", "MorphSupplies")
-	local events = Util.getOrCreate(morphSupplies, "Folder", "Events")
-	local fireEvent = Util.getOrCreate(events, "RemoteEvent", "Fire")
+	local fireEvent = Util.getOrCreate(ReplicatedStorage, "RemoteEvent", "MorphFire")
 	local morphResult = Util.getOrCreate(ReplicatedStorage, "RemoteEvent", "MorphResult")
 
 	local securityOk, SecurityPolicy = pcall(function()
@@ -65,7 +63,7 @@ function MorphService:Init()
 
 	fireEvent.OnServerEvent:Connect(function(player, selectedCreature)
 		local ok, err = pcall(function()
-			local morphs = morphSupplies:FindFirstChild("Morphs")
+			local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
 			if type(selectedCreature) == "string" and morphs then
 				selectedCreature = morphs:FindFirstChild(selectedCreature, true)
 			end

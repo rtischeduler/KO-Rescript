@@ -23,10 +23,9 @@ local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
 if not scrollingFrame then return end
 local template = scrollingFrame:FindFirstChild("Template")
 if not template then return end
-local morphSupplies = ReplicatedStorage:WaitForChild("MorphSupplies", 30)
-local morphs = morphSupplies and morphSupplies:WaitForChild("Morphs", 30)
+local morphs = ReplicatedStorage:WaitForChild("Kaijus", 30)
 if not morphs then
-	warn("PopulateList: MorphSupplies.Morphs was not available")
+	warn("PopulateList: ReplicatedStorage.Kaijus was not available")
 	return
 end
 for _ = 1, 300 do
