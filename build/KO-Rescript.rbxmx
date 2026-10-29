@@ -109,7 +109,7 @@ function Character.Init()
 
 		event.OnServerEvent:Connect(function(player, selectedCreature)
 			local ok, err = pcall(function()
-				local morphFolder = ReplicatedStorage:FindFirstChild("Kaijus")
+				local morphFolder = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
 				if type(selectedCreature) == "string" and morphFolder then
 					selectedCreature = morphFolder:FindFirstChild(selectedCreature, true)
 				end
@@ -501,7 +501,7 @@ function Character.Init()
 		local setHumanoids = {}
 		local teleportedPlayers = {}
 
-		local healthTemplate = game.ReplicatedStorage.Kaijus:FindFirstChild("GOJIRA [FREE]")
+		local healthTemplate = game:GetService("ServerStorage").Kaijus:FindFirstChild("GOJIRA [FREE]")
 		if healthTemplate then
 			local characterScripts = healthTemplate:FindFirstChild("CharacterScripts")
 			if characterScripts then
@@ -650,6 +650,7 @@ function Data.Init()
 		local DataStoreService = game:GetService("DataStoreService")
 		local Players = game:GetService("Players")
 		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local ServerStorage = game:GetService("ServerStorage")
 		local Lighting = game:GetService("Lighting")
 		local MarketplaceService = game:GetService("MarketplaceService")
 
@@ -659,7 +660,7 @@ function Data.Init()
 		if not KaijusUnused then
 			warn("KaijusUnused not found in Lighting at script start - will retry on demand")
 		end
-		local Morphs = ReplicatedStorage:FindFirstChild("Kaijus")
+		local Morphs = ServerStorage:FindFirstChild("Kaijus")
 		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 		local playerKaijus = {}
@@ -667,6 +668,71 @@ function Data.Init()
 		local getOwnershipEvent = Instance.new("RemoteFunction")
 		getOwnershipEvent.Name = "GetKaijuOwnership"
 		getOwnershipEvent.Parent = ReplicatedStorage
+
+		local function buildKaijuInfo(model, root)
+			local stats = {}
+			local statsFolder = model:FindFirstChild("Stats")
+			if statsFolder then
+				for _, value in ipairs(statsFolder:GetChildren()) do
+					if value:IsA("NumberValue") or value:IsA("IntValue") then
+						stats[value.Name] = value.Value
+					end
+				end
+			end
+			local isCandy = false
+			local parent = model.Parent
+			while parent and parent ~= root do
+				if string.lower(string.sub(parent.Name, 1, 9)) == "halloween" then
+					isCandy = true
+					break
+				end
+				parent = parent.Parent
+			end
+			local priceValue = statsFolder and statsFolder:FindFirstChild("Price")
+			local price = 0
+			if priceValue then
+				price = priceValue.Value
+			elseif isCandy then
+				price = math.huge
+			end
+			return {
+				Name = model.Name,
+				kaijuName = model:GetAttribute("KaijuName") or model.Name,
+				kaijuDescription = model:GetAttribute("KaijuDescription") or "",
+				kaijuImage = model:GetAttribute("KaijuImage") or "",
+				requirement = model:GetAttribute("Requirement"),
+				price = price,
+				isCandy = isCandy,
+				stats = stats,
+			}
+		end
+
+		local function collectKaijuInfo(folder, root, out)
+			for _, child in ipairs(folder:GetChildren()) do
+				if child:IsA("Model") then
+					table.insert(out, buildKaijuInfo(child, root))
+				elseif child:IsA("Folder") and string.lower(string.sub(child.Name, 1, 9)) == "halloween" then
+					collectKaijuInfo(child, root, out)
+				end
+			end
+		end
+
+		local getKaijuInfoFunc = Instance.new("RemoteFunction")
+		getKaijuInfoFunc.Name = "GetKaijuInfo"
+		getKaijuInfoFunc.OnServerInvoke = function(player, kaijuName)
+			if not Morphs then return nil end
+			if type(kaijuName) == "string" then
+				local model = Morphs:FindFirstChild(kaijuName, true)
+				if model and model:IsA("Model") then
+					return buildKaijuInfo(model, Morphs)
+				end
+				return nil
+			end
+			local list = {}
+			collectKaijuInfo(Morphs, Morphs, list)
+			return list
+		end
+		getKaijuInfoFunc.Parent = ReplicatedStorage
 
 		local buyKaijuEvent = Instance.new("RemoteEvent")
 		buyKaijuEvent.Name = "BuyKaiju"
@@ -2071,7 +2137,7 @@ local legacyNames = {
 
 local function getMorphFolder()
 	local replicatedStorage = game:GetService("ReplicatedStorage")
-	return replicatedStorage:FindFirstChild("Kaijus")
+	return game:GetService("ServerStorage"):FindFirstChild("Kaijus")
 end
 
 local function getPrice(model)
@@ -2258,7 +2324,7 @@ function MorphService:Init()
 
 	fireEvent.OnServerEvent:Connect(function(player, selectedCreature)
 		local ok, err = pcall(function()
-			local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
+			local morphs = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
 			if type(selectedCreature) == "string" and morphs then
 				selectedCreature = morphs:FindFirstChild(selectedCreature, true)
 			end
@@ -2389,28 +2455,25 @@ local CandyConfig = candyModule and require(candyModule)
 local function isSeason()
 	return CandyConfig ~= nil and CandyConfig.isSeason()
 end
-local function isCandyModel(model)
-	local parent = model.Parent
-	while parent and parent.Name ~= "Morphs" do
-		if string.lower(string.sub(parent.Name, 1, 9)) == "halloween" then
-			return true
-		end
-		parent = parent.Parent
-	end
-	return false
-end
 local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
 if not scrollingFrame then return end
 local template = scrollingFrame:FindFirstChild("Template")
 if not template then return end
-local morphs = ReplicatedStorage:WaitForChild("Kaijus", 30)
-if not morphs then
-	warn("PopulateList: ReplicatedStorage.Kaijus was not available")
+local kaijuInfoFunc = ReplicatedStorage:WaitForChild("GetKaijuInfo", 30)
+if not kaijuInfoFunc then
+	warn("PopulateList: GetKaijuInfo was not available")
 	return
 end
-for _ = 1, 300 do
-	if #morphs:GetChildren() > 0 then break end
-	task.wait(0.1)
+local kaijuInfoList = {}
+for _ = 1, 30 do
+	local ok, result = pcall(function()
+		return kaijuInfoFunc:InvokeServer()
+	end)
+	if ok and type(result) == "table" and #result > 0 then
+		kaijuInfoList = result
+		break
+	end
+	task.wait(1)
 end
 local kaijusFrame = script.Parent.Parent
 local statsFrame = kaijusFrame:FindFirstChild("Stats")
@@ -2486,15 +2549,6 @@ local function formatBuyText(price, requirement, isCandy)
 	return text
 end
 local morphInfoMap = {}
-local function getMorphAttribute(model, attributeName, fallback)
-	local ok, value = pcall(function()
-		return model:GetAttribute(attributeName)
-	end)
-	if ok and value ~= nil then
-		return value
-	end
-	return fallback
-end
 local LEGACY_MORPH_NAMES = {
 	["Godzilla1954"] = "GOJIRA [FREE]",
 	["Anguirus"] = "ANGUIRUS [FREE]",
@@ -2570,19 +2624,6 @@ local function isGamepassOffsale(morphName)
 	if not info then return false end
 	return not info.IsForSale
 end
-local function getMorphPrice(morphModel)
-	local stats = morphModel:FindFirstChild("Stats")
-	if stats then
-		local price = stats:FindFirstChild("Price")
-		if price then
-			return price.Value
-		end
-	end
-	if isCandyModel(morphModel) then
-		return math.huge
-	end
-	return 0
-end
 local function isOwned(morphName, price)
 	if price <= 0 then return true end
 	if ownershipCache[morphName] then return true end
@@ -2604,17 +2645,7 @@ local function getLayoutOrder(morphName)
 		return nil
 	end
 end
-local sortedMorphs = {}
-local function collectModels(folder)
-	for _, model in ipairs(folder:GetChildren()) do
-		if model:IsA("Model") then
-			table.insert(sortedMorphs, model)
-		elseif model:IsA("Folder") and string.lower(string.sub(model.Name, 1, 9)) == "halloween" then
-			collectModels(model)
-		end
-	end
-end
-collectModels(morphs)
+local sortedMorphs = kaijuInfoList
 table.sort(sortedMorphs, function(a, b)
 	return a.Name < b.Name
 end)
@@ -2725,13 +2756,13 @@ local function populate()
 			clone.Visible = true
 		end
 		clone.LayoutOrder = layoutOrders[model.Name] or 0
-		local kaijuName = getMorphAttribute(model, "KaijuName", model.Name)
-		local kaijuDesc = getMorphAttribute(model, "KaijuDescription", "")
-		local kaijuImage = getMorphAttribute(model, "KaijuImage", "")
+		local kaijuName = model.kaijuName
+		local kaijuDesc = model.kaijuDescription
+		local kaijuImage = model.kaijuImage
 		local nameLabel = clone:FindFirstChild("KaijuName")
 		if nameLabel then
 			nameLabel.Text = kaijuName
-			if isCandyModel(model) then
+			if model.isCandy then
 				nameLabel.TextColor3 = CANDY_COLOR
 			end
 		end
@@ -2755,14 +2786,14 @@ local function populate()
 			clickBtn.Parent = clone
 		end
 		local morphName = model.Name
-		local morphPrice = getMorphPrice(model)
+		local morphPrice = model.price
 		morphInfoMap[morphName] = {
 			kaijuName = kaijuName,
 			kaijuImage = kaijuImage,
 			morphPrice = morphPrice,
 			visible = clone.Visible,
-			requirement = getMorphAttribute(model, "Requirement", nil),
-			isCandy = isCandyModel(model),
+			requirement = model.requirement,
+			isCandy = model.isCandy,
 		}
 		clickBtn.MouseButton1Click:Connect(function()
 			selectKaiju(morphName)
@@ -3088,19 +3119,16 @@ end
 
 local function fetchBaseStats(morphName)
 	baseStats = {}
-	local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
-	if not morphs then return end
+	local infoFunc = ReplicatedStorage:FindFirstChild("GetKaijuInfo") or ReplicatedStorage:WaitForChild("GetKaijuInfo", 10)
+	if not infoFunc then return end
 
-	local morphModel = morphs:FindFirstChild(morphName, true)
-	if not morphModel then return end
+	local ok, info = pcall(function()
+		return infoFunc:InvokeServer(morphName)
+	end)
+	if not ok or type(info) ~= "table" or type(info.stats) ~= "table" then return end
 
-	local stats = morphModel:FindFirstChild("Stats")
-	if not stats then return end
-
-	for _, child in ipairs(stats:GetChildren()) do
-		if child:IsA("NumberValue") or child:IsA("IntValue") then
-			baseStats[child.Name] = child.Value
-		end
+	for name, value in pairs(info.stats) do
+		baseStats[name] = value
 	end
 end
 
@@ -3561,17 +3589,6 @@ local function startPlay()
 	local selectedMorphName = getSelectedMorphName()
 	if not selectedMorphName then
 		warn("No kaiju selected! Please select a kaiju first.")
-		playing = false
-		return
-	end
-
-	local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
-	if not morphs then
-		playing = false
-		return
-	end
-	if not morphs:FindFirstChild(selectedMorphName, true) then
-		warn("Could not find morph model: " .. tostring(selectedMorphName))
 		playing = false
 		return
 	end

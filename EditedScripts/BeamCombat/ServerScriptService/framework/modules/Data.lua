@@ -11,6 +11,7 @@ function Data.Init()
 		local DataStoreService = game:GetService("DataStoreService")
 		local Players = game:GetService("Players")
 		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local ServerStorage = game:GetService("ServerStorage")
 		local Lighting = game:GetService("Lighting")
 		local MarketplaceService = game:GetService("MarketplaceService")
 
@@ -20,7 +21,7 @@ function Data.Init()
 		if not KaijusUnused then
 			warn("KaijusUnused not found in Lighting at script start - will retry on demand")
 		end
-		local Morphs = ReplicatedStorage:FindFirstChild("Kaijus")
+		local Morphs = ServerStorage:FindFirstChild("Kaijus")
 		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 		local playerKaijus = {}
@@ -28,6 +29,71 @@ function Data.Init()
 		local getOwnershipEvent = Instance.new("RemoteFunction")
 		getOwnershipEvent.Name = "GetKaijuOwnership"
 		getOwnershipEvent.Parent = ReplicatedStorage
+
+		local function buildKaijuInfo(model, root)
+			local stats = {}
+			local statsFolder = model:FindFirstChild("Stats")
+			if statsFolder then
+				for _, value in ipairs(statsFolder:GetChildren()) do
+					if value:IsA("NumberValue") or value:IsA("IntValue") then
+						stats[value.Name] = value.Value
+					end
+				end
+			end
+			local isCandy = false
+			local parent = model.Parent
+			while parent and parent ~= root do
+				if string.lower(string.sub(parent.Name, 1, 9)) == "halloween" then
+					isCandy = true
+					break
+				end
+				parent = parent.Parent
+			end
+			local priceValue = statsFolder and statsFolder:FindFirstChild("Price")
+			local price = 0
+			if priceValue then
+				price = priceValue.Value
+			elseif isCandy then
+				price = math.huge
+			end
+			return {
+				Name = model.Name,
+				kaijuName = model:GetAttribute("KaijuName") or model.Name,
+				kaijuDescription = model:GetAttribute("KaijuDescription") or "",
+				kaijuImage = model:GetAttribute("KaijuImage") or "",
+				requirement = model:GetAttribute("Requirement"),
+				price = price,
+				isCandy = isCandy,
+				stats = stats,
+			}
+		end
+
+		local function collectKaijuInfo(folder, root, out)
+			for _, child in ipairs(folder:GetChildren()) do
+				if child:IsA("Model") then
+					table.insert(out, buildKaijuInfo(child, root))
+				elseif child:IsA("Folder") and string.lower(string.sub(child.Name, 1, 9)) == "halloween" then
+					collectKaijuInfo(child, root, out)
+				end
+			end
+		end
+
+		local getKaijuInfoFunc = Instance.new("RemoteFunction")
+		getKaijuInfoFunc.Name = "GetKaijuInfo"
+		getKaijuInfoFunc.OnServerInvoke = function(player, kaijuName)
+			if not Morphs then return nil end
+			if type(kaijuName) == "string" then
+				local model = Morphs:FindFirstChild(kaijuName, true)
+				if model and model:IsA("Model") then
+					return buildKaijuInfo(model, Morphs)
+				end
+				return nil
+			end
+			local list = {}
+			collectKaijuInfo(Morphs, Morphs, list)
+			return list
+		end
+		getKaijuInfoFunc.Parent = ReplicatedStorage
 
 		local buyKaijuEvent = Instance.new("RemoteEvent")
 		buyKaijuEvent.Name = "BuyKaiju"

@@ -248,17 +248,6 @@ local function startPlay()
 		return
 	end
 
-	local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
-	if not morphs then
-		playing = false
-		return
-	end
-	if not morphs:FindFirstChild(selectedMorphName, true) then
-		warn("Could not find morph model: " .. tostring(selectedMorphName))
-		playing = false
-		return
-	end
-
 	local playerGui = player:FindFirstChild("PlayerGui")
 	local gameGui = playerGui and playerGui:FindFirstChild("GameGui")
 	local gameMainFrame = gameGui and gameGui:FindFirstChild("MainFrame")

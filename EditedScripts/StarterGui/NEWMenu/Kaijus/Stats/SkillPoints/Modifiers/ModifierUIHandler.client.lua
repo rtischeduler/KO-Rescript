@@ -97,19 +97,16 @@ end
 
 local function fetchBaseStats(morphName)
 	baseStats = {}
-	local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
-	if not morphs then return end
+	local infoFunc = ReplicatedStorage:FindFirstChild("GetKaijuInfo") or ReplicatedStorage:WaitForChild("GetKaijuInfo", 10)
+	if not infoFunc then return end
 
-	local morphModel = morphs:FindFirstChild(morphName, true)
-	if not morphModel then return end
+	local ok, info = pcall(function()
+		return infoFunc:InvokeServer(morphName)
+	end)
+	if not ok or type(info) ~= "table" or type(info.stats) ~= "table" then return end
 
-	local stats = morphModel:FindFirstChild("Stats")
-	if not stats then return end
-
-	for _, child in ipairs(stats:GetChildren()) do
-		if child:IsA("NumberValue") or child:IsA("IntValue") then
-			baseStats[child.Name] = child.Value
-		end
+	for name, value in pairs(info.stats) do
+		baseStats[name] = value
 	end
 end
 

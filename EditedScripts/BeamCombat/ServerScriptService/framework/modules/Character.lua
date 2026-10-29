@@ -89,7 +89,7 @@ function Character.Init()
 
 		event.OnServerEvent:Connect(function(player, selectedCreature)
 			local ok, err = pcall(function()
-				local morphFolder = ReplicatedStorage:FindFirstChild("Kaijus")
+				local morphFolder = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
 				if type(selectedCreature) == "string" and morphFolder then
 					selectedCreature = morphFolder:FindFirstChild(selectedCreature, true)
 				end
@@ -481,7 +481,7 @@ function Character.Init()
 		local setHumanoids = {}
 		local teleportedPlayers = {}
 
-		local healthTemplate = game.ReplicatedStorage.Kaijus:FindFirstChild("GOJIRA [FREE]")
+		local healthTemplate = game:GetService("ServerStorage").Kaijus:FindFirstChild("GOJIRA [FREE]")
 		if healthTemplate then
 			local characterScripts = healthTemplate:FindFirstChild("CharacterScripts")
 			if characterScripts then

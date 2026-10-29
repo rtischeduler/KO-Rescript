@@ -9,28 +9,25 @@ local CandyConfig = candyModule and require(candyModule)
 local function isSeason()
 	return CandyConfig ~= nil and CandyConfig.isSeason()
 end
-local function isCandyModel(model)
-	local parent = model.Parent
-	while parent and parent.Name ~= "Morphs" do
-		if string.lower(string.sub(parent.Name, 1, 9)) == "halloween" then
-			return true
-		end
-		parent = parent.Parent
-	end
-	return false
-end
 local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
 if not scrollingFrame then return end
 local template = scrollingFrame:FindFirstChild("Template")
 if not template then return end
-local morphs = ReplicatedStorage:WaitForChild("Kaijus", 30)
-if not morphs then
-	warn("PopulateList: ReplicatedStorage.Kaijus was not available")
+local kaijuInfoFunc = ReplicatedStorage:WaitForChild("GetKaijuInfo", 30)
+if not kaijuInfoFunc then
+	warn("PopulateList: GetKaijuInfo was not available")
 	return
 end
-for _ = 1, 300 do
-	if #morphs:GetChildren() > 0 then break end
-	task.wait(0.1)
+local kaijuInfoList = {}
+for _ = 1, 30 do
+	local ok, result = pcall(function()
+		return kaijuInfoFunc:InvokeServer()
+	end)
+	if ok and type(result) == "table" and #result > 0 then
+		kaijuInfoList = result
+		break
+	end
+	task.wait(1)
 end
 local kaijusFrame = script.Parent.Parent
 local statsFrame = kaijusFrame:FindFirstChild("Stats")
@@ -106,15 +103,6 @@ local function formatBuyText(price, requirement, isCandy)
 	return text
 end
 local morphInfoMap = {}
-local function getMorphAttribute(model, attributeName, fallback)
-	local ok, value = pcall(function()
-		return model:GetAttribute(attributeName)
-	end)
-	if ok and value ~= nil then
-		return value
-	end
-	return fallback
-end
 local LEGACY_MORPH_NAMES = {
 	["Godzilla1954"] = "GOJIRA [FREE]",
 	["Anguirus"] = "ANGUIRUS [FREE]",
@@ -190,19 +178,6 @@ local function isGamepassOffsale(morphName)
 	if not info then return false end
 	return not info.IsForSale
 end
-local function getMorphPrice(morphModel)
-	local stats = morphModel:FindFirstChild("Stats")
-	if stats then
-		local price = stats:FindFirstChild("Price")
-		if price then
-			return price.Value
-		end
-	end
-	if isCandyModel(morphModel) then
-		return math.huge
-	end
-	return 0
-end
 local function isOwned(morphName, price)
 	if price <= 0 then return true end
 	if ownershipCache[morphName] then return true end
@@ -224,17 +199,7 @@ local function getLayoutOrder(morphName)
 		return nil
 	end
 end
-local sortedMorphs = {}
-local function collectModels(folder)
-	for _, model in ipairs(folder:GetChildren()) do
-		if model:IsA("Model") then
-			table.insert(sortedMorphs, model)
-		elseif model:IsA("Folder") and string.lower(string.sub(model.Name, 1, 9)) == "halloween" then
-			collectModels(model)
-		end
-	end
-end
-collectModels(morphs)
+local sortedMorphs = kaijuInfoList
 table.sort(sortedMorphs, function(a, b)
 	return a.Name < b.Name
 end)
@@ -345,13 +310,13 @@ local function populate()
 			clone.Visible = true
 		end
 		clone.LayoutOrder = layoutOrders[model.Name] or 0
-		local kaijuName = getMorphAttribute(model, "KaijuName", model.Name)
-		local kaijuDesc = getMorphAttribute(model, "KaijuDescription", "")
-		local kaijuImage = getMorphAttribute(model, "KaijuImage", "")
+		local kaijuName = model.kaijuName
+		local kaijuDesc = model.kaijuDescription
+		local kaijuImage = model.kaijuImage
 		local nameLabel = clone:FindFirstChild("KaijuName")
 		if nameLabel then
 			nameLabel.Text = kaijuName
-			if isCandyModel(model) then
+			if model.isCandy then
 				nameLabel.TextColor3 = CANDY_COLOR
 			end
 		end
@@ -375,14 +340,14 @@ local function populate()
 			clickBtn.Parent = clone
 		end
 		local morphName = model.Name
-		local morphPrice = getMorphPrice(model)
+		local morphPrice = model.price
 		morphInfoMap[morphName] = {
 			kaijuName = kaijuName,
 			kaijuImage = kaijuImage,
 			morphPrice = morphPrice,
 			visible = clone.Visible,
-			requirement = getMorphAttribute(model, "Requirement", nil),
-			isCandy = isCandyModel(model),
+			requirement = model.requirement,
+			isCandy = model.isCandy,
 		}
 		clickBtn.MouseButton1Click:Connect(function()
 			selectKaiju(morphName)

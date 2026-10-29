@@ -63,7 +63,7 @@ function MorphService:Init()
 
 	fireEvent.OnServerEvent:Connect(function(player, selectedCreature)
 		local ok, err = pcall(function()
-			local morphs = ReplicatedStorage:FindFirstChild("Kaijus")
+			local morphs = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
 			if type(selectedCreature) == "string" and morphs then
 				selectedCreature = morphs:FindFirstChild(selectedCreature, true)
 			end
