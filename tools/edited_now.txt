@@ -1,2 +1,4 @@
-ReplicatedStorage/CooldownManager.lua
-ReplicatedStorage/ChargeManager.lua
+ReplicatedStorage/Knockback.lua
+BeamCombat/ReplicatedStorage/DPSTemplate.server.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua
+ReplicatedStorage/PlayerScripts/Control/init.client.lua

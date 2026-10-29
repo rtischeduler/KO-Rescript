@@ -17,6 +17,7 @@ end
 
 safeRequire("LevelGuard")
 safeRequire("ChargeManager")
+local Knockback = safeRequire("Knockback")
 
 local function getOrCreateRemote(name)
 	local remote = ReplicatedStorage:FindFirstChild(name)
@@ -747,9 +748,12 @@ local function initAttackHandler()
 		return value and value.Value or 10
 	end
 
-	local function registerHit(attacker, attackerChar, humanoid, damage, gcells)
+	local function registerHit(attacker, attackerChar, humanoid, damage, gcells, noKnockback)
 		setCreator(humanoid, attacker)
 		humanoid:TakeDamage(damage)
+		if Knockback and not noKnockback then
+			Knockback.push(humanoid.Parent, attackerChar, "attack")
+		end
 		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0, humanoid.Parent) end
 		playHitSound(attackerChar)
 		giveGCells(attacker, gcells, false, humanoid.Parent)
@@ -906,7 +910,7 @@ local function initAttackHandler()
 				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
 				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
 					hitThisTick[hitPlayer] = true
-					registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick)
+					registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
 				end
 			end
 			task.wait(tickInterval)

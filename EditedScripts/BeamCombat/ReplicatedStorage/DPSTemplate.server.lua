@@ -11,6 +11,14 @@ task.spawn(function()
 		if ok then BeamSystem = result end
 	end
 end)
+local Knockback = nil
+task.spawn(function()
+	local module = ReplicatedStorage:WaitForChild("Knockback", 10)
+	if module then
+		local ok, result = pcall(require, module)
+		if ok then Knockback = result end
+	end
+end)
 local hitDebounce = {}
 
 
@@ -91,6 +99,9 @@ task.spawn(function()
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
 									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end
 									awardGCells(attacker, char)
+									if Knockback and attackerChar then
+										Knockback.push(char, attackerChar, "beam")
+									end
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)
 									end

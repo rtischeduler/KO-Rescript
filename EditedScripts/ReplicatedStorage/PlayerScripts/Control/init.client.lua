@@ -21,6 +21,7 @@ humanoid:SetStateEnabled(Enum.HumanoidStateType.Swimming, false)
 
 local CooldownManager = require(ReplicatedStorage:WaitForChild("CooldownManager"))
 local ChargeManager = require(ReplicatedStorage:WaitForChild("ChargeManager"))
+require(ReplicatedStorage:WaitForChild("Knockback"))
 ChargeManager.reset()
 CooldownManager.reset()
 
