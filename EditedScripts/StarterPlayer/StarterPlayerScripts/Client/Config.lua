@@ -18,6 +18,18 @@ return {
 		BlindFadeSeconds = 1,
 	},
 
+	Graphics = {
+		Auto = true,
+		LowFps = 22,
+		SampleSeconds = 4,
+		Strikes = 2,
+		GraceSeconds = 20,
+		CooldownSeconds = 15,
+		IgnoreFrameOver = 0.5,
+		NotifySeconds = 7,
+		SweepChunk = 400,
+	},
+
 	Rain = {
 		OffsetY = 60,
 	},

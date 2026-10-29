@@ -5,1328 +5,1578 @@
 		</Properties>
 		<Item class="Folder" referent="RBX2">
 			<Properties>
-				<string name="Name">StarterGui</string>
+				<string name="Name">ReplicatedStorage</string>
 			</Properties>
 			<Item class="Folder" referent="RBX3">
 				<Properties>
-					<string name="Name">GameGui</string>
+					<string name="Name">Shared</string>
 				</Properties>
-				<Item class="Folder" referent="RBX4">
+				<Item class="ModuleScript" referent="RBX4">
 					<Properties>
-						<string name="Name">MainFrame</string>
-					</Properties>
-					<Item class="Folder" referent="RBX5">
-						<Properties>
-							<string name="Name">Interface</string>
-						</Properties>
-						<Item class="Folder" referent="RBX6">
-							<Properties>
-								<string name="Name">Backpack</string>
-							</Properties>
-							<Item class="LocalScript" referent="RBX7">
-								<Properties>
-									<string name="Name">BackpackScript</string>
-									<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+						<string name="Name">GraphicsQuality</string>
+						<ProtectedString name="Source"><![CDATA[-- Shared graphics tier state. The Graphics controller changes it; Ocean, WaterFX and Effects read it.
+local GraphicsQuality = {}
 
-local backpack = script.Parent
-local template = backpack:FindFirstChild("Template")
+local ORDER = { "High", "Medium", "Low", "Lowest" }
 
-local TweenService = game:GetService("TweenService")
-local CooldownManager = require(game:GetService("ReplicatedStorage"):WaitForChild("CooldownManager"))
-local ChargeManager = require(game:GetService("ReplicatedStorage"):WaitForChild("ChargeManager"))
-local UserInputService = game:GetService("UserInputService")
-local isMobile = UserInputService.TouchEnabled
-
-local function getDeviceSettings()
-	if not UserInputService.TouchEnabled then
-
-		return { buttonSize = 110, spacing = 14, backpackWidth = 800, backpackHeight = 130 }
-	end
-
-	return { buttonSize = 70, spacing = 8, backpackWidth = 500, backpackHeight = 90 }
-end
-
-local deviceSettings = getDeviceSettings()
-local BUTTON_SIZE = deviceSettings.buttonSize
-local SPACING = deviceSettings.spacing
-local SCALE = BUTTON_SIZE / 80
-
-backpack.Size = UDim2.new(0, deviceSettings.backpackWidth, 0, deviceSettings.backpackHeight)
-backpack.Position = UDim2.new(0.5, -deviceSettings.backpackWidth / 2, 1, -deviceSettings.backpackHeight - 15)
-
-local function scaleButtonChildren(button)
-	local r = function(n) return math.round(n * SCALE) end
-
-	local num = button:FindFirstChild("Num")
-	if num then
-		num.Size = UDim2.new(0, r(28), 0, r(9))
-	end
-
-	local title = button:FindFirstChild("Title")
-	if title then
-		if button.Name == "Sprint" then
-			title.Size = UDim2.new(1, 0, 0, r(18))
-			title.Position = UDim2.new(0, 0, 1, -r(18))
-			title.TextScaled = true
-		else
-			title.Size = UDim2.new(0, r(69), 0, r(10))
-			title.Position = UDim2.new(0, r(5), 0, r(66))
-		end
-	end
-
-	local indicator = button:FindFirstChild("ActiveIndicator")
-	if indicator then
-		indicator.Size = UDim2.new(1, -r(4), 1, -r(4))
-		indicator.Position = UDim2.new(0, r(2), 0, r(2))
-	end
-
-	local corner = button:FindFirstChild("UICorner")
-	if corner then
-		local originalRadius = (button.Name == "Sprint") and 4 or 7
-		corner.CornerRadius = UDim.new(0, r(originalRadius))
-	end
-end
-
-local sprintBtn = backpack:FindFirstChild("Sprint")
-if sprintBtn then
-	sprintBtn.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
-	scaleButtonChildren(sprintBtn)
-end
-if template then
-	template.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
-	scaleButtonChildren(template)
-end
-
-local bars = backpack.Parent:FindFirstChild("Bars")
-if bars then
-	bars.Position = UDim2.new(0.5, -185, 1, -deviceSettings.backpackHeight - 40)
-end
-
-local activeButtons = {}
-
-local slotToEvent = {}
-
-local activeCooldowns = {}
-
-local RunService = game:GetService("RunService")
-local Knit = require(game:GetService("ReplicatedStorage"):WaitForChild("Knit"):WaitForChild("Knit"))
-local BeamService = nil
-local beamActive = false
-local currentBeamGeneration = nil
-local beamLockedYaw = nil
-local beamDelayToken = nil
-local beamStartTimeout = nil
-local beamRotationConnection = nil
-local currentScreenPos = nil
-local activeTouches = {}
-local beamPredictionConnection = nil
-local beamPredictChar = nil
-local beamPredictBeamStart = nil
-local beamPredictHitbox = nil
-local beamEndsReparented = false
-
-local stopBeamRotation
-local startBeamRotation
-
-local SPRINT_IMAGE_NORMAL = "rbxassetid://85803878121852"
-local SPRINT_IMAGE_FLYING = ""
-
-local function getDisplayName(event)
-	local attackName = event:GetAttribute("AttackName")
-	if attackName and attackName ~= "" then
-		return attackName
-	end
-	local name = event.Name
-	if name == "Attack" or name == "Attack1Event" then return "Attack" end
-	if name == "Beam" or name == "Attack2Event" then return "Beam" end
-	if name == "Attack3" or name == "Attack3Event" then return "Attack 3" end
-	if name == "Roar1" or name == "Roar1Event" then return "Roar 1" end
-	if name == "Roar2" or name == "Roar2Event" then return "Roar 2" end
-	return name
-end
-
-local function isAttackEvent(event)
-	if not event:IsA("RemoteEvent") then return false end
-	local attackName = event:GetAttribute("AttackName")
-	if attackName then return true end
-	local lower = string.lower(event.Name)
-	return lower:find("attack") or lower:find("beam") or lower:find("roar")
-end
-
-local ORDER = {
-	Attack = 1, Attack1Event = 1,
-	Beam = 2, Attack2Event = 2,
-	Attack3 = 3, Attack3Event = 3,
-	Attack4 = 4, Attack4Event = 4,
-	Roar1 = 5, Roar1Event = 5,
-	Roar2 = 6, Roar2Event = 6,
+local TIERS = {
+	High = {
+		Shadows = true, LightShadows = true, Specular = 1, Atmosphere = 1, Decoration = true,
+		ParticleScale = 1, OceanRate = nil, WaterFx = 1, QualityLevel = nil,
+		Effects = { BloomEffect = true, SunRaysEffect = true, DepthOfFieldEffect = true },
+	},
+	Medium = {
+		Shadows = true, LightShadows = true, Specular = 0.6, Atmosphere = 0.8, Decoration = true,
+		ParticleScale = 0.6, OceanRate = 20, WaterFx = 0.6, QualityLevel = 7,
+		Effects = { BloomEffect = true, SunRaysEffect = false, DepthOfFieldEffect = false },
+	},
+	Low = {
+		Shadows = false, LightShadows = false, Specular = 0.2, Atmosphere = 0.5, Decoration = false,
+		ParticleScale = 0.3, OceanRate = 10, WaterFx = 0.3, QualityLevel = 4,
+		Effects = { BloomEffect = false, SunRaysEffect = false, DepthOfFieldEffect = false },
+	},
+	Lowest = {
+		Shadows = false, LightShadows = false, Specular = 0, Atmosphere = 0, Decoration = false,
+		ParticleScale = 0.1, OceanRate = 0, WaterFx = 0, QualityLevel = 1,
+		Effects = { BloomEffect = false, SunRaysEffect = false, DepthOfFieldEffect = false },
+	},
 }
 
-local NUMBERS = {"ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX"}
+local current = "High"
+local listeners = {}
 
-local function clearButtons()
-	for _, child in ipairs(backpack:GetChildren()) do
-		if child:IsA("ImageButton") and child.Name ~= "Template" and child.Name ~= "Sprint" then
-			child.Parent = nil
-		end
+function GraphicsQuality.Order()
+	return ORDER
+end
+
+function GraphicsQuality.Get()
+	return current
+end
+
+function GraphicsQuality.Index()
+	return table.find(ORDER, current)
+end
+
+function GraphicsQuality.Settings()
+	return TIERS[current]
+end
+
+function GraphicsQuality.Next()
+	return ORDER[GraphicsQuality.Index() + 1]
+end
+
+function GraphicsQuality.Set(name, source)
+	if not TIERS[name] then
+		return false
+	end
+	if name == current then
+		return true
+	end
+	current = name
+	for _, fn in ipairs(listeners) do
+		task.spawn(fn, name, source)
+	end
+	return true
+end
+
+function GraphicsQuality.OnChanged(fn)
+	table.insert(listeners, fn)
+end
+
+return GraphicsQuality
+]]></ProtectedString>
+					</Properties>
+				</Item>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX5">
+			<Properties>
+				<string name="Name">ServerScriptService</string>
+			</Properties>
+			<Item class="Script" referent="RBX6">
+				<Properties>
+					<string name="Name">Server</string>
+					<token name="RunContext">0</token>
+					<ProtectedString name="Source"><![CDATA[local ServerScriptService = game:GetService("ServerScriptService")
+
+if ServerScriptService:GetAttribute("ServerFrameworkActive") then
+	return
+end
+
+local Services = script:WaitForChild("Services")
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
+local Config = require(script:WaitForChild("Config"))
+local log = Logger.new("Server")
+
+local REPLACED = {
+	"ServerHandler",
+	"MorphBootstrap",
+	"HealthEnforcer",
+	"GCellIntegrityGuard",
+	"PlayerEliminator",
+	"SettingsStore",
+}
+local stillActive = {}
+for _, name in ipairs(REPLACED) do
+	local found = ServerScriptService:FindFirstChild(name)
+	if found and found ~= script and not (found:IsA("BaseScript") and found.Disabled) then
+		table.insert(stillActive, name)
 	end
 end
-
-local function getShiftLockState()
-	return player:GetAttribute("ShiftLockEnabled") == true
+if #stillActive > 0 then
+	log:warn("Not starting: disable or delete these replaced scripts first: " .. table.concat(stillActive, ", "))
+	return
 end
 
-local function isJoystickStart(position, gameProcessed)
-	if gameProcessed then return true end
-	local camera = workspace.CurrentCamera
-	if not camera then return false end
-	local viewport = camera.ViewportSize
-	return position.X < viewport.X * 0.5
+ServerScriptService:SetAttribute("ServerFrameworkActive", true)
+
+local lifecycle = Lifecycle.new(log)
+
+lifecycle:Register(require(Services.PerformanceService))
+lifecycle:Register(require(Services.MorphService))
+lifecycle:Register(require(Services.GCellGuardService))
+lifecycle:Register(require(Services.IndicatorService))
+lifecycle:Register(require(Services.CandyService))
+lifecycle:Register(require(Services.EliminatorService))
+lifecycle:Register(require(Services.SettingsService))
+lifecycle:Register(require(Services.HealthService))
+lifecycle:Register(require(Services.OceanDepthService))
+
+local LegacyService = require(Services.LegacyService)
+for _, moduleName in ipairs(Config.LegacyModules) do
+	lifecycle:Register(LegacyService.Create(moduleName))
 end
 
-local function pickBestTouchPos()
-	for input, data in pairs(activeTouches) do
-		if not data.isJoystick then
-			return data.pos
+lifecycle:Register(require(Services.KnitService))
+
+lifecycle:InitAll()
+lifecycle:StartAll()
+
+ServerScriptService:SetAttribute("ServerReady", true)
+log:info("Started. Service status:\n" .. lifecycle:Report())
+]]></ProtectedString>
+				</Properties>
+				<Item class="ModuleScript" referent="RBX7">
+					<Properties>
+						<string name="Name">Config</string>
+						<ProtectedString name="Source"><![CDATA[return {
+	Morph = {
+		TankSpawnMorphs = { "MILITARY TANK [FREE]", "F16C [FREE]" },
+		TankSpawnHeight = 10,
+		SpawnHeight = 50,
+
+		RestrictedKaiju = { "EVOLVED GOJIRA", "D.E.M.O.N", "Homelander", "d", "A-train", "e", "MG21" },
+		AllowedPlayers = { "AthosGame2023", "mr_bolde2", "DenisTheCheeseKing", "BlueEnderCookie_2" },
+		AllowedUserIds = {},
+	},
+
+	Health = {
+		RegenDelay = 20,
+		RegenInterval = 3,
+		RegenBasePercent = 0.01015,
+		RegenPerPoint = 0.15,
+		CharacterParentTimeout = 30,
+	},
+
+	GCellGuard = {
+		ReadyDelay = 1,
+		AllowanceTtl = 1,
+		Tolerance = 0.5,
+		ValueNames = { "GCells", "gcells" },
+	},
+
+	Eliminator = {
+		MinAdminRank = 2,
+		AdminRankNames = { "Admin", "HeadAdmin", "Owner" },
+		JoinCheckDelay = 2,
+		DeathKickDelay = 1,
+	},
+
+	Settings = {
+		StoreName = "PlayerSettings",
+		KeyPrefix = "Player_",
+		RemoteName = "GetSettingsData",
+		DefaultFov = 70,
+		MinFov = 70,
+		MaxFov = 120,
+		DataStoreAttempts = 3,
+		RemoteWaitTimeout = 60,
+	},
+
+	LegacyModules = { "Character", "Combat", "Data", "World" },
+
+	Performance = {
+		SampleSeconds = 3,
+		LagFrameTime = 1 / 30,
+	},
+
+	OceanDepth = {
+		Enabled = true,
+		FloorNames = { "Bottom" },
+		DepthDrop = 25,
+		WedgeGrow = 25,
+		ColorTolerance = 0.02,
+		MinUpright = 0.9,
+		YieldEvery = 3000,
+	},
+}
+]]></ProtectedString>
+					</Properties>
+				</Item>
+				<Item class="Folder" referent="RBX8">
+					<Properties>
+						<string name="Name">Services</string>
+					</Properties>
+					<Item class="ModuleScript" referent="RBX9">
+						<Properties>
+							<string name="Name">PerformanceService</string>
+							<ProtectedString name="Source"><![CDATA[-- Watches server frame time and publishes ServerScriptService attribute "ServerLagging".
+-- Background work (autosaves) defers while it is true. It never touches anything players can see.
+local RunService = game:GetService("RunService")
+local ServerScriptService = game:GetService("ServerScriptService")
+
+local PerformanceService = { Name = "Performance" }
+
+function PerformanceService.isLagging(avgFrameTime, threshold)
+	return avgFrameTime > threshold
+end
+
+function PerformanceService:Start()
+	local cfg = require(script:FindFirstAncestor("Server").Config).Performance
+	local total, frames = 0, 0
+	RunService.Heartbeat:Connect(function(dt)
+		total += dt
+		frames += 1
+		if total >= cfg.SampleSeconds then
+			local avg = total / frames
+			total, frames = 0, 0
+			ServerScriptService:SetAttribute("ServerFrameTime", avg)
+			ServerScriptService:SetAttribute("ServerLagging", PerformanceService.isLagging(avg, cfg.LagFrameTime))
 		end
+	end)
+end
+
+return PerformanceService
+]]></ProtectedString>
+						</Properties>
+					</Item>
+					<Item class="ModuleScript" referent="RBX10">
+						<Properties>
+							<string name="Name">CandyService</string>
+							<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local DataStoreService = game:GetService("DataStoreService")
+local ServerScriptService = game:GetService("ServerScriptService")
+
+local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
+
+local STORE_NAME = "Candy_v1"
+local ATTRIBUTE = "Candy"
+local STAT_NAME = "Candy"
+local AUTOSAVE_INTERVAL = 120
+local RETRIES = 3
+local LOAD_RETRY_INTERVAL = 30
+local LOAD_RETRY_LIMIT = 10
+local AUTOSAVE_SPREAD = 60
+local MAX_DEFER = 10
+
+local CandyService = { Name = "Candy" }
+
+local store
+local ready = {}
+local synced = {}
+local delta = {}
+local busy = {}
+local lastSaved = {}
+
+local function storeKey(player)
+	return "Player_" .. player.UserId
+end
+
+local function balance(player)
+	return math.max(math.floor(tonumber(player:GetAttribute(ATTRIBUTE)) or 0), 0)
+end
+
+local function getStat(player)
+	local leaderstats = player:FindFirstChild("leaderstats")
+	if not leaderstats then
+		leaderstats = Instance.new("Folder")
+		leaderstats.Name = "leaderstats"
+		leaderstats.Parent = player
+	end
+	local stat = leaderstats:FindFirstChild(STAT_NAME)
+	if not stat then
+		stat = Instance.new("IntValue")
+		stat.Name = STAT_NAME
+		stat.Value = balance(player)
+		stat.Parent = leaderstats
+	end
+	return stat
+end
+
+local function setBalance(player, value)
+	value = math.max(math.floor(value), 0)
+	player:SetAttribute(ATTRIBUTE, value)
+	getStat(player).Value = value
+end
+
+local function fetch(player)
+	if not store then
+		return nil
+	end
+	for attempt = 1, RETRIES do
+		local ok, result = pcall(store.GetAsync, store, storeKey(player))
+		if ok then
+			return math.max(math.floor(tonumber(result) or 0), 0)
+		end
+		task.wait(attempt)
 	end
 	return nil
 end
 
-UserInputService.InputChanged:Connect(function(input, gameProcessed)
-	if input.UserInputType == Enum.UserInputType.MouseMovement then
-		currentScreenPos = Vector2.new(input.Position.X, input.Position.Y)
-	elseif input.UserInputType == Enum.UserInputType.Touch then
-		local data = activeTouches[input]
-		if data then
-			data.pos = Vector2.new(input.Position.X, input.Position.Y)
-			if not data.isJoystick then
-				currentScreenPos = data.pos
-			end
-		end
+local function save(player)
+	if not store or not synced[player] or busy[player] then
+		return
 	end
-end)
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if input.UserInputType == Enum.UserInputType.Touch then
-		local pos = Vector2.new(input.Position.X, input.Position.Y)
-		local isJoystick = isJoystickStart(pos, gameProcessed)
-		activeTouches[input] = {pos = pos, isJoystick = isJoystick}
-		if not isJoystick then
-			currentScreenPos = pos
-		end
-	elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
-		currentScreenPos = Vector2.new(input.Position.X, input.Position.Y)
-	end
-end)
-
-UserInputService.InputEnded:Connect(function(input, gameProcessed)
-	if input.UserInputType == Enum.UserInputType.Touch then
-		activeTouches[input] = nil
-		local best = pickBestTouchPos()
-		if best then
-			currentScreenPos = best
-		end
-	end
-end)
-
-local function raycastFiltered(origin, direction, character)
-	local excluded = {character}
-	local params = RaycastParams.new()
-	params.FilterType = Enum.RaycastFilterType.Exclude
-
-	local currentOrigin = origin
-	local dirUnit = direction.Unit
-	local remainingDist = direction.Magnitude
-
-	for i = 1, 30 do
-		params.FilterDescendantsInstances = excluded
-		local result = workspace:Raycast(currentOrigin, dirUnit * remainingDist, params)
-		if not result then return nil end
-
-		local inst = result.Instance
-		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and (inst.Transparency >= 0.95 or not inst.CanCollide)
-		local isWater = result.Material == Enum.Material.Water
-
-		if isTransparent or isWater then
-			local consumed = (result.Position - currentOrigin).Magnitude
-			remainingDist = remainingDist - consumed
-			if remainingDist <= 0.1 then return nil end
-			currentOrigin = result.Position
-			table.insert(excluded, inst)
-		else
-			return result
-		end
-	end
-	return nil
-end
-
-local function advanceOrigin(origin, direction, character)
-	local hrp = character and character:FindFirstChild("HumanoidRootPart")
-	if not hrp then return origin end
-	local unit = direction.Unit
-	local along = (hrp.Position - origin):Dot(unit)
-	if along > 0 then return origin + unit * along end
-	return origin
-end
-
-local function getAimPosition(character)
-	local camera = workspace.CurrentCamera
-	if not camera then return nil end
-	if not character then return nil end
-
-	local isShiftLock = getShiftLockState()
-
-	if isShiftLock then
-		local hrp = character:FindFirstChild("HumanoidRootPart")
-		if not hrp then return nil end
-
-		local camLook = camera.CFrame.LookVector
-		local camPitch = math.asin(math.clamp(camLook.Y, -1, 1))
-
-		local charLook = hrp.CFrame.LookVector
-		local charYaw = math.atan2(-charLook.X, charLook.Z)
-
-		local cosPitch = math.cos(camPitch)
-		local direction = Vector3.new(
-			-math.sin(charYaw) * cosPitch,
-			math.sin(camPitch),
-			math.cos(charYaw) * cosPitch
-		).Unit
-
-		local result = raycastFiltered(advanceOrigin(camera.CFrame.Position, direction, character), direction * 1000, character)
-		if result then
-			return result.Position
-		else
-			return advanceOrigin(camera.CFrame.Position, direction, character) + direction * 1000
-		end
-	else
-		local screenPos = nil
-
-		if UserInputService.MouseEnabled then
-			local mouseLocation = UserInputService:GetMouseLocation()
-			screenPos = Vector2.new(mouseLocation.X, mouseLocation.Y)
-		end
-
-		if not screenPos then
-			screenPos = currentScreenPos
-		end
-
-		local ray
-		if screenPos then
-			ray = camera:ScreenPointToRay(screenPos.X, screenPos.Y)
-		else
-			local viewport = camera.ViewportSize
-			ray = camera:ViewportPointToRay(viewport.X / 2, viewport.Y / 2)
-		end
-
-		local result = raycastFiltered(advanceOrigin(ray.Origin, ray.Direction, character), ray.Direction * 1000, character)
-		if result then
-			return result.Position
-		else
-			return advanceOrigin(ray.Origin, ray.Direction, character) + ray.Direction * 1000
-		end
-	end
-end
-
-local function needsAimPosition(eventName)
-	return eventName == "Beam" or eventName == "Attack2Event"
-		or eventName == "Attack3" or eventName == "Attack3Event"
-end
-
-local function isBeamEvent(eventName)
-	return eventName == "Beam" or eventName == "Attack2Event"
-		or eventName == "Attack3" or eventName == "Attack3Event"
-end
-
-stopBeamRotation = function()
-	if beamRotationConnection then
-		beamRotationConnection:Disconnect()
-		beamRotationConnection = nil
-	end
-	local character = player.Character
-	if character then
-		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		if humanoid then
-			humanoid.AutoRotate = true
-		end
-	end
-end
-
-local PRED_INTRO_TIME = 0.4
-local PRED_FOLLOW_RATE = 40
-local PRED_SERVER_RATE = 14
-local PRED_TRANSITION_RATE = 6
-local PRED_TRANSITION_TIME = 0.7
-local beamPredictStartTime = 0
-local beamPredictTip = nil
-local beamPredictEnd = nil
-local beamPredictServerMode = false
-local beamPredictTransitionUntil = 0
-local beamPredictServerHitbox = nil
-local beamPredictLastTime = 0
-
-local function easeOutCubic(t)
-	return 1 - (1 - t) ^ 3
-end
-
-local function getBeamHeadPosition(character)
-	local head = character:FindFirstChild("Head")
-	if head and head:IsA("BasePart") then
-		return head.Position
-	end
-	local hrp = character:FindFirstChild("HumanoidRootPart")
-	return hrp and hrp.Position or nil
-end
-
-local function orientHitbox(charPos, targetPos, placePos)
-	placePos = placePos or targetPos
-	local flatDir = Vector3.new(targetPos.X - charPos.X, 0, targetPos.Z - charPos.Z)
-	if flatDir.Magnitude < 0.01 then
-		return CFrame.new(placePos)
-	end
-	local lookCF = CFrame.lookAt(Vector3.new(charPos.X, 0, charPos.Z), Vector3.new(targetPos.X, 0, targetPos.Z))
-	local rotation = lookCF - lookCF.Position
-	return CFrame.new(placePos) * rotation
-end
-
-local function findServerBeamHitbox()
-	if beamPredictServerHitbox and beamPredictServerHitbox.Parent then
-		return beamPredictServerHitbox
-	end
-	beamPredictServerHitbox = nil
-	local playerName = player.Name
-	for _, child in ipairs(workspace:GetChildren()) do
-		if child:IsA("BasePart") and child.Name == "BeamHitbox" and child:GetAttribute("Attacker") == playerName
-			and child:GetAttribute("BeamMain") then
-			beamPredictServerHitbox = child
-			return child
-		end
-	end
-	return nil
-end
-
-local function startBeamPrediction()
-	beamPredictChar = player.Character
-	if not beamPredictChar then return end
-
-	beamPredictBeamStart = nil
-	for _, descendant in ipairs(beamPredictChar:GetDescendants()) do
-		if descendant:IsA("Attachment") and descendant.Name == "BeamStart" then
-			beamPredictBeamStart = descendant
+	busy[player] = true
+	local amount = balance(player)
+	for attempt = 1, RETRIES do
+		if pcall(store.SetAsync, store, storeKey(player), amount) then
+			lastSaved[player] = amount
 			break
 		end
+		task.wait(attempt)
+	end
+	busy[player] = nil
+end
+
+local function saveNow(player)
+	while busy[player] do
+		task.wait(0.1)
+	end
+	save(player)
+end
+
+local function load(player)
+	local value = fetch(player)
+	if not player.Parent then
+		return
+	end
+	if value ~= nil then
+		setBalance(player, value)
+		lastSaved[player] = value
+		synced[player] = true
+		ready[player] = true
+		return
+	end
+	delta[player] = 0
+	synced[player] = false
+	ready[player] = true
+	warn("[Candy] DataStore unavailable for " .. player.Name .. ", Candy will not save until it reconnects")
+	for _ = 1, LOAD_RETRY_LIMIT do
+		task.wait(LOAD_RETRY_INTERVAL)
+		if not player.Parent then
+			return
+		end
+		local stored = fetch(player)
+		if stored ~= nil then
+			setBalance(player, stored + (delta[player] or 0))
+			synced[player] = true
+			save(player)
+			return
+		end
+	end
+end
+
+local function track(player)
+	getStat(player)
+	task.spawn(load, player)
+end
+
+function CandyService:Init()
+	local ok, result = pcall(DataStoreService.GetDataStore, DataStoreService, STORE_NAME)
+	if ok then
+		store = result
 	end
 
-	if beamPredictionConnection then
-		beamPredictionConnection:Disconnect()
+	_G.GetCandy = function(player)
+		if typeof(player) ~= "Instance" or not player:IsA("Player") then
+			return 0
+		end
+		return balance(player)
 	end
 
-	if beamPredictHitbox then
-		beamPredictHitbox:Destroy()
-		beamPredictHitbox = nil
+	_G.AwardCandy = function(player, maxHealth, at)
+		if typeof(player) ~= "Instance" or not player:IsA("Player") then
+			return 0
+		end
+		if not ready[player] or not CandyConfig.isSeason() then
+			return 0
+		end
+		local amount = CandyConfig.candyForHealth(maxHealth)
+		if amount <= 0 then
+			return 0
+		end
+		setBalance(player, balance(player) + amount)
+		if not synced[player] then
+			delta[player] = (delta[player] or 0) + amount
+		end
+		if _G.ShowIndicator then
+			_G.ShowIndicator(player, 0, 0, 0, at, amount)
+		end
+		return amount
 	end
-	beamEndsReparented = false
-	beamPredictServerHitbox = nil
-	beamPredictServerMode = false
-	beamPredictTransitionUntil = 0
-	beamPredictStartTime = tick()
-	beamPredictLastTime = beamPredictStartTime
 
-	beamPredictHitbox = Instance.new("Part")
-	beamPredictHitbox.Name = "BeamPredictionHitbox"
-	beamPredictHitbox.Size = Vector3.new(6, 6, 6)
-	beamPredictHitbox.Anchored = true
-	beamPredictHitbox.CanCollide = false
-	beamPredictHitbox.CanTouch = false
-	beamPredictHitbox.CanQuery = false
-	beamPredictHitbox.Transparency = 1
-	beamPredictHitbox.Parent = beamPredictChar
-
-	local charHRP = beamPredictChar:FindFirstChild("HumanoidRootPart")
-	local startPos = getBeamHeadPosition(beamPredictChar) or (charHRP and charHRP.Position) or Vector3.new()
-	beamPredictTip = getAimPosition(beamPredictChar)
-	if not beamPredictTip and charHRP then
-		beamPredictTip = charHRP.Position + charHRP.CFrame.LookVector * 50
+	_G.SpendCandy = function(player, amount)
+		if typeof(player) ~= "Instance" or not player:IsA("Player") then
+			return false
+		end
+		amount = math.floor(tonumber(amount) or -1)
+		if amount < 0 or not synced[player] then
+			return false
+		end
+		if amount == 0 then
+			return true
+		end
+		local current = balance(player)
+		if current < amount then
+			return false
+		end
+		setBalance(player, current - amount)
+		task.spawn(save, player)
+		return true
 	end
-	beamPredictEnd = startPos
-	beamPredictHitbox.CFrame = CFrame.new(startPos)
 
-	beamPredictionConnection = RunService.RenderStepped:Connect(function()
-		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
-		local hrp = beamPredictChar:FindFirstChild("HumanoidRootPart")
-		if not hrp or not beamPredictHitbox or not beamPredictHitbox.Parent then return end
+	Players.PlayerAdded:Connect(track)
+	for _, player in Players:GetPlayers() do
+		track(player)
+	end
 
-		local now = tick()
-		local dt = math.clamp(now - beamPredictLastTime, 0.001, 0.25)
-		beamPredictLastTime = now
-
-		local serverHitbox = findServerBeamHitbox()
-
-		if not beamEndsReparented and serverHitbox then
-			local reparentedAny = false
-			for _, child in ipairs(serverHitbox:GetChildren()) do
-				if child:IsA("Attachment") and child.Name == "BeamEnd" then
-					child.Parent = beamPredictHitbox
-					reparentedAny = true
-				end
-			end
-			if reparentedAny then
-				beamEndsReparented = true
-			end
-		end
-
-		local startPos = getBeamHeadPosition(beamPredictChar) or hrp.Position
-		local serverMode = serverHitbox ~= nil
-			and (serverHitbox:GetAttribute("IsClashing") == true or serverHitbox:GetAttribute("BeamEnding") == true)
-
-		if serverMode ~= beamPredictServerMode then
-			beamPredictServerMode = serverMode
-			beamPredictTransitionUntil = now + PRED_TRANSITION_TIME
-			if not serverMode and beamPredictEnd then
-				beamPredictTip = beamPredictEnd
-			end
-		end
-
-		local extent
-		local dirTarget
-		if serverMode then
-			extent = serverHitbox:GetAttribute("BeamExtent") or 1
-			beamPredictEnd = beamPredictEnd:Lerp(serverHitbox.Position, 1 - math.exp(-PRED_SERVER_RATE * dt))
-			beamPredictTip = beamPredictEnd
-			dirTarget = beamPredictEnd
-		else
-			local aim = getAimPosition(beamPredictChar)
-			if aim and beamPredictTip then
-				local rate = now < beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
-				beamPredictTip = beamPredictTip:Lerp(aim, 1 - math.exp(-rate * dt))
-			end
-			extent = easeOutCubic(math.clamp((now - beamPredictStartTime) / PRED_INTRO_TIME, 0, 1))
-			beamPredictEnd = startPos:Lerp(beamPredictTip or startPos, extent)
-			dirTarget = beamPredictTip or beamPredictEnd
-		end
-
-		beamPredictHitbox.CFrame = orientHitbox(serverMode and startPos or hrp.Position, dirTarget, beamPredictEnd)
-
-		for _, child in ipairs(beamPredictHitbox:GetChildren()) do
-			if child:IsA("Attachment") and child.Name == "BeamEnd" then
-				local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
-				child.CFrame = CFrame.new(offset * extent)
-			end
-		end
-
-		if beamPredictBeamStart and beamPredictBeamStart.Parent then
-			local beamStartPos = beamPredictBeamStart.WorldPosition
-			for i = 1, 6 do
-				local att = hrp:FindFirstChild("BeamGlowLight" .. i)
-				if att then
-					att.WorldPosition = beamStartPos:Lerp(beamPredictEnd, i / 7)
-				end
-			end
-		end
+	Players.PlayerRemoving:Connect(function(player)
+		saveNow(player)
+		ready[player] = nil
+		synced[player] = nil
+		delta[player] = nil
+		busy[player] = nil
+		lastSaved[player] = nil
 	end)
 end
 
-local function cleanupBeamEndVisuals(beamEndAtt)
-	for _, child in ipairs(beamEndAtt:GetChildren()) do
-		if child:IsA("ParticleEmitter") then
-			child.Enabled = false
-			child:Clear()
-		elseif child:IsA("Light") then
-			child.Enabled = false
+local function autosaveAll()
+	local players = Players:GetPlayers()
+	if #players == 0 then
+		return
+	end
+	local gap = math.min(AUTOSAVE_SPREAD / #players, 5)
+	for _, player in ipairs(players) do
+		if player.Parent and synced[player] and balance(player) ~= lastSaved[player] then
+			local waited = 0
+			while ServerScriptService:GetAttribute("ServerLagging") == true and waited < MAX_DEFER do
+				task.wait(1)
+				waited += 1
+			end
+			local budget = DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.SetIncrementAsync)
+			if player.Parent and budget >= 2 then
+				save(player)
+			end
+			task.wait(gap)
 		end
 	end
 end
 
-local function stopBeamPrediction()
-	if beamPredictionConnection then
-		beamPredictionConnection:Disconnect()
-		beamPredictionConnection = nil
-	end
-
-	
-	if beamPredictHitbox then
-		for _, child in ipairs(beamPredictHitbox:GetChildren()) do
-			if child:IsA("Attachment") and child.Name == "BeamEnd" then
-				if beamPredictChar and beamPredictChar.Parent then
-					local serverHitbox = findServerBeamHitbox()
-					if serverHitbox and serverHitbox.Parent then
-						child.Parent = serverHitbox
-						local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
-						child.CFrame = CFrame.new(offset)
-					else
-						child.Parent = nil
-					end
-				else
-					child.Parent = nil
-				end
-			end
-		end
-		beamPredictHitbox:Destroy()
-		beamPredictHitbox = nil
-	end
-
-	beamEndsReparented = false
-	if beamPredictChar and beamPredictChar.Parent then
-		for _, descendant in ipairs(beamPredictChar:GetDescendants()) do
-			if descendant:IsA("Attachment") and descendant.Name == "BeamEnd" then
-				cleanupBeamEndVisuals(descendant)
-				descendant:SetAttribute("BeamEndOffset", nil)
-			end
-		end
-	end
-	beamPredictChar = nil
-	beamPredictBeamStart = nil
-	beamPredictServerHitbox = nil
-	beamPredictTip = nil
-	beamPredictEnd = nil
-	beamPredictServerMode = false
-end
-
-startBeamRotation = function()
-	stopBeamRotation()
-	local character = player.Character
-	if not character then return end
-	local humanoid = character:FindFirstChildOfClass("Humanoid")
-	local hrp = character:FindFirstChild("HumanoidRootPart")
-	if not humanoid or not hrp then return end
-
-	if not getShiftLockState() then
-		humanoid.AutoRotate = false
-	end
-
-	beamRotationConnection = RunService.RenderStepped:Connect(function()
-		if not beamActive then return end
-		if not character or not character.Parent then return end
-
-		if getShiftLockState() then return end
-		local currentHrp = character:FindFirstChild("HumanoidRootPart")
-		if not currentHrp then return end
-		local currentHum = character:FindFirstChildOfClass("Humanoid")
-		if currentHum then
-			currentHum.AutoRotate = false
-		end
-		local targetPos = getAimPosition(character)
-		if not targetPos then return end
-		local pos = currentHrp.Position
-		local lookDir = Vector3.new(targetPos.X - pos.X, 0, targetPos.Z - pos.Z)
-		if lookDir.Magnitude > 0.1 then
-			local yaw = math.atan2(-lookDir.X, -lookDir.Z)
-			currentHrp.CFrame = CFrame.new(pos) * CFrame.Angles(0, yaw, 0)
-		end
-	end)
-end
-
-
-Knit.OnStart():andThen(function()
-	BeamService = Knit.GetService("BeamService")
-
-	BeamService.BeamStarted:Connect(function(generation)
-		if beamStartTimeout then
-			task.cancel(beamStartTimeout)
-			beamStartTimeout = nil
-		end
-		currentBeamGeneration = generation
-
-		if getShiftLockState() then
-			local character = player.Character
-			if character then
-				local hrp = character:FindFirstChild("HumanoidRootPart")
-				if hrp then
-					local charLook = hrp.CFrame.LookVector
-					beamLockedYaw = math.atan2(-charLook.X, charLook.Z)
-				end
-			end
-		end
-		beamActive = true
-		startBeamRotation()
-		startBeamPrediction()
-	end)
-
-	BeamService.BeamEnded:Connect(function(generation)
-		if generation ~= nil and generation ~= currentBeamGeneration then return end
-		currentBeamGeneration = nil
-		beamActive = false
-		beamLockedYaw = nil
-		if beamStartTimeout then
-			task.cancel(beamStartTimeout)
-			beamStartTimeout = nil
-		end
-		if beamDelayToken then
-			task.cancel(beamDelayToken)
-			beamDelayToken = nil
-		end
-		stopBeamRotation()
-		stopBeamPrediction()
-	end)
-end):catch(warn)
-
-
-local function onCharacterDied(character)
-	local hum = character:WaitForChild("Humanoid", 5)
-	if hum then
-		hum.Died:Connect(function()
-			beamActive = false
-			currentBeamGeneration = nil
-			beamLockedYaw = nil
-			if beamStartTimeout then
-				task.cancel(beamStartTimeout)
-				beamStartTimeout = nil
-			end
-			if beamDelayToken then
-				task.cancel(beamDelayToken)
-				beamDelayToken = nil
-			end
-			stopBeamRotation()
-			stopBeamPrediction()
-		end)
-	end
-end
-
-
-task.spawn(function()
-	local lastAim, lastLock = nil, nil
-	while task.wait(0.05) do
-		if beamActive and BeamService then
-			local character = player.Character
-			local targetPos = getAimPosition(character)
-			if targetPos then
-				local lock = getShiftLockState()
-				if targetPos ~= lastAim or lock ~= lastLock then
-					lastAim, lastLock = targetPos, lock
-					BeamService.BeamAim:Fire(targetPos, lock)
-				end
-			end
-		else
-			lastAim, lastLock = nil, nil
-		end
-	end
-end)
-
-
-local PREDICTION_ANIM_MAP = {
-	Attack = "Attack1", Attack1Event = "Attack1",
-	Beam = "Attack2", Attack2Event = "Attack2",
-	Attack3 = "Attack3", Attack3Event = "Attack3",
-	Attack4 = "Attack4", Attack4Event = "Attack4",
-	Roar1 = "Roar1", Roar1Event = "Roar1",
-	Roar2 = "Roar2", Roar2Event = "Roar2",
-}
-
-local ROAR_EVENTS = {
-	Roar1 = true, Roar1Event = true,
-	Roar2 = true, Roar2Event = true,
-}
-
-
-
-local RunService = game:GetService("RunService")
-
-local SHAKE_FREQ = 7
-local BEAM_ROT = 0.0022
-local BEAM_POS = 0.008
-local ROAR_ROT = 0.0038
-local ROAR_POS = 0.014
-local PULSE_ROT = 0.005
-local PULSE_POS = 0.02
-local ROAR_FALLBACK = 3
-local KICK_TIME = 0.45
-
-local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
-
-local function shakeNoise(t, seed)
-	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
-end
-
-local function onShakeAbility(eventName)
-	if isBeamEvent(eventName) then return end
-	local now = os.clock()
-	if ROAR_EVENTS[eventName] then
-		shakeState.roarStart = now
-		shakeState.roarEnd = now + ROAR_FALLBACK
-	else
-		shakeState.kickStart = now
-		shakeState.kickDir = -shakeState.kickDir
-	end
-end
-
-local function syncRoarShakeToSound(sound)
-	local startedAt = shakeState.roarStart
+function CandyService:Start()
 	task.spawn(function()
-		local t0 = os.clock()
-		while sound.Parent and sound.TimeLength == 0 and os.clock() - t0 < 1 do
-			task.wait()
-		end
-		if sound.TimeLength > 0 and shakeState.roarStart == startedAt then
-			shakeState.roarEnd = startedAt + sound.TimeLength / math.max(sound.PlaybackSpeed, 0.05)
+		while true do
+			task.wait(AUTOSAVE_INTERVAL)
+			pcall(autosaveAll)
 		end
 	end)
-end
 
-pcall(function() RunService:UnbindFromRenderStep("KOCameraShake") end)
-RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 1, function(dt)
-	local camera = workspace.CurrentCamera
-	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
-	if player:GetAttribute("CameraShake") == false then return end
-	local now = os.clock()
-	local target = beamActive and 1 or 0
-	local rate = target > shakeState.beamLevel and 5 or 3
-	shakeState.beamLevel += (target - shakeState.beamLevel) * math.min(dt * rate, 1)
-	if shakeState.beamLevel < 0.01 then shakeState.beamLevel = 0 end
-	local roar = 0
-	if now < shakeState.roarEnd then
-		roar = math.clamp(math.min((now - shakeState.roarStart) / 0.15, (shakeState.roarEnd - now) / 0.4, 1), 0, 1)
-	end
-	local pulse = 0
-	local pulseEnd = player:GetAttribute("PulseShakeEnd") or 0
-	if now < pulseEnd then
-		local pulseStart = player:GetAttribute("PulseShakeStart") or now
-		local env = math.clamp(math.min((now - pulseStart) / 0.08, (pulseEnd - now) / 0.5, 1), 0, 1)
-		pulse = env * (player:GetAttribute("PulseShakeAmp") or 0)
-	end
-	local kickAge = now - shakeState.kickStart
-	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 9) or 0
-	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT)
-	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS)
-	if rotAmp == 0 and posAmp == 0 and kick == 0 then return end
-	local pitch = shakeNoise(now, 1) * rotAmp
-	local yaw = shakeNoise(now, 2) * rotAmp
-	local roll = shakeNoise(now, 3) * rotAmp * 0.7
-	local px = shakeNoise(now, 4) * posAmp
-	local py = shakeNoise(now, 5) * posAmp
-	if kick > 0 then
-		roll += shakeState.kickDir * 0.016 * kick * math.cos(kickAge * 20)
-		pitch -= 0.009 * kick * math.cos(kickAge * 16)
-		yaw += shakeState.kickDir * 0.004 * kick * math.sin(kickAge * 14)
-		py -= 0.04 * kick
-	end
-	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
-end)
-
-local function silenceServerRoarSound(char, roarName)
-	local targets = {}
-	local head = char:FindFirstChild("Head")
-	local torso = char:FindFirstChild("Torso")
-	if head then table.insert(targets, head) end
-	if torso then table.insert(targets, torso) end
-	table.insert(targets, char)
-
-	local connections = {}
-	local TIMEOUT = 3
-
-	local function checkAndSilence(child)
-		if child:IsA("Sound") and child.Name == roarName and not child:GetAttribute("ClientPrediction") then
-			child.Volume = 0
-			child:Stop()
-		end
-	end
-
-	for _, target in ipairs(targets) do
-		
-		for _, child in ipairs(target:GetChildren()) do
-			checkAndSilence(child)
-		end
-		
-		local conn = target.ChildAdded:Connect(checkAndSilence)
-		table.insert(connections, conn)
-	end
-
-	
-	task.delay(TIMEOUT, function()
-		for _, conn in ipairs(connections) do
-			conn:Disconnect()
-		end
-	end)
-end
-
-local function playClientPrediction(eventName, char)
-	local animName = PREDICTION_ANIM_MAP[eventName]
-	if not animName then return end
-	onShakeAbility(eventName)
-
-	local humanoid = char:FindFirstChildOfClass("Humanoid")
-	if not humanoid then return end
-
-	local animator = humanoid:FindFirstChild("Animator")
-	if not animator then return end
-
-	local animationsFolder = char:FindFirstChild("Animations")
-	if animationsFolder then
-		local anim = animationsFolder:FindFirstChild(animName)
-		if anim then
-			local track = animator:LoadAnimation(anim)
-			track.Looped = false
-			track.Priority = Enum.AnimationPriority.Action
-			track:Play()
-		end
-	end
-
-	if ROAR_EVENTS[eventName] then
-		local cs = char:FindFirstChild("CharacterScripts")
-		if cs then
-			local soundsFolder = cs:FindFirstChild("Sounds")
-			if soundsFolder then
-				local sound = soundsFolder:FindFirstChild(animName)
-				if sound then
-					local soundClone = sound:Clone()
-					soundClone:SetAttribute("ClientPrediction", true)
-					soundClone.Parent = char:FindFirstChild("Head") or char:FindFirstChild("Torso") or char
-					soundClone:Play()
-					syncRoarShakeToSound(soundClone)
-					local len = soundClone.TimeLength / soundClone.PlaybackSpeed
-					task.spawn(function()
-						task.wait(len > 0 and len or 5)
-						soundClone:Destroy()
-					end)
-					
-					silenceServerRoarSound(char, animName)
-				end
-			end
-		end
-	end
-end
-
-local function fireAbility(eventName)
-	local button = activeButtons[eventName]
-	if not button then return end
-
-	local char = player.Character
-	if not char then return end
-	local cs = char:FindFirstChild("CharacterScripts")
-	if not cs then return end
-
-	local evt = cs:FindFirstChild(eventName)
-	if not evt then
-		local ae = cs:FindFirstChild("AnimEvents")
-		if ae then
-			evt = ae:FindFirstChild(eventName)
-		end
-	end
-	if not evt then return end
-
-	local cdDuration = CooldownManager.getDuration(eventName)
-	if not CooldownManager.canUse(eventName) then
-		return
-	end
-	if not ChargeManager.canUseCharge(eventName) then
-		return
-	end
-
-	CooldownManager.start(eventName, cdDuration)
-	ChargeManager.consumeCharge(eventName)
-
-	playClientPrediction(eventName, char)
-
-	if needsAimPosition(eventName) then
-		local aimPos = getAimPosition(char)
-		if aimPos then
-			evt:FireServer(aimPos)
-		else
-			local hrp = char:FindFirstChild("HumanoidRootPart")
-			if hrp then
-				evt:FireServer(hrp.Position + hrp.CFrame.LookVector * 1000)
-			end
-		end
-	else
-		evt:FireServer()
-	end
-
-	if isBeamEvent(eventName) then
-		if beamStartTimeout then
-			task.cancel(beamStartTimeout)
-		end
-		beamStartTimeout = task.delay(5, function()
-			beamStartTimeout = nil
-			beamActive = false
-			currentBeamGeneration = nil
-			beamLockedYaw = nil
-			stopBeamRotation()
-			stopBeamPrediction()
-		end)
-	end
-
-	CooldownManager.startAttackDuration(eventName)
-
-	local attackDuration = CooldownManager.getAttackDuration(eventName)
-	local visualDuration = math.max(cdDuration, attackDuration)
-
-	local charge = button:FindFirstChild("Charge")
-	if charge then
-		charge.Size = UDim2.new(1, 0, -1, 0)
-		local tween = TweenService:Create(charge, TweenInfo.new(visualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-		activeCooldowns[eventName] = true
-		tween.Completed:Connect(function()
-			activeCooldowns[eventName] = nil
-		end)
-		tween:Play()
-	end
-
-	for _, otherButton in ipairs(backpack:GetChildren()) do
-		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-
-			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
-			local otherVisualDuration = math.max(otherRemaining, attackDuration)
-			local otherCharge = otherButton:FindFirstChild("Charge")
-			if otherCharge then
-				otherCharge.Size = UDim2.new(1, 0, -1, 0)
-				local otherTween = TweenService:Create(otherCharge, TweenInfo.new(otherVisualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-				otherTween:Play()
-			end
-		end
-	end
-end
-
-local function buildButtons(character)
-	clearButtons()
-	activeButtons = {}
-	slotToEvent = {}
-
-	backpack.Size = UDim2.new(0, deviceSettings.backpackWidth, 0, deviceSettings.backpackHeight)
-	backpack.Position = UDim2.new(0.5, -deviceSettings.backpackWidth / 2, 1, -deviceSettings.backpackHeight - 15)
-	local barsFrame = backpack.Parent:FindFirstChild("Bars")
-	if barsFrame then
-		barsFrame.Position = UDim2.new(0.5, -185, 1, -deviceSettings.backpackHeight - 40)
-	end
-	if template then
-		template.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
-		scaleButtonChildren(template)
-	end
-
-	local sprint = backpack:FindFirstChild("Sprint")
-
-	local charScripts = character:FindFirstChild("CharacterScripts")
-	if not charScripts then
-		if sprint then sprint.Visible = false end
-		return
-	end
-
-	if sprint then
-		sprint.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
-		scaleButtonChildren(sprint)
-		sprint.Visible = true
-		local canFly = character:FindFirstChild("canFly")
-		local isFlying = canFly and canFly.Value == true
-		if isFlying then
-			sprint.Image = SPRINT_IMAGE_FLYING
-		else
-			sprint.Image = SPRINT_IMAGE_NORMAL
-		end
-
-		local sprintTitle = sprint:FindFirstChild("Title")
-		if sprintTitle then
-			sprintTitle.Text = isFlying and "Fly" or "Sprint"
-		end
-		local sprintNum = sprint:FindFirstChild("Num")
-		if sprintNum then
-			sprintNum.Text = "SHIFT"
-		end
-	end
-
-	local events = {}
-	local seenSlots = {}
-
-	local function addEvent(child)
-		if not isAttackEvent(child) then return end
-		local slot = ORDER[child.Name] or 99
-		local dedupKey = (slot == 99) and child.Name or tostring(slot)
-		if seenSlots[dedupKey] then return end
-		seenSlots[dedupKey] = true
-		table.insert(events, child)
-	end
-
-	for _, child in ipairs(charScripts:GetChildren()) do
-		addEvent(child)
-	end
-
-	local animEvents = charScripts:FindFirstChild("AnimEvents")
-	if animEvents then
-		for _, child in ipairs(animEvents:GetChildren()) do
-			addEvent(child)
-		end
-	end
-
-	table.sort(events, function(a, b)
-		return (ORDER[a.Name] or 99) < (ORDER[b.Name] or 99)
-	end)
-
-	local sprintCount = (sprint and sprint.Visible) and 1 or 0
-	local totalButtons = #events + sprintCount
-	local totalWidth = totalButtons * BUTTON_SIZE + math.max(totalButtons - 1, 0) * SPACING
-	local backpackWidth = backpack.Size.X.Offset
-	local startX = (backpackWidth - totalWidth) / 2
-
-	for i, event in ipairs(events) do
-		if template then
-			local button = template:Clone()
-			button.Name = event.Name
-			button.Size = UDim2.new(0, BUTTON_SIZE, 0, BUTTON_SIZE)
-			button.Visible = true
-			scaleButtonChildren(button)
-			button.Parent = backpack
-			activeButtons[event.Name] = button
-			slotToEvent[ORDER[event.Name] or 99] = event.Name
-
-			local attackImage = event:GetAttribute("AttackImage")
-			if attackImage and attackImage ~= "" then
-				button.Image = attackImage
-			end
-
-			local title = button:FindFirstChild("Title")
-			if title then
-				title.Text = getDisplayName(event)
-			end
-
-			local num = button:FindFirstChild("Num")
-			if num then
-				local eventName = event.Name
-				if eventName == "Roar1" or eventName == "Roar1Event" then
-					num.Text = "R"
-				elseif eventName == "Roar2" or eventName == "Roar2Event" then
-					num.Text = "T"
-				else
-					num.Text = NUMBERS[i] or tostring(i)
-				end
-			end
-
-			button.Position = UDim2.new(0, startX + (i - 1) * (BUTTON_SIZE + SPACING), 0, 0)
-
-			button.MouseButton1Click:Connect(function()
-				fireAbility(event.Name)
+	game:BindToClose(function()
+		local remaining = 0
+		for _, player in Players:GetPlayers() do
+			remaining += 1
+			task.spawn(function()
+				saveNow(player)
+				remaining -= 1
 			end)
 		end
-	end
-
-	if sprint then
-		sprint.Position = UDim2.new(0, startX + #events * (BUTTON_SIZE + SPACING), 0, 0)
-	end
-
-	return #events
-end
-
-local function onCharacterChanged(character)
-	clearButtons()
-
-	local connection
-	connection = character.ChildAdded:Connect(function(child)
-		if child.Name == "CharacterScripts" then
-			connection:Disconnect()
+		local deadline = os.clock() + 25
+		while remaining > 0 and os.clock() < deadline do
 			task.wait(0.2)
-			buildButtons(character)
-
-			child.ChildAdded:Connect(function(grandchild)
-				if grandchild:IsA("RemoteEvent") then
-					task.wait(0.1)
-					buildButtons(character)
-				end
-			end)
-			child.ChildRemoved:Connect(function()
-				task.wait(0.1)
-				buildButtons(character)
-			end)
 		end
 	end)
-
-	local existing = character:FindFirstChild("CharacterScripts")
-	if existing then
-		if connection then
-			connection:Disconnect()
-		end
-		task.wait(0.2)
-		buildButtons(character)
-
-		existing.ChildAdded:Connect(function(child)
-			if child:IsA("RemoteEvent") then
-				task.wait(0.1)
-				buildButtons(character)
-			end
-		end)
-		existing.ChildRemoved:Connect(function()
-			task.wait(0.1)
-			buildButtons(character)
-		end)
-	end
 end
 
-local sprintActive = false
-
-local function updateSprintVisual()
-	local sprint = backpack:FindFirstChild("Sprint")
-	if not sprint then return end
-	local indicator = sprint:FindFirstChild("ActiveIndicator")
-	if indicator then
-		indicator.BackgroundTransparency = sprintActive and 0.5 or 1
-	end
-end
-
-local function setSprintState(active)
-	sprintActive = active
-	updateSprintVisual()
-end
-
-local function getSprintRunningValue()
-	local character = player.Character
-	if not character then return nil end
-	local control = character:FindFirstChild("Control")
-	if not control then return nil end
-	local runFolder = control:FindFirstChild("Run")
-	if not runFolder then return nil end
-	return runFolder:FindFirstChild("Running")
-end
-
-local function playSprintCooldownFill()
-	local sprint = backpack:FindFirstChild("Sprint")
-	if not sprint then return end
-	local charge = sprint:FindFirstChild("Charge")
-	if charge then
-		charge.Size = UDim2.new(1, 0, -1, 0)
-		local tween = TweenService:Create(charge, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-		tween:Play()
-	end
-end
-
-local function doSprintToggle()
-	if not CooldownManager.canUse("Sprint") then return end
-	local runningValue = getSprintRunningValue()
-	if not runningValue then return end
-	CooldownManager.start("Sprint", 0.5)
-	playSprintCooldownFill()
-	runningValue.Value = not runningValue.Value
-	setSprintState(runningValue.Value)
-end
-
-local function doSprintStart()
-	if not CooldownManager.canUse("Sprint") then return end
-	local runningValue = getSprintRunningValue()
-	if not runningValue then return end
-	CooldownManager.start("Sprint", 0.5)
-	playSprintCooldownFill()
-	runningValue.Value = true
-	setSprintState(true)
-end
-
-local function doSprintStop()
-	local runningValue = getSprintRunningValue()
-	if not runningValue then return end
-	runningValue.Value = false
-	setSprintState(false)
-end
-
-local sprintButton = backpack:FindFirstChild("Sprint")
-if sprintButton then
-	sprintButton.MouseButton1Click:Connect(doSprintToggle)
-end
-
-local function watchRunningValue(character)
-	task.spawn(function()
-		local control = character:WaitForChild("Control", 10)
-		if not control then return end
-		local runFolder = control:WaitForChild("Run", 5)
-		if not runFolder then return end
-		local runningValue = runFolder:WaitForChild("Running", 5)
-		if not runningValue then return end
-
-		runningValue:GetPropertyChangedSignal("Value"):Connect(function()
-			if character == player.Character then
-				setSprintState(runningValue.Value)
-			end
-		end)
-		setSprintState(runningValue.Value)
-	end)
-end
-
-if player.Character then
-	onCharacterChanged(player.Character)
-	watchRunningValue(player.Character)
-	onCharacterDied(player.Character)
-end
-
-player.CharacterAdded:Connect(function(character)
-	beamActive = false
-	currentBeamGeneration = nil
-	beamLockedYaw = nil
-	if beamStartTimeout then
-		task.cancel(beamStartTimeout)
-		beamStartTimeout = nil
-	end
-	if beamDelayToken then
-		task.cancel(beamDelayToken)
-		beamDelayToken = nil
-	end
-	stopBeamRotation()
-	stopBeamPrediction()
-	CooldownManager.reset()
-	ChargeManager.reset()
-	activeCooldowns = {}
-	setSprintState(false)
-	onCharacterChanged(character)
-	watchRunningValue(character)
-	onCharacterDied(character)
-end)
-
-local KEY_TO_SLOT = {
-	[Enum.KeyCode.R] = 5,
-	[Enum.KeyCode.T] = 6,
-	[Enum.KeyCode.One] = 1,
-	[Enum.KeyCode.Two] = 2,
-	[Enum.KeyCode.Three] = 3,
-	[Enum.KeyCode.Four] = 4,
-}
-
-local GAMEPAD_TO_SLOT = {
-	[Enum.KeyCode.ButtonY] = 2,
-	[Enum.KeyCode.ButtonX] = 1,
-	[Enum.KeyCode.ButtonB] = 3,
-	[Enum.KeyCode.ButtonR1] = 4,
-	[Enum.KeyCode.DPadLeft] = 5,
-	[Enum.KeyCode.DPadRight] = 6,
-}
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if gameProcessed then return end
-
-	local slot = KEY_TO_SLOT[input.KeyCode] or GAMEPAD_TO_SLOT[input.KeyCode]
-	if slot then
-		local eventName = slotToEvent[slot]
-		if eventName then
-			fireAbility(eventName)
-		end
-	end
-end)
-
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if gameProcessed then return end
-	if input.KeyCode == Enum.KeyCode.ButtonL3 then
-		doSprintToggle()
-	end
-end)
-
+return CandyService
 ]]></ProtectedString>
-								</Properties>
-							</Item>
-						</Item>
+						</Properties>
 					</Item>
 				</Item>
 			</Item>
 		</Item>
-		<Item class="Folder" referent="RBX8">
+		<Item class="Folder" referent="RBX11">
 			<Properties>
 				<string name="Name">StarterPlayer</string>
 			</Properties>
-			<Item class="Folder" referent="RBX9">
+			<Item class="Folder" referent="RBX12">
 				<Properties>
 					<string name="Name">StarterPlayerScripts</string>
 				</Properties>
-				<Item class="Folder" referent="RBX10">
+				<Item class="LocalScript" referent="RBX13">
 					<Properties>
 						<string name="Name">Client</string>
+						<ProtectedString name="Source"><![CDATA[local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+
+if player:GetAttribute("ClientActive") then
+	return
+end
+
+local Controllers = script:WaitForChild("Controllers")
+local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
+local Lifecycle = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Lifecycle"))
+local log = Logger.new("Client")
+
+local REPLACED = {
+	"BlindEffect",
+	"BossHUD",
+	"Daiju",
+	"EliminatorPopupDisplay",
+	"HideOwnTag",
+	"KillMessageDisplay",
+	"KnitClientBootstrap",
+	"MenuCameraController",
+	"Ocean",
+	"PulseRenderer",
+	"RaffleHUD",
+	"RainClient",
+	"SettingsSaver",
+	"TouchControlHider",
+}
+local stillActive = {}
+for _, name in ipairs(REPLACED) do
+	local found = script.Parent:FindFirstChild(name)
+	if found and found ~= script and found:IsA("BaseScript") and not found.Disabled then
+		table.insert(stillActive, name)
+	end
+end
+if #stillActive > 0 then
+	log:warn("Not starting: delete or disable these replaced scripts first: " .. table.concat(stillActive, ", "))
+	return
+end
+
+player:SetAttribute("ClientActive", true)
+
+local lifecycle = Lifecycle.new(log)
+
+lifecycle:Register(require(Controllers.Knit))
+lifecycle:Register(require(Controllers.Menu))
+lifecycle:Register(require(Controllers.Settings))
+lifecycle:Register(require(Controllers.Touch))
+lifecycle:Register(require(Controllers.Chat))
+lifecycle:Register(require(Controllers.Graphics))
+lifecycle:Register(require(Controllers.Hud))
+lifecycle:Register(require(Controllers.Indicators))
+lifecycle:Register(require(Controllers.Ocean))
+lifecycle:Register(require(Controllers.WaterFX))
+lifecycle:Register(require(Controllers.Effects))
+lifecycle:Register(require(Controllers.Sounds))
+
+lifecycle:InitAll()
+lifecycle:StartAll()
+
+log:info("Started. Controller status:\n" .. lifecycle:Report())
+]]></ProtectedString>
 					</Properties>
-					<Item class="Folder" referent="RBX11">
+					<Item class="ModuleScript" referent="RBX14">
+						<Properties>
+							<string name="Name">Config</string>
+							<ProtectedString name="Source"><![CDATA[return {
+	Menu = {
+		CameraName = "MenuCameraControl",
+		CameraPriorityOffset = 1000,
+		TweenSeconds = 0.6,
+		DeathReturnDelay = 4,
+		EntityUnlockUser = "L0tzie",
+	},
+
+	Settings = {
+		MinFov = 70,
+		MaxFov = 120,
+	},
+
+	Hud = {
+		BossEndSeconds = 10,
+		BlindHoldSeconds = 5,
+		BlindFadeSeconds = 1,
+	},
+
+	Graphics = {
+		Auto = true,
+		LowFps = 22,
+		SampleSeconds = 4,
+		Strikes = 2,
+		GraceSeconds = 20,
+		CooldownSeconds = 15,
+		IgnoreFrameOver = 0.5,
+		NotifySeconds = 7,
+		SweepChunk = 400,
+	},
+
+	Rain = {
+		OffsetY = 60,
+	},
+
+	Pulse = {
+		WaitTimeout = 10,
+		BurstTime = 0.4,
+		SustainTime = 0.5,
+		DissipateTime = 0.6,
+		BurstOvershoot = 1.1,
+		DissipateGrowth = 1.25,
+		MaxActive = 12,
+		DefaultSize = 300,
+		MinSize = 5,
+		MaxSize = 2000,
+	},
+
+	Ocean = {
+		WaitTimeout = 30,
+		LevelOffset = 0,
+		UpdateRate = 30,
+		WaveSpeed = 0.7,
+		WaveHeight = 0.45,
+		NormalStrength = 5,
+		Darken = 0.85,
+		RippleHeight = 0.4,
+		RippleSpeed = 9,
+		RippleWidth = 4,
+		RippleLife = 1.8,
+		RippleBrightness = 1,
+		MaxRipples = 32,
+		MaxTriangles = 14000,
+		RingSegments = 72,
+		DetailRadius = 320,
+		DetailPower = 1.3,
+		DetailRings = 40,
+		OuterRadius = 1000,
+		OuterRings = 6,
+		FarDrop = 3,
+		Waves = {
+			{ angle = 15,   length = 160, amp = 1.6,  fade = 1.00 },
+			{ angle = -40,  length = 95,  amp = 1.1,  fade = 0.85 },
+			{ angle = 70,   length = 60,  amp = 0.65, fade = 0.65 },
+			{ angle = -110, length = 42,  amp = 0.35, fade = 0.5 },
+		},
+	},
+
+	WaterFX = {
+		UpdateRate = 20,
+		MaxDistance = 250,
+		MaxDepth = 30,
+		SurfaceMargin = 2,
+		SurfaceLift = 0.3,
+		ReferenceSize = 4,
+		MaxScale = 8,
+		MinSpeed = 4,
+		RatePerSpeed = 1.2,
+		MaxRate = 60,
+		SprayMinSpeed = 14,
+		SprayPerSpeed = 2,
+		SprayMaxRate = 80,
+		SplashPerSpeed = 1.5,
+		SplashMinCount = 6,
+		SplashMaxCount = 80,
+		SplashCooldown = 0.5,
+		WakeLifetime = 1.6,
+		FoamColor = Color3.fromRGB(235, 248, 255),
+		SprayColor = Color3.fromRGB(190, 225, 245),
+	},
+}
+]]></ProtectedString>
+						</Properties>
+					</Item>
+					<Item class="Folder" referent="RBX15">
 						<Properties>
 							<string name="Name">Controllers</string>
 						</Properties>
-						<Item class="ModuleScript" referent="RBX12">
+						<Item class="ModuleScript" referent="RBX16">
+							<Properties>
+								<string name="Name">Graphics</string>
+								<ProtectedString name="Source"><![CDATA[-- Adaptive graphics: steps quality down one tier at a time when the frame rate stays low,
+-- tells the player with a Roblox slide-in notification, and adds the /graphics chat command.
+local GraphicsController = { Name = "Graphics" }
+
+local ALIASES = { high = "High", medium = "Medium", med = "Medium", low = "Low", lowest = "Lowest", auto = "Auto" }
+local USAGE = "Type /graphics High, Medium, Low, Lowest or Auto in chat."
+
+function GraphicsController:Start()
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+	local Lighting = game:GetService("Lighting")
+	local StarterGui = game:GetService("StarterGui")
+	local TextChatService = game:GetService("TextChatService")
+	local UserInputService = game:GetService("UserInputService")
+	local Workspace = game:GetService("Workspace")
+	local Shared = game:GetService("ReplicatedStorage"):WaitForChild("Shared")
+	local Quality = require(Shared:WaitForChild("GraphicsQuality"))
+	local cfg = require(script:FindFirstAncestor("Client").Config).Graphics
+
+	local originals = setmetatable({}, { __mode = "k" })
+	local function remember(inst, props)
+		local saved = originals[inst]
+		if not saved then
+			saved = {}
+			originals[inst] = saved
+			for _, prop in ipairs(props) do
+				saved[prop] = inst[prop]
+			end
+		end
+		return saved
+	end
+
+	local originalQuality
+	pcall(function()
+		originalQuality = settings().Rendering.QualityLevel.Value
+	end)
+
+	local function notify(title, text)
+		task.spawn(function()
+			for _ = 1, 10 do
+				local ok = pcall(function()
+					StarterGui:SetCore("SendNotification", { Title = title, Text = text, Duration = cfg.NotifySeconds })
+				end)
+				if ok then
+					return
+				end
+				task.wait(1)
+			end
+		end)
+	end
+
+	local function applyToInstance(inst, s)
+		if inst:IsA("ParticleEmitter") then
+			if inst.Parent and inst.Parent:GetAttribute("GraphicsManaged") then
+				return
+			end
+			local saved = remember(inst, { "Rate" })
+			if saved.Rate > 0 then
+				inst.Rate = saved.Rate * s.ParticleScale
+			end
+		elseif inst:IsA("PointLight") or inst:IsA("SpotLight") or inst:IsA("SurfaceLight") then
+			local saved = remember(inst, { "Shadows" })
+			inst.Shadows = saved.Shadows and s.LightShadows
+		end
+	end
+
+	local function applyEffect(inst, s)
+		local rule = s.Effects[inst.ClassName]
+		if rule ~= nil then
+			local saved = remember(inst, { "Enabled" })
+			inst.Enabled = saved.Enabled and rule
+		elseif inst:IsA("Atmosphere") then
+			local saved = remember(inst, { "Density", "Haze", "Glare" })
+			inst.Density = saved.Density * s.Atmosphere
+			inst.Haze = saved.Haze * s.Atmosphere
+			inst.Glare = saved.Glare * s.Atmosphere
+		end
+	end
+
+	local function applyGlobal(s)
+		pcall(function()
+			local saved = remember(Lighting, { "GlobalShadows", "EnvironmentSpecularScale" })
+			Lighting.GlobalShadows = saved.GlobalShadows and s.Shadows
+			Lighting.EnvironmentSpecularScale = saved.EnvironmentSpecularScale * s.Specular
+		end)
+		for _, inst in ipairs(Lighting:GetChildren()) do
+			pcall(applyEffect, inst, s)
+		end
+		pcall(function()
+			local terrain = Workspace.Terrain
+			local saved = remember(terrain, { "Decoration" })
+			terrain.Decoration = saved.Decoration and s.Decoration
+		end)
+		pcall(function()
+			local target = originalQuality
+			if s.QualityLevel and originalQuality then
+				target = math.min(originalQuality, s.QualityLevel)
+			end
+			if target then
+				settings().Rendering.QualityLevel = target
+			end
+		end)
+	end
+
+	local addedConn
+	local applyToken = 0
+
+	local function applyAll()
+		applyToken += 1
+		local token = applyToken
+		local s = Quality.Settings()
+		applyGlobal(s)
+
+		if addedConn then
+			addedConn:Disconnect()
+			addedConn = nil
+		end
+		if s.ParticleScale < 1 or not s.LightShadows then
+			addedConn = Workspace.DescendantAdded:Connect(function(inst)
+				pcall(applyToInstance, inst, Quality.Settings())
+			end)
+		end
+
+		task.spawn(function()
+			local all = Workspace:GetDescendants()
+			for i, inst in ipairs(all) do
+				if token ~= applyToken then
+					return
+				end
+				pcall(applyToInstance, inst, s)
+				if i % cfg.SweepChunk == 0 then
+					task.wait()
+				end
+			end
+		end)
+	end
+
+	local autoEnabled = cfg.Auto
+	local graceUntil = os.clock() + cfg.GraceSeconds
+	local cooldownUntil = 0
+
+	Quality.OnChanged(function(name, source)
+		applyAll()
+		cooldownUntil = os.clock() + cfg.CooldownSeconds
+		if source == "auto" then
+			notify("Graphics lowered to " .. name, "Adjust anytime: type /graphics High or /graphics Low in chat.")
+		end
+	end)
+
+	local strikes = 0
+	local function evaluate(fps)
+		local now = os.clock()
+		if not autoEnabled or now < graceUntil or now < cooldownUntil or not UserInputService.WindowFocused then
+			strikes = 0
+			return
+		end
+		strikes = fps < cfg.LowFps and strikes + 1 or 0
+		if strikes >= cfg.Strikes then
+			strikes = 0
+			local nextTier = Quality.Next()
+			if nextTier then
+				Quality.Set(nextTier, "auto")
+			end
+		end
+	end
+
+	local acc, frames = 0, 0
+	RunService.Heartbeat:Connect(function(dt)
+		if dt > cfg.IgnoreFrameOver then
+			return
+		end
+		acc += dt
+		frames += 1
+		if acc >= cfg.SampleSeconds then
+			local fps = frames / acc
+			acc, frames = 0, 0
+			evaluate(fps)
+		end
+	end)
+
+	local function handleCommand(arg)
+		arg = string.lower((arg or ""):gsub("%s", ""))
+		if arg == "" then
+			notify("Graphics: " .. Quality.Get(), USAGE)
+			return
+		end
+		local choice = ALIASES[arg]
+		if not choice then
+			notify("Unknown graphics setting", USAGE)
+		elseif choice == "Auto" then
+			autoEnabled = true
+			notify("Graphics: Auto", "Quality will drop on its own if the game lags.")
+		else
+			autoEnabled = false
+			Quality.Set(choice, "manual")
+			notify("Graphics set to " .. choice, "Auto-lowering is off. Type /graphics Auto to turn it back on.")
+		end
+	end
+
+	local hooked = false
+	if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+		hooked = pcall(function()
+			local command = Instance.new("TextChatCommand")
+			command.Name = "GraphicsCommand"
+			command.PrimaryAlias = "/graphics"
+			command.Parent = TextChatService
+			command.Triggered:Connect(function(_, text)
+				handleCommand(text:match("^%S+%s*(.*)$"))
+			end)
+		end)
+	end
+	if not hooked then
+		Players.LocalPlayer.Chatted:Connect(function(message)
+			local arg = message:lower():match("^/graphics%s*(.*)$")
+			if arg then
+				handleCommand(arg)
+			end
+		end)
+	end
+end
+
+return GraphicsController
+]]></ProtectedString>
+							</Properties>
+						</Item>
+						<Item class="ModuleScript" referent="RBX17">
+							<Properties>
+								<string name="Name">Ocean</string>
+								<ProtectedString name="Source"><![CDATA[local OceanController = { Name = "Ocean" }
+
+function OceanController:Start()
+	local cfg = require(script:FindFirstAncestor("Client").Config).Ocean
+	local AssetService = game:GetService("AssetService")
+	local RunService = game:GetService("RunService")
+	local Players = game:GetService("Players")
+
+	local ocean = workspace:WaitForChild("Ocean", cfg.WaitTimeout)
+	if not ocean or not ocean:IsA("BasePart") then return end
+
+	local LEVEL_OFFSET = cfg.LevelOffset
+	local UPDATE_RATE = cfg.UpdateRate
+	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
+	local frozenDone = false
+	local WAVE_SPEED = cfg.WaveSpeed
+	local WAVE_HEIGHT = cfg.WaveHeight
+	local NORMAL_STRENGTH = cfg.NormalStrength
+	local DARKEN = cfg.Darken
+
+	local RIPPLE_HEIGHT = cfg.RippleHeight
+	local RIPPLE_SPEED = cfg.RippleSpeed
+	local RIPPLE_WIDTH = cfg.RippleWidth
+	local RIPPLE_LIFE = cfg.RippleLife
+	local RIPPLE_BRIGHTNESS = cfg.RippleBrightness
+	local MAX_RIPPLES = cfg.MaxRipples
+
+	local MAX_TRIANGLES = cfg.MaxTriangles
+	local RING_SEGMENTS = cfg.RingSegments
+	local DETAIL_RADIUS = cfg.DetailRadius
+	local DETAIL_POWER = cfg.DetailPower
+	local DETAIL_RINGS = cfg.DetailRings
+	local OUTER_RADIUS = cfg.OuterRadius
+	local OUTER_RINGS = cfg.OuterRings
+	local FAR_DROP = cfg.FarDrop
+
+	local function countTriangles(detailRings)
+		local rings = detailRings + OUTER_RINGS
+		return ((rings - 1) * RING_SEGMENTS * 2 + RING_SEGMENTS) * 2
+	end
+
+	local detailRings = DETAIL_RINGS
+	while detailRings > 8 and countTriangles(detailRings) > MAX_TRIANGLES do
+		detailRings -= 1
+	end
+
+	local WAVE_RADIUS = DETAIL_RADIUS
+
+	local WAVE_DEFS = cfg.Waves
+
+	local waves = {}
+	for i, def in ipairs(WAVE_DEFS) do
+		local a = math.rad(def.angle)
+		local k = 2 * math.pi / def.length
+		local fadeEnd = WAVE_RADIUS * def.fade
+		waves[i] = {
+			dx = math.cos(a),
+			dz = math.sin(a),
+			k = k,
+			w = math.sqrt(workspace.Gravity * k) * WAVE_SPEED,
+			amp = def.amp * WAVE_HEIGHT,
+			phase = i * 1.7,
+			fadeStart = fadeEnd * 0.4,
+			fadeEnd = fadeEnd,
+		}
+	end
+	local waveCount = #waves
+
+	local function sample(x, z, t, dist)
+		local h, gx, gz = 0, 0, 0
+		for i = 1, waveCount do
+			local wv = waves[i]
+			local f = 1 - math.clamp((dist - wv.fadeStart) / (wv.fadeEnd - wv.fadeStart), 0, 1)
+			if f > 0 then
+				f = f * f * (3 - 2 * f)
+				local a = wv.amp * f
+				local phase = wv.k * (wv.dx * x + wv.dz * z) - wv.w * t + wv.phase
+				h += a * math.sin(phase)
+				local d = a * wv.k * math.cos(phase)
+				gx += d * wv.dx
+				gz += d * wv.dz
+			end
+		end
+		return h, gx, gz
+	end
+
+	local function getLevel()
+		return ocean.Position.Y + ocean.Size.Y / 2 + LEVEL_OFFSET
+	end
+
+	local function baseHeight(r)
+		if r <= WAVE_RADIUS then return 0 end
+		local u = math.clamp((r - WAVE_RADIUS) / (OUTER_RADIUS - WAVE_RADIUS), 0, 1)
+		u = u * u * (3 - 2 * u)
+		return -FAR_DROP * u
+	end
+
+	local function buildSurface()
+		local radii = {}
+		for j = 1, detailRings do
+			radii[#radii + 1] = DETAIL_RADIUS * (j / detailRings) ^ DETAIL_POWER
+		end
+		local ratio = OUTER_RADIUS / DETAIL_RADIUS
+		for k = 1, OUTER_RINGS do
+			radii[#radii + 1] = DETAIL_RADIUS * ratio ^ (k / OUTER_RINGS)
+		end
+
+		local mesh = AssetService:CreateEditableMesh()
+		local uv = mesh:AddUV(Vector2.new(0, 0))
+
+		local colorsOk = true
+		local baseShade = Color3.new(DARKEN, DARKEN, DARKEN)
+		local vertexIds, normalIds, colorIds, lx, lz, rad = {}, {}, {}, {}, {}, {}
+
+		local function addVertex(x, z, r)
+			local n = #vertexIds + 1
+			vertexIds[n] = mesh:AddVertex(Vector3.new(x, baseHeight(r), z))
+			normalIds[n] = mesh:AddNormal(Vector3.yAxis)
+			if colorsOk then
+				local ok, id = pcall(mesh.AddColor, mesh, baseShade, 1)
+				if ok then
+					colorIds[n] = id
+				else
+					colorsOk = false
+				end
+			end
+			lx[n], lz[n], rad[n] = x, z, r
+		end
+
+		addVertex(0, 0, 0)
+		for _, r in ipairs(radii) do
+			for i = 0, RING_SEGMENTS - 1 do
+				local a = i / RING_SEGMENTS * 2 * math.pi
+				addVertex(r * math.cos(a), r * math.sin(a), r)
+			end
+		end
+
+		local function index(ring, i)
+			return 1 + (ring - 1) * RING_SEGMENTS + (i % RING_SEGMENTS) + 1
+		end
+
+		local function addFace(a, b, c)
+			local f = mesh:AddTriangle(vertexIds[a], vertexIds[b], vertexIds[c])
+			mesh:SetFaceNormals(f, { normalIds[a], normalIds[b], normalIds[c] })
+			mesh:SetFaceUVs(f, { uv, uv, uv })
+			if colorsOk then
+				local ok = pcall(mesh.SetFaceColors, mesh, f, { colorIds[a], colorIds[b], colorIds[c] })
+				if not ok then colorsOk = false end
+			end
+		end
+
+		local function addTriangle(a, b, c)
+			addFace(a, b, c)
+			addFace(a, c, b)
+		end
+
+		for i = 0, RING_SEGMENTS - 1 do
+			addTriangle(1, index(1, i + 1), index(1, i))
+		end
+		for ring = 1, #radii - 1 do
+			for i = 0, RING_SEGMENTS - 1 do
+				addTriangle(index(ring, i), index(ring + 1, i + 1), index(ring + 1, i))
+				addTriangle(index(ring, i), index(ring, i + 1), index(ring + 1, i + 1))
+			end
+		end
+
+		local part = AssetService:CreateMeshPartAsync(Content.fromObject(mesh))
+		part.Name = "OceanSurface"
+		part.Anchored = true
+		part.CanCollide = false
+		part.CanQuery = false
+		part.CanTouch = false
+		part.CastShadow = false
+		if colorsOk then
+			part.Color = ocean.Color
+		else
+			part.Color = ocean.Color:Lerp(Color3.new(0, 0, 0), 1 - DARKEN)
+		end
+		part.Material = ocean.Material
+		part.Reflectance = ocean.Reflectance
+		part.Transparency = ocean.Transparency
+		part.CFrame = CFrame.new(ocean.Position.X, getLevel(), ocean.Position.Z)
+		part.Parent = workspace
+
+		local activeCount = 1
+		for n = 1, #rad do
+			if rad[n] <= WAVE_RADIUS then activeCount = n end
+		end
+
+		return {
+			mesh = mesh,
+			part = part,
+			vertexIds = vertexIds,
+			normalIds = normalIds,
+			colorIds = colorIds,
+			colorsOk = colorsOk,
+			lx = lx,
+			lz = lz,
+			rad = rad,
+			activeCount = activeCount,
+		}
+	end
+
+	local function buildFarWater()
+		local far = ocean:Clone()
+		far.Name = "OceanFar"
+		far.Anchored = true
+		far.CanCollide = false
+		far.CanQuery = false
+		far.CanTouch = false
+		far.CastShadow = false
+		far.Color = ocean.Color:Lerp(Color3.new(0, 0, 0), 1 - DARKEN)
+		far.CFrame = ocean.CFrame + Vector3.new(0, LEVEL_OFFSET - FAR_DROP - 0.15, 0)
+		far.Parent = workspace
+		return far
+	end
+
+	local function hideOriginal()
+		ocean.LocalTransparencyModifier = 1
+		for _, d in ipairs(ocean:GetDescendants()) do
+			if d:IsA("BasePart") then
+				d.LocalTransparencyModifier = 1
+			end
+		end
+	end
+
+	local function runFallback()
+		local base = ocean.CFrame
+		RunService.RenderStepped:Connect(function()
+			local t = workspace:GetServerTimeNow()
+			local bob = math.sin(t * 0.9) * 0.2 + math.sin(t * 0.37 + 1.3) * 0.15
+			ocean.CFrame = base + Vector3.new(0, bob, 0)
+		end)
+	end
+
+	local ok, surface = pcall(buildSurface)
+	if not ok then
+		warn("[OceanWaves] EditableMesh unavailable, using fallback bob: " .. tostring(surface))
+		runFallback()
+		return
+	end
+
+	buildFarWater()
+	hideOriginal()
+
+	local mesh = surface.mesh
+	local part = surface.part
+	local vertexIds = surface.vertexIds
+	local normalIds = surface.normalIds
+	local colorIds = surface.colorIds
+	local colorsOk = surface.colorsOk
+	local lx, lz, rad = surface.lx, surface.lz, surface.rad
+	local activeCount = surface.activeCount
+
+	local lastShade = table.create(activeCount, DARKEN)
+	local ripples = {}
+	local partState = setmetatable({}, { __mode = "k" })
+
+	local function spawnRipple(x, z, amp, r0, clock)
+		if #ripples >= MAX_RIPPLES then
+			table.remove(ripples, 1)
+		end
+		ripples[#ripples + 1] = {
+			x = x,
+			z = z,
+			amp0 = amp,
+			r0 = r0,
+			t0 = clock,
+			radius = r0,
+			width = RIPPLE_WIDTH,
+			amp = amp,
+			kk = 1.1 / RIPPLE_WIDTH,
+			strength = 1,
+			lo2 = 0,
+			hi2 = 0,
+		}
+	end
+
+	local function collectSources(cx, cz, level, t, clock, stepDt)
+		local limit = WAVE_RADIUS * WAVE_RADIUS * 0.7
+		for _, plr in ipairs(Players:GetPlayers()) do
+			local char = plr.Character
+			if char then
+				for _, p in ipairs(char:GetChildren()) do
+					if p:IsA("BasePart") and p.Name ~= "HumanoidRootPart" and p.Transparency < 0.95 then
+						local pos = p.Position
+						local dx, dz = pos.X - cx, pos.Z - cz
+						local d2 = dx * dx + dz * dz
+						local st = partState[p]
+						if not st then
+							st = { pos = pos, t = 0 }
+							partState[p] = st
+						end
+						local speed = math.min((pos - st.pos).Magnitude / math.max(stepDt, 1e-3), 40)
+						st.pos = pos
+						if d2 < limit then
+							local half = math.max(p.Size.X, p.Size.Y, p.Size.Z) * 0.5
+							local h = sample(pos.X, pos.Z, t, math.sqrt(d2))
+							local surfaceY = level + h
+							if math.abs(pos.Y - surfaceY) < half * 0.8 + 0.3 then
+								local interval = math.clamp(0.7 - speed * 0.03, 0.18, 0.7)
+								if clock - st.t >= interval then
+									st.t = clock
+									local amp = RIPPLE_HEIGHT
+										* math.clamp(0.4 + speed / 18, 0.4, 1.3)
+										* math.clamp(half / 2, 0.5, 1.4)
+									spawnRipple(pos.X, pos.Z, amp, half * 0.8, clock)
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+	local function updateRipples(clock)
+		for i = #ripples, 1, -1 do
+			local rp = ripples[i]
+			local age = clock - rp.t0
+			if age >= RIPPLE_LIFE then
+				table.remove(ripples, i)
+			else
+				local fade = 1 - age / RIPPLE_LIFE
+				fade *= fade
+				local radius = rp.r0 + RIPPLE_SPEED * age
+				local width = RIPPLE_WIDTH * (1 + age * 0.6)
+				rp.radius = radius
+				rp.width = width
+				rp.kk = 1.1 / width
+				rp.amp = rp.amp0 * fade / (1 + radius * 0.05)
+				rp.strength = fade * math.min(1, rp.amp0 / RIPPLE_HEIGHT)
+				local lo = math.max(0, radius - width * 3)
+				local hi = radius + width * 3
+				rp.lo2 = lo * lo
+				rp.hi2 = hi * hi
+			end
+		end
+	end
+
+	local rate = UPDATE_RATE
+	local MIN_RATE = math.min(12, UPDATE_RATE)
+	local step = 1 / rate
+	local fpsAcc, fpsN = 0, 0
+	local accumulator = 0
+	local lastUpdate = os.clock()
+
+	RunService.RenderStepped:Connect(function(dt)
+		local qRate = Quality.Settings().OceanRate
+		if qRate == 0 and frozenDone then return end
+		fpsAcc += dt
+		fpsN += 1
+		if fpsN >= 60 then
+			local avg = fpsAcc / fpsN
+			fpsAcc, fpsN = 0, 0
+			if avg > 1 / 30 then
+				rate = math.max(rate - 3, MIN_RATE)
+			elseif avg < 1 / 45 then
+				rate = math.min(rate + 2, (qRate and qRate > 0) and math.min(qRate, UPDATE_RATE) or UPDATE_RATE)
+			end
+			step = 1 / rate
+		end
+		accumulator += dt
+		if accumulator < step then return end
+		accumulator %= step
+		if qRate and qRate > 0 and rate > qRate then
+			rate = qRate
+			step = 1 / rate
+		end
+
+		local camera = workspace.CurrentCamera
+		if not camera then return end
+		local camPos = camera.CFrame.Position
+		local cx, cz = camPos.X, camPos.Z
+		local t = workspace:GetServerTimeNow()
+		local clock = os.clock()
+		local stepDt = clock - lastUpdate
+		lastUpdate = clock
+		local level = getLevel()
+
+		part.CFrame = CFrame.new(cx, level, cz)
+
+		collectSources(cx, cz, level, t, clock, stepDt)
+		updateRipples(clock)
+		local rc = #ripples
+
+		for n = 1, activeCount do
+			local x, z = lx[n], lz[n]
+			local wx, wz = cx + x, cz + z
+			local h, gx, gz = sample(wx, wz, t, rad[n])
+			local bright = 0
+
+			for i = 1, rc do
+				local rp = ripples[i]
+				local dx, dz = wx - rp.x, wz - rp.z
+				local d2 = dx * dx + dz * dz
+				if d2 >= rp.lo2 and d2 <= rp.hi2 then
+					local d = math.sqrt(d2)
+					local w = rp.width
+					local u = d - rp.radius
+					local q = u / w
+					local env = math.exp(-q * q)
+					local ph = u * rp.kk
+					local c = math.cos(ph)
+					local hh = rp.amp * env
+					h += hh * c
+					local dh = hh * (-2 * q / w * c - rp.kk * math.sin(ph))
+					if d > 1e-3 then
+						gx += dh * dx / d
+						gz += dh * dz / d
+					end
+					local slope = math.min(1, math.abs(dh) * w / math.max(rp.amp, 1e-4) * 1.16)
+					bright += rp.strength * (0.5 * env + 0.5 * slope)
+				end
+			end
+
+			mesh:SetPosition(vertexIds[n], Vector3.new(x, h, z))
+			local sx, sz = gx * NORMAL_STRENGTH, gz * NORMAL_STRENGTH
+			local inv = 1 / math.sqrt(sx * sx + 1 + sz * sz)
+			mesh:SetNormal(normalIds[n], Vector3.new(-sx * inv, inv, -sz * inv))
+
+			if colorsOk then
+				local shade = DARKEN + (1 - DARKEN) * math.min(bright * RIPPLE_BRIGHTNESS, 1)
+				if math.abs(shade - lastShade[n]) > 0.002 then
+					lastShade[n] = shade
+					mesh:SetColor(colorIds[n], Color3.new(shade, shade, shade))
+				end
+			end
+		end
+		frozenDone = qRate == 0
+	end)
+end
+
+return OceanController
+]]></ProtectedString>
+							</Properties>
+						</Item>
+						<Item class="ModuleScript" referent="RBX18">
+							<Properties>
+								<string name="Name">WaterFX</string>
+								<ProtectedString name="Source"><![CDATA[local WaterFX = { Name = "WaterFX" }
+
+local FOAM = "rbxasset://textures/particles/smoke_main.dds"
+local SPRAY = "rbxasset://textures/particles/sparkles_main.dds"
+
+local function sizeSequence(a, b)
+	return NumberSequence.new({
+		NumberSequenceKeypoint.new(0, a),
+		NumberSequenceKeypoint.new(1, b),
+	})
+end
+
+local function build(folder, fx)
+	local part = Instance.new("Part")
+	part.Name = "WaterFXEmitter"
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanQuery = false
+	part.CanTouch = false
+	part.CastShadow = false
+	part.Transparency = 1
+	part.Size = Vector3.one
+	part.Parent = folder
+
+	local attachment = Instance.new("Attachment")
+	attachment.Parent = part
+
+	local wake = Instance.new("ParticleEmitter")
+	wake.Texture = FOAM
+	wake.Rate = 0
+	wake.Lifetime = NumberRange.new(fx.WakeLifetime * 0.7, fx.WakeLifetime)
+	wake.Speed = NumberRange.new(0.5, 2)
+	wake.SpreadAngle = Vector2.new(180, 180)
+	wake.Drag = 3
+	wake.LightEmission = 0.3
+	wake.Color = ColorSequence.new(fx.FoamColor)
+	wake.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.45),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	wake.Size = sizeSequence(1, 3)
+	wake.Parent = attachment
+
+	local spray = Instance.new("ParticleEmitter")
+	spray.Texture = SPRAY
+	spray.Rate = 0
+	spray.Lifetime = NumberRange.new(0.5, 0.9)
+	spray.Speed = NumberRange.new(8, 16)
+	spray.SpreadAngle = Vector2.new(35, 35)
+	spray.EmissionDirection = Enum.NormalId.Top
+	spray.Acceleration = Vector3.new(0, -workspace.Gravity * 0.6, 0)
+	spray.LightEmission = 0.5
+	spray.Color = ColorSequence.new(fx.SprayColor)
+	spray.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.1),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	spray.Size = sizeSequence(0.6, 0.2)
+	spray.Parent = attachment
+
+	return part, wake, spray
+end
+
+function WaterFX:Start()
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+	local config = require(script:FindFirstAncestor("Client").Config)
+	local fx = config.WaterFX
+	local levelOffset = config.Ocean.LevelOffset
+
+	local ocean = workspace:WaitForChild("Ocean", config.Ocean.WaitTimeout)
+	if not ocean or not ocean:IsA("BasePart") then
+		return
+	end
+
+	local folder = Instance.new("Folder")
+	folder.Name = "WaterFX"
+	folder.Parent = workspace
+
+	local tracked = {}
+
+	local function untrack(player)
+		local entry = tracked[player]
+		if entry then
+			entry.part:Destroy()
+			tracked[player] = nil
+		end
+	end
+
+	local function track(player, character)
+		untrack(player)
+		local root = character:WaitForChild("HumanoidRootPart", 10)
+		if not root then
+			return
+		end
+		local part, wake, spray = build(folder, fx)
+		tracked[player] = {
+			root = root,
+			part = part,
+			wake = wake,
+			spray = spray,
+			scale = 0,
+			wasIn = false,
+			nextSplash = 0,
+		}
+	end
+
+	local function hook(player)
+		player.CharacterAdded:Connect(function(character)
+			track(player, character)
+		end)
+		player.CharacterRemoving:Connect(function()
+			untrack(player)
+		end)
+		if player.Character then
+			task.spawn(track, player, player.Character)
+		end
+	end
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		hook(player)
+	end
+	Players.PlayerAdded:Connect(hook)
+	Players.PlayerRemoving:Connect(untrack)
+
+	local function applyScale(entry, scale)
+		if math.abs(entry.scale - scale) < 0.25 then
+			return
+		end
+		entry.scale = scale
+		entry.wake.Size = sizeSequence(scale, scale * 3)
+		entry.spray.Size = sizeSequence(scale * 0.6, scale * 0.2)
+		entry.spray.Speed = NumberRange.new(8 * scale ^ 0.5, 16 * scale ^ 0.5)
+	end
+
+	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
+	local interval = 1 / fx.UpdateRate
+	local elapsed = 0
+
+	RunService.Heartbeat:Connect(function(dt)
+		elapsed += dt
+		if elapsed < interval then
+			return
+		end
+		elapsed = 0
+
+		local camera = workspace.CurrentCamera
+		if not camera or not ocean.Parent then
+			return
+		end
+
+		local camPos = camera.CFrame.Position
+		local level = ocean.Position.Y + ocean.Size.Y / 2 + levelOffset
+		local now = os.clock()
+		local fxScale = Quality.Settings().WaterFx
+
+		for player, entry in pairs(tracked) do
+			local root = entry.root
+			if not root.Parent then
+				untrack(player)
+			else
+				local pos = root.Position
+				local halfHeight = root.Size.Y / 2
+				local inWater = pos.Y - halfHeight <= level + fx.SurfaceMargin
+					and pos.Y > level - fx.MaxDepth
+					and (pos - camPos).Magnitude <= fx.MaxDistance
+
+				if inWater then
+					local velocity = root.AssemblyLinearVelocity
+					local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
+					local scale = math.clamp(math.max(root.Size.X, root.Size.Z) / fx.ReferenceSize, 1, fx.MaxScale)
+					applyScale(entry, scale)
+					entry.part.CFrame = CFrame.new(pos.X, level + fx.SurfaceLift, pos.Z)
+
+					entry.wake.Rate = (speed > fx.MinSpeed and math.min(speed * fx.RatePerSpeed, fx.MaxRate) or 0) * fxScale
+					entry.spray.Rate = (speed > fx.SprayMinSpeed
+							and math.min((speed - fx.SprayMinSpeed) * fx.SprayPerSpeed, fx.SprayMaxRate)
+						or 0) * fxScale
+
+					if not entry.wasIn and now >= entry.nextSplash then
+						local count = math.clamp(-velocity.Y * fx.SplashPerSpeed * scale ^ 0.5, fx.SplashMinCount, fx.SplashMaxCount)
+						if fxScale > 0 then
+							entry.spray:Emit(math.max(1, math.floor(count * fxScale)))
+							entry.wake:Emit(math.max(1, math.floor(count * 0.5 * fxScale)))
+						end
+						entry.nextSplash = now + fx.SplashCooldown
+					end
+				else
+					entry.wake.Rate = 0
+					entry.spray.Rate = 0
+				end
+
+				entry.wasIn = inWater
+			end
+		end
+	end)
+end
+
+return WaterFX
+]]></ProtectedString>
+							</Properties>
+						</Item>
+						<Item class="ModuleScript" referent="RBX19">
 							<Properties>
 								<string name="Name">Effects</string>
 								<ProtectedString name="Source"><![CDATA[local EffectsController = { Name = "Effects" }
@@ -1352,6 +1602,7 @@ local function startRain(cfg)
 	end)
 	local lowEnd = UserInputService.TouchEnabled or (okQuality and quality > 0 and quality <= 4)
 	local rainScale = lowEnd and 0.5 or 1
+	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
 	local okCfg, HolidayConfigs = pcall(function()
 		return require(ReplicatedStorage:WaitForChild("HolidayConfigs", 5))
 	end)
@@ -1376,6 +1627,7 @@ local function startRain(cfg)
 
 		local clone = rainTemplate:Clone()
 		rainClone = clone
+		clone:SetAttribute("GraphicsManaged", true)
 		clone.Parent = Workspace
 
 		local holiday = okCfg and HolidayConfigs.getActive() or nil
@@ -1384,7 +1636,7 @@ local function startRain(cfg)
 		for _, child in clone:GetChildren() do
 			if child:IsA("ParticleEmitter") then
 				if tint then child.Color = ColorSequence.new(tint) end
-				local rate = child.Rate * rainScale
+				local rate = child.Rate * rainScale * Quality.Settings().ParticleScale
 				child.Rate = 0
 				child.Enabled = true
 				TweenService:Create(child, info, { Rate = rate }):Play()
@@ -1646,7 +1898,7 @@ local function startPulse(cfg)
 			clone.Parent = workspace
 
 			for _, e in ipairs(emitters) do
-				e:Emit(math.max(1, math.floor(e:GetAttribute("EmitCount") or 25)))
+				e:Emit(math.max(1, math.floor((e:GetAttribute("EmitCount") or 25) * Quality.Settings().ParticleScale)))
 			end
 
 			local startSize = 2

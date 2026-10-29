@@ -21,6 +21,7 @@ local function startRain(cfg)
 	end)
 	local lowEnd = UserInputService.TouchEnabled or (okQuality and quality > 0 and quality <= 4)
 	local rainScale = lowEnd and 0.5 or 1
+	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
 	local okCfg, HolidayConfigs = pcall(function()
 		return require(ReplicatedStorage:WaitForChild("HolidayConfigs", 5))
 	end)
@@ -45,6 +46,7 @@ local function startRain(cfg)
 
 		local clone = rainTemplate:Clone()
 		rainClone = clone
+		clone:SetAttribute("GraphicsManaged", true)
 		clone.Parent = Workspace
 
 		local holiday = okCfg and HolidayConfigs.getActive() or nil
@@ -53,7 +55,7 @@ local function startRain(cfg)
 		for _, child in clone:GetChildren() do
 			if child:IsA("ParticleEmitter") then
 				if tint then child.Color = ColorSequence.new(tint) end
-				local rate = child.Rate * rainScale
+				local rate = child.Rate * rainScale * Quality.Settings().ParticleScale
 				child.Rate = 0
 				child.Enabled = true
 				TweenService:Create(child, info, { Rate = rate }):Play()
@@ -315,7 +317,7 @@ local function startPulse(cfg)
 			clone.Parent = workspace
 
 			for _, e in ipairs(emitters) do
-				e:Emit(math.max(1, math.floor(e:GetAttribute("EmitCount") or 25)))
+				e:Emit(math.max(1, math.floor((e:GetAttribute("EmitCount") or 25) * Quality.Settings().ParticleScale)))
 			end
 
 			local startSize = 2

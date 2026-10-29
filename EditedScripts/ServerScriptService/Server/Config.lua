@@ -44,6 +44,11 @@ return {
 
 	LegacyModules = { "Character", "Combat", "Data", "World" },
 
+	Performance = {
+		SampleSeconds = 3,
+		LagFrameTime = 1 / 30,
+	},
+
 	OceanDepth = {
 		Enabled = true,
 		FloorNames = { "Bottom" },

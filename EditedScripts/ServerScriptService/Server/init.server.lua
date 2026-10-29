@@ -34,6 +34,7 @@ ServerScriptService:SetAttribute("ServerFrameworkActive", true)
 
 local lifecycle = Lifecycle.new(log)
 
+lifecycle:Register(require(Services.PerformanceService))
 lifecycle:Register(require(Services.MorphService))
 lifecycle:Register(require(Services.GCellGuardService))
 lifecycle:Register(require(Services.IndicatorService))

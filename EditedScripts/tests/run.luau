@@ -5,6 +5,8 @@ local Health = require("../ServerScriptService/Server/Services/HealthService")
 local GCell = require("../ServerScriptService/Server/Services/GCellGuardService")
 local Settings = require("../ServerScriptService/Server/Services/SettingsService")
 local Eliminator = require("../ServerScriptService/Server/Services/EliminatorService")
+local Quality = require("../ReplicatedStorage/Shared/GraphicsQuality")
+local Perf = require("../ServerScriptService/Server/Services/PerformanceService")
 
 local failures, total = {}, 0
 local function check(name, condition)
@@ -122,6 +124,11 @@ check("config: regen constants unchanged", h.RegenDelay == 20 and h.RegenInterva
 check("config: restricted kaiju + allowed players unchanged", #Config.Morph.RestrictedKaiju == 7 and #Config.Morph.AllowedPlayers == 4)
 check("config: legacy module order unchanged", table.concat(Config.LegacyModules, ",") == "Character,Combat,Data,World")
 check("config: guard timings unchanged", Config.GCellGuard.ReadyDelay == 1 and Config.GCellGuard.AllowanceTtl == 1 and Config.GCellGuard.Tolerance == 0.5)
+
+check("graphics: starts on High with no ocean cap", Quality.Get() == "High" and Quality.Settings().OceanRate == nil and Quality.Settings().ParticleScale == 1)
+check("graphics: steps High>Medium>Low>Lowest then stops", Quality.Next() == "Medium" and #Quality.Order() == 4 and Quality.Order()[4] == "Lowest")
+check("graphics: particle scale only goes down", Quality.Order()[2] == "Medium" and Quality.Set("Nope") == false)
+check("perf: lag threshold", Perf.isLagging(0.05, 1 / 30) and not Perf.isLagging(1 / 60, 1 / 30))
 
 print(("%d checks, %d failed"):format(total, #failures))
 for _, name in ipairs(failures) do

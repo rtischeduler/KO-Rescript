@@ -133,6 +133,7 @@ function WaterFX:Start()
 		entry.spray.Speed = NumberRange.new(8 * scale ^ 0.5, 16 * scale ^ 0.5)
 	end
 
+	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
 	local interval = 1 / fx.UpdateRate
 	local elapsed = 0
 
@@ -151,6 +152,7 @@ function WaterFX:Start()
 		local camPos = camera.CFrame.Position
 		local level = ocean.Position.Y + ocean.Size.Y / 2 + levelOffset
 		local now = os.clock()
+		local fxScale = Quality.Settings().WaterFx
 
 		for player, entry in pairs(tracked) do
 			local root = entry.root
@@ -170,15 +172,17 @@ function WaterFX:Start()
 					applyScale(entry, scale)
 					entry.part.CFrame = CFrame.new(pos.X, level + fx.SurfaceLift, pos.Z)
 
-					entry.wake.Rate = speed > fx.MinSpeed and math.min(speed * fx.RatePerSpeed, fx.MaxRate) or 0
-					entry.spray.Rate = speed > fx.SprayMinSpeed
+					entry.wake.Rate = (speed > fx.MinSpeed and math.min(speed * fx.RatePerSpeed, fx.MaxRate) or 0) * fxScale
+					entry.spray.Rate = (speed > fx.SprayMinSpeed
 							and math.min((speed - fx.SprayMinSpeed) * fx.SprayPerSpeed, fx.SprayMaxRate)
-						or 0
+						or 0) * fxScale
 
 					if not entry.wasIn and now >= entry.nextSplash then
 						local count = math.clamp(-velocity.Y * fx.SplashPerSpeed * scale ^ 0.5, fx.SplashMinCount, fx.SplashMaxCount)
-						entry.spray:Emit(math.floor(count))
-						entry.wake:Emit(math.floor(count * 0.5))
+						if fxScale > 0 then
+							entry.spray:Emit(math.max(1, math.floor(count * fxScale)))
+							entry.wake:Emit(math.max(1, math.floor(count * 0.5 * fxScale)))
+						end
 						entry.nextSplash = now + fx.SplashCooldown
 					end
 				else

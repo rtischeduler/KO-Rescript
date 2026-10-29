@@ -11,6 +11,8 @@ function OceanController:Start()
 
 	local LEVEL_OFFSET = cfg.LevelOffset
 	local UPDATE_RATE = cfg.UpdateRate
+	local Quality = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality"))
+	local frozenDone = false
 	local WAVE_SPEED = cfg.WaveSpeed
 	local WAVE_HEIGHT = cfg.WaveHeight
 	local NORMAL_STRENGTH = cfg.NormalStrength
@@ -344,6 +346,8 @@ function OceanController:Start()
 	local lastUpdate = os.clock()
 
 	RunService.RenderStepped:Connect(function(dt)
+		local qRate = Quality.Settings().OceanRate
+		if qRate == 0 and frozenDone then return end
 		fpsAcc += dt
 		fpsN += 1
 		if fpsN >= 60 then
@@ -352,13 +356,17 @@ function OceanController:Start()
 			if avg > 1 / 30 then
 				rate = math.max(rate - 3, MIN_RATE)
 			elseif avg < 1 / 45 then
-				rate = math.min(rate + 2, UPDATE_RATE)
+				rate = math.min(rate + 2, (qRate and qRate > 0) and math.min(qRate, UPDATE_RATE) or UPDATE_RATE)
 			end
 			step = 1 / rate
 		end
 		accumulator += dt
 		if accumulator < step then return end
 		accumulator %= step
+		if qRate and qRate > 0 and rate > qRate then
+			rate = qRate
+			step = 1 / rate
+		end
 
 		local camera = workspace.CurrentCamera
 		if not camera then return end
@@ -419,6 +427,7 @@ function OceanController:Start()
 				end
 			end
 		end
+		frozenDone = qRate == 0
 	end)
 end
 
