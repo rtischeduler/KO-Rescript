@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build models
-        run: python3 tools/build_rbxmx.py
+        run: python3 tools/build_rbxmx.py edited_now.txt KO-Rescript.rbxmx
 
       - name: Upload models as artifact
         uses: actions/upload-artifact@v4
