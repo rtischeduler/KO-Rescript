@@ -171,6 +171,29 @@ local function startPulse(cfg)
 	local function easeInPow(p) return p ^ 2.2 end
 	local function rand(a, b) return a + math.random() * (b - a) end
 
+	local function playFallback(position, color, maxSize)
+		local ball = Instance.new("Part")
+		ball.Shape = Enum.PartType.Ball
+		ball.Material = Enum.Material.Neon
+		ball.Color = color
+		ball.Anchored = true
+		ball.CanCollide = false
+		ball.CanTouch = false
+		ball.CanQuery = false
+		ball.CastShadow = false
+		ball.Transparency = 0.35
+		ball.Size = Vector3.new(2, 2, 2)
+		ball.Position = position
+		ball.Parent = workspace
+		local total = BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME
+		Debris:AddItem(ball, total + 1)
+		local size = maxSize * BURST_OVERSHOOT
+		game:GetService("TweenService"):Create(ball, TweenInfo.new(total, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+			Size = Vector3.new(size, size, size),
+			Transparency = 1,
+		}):Play()
+	end
+
 	local function runPulse(firingPlayer, color, maxSize)
 		if typeof(color) ~= "Color3" then color = DEFAULT_COLOR end
 		if type(maxSize) ~= "number" then maxSize = cfg.DefaultSize end
@@ -181,8 +204,12 @@ local function startPulse(cfg)
 		local hrp = character and character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
 
-		local template = ReplicatedStorage:FindFirstChild("Pulse")
-		if not template then return end
+		local template = ReplicatedStorage:FindFirstChild("Pulse") or ReplicatedStorage:WaitForChild("Pulse", 3)
+		if not template then
+			warn("[Pulse] template missing from ReplicatedStorage, using fallback")
+			playFallback(hrp.Position, color, maxSize)
+			return
+		end
 
 		local localPlayer = game:GetService("Players").LocalPlayer
 		local strength = 1
@@ -248,7 +275,9 @@ local function startPulse(cfg)
 				clone.PrimaryPart = (sw and sw:IsA("BasePart") and sw) or clone:FindFirstChildWhichIsA("BasePart", true)
 			end
 			if not clone.PrimaryPart then
+				warn("[Pulse] template has no parts, using fallback")
 				clone:Destroy()
+				playFallback(hrp.Position, color, maxSize)
 				return
 			end
 
@@ -373,6 +402,8 @@ local function startPulse(cfg)
 
 		if not ok then
 			warn("[Pulse] visual failed: " .. tostring(err))
+			if clone.Parent then clone:Destroy() end
+			playFallback(hrp.Position, color, maxSize)
 		end
 
 		destroyEntry(entry)
