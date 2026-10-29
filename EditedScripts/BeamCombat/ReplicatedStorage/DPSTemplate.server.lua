@@ -100,7 +100,12 @@ task.spawn(function()
 									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end
 									awardGCells(attacker, char)
 									if Knockback and attackerChar then
-										Knockback.push(char, attackerChar, "beam")
+										local overlap = OverlapParams.new()
+										overlap.FilterType = Enum.RaycastFilterType.Include
+										overlap.FilterDescendantsInstances = { char }
+										if #Workspace:GetPartsInPart(hitbox, overlap) > 0 then
+											Knockback.push(char, attackerChar, "beam")
+										end
 									end
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)
