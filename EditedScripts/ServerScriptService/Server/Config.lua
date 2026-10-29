@@ -67,8 +67,8 @@ return {
 	OceanDepth = {
 		Enabled = true,
 		FloorNames = { "Bottom" },
-		DepthDrop = 25,
-		WedgeGrow = 25,
+		DepthDrop = 18,
+		WedgeGrow = 18,
 		ColorTolerance = 0.02,
 		MinUpright = 0.9,
 		YieldEvery = 3000,

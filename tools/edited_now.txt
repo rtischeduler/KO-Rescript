@@ -1,2 +1,3 @@
-BeamCombat/ServerScriptService/framework/modules/Combat.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
+BeamCombat/ReplicatedStorage/BeamSystem.lua
+ReplicatedStorage/PlayerScripts/Control/init.client.lua
+ServerScriptService/Server/Config.lua

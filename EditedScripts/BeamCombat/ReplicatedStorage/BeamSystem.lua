@@ -89,6 +89,46 @@ local function makeFxEmitter(source, kind, power)
 	end
 	return emitter
 end
+local SMOKE_TEXTURE = "rbxasset://textures/particles/smoke_main.dds"
+local function makeSmokeEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Texture = SMOKE_TEXTURE
+	emitter.Color = ColorSequence.new(color)
+	emitter.LightEmission = 0.05
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2.5), NumberSequenceKeypoint.new(1, 9)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.45), NumberSequenceKeypoint.new(1, 1)})
+	emitter.Lifetime = NumberRange.new(0.25, 0.45)
+	emitter.Speed = NumberRange.new(35, 50)
+	emitter.Drag = 4
+	emitter.SpreadAngle = Vector2.new(18, 18)
+	emitter.Rotation = NumberRange.new(0, 360)
+	emitter.RotSpeed = NumberRange.new(-60, 60)
+	emitter.LockedToPart = false
+	emitter.Rate = 0
+	emitter.Enabled = false
+	return emitter
+end
+local function makeStartSmokeEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Texture = SMOKE_TEXTURE
+	emitter.Color = ColorSequence.new(color)
+	emitter.LightEmission = 0
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 5)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.78), NumberSequenceKeypoint.new(1, 1)})
+	emitter.Lifetime = NumberRange.new(0.2, 0.35)
+	emitter.Speed = NumberRange.new(28, 44)
+	emitter.Drag = 3
+	emitter.Shape = Enum.ParticleEmitterShape.Sphere
+	emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+	emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+	emitter.SpreadAngle = Vector2.new(180, 180)
+	emitter.Rotation = NumberRange.new(0, 360)
+	emitter.RotSpeed = NumberRange.new(-40, 40)
+	emitter.LockedToPart = false
+	emitter.Rate = 12
+	emitter.Enabled = true
+	return emitter
+end
 local function restoreBeamTextures(list)
 	if not list then return end
 	for _, entry in ipairs(list) do
@@ -624,6 +664,18 @@ function BeamSystem.ActivateBeam(config)
 			end
 		end
 		activeBeams[player].beamTextureBases = beamTextures
+		local smokeColor = Color3.new(0.82, 0.82, 0.82):Lerp(impactColor, 0.2)
+		local startSmoke = {}
+		for _, beamStart in ipairs(beamStarts) do
+			local smoke = makeStartSmokeEmitter(smokeColor)
+			smoke.Parent = beamStart
+			table.insert(startSmoke, smoke)
+		end
+		impactFolder.Destroying:Connect(function()
+			for _, smoke in ipairs(startSmoke) do
+				pcall(function() smoke:Destroy() end)
+			end
+		end)
 		local texBoost = 1
 		local lastEndPos = nil
 		local lastTexTime = tick()
@@ -662,6 +714,18 @@ function BeamSystem.ActivateBeam(config)
 				table.insert(fxGroup, {emitter = core, rate = 22})
 			end
 		end
+		local SMOKE_DIRECTIONS = 8
+		local SMOKE_REACH = 32
+		local smokeGroup = {}
+		for i = 1, SMOKE_DIRECTIONS do
+			local att = Instance.new("Attachment")
+			att.Parent = impactAnchor
+			local smoke = makeSmokeEmitter(smokeColor)
+			smoke.Parent = att
+			smokeGroup[i] = { att = att, emitter = smoke }
+		end
+		local smokeOpenness = 1
+		local templateSpreadBase = {}
 		local function setFxIntensity(intensity)
 			local enabled = intensity > 0.05
 			for _, entry in ipairs(fxGroup) do
@@ -669,10 +733,50 @@ function BeamSystem.ActivateBeam(config)
 				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
 			end
+			for _, entry in ipairs(smokeGroup) do
+				local rate = enabled and math.floor(9 * intensity + 0.5) or 0
+				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
+				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+			end
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
 		local impactParams = RaycastParams.new()
 		impactParams.FilterType = Enum.RaycastFilterType.Exclude
+		local function updateSmoke(impactPos, normal)
+			local base = normal:Cross(Vector3.xAxis)
+			if base.Magnitude < 0.1 then
+				base = normal:Cross(Vector3.zAxis)
+			end
+			base = base.Unit
+			local origin = impactPos + normal * 2
+			local openTotal = 0
+			for i, entry in ipairs(smokeGroup) do
+				local angle = (i - 1) / SMOKE_DIRECTIONS * math.pi * 2
+				local dir = CFrame.fromAxisAngle(normal, angle):VectorToWorldSpace(base)
+				local result = Workspace:Raycast(origin, dir * SMOKE_REACH, impactParams)
+				local free = SMOKE_REACH
+				local emitDir = (dir * 0.85 + normal * 0.15).Unit
+				if result then
+					free = math.max(result.Distance - 1.5, 0)
+					local slide = dir - result.Normal * dir:Dot(result.Normal)
+					emitDir = (normal * 0.8 + slide * 0.2 + result.Normal * 0.2).Unit
+				end
+				openTotal = openTotal + free / SMOKE_REACH
+				entry.att.WorldCFrame = CFrame.lookAt(origin, origin + emitDir) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local life = math.clamp(free / 50, 0.15, 0.5)
+				entry.emitter.Lifetime = NumberRange.new(life * 0.8, life)
+			end
+			smokeOpenness = openTotal / SMOKE_DIRECTIONS
+			for _, source in ipairs(templateEmitters) do
+				local baseSpread = templateSpreadBase[source]
+				if not baseSpread then
+					baseSpread = source.SpreadAngle
+					templateSpreadBase[source] = baseSpread
+				end
+				local extra = 35 + 30 * smokeOpenness
+				source.SpreadAngle = Vector2.new(math.min(baseSpread.X + extra, 180), math.min(baseSpread.Y + extra, 180))
+			end
+		end
 		local function updateImpact(endPos, extent, now, clashInfo)
 			if clashInfo and not clashInfo.lead then
 				setFxIntensity(0)
@@ -701,6 +805,7 @@ function BeamSystem.ActivateBeam(config)
 				local mix = (math.sin(now * 9) + 1) / 2
 				impactLight.Color = impactColor:Lerp(clashInfo.partnerColor or impactColor, mix)
 				impactLight.Brightness = 3 * extent
+				updateSmoke(endPos, Vector3.yAxis)
 				setFxIntensity(extent * 1.4)
 			else
 				if beamIteration % 2 == 0 or not impactSurfaceOffset then
@@ -717,6 +822,7 @@ function BeamSystem.ActivateBeam(config)
 						impactSurfaceOffset = Vector3.zero
 						impactSurfaceNormal = Vector3.yAxis
 					end
+					updateSmoke(endPos + impactSurfaceOffset, impactSurfaceNormal)
 				end
 				local impactPos = endPos + impactSurfaceOffset
 				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
