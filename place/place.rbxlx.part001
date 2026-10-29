@@ -1,4 +1,31 @@
- name="Weight">1</float>
+perties>
+                              <string name="Name">Jaw</string>
+                              <BinaryString name="AttributesSerialize"></BinaryString>
+                              <CoordinateFrame name="CFrame">
+                                <X>-0.00030845543</X>
+                                <Y>-0.62055576</Y>
+                                <Z>0.008433163</Z>
+                                <R00>0.99999994</R00>
+                                <R01>-0.00028126186</R01>
+                                <R02>-0.00026442684</R02>
+                                <R10>0.000042784362</R10>
+                                <R11>0.76149267</R11>
+                                <R12>-0.6481735</R12>
+                                <R20>0.00038366558</R20>
+                                <R21>0.6481734</R21>
+                                <R22>0.7614926</R22>
+                              </CoordinateFrame>
+                              <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                              <token name="EasingDirection">0</token>
+                              <token name="EasingStyle">0</token>
+                              <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                              <bool name="DefinesCapabilities">false</bool>
+                              <BinaryString name="SerializedOverrides">
+                              </BinaryString>
+                              <int64 name="SourceAssetId">-1</int64>
+                              <BinaryString name="Tags"></BinaryString>
+                              <UniqueId name="UniqueId">000000000000000000000000000183be</UniqueId>
+                              <float name="Weight">1</float>
                             </Properties>
                           </Item>
                         </Item>
@@ -1174681,10 +1174708,10 @@ return GlowManager</string>
                                       <Y>7.178671</Y>
                                       <Z>-0.00020714122</Z>
                                       <R00>0.6987835</R00>
-                                      <R01>0.29514906</R01>
+                                      <R01>0.29514903</R01>
                                       <R02>-0.6516048</R02>
                                       <R10>-0.71481276</R10>
-                                      <R11>0.32285258</R11>
+                                      <R11>0.3228526</R11>
                                       <R12>-0.6203298</R12>
                                       <R20>0.027282549</R20>
                                       <R21>0.8992516</R21>
@@ -1176263,10 +1176290,10 @@ return GlowManager</string>
                                       <Y>7.178671</Y>
                                       <Z>-0.00020714122</Z>
                                       <R00>0.6987835</R00>
-                                      <R01>0.29514903</R01>
+                                      <R01>0.29514906</R01>
                                       <R02>-0.6516048</R02>
                                       <R10>-0.71481276</R10>
-                                      <R11>0.3228526</R11>
+                                      <R11>0.32285258</R11>
                                       <R12>-0.6203298</R12>
                                       <R20>0.027282549</R20>
                                       <R21>0.8992516</R21>
@@ -1786251,31 +1786278,4 @@ end
                                     <string name="Name">JF1</string>
                                     <BinaryString name="AttributesSerialize"></BinaryString>
                                     <CoordinateFrame name="CFrame">
-                                      <X>-0.000000059604645</X>
-                                      <Y>-0.00000017881393</Y>
-                                      <Z>-0.00000011920929</Z>
-                                      <R00>1</R00>
-                                      <R01>0</R01>
-                                      <R02>0</R02>
-                                      <R10>0</R10>
-                                      <R11>1</R11>
-                                      <R12>0</R12>
-                                      <R20>0</R20>
-                                      <R21>0</R21>
-                                      <R22>1</R22>
-                                    </CoordinateFrame>
-                                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                                    <token name="EasingDirection">1</token>
-                                    <token name="EasingStyle">0</token>
-                                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                                    <bool name="DefinesCapabilities">false</bool>
-                                    <BinaryString name="SerializedOverrides">
-                                    </BinaryString>
-                                    <int64 name="SourceAssetId">-1</int64>
-                                    <BinaryString name="Tags"></BinaryString>
-                                    <UniqueId name="UniqueId">0000000000000000000000000000cb4b</UniqueId>
-                                    <float name="Weight">1</float>
-                                  </Properties>
-                                </Item>
-                              </Item>
-                              <Item class="Pose" re
+                                      <X>-0.000

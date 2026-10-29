@@ -1,4 +1,31 @@
-ferent="78223">
+000059604645</X>
+                                      <Y>-0.00000017881393</Y>
+                                      <Z>-0.00000011920929</Z>
+                                      <R00>1</R00>
+                                      <R01>0</R01>
+                                      <R02>0</R02>
+                                      <R10>0</R10>
+                                      <R11>1</R11>
+                                      <R12>0</R12>
+                                      <R20>0</R20>
+                                      <R21>0</R21>
+                                      <R22>1</R22>
+                                    </CoordinateFrame>
+                                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                    <token name="EasingDirection">1</token>
+                                    <token name="EasingStyle">0</token>
+                                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                    <bool name="DefinesCapabilities">false</bool>
+                                    <BinaryString name="SerializedOverrides">
+                                    </BinaryString>
+                                    <int64 name="SourceAssetId">-1</int64>
+                                    <BinaryString name="Tags"></BinaryString>
+                                    <UniqueId name="UniqueId">0000000000000000000000000000cb4b</UniqueId>
+                                    <float name="Weight">1</float>
+                                  </Properties>
+                                </Item>
+                              </Item>
+                              <Item class="Pose" referent="78223">
                                 <Properties>
                                   <string name="Name">Head2</string>
                                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -515213,9 +515240,9 @@ end</string>
                     <Z>1.1945496</Z>
                     <R00>0.585643</R00>
                     <R01>-0.8105692</R01>
-                    <R02>0.000000007450581</R02>
+                    <R02>0.000000014901161</R02>
                     <R10>-0.13473275</R10>
-                    <R11>-0.09734555</R11>
+                    <R11>-0.09734556</R11>
                     <R12>-0.9860889</R12>
                     <R20>0.7992931</R20>
                     <R21>0.57749593</R21>
@@ -1488155,7 +1488182,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000e7e</UniqueId>
+      <UniqueId name="UniqueId">5cfe6a306224bc5e0af4251100000e7e</UniqueId>
     </Properties>
   </Item>
   <Item class="PermissionsService" referent="124694">
@@ -1488169,7 +1488196,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000ea7</UniqueId>
+      <UniqueId name="UniqueId">5cfe6a306224bc5e0af4251100000ea7</UniqueId>
     </Properties>
   </Item>
   <Item class="LuaWebService" referent="124695">
@@ -1488183,7 +1488210,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">047d5b88e4c447e10af4049500000fc3</UniqueId>
+      <UniqueId name="UniqueId">5cfe6a306224bc5e0af4251100000fc3</UniqueId>
     </Properties>
   </Item>
   <SharedStrings>
