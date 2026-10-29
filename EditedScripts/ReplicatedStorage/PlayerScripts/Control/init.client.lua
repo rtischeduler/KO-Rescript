@@ -572,18 +572,8 @@ local function updateAir(dt, now, wet, level)
 	end
 
 	if mode == "Swim" then
-		local speed = flightVel.Magnitude
-		if speed > 1 then
-			local ahead = workspace:Raycast(position, flightVel.Unit * (bodyHalf + 3 + speed * dt), rayParams)
-			if ahead then
-				local into = flightVel:Dot(ahead.Normal)
-				if into < 0 then
-					flightVel = flightVel - ahead.Normal * into
-				end
-			end
-		end
-		local over = workspace:Raycast(position + Vector3.new(0, 60, 0), Vector3.new(0, -60, 0), rayParams)
-		if over and over.Instance:IsA("Terrain") and over.Position.Y > position.Y + 1 and over.Position.Y - position.Y < 30 then
+		local over = workspace:Raycast(headPos + Vector3.new(0, 60, 0), Vector3.new(0, -60, 0), rayParams)
+		if over and over.Instance:IsA("Terrain") and over.Position.Y > headPos.Y + 1 and over.Position.Y - headPos.Y < 30 then
 			flightVel = Vector3.new(flightVel.X, math.max(flightVel.Y, SWIM_SPEED), flightVel.Z)
 		end
 	end

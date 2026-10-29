@@ -1,3 +1,1 @@
-BeamCombat/ReplicatedStorage/BeamSystem.lua
 ReplicatedStorage/PlayerScripts/Control/init.client.lua
-ServerScriptService/Server/Config.lua
