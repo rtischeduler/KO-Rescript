@@ -1,1 +1,2 @@
+BeamCombat/ReplicatedStorage/DPSTemplate.server.lua
 ReplicatedStorage/Knockback.lua
