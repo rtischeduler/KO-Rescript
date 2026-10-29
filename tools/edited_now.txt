@@ -1,8 +1,1 @@
-BeamCombat/ServerScriptService/framework/modules/Character.lua
-BeamCombat/ServerScriptService/framework/modules/Data.lua
-ServerScriptService/SecurityPolicy.lua
-ServerScriptService/Server/Services/MorphService.lua
-StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
-StarterGui/NEWMenu/Kaijus/Stats/SkillPoints/Modifiers/ModifierUIHandler.client.lua
-StarterGui/NEWMenu/UIScript.client.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua

@@ -695,9 +695,16 @@ local function initAttackHandler()
 		if part.Name == "AttackHitbox" or part.Name == "BeamHitbox" or part.Name == "PulseHitbox" or part:GetAttribute("MeleeHit") then
 			return nil, nil
 		end
-		local character = part.Parent
-		if not character then return nil, nil end
-		return character:FindFirstChildOfClass("Humanoid"), Players:GetPlayerFromCharacter(character)
+		local model = part.Parent
+		while model do
+			local humanoid = model:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				return humanoid, Players:GetPlayerFromCharacter(model)
+			end
+			model = model.Parent
+			if model == workspace then break end
+		end
+		return nil, nil
 	end
 
 	local function findSounds(character)

@@ -17,3869 +17,1315 @@
 					</Properties>
 					<Item class="ModuleScript" referent="RBX5">
 						<Properties>
-							<string name="Name">Character</string>
-							<ProtectedString name="Source"><![CDATA[
-local Character = {}
+							<string name="Name">Combat</string>
+							<ProtectedString name="Source"><![CDATA[local Combat = {}
 
-function Character.Init()
-	
-	local GamepassWhitelist = {
-		[274893778] = true
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Debris = game:GetService("Debris")
+
+local function safeRequire(name)
+	local module = ReplicatedStorage:FindFirstChild(name)
+	if not module then return nil end
+	local ok, result = pcall(require, module)
+	if not ok then
+		warn("[Combat] Failed to require " .. name .. ": " .. tostring(result))
+		return nil
+	end
+	return result
+end
+
+safeRequire("LevelGuard")
+safeRequire("ChargeManager")
+local Knockback = safeRequire("Knockback")
+if not Knockback then
+	warn("[Combat] Knockback module missing from ReplicatedStorage")
+end
+
+local function getOrCreateRemote(name)
+	local remote = ReplicatedStorage:FindFirstChild(name)
+	if not remote then
+		remote = Instance.new("RemoteEvent")
+		remote.Name = name
+		remote.Parent = ReplicatedStorage
+	end
+	return remote
+end
+
+local function getGCells(player)
+	local leaderstats = player:FindFirstChild("leaderstats")
+	if not leaderstats then return nil end
+	local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
+	if gcells and gcells:IsA("IntValue") then return gcells end
+	return nil
+end
+
+local function rewardScale(player, at, isKill)
+	if _G.RewardScale and typeof(at) == "Instance" then
+		return _G.RewardScale(player, at, isKill)
+	end
+	return 1, 1
+end
+
+local function giveGCells(player, amount, isKillReward, at)
+	local gcells = getGCells(player)
+	if not gcells then return end
+	local gcellMult = rewardScale(player, at, isKillReward)
+	amount = math.floor(amount * gcellMult + math.random())
+	if amount <= 0 then return end
+	if isKillReward and _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
+	if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
+	gcells.Value += amount
+	if _G.ShowIndicator then _G.ShowIndicator(player, 0, amount, 0, at) end
+	if isKillReward and _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
+end
+
+local function giveXP(player, minXP, maxXP, at, isKill)
+	local character = player.Character
+	local addXP = character and character:FindFirstChild("AddXP")
+	if addXP and addXP:IsA("BindableEvent") then
+		local _, xpMult = rewardScale(player, at, isKill)
+		local xpAmount = math.floor(math.random(minXP, maxXP) * xpMult + math.random())
+		if xpAmount <= 0 then return end
+		if _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
+		addXP:Fire(xpAmount)
+		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount, at) end
+		if _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
+	end
+end
+
+local function setCreator(humanoid, player)
+	local creator = humanoid:FindFirstChild("creator")
+	if not creator then
+		creator = Instance.new("ObjectValue")
+		creator.Name = "creator"
+		creator.Parent = humanoid
+	end
+	creator.Value = player
+end
+
+local function resolveAttackers(damages)
+	local topKiller, topDamage = nil, 0
+	local others = {}
+	for attacker, damage in pairs(damages) do
+		if damage > topDamage then
+			if topKiller then table.insert(others, topKiller) end
+			topKiller, topDamage = attacker, damage
+		else
+			table.insert(others, attacker)
+		end
+	end
+	return topKiller, others
+end
+
+local initialized = false
+
+local function initCombat()
+	local HEALTH_THRESHOLD = 0.50
+	local SLOW_PERCENT = 0.65
+	local KILL_REWARD = 300
+	local ASSIST_REWARD = 100
+	local HEAL_PERCENT_ON_KILL = 0.80
+	local KILL_XP_MIN, KILL_XP_MAX = 200, 300
+	local ASSIST_XP_MIN, ASSIST_XP_MAX = 50, 100
+
+	local damageLog = {}
+	_G.CombatDamageLog = damageLog
+	local lastHealth = {}
+	local applyingBossBonus = {}
+	local restoringHealth = {}
+	local setupDone = {}
+
+	local KILL_MESSAGES = {
+		"{killer} slimed {victim}",
+		"{killer} obliterated {victim}",
+		"{killer} sent {victim} to Destoroyah",
+		"{killer} cooked {victim}",
+		"{killer} absolutely demolished {victim}",
+		"{killer} made {victim} rage quit",
+		"{killer} blasted {victim} into oblivion",
+		"{killer} said goodnight to {victim}",
+		"{killer} gave {victim} Ghidorah treatment",
+		"{killer} turned {victim} into dust",
+		"{killer} showed {victim} no mercy",
+		"{killer} made {victim} reconsider their life choices",
+		"{victim} got folded by {killer}",
+		"{victim} was no match for {killer}",
+		"{killer} ended {victim}'s career",
+		"{killer} uhh gave laxatives to {victim} and self imploded",
+		"{victim} somehow died to {killer}",
+		"{victim} did something evil to {killer}",
+		"{killer} transmitted a message to {victim} and told them the next kaiju added is going to be Gorosaurus",
+		"{victim} used the Mechagodzilla method on {killer} and failed miserabely",
+		"{killer} transformed into Lotszilla and took care of  {victim}. ",
+		"{killer} found {victim}",
+		"{killer} turned {victim} into a burger",
 	}
 
-	local function initLoad()
-		local Players = game:GetService("Players")
-		Players.CharacterAutoLoads = false
+	local function sendKillMessage(killerName, victimName)
+		local event = ReplicatedStorage:FindFirstChild("KillMessage")
+		if not event then return end
+		local template = KILL_MESSAGES[math.random(1, #KILL_MESSAGES)]
+		local message = (string.gsub(template, "{(%w+)}", { killer = killerName, victim = victimName }))
+		event:FireAllClients(message)
 	end
 
+	local function healPlayer(player, percent)
+		local character = player.Character
+		if not character or character:GetAttribute("BossMode") then return end
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not humanoid or humanoid.Health <= 0 then return end
+		humanoid.Health = math.min(humanoid.Health + humanoid.MaxHealth * percent, humanoid.MaxHealth)
+	end
 
-	local function initMorph()
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local ServerScriptService = game:GetService("ServerScriptService")
-		if ServerScriptService:FindFirstChild("MorphBootstrap") or ServerScriptService:GetAttribute("MorphBootstrapActive") then return end
+	local function clearCharacter(character)
+		damageLog[character] = nil
+		lastHealth[character] = nil
+		applyingBossBonus[character] = nil
+		restoringHealth[character] = nil
+		setupDone[character] = nil
+	end
 
+	local function setupCharacter(character)
+		if setupDone[character] then return end
+		setupDone[character] = true
 
-		local morphReady = ReplicatedStorage:FindFirstChild("MorphReady")
-		if morphReady and not morphReady:IsA("BoolValue") then
-			morphReady:Destroy()
-			morphReady = nil
-		end
-		if not morphReady then
-			morphReady = Instance.new("BoolValue")
-			morphReady.Name = "MorphReady"
-			morphReady.Parent = ReplicatedStorage
-		end
-		morphReady.Value = false
-		morphReady:SetAttribute("Error", nil)
-
-		local event = ReplicatedStorage:FindFirstChild("MorphFire")
-		if event and not event:IsA("RemoteEvent") then
-			event:Destroy()
-			event = nil
-		end
-		if not event then
-			event = Instance.new("RemoteEvent")
-			event.Name = "MorphFire"
-			event.Parent = ReplicatedStorage
-		end
-
-		local securityOk, SecurityPolicy = pcall(function()
-			return require(ServerScriptService:WaitForChild("SecurityPolicy", 10))
-		end)
-		if not securityOk or type(SecurityPolicy) ~= "table" or type(SecurityPolicy.CanUseMorph) ~= "function" then
-			local errorText = "SecurityPolicy could not be loaded"
-			if not securityOk then errorText = tostring(SecurityPolicy) end
-			morphReady:SetAttribute("Error", errorText)
-			warn("[Character] " .. errorText)
+		local humanoid = character:WaitForChild("Humanoid", 10)
+		if not humanoid then
+			setupDone[character] = nil
 			return
 		end
 
-		local morphResultEvent = ReplicatedStorage:FindFirstChild("MorphResult")
-		if morphResultEvent and not morphResultEvent:IsA("RemoteEvent") then
-			morphResultEvent:Destroy()
-			morphResultEvent = nil
-		end
-		if not morphResultEvent then
-			morphResultEvent = Instance.new("RemoteEvent")
-			morphResultEvent.Name = "MorphResult"
-			morphResultEvent.Parent = ReplicatedStorage
-		end
+		local isLowHealth = false
+		local isApplyingSlow = false
+		local baseWalkSpeed = nil
+		lastHealth[character] = humanoid.Health
+		damageLog[character] = {}
 
-		local TANK_SPAWN_MORPHS = {
-			["MILITARY TANK [FREE]"] = true,
-			["F16C [FREE]"] = true,
-		}
-
-		local RESTRICTED_KAIJU = {
-			[string.lower("EVOLVED GOJIRA")] = true,
-			[string.lower("D.E.M.O.N")] = true,
-			[string.lower("Homelander")] = true,
-			[string.lower("d")] = true,
-			[string.lower("A-train")] = true,
-			[string.lower("e")] = true,
-			[string.lower("MG21")] = true,
-		}
-
-		local ALLOWED_PLAYERS = {
-			[string.lower("AthosGame2023")] = true,
-			[string.lower("mr_bolde2")] = true,
-			[string.lower("DenisTheCheeseKing")] = true,
-			[string.lower("BlueEnderCookie_2")] = true,
-		}
-
-		event.OnServerEvent:Connect(function(player, selectedCreature)
-			local ok, err = pcall(function()
-				local morphFolder = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
-				if type(selectedCreature) == "string" and morphFolder then
-					selectedCreature = morphFolder:FindFirstChild(selectedCreature, true)
-				end
-				if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
-					morphResultEvent:FireClient(player, false, "Invalid morph")
-					return
-				end
-				if not SecurityPolicy.CanUseMorph(player, selectedCreature) then
-					warn("[SecurityPolicy] Rejected unauthorized morph request from " .. player.Name)
-					morphResultEvent:FireClient(player, false, "You do not own this kaiju")
-					return
-				end
-				local controlTemplate = ReplicatedStorage:FindFirstChild("PlayerScripts")
-				controlTemplate = controlTemplate and controlTemplate:FindFirstChild("Control")
-				if not controlTemplate then
-					morphResultEvent:FireClient(player, false, "Control script missing")
-					return
-				end
-
-				if selectedCreature and RESTRICTED_KAIJU[string.lower(selectedCreature.Name)] then
-					if not ALLOWED_PLAYERS[string.lower(player.Name)] then
-						player:Kick("You cannot use this kaiju.")
-						return
-					end
-				end
-
-				local newModel = selectedCreature:Clone()
-				local oldCharacter = player.Character
-
-				for _, desc in ipairs(newModel:GetDescendants()) do
-					if desc:IsA("BasePart") then
-						desc:SetAttribute("OriginalColor", desc.Color)
-						desc:SetAttribute("OriginalMaterial", desc.Material.Name)
-					end
-				end
-
-				newModel.Name = player.Name
-
-				if not newModel.PrimaryPart then
-					local hrp = newModel:FindFirstChild("HumanoidRootPart")
-					if hrp then
-						newModel.PrimaryPart = hrp
-					end
-				end
-
-				local Control = controlTemplate:Clone()
-				Control.Disabled = true
-				Control.Parent = newModel
-
-				local KaijuName = Instance.new("StringValue")
-				KaijuName.Parent = newModel
-				KaijuName.Name = "Kaiju"
-				KaijuName.Value = selectedCreature.Name
-
-				local clonedLevelsScript
-				local LevelsScript = ServerScriptService:FindFirstChild("Levels") and ServerScriptService.Levels:FindFirstChild("Levels")
-				if LevelsScript then
-					clonedLevelsScript = LevelsScript:Clone()
-					clonedLevelsScript.Disabled = true
-					clonedLevelsScript.Parent = newModel
-				end
-
-				local spawnCFrame = nil
-				local morphName = selectedCreature.Name
-
-				if TANK_SPAWN_MORPHS[morphName] then
-					local tankSpawns = workspace:FindFirstChild("TankSpawns")
-					if tankSpawns then
-						local spawns = tankSpawns:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								spawnCFrame = randomSpawn.CFrame + Vector3.new(0, 10, 0)
-							end
-						end
-					end
-				end
-
-				if not spawnCFrame then
-					local spawnPoints = workspace:FindFirstChild("SpawnPoints")
-					if spawnPoints then
-						local spawns = spawnPoints:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								spawnCFrame = randomSpawn.CFrame + Vector3.new(0, 50, 0)
-							end
-						end
-					end
-				end
-
-				if spawnCFrame then
-					newModel:PivotTo(spawnCFrame)
-				end
-
-				newModel.Parent = game.Workspace
-				player.Character = newModel
-				if oldCharacter and oldCharacter.Parent then
-					oldCharacter:Destroy()
-				end
-				Control.Disabled = false
-				if clonedLevelsScript then
-					clonedLevelsScript.Disabled = false
-				end
-
-				local humanoid = newModel:FindFirstChildOfClass("Humanoid")
-				if humanoid then
-					humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOff
-					humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
-				end
-
-				morphResultEvent:FireClient(player, true, selectedCreature.Name)
-				print("Successfully morphed the player!")
-			end)
-			if not ok then
-				warn("[Character] Morph failed: " .. tostring(err))
-				morphResultEvent:FireClient(player, false, "Server morph error: " .. tostring(err))
-			end
-		end)
-	end
-
-
-
-	local function initCleanup()
-		local Players = game:GetService("Players")
-
-		local function onCharacterAdded(character)
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if not humanoid then
-				humanoid = character:WaitForChild("Humanoid", 5)
-				if not humanoid then return end
-			end
-
-			humanoid.Died:Connect(function()
-				task.wait(4)
-				if character and character.Parent then
-					for _, desc in ipairs(character:GetDescendants()) do
-						if desc:IsA("BasePart") then
-							desc.CanTouch = false
-							desc.CanQuery = false
-							desc.Transparency = 1
-						elseif desc:IsA("ParticleEmitter") or desc:IsA("Fire") or desc:IsA("Smoke") or desc:IsA("Trail") or desc:IsA("Beam") then
-							desc.Enabled = false
-						end
-					end
-				end
-			end)
-		end
-
-		local function onPlayerAdded(player)
-			player.CharacterAdded:Connect(onCharacterAdded)
-		end
-
-		Players.PlayerAdded:Connect(onPlayerAdded)
-
-		for _, player in Players:GetPlayers() do
-			onPlayerAdded(player)
-		end
-	end
-
-
-	local function initBlood()
-		local Players = game:GetService("Players")
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local Workspace = game:GetService("Workspace")
-
-		Workspace.DescendantAdded:Connect(function(descendant)
-			if descendant:IsA("BasePart") and descendant.Name == "AttackHitbox" and descendant:GetAttribute("MeleeHit") then
-				local attackerChar = descendant.Parent
-				if attackerChar then
-					attackerChar:SetAttribute("MeleeHit", true)
-					task.delay(0.6, function()
-						if attackerChar and attackerChar.Parent then
-							attackerChar:SetAttribute("MeleeHit", nil)
-						end
-					end)
-				end
+		humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+			if isApplyingSlow or not isLowHealth or not baseWalkSpeed then return end
+			local maxAllowed = baseWalkSpeed * (1 - SLOW_PERCENT)
+			if humanoid.WalkSpeed > maxAllowed then
+				isApplyingSlow = true
+				humanoid.WalkSpeed = maxAllowed
+				isApplyingSlow = false
 			end
 		end)
 
-		for _, descendant in ipairs(Workspace:GetDescendants()) do
-			if descendant:IsA("BasePart") and descendant.Name == "AttackHitbox" and descendant:GetAttribute("MeleeHit") then
-				local attackerChar = descendant.Parent
-				if attackerChar then
-					attackerChar:SetAttribute("MeleeHit", true)
-					task.delay(0.6, function()
-						if attackerChar and attackerChar.Parent then
-							attackerChar:SetAttribute("MeleeHit", nil)
-						end
-					end)
-				end
+		humanoid.HealthChanged:Connect(function(newHealth)
+			if applyingBossBonus[character] or restoringHealth[character] then
+				lastHealth[character] = newHealth
+				return
 			end
-		end
+			if newHealth <= 0 then return end
 
-		local function spawnBlood(character)
-			local bloodTemplate = ReplicatedStorage:FindFirstChild("Blood")
-			if not bloodTemplate then return end
-
-			local targetPart = character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Torso")
-			if not targetPart then return end
-
-			local bloodClone = bloodTemplate:Clone()
-			bloodClone.CFrame = CFrame.new(0, 0, 0)
-			bloodClone.Visible = true
-			bloodClone.Parent = targetPart
-			for _, child in ipairs(bloodClone:GetChildren()) do
-				if child:IsA("ParticleEmitter") then
-					child.Enabled = true
+			local healthPercent = newHealth / humanoid.MaxHealth
+			if healthPercent <= HEALTH_THRESHOLD then
+				if not isLowHealth then
+					isLowHealth = true
+					local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
+					baseWalkSpeed = humanoid.WalkSpeed / beamFactor
+					humanoid:SetAttribute("BeamSlowBase", nil)
+					humanoid:SetAttribute("Slowed", true)
+					isApplyingSlow = true
+					humanoid.WalkSpeed = baseWalkSpeed * (1 - SLOW_PERCENT) * beamFactor
+					isApplyingSlow = false
 				end
+			elseif isLowHealth then
+				isLowHealth = false
+				humanoid:SetAttribute("Slowed", false)
+				isApplyingSlow = true
+				local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
+				humanoid.WalkSpeed = baseWalkSpeed and (baseWalkSpeed * beamFactor) or humanoid.WalkSpeed / (1 - SLOW_PERCENT)
+				if baseWalkSpeed and beamFactor ~= 1 then
+					humanoid:SetAttribute("BeamSlowBase", baseWalkSpeed)
+				end
+				isApplyingSlow = false
+				baseWalkSpeed = nil
 			end
-			task.delay(0.7, function()
-				if bloodClone and bloodClone.Parent then
-					for _, child in ipairs(bloodClone:GetChildren()) do
-						if child:IsA("ParticleEmitter") then
-							child.Rate = 0
-						end
-					end
-					task.delay(1, function()
-						if bloodClone and bloodClone.Parent then
-							bloodClone.Parent = nil
-						end
-					end)
-				end
-			end)
-		end
 
-		local function monitorCharacter(character)
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if not humanoid then return end
-
-			local prevHealth = humanoid.Health
-
-			humanoid.HealthChanged:Connect(function(newHealth)
-				if newHealth >= prevHealth then
-					prevHealth = newHealth
-					return
-				end
-
-				prevHealth = newHealth
-
+			local oldHealth = lastHealth[character] or humanoid.MaxHealth
+			if newHealth < oldHealth then
+				local damageDealt = oldHealth - newHealth
 				local creator = humanoid:FindFirstChild("creator")
-				if not creator or not creator.Value then return end
-
-				local attackerPlayer = creator.Value
-				if not attackerPlayer or not attackerPlayer:IsA("Player") then return end
-
-				local attackerChar = attackerPlayer.Character
-				if not attackerChar then return end
-
-				if attackerChar:GetAttribute("MeleeHit") then
-					spawnBlood(character)
-				end
-			end)
-		end
-
-		local function onPlayerAdded(player)
-			player.CharacterAdded:Connect(monitorCharacter)
-			if player.Character then
-				monitorCharacter(player.Character)
-			end
-		end
-
-		Players.PlayerAdded:Connect(onPlayerAdded)
-		for _, player in ipairs(Players:GetPlayers()) do
-			onPlayerAdded(player)
-		end
-	end
-
-
-
-
-
-	local function initTags()
-		local Players = game:GetService("Players")
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-		local TAG_TEMPLATE = ReplicatedStorage:FindFirstChild("Tag")
-
-		local function getLevelValue(player, character)
-			local leaderstats = player:FindFirstChild("leaderstats")
-			if leaderstats then
-				local lvl = leaderstats:FindFirstChild("Level")
-				if lvl then return lvl end
-			end
-			if character then
-				local lvl = character:FindFirstChild("Level")
-				if lvl then return lvl end
-			end
-			return nil
-		end
-
-		local function giveTag(player)
-			local character = player.Character
-			if not character then return end
-
-			local head = character:FindFirstChild("Head")
-			if not head then return end
-
-			local existingTag = head:FindFirstChild("Tag")
-			if existingTag then existingTag.Parent = nil end
-
-			if not TAG_TEMPLATE then return end
-
-			local tag = TAG_TEMPLATE:Clone()
-			tag.Name = "Tag"
-			tag.Parent = head
-
-			local nameLabel = tag:FindFirstChild("Name")
-			if nameLabel then
-				nameLabel.Text = player.DisplayName
-			end
-
-			local levelLabel = tag:FindFirstChild("Level")
-			if levelLabel then
-				local levelVal = getLevelValue(player, character)
-				levelLabel.Text = "Level " .. tostring(levelVal and levelVal.Value or 1)
-
-				if levelVal then
-					levelVal.Changed:Connect(function(newVal)
-						if tag.Parent then
-							levelLabel.Text = "Level " .. tostring(newVal)
+				local attacker = creator and creator.Value
+				if attacker and attacker:IsA("Player") then
+					local bossSystem = _G.BossSystem
+					if bossSystem and bossSystem.active then
+						local attackerChar = attacker.Character
+						local attackerIsBoss = attackerChar and attackerChar:GetAttribute("BossMode")
+						local victimIsBoss = character:GetAttribute("BossMode")
+						if not victimIsBoss and not attackerIsBoss then
+							restoringHealth[character] = true
+							humanoid.Health = oldHealth
+							restoringHealth[character] = nil
+							lastHealth[character] = oldHealth
+							return
 						end
-					end)
-				end
+					end
 
-				character.ChildAdded:Connect(function(child)
-					if child.Name == "Level" and child:IsA("IntValue") then
-						levelLabel.Text = "Level " .. tostring(child.Value)
-						child.Changed:Connect(function(newVal)
-							if tag.Parent then
-								levelLabel.Text = "Level " .. tostring(newVal)
+					local log = damageLog[character]
+					if not log then
+						log = {}
+						damageLog[character] = log
+					end
+					log[attacker] = (log[attacker] or 0) + damageDealt
+					if _G.ShowIndicator and _G.WasIndicated then
+						task.delay(0.05, function()
+							if not _G.WasIndicated(attacker, character, 0.5) then
+								_G.ShowIndicator(attacker, damageDealt, 0, 0, character)
 							end
 						end)
 					end
 
-					local leaderstats = player:FindFirstChild("leaderstats")
-					if leaderstats and child.Parent == leaderstats and child.Name == "Level" then
-						levelLabel.Text = "Level " .. tostring(child.Value)
-						child.Changed:Connect(function(newVal)
-							if tag.Parent then
-								levelLabel.Text = "Level " .. tostring(newVal)
-							end
-						end)
-					end
-				end)
-			end
-
-			local hpLabel = tag:FindFirstChild("HP")
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if hpLabel and humanoid then
-				hpLabel.Text = "HP - " .. tostring(math.floor(humanoid.Health))
-				humanoid.HealthChanged:Connect(function(newHealth)
-					if tag.Parent then
-						hpLabel.Text = "HP - " .. tostring(math.floor(newHealth))
-					end
-				end)
-			end
-
-			if humanoid then
-				humanoid.Died:Connect(function()
-					tag.Parent = nil
-				end)
-			end
-		end
-
-		local function onPlayerAdded(player)
-			player.CharacterAdded:Connect(function()
-				task.wait(0.1)
-				giveTag(player)
-			end)
-
-			if player.Character then
-				task.wait(0.1)
-				giveTag(player)
-			end
-		end
-
-		Players.PlayerAdded:Connect(onPlayerAdded)
-
-		for _, player in ipairs(Players:GetPlayers()) do
-			onPlayerAdded(player)
-		end
-	end
-
-
-	local function initHealthDisplay()
-		local Players = game:GetService("Players")
-
-		local setHumanoids = {}
-		local teleportedPlayers = {}
-
-		local healthTemplate = game:GetService("ServerStorage").Kaijus:FindFirstChild("GOJIRA [FREE]")
-		if healthTemplate then
-			local characterScripts = healthTemplate:FindFirstChild("CharacterScripts")
-			if characterScripts then
-				local sounds = characterScripts:FindFirstChild("Sounds")
-				if sounds then
-					healthTemplate = sounds:FindFirstChild("Health")
-				end
-			end
-		end
-
-		local function createHealthGui()
-			local billboardGui = Instance.new("BillboardGui")
-			billboardGui.Name = "Health"
-			billboardGui.Size = UDim2.new(0, 100, 0, 50)
-			billboardGui.StudsOffset = Vector3.new(0, 3, 0)
-			billboardGui.AlwaysOnTop = true
-			billboardGui.MaxDistance = 150
-
-			local label = Instance.new("TextLabel")
-			label.Name = "Label"
-			label.Size = UDim2.new(1, 0, 1, 0)
-			label.BackgroundTransparency = 0.8
-			label.BackgroundColor3 = Color3.fromRGB(115, 115, 115)
-			label.TextColor3 = Color3.new(1, 1, 1)
-			label.TextScaled = true
-			label.TextStrokeTransparency = 0
-			label.TextStrokeColor3 = Color3.new(0, 0, 0)
-			label.Text = "HP - 100"
-			label.Parent = billboardGui
-
-			return billboardGui
-		end
-
-		local function updateHealthDisplay(character)
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if not humanoid then return end
-
-			local head = character:FindFirstChild("FakeHead") or character:FindFirstChild("Fakehead") or character:FindFirstChild("Head")
-			if not head then return end
-
-			local healthGui = head:FindFirstChild("Health")
-			if not healthGui then
-				if healthTemplate then
-					healthGui = healthTemplate:Clone()
-					healthGui.Parent = head
-				else
-					healthGui = createHealthGui()
-					healthGui.Parent = head
-				end
-
-				local player = Players:GetPlayerFromCharacter(character)
-				if player and not teleportedPlayers[player] then
-					teleportedPlayers[player] = true
-
-					local spawnPoints = game.Workspace:FindFirstChild("SpawnPoints")
-					if spawnPoints then
-						local spawns = spawnPoints:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								character:PivotTo(randomSpawn.CFrame + Vector3.new(0, 3, 0))
-							end
+					local attackerChar = attacker.Character
+					if attackerChar and attackerChar:GetAttribute("BossMode") then
+						local bonus = math.floor(damageDealt * 0.5)
+						if bonus > 0 then
+							task.defer(function()
+								if humanoid.Parent and humanoid.Health > 0 then
+									applyingBossBonus[character] = true
+									humanoid:TakeDamage(bonus)
+									applyingBossBonus[character] = nil
+									local current = damageLog[character]
+									if current then
+										current[attacker] = (current[attacker] or 0) + bonus
+									end
+								end
+							end)
 						end
 					end
 				end
 			end
+			lastHealth[character] = newHealth
+		end)
 
-			local label = healthGui:FindFirstChild("Label")
-			if label then
-				label.Text = "HP - " .. math.floor(humanoid.Health)
-			end
-		end
+		humanoid.Died:Connect(function()
+			local charDamages = damageLog[character]
+			if charDamages then
+				local topKiller, others = resolveAttackers(charDamages)
+				local victimPlayer = Players:GetPlayerFromCharacter(character)
+				local victimName = victimPlayer and victimPlayer.Name or character.Name
 
-		local function setupCharacter(character)
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if not humanoid then return end
-
-			if not setHumanoids[humanoid] then
-				local stats = character:FindFirstChild("Stats")
-				if stats then
-					local maxHP = stats:FindFirstChild("MaxHP")
-					if maxHP and maxHP:IsA("ValueBase") then
-						humanoid.MaxHealth = maxHP.Value
-						humanoid.Health = maxHP.Value
-						setHumanoids[humanoid] = true
+				if topKiller and topKiller:IsA("Player") then
+					sendKillMessage(topKiller.Name, victimName)
+					giveGCells(topKiller, KILL_REWARD, true, character)
+					if _G.AwardCandy then
+						_G.AwardCandy(topKiller, humanoid.MaxHealth, character)
+					end
+					local stats = topKiller:FindFirstChild("leaderstats")
+					local kills = stats and stats:FindFirstChild("Kills")
+					if kills and kills:IsA("IntValue") then kills.Value += 1 end
+					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
+					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
+				end
+				for _, attacker in ipairs(others) do
+					if attacker ~= topKiller and attacker:IsA("Player") then
+						giveGCells(attacker, ASSIST_REWARD, true, character)
+						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character, false)
 					end
 				end
 			end
+			damageLog[character] = nil
+			lastHealth[character] = nil
+		end)
 
-			updateHealthDisplay(character)
-
-			humanoid.HealthChanged:Connect(function()
-				updateHealthDisplay(character)
-			end)
-
-			task.spawn(function()
-				while character and character.Parent do
-					task.wait(0.5)
-					updateHealthDisplay(character)
-				end
-			end)
-		end
-
-		local function onPlayerAdded(player)
-			player.CharacterAdded:Connect(function(character)
-				setupCharacter(character)
-			end)
-
-			if player.Character then
-				setupCharacter(player.Character)
-			end
-		end
-
-		for _, player in Players:GetPlayers() do
-			onPlayerAdded(player)
-		end
-
-		Players.PlayerAdded:Connect(onPlayerAdded)
+		character.AncestryChanged:Connect(function(_, parent)
+			if not parent then clearCharacter(character) end
+		end)
 	end
 
+	local function setupPlayer(player)
+		player.CharacterAdded:Connect(setupCharacter)
+		if player.Character then task.spawn(setupCharacter, player.Character) end
+	end
 
-	task.spawn(initLoad)
-	task.spawn(initMorph)
-	task.spawn(initCleanup)
-	task.spawn(initBlood)
-	task.spawn(initTags)
-	task.spawn(initHealthDisplay)
+	for _, player in ipairs(Players:GetPlayers()) do setupPlayer(player) end
+	Players.PlayerAdded:Connect(setupPlayer)
+
+	Players.PlayerRemoving:Connect(function(player)
+		local character = player.Character
+		if not character then return end
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not humanoid or humanoid.Health <= 0 then return end
+		local charDamages = damageLog[character]
+		if not charDamages or next(charDamages) == nil then return end
+
+		local damagePercent = 1 - humanoid.Health / humanoid.MaxHealth
+		if damagePercent <= 0 then return end
+
+		local topKiller, others = resolveAttackers(charDamages)
+		if topKiller and topKiller:IsA("Player") then
+			local reward = math.floor(damagePercent * KILL_REWARD)
+			if reward > 0 then
+				sendKillMessage(topKiller.Name, player.Name)
+				giveGCells(topKiller, reward, true, character)
+				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
+			end
+		end
+		for _, attacker in ipairs(others) do
+			if attacker ~= topKiller and attacker:IsA("Player") then
+				local reward = math.floor(damagePercent * ASSIST_REWARD)
+				if reward > 0 then
+					giveGCells(attacker, reward, true, character)
+					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character, false)
+				end
+			end
+		end
+		damageLog[character] = nil
+		lastHealth[character] = nil
+	end)
 end
 
-return Character]]></ProtectedString>
-						</Properties>
-					</Item>
-					<Item class="ModuleScript" referent="RBX6">
-						<Properties>
-							<string name="Name">Data</string>
-							<ProtectedString name="Source"><![CDATA[
-local Data = {}
+local function initAtomicBreath()
+	local gojiraModel = workspace:FindFirstChild("GVK GOJIRA", true)
+	local model = gojiraModel and gojiraModel:FindFirstChild("AtomicBreath", true)
+	if not model then
+		warn("[Combat] AtomicBreath model is missing; atomic breath effects disabled")
+		return
+	end
 
-function Data.Init()
-	
-	local GamepassWhitelist = {
-		[274893778] = true
+	local ELECTRIC_BLUE = Color3.fromRGB(0, 191, 255)
+	local original = {}
+	local sequence = {}
+
+	local function collect(prefix, from, to)
+		for i = from, to do
+			local spike = model:FindFirstChild(prefix .. i)
+			if spike and spike:IsA("BasePart") then
+				table.insert(sequence, spike)
+				original[spike] = { Color = spike.Color, Material = spike.Material }
+			end
+		end
+	end
+	collect("TailSpikes", 1, 11)
+	collect("Spikes", 12, 19)
+
+	local function restore(spike)
+		local props = original[spike]
+		if props and spike.Parent then
+			spike.Color, spike.Material = props.Color, props.Material
+		end
+	end
+
+	_G.AtomicBreathCharge = {
+		ChargeUp = function()
+			for _, spike in ipairs(sequence) do
+				if spike.Parent then
+					spike.Color = ELECTRIC_BLUE
+					spike.Material = Enum.Material.Neon
+				end
+				task.wait(0.5)
+			end
+		end,
+		Reset = function()
+			for spike in pairs(original) do restore(spike) end
+		end,
+		Discharge = function()
+			for i = #sequence, 1, -1 do
+				restore(sequence[i])
+				task.wait(0.3)
+			end
+		end,
 	}
-	
-	local function initOwnership()
-		local DataStoreService = game:GetService("DataStoreService")
-		local Players = game:GetService("Players")
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local ServerStorage = game:GetService("ServerStorage")
-		local Lighting = game:GetService("Lighting")
-		local MarketplaceService = game:GetService("MarketplaceService")
+end
 
-		local KaijuDataStore = DataStoreService:GetDataStore("Ownership")
-		local LevelDataStore = DataStoreService:GetDataStore("PlayerLevels_v3")
-		local KaijusUnused = Lighting:FindFirstChild("KaijusUnused")
-		if not KaijusUnused then
-			warn("KaijusUnused not found in Lighting at script start - will retry on demand")
+local function initPulse()
+	local pulseHitEvent = getOrCreateRemote("PulseHit")
+	local pulseFireEvent = getOrCreateRemote("PulseFire")
+
+	local function getHumanoidAndPlayer(part)
+		local current = part.Parent
+		while current and current ~= workspace do
+			local humanoid = current:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				return humanoid, Players:GetPlayerFromCharacter(current)
+			end
+			current = current.Parent
 		end
-		local Morphs = ServerStorage:FindFirstChild("Kaijus")
-		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
+		return nil, nil
+	end
 
-		local playerKaijus = {}
+	_G.FirePulse = function(player, color, maxSize, duration, damage)
+		local character = player and player.Character
+		local hrp = character and character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
 
-		local getOwnershipEvent = Instance.new("RemoteFunction")
-		getOwnershipEvent.Name = "GetKaijuOwnership"
-		getOwnershipEvent.Parent = ReplicatedStorage
+		pulseFireEvent:FireAllClients(player, color, maxSize, duration)
 
-		local function buildKaijuInfo(model, root)
-			local stats = {}
-			local statsFolder = model:FindFirstChild("Stats")
-			if statsFolder then
-				for _, value in ipairs(statsFolder:GetChildren()) do
-					if value:IsA("NumberValue") or value:IsA("IntValue") then
-						stats[value.Name] = value.Value
-					end
-				end
-			end
-			local isCandy = false
-			local parent = model.Parent
-			while parent and parent ~= root do
-				if string.lower(string.sub(parent.Name, 1, 9)) == "halloween" then
-					isCandy = true
-					break
-				end
-				parent = parent.Parent
-			end
-			local priceValue = statsFolder and statsFolder:FindFirstChild("Price")
-			local price = 0
-			if priceValue then
-				price = priceValue.Value
-			elseif isCandy then
-				price = math.huge
-			end
-			return {
-				Name = model.Name,
-				kaijuName = model:GetAttribute("KaijuName") or model.Name,
-				kaijuDescription = model:GetAttribute("KaijuDescription") or "",
-				kaijuImage = model:GetAttribute("KaijuImage") or "",
-				requirement = model:GetAttribute("Requirement"),
-				price = price,
-				isCandy = isCandy,
-				stats = stats,
-			}
-		end
+		local hitbox = Instance.new("Part")
+		hitbox.Name = "PulseHitbox"
+		hitbox.Shape = Enum.PartType.Ball
+		hitbox.Size = Vector3.new(5, 5, 5)
+		hitbox.CFrame = hrp.CFrame
+		hitbox.Anchored = true
+		hitbox.CanCollide = false
+		hitbox.CanTouch = false
+		hitbox.CanQuery = true
+		hitbox.Transparency = 1
+		hitbox:SetAttribute("BlastActive", true)
+		hitbox:SetAttribute("Attacker", player.Name)
 
-		local function collectKaijuInfo(folder, root, out)
-			for _, child in ipairs(folder:GetChildren()) do
-				if child:IsA("Model") then
-					table.insert(out, buildKaijuInfo(child, root))
-				elseif child:IsA("Folder") and string.lower(string.sub(child.Name, 1, 9)) == "halloween" then
-					collectKaijuInfo(child, root, out)
-				end
-			end
-		end
+		local pn = Instance.new("StringValue")
+		pn.Name = "PlayerName"
+		pn.Value = player.Name
+		pn.Parent = hitbox
 
-		local getKaijuInfoFunc = Instance.new("RemoteFunction")
-		getKaijuInfoFunc.Name = "GetKaijuInfo"
-		getKaijuInfoFunc.OnServerInvoke = function(player, kaijuName)
-			if not Morphs then return nil end
-			if type(kaijuName) == "string" then
-				local model = Morphs:FindFirstChild(kaijuName, true)
-				if model and model:IsA("Model") then
-					return buildKaijuInfo(model, Morphs)
-				end
-				return nil
-			end
-			local list = {}
-			collectKaijuInfo(Morphs, Morphs, list)
-			return list
-		end
-		getKaijuInfoFunc.Parent = ReplicatedStorage
+		hitbox.Parent = workspace
+		Debris:AddItem(hitbox, duration + 2)
 
-		local buyKaijuEvent = Instance.new("RemoteEvent")
-		buyKaijuEvent.Name = "BuyKaiju"
-		buyKaijuEvent.Parent = ReplicatedStorage
+		local damagePerTick = damage / 10
+		local gcellsPerTick = 25
+		local startSize = 50
+		maxSize = math.max(maxSize, 300)
+		local tickInterval = 0.5
 
-		local nameMapping = {
-			["Godzilla2014"] = "GODZILLA 2014",
-			["TitanusGhidorah"] = "TITANUS GHIDORAH",
-			["Godzilla2019"] = "TITANUS GOJIRA",
-			["F16C"] = "F16C [FREE]",
-			["Mosura"] = "TITANUS MOSURA",
-			["Behemoth"] = "TITANUS BEHEMOTH",
-			["Gigan"] = "GIGAN",
-			["Anguirus"] = "ANGUIRUS [FREE]",
-			["Biollante"] = "BIOLLANTE",
-			["Burning"] = "BURNING GODZILLA",
-			["FinalWars"] = "FINAL WARS GODZILLA",
-			["Heisei"] = "HEISEI GODZILLA",
-			["KamataKun"] = "SHIN FORM 2 [FREE]",
-			["KingGhidorah"] = "KING GHIDORAH",
-			["MaleMuto"] = "MALE MUTO",
-			["Mothra"] = "MOTHRA",
-			["Rodan"] = "TITANUS RODAN",
-			["Shin"] = "SHIN GOJIRA",
-			["ShinagawaKun"] = "SHIN FORM 3",
-			["Tank"] = "MILITARY TANK [FREE]",
-			["Human"] = "CIVILIAN [FREE]",
-			["Godzilla1954"] = "GOJIRA [FREE]",
-			["Kiryu"] = "KIRYU",
-			["Mecha King Ghidorah"] = "MECHA KING GHIDORAH",
-		}
+		local overlapParams = OverlapParams.new()
+		overlapParams.FilterDescendantsInstances = { character }
+		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
 
-		local reverseNameMapping = {}
-		for kaijusUnusedName, morphName in pairs(nameMapping) do
-			reverseNameMapping[morphName] = kaijusUnusedName
-		end
+		local startTime = os.clock()
+		while os.clock() - startTime < duration do
+			if not hitbox.Parent or not hrp.Parent then break end
 
-		local SelectedKaijuStore = DataStoreService:GetDataStore("SelectedKaiju")
-		local playerSelectedKaiju = {}
+			local progress = math.clamp((os.clock() - startTime) / duration, 0, 1)
+			local size = startSize + (maxSize - startSize) * progress
+			hitbox.Size = Vector3.new(size, size, size)
+			hitbox.CFrame = hrp.CFrame
 
-		local getSelectedKaijuFunc = Instance.new("RemoteFunction")
-		getSelectedKaijuFunc.Name = "GetSelectedKaiju"
-		getSelectedKaijuFunc.Parent = ReplicatedStorage
-
-		local setSelectedKaijuEvent = Instance.new("RemoteEvent")
-		setSelectedKaijuEvent.Name = "SetSelectedKaiju"
-		setSelectedKaijuEvent.Parent = ReplicatedStorage
-
-		local gamepassKaijus = {
-			["BURNING GODZILLA"] = 1891042639,
-			["THERMONUCLEAR GODZILLA"] = 1818653788,
-			["VOLCANIC BIOLLANTE"] = 1893256558,
-			["FROSTBITE GODZILLA"] = 1822212269,
-			["MINILLA"] = 1928197563,
-		}
-
-		local getGamepassKaijusFunc = Instance.new("RemoteFunction")
-		getGamepassKaijusFunc.Name = "GetGamepassKaijus"
-		getGamepassKaijusFunc.Parent = ReplicatedStorage
-
-		local playerGamepassCache = {}
-
-		local function ownsGamepass(player, morphName)
-			local gamepassId = gamepassKaijus[morphName]
-			if not gamepassId then return false end
-			
-			if GamepassWhitelist[player.UserId] then
-				return true
-			end
-
-			local cache = playerGamepassCache[player.UserId]
-			if cache and cache[morphName] == true then
-				return true
-			end
-
-			local success, owns = pcall(function()
-				return MarketplaceService:UserOwnsGamePassAsync(player.UserId, gamepassId)
-			end)
-
-			local result = success and owns or false
-
-			if result then
-				if not cache then
-					cache = {}
-					playerGamepassCache[player.UserId] = cache
-				end
-				cache[morphName] = true
-			end
-
-			return result
-		end
-
-		local function getAllMorphModels()
-			local list = {}
-			if not Morphs then return list end
-			for _, child in ipairs(Morphs:GetChildren()) do
-				if child:IsA("Model") then
-					table.insert(list, child)
-				elseif child:IsA("Folder") then
-					for _, nested in ipairs(child:GetChildren()) do
-						if nested:IsA("Model") then
-							table.insert(list, nested)
-						end
-					end
-				end
-			end
-			return list
-		end
-		local function isCandyKaiju(kaijuName)
-			local morph = Morphs and Morphs:FindFirstChild(kaijuName, true)
-			return morph ~= nil and CandyConfig.isCandyMorph(morph)
-		end
-
-		local function getKaijuPrice(kaijuName)
-			if Morphs then
-				local morph = Morphs:FindFirstChild(kaijuName, true)
-				if morph then
-					local stats = morph:FindFirstChild("Stats")
-					if stats then
-						local price = stats:FindFirstChild("Price")
-						if price then
-							return price.Value
-						end
-					end
+			local hitThisTick = {}
+			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
+				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+					hitThisTick[hitPlayer] = true
+					setCreator(hitHumanoid, player)
+					hitHumanoid:TakeDamage(damagePerTick)
+					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
+					pulseHitEvent:FireClient(hitPlayer)
+					giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
 				end
 			end
 
-			if KaijusUnused then
-				local kaiju = KaijusUnused:FindFirstChild(kaijuName)
-				if kaiju then
-					local stats = kaiju:FindFirstChild("Stats")
-					if stats then
-						local price = stats:FindFirstChild("Price")
-						if price and price.Value > 0 then
-							return price.Value
-						end
-					end
-				end
+			if _G.DamageBuildingsInRadius then
+				_G.DamageBuildingsInRadius(hrp.Position, size / 2, player)
 			end
-
-			local morphName = nameMapping[kaijuName]
-			if morphName and Morphs then
-				local morph = Morphs:FindFirstChild(morphName, true)
-				if morph then
-					local stats = morph:FindFirstChild("Stats")
-					if stats then
-						local price = stats:FindFirstChild("Price")
-						if price then
-							return price.Value
-						end
-					end
-				end
-			end
-
-			return 0
+			task.wait(tickInterval)
 		end
 
-		local function loadPlayerKaijus(player)
-			local success, data = pcall(function()
-				return KaijuDataStore:GetAsync(tostring(player.UserId))
-			end)
-
-			if success and data then
-				playerKaijus[player.UserId] = data
-			else
-				playerKaijus[player.UserId] = {}
-			end
-
-			return playerKaijus[player.UserId]
+		if hitbox.Parent then
+			hitbox:SetAttribute("BlastActive", false)
+			hitbox:Destroy()
 		end
+	end
+end
 
-		local function savePlayerKaijus(player)
-			local data = playerKaijus[player.UserId]
-			if not data then return end
+local function initLevelGuard()
+	local LEVEL_THRESHOLD = 10
+	local BLOCK_DURATION = 3
 
-			local success, err = pcall(function()
-				KaijuDataStore:SetAsync(tostring(player.UserId), data)
-			end)
+	local blockTimers = {}
+	local killRewardFlags = {}
+	local previousGCells = {}
+	local changing = {}
+	local hookedGCells = {}
 
-			if not success then
-				warn("Error saving Kaiju data for " .. player.Name .. ": " .. err)
-			end
-		end
+	local function getLevel(character)
+		local levelVal = character and character:FindFirstChild("Level")
+		if levelVal and levelVal:IsA("IntValue") then return levelVal.Value end
+		return nil
+	end
 
-		local function isGamepassKaiju(kaijuName)
-			return gamepassKaijus[kaijuName] ~= nil
-		end
-
-		local function ownsKaiju(player, kaijuName)
-			if isGamepassKaiju(kaijuName) or GamepassWhitelist[player.UserId] then
-				return ownsGamepass(player, kaijuName)
-			end
-
-			local canonicalName = nameMapping[kaijuName] or kaijuName
-			local morphForOwnership = Morphs and Morphs:FindFirstChild(canonicalName, true)
-			local morphStats = morphForOwnership and morphForOwnership:FindFirstChild("Stats")
-			local freePrice = morphStats and morphStats:FindFirstChild("Price")
-			if freePrice and tonumber(freePrice.Value) and tonumber(freePrice.Value) <= 0 then
-				return true
-			end
-
-			local data = playerKaijus[player.UserId]
-			if not data then
-				loadPlayerKaijus(player)
-				data = playerKaijus[player.UserId]
-			end
-			if not data then return false end
-
-			if data[kaijuName] then return true end
-
-			local oldName = reverseNameMapping[kaijuName]
-			if oldName and data[oldName] then return true end
+	local function isBlocked(player)
+		if not player or not player.Parent then return false end
+		local expires = blockTimers[player]
+		if not expires then return false end
+		if os.clock() > expires then
+			blockTimers[player] = nil
 			return false
 		end
-
-		_G.KUNOwnsKaiju = ownsKaiju
-
-		local function checkSingleRequirement(player, reqKaiju, reqLevel)
-			if not ownsKaiju(player, reqKaiju) then
-				return false, "Requires " .. reqKaiju
-			end
-
-			local success, levelData = pcall(function()
-				return LevelDataStore:GetAsync("Player_" .. player.UserId)
-			end)
-
-			if not success or not levelData or type(levelData) ~= "table" then
-				return false, "Requires Level " .. reqLevel .. " " .. reqKaiju
-			end
-
-			local kaijuLevelData = levelData[reqKaiju]
-			if not kaijuLevelData or type(kaijuLevelData) ~= "table" then
-				local oldName = reverseNameMapping[reqKaiju]
-				if oldName then
-					kaijuLevelData = levelData[oldName]
-				end
-			end
-
-			if not kaijuLevelData or type(kaijuLevelData) ~= "table" then
-				return false, "Requires Level " .. reqLevel .. " " .. reqKaiju
-			end
-
-			local playerLevel = kaijuLevelData.level or 1
-			if playerLevel < reqLevel then
-				return false, "Requires Level " .. reqLevel .. " " .. reqKaiju
-			end
-
-			return true, nil
-		end
-
-		local function checkRequirement(player, kaijuName)
-			if not Morphs then return true, nil end
-			local morph = Morphs:FindFirstChild(kaijuName, true)
-			if not morph then return true, nil end
-
-			local requirement = morph:GetAttribute("Requirement")
-			if not requirement or requirement == "" then return true, nil end
-
-			
-			for reqPart in requirement:gmatch("[^,]+") do
-				reqPart = reqPart:match("^%s*(.-)%s*$")
-				local reqKaiju, reqLevel = reqPart:match("^(.+):(%d+)$")
-				if reqKaiju and reqLevel then
-					reqLevel = tonumber(reqLevel)
-					if reqLevel then
-						local met, msg = checkSingleRequirement(player, reqKaiju, reqLevel)
-						if not met then
-							return false, msg
-						end
-					end
-				end
-			end
-
-			return true, nil
-		end
-
-		local function buyKaiju(player, kaijuName)
-			if type(kaijuName) ~= "string" then
-				return false, "Invalid kaiju"
-			end
-			local canonicalName = nameMapping[kaijuName] or kaijuName
-			if not Morphs or not Morphs:FindFirstChild(canonicalName, true) then
-				return false, "Unknown kaiju"
-			end
-			kaijuName = canonicalName
-			if isGamepassKaiju(kaijuName) then
-				return false, "Gamepass required"
-			end
-
-			if not playerKaijus[player.UserId] then
-				loadPlayerKaijus(player)
-			end
-			if not playerKaijus[player.UserId] then
-				return false, "Data still loading, try again"
-			end
-
-			if ownsKaiju(player, kaijuName) then
-				return false, "Already owned"
-			end
-
-			local reqMet, reqMessage = checkRequirement(player, kaijuName)
-			if not reqMet then
-				return false, reqMessage
-			end
-
-			local price = getKaijuPrice(kaijuName)
-			if isCandyKaiju(kaijuName) then
-				local candyMorph = Morphs:FindFirstChild(kaijuName, true)
-				local candyStats = candyMorph and candyMorph:FindFirstChild("Stats")
-				if not (candyStats and candyStats:FindFirstChild("Price")) then
-					return false, "Not for sale yet"
-				end
-				if not CandyConfig.isSeason() then
-					return false, "Offsale until halloween"
-				end
-				if type(_G.SpendCandy) ~= "function" or not _G.SpendCandy(player, price) then
-					return false, "Not enough Candy"
-				end
-				playerKaijus[player.UserId][kaijuName] = true
-				local oldName = reverseNameMapping[kaijuName]
-				if oldName then
-					playerKaijus[player.UserId][oldName] = true
-				end
-				savePlayerKaijus(player)
-				return true, "Success"
-			end
-
-			local leaderstats = player:FindFirstChild("leaderstats")
-			if not leaderstats then
-				return false, "No leaderstats found"
-			end
-
-			local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
-			if not gcells then
-				return false, "No GCells found"
-			end
-
-			if gcells.Value < price then
-				return false, "Not enough GCells"
-			end
-
-			gcells.Value = gcells.Value - price
-
-			playerKaijus[player.UserId][kaijuName] = true
-
-			local oldName = reverseNameMapping[kaijuName]
-			if oldName then
-				playerKaijus[player.UserId][oldName] = true
-			end
-
-			savePlayerKaijus(player)
-
-			return true, "Success"
-		end
-
-		getOwnershipEvent.OnServerInvoke = function(player, kaijuName)
-			if not playerKaijus[player.UserId] then
-				loadPlayerKaijus(player)
-			end
-			if kaijuName then
-				return ownsKaiju(player, kaijuName)
-			else
-				local result = {}
-				if Morphs then
-					for _, morph in ipairs(getAllMorphModels()) do
-						local stats = morph:FindFirstChild("Stats")
-						local price = stats and stats:FindFirstChild("Price")
-						if price and tonumber(price.Value) and tonumber(price.Value) <= 0 then
-							result[morph.Name] = true
-						end
-					end
-				end
-
-
-				local data = playerKaijus[player.UserId]
-				if data then
-					for k, v in pairs(data) do
-						
-						if not isGamepassKaiju(k) then
-							local mappedName = nameMapping[k]
-							if mappedName and isGamepassKaiju(mappedName) then
-								
-							else
-								result[k] = v
-								if mappedName then
-									result[mappedName] = v
-								end
-							end
-						end
-					end
-				end
-
-				for morphName, _ in pairs(gamepassKaijus) do
-					if ownsGamepass(player, morphName) or GamepassWhitelist[player.UserId] then
-						result[morphName] = true
-					end
-				end
-				return result
-			end
-		end
-
-		buyKaijuEvent.OnServerEvent:Connect(function(player, kaijuName)
-			local ok, buySuccess, buyMessage = pcall(buyKaiju, player, kaijuName)
-			if not ok then
-				warn("Error in buyKaiju: " .. tostring(buySuccess))
-				buyKaijuEvent:FireClient(player, kaijuName, false, "Server error")
-			else
-				buyKaijuEvent:FireClient(player, kaijuName, buySuccess, buyMessage)
-			end
-		end)
-
-		getGamepassKaijusFunc.OnServerInvoke = function(player)
-			return gamepassKaijus
-		end
-
-		getSelectedKaijuFunc.OnServerInvoke = function(player)
-			local selected = playerSelectedKaiju[player.UserId]
-			return nameMapping[selected] or selected
-		end
-
-		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
-			if type(morphName) ~= "string" then return end
-			morphName = nameMapping[morphName] or morphName
-			if not Morphs or not Morphs:FindFirstChild(morphName, true) then return end
-			if not ownsKaiju(player, morphName) then
-				warn("[Data] SetSelectedKaiju blocked: " .. player.Name .. " does not own " .. morphName)
-				return
-			end
-			playerSelectedKaiju[player.UserId] = morphName
-		end)
-
-		local function loadSelectedKaiju(player)
-			local success, data = pcall(function()
-				return SelectedKaijuStore:GetAsync(tostring(player.UserId))
-			end)
-			local canonicalName = nameMapping[data] or data
-			if success and type(data) == "string" and ownsKaiju(player, canonicalName) then
-				playerSelectedKaiju[player.UserId] = canonicalName
-			else
-				playerSelectedKaiju[player.UserId] = nil
-			end
-		end
-
-		local function saveSelectedKaiju(player)
-			local data = playerSelectedKaiju[player.UserId]
-			if data == nil then
-				pcall(function()
-					SelectedKaijuStore:RemoveAsync(tostring(player.UserId))
-				end)
-				return
-			end
-			local success, err = pcall(function()
-				SelectedKaijuStore:SetAsync(tostring(player.UserId), data)
-			end)
-			if not success then
-				warn("Error saving selected kaiju for " .. player.Name .. ": " .. err)
-			end
-		end
-
-		local function removeUnmetRequirements(player)
-			local data = playerKaijus[player.UserId]
-			if not data then return end
-
-			local didRemove = false
-			local anyRemoved = true
-			while anyRemoved do
-				anyRemoved = false
-
-				local ownedKaijus = {}
-				for kaijuName, owned in pairs(data) do
-					if owned then
-						table.insert(ownedKaijus, kaijuName)
-					end
-				end
-
-				for _, kaijuName in ipairs(ownedKaijus) do
-					local reqMet, _ = checkRequirement(player, kaijuName)
-					if not reqMet then
-						data[kaijuName] = nil
-						local morphName = nameMapping[kaijuName]
-						if morphName then
-							data[morphName] = nil
-						end
-						local oldName = reverseNameMapping[kaijuName]
-						if oldName then
-							data[oldName] = nil
-						end
-						anyRemoved = true
-						didRemove = true
-					end
-				end
-			end
-
-			if didRemove then
-				savePlayerKaijus(player)
-
-				local selected = playerSelectedKaiju[player.UserId]
-				if selected and not ownsKaiju(player, selected) then
-					local stillOwned = false
-					local mappedName = nameMapping[selected]
-					if mappedName and data[mappedName] then stillOwned = true end
-					local oldName = reverseNameMapping[selected]
-					if oldName and data[oldName] then stillOwned = true end
-					if not stillOwned then
-						playerSelectedKaiju[player.UserId] = nil
-						saveSelectedKaiju(player)
-					end
-				end
-			end
-		end
-
-		local function removeGamepassKaijusFromData(player)
-			if GamepassWhitelist[player.UserId] then return end
-			
-			local data = playerKaijus[player.UserId]
-			if not data then return end
-
-			local didRemove = false
-			for kaijuName, _ in pairs(data) do
-				if isGamepassKaiju(kaijuName) then
-					data[kaijuName] = nil
-					didRemove = true
-				end
-				local mappedName = nameMapping[kaijuName]
-				if mappedName and isGamepassKaiju(mappedName) then
-					data[kaijuName] = nil
-					didRemove = true
-				end
-			end
-
-			
-			for kaijuName, _ in pairs(data) do
-				local oldName = reverseNameMapping[kaijuName]
-				if oldName and isGamepassKaiju(kaijuName) then
-					data[kaijuName] = nil
-					didRemove = true
-				end
-			end
-
-			if didRemove then
-				savePlayerKaijus(player)
-			end
-		end
-
-		local function onPlayerAdded(player)
-			loadPlayerKaijus(player)
-			removeGamepassKaijusFromData(player)
-			loadSelectedKaiju(player)
-			removeUnmetRequirements(player)
-		end
-
-		local function onPlayerRemoving(player)
-			savePlayerKaijus(player)
-			saveSelectedKaiju(player)
-			playerKaijus[player.UserId] = nil
-			playerSelectedKaiju[player.UserId] = nil
-			playerGamepassCache[player.UserId] = nil
-		end
-
-		Players.PlayerAdded:Connect(onPlayerAdded)
-		Players.PlayerRemoving:Connect(onPlayerRemoving)
-
-		for _, player in Players:GetPlayers() do
-			task.spawn(function()
-				loadPlayerKaijus(player)
-				removeGamepassKaijusFromData(player)
-				loadSelectedKaiju(player)
-				removeUnmetRequirements(player)
-			end)
-		end
-
-		task.spawn(function()
-			while true do
-				task.wait(60)
-				for _, player in Players:GetPlayers() do
-					savePlayerKaijus(player)
-					saveSelectedKaiju(player)
-				end
-			end
-		end)
-
-		game:BindToClose(function()
-			for _, player in Players:GetPlayers() do
-				savePlayerKaijus(player)
-				saveSelectedKaiju(player)
-			end
-		end)
+		return true
 	end
-	
-	local function initKaijuData()
-		local DataStoreService = game:GetService("DataStoreService")
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-		local LevelDataStore = DataStoreService:GetDataStore("PlayerLevels_v3")
-		local ModifierDataStore = DataStoreService:GetDataStore("PlayerModifiers_v1")
-		local levelNameMapping = {
-			["Godzilla1954"] = "GOJIRA [FREE]",
-			["Anguirus"] = "ANGUIRUS [FREE]",
-			["KamataKun"] = "SHIN FORM 2 [FREE]",
-			["Godzilla2014"] = "GODZILLA 2014",
-			["F16C"] = "F16C [FREE]",
-			["Human"] = "CIVILIAN [FREE]",
-			["Tank"] = "MILITARY TANK [FREE]",
-		}
+	_G.IsRewardBlocked = isBlocked
+	_G.SetKillRewardFlag = function(player)
+		if player then killRewardFlags[player] = true end
+	end
+	_G.ClearKillRewardFlag = function(player)
+		if player then killRewardFlags[player] = nil end
+	end
 
-		local getKaijuDataFunc = ReplicatedStorage:FindFirstChild("GetKaijuData")
-		if not getKaijuDataFunc then
-			getKaijuDataFunc = Instance.new("RemoteFunction")
-			getKaijuDataFunc.Name = "GetKaijuData"
-			getKaijuDataFunc.Parent = ReplicatedStorage
-		end
-
-		getKaijuDataFunc.OnServerInvoke = function(player)
-			local success, data = pcall(function()
-				return LevelDataStore:GetAsync("Player_" .. player.UserId)
-			end)
-
-			local modSuccess, modData = pcall(function()
-				return ModifierDataStore:GetAsync("Player_" .. player.UserId)
-			end)
-
-			local result = {}
-			if success and data and type(data) == "table" then
-				for kaijuName, kaijuData in pairs(data) do
-					if type(kaijuData) == "table" then
-						local canonicalName = levelNameMapping[kaijuName] or kaijuName
-						local level = kaijuData.level or 1
-						local totalSkillPoints = (kaijuName == "MINILLA") and math.floor(level / 25) or math.floor(level / 5)
-
-						local modifiers = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
-						if modSuccess and modData and type(modData) == "table" and (modData[kaijuName] or modData[canonicalName]) then
-							modifiers = modData[kaijuName] or modData[canonicalName]
-							modifiers.Damage = modifiers.Damage or 0
-							modifiers.Health = modifiers.Health or 0
-							modifiers.Regen = modifiers.Regen or 0
-							modifiers.Speed = modifiers.Speed or 0
-						end
-						local usedSkillPoints = modifiers.Damage + modifiers.Health + modifiers.Regen + modifiers.Speed
-						local availableSkillPoints = math.max(0, totalSkillPoints - usedSkillPoints)
-
-						result[canonicalName] = {
-							level = level,
-							xp = kaijuData.xp or 0,
-							usedSkillPoints = usedSkillPoints,
-							availableSkillPoints = availableSkillPoints,
-							modifiers = modifiers,
-						}
-					end
-				end
-			end
-
-			return result
+	local function checkAttack(attacker, targetCharacter)
+		if not attacker or not attacker:IsA("Player") or not targetCharacter then return end
+		local attackerLevel = getLevel(attacker.Character)
+		local targetLevel = getLevel(targetCharacter)
+		if not attackerLevel or not targetLevel then return end
+		if attackerLevel > LEVEL_THRESHOLD and targetLevel < LEVEL_THRESHOLD then
+			blockTimers[attacker] = os.clock() + BLOCK_DURATION
 		end
 	end
 
-	
-	local function initModifiers()
-		local DataStoreService = game:GetService("DataStoreService")
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local Players = game:GetService("Players")
-		local ServerStorage = game:GetService("ServerStorage")
-
-		local ModifierDataStore = DataStoreService:GetDataStore("PlayerModifiers_v1")
-		local LevelDataStore = DataStoreService:GetDataStore("PlayerLevels_v3")
-
-		local DEFAULT_MAX_POINTS_PER_MODIFIER = 10
-		local MODIFIER_NAMES = {"Damage", "Health", "Regen", "Speed"}
-
-		local KAIJU_MAX_POINTS_PER_MODIFIER = {
-			["CIVILIAN [FREE]"] = 50,
-		}
-
-		local function getMaxPointsPerModifier(kaijuName)
-			if kaijuName and KAIJU_MAX_POINTS_PER_MODIFIER[kaijuName] then
-				return KAIJU_MAX_POINTS_PER_MODIFIER[kaijuName]
-			end
-			return DEFAULT_MAX_POINTS_PER_MODIFIER
+	local function hookCreator(humanoid, targetCharacter)
+		local function check(creator)
+			local value = creator.Value
+			if value and value:IsA("Player") then checkAttack(value, targetCharacter) end
 		end
-
-		local modifyStatEvent = ReplicatedStorage:FindFirstChild("ModifyStat")
-		if not modifyStatEvent then
-			modifyStatEvent = Instance.new("RemoteEvent")
-			modifyStatEvent.Name = "ModifyStat"
-			modifyStatEvent.Parent = ReplicatedStorage
+		local function watch(creator)
+			if not creator:IsA("ObjectValue") then return end
+			creator.Changed:Connect(function() check(creator) end)
+			check(creator)
 		end
-
-		local getModifierDataFunc = ReplicatedStorage:FindFirstChild("GetModifierData")
-		if not getModifierDataFunc then
-			getModifierDataFunc = Instance.new("RemoteFunction")
-			getModifierDataFunc.Name = "GetModifierData"
-			getModifierDataFunc.Parent = ReplicatedStorage
-		end
-
-		local cache = {}
-		local levelCache = {}
-
-		local function loadCache(player)
-			if cache[player.UserId] then return cache[player.UserId] end
-
-			local success, data = pcall(function()
-				return ModifierDataStore:GetAsync("Player_" .. player.UserId)
-			end)
-			
-
-			if success and data and type(data) == "table" then
-				if not data["_HasResetSkillPoints_v1"] then
-					data = {
-						["_HasResetSkillPoints_v1"] = true
-					}
-					cache[player.UserId] = data
-
-					pcall(function()
-						ModifierDataStore:SetAsync("Player_" .. player.UserId, data)
-					end)
-
-					warn("[SKILL RESET] Reset skill points one-time for: " .. player.Name)
-				else
-					cache[player.UserId] = data
-				end
-			else
-				cache[player.UserId] = {
-					["_HasResetSkillPoints_v1"] = true
-				}
-			end
-
-			return cache[player.UserId]
-		end
-
-		local function loadLevelData(player)
-			if levelCache[player.UserId] then return levelCache[player.UserId] end
-
-			local success, data = pcall(function()
-				return LevelDataStore:GetAsync("Player_" .. player.UserId)
-			end)
-
-			if success and data and type(data) == "table" then
-				levelCache[player.UserId] = data
-			else
-				levelCache[player.UserId] = {}
-			end
-			return levelCache[player.UserId]
-		end
-
-		local function saveCache(player)
-			local data = cache[player.UserId]
-			if not data then return end
-			pcall(function()
-				ModifierDataStore:SetAsync("Player_" .. player.UserId, data)
-			end)
-		end
-
-		local function getLevel(player, kaijuName)
-			local levelData = loadLevelData(player)
-			if levelData and levelData[kaijuName] then
-				return levelData[kaijuName].level or 1
-			end
-			return 1
-		end
-
-		local function getTotalPoints(modifiers)
-			return (modifiers.Damage or 0) + (modifiers.Health or 0) + (modifiers.Regen or 0) + (modifiers.Speed or 0)
-		end
-
-		getModifierDataFunc.OnServerInvoke = function(player)
-			local data = loadCache(player)
-			local result = {}
-			local levelData = loadLevelData(player)
-
-			for kaijuName, modifiers in pairs(data) do
-				if type(modifiers) == "table" then
-					local level = 1
-					if levelData and type(levelData) == "table" and levelData[kaijuName] then
-						level = levelData[kaijuName].level or 1
-					end
-					local total = (kaijuName == "MINILLA") and math.floor(level / 25) or math.floor(level / 5)
-					local used = getTotalPoints(modifiers)
-					result[kaijuName] = {
-						Damage = modifiers.Damage or 0,
-						Health = modifiers.Health or 0,
-						Regen = modifiers.Regen or 0,
-						Speed = modifiers.Speed or 0,
-						usedSkillPoints = used,
-						availableSkillPoints = math.max(0, total - used),
-					}
-				end
-			end
-
-			if levelData and type(levelData) == "table" then
-				for kaijuName, kaijuInfo in pairs(levelData) do
-					if type(kaijuInfo) == "table" and not result[kaijuName] then
-						local level = kaijuInfo.level or 1
-						local total = (kaijuName == "MINILLA") and math.floor(level / 25) or math.floor(level / 5)
-						result[kaijuName] = {
-							Damage = 0,
-							Health = 0,
-							Regen = 0,
-							Speed = 0,
-							usedSkillPoints = 0,
-							availableSkillPoints = total,
-						}
-					end
-				end
-			end
-
-			return result
-		end
-
-		modifyStatEvent.OnServerEvent:Connect(function(player, kaijuName, modifierName, action)
-			if type(kaijuName) ~= "string" or type(modifierName) ~= "string" or type(action) ~= "string" then return end
-
-			local valid = false
-			for _, name in ipairs(MODIFIER_NAMES) do
-				if name == modifierName then valid = true break end
-			end
-			if not valid then return end
-
-			if not _G.KUNOwnsKaiju or not _G.KUNOwnsKaiju(player, kaijuName) then
-				return
-			end
-
-			local data = loadCache(player)
-			local modifiers = data[kaijuName]
-			if not modifiers then
-				modifiers = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
-				data[kaijuName] = modifiers
-			end
-
-			for _, name in ipairs(MODIFIER_NAMES) do
-				if not modifiers[name] then modifiers[name] = 0 end
-			end
-
-			local current = modifiers[modifierName] or 0
-			local used = getTotalPoints(modifiers)
-			local level = getLevel(player, kaijuName)
-			local total = (kaijuName == "MINILLA") and math.floor(level / 25) or math.floor(level / 5)
-			local available = total - used
-
-			
-			if used > total then
-				local excess = used - total
-				local modified = false
-				for _, name in ipairs(MODIFIER_NAMES) do
-					if excess > 0 and modifiers[name] and modifiers[name] > 0 then
-						local reduction = math.min(modifiers[name], excess)
-						modifiers[name] = modifiers[name] - reduction
-						excess = excess - reduction
-						modified = true
-					end
-				end
-				if modified then
-					used = getTotalPoints(modifiers)
-					current = modifiers[modifierName] or 0
-					task.spawn(function()
-						saveCache(player)
-					end)
-				end
-			end
-
-			if action == "Add" then
-				local maxPerModifier = getMaxPointsPerModifier(kaijuName)
-				if available > 0 and current < maxPerModifier then
-					modifiers[modifierName] = current + 1
-					used = used + 1
-				end
-			elseif action == "Subtract" then
-				if current > 0 then
-					modifiers[modifierName] = current - 1
-					used = used - 1
-				end
-			end
-
-			available = math.max(0, total - used)
-
-			if modifierName == "Regen" and player.Character then
-				player.Character:SetAttribute("RegenModifier", modifiers.Regen or 0)
-			end
-
-			modifyStatEvent:FireClient(player, {
-				kaijuName = kaijuName,
-				modifiers = {
-					Damage = modifiers.Damage or 0,
-					Health = modifiers.Health or 0,
-					Regen = modifiers.Regen or 0,
-					Speed = modifiers.Speed or 0,
-				},
-				usedSkillPoints = used,
-				availableSkillPoints = available,
-			})
-
-			
-			task.spawn(function()
-				saveCache(player)
-			end)
-		end)
-
-		local levelChangedEvent = ServerStorage:FindFirstChild("LevelChanged")
-		if not levelChangedEvent then
-			levelChangedEvent = Instance.new("BindableEvent")
-			levelChangedEvent.Name = "LevelChanged"
-			levelChangedEvent.Parent = ServerStorage
-		end
-
-		levelChangedEvent.Event:Connect(function(userId, kaijuName, newLevel)
-			if not levelCache[userId] then
-				levelCache[userId] = {}
-			end
-			if levelCache[userId][kaijuName] then
-				levelCache[userId][kaijuName].level = newLevel
-			else
-				levelCache[userId][kaijuName] = { level = newLevel, xp = 0 }
-			end
-
-			local player = Players:GetPlayerByUserId(userId)
-			if player then
-				local data = loadCache(player)
-				local modifiers = data[kaijuName] or { Damage = 0, Health = 0, Regen = 0, Speed = 0 }
-				local used = getTotalPoints(modifiers)
-				local total = math.floor(newLevel / 5)
-				local available = math.max(0, total - used)
-				modifyStatEvent:FireClient(player, {
-					kaijuName = kaijuName,
-					modifiers = {
-						Damage = modifiers.Damage or 0,
-						Health = modifiers.Health or 0,
-						Regen = modifiers.Regen or 0,
-						Speed = modifiers.Speed or 0,
-					},
-					usedSkillPoints = used,
-					availableSkillPoints = available,
-				})
-			end
-		end)
-
-		Players.PlayerRemoving:Connect(function(player)
-			saveCache(player)
-			cache[player.UserId] = nil
-			levelCache[player.UserId] = nil
-		end)
-
-		task.spawn(function()
-			while true do
-				task.wait(60)
-				for _, player in ipairs(Players:GetPlayers()) do
-					saveCache(player)
-				end
-			end
-		end)
-
-		game:BindToClose(function()
-			for _, player in ipairs(Players:GetPlayers()) do
-				saveCache(player)
-			end
+		local existing = humanoid:FindFirstChild("creator")
+		if existing then watch(existing) end
+		humanoid.ChildAdded:Connect(function(child)
+			if child.Name == "creator" then watch(child) end
 		end)
 	end
 
-	
-	local function initRecolor()
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local Players = game:GetService("Players")
-		local DataStoreService = game:GetService("DataStoreService")
-		local MarketplaceService = game:GetService("MarketplaceService")
-
-		local RECOLOR_GAMEPASS_ID = 1819433033
-		local Recolors = require(ReplicatedStorage:WaitForChild("Recolors"))
-		local GOLD_REQUIRED_LEVEL = Recolors.Unlock.Gold.level
-
-		local setRecolorEvent = ReplicatedStorage:WaitForChild("SetRecolor", 10)
-
-		local recolorStore = DataStoreService:GetDataStore("PlayerRecolors_v1")
-		local levelStore = DataStoreService:GetDataStore("PlayerLevels_v3")
-		local LevelManager = require(ReplicatedStorage:WaitForChild("LevelManager"))
-
-		local getRecolorDataFunc = ReplicatedStorage:FindFirstChild("GetRecolorData")
-		if not getRecolorDataFunc then
-			getRecolorDataFunc = Instance.new("RemoteFunction")
-			getRecolorDataFunc.Name = "GetRecolorData"
-			getRecolorDataFunc.Parent = ReplicatedStorage
-		end
-
-		local playerRecolors = {}
-
-		local function getRecolorData(recolorName)
-			return Recolors.Get(recolorName)
-		end
-
-		local function parseMaterial(materialStr)
-			if not materialStr then return nil end
-			local success, material = pcall(function()
-				return Enum.Material[materialStr]
-			end)
-			if success then return material end
-			return nil
-		end
-
-		local function isKaijuMaxLevel(player, kaijuName)
-			local maxLevel = LevelManager.GetMaxLevel(kaijuName)
-			local playerLevel = 1
-			local success, levelData = pcall(function()
-				return levelStore:GetAsync("Player_" .. player.UserId)
-			end)
-			if success and levelData and type(levelData) == "table" and levelData[kaijuName] then
-				playerLevel = levelData[kaijuName].level or 1
-			end
-			return playerLevel >= maxLevel
-		end
-
-		local function isKaijuLevel50(player, kaijuName)
-			local playerLevel = 1
-			local success, levelData = pcall(function()
-				return levelStore:GetAsync("Player_" .. player.UserId)
-			end)
-			if success and levelData and type(levelData) == "table" and levelData[kaijuName] then
-				playerLevel = levelData[kaijuName].level or 1
-			end
-			return playerLevel >= GOLD_REQUIRED_LEVEL
-		end
-
-		local function ownsRecolorGamepass(player)
-			if GamepassWhitelist[player.UserId] then
-				return true
-			end
-			local success, owns = pcall(function()
-				return MarketplaceService:UserOwnsGamePassAsync(player.UserId, RECOLOR_GAMEPASS_ID)
-			end)
-			return success and owns == true
-		end
-
-		local function classifyPart(partName)
-			local name = string.lower(partName)
-			if string.find(name, "eye") then
-				return "eye"
-			elseif string.find(name, "spike") then
-				return "spike"
-			elseif string.find(name, "toe") or string.find(name, "finger") or string.find(name, "teeth") then
-				return "secondary"
-			else
-				return "primary"
+	local function hookDPSAttacker(humanoid, targetCharacter)
+		local function check()
+			local attackerId = humanoid:GetAttribute("LastDPSAttacker")
+			if attackerId then
+				local attacker = Players:GetPlayerByUserId(attackerId)
+				if attacker then checkAttack(attacker, targetCharacter) end
 			end
 		end
+		humanoid:GetAttributeChangedSignal("LastDPSAttacker"):Connect(check)
+		check()
+	end
 
-		local function restoreOriginalColors(character, kaijuName)
-			for _, desc in ipairs(character:GetDescendants()) do
-				if desc:IsA("BasePart") then
-					local origColor = desc:GetAttribute("OriginalColor")
-					local origMaterialName = desc:GetAttribute("OriginalMaterial")
-
-					if desc:IsA("UnionOperation") then
-					desc.UsePartColor = true
-				end
-					if origColor then
-					desc.Color = origColor
-				end
-					if origMaterialName then
-					local mat = Enum.Material[origMaterialName]
-					if mat then
-						desc.Material = mat
-					end
-				end
-				end
-			end
-		end
-
-		local function applyRecolor(character, recolorName, kaijuName)
-			if not character or not recolorName then return end
-
-			if recolorName == "NO SKIN" then
-				if kaijuName then
-					restoreOriginalColors(character, kaijuName)
-				end
-				return
-			end
-
-			local data = getRecolorData(recolorName)
-			if not data then return end
-
-			local keepColor = data.KeepColor or false
-
-			local primaryMat = parseMaterial(data.PrimaryMaterial)
-			local secondaryMat = parseMaterial(data.SecondaryMaterial) or primaryMat
-			local tertiaryMat = parseMaterial(data.TertiaryMaterial) or primaryMat
-			local eyeMat = parseMaterial(data.EyeMaterial) or primaryMat
-
-			for _, descendant in ipairs(character:GetDescendants()) do
-				if descendant:IsA("BasePart") or descendant:IsA("UnionOperation") or descendant:IsA("MeshPart") then
-					local category = classifyPart(descendant.Name)
-
-					local color, materialEnum
-					if category == "eye" then
-						color = data.EyeColor
-						materialEnum = eyeMat
-					elseif category == "spike" then
-						color = data.Tertiary
-						materialEnum = tertiaryMat
-					elseif category == "secondary" then
-						color = data.Secondary
-						materialEnum = secondaryMat
-					else
-						color = data.Primary
-						materialEnum = primaryMat
-					end
-
-					if descendant:IsA("UnionOperation") then
-						descendant.UsePartColor = true
-					end
-
-					if not keepColor and color then
-						descendant.Color = color
-					end
-					if materialEnum then
-						descendant.Material = materialEnum
-					end
-				end
-			end
-		end
-
-		local function loadPlayerRecolors(player)
-			local success, data = pcall(function()
-				return recolorStore:GetAsync("recolors_" .. player.UserId)
-			end)
-			if success and type(data) == "table" then
-				playerRecolors[player] = data
-			else
-				playerRecolors[player] = {}
-			end
-		end
-
-		local function savePlayerRecolors(player)
-			local data = playerRecolors[player]
-			if not data then return end
-			local success, err = pcall(function()
-				recolorStore:SetAsync("recolors_" .. player.UserId, data)
-			end)
-			if not success then
-				warn("Recolor: Failed to save recolors for " .. player.Name .. ": " .. tostring(err))
-			end
-		end
-
-		if setRecolorEvent then
-			setRecolorEvent.OnServerEvent:Connect(function(player, kaijuName, recolorName)
-				if typeof(kaijuName) ~= "string" or typeof(recolorName) ~= "string" then return end
-
-				if recolorName == "Diamond" then
-					if not isKaijuMaxLevel(player, kaijuName) then
-						return
-					end
-
-				elseif recolorName == "Gold" then
-					if not isKaijuLevel50(player, kaijuName) then
-						return
-					end
-
-				elseif recolorName ~= "NO SKIN" then
-					if not ownsRecolorGamepass(player) then
-						return
-					end
-				end
-
-				if not playerRecolors[player] then
-					playerRecolors[player] = {}
-				end
-				playerRecolors[player][kaijuName] = recolorName
-
-				if player.Character then
-					local kaijuValue = player.Character:FindFirstChild("Kaiju")
-					if kaijuValue and kaijuValue.Value == kaijuName then
-						applyRecolor(player.Character, recolorName, kaijuName)
-					end
-				end
-			end)
-		end
-
-		getRecolorDataFunc.OnServerInvoke = function(player)
-			return playerRecolors[player] or {}
-		end
-
-		local function onCharacterAdded(player, character)
-			task.wait(0.1)
-
-			if not character.Parent then return end
-
-			local kaijuValue = character:FindFirstChild("Kaiju")
-			if not kaijuValue then return end
-
-			local kaijuName = kaijuValue.Value
-			local selections = playerRecolors[player]
-			if not selections then return end
-
-			local savedRecolor = selections[kaijuName]
-			if savedRecolor == "NO SKIN" then
-				return
-			elseif savedRecolor then
-				if savedRecolor == "Diamond" and not isKaijuMaxLevel(player, kaijuName) then
+	local function hookGCells(player)
+		local function setup()
+			local gcells = getGCells(player)
+			if not gcells or hookedGCells[gcells] then return end
+			hookedGCells[gcells] = true
+			previousGCells[player] = gcells.Value
+			gcells.Changed:Connect(function(newValue)
+				if changing[player] then return end
+				if killRewardFlags[player] then
+					previousGCells[player] = newValue
 					return
 				end
-
-				if savedRecolor == "Gold" and not isKaijuLevel50(player, kaijuName) then
-					return
-				end
-
-				if savedRecolor ~= "Diamond" and savedRecolor ~= "Gold" then
-					if not ownsRecolorGamepass(player) then
+				if isBlocked(player) then
+					local prev = previousGCells[player] or 0
+					if newValue > prev then
+						changing[player] = true
+						gcells.Value = prev
+						changing[player] = nil
 						return
 					end
 				end
-				applyRecolor(character, savedRecolor, kaijuName)
-			end
-		end
-
-		local function onPlayerAdded(player)
-			loadPlayerRecolors(player)
-
-			player.CharacterAdded:Connect(function(character)
-				onCharacterAdded(player, character)
+				previousGCells[player] = newValue
 			end)
-
-			if player.Character then
-				onCharacterAdded(player, player.Character)
-			end
-		end
-
-		task.spawn(function()
-			task.wait(1)
-			for _, player in ipairs(Players:GetPlayers()) do
-				local character = player.Character
-				if character then
-					local kaijuValue = character:FindFirstChild("Kaiju")
-					if kaijuValue then
-						local kaijuName = kaijuValue.Value
-						local selections = playerRecolors[player]
-						if selections then
-							local savedRecolor = selections[kaijuName]
-							if savedRecolor and savedRecolor ~= "NO SKIN" then
-								applyRecolor(character, savedRecolor, kaijuName)
-							end
-						end
-					end
-				end
-			end
-		end)
-
-		for _, player in ipairs(Players:GetPlayers()) do
-			onPlayerAdded(player)
-		end
-
-		Players.PlayerAdded:Connect(onPlayerAdded)
-
-		task.spawn(function()
-			while true do
-				task.wait(60)
-				for player in pairs(playerRecolors) do
-					if player.Parent then
-						savePlayerRecolors(player)
-					end
-				end
-			end
-		end)
-
-		game:BindToClose(function()
-			for player in pairs(playerRecolors) do
-				savePlayerRecolors(player)
-			end
-		end)
-
-		Players.PlayerRemoving:Connect(function(player)
-			savePlayerRecolors(player)
-			playerRecolors[player] = nil
-		end)
-	end
-
-	
-	local function initPerformance()
-		local ReplicatedStorage = game:GetService("ReplicatedStorage")
-		local LocalizationService = game:GetService("LocalizationService")
-
-		local perfRemote = ReplicatedStorage:FindFirstChild("PerformanceRemote")
-		if not perfRemote then
-			perfRemote = Instance.new("RemoteFunction")
-			perfRemote.Name = "PerformanceRemote"
-			perfRemote.Parent = ReplicatedStorage
-		end
-
-		local serverStartTime = os.time()
-
-		perfRemote.OnServerInvoke = function(player)
-			local region = "Unknown"
-
-			pcall(function()
-				local results = LocalizationService:GetCountryRegionForPlayersAsync({ player })
-				if results and #results > 0 then
-					region = results[1].code
-				end
+			gcells.AncestryChanged:Connect(function(_, parent)
+				if not parent then hookedGCells[gcells] = nil end
 			end)
-
-			local serverAge = os.time() - serverStartTime
-
-			return {
-				serverAge = serverAge,
-				region = region,
-			}
 		end
-	end
 
-	
-	task.spawn(initOwnership)
-	task.spawn(initKaijuData)
-	task.spawn(initModifiers)
-	task.spawn(initRecolor)
-	task.spawn(initPerformance)
-end
-
-return Data]]></ProtectedString>
-						</Properties>
-					</Item>
-				</Item>
-			</Item>
-			<Item class="ModuleScript" referent="RBX7">
-				<Properties>
-					<string name="Name">SecurityPolicy</string>
-					<ProtectedString name="Source"><![CDATA[
-local SecurityPolicy = {}
-
-local DataStoreService = game:GetService("DataStoreService")
-local MarketplaceService = game:GetService("MarketplaceService")
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local ownershipStore
-do
-    local ok, store = pcall(function()
-        return DataStoreService:GetDataStore("Ownership")
-    end)
-    if ok then
-        ownershipStore = store
-    else
-        warn("[SecurityPolicy] Ownership datastore unavailable: " .. tostring(store))
-    end
-end
-local ownershipCache = {}
-
-function SecurityPolicy.ClearOwnershipCache(player)
-	if player then
-		ownershipCache[player.UserId] = nil
-	end
-end
-
-task.spawn(function()
-	local buyEvent = ReplicatedStorage:WaitForChild("BuyKaiju", 30)
-	if buyEvent and buyEvent:IsA("RemoteEvent") then
-		buyEvent.OnServerEvent:Connect(function(player, kaijuName)
-			ownershipCache[player.UserId] = nil
+		setup()
+		player.ChildAdded:Connect(function(child)
+			if child.Name == "leaderstats" then
+				task.wait(0.1)
+				setup()
+			end
 		end)
-	end
-end)
-
-local GamepassWhitelist = {
-	[274893778] = true
-}
-
-local gamepassKaijus = {
-	["BURNING GODZILLA"] = 1891042639,
-	["THERMONUCLEAR GODZILLA"] = 1818653788,
-	["VOLCANIC BIOLLANTE"] = 1893256558,
-	["FROSTBITE GODZILLA"] = 1822212269,
-	["MINILLA"] = 1928197563,
-}
-
-local FREE_MORPHS = {
-    ["GOJIRA [FREE]"] = true,
-    ["SHIN FORM 2 [FREE]"] = true,
-    ["ANGUIRUS [FREE]"] = true,
-    ["MILITARY TANK [FREE]"] = true,
-    ["F16C [FREE]"] = true,
-    ["CIVILIAN [FREE]"] = true,
-}
-
-local legacyNames = {
-	Godzilla2014 = "GODZILLA 2014",
-	TitanusGhidorah = "TITANUS GHIDORAH",
-	Godzilla2019 = "TITANUS GOJIRA",
-	F16C = "F16C [FREE]",
-	Mosura = "TITANUS MOSURA",
-	Behemoth = "TITANUS BEHEMOTH",
-	Gigan = "GIGAN",
-	Anguirus = "ANGUIRUS [FREE]",
-	Biollante = "BIOLLANTE",
-	Burning = "BURNING GODZILLA",
-	FinalWars = "FINAL WARS GODZILLA",
-	Heisei = "HEISEI GODZILLA",
-	KamataKun = "SHIN FORM 2 [FREE]",
-	KingGhidorah = "KING GHIDORAH",
-	MaleMuto = "MALE MUTO",
-	Mothra = "MOTHRA",
-	Rodan = "TITANUS RODAN",
-	Shin = "SHIN GOJIRA",
-	ShinagawaKun = "SHIN FORM 3",
-	Tank = "MILITARY TANK [FREE]",
-	Human = "CIVILIAN [FREE]",
-	Godzilla1954 = "GOJIRA [FREE]",
-	Kiryu = "KIRYU",
-	["Mecha King Ghidorah"] = "MECHA KING GHIDORAH",
-}
-
-local function getMorphFolder()
-	local replicatedStorage = game:GetService("ReplicatedStorage")
-	return game:GetService("ServerStorage"):FindFirstChild("Kaijus")
-end
-
-local function getPrice(model)
-	local stats = model and model:FindFirstChild("Stats")
-	local price = stats and stats:FindFirstChild("Price")
-	if not price then
-		return nil
-	end
-	return tonumber(price.Value)
-end
-
-local function loadOwnership(player)
-	local cached = ownershipCache[player.UserId]
-	if cached ~= nil then
-		return cached
-	end
-
-    if not ownershipStore then return nil end
-	local success, data = pcall(function()
-		return ownershipStore:GetAsync(tostring(player.UserId))
-	end)
-	if not success or type(data) ~= "table" then
-		return nil
-	end
-
-	ownershipCache[player.UserId] = data
-	return data
-end
-
-local function dataOwns(data, morphName)
-	if type(data) ~= "table" then
-		return false
-	end
-	if data[morphName] then
-		return true
-	end
-	for legacyName, mappedName in pairs(legacyNames) do
-		if mappedName == morphName and data[legacyName] then
-			return true
+		local leaderstats = player:FindFirstChild("leaderstats")
+		if leaderstats then
+			leaderstats.ChildAdded:Connect(function() task.defer(setup) end)
 		end
 	end
-	for _, value in ipairs(data) do
-		if value == morphName or legacyNames[value] == morphName then
-			return true
-		end
-	end
-	return false
-end
 
-local function ownsGamepass(player, morphName)
-	
-	if GamepassWhitelist[player.UserId] then
-		return true
+	local function hookCharacter(character)
+		local humanoid = character:WaitForChild("Humanoid", 5)
+		if not humanoid then return end
+		hookCreator(humanoid, character)
+		hookDPSAttacker(humanoid, character)
 	end
-	
-	local gamepassId = gamepassKaijus[morphName]
-	if not gamepassId then
-		return false
+
+	local function hookPlayer(player)
+		hookGCells(player)
+		player.CharacterAdded:Connect(function(character)
+			task.spawn(hookCharacter, character)
+		end)
+		if player.Character then task.spawn(hookCharacter, player.Character) end
 	end
-	local success, owns = pcall(function()
-		return MarketplaceService:UserOwnsGamePassAsync(player.UserId, gamepassId)
+
+	for _, player in ipairs(Players:GetPlayers()) do hookPlayer(player) end
+	Players.PlayerAdded:Connect(hookPlayer)
+	Players.PlayerRemoving:Connect(function(player)
+		blockTimers[player] = nil
+		killRewardFlags[player] = nil
+		previousGCells[player] = nil
+		changing[player] = nil
 	end)
-	return success and owns == true
 end
 
-function SecurityPolicy.CanUseMorph(player, selectedCreature)
-	if not player or player.Parent ~= Players then
-		return false
+local function initWaterBubbles()
+	local bubblesTemplate = ReplicatedStorage:FindFirstChild("bubbles")
+	if not bubblesTemplate then
+		warn("[WaterBubbles] Could not find bubbles template in ReplicatedStorage")
+		return
 	end
-	if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
-		return false
-	end
-	
-	if GamepassWhitelist[player.UserId] then
-		return true
-	end
-
-	local morphFolder = getMorphFolder()
-	if not morphFolder or not selectedCreature:IsDescendantOf(morphFolder) then
-		return false
+	local waterStateEvent = ReplicatedStorage:FindFirstChild("WaterState")
+	if not waterStateEvent then
+		warn("[WaterBubbles] Could not find WaterState RemoteEvent")
+		return
 	end
 
-	local morphName = selectedCreature.Name
-	local price = getPrice(selectedCreature)
-	if price == nil then
-    return FREE_MORPHS[morphName] == true
-	end
-	if price <= 0 then
-		return true
-	end
-	if ownsGamepass(player, morphName) then
-		return true
-	end
+	local BUBBLES_NAME = "bubbles"
+	local HEAD_NAMES = { "FakeHead", "Fakehead", "Head" }
 
-	if type(_G.KUNOwnsKaiju) == "function" then
-		return _G.KUNOwnsKaiju(player, morphName)
-	end
-
-	local data = loadOwnership(player)
-	return dataOwns(data, morphName)
-end
-
-Players.PlayerRemoving:Connect(function(player)
-	ownershipCache[player.UserId] = nil
-end)
-
-return SecurityPolicy
-]]></ProtectedString>
-				</Properties>
-			</Item>
-			<Item class="Folder" referent="RBX8">
-				<Properties>
-					<string name="Name">Server</string>
-				</Properties>
-				<Item class="Folder" referent="RBX9">
-					<Properties>
-						<string name="Name">Services</string>
-					</Properties>
-					<Item class="ModuleScript" referent="RBX10">
-						<Properties>
-							<string name="Name">MorphService</string>
-							<ProtectedString name="Source"><![CDATA[local MorphService = { Name = "Morph" }
-
-function MorphService:Init()
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local ServerScriptService = game:GetService("ServerScriptService")
-	local Workspace = game:GetService("Workspace")
-
-	local framework = script:FindFirstAncestor("Server")
-	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
-	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
-	local cfg = require(framework.Config).Morph
-	local log = Logger.new("Morph")
-
-	if ServerScriptService:GetAttribute("MorphBootstrapActive") then
-		error("MorphBootstrapActive already set by another script; not registering a second morph handler")
-	end
-	ServerScriptService:SetAttribute("MorphBootstrapActive", true)
-
-	local morphReady = Util.getOrCreate(ReplicatedStorage, "BoolValue", "MorphReady")
-	morphReady.Value = false
-	morphReady:SetAttribute("Error", nil)
-
-	local fireEvent = Util.getOrCreate(ReplicatedStorage, "RemoteEvent", "MorphFire")
-	local morphResult = Util.getOrCreate(ReplicatedStorage, "RemoteEvent", "MorphResult")
-
-	local securityOk, SecurityPolicy = pcall(function()
-		return require(ServerScriptService:WaitForChild("SecurityPolicy", 10))
-	end)
-	if not securityOk or type(SecurityPolicy) ~= "table" or type(SecurityPolicy.CanUseMorph) ~= "function" then
-		local reason = securityOk and "SecurityPolicy.CanUseMorph is missing" or tostring(SecurityPolicy)
-		morphReady:SetAttribute("Error", reason)
-		error(reason)
-	end
-
-	local tankSpawnMorphs = {}
-	for _, name in ipairs(cfg.TankSpawnMorphs) do
-		tankSpawnMorphs[name] = true
-	end
-	local restrictedKaiju = Util.lowerSet(cfg.RestrictedKaiju)
-	local allowedPlayers = Util.lowerSet(cfg.AllowedPlayers)
-	local allowedUserIds = {}
-	for _, id in ipairs(cfg.AllowedUserIds) do
-		allowedUserIds[id] = true
-	end
-
-	local function fail(player, message)
-		morphResult:FireClient(player, false, nil, message)
-	end
-
-	local function pickSpawnCFrame(morphName)
-		local isTank = tankSpawnMorphs[morphName] == true
-		local folder = Workspace:FindFirstChild(isTank and "TankSpawns" or "SpawnPoints")
-		if not folder then
-			return nil
-		end
-		local points = folder:GetChildren()
-		local point = #points > 0 and points[math.random(1, #points)] or nil
-		if point and point:IsA("BasePart") then
-			return point.CFrame + Vector3.new(0, isTank and cfg.TankSpawnHeight or cfg.SpawnHeight, 0)
+	local function getHead(character)
+		for _, name in ipairs(HEAD_NAMES) do
+			local head = character:FindFirstChild(name)
+			if head and head:IsA("BasePart") then return head end
 		end
 		return nil
 	end
 
-	fireEvent.OnServerEvent:Connect(function(player, selectedCreature)
-		local ok, err = pcall(function()
-			local morphs = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
-			if type(selectedCreature) == "string" and morphs then
-				selectedCreature = morphs:FindFirstChild(selectedCreature, true)
+	waterStateEvent.OnServerEvent:Connect(function(player, inWater)
+		if type(inWater) ~= "boolean" then return end
+		local character = player.Character
+		if not character then return end
+		local head = getHead(character)
+		if not head then return end
+		local existing = head:FindFirstChild(BUBBLES_NAME)
+		if inWater then
+			if not existing then
+				local bubbles = bubblesTemplate:Clone()
+				bubbles.Name = BUBBLES_NAME
+				bubbles.Parent = head
 			end
-			if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
-				fail(player, "Invalid morph")
-				return
-			end
-			if not SecurityPolicy.CanUseMorph(player, selectedCreature) then
-				fail(player, "You do not own this kaiju")
-				return
-			end
-			if
-				restrictedKaiju[string.lower(selectedCreature.Name)]
-				and not (allowedPlayers[string.lower(player.Name)] or allowedUserIds[player.UserId])
-			then
-				player:Kick("You cannot use this kaiju.")
-				return
-			end
+		elseif existing then
+			existing:Destroy()
+		end
+	end)
+end
 
-			local controlTemplate = ReplicatedStorage:FindFirstChild("PlayerScripts")
-			controlTemplate = controlTemplate and controlTemplate:FindFirstChild("Control")
-			if not controlTemplate then
-				fail(player, "Control script missing")
-				return
-			end
+local function initAttackHandler()
+	local BeamSystem = safeRequire("BeamSystem")
 
-			local newModel = selectedCreature:Clone()
-			local oldCharacter = player.Character
-			for _, descendant in ipairs(newModel:GetDescendants()) do
-				if descendant:IsA("BasePart") then
-					descendant:SetAttribute("OriginalColor", descendant.Color)
-					descendant:SetAttribute("OriginalMaterial", descendant.Material.Name)
-				end
-			end
-			newModel.Name = player.Name
-			if not newModel.PrimaryPart then
-				local root = newModel:FindFirstChild("HumanoidRootPart")
-				if root then
-					newModel.PrimaryPart = root
-				end
-			end
+	local playerDebounces = {}
+	local connectedRemotes = {}
 
-			local control = controlTemplate:Clone()
-			control.Disabled = true
-			control.Parent = newModel
+	local VALID_ATTACK_TYPES = {
+		Melee = true, Pulse = true, Beam = true, FirePulse = true, BackBeam = true,
+	}
 
-			local kaijuName = Instance.new("StringValue")
-			kaijuName.Name = "Kaiju"
-			kaijuName.Value = selectedCreature.Name
-			kaijuName.Parent = newModel
-
-			local levelsFolder = ServerScriptService:FindFirstChild("Levels")
-			local levelsTemplate = levelsFolder and levelsFolder:FindFirstChild("Levels")
-			local levelsScript
-			if levelsTemplate then
-				levelsScript = levelsTemplate:Clone()
-				levelsScript.Disabled = true
-				levelsScript.Parent = newModel
-			end
-
-			local spawnCFrame = pickSpawnCFrame(selectedCreature.Name)
-			if spawnCFrame then
-				newModel:PivotTo(spawnCFrame)
-			end
-
-			newModel.Parent = Workspace
-			player.Character = newModel
-			if oldCharacter and oldCharacter.Parent then
-				oldCharacter:Destroy()
-			end
-			control.Disabled = false
-			if levelsScript then
-				levelsScript.Disabled = false
-			end
-
-			local humanoid = newModel:FindFirstChildOfClass("Humanoid")
+	local function getHumanoidAndPlayer(part)
+		if part.Name == "AttackHitbox" or part.Name == "BeamHitbox" or part.Name == "PulseHitbox" or part:GetAttribute("MeleeHit") then
+			return nil, nil
+		end
+		local model = part.Parent
+		while model do
+			local humanoid = model:FindFirstChildOfClass("Humanoid")
 			if humanoid then
-				humanoid.HealthDisplayType = Enum.HumanoidHealthDisplayType.AlwaysOff
-				humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+				return humanoid, Players:GetPlayerFromCharacter(model)
 			end
-			morphResult:FireClient(player, true, selectedCreature.Name, nil)
-			log:info("Morphed " .. player.Name .. " into " .. selectedCreature.Name)
-		end)
-		if not ok then
-			log:warn("Morph failed: " .. tostring(err))
-			fail(player, "Server morph error: " .. tostring(err))
+			model = model.Parent
+			if model == workspace then break end
 		end
-	end)
+		return nil, nil
+	end
 
-	morphReady.Value = true
-	log:info("Morph server ready")
-end
+	local function findSounds(character)
+		local sounds = character:FindFirstChild("Sounds")
+		if sounds then return sounds end
+		local scripts = character:FindFirstChild("CharacterScripts")
+		return scripts and scripts:FindFirstChild("Sounds") or nil
+	end
 
-return MorphService
-]]></ProtectedString>
-						</Properties>
-					</Item>
-				</Item>
-			</Item>
-		</Item>
-		<Item class="Folder" referent="RBX11">
-			<Properties>
-				<string name="Name">StarterGui</string>
-			</Properties>
-			<Item class="Folder" referent="RBX12">
-				<Properties>
-					<string name="Name">NEWMenu</string>
-				</Properties>
-				<Item class="Folder" referent="RBX13">
-					<Properties>
-						<string name="Name">Kaijus</string>
-					</Properties>
-					<Item class="Folder" referent="RBX14">
-						<Properties>
-							<string name="Name">List</string>
-						</Properties>
-						<Item class="LocalScript" referent="RBX15">
-							<Properties>
-								<string name="Name">PopulateList</string>
-								<ProtectedString name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
-local Players = game:GetService("Players")
-local MarketplaceService = game:GetService("MarketplaceService")
-local player = Players.LocalPlayer
-local CANDY_COLOR = Color3.fromRGB(255, 140, 0)
-local candyModule = ReplicatedStorage:WaitForChild("CandyConfig", 15)
-local CandyConfig = candyModule and require(candyModule)
-local function isSeason()
-	return CandyConfig ~= nil and CandyConfig.isSeason()
-end
-local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
-if not scrollingFrame then return end
-local template = scrollingFrame:FindFirstChild("Template")
-if not template then return end
-local kaijuInfoFunc = ReplicatedStorage:WaitForChild("GetKaijuInfo", 30)
-if not kaijuInfoFunc then
-	warn("PopulateList: GetKaijuInfo was not available")
-	return
-end
-local kaijuInfoList = {}
-for _ = 1, 30 do
-	local ok, result = pcall(function()
-		return kaijuInfoFunc:InvokeServer()
-	end)
-	if ok and type(result) == "table" and #result > 0 then
-		kaijuInfoList = result
-		break
+	local function getGlowManager(character)
+		local scripts = character:FindFirstChild("CharacterScripts")
+		local module = scripts and scripts:FindFirstChild("GlowManager")
+		if not module then return nil end
+		local ok, gm = pcall(require, module)
+		return ok and gm or nil
 	end
-	task.wait(1)
-end
-local kaijusFrame = script.Parent.Parent
-local statsFrame = kaijusFrame:FindFirstChild("Stats")
-local kaijuNameLabel = statsFrame and statsFrame:FindFirstChild("KaijuName")
-local levelLabel = statsFrame and statsFrame:FindFirstChild("Level")
-local kaijuImageLabel = statsFrame and statsFrame:FindFirstChild("KaijuImage")
-local skillPointsTxt = statsFrame and statsFrame:FindFirstChild("SkillPointsTxt")
-local selectButton = statsFrame and statsFrame:FindFirstChild("Select")
-local selectTxt = selectButton and selectButton:FindFirstChild("TXT")
-local newMenu = kaijusFrame.Parent
-local mainMenu = newMenu and newMenu:FindFirstChild("MainMenu")
-local getKaijuDataFunc
-local getOwnershipFunc
-local buyKaijuEvent
-local setSelectedKaijuEvent
-local getGamepassKaijusFunc
-local getSelectedKaijuFunc
-local remoteNames = {
-	GetKaijuData = true,
-	GetKaijuOwnership = true,
-	BuyKaiju = true,
-	SetSelectedKaiju = true,
-	GetGamepassKaijus = true,
-	GetSelectedKaiju = true,
-}
-local function refreshRemotes()
-	getKaijuDataFunc = ReplicatedStorage:FindFirstChild("GetKaijuData")
-	getOwnershipFunc = ReplicatedStorage:FindFirstChild("GetKaijuOwnership")
-	buyKaijuEvent = ReplicatedStorage:FindFirstChild("BuyKaiju")
-	setSelectedKaijuEvent = ReplicatedStorage:FindFirstChild("SetSelectedKaiju")
-	getGamepassKaijusFunc = ReplicatedStorage:FindFirstChild("GetGamepassKaijus")
-	getSelectedKaijuFunc = ReplicatedStorage:FindFirstChild("GetSelectedKaiju")
-end
-refreshRemotes()
-ReplicatedStorage.ChildAdded:Connect(function(child)
-	if remoteNames[child.Name] then
-		refreshRemotes()
-	end
-end)
 
-local kaijuDataCache = {}
-local ownershipCache = {}
-local gamepassKaijusCache = {}
-local gamepassInfoCache = {}
-local currentMorphName = nil
-local currentKaijuName = nil
-local currentPrice = 0
-local currentOwned = false
-local currentRequirement = nil
-local currentIsCandy = false
-local function formatBuyText(price, requirement, isCandy)
-	if isCandy and not isSeason() then
-		return "Offsale until halloween"
+	local function playSoundFrom(character, soundName, parent)
+		local sounds = findSounds(character)
+		local template = sounds and sounds:FindFirstChild(soundName)
+		if not template or not parent then return end
+		local clone = template:Clone()
+		clone.Parent = parent
+		clone.Looped = false
+		clone.Ended:Connect(function() clone:Destroy() end)
+		clone:Play()
+		Debris:AddItem(clone, 15)
+		return clone
 	end
-	if price == math.huge then
-		return "Not for sale yet"
+
+	local function playSoundUntilDeath(character, soundName, parent)
+		local clone = playSoundFrom(character, soundName, parent)
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not clone or not humanoid then return clone end
+		local connection
+		connection = humanoid.Died:Connect(function()
+			connection:Disconnect()
+			if clone.Parent then
+				clone:Stop()
+				clone:Destroy()
+			end
+		end)
+		clone.Destroying:Connect(function()
+			if connection.Connected then connection:Disconnect() end
+		end)
+		return clone
 	end
-	local text = "BUY (" .. tostring(price) .. (isCandy and " Candy" or "")
-	if requirement and requirement ~= "" then
-		local reqTexts = {}
-		for reqPart in requirement:gmatch("[^,]+") do
-			reqPart = reqPart:match("^%s*(.-)%s*$")
-			local reqKaiju, reqLevel = reqPart:match("^(.+):(%d+)$")
-			if reqKaiju and reqLevel then
-				table.insert(reqTexts, "Lvl " .. reqLevel .. " " .. reqKaiju)
+
+	local function playHitSound(character)
+		playSoundFrom(character, "HitSound", character:FindFirstChild("HumanoidRootPart"))
+	end
+
+	local function playAttackAnimation(character, animName)
+		local animations = character:FindFirstChild("Animations")
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		local animator = humanoid and humanoid:FindFirstChild("Animator")
+		local anim = animations and animations:FindFirstChild(animName)
+		if animator and anim then
+			local track = animator:LoadAnimation(anim)
+			track.Looped = false
+			track:Play()
+		end
+	end
+
+	local function getAnimName(remoteName)
+		if remoteName == "Attack" then return "Attack1" end
+		if remoteName == "Beam" then return "Attack2" end
+		return remoteName
+	end
+
+	local function getDamage(character, damageStat)
+		local stats = character:FindFirstChild("Stats")
+		local value = stats and stats:FindFirstChild(damageStat)
+		return value and value.Value or 10
+	end
+
+	local function registerHit(attacker, attackerChar, humanoid, damage, gcells, noKnockback)
+		setCreator(humanoid, attacker)
+		humanoid:TakeDamage(damage)
+		if Knockback and not noKnockback then
+			Knockback.push(humanoid.Parent, attackerChar, "attack")
+		end
+		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0, humanoid.Parent) end
+		playHitSound(attackerChar)
+		giveGCells(attacker, gcells, false, humanoid.Parent)
+	end
+
+	local function enableHitParts(character, hitPlayers, player, damage)
+		local connections, enabled = {}, {}
+		for _, folder in ipairs({ character:FindFirstChild("HitParts"), character:FindFirstChild("HitParts2") }) do
+			if folder then
+				for _, part in ipairs(folder:GetDescendants()) do
+					if part:IsA("BasePart") and not part:FindFirstChildWhichIsA("Script") then
+						part.CanTouch = true
+						table.insert(enabled, part)
+						table.insert(connections, part.Touched:Connect(function(hit)
+							local hitHumanoid, hitPlayer = getHumanoidAndPlayer(hit)
+							if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitPlayers[hitPlayer] then
+								hitPlayers[hitPlayer] = true
+								registerHit(player, character, hitHumanoid, damage, 25)
+							end
+						end))
+					end
+				end
 			end
 		end
-		if #reqTexts > 0 then
-			text = text .. ", Requires " .. table.concat(reqTexts, " & ")
+		return connections, enabled
+	end
+
+	local function disableHitParts(connections, enabled)
+		for _, conn in ipairs(connections) do conn:Disconnect() end
+		for _, part in ipairs(enabled) do
+			if part.Parent then part.CanTouch = false end
 		end
 	end
-	text = text .. ")"
-	return text
-end
-local morphInfoMap = {}
-local LEGACY_MORPH_NAMES = {
-	["Godzilla1954"] = "GOJIRA [FREE]",
-	["Anguirus"] = "ANGUIRUS [FREE]",
-	["KamataKun"] = "SHIN FORM 2 [FREE]",
-	["Godzilla2014"] = "GODZILLA 2014",
-	["F16C"] = "F16C [FREE]",
-	["Human"] = "CIVILIAN [FREE]",
-	["Tank"] = "MILITARY TANK [FREE]",
-}
-local function getKaijuDataEntry(morphName)
-	local data = kaijuDataCache[morphName]
-	if data then return data end
-	local legacyName = nil
-	for oldName, currentName in pairs(LEGACY_MORPH_NAMES) do
-		if currentName == morphName then
-			legacyName = oldName
-			break
-		end
-	end
-	return legacyName and kaijuDataCache[legacyName] or nil
-end
-local function fetchKaijuData()
-	if getKaijuDataFunc then
-		local success, data = pcall(function()
-			return getKaijuDataFunc:InvokeServer()
+
+	local function executeMeleeAttack(player, character, remote, remoteName, durationOverride)
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
+
+		local size = Vector3.new(
+			remote:GetAttribute("HitboxSizeX") or 15,
+			remote:GetAttribute("HitboxSizeY") or 15,
+			remote:GetAttribute("HitboxSizeZ") or 15
+		)
+		local offset = CFrame.new(
+			remote:GetAttribute("HitboxOffsetX") or 0,
+			remote:GetAttribute("HitboxOffsetY") or 0,
+			remote:GetAttribute("HitboxOffsetZ") or -10
+		)
+		local duration = durationOverride or remote:GetAttribute("HitboxDuration") or 0.5
+		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG1")
+
+		playAttackAnimation(character, getAnimName(remoteName))
+
+		local hitbox = Instance.new("Part")
+		hitbox.Name = "AttackHitbox"
+		hitbox:SetAttribute("MeleeHit", true)
+		hitbox.Size = size
+		hitbox.Anchored = true
+		hitbox.CanCollide = false
+		hitbox.CanTouch = true
+		hitbox.Transparency = 1
+		hitbox.Color = Color3.fromRGB(255, 0, 0)
+		hitbox.Material = Enum.Material.Neon
+		hitbox.Parent = character
+		hitbox.CFrame = hrp.CFrame * offset
+		Debris:AddItem(hitbox, duration + 2)
+
+		local hitPlayers = {}
+		local partConns, partsEnabled = enableHitParts(character, hitPlayers, player, damage)
+
+		local connection = hitbox.Touched:Connect(function(hit)
+			local hitHumanoid, hitPlayer = getHumanoidAndPlayer(hit)
+			if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitPlayers[hitPlayer] then
+				hitPlayers[hitPlayer] = true
+				registerHit(player, character, hitHumanoid, damage, 25)
+			end
 		end)
-		if success and type(data) == "table" then
-			kaijuDataCache = data
+
+		local overlapParams = OverlapParams.new()
+		overlapParams.FilterDescendantsInstances = { character }
+		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
+
+		local startTime = os.clock()
+		while os.clock() - startTime < duration do
+			if not character.Parent or not hrp.Parent or not hitbox.Parent then break end
+			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
+				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitPlayers[hitPlayer] then
+					hitPlayers[hitPlayer] = true
+					registerHit(player, character, hitHumanoid, damage, 25)
+				end
+			end
+			task.wait(0.05)
 		end
+
+		connection:Disconnect()
+		hitbox:Destroy()
+		disableHitParts(partConns, partsEnabled)
 	end
-end
-local function fetchOwnership()
-	if getOwnershipFunc then
-		local success, data = pcall(function()
-			return getOwnershipFunc:InvokeServer()
-		end)
-		if success and type(data) == "table" then
-			ownershipCache = data
+
+	local function executePulseAttack(player, character, remote, remoteName)
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
+
+		local sizeX = remote:GetAttribute("HitboxSizeX") or 50
+		local sizeY = remote:GetAttribute("HitboxSizeY") or 50
+		local sizeZ = remote:GetAttribute("HitboxSizeZ") or 50
+		local duration = remote:GetAttribute("HitboxDuration") or 2
+		local maxSize = remote:GetAttribute("PulseMaxSize") or 500
+		local tickInterval = remote:GetAttribute("PulseTickInterval") or 0.3
+		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
+
+		playAttackAnimation(character, getAnimName(remoteName))
+		playSoundUntilDeath(character, "Beam", hrp)
+
+		local pulsePart = Instance.new("Part")
+		pulsePart.Name = "PulseHitbox"
+		pulsePart.Shape = Enum.PartType.Ball
+		pulsePart.Material = Enum.Material.Neon
+		pulsePart.Color = Color3.fromRGB(0, 0, 0)
+		pulsePart.Anchored = true
+		pulsePart.CanCollide = false
+		pulsePart.CanTouch = false
+		pulsePart.Transparency = 0
+		pulsePart.Size = Vector3.new(sizeX, sizeY, sizeZ)
+		pulsePart.CFrame = hrp.CFrame
+		pulsePart.Parent = workspace
+		Debris:AddItem(pulsePart, duration + 2)
+
+		local oneShotHit = {}
+		local partConns, partsEnabled = enableHitParts(character, oneShotHit, player, damage)
+
+		local numTicks = math.max(duration / tickInterval, 1)
+		local damagePerTick = damage / numTicks
+		local gcellsPerTick = 25 / numTicks
+		local startSize = math.max(sizeX, sizeY, sizeZ)
+
+		local overlapParams = OverlapParams.new()
+		overlapParams.FilterDescendantsInstances = { character }
+		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
+
+		local startTime = os.clock()
+		while os.clock() - startTime < duration do
+			if not character.Parent or not hrp.Parent or not pulsePart.Parent then break end
+
+			local progress = math.clamp((os.clock() - startTime) / duration, 0, 1)
+			local currentSize = startSize + (maxSize - startSize) * progress
+			pulsePart.Size = Vector3.new(currentSize, currentSize, currentSize)
+			pulsePart.Transparency = progress
+			pulsePart.CFrame = hrp.CFrame
+
+			local hitThisTick = {}
+			for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
+				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+					hitThisTick[hitPlayer] = true
+					registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
+				end
+			end
+			task.wait(tickInterval)
 		end
+
+		if pulsePart.Parent then pulsePart:Destroy() end
+		disableHitParts(partConns, partsEnabled)
 	end
-end
-local function fetchGamepassKaijus()
-	if getGamepassKaijusFunc then
-		local success, data = pcall(function()
-			return getGamepassKaijusFunc:InvokeServer()
-		end)
-		if success and type(data) == "table" then
-			gamepassKaijusCache = data
+
+	local function readColor(value)
+		local kind = typeof(value)
+		if kind == "Color3" then return value end
+		if kind == "BrickColor" then return value.Color end
+		if kind == "number" then
+			local ok, brick = pcall(BrickColor.new, value)
+			return ok and brick.Color or nil
 		end
-	end
-end
-local function fetchGamepassInfo()
-	for morphName, gamepassId in pairs(gamepassKaijusCache) do
-		if not gamepassInfoCache[gamepassId] then
-			local success, info = pcall(function()
-				return MarketplaceService:GetProductInfoAsync(tonumber(gamepassId), Enum.InfoType.GamePass)
-			end)
-			if success and info then
-				gamepassInfoCache[gamepassId] = info
+		if kind == "Vector3" then
+			if math.max(value.X, value.Y, value.Z) > 1 then
+				return Color3.fromRGB(value.X, value.Y, value.Z)
+			end
+			return Color3.new(value.X, value.Y, value.Z)
+		end
+		if kind == "string" then
+			local hex = value:match("^#?(%x%x%x%x%x%x)$")
+			if hex then return Color3.fromHex(hex) end
+			local r, g, b = value:match("([%d%.]+)[%s,]+([%d%.]+)[%s,]+([%d%.]+)")
+			r, g, b = tonumber(r), tonumber(g), tonumber(b)
+			if r and g and b then
+				if math.max(r, g, b) > 1 then return Color3.fromRGB(r, g, b) end
+				return Color3.new(r, g, b)
 			end
 		end
-	end
-end
-local function isGamepassKaiju(morphName)
-	return gamepassKaijusCache[morphName] ~= nil
-end
-local MANUAL_OFFSALE_GAMEPASSES = {}
-local function isGamepassOffsale(morphName)
-	if MANUAL_OFFSALE_GAMEPASSES[morphName] then return true end
-	local gamepassId = gamepassKaijusCache[morphName]
-	if not gamepassId then return false end
-	local info = gamepassInfoCache[gamepassId]
-	if not info then return false end
-	return not info.IsForSale
-end
-local function isOwned(morphName, price)
-	if price <= 0 then return true end
-	if ownershipCache[morphName] then return true end
-	return false
-end
-local function getLayoutOrder(morphName)
-	local upper = string.upper(morphName)
-	if upper == "GOJIRA [FREE]" then
-		return 0
-	elseif upper == "SHIN FORM 2 [FREE]" then
-		return 1
-	elseif upper == "ANGUIRUS [FREE]" then
-		return 2
-	elseif upper == "MILITARY TANK [FREE]" then
-		return 9998
-	elseif upper == "CIVILIAN [FREE]" then
-		return 9999
-	else
+		if value ~= nil then
+			warn("[Combat] PulseColor attribute has unsupported value: " .. tostring(value))
+		end
 		return nil
 	end
-end
-local sortedMorphs = kaijuInfoList
-table.sort(sortedMorphs, function(a, b)
-	return a.Name < b.Name
-end)
-local layoutOrders = {}
-local otherIndex = 100
-for _, model in ipairs(sortedMorphs) do
-	local order = getLayoutOrder(model.Name)
-	if order then
-		layoutOrders[model.Name] = order
-	else
-		layoutOrders[model.Name] = otherIndex
-		otherIndex = otherIndex + 1
-	end
-end
-local layout = scrollingFrame:FindFirstChild("KaijuListLayout")
-if not layout then
-	layout = Instance.new("UIListLayout")
-	layout.Name = "KaijuListLayout"
-	layout.Parent = scrollingFrame
-end
-layout.FillDirection = Enum.FillDirection.Vertical
-layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-layout.VerticalAlignment = Enum.VerticalAlignment.Top
-layout.Padding = UDim.new(0, 6)
-layout.SortOrder = Enum.SortOrder.LayoutOrder
-scrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.None
-scrollingFrame.CanvasPosition = Vector2.new(0, 0)
-local function refreshListCanvas()
-	local contentHeight = layout.AbsoluteContentSize.Y
-	local viewportHeight = scrollingFrame.AbsoluteSize.Y
-	scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, math.max(contentHeight + 6, viewportHeight))
-end
-layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(refreshListCanvas)
-local function selectKaiju(morphName)
-	local info = morphInfoMap[morphName]
-	if not info then return end
-	if kaijuNameLabel then
-		kaijuNameLabel.Text = info.kaijuName
-	end
-	if kaijuImageLabel then
-		kaijuImageLabel.Image = info.kaijuImage
-	end
-	local morphData = getKaijuDataEntry(morphName)
-	local level = (morphData and morphData.level) or 1
-	if levelLabel then
-		levelLabel.Text = "Level " .. tostring(level)
-	end
-	currentMorphName = morphName
-	currentKaijuName = info.kaijuName
-	currentPrice = info.morphPrice
-	currentOwned = isOwned(morphName, info.morphPrice)
-	currentRequirement = info.requirement
-	currentIsCandy = info.isCandy == true
-	if statsFrame then
-		statsFrame:SetAttribute("CurrentMorph", nil)
-		statsFrame:SetAttribute("CurrentMorph", morphName)
-	end
-	if selectTxt then
-		if currentOwned then
-			selectTxt.Text = "SELECT " .. string.upper(info.kaijuName)
-		elseif isGamepassKaiju(morphName) and currentOwned == false then  
-			if isGamepassOffsale(morphName) then
-				selectTxt.Text = "OFFSALE"
-			else
-					if isGamepassOffsale(currentMorphName) then
-						selectTxt.Text = "OFFSALE"
-					else
-						selectTxt.Text = "BUY GAMEPASS"
-					end
-			end
-		else
-			selectTxt.Text = formatBuyText(info.morphPrice, info.requirement, info.isCandy)
+
+	local function executeFirePulse(player, character, remote, remoteName)
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
+
+		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
+		local windup = remote:GetAttribute("PulseWindup") or 0
+		local pulseColor = readColor(remote:GetAttribute("PulseColor")) or Color3.fromRGB(255, 120, 0)
+		local pulseMaxSize = remote:GetAttribute("PulseMaxSize") or 300
+		local pulseDuration = remote:GetAttribute("HitboxDuration") or 4
+
+		playAttackAnimation(character, getAnimName(remoteName))
+		playSoundFrom(character, "Pulse", hrp)
+
+		if windup > 0 then task.wait(windup) end
+		if _G.FirePulse then
+			_G.FirePulse(player, pulseColor, pulseMaxSize, pulseDuration, damage)
 		end
 	end
-end
-local function populate()
-	fetchKaijuData()
-	fetchGamepassKaijus()
-	fetchGamepassInfo()
-	fetchOwnership()
-	for _, model in ipairs(sortedMorphs) do
-		local clone = scrollingFrame:FindFirstChild(model.Name)
-		if not clone or not clone:IsA("GuiObject") then
-			clone = template:Clone()
-		end
-		clone.Name = model.Name
-		clone.Size = UDim2.new(0.968, 0, 0, 77)
-		clone.Position = UDim2.new(0, 0, 0, 0)
-		clone.AnchorPoint = Vector2.new(0, 0)
-		clone.BackgroundTransparency = 0
-		clone.ZIndex = 2
-		if model.Name == "ENTITY" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
-			clone.Visible = false
-		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
-			clone.Visible = false
-		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
-			clone.Visible = false
-		elseif model.Name == "DESTOROYAH"
-			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then
-			clone.Visible = false
-		elseif model.Name == "thedenis"
-			and player.Name ~= "DenisTheCheeseKing" then
-			clone.Visible = false
-		elseif model.Name == "RED"
-			and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then
-			clone.Visible = false
-		else
-			clone.Visible = true
-		end
-		clone.LayoutOrder = layoutOrders[model.Name] or 0
-		local kaijuName = model.kaijuName
-		local kaijuDesc = model.kaijuDescription
-		local kaijuImage = model.kaijuImage
-		local nameLabel = clone:FindFirstChild("KaijuName")
-		if nameLabel then
-			nameLabel.Text = kaijuName
-			if model.isCandy then
-				nameLabel.TextColor3 = CANDY_COLOR
-			end
-		end
-		local descLabel = clone:FindFirstChild("KaijuDescription")
-		if descLabel then
-			descLabel.Text = kaijuDesc
-		end
-		local imageLabel = clone:FindFirstChild("KaijuImage")
-		if imageLabel then
-			imageLabel.Image = kaijuImage
-		end
-		local clickBtn = clone:FindFirstChild("ClickHandler")
-		if not clickBtn then
-			clickBtn = Instance.new("TextButton")
-			clickBtn.Name = "ClickHandler"
-			clickBtn.Size = UDim2.new(1, 0, 1, 0)
-			clickBtn.Position = UDim2.new(0, 0, 0, 0)
-			clickBtn.BackgroundTransparency = 1
-			clickBtn.Text = ""
-			clickBtn.ZIndex = 10
-			clickBtn.Parent = clone
-		end
-		local morphName = model.Name
-		local morphPrice = model.price
-		morphInfoMap[morphName] = {
-			kaijuName = kaijuName,
-			kaijuImage = kaijuImage,
-			morphPrice = morphPrice,
-			visible = clone.Visible,
-			requirement = model.requirement,
-			isCandy = model.isCandy,
-		}
-		clickBtn.MouseButton1Click:Connect(function()
-			selectKaiju(morphName)
-		end)
-		clone.Parent = scrollingFrame
-	end
-	template.Visible = false
-	task.defer(refreshListCanvas)
-end
-if selectButton then
-	local slideTweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-	selectButton.MouseButton1Click:Connect(function()
-		if not currentMorphName then return end
-		if currentOwned then
-			if setSelectedKaijuEvent then
-				setSelectedKaijuEvent:FireServer(currentMorphName)
-			end
-			TweenService:Create(kaijusFrame, slideTweenInfo, {
-				Position = UDim2.new(1.1, 0, 0, 0),
-			}):Play()
-			if mainMenu then
-				TweenService:Create(mainMenu, slideTweenInfo, {
-					Position = UDim2.new(0, 0, 0, 0),
-				}):Play()
-			end
-		elseif isGamepassKaiju(currentMorphName) then
-			if not isGamepassOffsale(currentMorphName) then
-				local gamepassId = gamepassKaijusCache[currentMorphName]
-				if gamepassId then
-					MarketplaceService:PromptGamePassPurchase(player, gamepassId)
-				end
-			end
-		else
-			if buyKaijuEvent then
-				if not (currentIsCandy and not isSeason()) and currentPrice ~= math.huge then
-					buyKaijuEvent:FireServer(currentMorphName)
-				end
-			end
-		end
-	end)
-	if buyKaijuEvent then
-		buyKaijuEvent.OnClientEvent:Connect(function(kaijuName, success, message)
-			if success or message == "Already owned" then
-				ownershipCache[kaijuName] = true
-			end
-			if kaijuName == currentMorphName then
-				if success then
-					currentOwned = true
-					ownershipCache[currentMorphName] = true
-					if selectTxt then
-						selectTxt.Text = "SELECT " .. string.upper(currentKaijuName or "")
-					end
-					if setSelectedKaijuEvent then
-						setSelectedKaijuEvent:FireServer(currentMorphName)
-					end
-					TweenService:Create(kaijusFrame, slideTweenInfo, {
-						Position = UDim2.new(1.1, 0, 0, 0),
-					}):Play()
-					if mainMenu then
-						TweenService:Create(mainMenu, slideTweenInfo, {
-							Position = UDim2.new(0, 0, 0, 0),
-						}):Play()
-					end
-				elseif message == "Already owned" then
-					currentOwned = true
-					ownershipCache[currentMorphName] = true
-					if selectTxt then
-						selectTxt.Text = "SELECT " .. string.upper(currentKaijuName or "")
-					end
-				else
-					if selectTxt then
-						selectTxt.Text = "FAILED: " .. tostring(message or "Unknown error")
-						task.delay(3, function()
-							if selectTxt and not currentOwned then
-								if isGamepassKaiju(currentMorphName) then
-										if isGamepassOffsale(currentMorphName) then
-											selectTxt.Text = "OFFSALE"
-										else
-											selectTxt.Text = "BUY GAMEPASS"
-										end
-								else
-									selectTxt.Text = formatBuyText(currentPrice, currentRequirement, currentIsCandy)
-								end
-							end
-							end)
+
+	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
+		if not BeamSystem then return end
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		if not hrp then return end
+
+		if typeof(targetPos) ~= "Vector3" then targetPos = nil end
+
+		local duration = remote:GetAttribute("BeamDuration") or remote:GetAttribute("HitboxDuration") or 4.7
+		local chargeTime = remote:GetAttribute("BeamChargeTime") or 0
+
+		playAttackAnimation(character, getAnimName(remoteName))
+
+		local glowManager = getGlowManager(character)
+		if glowManager then glowManager.StartGlow(chargeTime) end
+
+		playSoundUntilDeath(character, "Beam", hrp)
+
+		local sortedSpikes = {}
+		local originalProps = {}
+		local spikesFolder = character:FindFirstChild("Spikes")
+		if spikesFolder then
+			for _, child in ipairs(spikesFolder:GetChildren()) do
+				if child:IsA("BasePart") then
+					local number = tonumber(string.match(child.Name, "%d+"))
+					if number then
+						table.insert(sortedSpikes, { part = child, number = number })
+						originalProps[child] = { Material = child.Material, UsePartColor = child.UsePartColor }
 					end
 				end
 			end
-		end)
-	end
-end
-populate()
-local function selectInitialMorph()
-	refreshRemotes()
-	local selectedMorph = nil
-	if getSelectedKaijuFunc then
-		local success, result = pcall(function()
-			return getSelectedKaijuFunc:InvokeServer()
-		end)
-		if success then selectedMorph = result end
-	end
-	if selectedMorph and morphInfoMap[selectedMorph] and morphInfoMap[selectedMorph].visible then
-		selectKaiju(selectedMorph)
-		return
-	end
-	for _, model in ipairs(sortedMorphs) do
-		local info = morphInfoMap[model.Name]
-		if info and info.visible then
-			selectKaiju(model.Name)
+			table.sort(sortedSpikes, function(a, b) return a.number < b.number end)
+		end
+
+		local function resetEffects()
+			task.spawn(function()
+				for i = #sortedSpikes, 1, -1 do
+					local spike = sortedSpikes[i].part
+					local props = originalProps[spike]
+					if props and spike.Parent then
+						spike.Material = props.Material
+						spike.UsePartColor = props.UsePartColor
+					end
+					task.wait(0.1)
+				end
+				if glowManager then glowManager.EndGlow() end
+			end)
+		end
+
+		if #sortedSpikes > 0 then
+			local perSpikeDelay = chargeTime > 0 and chargeTime / #sortedSpikes or 0.21
+			for _, data in ipairs(sortedSpikes) do
+				data.part.Material = Enum.Material.Neon
+				data.part.UsePartColor = true
+				task.wait(perSpikeDelay)
+			end
+		elseif chargeTime > 0 then
+			task.wait(chargeTime)
+		end
+
+		local ownerHumanoid = character:FindFirstChildOfClass("Humanoid")
+		if not character.Parent or not ownerHumanoid or ownerHumanoid.Health <= 0 then
+			resetEffects()
 			return
 		end
-	end
-end
-selectInitialMorph()
-task.spawn(function()
-	for _ = 1, 60 do
-		refreshRemotes()
-		if getKaijuDataFunc then fetchKaijuData() end
-		if getOwnershipFunc then fetchOwnership() end
-		if getGamepassKaijusFunc then
-			fetchGamepassKaijus()
-			fetchGamepassInfo()
-		end
-		if getKaijuDataFunc and getOwnershipFunc and getGamepassKaijusFunc and getSelectedKaijuFunc then
-			selectInitialMorph()
-			break
-		end
-		task.wait(1)
-	end
-end)
 
-task.spawn(function()
-	for attempt = 1, 3 do
-		task.wait(2 * attempt)
-		local hasAny = false
-		for _ in pairs(ownershipCache) do
-			hasAny = true
-			break
-		end
-		if hasAny then break end
-		fetchOwnership()
-		if currentMorphName then
-			local newOwned = isOwned(currentMorphName, currentPrice)
-			if newOwned ~= currentOwned then
-				currentOwned = newOwned
-				if selectTxt then
-					if currentOwned then
-						selectTxt.Text = "SELECT " .. string.upper(currentKaijuName or "")
-					elseif isGamepassKaiju(currentMorphName) then
-							if isGamepassOffsale(currentMorphName) then
-								selectTxt.Text = "OFFSALE"
-							else
-								selectTxt.Text = "BUY GAMEPASS"
-							end
-					else
-						selectTxt.Text = formatBuyText(currentPrice, currentRequirement, currentIsCandy)
-					end
+		local ok, err = pcall(BeamSystem.ActivateBeam, {
+			character = character,
+			player = player,
+			initialTargetPosition = targetPos,
+			duration = duration,
+		})
+		if not ok then warn("[AttackHandler] ActivateBeam failed: " .. tostring(err)) end
+
+		resetEffects()
+	end
+
+	local function executeBackBeam(player, character, remote, remoteName)
+		local glowManager = getGlowManager(character)
+		if glowManager then glowManager.StartGlow() end
+
+		local windup = remote:GetAttribute("BackBeamWindup") or 0
+		if windup > 0 then task.wait(windup) end
+
+		local activeDuration = remote:GetAttribute("BackBeamActive") or remote:GetAttribute("HitboxDuration") or 0.5
+		local ok, err = pcall(executeMeleeAttack, player, character, remote, remoteName, activeDuration)
+		if not ok then warn("[AttackHandler] BackBeam failed: " .. tostring(err)) end
+
+		if glowManager then glowManager.EndGlow() end
+	end
+
+	local function connectRemote(remote)
+		if connectedRemotes[remote] then return end
+		local attackType = remote:GetAttribute("AttackType")
+		if not attackType or not VALID_ATTACK_TYPES[attackType] then return end
+		connectedRemotes[remote] = true
+
+		remote.AncestryChanged:Connect(function(_, parent)
+			if not parent then connectedRemotes[remote] = nil end
+		end)
+
+		local remoteName = remote.Name
+		remote.OnServerEvent:Connect(function(player, ...)
+			local debounces = playerDebounces[player]
+			if not debounces then
+				debounces = {}
+				playerDebounces[player] = debounces
+			end
+			if debounces[remote] then return end
+
+			local char = player.Character
+			local hrp = char and char:FindFirstChild("HumanoidRootPart")
+			local humanoid = char and char:FindFirstChildOfClass("Humanoid")
+			if not hrp or not humanoid or humanoid.Health <= 0 then return end
+
+			debounces[remote] = true
+
+			local args = table.pack(...)
+			local ok, err = pcall(function()
+				if attackType == "Melee" then
+					executeMeleeAttack(player, char, remote, remoteName)
+				elseif attackType == "Pulse" then
+					executePulseAttack(player, char, remote, remoteName)
+				elseif attackType == "Beam" then
+					executeBeamAttack(player, char, remote, remoteName, args[1])
+				elseif attackType == "FirePulse" then
+					executeFirePulse(player, char, remote, remoteName)
+				elseif attackType == "BackBeam" then
+					executeBackBeam(player, char, remote, remoteName)
 				end
+			end)
+			if not ok then warn("[AttackHandler] " .. attackType .. " failed: " .. tostring(err)) end
+
+			if playerDebounces[player] then
+				playerDebounces[player][remote] = nil
 			end
+		end)
+	end
+
+	local function scanCharacter(character)
+		for _, descendant in ipairs(character:GetDescendants()) do
+			if descendant:IsA("RemoteEvent") then connectRemote(descendant) end
 		end
 	end
-end)
-local levelUpdateRemote = ReplicatedStorage:FindFirstChild("LevelUpdate")
-if levelUpdateRemote then
-	levelUpdateRemote.OnClientEvent:Connect(function(data)
-		if data and data.kaiju then
-			local cached = kaijuDataCache[data.kaiju]
-			if cached then
-				cached.level = data.level
 
-
-				local pointsPerLevel = (data.kaiju == "MINILLA") and 25 or 5
-				local total = math.floor((data.level or 1) / pointsPerLevel)
-
-				cached.availableSkillPoints = math.max(0, total - (cached.usedSkillPoints or 0))
-			else
-				local pointsPerLevel = (data.kaiju == "MINILLA") and 25 or 5
-				local total = math.floor((data.level or 1) / pointsPerLevel)
-
-				kaijuDataCache[data.kaiju] = {
-					level = data.level,
-					xp = data.xp or 0,
-					usedSkillPoints = 0,
-					availableSkillPoints = total,
-				}
-			end
-			if data.kaiju == currentMorphName and levelLabel then
-				levelLabel.Text = "Level " .. tostring(data.level)
-			end
+	local function setupPlayer(player)
+		player.CharacterAdded:Connect(function(character)
+			scanCharacter(character)
+			character.DescendantAdded:Connect(function(descendant)
+				if descendant:IsA("RemoteEvent") then
+					task.defer(connectRemote, descendant)
+				end
+			end)
+		end)
+		local character = player.Character
+		if character then
+			scanCharacter(character)
+			character.DescendantAdded:Connect(function(descendant)
+				if descendant:IsA("RemoteEvent") then
+					task.defer(connectRemote, descendant)
+				end
+			end)
 		end
+	end
+
+	for _, player in ipairs(Players:GetPlayers()) do setupPlayer(player) end
+	Players.PlayerAdded:Connect(setupPlayer)
+	Players.PlayerRemoving:Connect(function(player)
+		playerDebounces[player] = nil
 	end)
 end
-MarketplaceService.PromptGamePassPurchaseFinished:Connect(function(purchasedPlayerId, gamepassId, wasPurchased)
-	if wasPurchased and purchasedPlayerId == player.UserId then
-		for morphName, gpId in pairs(gamepassKaijusCache) do
-			if gpId == gamepassId then
-				ownershipCache[morphName] = true
-				if morphName == currentMorphName then
-					currentOwned = true
-					if selectTxt then
-						selectTxt.Text = "SELECT " .. string.upper(currentKaijuName or "")
-					end
-				end
-				break
-			end
+
+local function initDPS()
+	local CollectionService = game:GetService("CollectionService")
+	local connected = setmetatable({}, { __mode = "k" })
+
+	local function findAttacker(part)
+		local model = part:FindFirstAncestorOfClass("Model")
+		while model do
+			local player = Players:GetPlayerFromCharacter(model)
+			if player then return player end
+			model = model:FindFirstAncestorOfClass("Model")
+		end
+		local nameValue = part:FindFirstChild("PlayerName")
+		if nameValue and nameValue:IsA("StringValue") then
+			return Players:FindFirstChild(nameValue.Value)
+		end
+		return nil
+	end
+
+	local function levelScale(attacker)
+		local perLevel = ReplicatedStorage:FindFirstChild("DamageMultiplierPerLevel")
+		if not perLevel then return 1 end
+		local character = attacker and attacker.Character
+		local levelValue = character and character:FindFirstChild("Level")
+		local level = levelValue and levelValue.Value or 1
+		return perLevel.Value ^ (level - 1)
+	end
+
+	local function payGCells(attacker, amount, at)
+		local leaderstats = attacker:FindFirstChild("leaderstats")
+		if not leaderstats then return end
+		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
+		if gcells and gcells:IsA("IntValue") then
+			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
+			gcells.Value = gcells.Value + amount
+			if _G.ShowIndicator and amount >= 1 then _G.ShowIndicator(attacker, 0, amount, 0, at) end
 		end
 	end
-end)]]></ProtectedString>
-							</Properties>
-						</Item>
-					</Item>
-					<Item class="Folder" referent="RBX16">
-						<Properties>
-							<string name="Name">Stats</string>
+
+	local function hook(part)
+		if connected[part] or not part:IsA("BasePart") then return end
+		connected[part] = true
+		local lastHit = setmetatable({}, { __mode = "k" })
+		part.Touched:Connect(function(other)
+			if part:GetAttribute("RequireBlastActive") and not part:GetAttribute("BlastActive") then return end
+			local character = other.Parent
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if not humanoid or humanoid.Health <= 0 then return end
+			local attacker = findAttacker(part)
+			if attacker and attacker.Character == character then return end
+			local cooldown = part:GetAttribute("Cooldown") or 0.5
+			local now = os.clock()
+			if cooldown > 0 and lastHit[character] and now - lastHit[character] < cooldown then return end
+			lastHit[character] = now
+			local multiplier = part:GetAttribute("DamageMultiplier") or 1
+			if part:GetAttribute("LevelScaled") then
+				multiplier = multiplier * levelScale(attacker)
+			end
+			humanoid.Health = humanoid.Health - (part:GetAttribute("Damage") or 0.9) * multiplier
+			if attacker then
+				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
+				payGCells(attacker, part:GetAttribute("GCellRate") or 0.2, character)
+				if _G.ShowIndicator then _G.ShowIndicator(attacker, (part:GetAttribute("Damage") or 0.9) * multiplier, 0, 0, character) end
+			end
+		end)
+	end
+
+	for _, part in ipairs(CollectionService:GetTagged("DPSPart")) do
+		hook(part)
+	end
+	CollectionService:GetInstanceAddedSignal("DPSPart"):Connect(hook)
+end
+
+local function initRoar()
+	local connected = setmetatable({}, { __mode = "k" })
+
+	local function hook(event)
+		if not event:IsA("RemoteEvent") or connected[event] then return end
+		local scripts = event.Parent
+		if not scripts or scripts.Name ~= "CharacterScripts" then return end
+		local roarName = event.Name
+		if not roarName:match("^Roar%d*$") then return end
+		connected[event] = true
+		event.OnServerEvent:Connect(function(player)
+			local character = player.Character
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if not humanoid then return end
+			local debounce = scripts:FindFirstChild("Debounce")
+			if not debounce or debounce.Value then return end
+			debounce.Value = true
+			local animations = scripts.Parent and scripts.Parent:FindFirstChild("Animations")
+			local roarAnim = animations and animations:FindFirstChild(roarName)
+			local animator = roarAnim and humanoid:FindFirstChild("Animator")
+			if animator then
+				local track = animator:LoadAnimation(roarAnim)
+				track.Looped = false
+				track.Priority = Enum.AnimationPriority.Action
+				track:Play(0.1, 10)
+			end
+			local sounds = scripts:FindFirstChild("Sounds")
+			local roarSound = sounds and sounds:FindFirstChild(roarName)
+			if roarSound then
+				local clone = roarSound:Clone()
+				clone.Parent = character:FindFirstChild("Head") or character:FindFirstChild("Torso") or character
+				clone.Looped = false
+				clone:Play()
+				task.wait(clone.TimeLength / math.max(clone.PlaybackSpeed, 0.01))
+				clone:Destroy()
+			end
+			debounce.Value = false
+		end)
+	end
+
+	for _, inst in ipairs(workspace:GetDescendants()) do
+		hook(inst)
+	end
+	workspace.DescendantAdded:Connect(hook)
+end
+
+function Combat.Init()
+	if initialized then return end
+	initialized = true
+	task.spawn(initCombat)
+	task.spawn(initAtomicBreath)
+	task.spawn(initLevelGuard)
+	task.spawn(initWaterBubbles)
+	task.spawn(initPulse)
+	task.spawn(initAttackHandler)
+	task.spawn(initDPS)
+	task.spawn(initRoar)
+end
+
+return Combat]]></ProtectedString>
 						</Properties>
-						<Item class="Folder" referent="RBX17">
-							<Properties>
-								<string name="Name">SkillPoints</string>
-							</Properties>
-							<Item class="Folder" referent="RBX18">
-								<Properties>
-									<string name="Name">Modifiers</string>
-								</Properties>
-								<Item class="LocalScript" referent="RBX19">
-									<Properties>
-										<string name="Name">ModifierUIHandler</string>
-										<ProtectedString name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-
-local MULTIPLIERS = {
-	Damage = 0.1,
-	Health = 0.1,
-	Regen = 0.15,
-	Speed = 0.05,
-}
-
-local MINILLA_MULTIPLIERS = {
-	Damage = 0.15,
-	Health = 0.15,
-	Regen = 0.3,
-	Speed = 0.055,
-}
-
-local BASE_HEAL_AMOUNT = 125
-
-local ACTIVE_COLOR = Color3.fromRGB(116, 125, 255)
-local INACTIVE_COLOR = Color3.new(0.816, 0.816, 0.816)
-
-local KAIJU_MAX_POINTS_PER_MODIFIER = {
-	["CIVILIAN [FREE]"] = 50,
-}
-local DEFAULT_MAX_POINTS_PER_MODIFIER = 10
-
-local function getMaxPointsPerModifier(morphName)
-	if morphName and KAIJU_MAX_POINTS_PER_MODIFIER[morphName] then
-		return KAIJU_MAX_POINTS_PER_MODIFIER[morphName]
-	end
-	return DEFAULT_MAX_POINTS_PER_MODIFIER
-end
-
-local modifiersFrame = script.Parent
-local skillPointsFrame = modifiersFrame.Parent
-local statsFrame = skillPointsFrame.Parent
-local skillPointsTxt = statsFrame:FindFirstChild("SkillPointsTxt")
-
-local modifierFrames = {
-	Damage = modifiersFrame:FindFirstChild("Damage"),
-	Health = modifiersFrame:FindFirstChild("Health"),
-	Regen = modifiersFrame:FindFirstChild("Regen"),
-	Speed = modifiersFrame:FindFirstChild("Speed"),
-}
-
-local statLabelNames = {
-	Damage = {"Attack1Stat", "Attack2Stat", "Attack3Stat"},
-	Health = {"HealthStat"},
-	Regen = {"ChargeStat", "RegenStat"},
-	Speed = {"WalkStat", "SwimStat", "SprintStat"},
-}
-
-local morphStatNames = {
-	Damage = {"DMG1", "DMG2", "DMG3"},
-	Health = {"MaxHP"},
-	Regen = {"GPA", "HEAL_AMOUNT"},
-	Speed = {"WS", "SwimSpeed", "SS"},
-}
-
-local modifyStatEvent
-local getModifierDataFunc
-local connectedModifyRemote = nil
-local function refreshModifierRemotes()
-	modifyStatEvent = ReplicatedStorage:FindFirstChild("ModifyStat")
-	getModifierDataFunc = ReplicatedStorage:FindFirstChild("GetModifierData")
-end
-refreshModifierRemotes()
-
-local currentMorphName = nil
-local LEGACY_MORPH_NAMES = {
-	["Godzilla1954"] = "GOJIRA [FREE]",
-	["Anguirus"] = "ANGUIRUS [FREE]",
-	["KamataKun"] = "SHIN FORM 2 [FREE]",
-}
-local function getModifierEntry(data, morphName)
-	if not data or not morphName then return nil end
-	if data[morphName] then return data[morphName] end
-	for oldName, currentName in pairs(LEGACY_MORPH_NAMES) do
-		if currentName == morphName and data[oldName] then return data[oldName] end
-	end
-	return nil
-end
-local modifierData = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
-local availableSkillPoints = 0
-local baseStats = {}
-
-local function formatStat(value)
-	local rounded = math.round(value * 100) / 100
-	if rounded == math.floor(rounded) then
-		return tostring(math.floor(rounded))
-	else
-		return tostring(rounded)
-	end
-end
-
-local function fetchBaseStats(morphName)
-	baseStats = {}
-	local infoFunc = ReplicatedStorage:FindFirstChild("GetKaijuInfo") or ReplicatedStorage:WaitForChild("GetKaijuInfo", 10)
-	if not infoFunc then return end
-
-	local ok, info = pcall(function()
-		return infoFunc:InvokeServer(morphName)
-	end)
-	if not ok or type(info) ~= "table" or type(info.stats) ~= "table" then return end
-
-	for name, value in pairs(info.stats) do
-		baseStats[name] = value
-	end
-end
-
-local function getStatValue(modifierName, labelIndex)
-	local statName = morphStatNames[modifierName][labelIndex]
-	if statName == "HEAL_AMOUNT" then
-		return BASE_HEAL_AMOUNT
-	end
-	return baseStats[statName]
-end
-
-local function getMultipliedStat(modifierName, labelIndex)
-	local original = getStatValue(modifierName, labelIndex)
-	if not original then return nil end
-	local statName = morphStatNames[modifierName][labelIndex]
-
-	if statName == "HEAL_AMOUNT" then
-		return original
-	end
-
-	local points = modifierData[modifierName] or 0
-	local mult
-	if currentMorphName == "MINILLA" then
-		mult = 1 + points * MINILLA_MULTIPLIERS[modifierName]
-	else
-		mult = 1 + points * MULTIPLIERS[modifierName]
-	end
-	return original * mult
-end
-
-local function getMaxedStat(modifierName, labelIndex)
-	local original = getStatValue(modifierName, labelIndex)
-	if not original then return nil end
-	local statName = morphStatNames[modifierName][labelIndex]
-	
-	if statName == "HEAL_AMOUNT" then
-		return original
-	end
-	local maxPoints = getMaxPointsPerModifier(currentMorphName)
-	local mult
-	if currentMorphName == "MINILLA" then
-		mult = 1 + maxPoints * MINILLA_MULTIPLIERS[modifierName]
-	else
-		mult = 1 + maxPoints * MULTIPLIERS[modifierName]
-	end
-	return original * mult
-end
-
-local function updateModifierUI(modifierName)
-	local frame = modifierFrames[modifierName]
-	if not frame then return end
-
-	local points = modifierData[modifierName] or 0
-
-	local bar = frame:FindFirstChild("Bar")
-	if bar then
-		local maxPerMod = getMaxPointsPerModifier(currentMorphName)
-		local pointsPerSegment = maxPerMod / 10
-		for i = 1, 10 do
-			local segment = bar:FindFirstChild(tostring(i))
-			if segment then
-				if points > (i - 1) * pointsPerSegment then
-					segment.BackgroundColor3 = ACTIVE_COLOR
-				else
-					segment.BackgroundColor3 = INACTIVE_COLOR
-				end
-			end
-		end
-	end
-
-	local labelNames = statLabelNames[modifierName]
-	for i, labelName in ipairs(labelNames) do
-		local label = frame:FindFirstChild(labelName)
-		if label then
-			local original = getStatValue(modifierName, i)
-			if original then
-				local multiplied = getMultipliedStat(modifierName, i)
-				local maxed = getMaxedStat(modifierName, i)
-				label.Text = formatStat(multiplied) .. "/" .. formatStat(maxed)
-			else
-				label.Text = "N/A"
-			end
-		end
-	end
-end
-
-local function refreshUI()
-	for _, modifierName in ipairs({"Damage", "Health", "Regen", "Speed"}) do
-		updateModifierUI(modifierName)
-	end
-	if skillPointsTxt then
-		skillPointsTxt.Text = "Skill Points: " .. tostring(math.max(0, availableSkillPoints))
-	end
-end
-
-local function fetchModifierData()
-	if not getModifierDataFunc then return end
-	local success, data = pcall(function()
-		return getModifierDataFunc:InvokeServer()
-	end)
-	if success and type(data) == "table" then
-		local kaijuData = getModifierEntry(data, currentMorphName)
-		if kaijuData then
-			modifierData = {
-				Damage = kaijuData.Damage or 0,
-				Health = kaijuData.Health or 0,
-				Regen = kaijuData.Regen or 0,
-				Speed = kaijuData.Speed or 0,
-			}
-			availableSkillPoints = math.max(0, kaijuData.availableSkillPoints or 0)
-		else
-			modifierData = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
-			availableSkillPoints = 0
-		end
-		refreshUI()
-	else
-
-		modifierData = {Damage = 0, Health = 0, Regen = 0, Speed = 0}
-		availableSkillPoints = 0
-		refreshUI()
-	end
-end
-
-for _, modifierName in ipairs({"Damage", "Health", "Regen", "Speed"}) do
-	local frame = modifierFrames[modifierName]
-	if frame then
-		local addBtn = frame:FindFirstChild("Add")
-		local subBtn = frame:FindFirstChild("Subtract")
-
-		if addBtn then
-			addBtn.MouseButton1Click:Connect(function()
-				if not currentMorphName then return end
-				if availableSkillPoints <= 0 then return end
-				if (modifierData[modifierName] or 0) >= getMaxPointsPerModifier(currentMorphName) then return end
-				
-				modifierData[modifierName] = (modifierData[modifierName] or 0) + 1
-				availableSkillPoints = availableSkillPoints - 1
-				refreshUI()
-				if modifyStatEvent then
-					modifyStatEvent:FireServer(currentMorphName, modifierName, "Add")
-				end
-			end)
-		end
-
-		if subBtn then
-			subBtn.MouseButton1Click:Connect(function()
-				if not currentMorphName then return end
-				if (modifierData[modifierName] or 0) <= 0 then return end
-				
-				modifierData[modifierName] = (modifierData[modifierName] or 0) - 1
-				availableSkillPoints = availableSkillPoints + 1
-				refreshUI()
-				if modifyStatEvent then
-					modifyStatEvent:FireServer(currentMorphName, modifierName, "Subtract")
-				end
-			end)
-		end
-	end
-end
-
-local function connectModifyRemote()
-	refreshModifierRemotes()
-	if modifyStatEvent and modifyStatEvent ~= connectedModifyRemote then
-		connectedModifyRemote = modifyStatEvent
-		modifyStatEvent.OnClientEvent:Connect(function(data)
-			if data and data.kaijuName == currentMorphName then
-				modifierData = data.modifiers or {Damage = 0, Health = 0, Regen = 0, Speed = 0}
-				availableSkillPoints = math.max(0, data.availableSkillPoints or 0)
-				refreshUI()
-			end
-		end)
-	end
-end
-connectModifyRemote()
-ReplicatedStorage.ChildAdded:Connect(function(child)
-	if child.Name == "ModifyStat" or child.Name == "GetModifierData" then
-		connectModifyRemote()
-		if currentMorphName then fetchModifierData() end
-	end
-end)
-task.spawn(function()
-	for _ = 1, 60 do
-		connectModifyRemote()
-		if getModifierDataFunc and currentMorphName then fetchModifierData() end
-		if modifyStatEvent and getModifierDataFunc then break end
-		task.wait(1)
-	end
-end)
-
-if statsFrame then
-	statsFrame:GetAttributeChangedSignal("CurrentMorph"):Connect(function()
-		currentMorphName = statsFrame:GetAttribute("CurrentMorph")
-		if currentMorphName then
-			fetchBaseStats(currentMorphName)
-			fetchModifierData()
-		end
-	end)
-
-	currentMorphName = statsFrame:GetAttribute("CurrentMorph")
-	if currentMorphName then
-		fetchBaseStats(currentMorphName)
-		fetchModifierData()
-	end
-end
-]]></ProtectedString>
-									</Properties>
-								</Item>
-							</Item>
-						</Item>
-					</Item>
-				</Item>
-				<Item class="LocalScript" referent="RBX20">
-					<Properties>
-						<string name="Name">UIScript</string>
-						<ProtectedString name="Source"><![CDATA[local TweenService = game:GetService("TweenService")
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local UserInputService = game:GetService("UserInputService")
-
-local player = Players.LocalPlayer
-local mouse = player:GetMouse()
-local camera = workspace.CurrentCamera
-
-local gui = script.Parent
-gui.ResetOnSpawn = false
-
-if player:GetAttribute("HasMorphed") then
-	gui.Enabled = false
-	return
-end
-
-local clickSound = gui:FindFirstChild("Button")
-local mainMenu = gui:FindFirstChild("MainMenu")
-local kaijusFrame = gui:FindFirstChild("Kaijus")
-local settingsFrame = gui:FindFirstChild("Settings")
-
-local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-local loadingTweenInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-local sliderTweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Exponential)
-
-local MENU_HIDDEN = UDim2.new(-1.1, 0, 0, 0)
-local MENU_SHOWN = UDim2.new(0, 0, 0, 0)
-
-local activeTweens = {}
-
-local function cancelTween(instance)
-	local existing = activeTweens[instance]
-	if existing then
-		existing:Cancel()
-		activeTweens[instance] = nil
-	end
-end
-
-local function playTween(instance, info, properties)
-	cancelTween(instance)
-	local tween = TweenService:Create(instance, info, properties)
-	activeTweens[instance] = tween
-	tween.Completed:Connect(function()
-		if activeTweens[instance] == tween then
-			activeTweens[instance] = nil
-		end
-	end)
-	tween:Play()
-	return tween
-end
-
-local function playClickSound()
-	if clickSound then
-		clickSound:Play()
-	end
-end
-
-for _, descendant in ipairs(gui:GetDescendants()) do
-	if descendant:IsA("GuiButton") then
-		descendant.MouseButton1Click:Connect(playClickSound)
-	end
-end
-
-local buttonContainer = mainMenu and mainMenu:FindFirstChild("Button")
-
-local introCancelled = false
-
-if mainMenu then
-	mainMenu.Position = UDim2.new(0, 0, -1, 0)
-	task.spawn(function()
-		local deadline = os.clock() + 60
-		while not player:GetAttribute("PreloadingDone") and os.clock() < deadline do
-			task.wait(0.1)
-		end
-		task.wait(0.1)
-		if introCancelled or player:GetAttribute("HasMorphed") then return end
-		if mainMenu.Parent and mainMenu.Position.Y.Scale < -0.5 then
-			playTween(mainMenu, tweenInfo, { Position = MENU_SHOWN })
-		end
-	end)
-end
-
-local settingsPanel = settingsFrame and settingsFrame:FindFirstChild("SettingsPanel")
-local sliderBackgroundFOV = settingsPanel and settingsPanel:FindFirstChild("FOVBack")
-local sliderFOV = sliderBackgroundFOV and sliderBackgroundFOV:FindFirstChild("FOVFront")
-local fovUpdater = settingsPanel and settingsPanel:FindFirstChild("FOVUpdater")
-local fovShowcase = settingsPanel and settingsPanel:FindFirstChild("FOVText")
-local fovValue = fovUpdater and fovUpdater:FindFirstChild("FOV")
-
-local FOV_MIN = 70
-local FOV_MAX = 120
-local fovSliderActive = false
-local currentFOV = math.clamp(math.round(camera.FieldOfView), FOV_MIN, FOV_MAX)
-local textResetToken = 0
-
-local function fovToAlpha(value)
-	return (value - FOV_MIN) / (FOV_MAX - FOV_MIN)
-end
-
-if sliderFOV and fovShowcase and fovValue then
-	fovValue.Value = currentFOV / 100
-	fovShowcase.Text = tostring(currentFOV)
-	sliderFOV.Size = UDim2.fromScale(fovToAlpha(currentFOV), 1)
-
-	local function updateSliderFOV()
-		local width = sliderBackgroundFOV.AbsoluteSize.X
-		if width <= 0 then return end
-		local alpha = math.clamp((mouse.X - sliderBackgroundFOV.AbsolutePosition.X) / width, 0, 1)
-		local newFOV = math.round(FOV_MIN + alpha * (FOV_MAX - FOV_MIN))
-		if newFOV ~= currentFOV then
-			currentFOV = newFOV
-			fovValue.Value = newFOV / 100
-			fovShowcase.Text = tostring(newFOV)
-		end
-		playTween(sliderFOV, sliderTweenInfo, { Size = UDim2.fromScale(alpha, 1) })
-	end
-
-	local function activateSlider()
-		if fovSliderActive then return end
-		fovSliderActive = true
-		while fovSliderActive and sliderFOV.Parent do
-			updateSliderFOV()
-			task.wait()
-		end
-	end
-
-	local function updateFromTextBox()
-		textResetToken += 1
-		local number = tonumber(fovShowcase.Text)
-		if not number then
-			fovShowcase.Text = "Must be a number!"
-			local token = textResetToken
-			task.delay(3, function()
-				if token == textResetToken then
-					fovShowcase.Text = tostring(currentFOV)
-				end
-			end)
-			return
-		end
-		currentFOV = math.clamp(math.round(number), FOV_MIN, FOV_MAX)
-		fovValue.Value = currentFOV / 100
-		fovShowcase.Text = tostring(currentFOV)
-		playTween(sliderFOV, sliderTweenInfo, { Size = UDim2.fromScale(fovToAlpha(currentFOV), 1) })
-	end
-
-	fovUpdater.MouseButton1Down:Connect(activateSlider)
-
-	fovShowcase.FocusLost:Connect(function(enterPressed)
-		if enterPressed then
-			updateFromTextBox()
-		else
-			textResetToken += 1
-			fovShowcase.Text = tostring(currentFOV)
-		end
-	end)
-
-	UserInputService.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			fovSliderActive = false
-		end
-	end)
-end
-
-if buttonContainer and settingsFrame then
-	local settingsBtn = buttonContainer:FindFirstChild("Settings")
-	if settingsBtn then
-		settingsBtn.MouseButton1Click:Connect(function()
-			cancelTween(settingsFrame)
-			settingsFrame.Visible = true
-			settingsFrame.Position = UDim2.new(0, 0, -1.1, 0)
-			playTween(settingsFrame, tweenInfo, { Position = UDim2.new(0.15, 0, 0.15, 0) })
-			playTween(mainMenu, tweenInfo, { Position = MENU_HIDDEN })
-		end)
-	end
-
-	local settingsBack = settingsFrame:FindFirstChild("Back")
-	if settingsBack then
-		settingsBack.MouseButton1Click:Connect(function()
-			local tween = playTween(settingsFrame, tweenInfo, { Position = UDim2.new(-1.1, 0, 0, 0) })
-			playTween(mainMenu, tweenInfo, { Position = MENU_SHOWN })
-			tween.Completed:Connect(function(state)
-				if state == Enum.PlaybackState.Completed then
-					settingsFrame.Visible = false
-				end
-			end)
-		end)
-	end
-end
-
-if buttonContainer and kaijusFrame then
-	local kaijusBtn = buttonContainer:FindFirstChild("Kaijus")
-	if kaijusBtn then
-		kaijusBtn.MouseButton1Click:Connect(function()
-			kaijusFrame.Visible = true
-			playTween(kaijusFrame, tweenInfo, { Position = UDim2.new(0, 0, 0, 0) })
-			playTween(mainMenu, tweenInfo, { Position = MENU_HIDDEN })
-		end)
-	end
-end
-
-local function getSelectedMorphName()
-	local stats = kaijusFrame and kaijusFrame:FindFirstChild("Stats")
-	local name = stats and stats:GetAttribute("CurrentMorph")
-	if type(name) == "string" and name ~= "" then
-		return name
-	end
-	local func = ReplicatedStorage:FindFirstChild("GetSelectedKaiju")
-	if func and func:IsA("RemoteFunction") then
-		local ok, result = pcall(function()
-			return func:InvokeServer()
-		end)
-		if ok and type(result) == "string" and result ~= "" then
-			return result
-		end
-	end
-	return nil
-end
-
-local function findMorphFireRemote()
-	return ReplicatedStorage:FindFirstChild("MorphFire")
-end
-
-local function waitForMorphReady(timeout)
-	local deadline = os.clock() + timeout
-	local morphReady = ReplicatedStorage:FindFirstChild("MorphReady")
-	while not morphReady and os.clock() < deadline do
-		task.wait(0.1)
-		morphReady = ReplicatedStorage:FindFirstChild("MorphReady")
-	end
-	while morphReady and not morphReady.Value and os.clock() < deadline do
-		task.wait(0.1)
-	end
-	return morphReady ~= nil and morphReady.Value == true
-end
-
-local playing = false
-
-local function startPlay()
-	if playing then return end
-	playing = true
-	introCancelled = true
-
-	local selectedMorphName = getSelectedMorphName()
-	if not selectedMorphName then
-		warn("No kaiju selected! Please select a kaiju first.")
-		playing = false
-		return
-	end
-
-	local playerGui = player:FindFirstChild("PlayerGui")
-	local gameGui = playerGui and playerGui:FindFirstChild("GameGui")
-	local gameMainFrame = gameGui and gameGui:FindFirstChild("MainFrame")
-	local loadingFrame = gameMainFrame and gameMainFrame:FindFirstChild("Loading")
-	local gameInterface = gameMainFrame and gameMainFrame:FindFirstChild("Interface")
-
-	local slideInConnection
-
-	local function restoreMenu()
-		if slideInConnection then
-			slideInConnection:Disconnect()
-			slideInConnection = nil
-		end
-		if loadingFrame then
-			cancelTween(loadingFrame)
-			loadingFrame.Visible = false
-		end
-		if gameGui then gameGui.Enabled = false end
-		if mainMenu then
-			cancelTween(mainMenu)
-			mainMenu.Position = MENU_SHOWN
-			mainMenu.Visible = true
-		end
-		player:SetAttribute("IsMorphing", false)
-		playing = false
-	end
-
-	if mainMenu then
-		cancelTween(mainMenu)
-	end
-
-	if gameGui then
-		gameGui.Enabled = true
-		if gameInterface then gameInterface.Visible = false end
-	end
-
-	if loadingFrame then
-		loadingFrame.Visible = true
-		loadingFrame.Position = UDim2.new(0, 0, -1, 0)
-		local slideIn = playTween(loadingFrame, loadingTweenInfo, { Position = MENU_SHOWN })
-		slideInConnection = slideIn.Completed:Connect(function(state)
-			if state == Enum.PlaybackState.Completed and mainMenu then
-				mainMenu.Visible = false
-			end
-		end)
-	elseif mainMenu then
-		mainMenu.Visible = false
-	end
-
-	if not waitForMorphReady(15) then
-		restoreMenu()
-		warn("Morph server is not ready")
-		return
-	end
-
-	local fireEvent = findMorphFireRemote()
-	local morphResultEvent = ReplicatedStorage:FindFirstChild("MorphResult")
-	if not fireEvent then
-		restoreMenu()
-		warn("Morph event is not ready")
-		return
-	end
-
-	local morphSucceeded = false
-	local morphResultReceived = false
-	local failReason = nil
-	local previousCharacter = player.Character
-
-	local characterConnection = player.CharacterAdded:Connect(function(character)
-		if character ~= previousCharacter then
-			morphSucceeded = true
-			morphResultReceived = true
-		end
-	end)
-
-	local morphResultConnection
-	if morphResultEvent then
-		morphResultConnection = morphResultEvent.OnClientEvent:Connect(function(success, morphName, message)
-			if morphName == selectedMorphName or success == false then
-				morphSucceeded = success == true
-				if not success and type(message) == "string" then
-					failReason = message
-				end
-				morphResultReceived = true
-			end
-		end)
-	end
-
-	player:SetAttribute("IsMorphing", true)
-	fireEvent:FireServer(selectedMorphName)
-
-	local deadline = os.clock() + 15
-	while not morphResultReceived and os.clock() < deadline do
-		task.wait()
-	end
-
-	if morphResultConnection then morphResultConnection:Disconnect() end
-	characterConnection:Disconnect()
-
-	if not morphSucceeded then
-		restoreMenu()
-		if failReason then
-			warn("Morph request failed: " .. failReason)
-		else
-			warn("Morph request timed out - no response from server")
-		end
-		return
-	end
-
-	player:SetAttribute("HasMorphed", true)
-	task.wait(0.25)
-
-	if loadingFrame then
-		local slideOut = playTween(loadingFrame, loadingTweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
-		slideOut.Completed:Connect(function(state)
-			if state == Enum.PlaybackState.Completed then
-				loadingFrame.Visible = false
-			end
-		end)
-	end
-
-	if mainMenu then
-		cancelTween(mainMenu)
-		mainMenu.Visible = false
-	end
-	if kaijusFrame then
-		cancelTween(kaijusFrame)
-		kaijusFrame.Visible = false
-	end
-	if settingsFrame then
-		cancelTween(settingsFrame)
-		settingsFrame.Visible = false
-	end
-	gui.Enabled = false
-
-	if playerGui then
-		for _, child in ipairs(playerGui:GetChildren()) do
-			if child:IsA("ScreenGui") and (child.Name == "NEWMenu" or child.Name == "oldMenu") then
-				child.Enabled = false
-			end
-		end
-	end
-
-	if gameGui then
-		gameGui.Enabled = true
-		if gameInterface then gameInterface.Visible = true end
-	end
-
-	if playerGui then
-		local touchGui = playerGui:FindFirstChild("TouchGui")
-		if touchGui then touchGui.Enabled = true end
-
-		if UserInputService.TouchEnabled and gameInterface then
-			local mobile = gameInterface:FindFirstChild("Mobile")
-			if mobile then mobile.Visible = true end
-		end
-	end
-
-	playing = false
-end
-
-local playBtn = buttonContainer and buttonContainer:FindFirstChild("Play")
-if playBtn then
-	playBtn.MouseButton1Click:Connect(startPlay)
-end]]></ProtectedString>
-					</Properties>
-				</Item>
-			</Item>
-		</Item>
-		<Item class="Folder" referent="RBX21">
-			<Properties>
-				<string name="Name">StarterPlayer</string>
-			</Properties>
-			<Item class="Folder" referent="RBX22">
-				<Properties>
-					<string name="Name">StarterPlayerScripts</string>
-				</Properties>
-				<Item class="Folder" referent="RBX23">
-					<Properties>
-						<string name="Name">Client</string>
-					</Properties>
-					<Item class="Folder" referent="RBX24">
-						<Properties>
-							<string name="Name">Controllers</string>
-						</Properties>
-						<Item class="ModuleScript" referent="RBX25">
-							<Properties>
-								<string name="Name">Touch</string>
-								<ProtectedString name="Source"><![CDATA[local TouchController = { Name = "Touch" }
-
-function TouchController:Start()
-	local Players = game:GetService("Players")
-	local ReplicatedStorage = game:GetService("ReplicatedStorage")
-	local UserInputService = game:GetService("UserInputService")
-
-	local player = Players.LocalPlayer
-	local playerGui = player:WaitForChild("PlayerGui")
-
-	local hasMorphed = false
-
-	local function findMobileFrame()
-		local gameGui = playerGui:FindFirstChild("GameGui")
-		local mainFrame = gameGui and gameGui:FindFirstChild("MainFrame")
-		local interface = mainFrame and mainFrame:FindFirstChild("Interface")
-		return interface and interface:FindFirstChild("Mobile")
-	end
-
-	local function hideTouchControls()
-		local touchGui = playerGui:FindFirstChild("TouchGui")
-		if touchGui then
-			touchGui.Enabled = false
-		end
-
-		local mobile = findMobileFrame()
-		if mobile then
-			mobile.Visible = false
-		end
-	end
-
-	local function showTouchControls()
-		local touchGui = playerGui:FindFirstChild("TouchGui")
-		if touchGui then
-			touchGui.Enabled = true
-		end
-
-		if UserInputService.TouchEnabled then
-			local mobile = findMobileFrame()
-			if mobile then
-				mobile.Visible = true
-			end
-		end
-	end
-
-	hideTouchControls()
-
-	playerGui.ChildAdded:Connect(function(child)
-		if child.Name == "TouchGui" and not hasMorphed then
-			task.defer(function()
-				child.Enabled = false
-			end)
-		end
-	end)
-
-	local function monitorTouchGui(touchGui)
-		touchGui.Changed:Connect(function(prop)
-			if prop == "Enabled" and not hasMorphed then
-				if touchGui.Enabled then
-					task.defer(function()
-						if not hasMorphed then
-							touchGui.Enabled = false
-						end
-					end)
-				end
-			end
-		end)
-	end
-
-	local existingTouchGui = playerGui:FindFirstChild("TouchGui")
-	if existingTouchGui then
-		monitorTouchGui(existingTouchGui)
-	end
-
-	local fireEvent = ReplicatedStorage:FindFirstChild("MorphFire")
-	if fireEvent then
-		fireEvent.OnClientEvent:Connect(function()
-			hasMorphed = true
-
-			task.wait(1)
-			showTouchControls()
-		end)
-	end
-
-	player.CharacterAdded:Connect(function(character)
-		task.wait(1)
-
-		local kaijuValue = character:FindFirstChild("Kaiju")
-		if kaijuValue then
-			hasMorphed = true
-			showTouchControls()
-		end
-	end)
-end
-
-return TouchController
-]]></ProtectedString>
-							</Properties>
-						</Item>
 					</Item>
 				</Item>
 			</Item>
