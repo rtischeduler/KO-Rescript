@@ -12,7 +12,11 @@ function GraphicsController:Start()
 	local UserInputService = game:GetService("UserInputService")
 	local Workspace = game:GetService("Workspace")
 	local Shared = game:GetService("ReplicatedStorage"):WaitForChild("Shared")
-	local Quality = require(Shared:WaitForChild("GraphicsQuality"))
+	local qualityModule = Shared:WaitForChild("GraphicsQuality", 5)
+	if not qualityModule then
+		return
+	end
+	local Quality = require(qualityModule)
 	local cfg = require(script:FindFirstAncestor("Client").Config).Graphics
 
 	local originals = setmetatable({}, { __mode = "k" })

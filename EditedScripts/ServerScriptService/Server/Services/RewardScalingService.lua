@@ -1,5 +1,3 @@
-local Players = game:GetService("Players")
-
 local RewardScalingService = { Name = "RewardScaling" }
 
 function RewardScalingService.compute(ratio, attackerStarter, victimStarter, isKill, cfg)
@@ -19,6 +17,7 @@ function RewardScalingService.compute(ratio, attackerStarter, victimStarter, isK
 end
 
 function RewardScalingService:Init()
+	local Players = game:GetService("Players")
 	local cfg = require(script:FindFirstAncestor("Server").Config).RewardScaling
 	local free = {}
 	for _, name in ipairs(cfg.FreeMorphs) do

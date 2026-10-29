@@ -1,6 +1,3 @@
-local RunService = game:GetService("RunService")
-local ServerScriptService = game:GetService("ServerScriptService")
-
 local PerformanceService = { Name = "Performance" }
 
 function PerformanceService.isLagging(avgFrameTime, threshold)
@@ -8,6 +5,8 @@ function PerformanceService.isLagging(avgFrameTime, threshold)
 end
 
 function PerformanceService:Start()
+	local RunService = game:GetService("RunService")
+	local ServerScriptService = game:GetService("ServerScriptService")
 	local cfg = require(script:FindFirstAncestor("Server").Config).Performance
 	local total, frames = 0, 0
 	RunService.Heartbeat:Connect(function(dt)

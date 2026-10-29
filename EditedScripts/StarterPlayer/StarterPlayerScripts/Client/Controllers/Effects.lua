@@ -1,5 +1,23 @@
 local EffectsController = { Name = "Effects" }
 
+local DEFAULT_QUALITY = { OceanRate = nil, WaterFx = 1, ParticleScale = 1 }
+local resolvedQuality
+local Quality = {
+	Settings = function()
+		if not resolvedQuality then
+			local shared = game:GetService("ReplicatedStorage"):FindFirstChild("Shared")
+			local module = shared and shared:FindFirstChild("GraphicsQuality")
+			if module then
+				local ok, result = pcall(require, module)
+				if ok then
+					resolvedQuality = result
+				end
+			end
+		end
+		return resolvedQuality and resolvedQuality.Settings() or DEFAULT_QUALITY
+	end,
+}
+
 local function startRain(cfg)
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local RunService = game:GetService("RunService")
@@ -21,15 +39,6 @@ local function startRain(cfg)
 	end)
 	local lowEnd = UserInputService.TouchEnabled or (okQuality and quality > 0 and quality <= 4)
 	local rainScale = lowEnd and 0.5 or 1
-	local Quality = (function()
-		local ok, module = pcall(function()
-			return require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("GraphicsQuality", 5))
-		end)
-		if ok then
-			return module
-		end
-		return { Settings = function() return { OceanRate = nil, WaterFx = 1, ParticleScale = 1 } end }
-	end)()
 	local okCfg, HolidayConfigs = pcall(function()
 		return require(ReplicatedStorage:WaitForChild("HolidayConfigs", 5))
 	end)
