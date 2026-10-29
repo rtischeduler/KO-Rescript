@@ -372,6 +372,37 @@ local function getHeadPosition(character)
 	local hrp = character:FindFirstChild("HumanoidRootPart")
 	return hrp and hrp.Position or nil
 end
+local SHIFTLOCK_RAISE = 8
+
+local function clampTipToWalls(startPos, tip, character)
+	local direction = tip - startPos
+	local distance = direction.Magnitude
+	if distance < 1 then return tip end
+	local unit = direction.Unit
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	local excluded = { character }
+	local origin = startPos
+	local remaining = distance
+	for _ = 1, 12 do
+		params.FilterDescendantsInstances = excluded
+		local result = Workspace:Raycast(origin, unit * remaining, params)
+		if not result then return tip end
+		local inst = result.Instance
+		local model = inst:FindFirstAncestorOfClass("Model")
+		local isCharacter = model ~= nil and model:FindFirstChildOfClass("Humanoid") ~= nil
+		local skip = isCharacter or result.Material == Enum.Material.Water or inst.Transparency >= 0.95 or not inst.CanCollide
+		if not skip then
+			return result.Position - unit * 0.5
+		end
+		remaining = remaining - (result.Position - origin).Magnitude
+		if remaining <= 0.1 then return tip end
+		origin = result.Position
+		table.insert(excluded, inst)
+	end
+	return tip
+end
+
 function BeamSystem.ActivateBeam(config)
 	local character = config.character
 	local player = config.player
@@ -965,7 +996,16 @@ function BeamSystem.ActivateBeam(config)
 				if latestAim then
 					currentTarget = latestAim
 				end
-				desiredTip = currentTarget
+				local aimTarget = currentTarget
+				if playerShiftLock[player] then
+					aimTarget = aimTarget + Vector3.new(0, SHIFTLOCK_RAISE, 0)
+				end
+				local wallOrigin = getHeadPosition(character)
+				if not wallOrigin then
+					local rootPart = character:FindFirstChild("HumanoidRootPart")
+					wallOrigin = rootPart and rootPart.Position
+				end
+				desiredTip = wallOrigin and clampTipToWalls(wallOrigin, aimTarget, character) or aimTarget
 				if extent >= 0.5 then
 					if dpsScript and not dpsScript.Enabled then
 						dpsScript.Enabled = true

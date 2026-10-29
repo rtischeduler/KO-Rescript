@@ -1,1 +1,1 @@
-BeamCombat/ReplicatedStorage/HolidayConfigs.lua
+BeamCombat/ReplicatedStorage/BeamSystem.lua
