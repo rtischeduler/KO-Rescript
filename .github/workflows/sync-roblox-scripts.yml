@@ -354,6 +354,14 @@ jobs:
           mv exports.tmp exports
           ls -l exports
 
+      - name: Export events and cleanup report
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          mkdir -p exports
+          python3 tools/analyze_cleanup.py place.rbxlx exports
+          ls -l exports
+
       - name: Upload rbxlx as artifact
         uses: actions/upload-artifact@v4
         with:
