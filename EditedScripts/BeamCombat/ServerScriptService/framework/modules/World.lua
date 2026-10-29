@@ -15,6 +15,24 @@ local initialized = false
 local windowApi = {}
 local savedWindowState = setmetatable({}, { __mode = "k" })
 
+local SFX_COLLAPSE = "rbxassetid://127181227297856"
+local SFX_BUILDING_HITS = { "rbxassetid://138817960173178", "rbxassetid://104781713803672" }
+local SFX_FLICKER = "rbxassetid://5948753051"
+local SFX_COLLAPSE_VOLUME = 1
+local SFX_HIT_VOLUME = 0.8
+local SFX_FLICKER_VOLUME = 0.2
+
+local function playOneShot(parent, soundId, volume, lifetime)
+	if not parent or not parent.Parent then return end
+	local s = Instance.new("Sound")
+	s.SoundId = soundId
+	s.Volume = volume
+	s.RollOffMaxDistance = 400
+	s.Parent = parent
+	s:Play()
+	Debris:AddItem(s, lifetime or 8)
+end
+
 local DEBRIS_GROUP = "CollapseDebris"
 local CHARACTER_GROUP = "Characters"
 local debrisReady = false
@@ -536,6 +554,8 @@ local function initWindowLights()
 	windowApi.flickerBuilding = function(building, duration, ruined)
 		local list = windowsOf(building)
 		if #list == 0 then return end
+		local sfxPart = building:FindFirstChild("BuildingBase") or list[1]
+		playOneShot(sfxPart, SFX_FLICKER, SFX_FLICKER_VOLUME, 4)
 		local darkCount = #list == 1 and 1 or math.random(1, math.min(#list, 3))
 		for i, w in shuffle(list) do
 			local final
@@ -750,6 +770,9 @@ local function initBuilding()
 			s.Parent = base
 			s:Play()
 			Debris:AddItem(s, 5)
+		end
+		if base and base.Parent then
+			playOneShot(base, SFX_BUILDING_HITS[math.random(#SFX_BUILDING_HITS)], SFX_HIT_VOLUME, 6)
 		end
 	end
 
@@ -1052,6 +1075,7 @@ local function initBuilding()
 			for _, p in parts do p.Material, p.CanCollide = Enum.Material.CorrodedMetal, false end
 			local sound = base:FindFirstChildOfClass("Sound")
 			if sound then sound:Play() end
+			playOneShot(base, SFX_COLLAPSE, SFX_COLLAPSE_VOLUME, 12)
 
 			startAnim(pose.sink, pose.tx, pose.tz, RUMBLE_TIME, 2.6, easeLinear)
 			dust(20, 2)

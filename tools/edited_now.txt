@@ -1,3 +1,4 @@
 BeamCombat/ReplicatedStorage/BeamSystem.lua
 BeamCombat/ReplicatedStorage/DPSTemplate.server.lua
 BeamCombat/ServerScriptService/framework/modules/Combat.lua
+BeamCombat/ServerScriptService/framework/modules/World.lua
