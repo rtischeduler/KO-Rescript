@@ -1,1 +1,1 @@
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
+BeamCombat/ReplicatedStorage/HolidayConfigs.lua
