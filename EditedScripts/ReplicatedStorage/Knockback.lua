@@ -5,7 +5,7 @@ local RunService = game:GetService("RunService")
 local Knockback = {}
 
 local SETTINGS = {
-	attack = { speed = 110, lift = 14 },
+	attack = { speed = 95, lift = 14 },
 	beam = { speed = 6, lift = 0 },
 }
 if RunService:IsServer() then
