@@ -1,1 +1,3 @@
-BeamCombat/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
+BeamCombat/ReplicatedStorage/BeamSystem.lua
+BeamCombat/ReplicatedStorage/DPSTemplate.server.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua

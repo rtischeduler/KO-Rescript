@@ -205,6 +205,7 @@ local function initCombat()
 					isLowHealth = true
 					local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
 					baseWalkSpeed = humanoid.WalkSpeed / beamFactor
+					humanoid:SetAttribute("BeamSlowBase", nil)
 					humanoid:SetAttribute("Slowed", true)
 					isApplyingSlow = true
 					humanoid.WalkSpeed = baseWalkSpeed * (1 - SLOW_PERCENT) * beamFactor
@@ -216,6 +217,9 @@ local function initCombat()
 				isApplyingSlow = true
 				local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
 				humanoid.WalkSpeed = baseWalkSpeed and (baseWalkSpeed * beamFactor) or humanoid.WalkSpeed / (1 - SLOW_PERCENT)
+				if baseWalkSpeed and beamFactor ~= 1 then
+					humanoid:SetAttribute("BeamSlowBase", baseWalkSpeed)
+				end
 				isApplyingSlow = false
 				baseWalkSpeed = nil
 			end
@@ -721,6 +725,25 @@ local function initAttackHandler()
 		clone.Ended:Connect(function() clone:Destroy() end)
 		clone:Play()
 		Debris:AddItem(clone, 15)
+		return clone
+	end
+
+	local function playSoundUntilDeath(character, soundName, parent)
+		local clone = playSoundFrom(character, soundName, parent)
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not clone or not humanoid then return clone end
+		local connection
+		connection = humanoid.Died:Connect(function()
+			connection:Disconnect()
+			if clone.Parent then
+				clone:Stop()
+				clone:Destroy()
+			end
+		end)
+		clone.Destroying:Connect(function()
+			if connection.Connected then connection:Disconnect() end
+		end)
+		return clone
 	end
 
 	local function playHitSound(character)
@@ -870,7 +893,7 @@ local function initAttackHandler()
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
 
 		playAttackAnimation(character, getAnimName(remoteName))
-		playSoundFrom(character, "Beam", hrp)
+		playSoundUntilDeath(character, "Beam", hrp)
 
 		local pulsePart = Instance.new("Part")
 		pulsePart.Name = "PulseHitbox"
@@ -987,7 +1010,7 @@ local function initAttackHandler()
 		local glowManager = getGlowManager(character)
 		if glowManager then glowManager.StartGlow(chargeTime) end
 
-		playSoundFrom(character, "Beam", hrp)
+		playSoundUntilDeath(character, "Beam", hrp)
 
 		local sortedSpikes = {}
 		local originalProps = {}
@@ -1029,6 +1052,12 @@ local function initAttackHandler()
 			end
 		elseif chargeTime > 0 then
 			task.wait(chargeTime)
+		end
+
+		local ownerHumanoid = character:FindFirstChildOfClass("Humanoid")
+		if not character.Parent or not ownerHumanoid or ownerHumanoid.Health <= 0 then
+			resetEffects()
+			return
 		end
 
 		local ok, err = pcall(BeamSystem.ActivateBeam, {

@@ -203,11 +203,16 @@ local function releaseBeamSlow(humanoid)
 	if not data then return end
 	slowedHumanoids[humanoid] = nil
 	if humanoid.Parent then
+		local current = humanoid.WalkSpeed
+		local trueBase = humanoid:GetAttribute("BeamSlowBase")
 		humanoid:SetAttribute("BeamSlowFactor", nil)
-		if humanoid.WalkSpeed == data.applied then
+		humanoid:SetAttribute("BeamSlowBase", nil)
+		if math.abs(current - data.applied) < 0.05 then
 			humanoid.WalkSpeed = data.base
 		elseif humanoid:GetAttribute("Slowed") then
-			humanoid.WalkSpeed = humanoid.WalkSpeed / data.factor
+			humanoid.WalkSpeed = current / data.factor
+		elseif trueBase then
+			humanoid.WalkSpeed = trueBase
 		end
 	end
 end
@@ -230,7 +235,7 @@ local function ensureSlowLoop()
 	end)
 end
 function BeamSystem.ApplyBeamSlow(humanoid)
-	if not humanoid or not humanoid.Parent then return end
+	if not humanoid or not humanoid.Parent or humanoid.Health <= 0 then return end
 	local data = slowedHumanoids[humanoid]
 	if data then
 		data.expires = os.clock() + BEAM_SLOW_LINGER
@@ -459,6 +464,8 @@ function BeamSystem.ActivateBeam(config)
 	if not character or not player then return end
 	local hrp = character:FindFirstChild("HumanoidRootPart")
 	if not hrp then return end
+	local ownerHumanoid = character:FindFirstChildOfClass("Humanoid")
+	if ownerHumanoid and ownerHumanoid.Health <= 0 then return end
 	if activeBeams[player] then
 		local prevData = activeBeams[player]
 		local prevChar = prevData and prevData.character
@@ -927,6 +934,9 @@ function BeamSystem.ActivateBeam(config)
 			if not character.Parent or not character:FindFirstChild("HumanoidRootPart") then
 				break
 			end
+			if ownerHumanoid and ownerHumanoid.Health <= 0 then
+				break
+			end
 			local myHRP = character:FindFirstChild("HumanoidRootPart")
 			local myData = activeBeams[player]
 			if not overpower and myData and myData.overpowerRequest then
@@ -1192,7 +1202,8 @@ function BeamSystem.ActivateBeam(config)
 		end
 		if character.Parent and character:FindFirstChild("HumanoidRootPart") then
 			local overpoweredBy = nil
-			if lastClashData and lastClashData.character and lastClashData.character.Parent
+			local ownerDead = ownerHumanoid and ownerHumanoid.Health <= 0
+			if not ownerDead and lastClashData and lastClashData.character and lastClashData.character.Parent
 				and lastClashData.hitbox and lastClashData.hitbox.Parent and not lastClashData.ending then
 				overpoweredBy = lastClashData
 				overpoweredBy.overpowerRequest = activeBeams[player]

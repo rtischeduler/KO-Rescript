@@ -105,6 +105,10 @@ task.spawn(function()
 						if humanoid and humanoid.Health > 0 then
 							local hrp = char:FindFirstChild("HumanoidRootPart")
 							if hrp then
+								local attackerHumanoid = attackerChar and attackerChar:FindFirstChildOfClass("Humanoid")
+								if attackerHumanoid and attackerHumanoid.Health <= 0 then
+									continue
+								end
 								if characterTouchesHitbox(char, hitbox) then
 									hitDebounce[char] = true
 
