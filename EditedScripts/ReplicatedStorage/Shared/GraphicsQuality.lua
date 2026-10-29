@@ -1,4 +1,3 @@
--- Shared graphics tier state. The Graphics controller changes it; Ocean, WaterFX and Effects read it.
 local GraphicsQuality = {}
 
 local ORDER = { "High", "Medium", "Low", "Lowest" }

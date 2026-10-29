@@ -1,5 +1,3 @@
--- Watches server frame time and publishes ServerScriptService attribute "ServerLagging".
--- Background work (autosaves) defers while it is true. It never touches anything players can see.
 local RunService = game:GetService("RunService")
 local ServerScriptService = game:GetService("ServerScriptService")
 

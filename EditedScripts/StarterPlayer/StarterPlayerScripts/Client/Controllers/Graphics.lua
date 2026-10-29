@@ -1,5 +1,3 @@
--- Adaptive graphics: steps quality down one tier at a time when the frame rate stays low,
--- tells the player with a Roblox slide-in notification, and adds the /graphics chat command.
 local GraphicsController = { Name = "Graphics" }
 
 local ALIASES = { high = "High", medium = "Medium", med = "Medium", low = "Low", lowest = "Lowest", auto = "Auto" }

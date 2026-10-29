@@ -14,8 +14,7 @@
 				<Item class="ModuleScript" referent="RBX4">
 					<Properties>
 						<string name="Name">GraphicsQuality</string>
-						<ProtectedString name="Source"><![CDATA[-- Shared graphics tier state. The Graphics controller changes it; Ocean, WaterFX and Effects read it.
-local GraphicsQuality = {}
+						<ProtectedString name="Source"><![CDATA[local GraphicsQuality = {}
 
 local ORDER = { "High", "Medium", "Low", "Lowest" }
 
@@ -231,9 +230,7 @@ log:info("Started. Service status:\n" .. lifecycle:Report())
 					<Item class="ModuleScript" referent="RBX9">
 						<Properties>
 							<string name="Name">PerformanceService</string>
-							<ProtectedString name="Source"><![CDATA[-- Watches server frame time and publishes ServerScriptService attribute "ServerLagging".
--- Background work (autosaves) defers while it is true. It never touches anything players can see.
-local RunService = game:GetService("RunService")
+							<ProtectedString name="Source"><![CDATA[local RunService = game:GetService("RunService")
 local ServerScriptService = game:GetService("ServerScriptService")
 
 local PerformanceService = { Name = "Performance" }
@@ -706,9 +703,7 @@ log:info("Started. Controller status:\n" .. lifecycle:Report())
 						<Item class="ModuleScript" referent="RBX16">
 							<Properties>
 								<string name="Name">Graphics</string>
-								<ProtectedString name="Source"><![CDATA[-- Adaptive graphics: steps quality down one tier at a time when the frame rate stays low,
--- tells the player with a Roblox slide-in notification, and adds the /graphics chat command.
-local GraphicsController = { Name = "Graphics" }
+								<ProtectedString name="Source"><![CDATA[local GraphicsController = { Name = "Graphics" }
 
 local ALIASES = { high = "High", medium = "Medium", med = "Medium", low = "Low", lowest = "Lowest", auto = "Auto" }
 local USAGE = "Type /graphics High, Medium, Low, Lowest or Auto in chat."
