@@ -923,13 +923,43 @@ local function initAttackHandler()
 		disableHitParts(partConns, partsEnabled)
 	end
 
+	local function readColor(value)
+		local kind = typeof(value)
+		if kind == "Color3" then return value end
+		if kind == "BrickColor" then return value.Color end
+		if kind == "number" then
+			local ok, brick = pcall(BrickColor.new, value)
+			return ok and brick.Color or nil
+		end
+		if kind == "Vector3" then
+			if math.max(value.X, value.Y, value.Z) > 1 then
+				return Color3.fromRGB(value.X, value.Y, value.Z)
+			end
+			return Color3.new(value.X, value.Y, value.Z)
+		end
+		if kind == "string" then
+			local hex = value:match("^#?(%x%x%x%x%x%x)$")
+			if hex then return Color3.fromHex(hex) end
+			local r, g, b = value:match("([%d%.]+)[%s,]+([%d%.]+)[%s,]+([%d%.]+)")
+			r, g, b = tonumber(r), tonumber(g), tonumber(b)
+			if r and g and b then
+				if math.max(r, g, b) > 1 then return Color3.fromRGB(r, g, b) end
+				return Color3.new(r, g, b)
+			end
+		end
+		if value ~= nil then
+			warn("[Combat] PulseColor attribute has unsupported value: " .. tostring(value))
+		end
+		return nil
+	end
+
 	local function executeFirePulse(player, character, remote, remoteName)
 		local hrp = character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
 
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
 		local windup = remote:GetAttribute("PulseWindup") or 0
-		local pulseColor = remote:GetAttribute("PulseColor") or Color3.fromRGB(255, 120, 0)
+		local pulseColor = readColor(remote:GetAttribute("PulseColor")) or Color3.fromRGB(255, 120, 0)
 		local pulseMaxSize = remote:GetAttribute("PulseMaxSize") or 300
 		local pulseDuration = remote:GetAttribute("HitboxDuration") or 4
 

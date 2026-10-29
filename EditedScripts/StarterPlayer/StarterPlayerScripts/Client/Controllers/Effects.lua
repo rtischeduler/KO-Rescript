@@ -267,6 +267,23 @@ local function startPulse(cfg)
 					desc.Enabled = true
 					desc.Color = ColorSequence.new(color)
 					table.insert(emitters, desc)
+				elseif desc:IsA("Beam") or desc:IsA("Trail") then
+					desc.Color = ColorSequence.new(color)
+				elseif desc:IsA("Light") then
+					desc.Color = color
+				elseif desc:IsA("Fire") then
+					desc.Color = color
+					desc.SecondaryColor = color
+				elseif desc:IsA("Smoke") then
+					desc.Color = color
+				elseif desc:IsA("Sparkles") then
+					desc.SparkleColor = color
+				elseif desc:IsA("Decal") then
+					desc.Color3 = color
+				elseif desc:IsA("SurfaceAppearance") then
+					desc.Color = color
+				elseif desc:IsA("SpecialMesh") then
+					desc.VertexColor = Vector3.new(color.R, color.G, color.B)
 				end
 			end
 
