@@ -3870,8 +3870,11 @@ local function initBuilding()
 
 			for _, p in parts do p.Material, p.CanCollide = Enum.Material.CorrodedMetal, false end
 			local sound = base:FindFirstChildOfClass("Sound")
-			if sound then sound:Play() end
-			playOneShot(base, SFX_COLLAPSE, SFX_COLLAPSE_VOLUME, 12)
+			if sound and math.random() < 0.5 then
+				sound:Play()
+			else
+				playOneShot(base, SFX_COLLAPSE, SFX_COLLAPSE_VOLUME, 12)
+			end
 
 			startAnim(pose.sink, pose.tx, pose.tz, RUMBLE_TIME, 2.6, easeLinear)
 			dust(20, 2)
