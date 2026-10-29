@@ -36,9 +36,19 @@ local function getGCells(player)
 	return nil
 end
 
+local function rewardScale(player, at, isKill)
+	if _G.RewardScale and typeof(at) == "Instance" then
+		return _G.RewardScale(player, at, isKill)
+	end
+	return 1, 1
+end
+
 local function giveGCells(player, amount, isKillReward, at)
 	local gcells = getGCells(player)
 	if not gcells then return end
+	local gcellMult = rewardScale(player, at, isKillReward)
+	amount = math.floor(amount * gcellMult + math.random())
+	if amount <= 0 then return end
 	if isKillReward and _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
 	if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 	gcells.Value += amount
@@ -46,12 +56,14 @@ local function giveGCells(player, amount, isKillReward, at)
 	if isKillReward and _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 end
 
-local function giveXP(player, minXP, maxXP, at)
+local function giveXP(player, minXP, maxXP, at, isKill)
 	local character = player.Character
 	local addXP = character and character:FindFirstChild("AddXP")
 	if addXP and addXP:IsA("BindableEvent") then
+		local _, xpMult = rewardScale(player, at, isKill)
+		local xpAmount = math.floor(math.random(minXP, maxXP) * xpMult + math.random())
+		if xpAmount <= 0 then return end
 		if _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
-		local xpAmount = math.random(minXP, maxXP)
 		addXP:Fire(xpAmount)
 		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount, at) end
 		if _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
@@ -276,13 +288,13 @@ local function initCombat()
 					local stats = topKiller:FindFirstChild("leaderstats")
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end
-					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
+					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
 					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
 				end
 				for _, attacker in ipairs(others) do
 					if attacker ~= topKiller and attacker:IsA("Player") then
 						giveGCells(attacker, ASSIST_REWARD, true, character)
-						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
+						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character, false)
 					end
 				end
 			end
@@ -320,7 +332,7 @@ local function initCombat()
 			if reward > 0 then
 				sendKillMessage(topKiller.Name, player.Name)
 				giveGCells(topKiller, reward, true, character)
-				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
+				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
 			end
 		end
 		for _, attacker in ipairs(others) do
@@ -328,7 +340,7 @@ local function initCombat()
 				local reward = math.floor(damagePercent * ASSIST_REWARD)
 				if reward > 0 then
 					giveGCells(attacker, reward, true, character)
-					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
+					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character, false)
 				end
 			end
 		end

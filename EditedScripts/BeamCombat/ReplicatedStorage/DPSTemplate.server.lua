@@ -32,9 +32,11 @@ local function awardGCells(attacker, at)
 	if leaderstats then
 		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 		if gcells and gcells:IsA("IntValue") then
-			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 2) end
-			gcells.Value = gcells.Value + 2
-			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, 2, 0, at) end
+			local amount = math.floor(2 * (_G.RewardScale and _G.RewardScale(attacker, at, false) or 1) + math.random())
+			if amount <= 0 then return end
+			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
+			gcells.Value = gcells.Value + amount
+			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, amount, 0, at) end
 		end
 	end
 end

@@ -1,11 +1,6 @@
-ReplicatedStorage/Shared/GraphicsQuality.lua
 ServerScriptService/Server/init.server.lua
 ServerScriptService/Server/Config.lua
-ServerScriptService/Server/Services/PerformanceService.lua
-ServerScriptService/Server/Services/CandyService.lua
-StarterPlayer/StarterPlayerScripts/Client/init.client.lua
-StarterPlayer/StarterPlayerScripts/Client/Config.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Graphics.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Ocean.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/WaterFX.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
+ServerScriptService/Server/Services/RewardScalingService.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua
+BeamCombat/ReplicatedStorage/BeamSystem.lua
+BeamCombat/ReplicatedStorage/DPSTemplate.server.lua

@@ -44,6 +44,21 @@ return {
 
 	LegacyModules = { "Character", "Combat", "Data", "World" },
 
+	RewardScaling = {
+		FreeMorphs = {
+			"GOJIRA [FREE]",
+			"SHIN FORM 2 [FREE]",
+			"ANGUIRUS [FREE]",
+			"MILITARY TANK [FREE]",
+			"F16C [FREE]",
+			"CIVILIAN [FREE]",
+		},
+		FullUntil = 2,
+		GCellsZeroAt = 10,
+		XpZeroAt = 25,
+		StarterXp = 0.05,
+	},
+
 	Performance = {
 		SampleSeconds = 3,
 		LagFrameTime = 1 / 30,

@@ -7,6 +7,7 @@ local Settings = require("../ServerScriptService/Server/Services/SettingsService
 local Eliminator = require("../ServerScriptService/Server/Services/EliminatorService")
 local Quality = require("../ReplicatedStorage/Shared/GraphicsQuality")
 local Perf = require("../ServerScriptService/Server/Services/PerformanceService")
+local Reward = require("../ServerScriptService/Server/Services/RewardScalingService")
 
 local failures, total = {}, 0
 local function check(name, condition)
@@ -129,6 +130,22 @@ check("graphics: starts on High with no ocean cap", Quality.Get() == "High" and 
 check("graphics: steps High>Medium>Low>Lowest then stops", Quality.Next() == "Medium" and #Quality.Order() == 4 and Quality.Order()[4] == "Lowest")
 check("graphics: particle scale only goes down", Quality.Order()[2] == "Medium" and Quality.Set("Nope") == false)
 check("perf: lag threshold", Perf.isLagging(0.05, 1 / 30) and not Perf.isLagging(1 / 60, 1 / 30))
+
+do
+	local rc = Config.RewardScaling
+	local g1, x1 = Reward.compute(1, false, false, true, rc)
+	local g2, x2 = Reward.compute(1, false, true, false, rc)
+	local g3, x3 = Reward.compute(1, false, true, true, rc)
+	local g4, x4 = Reward.compute(30, false, false, true, rc)
+	local g5, x5 = Reward.compute(6, false, false, true, rc)
+	local g6, x6 = Reward.compute(1, true, true, true, rc)
+	check("reward: fair fight is full", g1 == 1 and x1 == 1)
+	check("reward: hitting a starter gives 0 gcells, tiny xp", g2 == 0 and x2 == rc.StarterXp)
+	check("reward: killing a starter gives nothing", g3 == 0 and x3 == 0)
+	check("reward: unbalanced gives nothing", g4 == 0 and x4 == 0)
+	check("reward: stronger vs weaker tapers", g5 > 0 and g5 < 1 and x5 > g5)
+	check("reward: starter vs starter is normal", g6 == 1 and x6 == 1)
+end
 
 print(("%d checks, %d failed"):format(total, #failures))
 for _, name in ipairs(failures) do

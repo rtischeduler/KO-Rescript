@@ -1022,13 +1022,14 @@ function BeamSystem.ActivateBeam(config)
 									end
 									creator.Value = attackerPlayer
 									ownerHum:TakeDamage(dmg)
-									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, 25, 0, ownerHum.Parent) end
+									local gcellAmount = math.floor(25 * (_G.RewardScale and _G.RewardScale(attackerPlayer, ownerHum.Parent, false) or 1) + math.random())
+									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, gcellAmount, 0, ownerHum.Parent) end
 									local leaderstats = attackerPlayer:FindFirstChild("leaderstats")
 									if leaderstats then
 										local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 										if gcells and gcells:IsA("IntValue") then
-											if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 25) end
-											gcells.Value = gcells.Value + 25
+											if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, gcellAmount) end
+											gcells.Value = gcells.Value + gcellAmount
 										end
 									end
 									task.spawn(function()
