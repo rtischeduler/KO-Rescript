@@ -4,6 +4,13 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local isClient = player ~= nil
 
+--[[local siphonEvent = game:GetService("ReplicatedStorage"):FindFirstChild("Siphon")
+if not siphonEvent then
+	siphonEvent = Instance.new("RemoteEvent")
+	siphonEvent.Name = "Siphon"
+	siphonEvent.Parent = game:GetService("ReplicatedStorage")
+end]]
+
 local MAX_CHARGE = 100
 local currentCharge = 100
 local isFlying = false
@@ -37,7 +44,6 @@ local function normalize(name)
 end
 
 local function getAttributeCharge(abilityName)
-	if not player then return nil end
 	local character = player.Character
 	if not character then return nil end
 
@@ -70,7 +76,6 @@ local function getAttributeCharge(abilityName)
 end
 
 local function getChargeBar()
-	if not player then return nil end
 	local gui = player:FindFirstChild("PlayerGui")
 	if not gui then return nil end
 	local gameGui = gui:FindFirstChild("GameGui")
@@ -85,7 +90,6 @@ local function getChargeBar()
 end
 
 local function getChargeStats()
-	if not player then return nil end
 	local gui = player:FindFirstChild("PlayerGui")
 	if not gui then return nil end
 	local gameGui = gui:FindFirstChild("GameGui")
@@ -122,6 +126,17 @@ local function updateUI()
 		end
 	end
 end
+
+--[[function ChargeManager.chargeSiphon(chargeAmount)
+		print("Siphoning Charge")
+		currentCharge = math.min(MAX_CHARGE, currentCharge + chargeAmount)
+		updateUI()		
+end	
+
+siphonEvent.OnClientEvent:Connect(function(chargeAmount)
+	ChargeManager.chargeSiphon(chargeAmount)
+	print("Recieved Siphon")
+end)]]
 
 
 function ChargeManager.getCharge()
