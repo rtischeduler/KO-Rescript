@@ -1,1 +1,1 @@
-ReplicatedStorage/PlayerScripts/Control/init.client.lua
+BeamCombat/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua

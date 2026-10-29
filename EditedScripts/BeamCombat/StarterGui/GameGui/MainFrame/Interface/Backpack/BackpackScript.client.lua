@@ -277,10 +277,12 @@ local function getAimPosition(character)
 		end
 	else
 		local screenPos = nil
+		local fromMouse = false
 
-		if UserInputService.MouseEnabled then
+		if UserInputService.MouseEnabled and pickBestTouchPos() == nil then
 			local mouseLocation = UserInputService:GetMouseLocation()
 			screenPos = Vector2.new(mouseLocation.X, mouseLocation.Y)
+			fromMouse = true
 		end
 
 		if not screenPos then
@@ -288,7 +290,9 @@ local function getAimPosition(character)
 		end
 
 		local ray
-		if screenPos then
+		if screenPos and fromMouse then
+			ray = camera:ViewportPointToRay(screenPos.X, screenPos.Y)
+		elseif screenPos then
 			ray = camera:ScreenPointToRay(screenPos.X, screenPos.Y)
 		else
 			local viewport = camera.ViewportSize
@@ -861,6 +865,26 @@ local function playClientPrediction(eventName, char)
 	end
 end
 
+local chargeTweens = {}
+
+local function playChargeFill(button, duration)
+	local charge = button:FindFirstChild("Charge")
+	if not charge then return end
+	local previous = chargeTweens[charge]
+	if previous then
+		previous:Cancel()
+	end
+	charge.Size = UDim2.new(1, 0, -1, 0)
+	local tween = TweenService:Create(charge, TweenInfo.new(math.max(duration, 0.05), Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
+	chargeTweens[charge] = tween
+	tween.Completed:Connect(function()
+		if chargeTweens[charge] == tween then
+			chargeTweens[charge] = nil
+		end
+	end)
+	tween:Play()
+end
+
 local function fireAbility(eventName)
 	local button = activeButtons[eventName]
 	if not button then return end
@@ -890,11 +914,18 @@ local function fireAbility(eventName)
 	CooldownManager.start(eventName, cdDuration)
 	ChargeManager.consumeCharge(eventName)
 
-	playClientPrediction(eventName, char)
+	local attackDuration = CooldownManager.getAttackDuration(eventName)
+	activeCooldowns[eventName] = true
+	playChargeFill(button, math.max(cdDuration, attackDuration))
+	task.delay(math.max(cdDuration, attackDuration), function()
+		activeCooldowns[eventName] = nil
+	end)
+
+	pcall(playClientPrediction, eventName, char)
 
 	if needsAimPosition(eventName) then
-		local aimPos = getAimPosition(char)
-		if aimPos then
+		local okAim, aimPos = pcall(getAimPosition, char)
+		if okAim and aimPos then
 			evt:FireServer(aimPos)
 		else
 			local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -922,31 +953,10 @@ local function fireAbility(eventName)
 
 	CooldownManager.startAttackDuration(eventName)
 
-	local attackDuration = CooldownManager.getAttackDuration(eventName)
-	local visualDuration = math.max(cdDuration, attackDuration)
-
-	local charge = button:FindFirstChild("Charge")
-	if charge then
-		charge.Size = UDim2.new(1, 0, -1, 0)
-		local tween = TweenService:Create(charge, TweenInfo.new(visualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-		activeCooldowns[eventName] = true
-		tween.Completed:Connect(function()
-			activeCooldowns[eventName] = nil
-		end)
-		tween:Play()
-	end
-
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-
 			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
-			local otherVisualDuration = math.max(otherRemaining, attackDuration)
-			local otherCharge = otherButton:FindFirstChild("Charge")
-			if otherCharge then
-				otherCharge.Size = UDim2.new(1, 0, -1, 0)
-				local otherTween = TweenService:Create(otherCharge, TweenInfo.new(otherVisualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-				otherTween:Play()
-			end
+			playChargeFill(otherButton, math.max(otherRemaining, attackDuration))
 		end
 	end
 end
