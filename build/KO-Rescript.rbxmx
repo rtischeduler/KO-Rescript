@@ -17,21 +17,9 @@ local RunService = game:GetService("RunService")
 local Knockback = {}
 
 local SETTINGS = {
-	attack = { speed = 30, lift = 8 },
-	beam = { speed = 4, lift = 0 },
+	attack = { speed = 60, lift = 10 },
+	beam = { speed = 6, lift = 0 },
 }
-local MAX_FLAT_SPEED = 45
-
-local function addVelocity(root, vec)
-	local v = root.AssemblyLinearVelocity + vec
-	local flat = Vector3.new(v.X, 0, v.Z)
-	if flat.Magnitude > MAX_FLAT_SPEED then
-		flat = flat.Unit * MAX_FLAT_SPEED
-		v = Vector3.new(flat.X, v.Y, flat.Z)
-	end
-	root.AssemblyLinearVelocity = v
-end
-
 if RunService:IsServer() then
 	local remote = ReplicatedStorage:FindFirstChild("KnockbackEvent")
 	if not remote then
@@ -52,18 +40,85 @@ if RunService:IsServer() then
 		if player then
 			remote:FireClient(player, vec)
 		else
-			addVelocity(targetRoot, vec)
+			targetRoot.AssemblyLinearVelocity = targetRoot.AssemblyLinearVelocity + vec
 		end
 	end
 else
 	local remote = ReplicatedStorage:WaitForChild("KnockbackEvent")
+	local MAX_FLAT_SPEED = 80
+	local active = nil
+	local mover = nil
+
+	local function getMover(root)
+		if mover and mover.Parent == root then
+			return mover
+		end
+		local attachment = root:FindFirstChild("RootAttachment") or root:FindFirstChildOfClass("Attachment")
+		if not attachment then
+			attachment = Instance.new("Attachment")
+			attachment.Name = "KnockbackAttachment"
+			attachment.Parent = root
+		end
+		mover = Instance.new("LinearVelocity")
+		mover.Name = "KnockbackMover"
+		mover.Attachment0 = attachment
+		mover.RelativeTo = Enum.ActuatorRelativeTo.World
+		mover.ForceLimitMode = Enum.ForceLimitMode.PerAxis
+		mover.MaxAxesForce = Vector3.new(math.huge, 0, math.huge)
+		mover.Enabled = false
+		mover.Parent = root
+		return mover
+	end
+
+	local function clearActive()
+		active = nil
+		if mover then
+			mover.Enabled = false
+		end
+	end
+
 	remote.OnClientEvent:Connect(function(vec)
 		local player = Players.LocalPlayer
 		local character = player and player.Character
 		local root = character and character:FindFirstChild("HumanoidRootPart")
-		if root and typeof(vec) == "Vector3" then
-			addVelocity(root, vec)
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		if not root or not humanoid or humanoid.Health <= 0 or humanoid.PlatformStand or typeof(vec) ~= "Vector3" then
+			return
 		end
+		local now = os.clock()
+		local flat = Vector3.new(vec.X, 0, vec.Z)
+		local duration = flat.Magnitude > 20 and 0.35 or 0.15
+		local carried = Vector3.zero
+		if active then
+			carried = active.vel * math.clamp((active.untilT - now) / active.duration, 0, 1)
+		end
+		local total = carried + flat
+		if total.Magnitude > MAX_FLAT_SPEED then
+			total = total.Unit * MAX_FLAT_SPEED
+		end
+		active = { vel = total, untilT = now + duration, duration = duration }
+		if vec.Y > 0 then
+			local v = root.AssemblyLinearVelocity
+			root.AssemblyLinearVelocity = Vector3.new(v.X, math.max(v.Y, vec.Y), v.Z)
+		end
+	end)
+
+	RunService.Heartbeat:Connect(function()
+		if not active then return end
+		local player = Players.LocalPlayer
+		local character = player and player.Character
+		local root = character and character:FindFirstChild("HumanoidRootPart")
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		local now = os.clock()
+		if not root or not humanoid or humanoid.PlatformStand or now >= active.untilT then
+			clearActive()
+			return
+		end
+		local frac = (active.untilT - now) / active.duration
+		local walk = humanoid.MoveDirection * humanoid.WalkSpeed
+		local m = getMover(root)
+		m.VectorVelocity = Vector3.new(walk.X, 0, walk.Z) + active.vel * frac
+		m.Enabled = true
 	end)
 end
 
@@ -238,7 +293,10 @@ humanoid:SetStateEnabled(Enum.HumanoidStateType.Swimming, false)
 
 local CooldownManager = require(ReplicatedStorage:WaitForChild("CooldownManager"))
 local ChargeManager = require(ReplicatedStorage:WaitForChild("ChargeManager"))
-require(ReplicatedStorage:WaitForChild("Knockback"))
+local knockbackModule = ReplicatedStorage:WaitForChild("Knockback", 5)
+if knockbackModule then
+	pcall(require, knockbackModule)
+end
 ChargeManager.reset()
 CooldownManager.reset()
 
@@ -948,6 +1006,9 @@ end
 safeRequire("LevelGuard")
 safeRequire("ChargeManager")
 local Knockback = safeRequire("Knockback")
+if not Knockback then
+	warn("[Combat] Knockback module missing from ReplicatedStorage")
+end
 
 local function getOrCreateRemote(name)
 	local remote = ReplicatedStorage:FindFirstChild(name)

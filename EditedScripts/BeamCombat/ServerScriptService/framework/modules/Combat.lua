@@ -18,6 +18,9 @@ end
 safeRequire("LevelGuard")
 safeRequire("ChargeManager")
 local Knockback = safeRequire("Knockback")
+if not Knockback then
+	warn("[Combat] Knockback module missing from ReplicatedStorage")
+end
 
 local function getOrCreateRemote(name)
 	local remote = ReplicatedStorage:FindFirstChild(name)
