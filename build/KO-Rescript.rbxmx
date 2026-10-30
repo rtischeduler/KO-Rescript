@@ -1337,6 +1337,1628 @@ end
 return Combat]]></ProtectedString>
 						</Properties>
 					</Item>
+					<Item class="ModuleScript" referent="RBX6">
+						<Properties>
+							<string name="Name">World</string>
+							<ProtectedString name="Source"><![CDATA[local World = {}
+
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local PhysicsService = game:GetService("PhysicsService")
+local CollectionService = game:GetService("CollectionService")
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local HolidayConfigs = require(ReplicatedStorage:WaitForChild("HolidayConfigs"))
+
+local state = { IsRaining = false, IsSnowing = false }
+local initialized = false
+local windowApi = {}
+local savedWindowState = setmetatable({}, { __mode = "k" })
+
+local buildingRemote = nil
+
+local function fireBuildingFX(...)
+	if buildingRemote then buildingRemote:FireAllClients(...) end
+end
+
+local function initBuildingRemote()
+	buildingRemote = ReplicatedStorage:FindFirstChild("BuildingFX")
+	if buildingRemote and not buildingRemote:IsA("RemoteEvent") then
+		buildingRemote:Destroy()
+		buildingRemote = nil
+	end
+	if not buildingRemote then
+		buildingRemote = Instance.new("RemoteEvent")
+		buildingRemote.Name = "BuildingFX"
+		buildingRemote.Parent = ReplicatedStorage
+	end
+end
+
+
+local DEBRIS_GROUP = "CollapseDebris"
+local CHARACTER_GROUP = "Characters"
+local debrisReady = false
+
+local function initDebrisCollision()
+	local ok = pcall(function()
+		for _, name in { DEBRIS_GROUP, CHARACTER_GROUP } do
+			if not PhysicsService:IsCollisionGroupRegistered(name) then
+				PhysicsService:RegisterCollisionGroup(name)
+			end
+		end
+		PhysicsService:CollisionGroupSetCollidable(DEBRIS_GROUP, CHARACTER_GROUP, false)
+	end)
+	if not ok then return end
+	debrisReady = true
+
+	local function assign(character)
+		local function mark(d)
+			if d:IsA("BasePart") then d.CollisionGroup = CHARACTER_GROUP end
+		end
+		for _, d in character:GetDescendants() do mark(d) end
+		character.DescendantAdded:Connect(mark)
+	end
+
+	local function hook(player)
+		player.CharacterAdded:Connect(assign)
+		if player.Character then assign(player.Character) end
+	end
+
+	for _, player in Players:GetPlayers() do hook(player) end
+	Players.PlayerAdded:Connect(hook)
+end
+
+local function lerp(a, b, t) return a + (b - a) * t end
+
+local function rand(a, b) return a + math.random() * (b - a) end
+
+local function shuffle(list)
+	local copy = table.clone(list)
+	for i = #copy, 2, -1 do
+		local j = math.random(1, i)
+		copy[i], copy[j] = copy[j], copy[i]
+	end
+	return copy
+end
+
+local function maxAxis(part)
+	return math.max(part.Size.X, part.Size.Y, part.Size.Z) / 2
+end
+
+local function initDayNight()
+	local DAY_LENGTH_MIN = 30
+	local WEATHER_FADE = 10
+	local START_MINUTES = 720
+	local timeRatio = (24 * 60) / (math.max(DAY_LENGTH_MIN, 1) * 60)
+	local t0 = os.clock()
+
+	local DAY = {
+		Brightness = 2, Ambient = Color3.new(0.5, 0.5, 0.5),
+		OutdoorAmbient = Color3.new(0.25, 0.28, 0.21),
+		ColorShift_Top = Color3.new(1, 0.75, 0.57),
+		ColorShift_Bottom = Color3.new(0.15, 0.15, 0.2),
+		FogColor = Color3.new(0.61, 0.67, 0.77), FogEnd = 5500,
+		Density = 0.3, AtmColor = Color3.new(0.7, 0.75, 0.85), Haze = 2,
+		Cloud = Color3.new(1, 1, 1),
+	}
+	local NIGHT = {
+		Brightness = 1.2, Ambient = Color3.new(0.28, 0.32, 0.45),
+		OutdoorAmbient = Color3.new(0.15, 0.18, 0.3),
+		ColorShift_Top = Color3.new(0.12, 0.15, 0.28),
+		ColorShift_Bottom = Color3.new(0.06, 0.07, 0.14),
+		FogColor = Color3.new(0.18, 0.21, 0.3), FogEnd = 3000,
+		Density = 0.4, AtmColor = Color3.new(0.1, 0.1, 0.18), Haze = 3,
+		Cloud = Color3.new(0.12, 0.12, 0.16),
+	}
+	local RAIN = {
+		FogEndMul = 0.4, DensityAdd = 0.15, HazeAdd = 1,
+		FogColor = Color3.new(0.35, 0.37, 0.4),
+		AtmColor = Color3.new(0.4, 0.42, 0.45),
+		Cloud = Color3.new(0.15, 0.15, 0.18),
+	}
+
+	local SNOW = RAIN
+	local DEFAULT = { Day = DAY, Night = NIGHT, Rain = RAIN }
+	local lastCheck = -math.huge
+	local baseDecay = nil
+	local wxLevel, wxTable = 0, nil
+	local lastWx = os.clock()
+
+	local fxBase = setmetatable({}, { __mode = "k" })
+
+	local function setFx(inst, prop, value)
+		local saved = fxBase[inst]
+		if not saved then
+			saved = {}
+			fxBase[inst] = saved
+		end
+		if saved[prop] == nil then saved[prop] = inst[prop] end
+		if value ~= nil then inst[prop] = value else inst[prop] = saved[prop] end
+	end
+
+	local function applyEffects(fx)
+		fx = fx or {}
+		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
+		if atmosphere then
+			setFx(atmosphere, "Offset", fx.AtmOffset)
+			setFx(atmosphere, "Glare", fx.AtmGlare)
+		end
+		for _, child in Lighting:GetChildren() do
+			if child:IsA("BloomEffect") then
+				setFx(child, "Intensity", fx.BloomIntensity)
+				setFx(child, "Threshold", fx.BloomThreshold)
+			elseif child:IsA("SunRaysEffect") then
+				setFx(child, "Intensity", fx.SunRaysIntensity)
+			end
+		end
+		setFx(Lighting, "ExposureCompensation", fx.Exposure)
+	end
+
+	local function rawDayFactor(m)
+		if m >= 420 and m <= 1020 then return 1
+		elseif m >= 1140 or m <= 300 then return 0
+		elseif m < 420 then return (m - 300) / 120
+		else return 1 - (m - 1020) / 120 end
+	end
+
+	local function dayFactor(m)
+		local x = rawDayFactor(m)
+		return x * x * (3 - 2 * x)
+	end
+
+	while true do
+		local clock = os.clock()
+		if clock - lastCheck >= 30 then
+			lastCheck = clock
+			local holiday = HolidayConfigs.getActive()
+			local set = holiday and holiday.Lighting or DEFAULT
+			DAY, NIGHT = set.Day or DEFAULT.Day, set.Night or DEFAULT.Night
+			RAIN = set.Rain or DEFAULT.Rain
+			SNOW = set.Snow or set.Rain or DEFAULT.Rain
+			applyEffects(holiday and holiday.Effects or nil)
+		end
+
+		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
+		local clouds = workspace.Terrain:FindFirstChildOfClass("Clouds")
+
+		local minutes = (START_MINUTES + (os.clock() - t0) * timeRatio) % 1440
+		Lighting:SetMinutesAfterMidnight(minutes)
+		local t = dayFactor(minutes)
+
+		Lighting.Brightness = lerp(NIGHT.Brightness, DAY.Brightness, t)
+		Lighting.Ambient = NIGHT.Ambient:Lerp(DAY.Ambient, t)
+		Lighting.OutdoorAmbient = NIGHT.OutdoorAmbient:Lerp(DAY.OutdoorAmbient, t)
+		Lighting.ColorShift_Top = NIGHT.ColorShift_Top:Lerp(DAY.ColorShift_Top, t)
+		Lighting.ColorShift_Bottom = NIGHT.ColorShift_Bottom:Lerp(DAY.ColorShift_Bottom, t)
+
+		local fogEnd = lerp(NIGHT.FogEnd, DAY.FogEnd, t)
+		local density = lerp(NIGHT.Density, DAY.Density, t)
+		local haze = lerp(NIGHT.Haze, DAY.Haze, t)
+
+		local target = (state.IsRaining or state.IsSnowing) and 1 or 0
+		local active = state.IsRaining and RAIN or state.IsSnowing and SNOW or nil
+		if active then wxTable = active end
+		local maxStep = math.max(clock - lastWx, 0) / WEATHER_FADE
+		lastWx = clock
+		wxLevel += math.clamp(target - wxLevel, -maxStep, maxStep)
+		if wxLevel <= 0 then wxTable = nil end
+		local k = wxLevel * wxLevel * (3 - 2 * wxLevel)
+
+		local fogColor = NIGHT.FogColor:Lerp(DAY.FogColor, t)
+		local atmColor = NIGHT.AtmColor:Lerp(DAY.AtmColor, t)
+		local cloudColor = NIGHT.Cloud:Lerp(DAY.Cloud, t)
+		if wxTable and k > 0 then
+			fogColor = fogColor:Lerp(wxTable.FogColor, k)
+			atmColor = atmColor:Lerp(wxTable.AtmColor, k)
+			cloudColor = cloudColor:Lerp(wxTable.Cloud, k)
+			fogEnd *= lerp(1, wxTable.FogEndMul, k)
+			density += wxTable.DensityAdd * k
+			haze += wxTable.HazeAdd * k
+		end
+		Lighting.FogColor = fogColor
+		Lighting.FogEnd = fogEnd
+		if atmosphere then
+			atmosphere.Density = density
+			atmosphere.Color = atmColor
+			atmosphere.Haze = haze
+		end
+		if clouds then clouds.Color = cloudColor end
+
+		if atmosphere then
+			if baseDecay == nil then baseDecay = atmosphere.Decay end
+			atmosphere.Decay = DAY.AtmDecay and NIGHT.AtmDecay and NIGHT.AtmDecay:Lerp(DAY.AtmDecay, t) or baseDecay
+		end
+
+		task.wait(1 / 15)
+	end
+end
+
+local function initWindowLights()
+	local LIT = Color3.fromRGB(197, 166, 89)
+	local DARK = Color3.new(0, 0, 0)
+
+	local windowsOn = false
+	local epoch = 0
+	local saved = savedWindowState
+	local lights = {}
+	local buildings = {}
+	local pool = {}
+	local winToken = setmetatable({}, { __mode = "k" })
+	local LIGHT_BRIGHTNESS = 1.25
+	local LIGHT_RANGE = 30
+	local LIGHTS_PER_FRAME = 3
+	local TURN_ON_SPREAD = 6
+	local TURN_OFF_SPREAD = 5
+	local jobs, jobHead, jobTail = {}, 1, 0
+	local pending = {}
+	local function enqueue(fn)
+		jobTail += 1
+		jobs[jobTail] = fn
+	end
+	task.spawn(function()
+		while true do
+			local n = 0
+			while jobHead <= jobTail and n < LIGHTS_PER_FRAME do
+				local fn = jobs[jobHead]
+				jobs[jobHead] = nil
+				jobHead += 1
+				n += 1
+				pcall(fn)
+			end
+			task.wait()
+		end
+	end)
+
+	local function owningBuilding(inst)
+		local p = inst.Parent
+		while p do
+			if p:IsA("Model") and p.Name:find("Building") then return p end
+			p = p.Parent
+		end
+	end
+
+	local function register(inst)
+		if inst:IsA("UnionOperation") and inst.Name:find("Windows") then
+			local b = owningBuilding(inst)
+			if b then
+				buildings[b] = buildings[b] or {}
+				if not table.find(buildings[b], inst) then
+					table.insert(buildings[b], inst)
+				end
+			end
+		end
+	end
+
+	for _, d in workspace:GetDescendants() do register(d) end
+	workspace.DescendantAdded:Connect(register)
+	workspace.DescendantRemoving:Connect(function(inst)
+		saved[inst] = nil
+		for b, list in buildings do
+			local i = table.find(list, inst)
+			if i then
+				table.remove(list, i)
+				if #list == 0 then buildings[b] = nil end
+				break
+			end
+		end
+	end)
+
+	local function isDestroyed(building)
+		local base = building:FindFirstChild("BuildingBase")
+		return base and base:IsA("BasePart") and base.Material == Enum.Material.CorrodedMetal or false
+	end
+
+	local function windowsOf(building)
+		local list = {}
+		for _, d in building:GetDescendants() do
+			if d:IsA("BasePart") and d.Name:lower():find("window", 1, true) then
+				table.insert(list, d)
+			end
+		end
+		return list
+	end
+
+	local function capture(window)
+		if not saved[window] then
+			saved[window] = { Material = window.Material, Color = window.Color }
+		end
+	end
+
+	local colorCache = setmetatable({}, { __mode = "k" })
+	local winBuilding = setmetatable({}, { __mode = "k" })
+	local palette = nil
+	local dayLit = {}
+	local dayLitAt = 0
+	local dayLitOn = false
+
+	local function buildingColor(building)
+		if not palette or not building then return LIT end
+		local c = colorCache[building]
+		if not c then
+			local base = building:FindFirstChild("BuildingBase")
+			local p = base and base:IsA("BasePart") and base.Position or Vector3.zero
+			local h = math.floor(math.abs(p.X * 7.13 + p.Z * 13.37 + p.Y * 3.1))
+			c = palette[h % #palette + 1]
+			colorCache[building] = c
+		end
+		return c
+	end
+
+	local function colorOf(window)
+		local b = winBuilding[window]
+		if not b then
+			b = owningBuilding(window)
+			winBuilding[window] = b
+		end
+		return buildingColor(b)
+	end
+
+	local function refreshPalette()
+		local holiday = HolidayConfigs.getActive()
+		local nextPalette = holiday and holiday.WindowColors or nil
+		if nextPalette == palette then return end
+		palette = nextPalette
+		table.clear(colorCache)
+		for base, light in lights do
+			if light.Parent and base.Parent then light.Color = buildingColor(base.Parent) end
+		end
+	end
+
+	local function setWindow(window, lit)
+		if not window.Parent then return end
+		capture(window)
+		window.Material = Enum.Material.Neon
+		window.Color = lit and colorOf(window) or DARK
+	end
+
+	local function restoreWindow(window)
+		if not window.Parent then return end
+		local s = saved[window]
+		if s then
+			window.Material, window.Color = s.Material, s.Color
+		else
+			window.Material, window.Color = Enum.Material.Glass, DARK
+		end
+	end
+
+	local function flickerWindow(window, duration, final)
+		if not window.Parent then return end
+		capture(window)
+		winToken[window] = (winToken[window] or 0) + 1
+		local mine = winToken[window]
+		task.spawn(function()
+			local stop = os.clock() + duration
+			local litColor = colorOf(window)
+			while winToken[window] == mine and window.Parent and os.clock() < stop do
+				window.Material = Enum.Material.Neon
+				window.Color = math.random() < 0.5 and litColor or DARK
+				task.wait(0.03 + math.random() * 0.09)
+			end
+			if winToken[window] ~= mine or not window.Parent then return end
+			if final == "lit" then
+				setWindow(window, true)
+			elseif final == "dark" then
+				setWindow(window, false)
+			else
+				restoreWindow(window)
+			end
+		end)
+	end
+
+	local function finalProps(window, final)
+		if final == "lit" then return Enum.Material.Neon, colorOf(window) end
+		if final == "dark" then return Enum.Material.Neon, DARK end
+		local s = saved[window]
+		if s then return s.Material, s.Color end
+		return Enum.Material.Glass, DARK
+	end
+
+	local function scheduleFinal(window, duration, material, color)
+		if not window.Parent then return end
+		winToken[window] = (winToken[window] or 0) + 1
+		local mine = winToken[window]
+		task.delay(duration, function()
+			if winToken[window] ~= mine or not window.Parent then return end
+			window.Material, window.Color = material, color
+		end)
+	end
+
+	local function ensureLight(base)
+		if lights[base] or pending[base] or not base.Parent then return end
+		pending[base] = true
+		enqueue(function()
+			pending[base] = nil
+			if lights[base] or not base.Parent or not windowsOn then return end
+			local l = Instance.new("PointLight")
+			l.Name = "BuildingGlowLight"
+			l.Color = buildingColor(base.Parent)
+			l.Brightness = LIGHT_BRIGHTNESS
+			l.Range = LIGHT_RANGE
+			l.Shadows = false
+			CollectionService:AddTag(l, "BuildingGlowLight")
+			l.Parent = base
+			lights[base] = l
+		end)
+	end
+
+	local function removeLight(base)
+		local l = lights[base]
+		if l then
+			lights[base] = nil
+			enqueue(function()
+				if l.Parent then l:Destroy() end
+			end)
+		end
+	end
+
+	local function lightBuilding(building, windows, myEpoch)
+		if epoch ~= myEpoch then return end
+		local destroyed = isDestroyed(building)
+		local base = building:FindFirstChild("BuildingBase")
+		if not destroyed and base and base:IsA("BasePart") then ensureLight(base) end
+
+		local function step(delay)
+			task.wait(delay)
+			return epoch == myEpoch
+		end
+
+		if not destroyed then
+			for _, w in windows do
+				if not step(math.random() * 0.3 + 0.8) then return end
+				flickerWindow(w, 0.3 + math.random() * 0.6, "lit")
+			end
+		elseif #windows == 1 then
+			if not step(math.random() * 0.3 + 8) then return end
+			flickerWindow(windows[1], 0.3 + math.random() * 0.6, "dark")
+		else
+			for i, w in shuffle(windows) do
+				if not step(math.random() * 0.3 + 0.8) then return end
+				flickerWindow(w, 0.3 + math.random() * 0.6, i <= 2 and "lit" or "dark")
+			end
+		end
+	end
+
+	local function turnOn()
+		if windowsOn then return end
+		windowsOn = true
+		dayLitOn = false
+		table.clear(dayLit)
+		refreshPalette()
+		epoch += 1
+		local myEpoch = epoch
+		for building, windows in buildings do
+			task.delay(math.random() * TURN_ON_SPREAD, lightBuilding, building, table.clone(windows), myEpoch)
+		end
+	end
+
+	local function turnOff()
+		if not windowsOn then return end
+		windowsOn = false
+		dayLitOn = false
+		table.clear(dayLit)
+		dayLitAt = os.clock() + TURN_OFF_SPREAD + 1
+		epoch += 1
+		local stale = {}
+		for base in lights do table.insert(stale, base) end
+		for _, base in stale do removeLight(base) end
+		pool = {}
+		for _, windows in buildings do
+			for _, w in windows do
+				winToken[w] = (winToken[w] or 0) + 1
+				task.delay(math.random() * TURN_OFF_SPREAD + 0.2, restoreWindow, w)
+			end
+		end
+	end
+
+	local function syncLights()
+		local newPool = {}
+		for building, windows in buildings do
+			local base = building:FindFirstChild("BuildingBase")
+			if base and base:IsA("BasePart") then
+				if isDestroyed(building) then
+					removeLight(base)
+				else
+					ensureLight(base)
+					for _, w in windows do table.insert(newPool, { w, building }) end
+				end
+			end
+		end
+		pool = newPool
+		for base in lights do
+			if not base.Parent then removeLight(base) end
+		end
+	end
+
+	local function clearDayLights()
+		for window in dayLit do
+			if window.Parent then restoreWindow(window) end
+		end
+		table.clear(dayLit)
+		dayLitOn = false
+	end
+
+	local function refreshDayLights()
+		if windowsOn then return end
+		local holiday = HolidayConfigs.getActive()
+		local cfg = holiday and holiday.DayLights or nil
+		if not cfg then
+			if dayLitOn then clearDayLights() end
+			return
+		end
+		if dayLitOn or os.clock() < dayLitAt or next(buildings) == nil then return end
+		dayLitOn = true
+		for building, windows in buildings do
+			if not isDestroyed(building) and math.random() < cfg.Buildings then
+				for _, window in windows do
+					if window.Parent and math.random() < cfg.Windows then
+						dayLit[window] = true
+						task.delay(math.random() * cfg.Spread, function()
+							if dayLitOn and dayLit[window] and not windowsOn then
+								flickerWindow(window, 0.3 + math.random() * 0.6, "lit")
+							end
+						end)
+					end
+				end
+			end
+		end
+	end
+
+	windowApi.flickerBuilding = function(building, duration, ruined)
+		local list = windowsOf(building)
+		if #list == 0 then return end
+		local darkCount = #list == 1 and 1 or math.random(1, math.min(#list, 3))
+		local payload = {}
+		for i, w in shuffle(list) do
+			local final
+			if ruined then
+				if windowsOn then
+					final = i <= 2 and "lit" or "dark"
+				else
+					final = i <= darkCount and "dark" or "restore"
+				end
+			else
+				final = windowsOn and "lit" or "restore"
+			end
+			local windowDuration = duration * (0.7 + math.random() * 0.3)
+			capture(w)
+			local material, color = finalProps(w, final)
+			scheduleFinal(w, windowDuration, material, color)
+			table.insert(payload, { w, windowDuration, material, color, colorOf(w) })
+		end
+		fireBuildingFX("Flicker", building, payload)
+	end
+
+	windowApi.resetBuilding = function(building)
+		for _, w in windowsOf(building) do
+			winToken[w] = (winToken[w] or 0) + 1
+			if windowsOn then setWindow(w, true) else restoreWindow(w) end
+		end
+	end
+
+	game:BindToClose(function()
+		for _, windows in buildings do
+			for _, w in windows do restoreWindow(w) end
+		end
+	end)
+
+	refreshPalette()
+	local lastNight, counter = nil, 0
+	while true do
+		refreshPalette()
+		local m = Lighting:GetMinutesAfterMidnight()
+		local night = m >= 1080 or m < 360
+		if night ~= lastNight then
+			lastNight = night
+			if night then turnOn() else turnOff() end
+		end
+		refreshDayLights()
+		if windowsOn then
+			counter += 1
+			if counter >= 3 then counter = 0 syncLights() end
+			if #pool > 0 and math.random() < 0.6 then
+				local pick = pool[math.random(1, #pool)]
+				if pick[1].Parent and not isDestroyed(pick[2]) then
+					flickerWindow(pick[1], 0.15 + math.random() * 0.45, "lit")
+				end
+			end
+		end
+		task.wait(1)
+	end
+end
+
+local function initHolidayGround()
+	local terrain = workspace.Terrain
+	local terrainBase = terrain:GetMaterialColor(Enum.Material.Grass)
+	local saved = setmetatable({}, { __mode = "k" })
+	local activeColor, activeName = nil, nil
+
+	local function tint(part)
+		if activeColor and part ~= terrain and part:IsA("BasePart") and part.Material == Enum.Material.Grass and saved[part] == nil then
+			saved[part] = part.Color
+			part.Color = activeColor
+		end
+	end
+
+	workspace.DescendantAdded:Connect(tint)
+
+	local function sweep(color)
+		local n = 0
+		for _, d in workspace:GetDescendants() do
+			if activeColor ~= color then return end
+			tint(d)
+			n += 1
+			if n % 300 == 0 then task.wait() end
+		end
+	end
+
+	local function clear()
+		activeColor, activeName = nil, nil
+		for part, c in saved do
+			if part.Parent then part.Color = c end
+			saved[part] = nil
+		end
+		terrain:SetMaterialColor(Enum.Material.Grass, terrainBase)
+	end
+
+	while true do
+		local holiday = HolidayConfigs.getActive()
+		local color = holiday and holiday.GroundColor or nil
+		local name = color and holiday.Name or nil
+		if name ~= activeName then
+			if activeName then clear() end
+			if color then
+				activeColor, activeName = color, name
+				terrain:SetMaterialColor(Enum.Material.Grass, color)
+				task.spawn(sweep, color)
+			end
+		end
+		task.wait(60)
+	end
+end
+
+local function initSky()
+	local skys = Lighting:WaitForChild("Skys", 30)
+	if not skys then return end
+	for _, child in Lighting:GetChildren() do
+		if child:IsA("Sky") then child:Destroy() end
+	end
+
+	local active, activeName = nil, nil
+	while true do
+		local holiday = HolidayConfigs.getActive()
+		local desired = holiday and holiday.Sky or (state.IsRaining and "Rainy" or "Sunny")
+		if desired ~= activeName then
+			local template = skys:FindFirstChild(desired)
+			if template and template:IsA("Sky") then
+				local sky = template:Clone()
+				sky.Name = "ActiveSky"
+				sky.Parent = Lighting
+				if active then active:Destroy() end
+				active, activeName = sky, desired
+			end
+		end
+		task.wait(1)
+	end
+end
+
+local function initRain()
+	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
+	local toggleSnow = ReplicatedStorage:FindFirstChild("ToggleSnow")
+
+	while true do
+		local weather = HolidayConfigs.getWeather()
+		task.wait(math.random(weather.Gap[1], weather.Gap[2]))
+
+		weather = HolidayConfigs.getWeather()
+		local snow = weather.Kind == "Snow"
+		if snow then
+			state.IsSnowing = true
+			if toggleSnow then toggleSnow:FireAllClients(true) end
+		else
+			state.IsRaining = true
+			if toggleRain then toggleRain:FireAllClients(true) end
+		end
+
+		task.wait(math.random(weather.Duration[1], weather.Duration[2]))
+
+		if snow then
+			state.IsSnowing = false
+			if toggleSnow then toggleSnow:FireAllClients(false) end
+		else
+			state.IsRaining = false
+			if toggleRain then toggleRain:FireAllClients(false) end
+		end
+	end
+end
+
+local function initBuilding()
+	local RUMBLE_TIME = 0.8
+	local COLLAPSE_TIME = 2.6
+	local RESPAWN_DELAY = 60
+
+	local touchingParts = {}
+	local hitboxOwners = {}
+	local destroyed = {}
+	local buildingRefs = {}
+	local beamLoops, blastLoops = {}, {}
+
+	local DAMAGE_KEYWORDS = { "hitbox", "beam", "blast", "firebomb" }
+
+	local function isValidDamager(name)
+		name = name:lower()
+		for _, k in DAMAGE_KEYWORDS do
+			if name:find(k, 1, true) then return true end
+		end
+		return false
+	end
+
+	local function isHitPart(part)
+		local cur = part.Parent
+		while cur and cur ~= game do
+			local n = cur.Name:lower()
+			if n == "hitparts" or n == "hitparts2" then return true end
+			cur = cur.Parent
+		end
+		return false
+	end
+
+	local function getPlayerFromHitbox(hit)
+		local cur = hit.Parent
+		while cur do
+			if cur:FindFirstChildOfClass("Humanoid") then
+				return Players:GetPlayerFromCharacter(cur)
+			end
+			cur = cur.Parent
+		end
+		local attacker = hit:GetAttribute("Attacker")
+		if not attacker then
+			local dps = hit:FindFirstChild("DPS")
+			attacker = dps and dps:GetAttribute("Attacker")
+		end
+		return attacker and Players:FindFirstChild(attacker) or nil
+	end
+
+	local hitSoundTemplate = script:FindFirstChild("HitSound")
+	if hitSoundTemplate and buildingRemote and not buildingRemote:FindFirstChild("HitSound") then
+		hitSoundTemplate:Clone().Parent = buildingRemote
+	end
+
+	local function playHitSound(base)
+		if base and base.Parent then
+			fireBuildingFX("Sound", base.Parent)
+		end
+	end
+
+	local function reward(player, cells, damage, at)
+		if not player then return end
+		local ls = player:FindFirstChild("leaderstats")
+		local gcells = ls and (ls:FindFirstChild("GCells") or ls:FindFirstChild("gcells"))
+		if gcells and gcells:IsA("IntValue") then
+			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 3) end
+			gcells.Value += cells
+		end
+		local char = player.Character
+		local xp = char and char:FindFirstChild("AddXP")
+		local xpAmount = 0
+		if xp and xp:IsA("BindableEvent") then
+			xpAmount = math.random(1, 3)
+			xp:Fire(xpAmount)
+		end
+		if _G.ShowIndicator then _G.ShowIndicator(player, damage or 0, cells, xpAmount, at) end
+	end
+
+	local function liveRefs()
+		return coroutine.wrap(function()
+			for building, refs in buildingRefs do
+				if not destroyed[building] and refs.base and refs.base.Parent then
+					coroutine.yield(building, refs)
+				end
+			end
+		end)
+	end
+
+	local function startBlastCheck(blast)
+		if blastLoops[blast] then return end
+		blastLoops[blast] = true
+		task.spawn(function()
+			while blast.Parent and blast:GetAttribute("BlastActive") do
+				local pos, r = blast.Position, maxAxis(blast)
+				for _, refs in liveRefs() do
+					if (pos - refs.pos).Magnitude <= r + refs.radius then
+						playHitSound(refs.base)
+						refs.HP.Value = 0
+						refs.onDestroyed()
+					end
+				end
+				task.wait(0.15)
+			end
+			blastLoops[blast] = nil
+		end)
+	end
+
+	local function trackBlast(part)
+		if part:GetAttribute("BlastTrackingSetup") then return end
+		part:SetAttribute("BlastTrackingSetup", true)
+		if part:GetAttribute("BlastActive") then startBlastCheck(part) end
+		local conn = part:GetAttributeChangedSignal("BlastActive"):Connect(function()
+			if part:GetAttribute("BlastActive") then startBlastCheck(part) end
+		end)
+		part.AncestryChanged:Connect(function(_, p)
+			if not p then conn:Disconnect() end
+		end)
+	end
+
+	local function startBeamCheck(hitbox)
+		if beamLoops[hitbox] then return end
+		beamLoops[hitbox] = true
+		task.spawn(function()
+			while hitbox.Parent do
+				local pos, r = hitbox.Position, maxAxis(hitbox)
+				for building, refs in liveRefs() do
+					local set = touchingParts[building]
+					if set then
+						if (pos - refs.pos).Magnitude <= r + refs.radius then
+							if not set[hitbox] then
+								set[hitbox] = true
+								playHitSound(refs.base)
+								refs.startDamageLoop()
+							end
+						else
+							set[hitbox] = nil
+						end
+					end
+				end
+				task.wait(0.15)
+			end
+			beamLoops[hitbox] = nil
+		end)
+	end
+
+	local function setupBuilding(building)
+		if not building.Name:lower():find("building") or buildingRefs[building] then return end
+
+		local leftovers = {}
+		for _, c in building:GetChildren() do
+			if c:IsA("BasePart") and c.Name:lower():find("leftover") then
+				table.insert(leftovers, c)
+			end
+		end
+		local base = building:FindFirstChild("BuildingBase")
+		local stats = building:FindFirstChild("Stats")
+		local HP = stats and stats:FindFirstChild("HP")
+		if #leftovers == 0 or not base or not HP then return end
+
+		for _, l in leftovers do
+			l.CanCollide, l.Transparency, l.Anchored = false, 1, true
+		end
+		for _, name in { "Fire", "Smoke" } do
+			local e = base:FindFirstChild(name)
+			if e and e:IsA("ParticleEmitter") then
+				e.Enabled = false
+				e.Parent = leftovers[1]
+			end
+		end
+
+		local parts, original = {}, {}
+		for _, d in building:GetDescendants() do
+			if d:IsA("BasePart") and not d.Name:lower():find("leftover") then
+				table.insert(parts, d)
+				original[d] = { Material = d.Material, Color = d.Color, CanCollide = d.CanCollide }
+				if d.Name:lower():find("window", 1, true) and not savedWindowState[d] then
+					savedWindowState[d] = { Material = d.Material, Color = d.Color }
+				end
+			end
+		end
+
+		local function setLeftoverEffects(on)
+			for _, l in leftovers do
+				for _, d in l:GetDescendants() do
+					if d:IsA("ParticleEmitter") then d.Enabled = on end
+				end
+			end
+		end
+
+		local function setFxState(state, direction, angle, fraction)
+			building:SetAttribute("FXState", state)
+			building:SetAttribute("FXDir", direction)
+			building:SetAttribute("FXAng", angle)
+			building:SetAttribute("FXFrac", fraction)
+		end
+
+		local halfTriggered = false
+		local lastFlicker = 0
+		HP.Value = 100
+		touchingParts[building] = {}
+		setFxState("Intact", nil, nil, nil)
+
+		local function respawn()
+			if not base.Parent then return end
+			HP.Value = 100
+			halfTriggered = false
+			for _, l in leftovers do l.Transparency, l.CanCollide = 1, false end
+			setLeftoverEffects(false)
+			for _, p in parts do
+				local o = original[p]
+				p.Material, p.Color, p.CanCollide = o.Material, o.Color, o.CanCollide
+			end
+			destroyed[building] = nil
+			setFxState("Intact", nil, nil, nil)
+			fireBuildingFX("Respawn", building)
+			if windowApi.resetBuilding then windowApi.resetBuilding(building) end
+		end
+
+		local function onDestroyed()
+			if destroyed[building] then return end
+			destroyed[building] = true
+
+			for _, p in parts do p.Material, p.CanCollide = Enum.Material.CorrodedMetal, false end
+
+			local direction = math.random() * math.pi * 2
+			local angle = math.rad(rand(10, 22))
+			local useBaseSound = base:FindFirstChildOfClass("Sound") ~= nil and math.random() < 0.5
+			setFxState("Destroyed", direction, angle, 1)
+			fireBuildingFX("Destroy", building, direction, angle, useBaseSound)
+
+			if windowApi.flickerBuilding then
+				windowApi.flickerBuilding(building, RUMBLE_TIME + COLLAPSE_TIME, true)
+			end
+
+			task.delay(RUMBLE_TIME, function()
+				if not base.Parent then return end
+				for _, l in leftovers do l.Transparency, l.CanCollide = 0, false end
+				setLeftoverEffects(true)
+
+				task.delay(COLLAPSE_TIME, function()
+					if not base.Parent then return end
+					task.delay(RESPAWN_DELAY, respawn)
+				end)
+			end)
+		end
+
+		local function halfCollapse()
+			halfTriggered = true
+			for _, p in parts do p.Material = Enum.Material.CorrodedMetal end
+			local fraction = rand(0.25, 0.75)
+			local angle = math.rad(rand(3, 8))
+			local direction = math.random() * math.pi * 2
+			setFxState("Half", direction, angle, fraction)
+			fireBuildingFX("Half", building, fraction, angle, direction)
+		end
+
+		local function applyDamage(amount, rewardsByPlayer)
+			if HP.Value <= 0 or destroyed[building] then return false end
+			HP.Value -= amount
+			if HP.Value <= 50 and not halfTriggered then halfCollapse() end
+			fireBuildingFX("Hit", building, HP.Value)
+			if windowApi.flickerBuilding and os.clock() - lastFlicker > 0.35 then
+				lastFlicker = os.clock()
+				windowApi.flickerBuilding(building, 0.45, false)
+			end
+			playHitSound(base)
+			for player, cells in rewardsByPlayer do reward(player, cells, amount, building) end
+			if HP.Value <= 0 then
+				HP.Value = 0
+				onDestroyed()
+			end
+			return true
+		end
+
+		local damaging = false
+		local function startDamageLoop()
+			if damaging then return end
+			damaging = true
+			task.spawn(function()
+				while true do
+					local set = touchingParts[building]
+					if not set or HP.Value <= 0 or destroyed[building] then break end
+
+					local rewards, any = {}, false
+					for hit in set do
+						if not hit.Parent then
+							set[hit] = nil
+							hitboxOwners[hit] = nil
+						else
+							any = true
+							local owner = hitboxOwners[hit]
+							if owner then rewards[owner] = (rewards[owner] or 0) + 1 end
+						end
+					end
+					if not any then break end
+
+					applyDamage(20, rewards)
+					task.wait(0.5)
+				end
+				damaging = false
+			end)
+		end
+
+		buildingRefs[building] = {
+			base = base, HP = HP,
+			pos = base.Position, radius = maxAxis(base),
+			startDamageLoop = startDamageLoop,
+			onDestroyed = onDestroyed,
+			damageBuilding = function(attacker)
+				applyDamage(20, attacker and { [attacker] = 3 } or {})
+			end,
+		}
+
+		base.Touched:Connect(function(hit)
+			if not (isValidDamager(hit.Name) or isHitPart(hit)) then return end
+			local player = getPlayerFromHitbox(hit)
+			if player then hitboxOwners[hit] = player end
+
+			if hit.Name:lower():find("blast") then
+				playHitSound(base)
+				HP.Value = 0
+				onDestroyed()
+				return
+			end
+			local set = touchingParts[building]
+			if set then
+				set[hit] = true
+				playHitSound(base)
+				startDamageLoop()
+			end
+		end)
+
+		base.TouchEnded:Connect(function(hit)
+			if isHitPart(hit) then return end
+			local set = touchingParts[building]
+			if set then set[hit] = nil end
+			hitboxOwners[hit] = nil
+		end)
+
+		building.AncestryChanged:Connect(function(_, parent)
+			if not parent then
+				touchingParts[building] = nil
+				buildingRefs[building] = nil
+				destroyed[building] = nil
+			end
+		end)
+	end
+
+	local Map = workspace:WaitForChild("Map")
+	for _, b in Map:GetChildren() do
+		if b:IsA("Model") then
+			setupBuilding(b)
+			task.wait()
+		end
+	end
+	Map.DescendantAdded:Connect(function(d)
+		if d:IsA("Model") and d.Name:lower():find("building") then
+			task.wait(0.1)
+			setupBuilding(d)
+		end
+	end)
+
+	workspace.DescendantAdded:Connect(function(d)
+		if not d:IsA("BasePart") or not isValidDamager(d.Name) then return end
+		task.defer(function()
+			if not d.Parent then return end
+			local lname = d.Name:lower()
+			local isBlast = lname:find("blast") ~= nil
+
+			local player = getPlayerFromHitbox(d)
+			if player then hitboxOwners[d] = player end
+
+			local pos, r = d.Position, maxAxis(d)
+			for building, refs in liveRefs() do
+				if (pos - refs.pos).Magnitude <= r + refs.radius then
+					if isBlast then
+						playHitSound(refs.base)
+						refs.HP.Value = 0
+						refs.onDestroyed()
+					elseif touchingParts[building] then
+						touchingParts[building][d] = true
+						refs.startDamageLoop()
+					end
+				end
+			end
+
+			if isBlast then
+				trackBlast(d)
+			elseif lname:find("beam") or lname:find("hitbox") then
+				startBeamCheck(d)
+			end
+
+			d.AncestryChanged:Connect(function(_, parent)
+				if parent then return end
+				for building in buildingRefs do
+					local set = touchingParts[building]
+					if set then set[d] = nil end
+				end
+				hitboxOwners[d] = nil
+			end)
+		end)
+	end)
+
+	local function scanCharacter(char)
+		for _, d in char:GetDescendants() do
+			if d:IsA("BasePart") and d.Name:lower():find("blast") then trackBlast(d) end
+		end
+	end
+	local function hookPlayer(player)
+		player.CharacterAdded:Connect(function(char)
+			task.wait(0.5)
+			scanCharacter(char)
+		end)
+		if player.Character then scanCharacter(player.Character) end
+	end
+	Players.PlayerAdded:Connect(hookPlayer)
+	for _, p in Players:GetPlayers() do hookPlayer(p) end
+
+	_G.DamageBuildingsInRadius = function(position, radius, attacker)
+		for _, refs in liveRefs() do
+			if (position - refs.pos).Magnitude <= radius + refs.radius then
+				refs.damageBuilding(attacker)
+			end
+		end
+	end
+end
+
+local function initCollisions()
+	local INVISIBLE_THRESHOLD = 0.9
+
+	local function fixPart(part)
+		if part:IsA("BasePart") and part.CanCollide and part.Transparency >= INVISIBLE_THRESHOLD then
+			part.CanCollide = false
+		end
+	end
+
+	local function fixTree(root)
+		fixPart(root)
+		for _, d in root:GetDescendants() do fixPart(d) end
+	end
+
+	fixTree(workspace)
+
+	workspace.DescendantAdded:Connect(function(d)
+		task.defer(fixPart, d)
+	end)
+
+	while true do
+		task.wait(30)
+		local n = 0
+		for _, d in workspace:GetDescendants() do
+			fixPart(d)
+			n += 1
+			if n % 2000 == 0 then task.wait() end
+		end
+	end
+end
+
+function World.Init()
+	if initialized then return end
+	initialized = true
+	initBuildingRemote()
+	task.spawn(initDayNight)
+	task.spawn(initWindowLights)
+	task.spawn(initRain)
+	task.spawn(initBuilding)
+	task.spawn(initCollisions)
+	initDebrisCollision()
+	task.spawn(initHolidayGround)
+	task.spawn(initSky)
+end
+
+function World.IsRaining()
+	return state.IsRaining
+end
+
+return World]]></ProtectedString>
+						</Properties>
+					</Item>
+				</Item>
+			</Item>
+		</Item>
+		<Item class="Folder" referent="RBX7">
+			<Properties>
+				<string name="Name">StarterPlayer</string>
+			</Properties>
+			<Item class="Folder" referent="RBX8">
+				<Properties>
+					<string name="Name">StarterPlayerScripts</string>
+				</Properties>
+				<Item class="LocalScript" referent="RBX9">
+					<Properties>
+						<string name="Name">BuildingFX</string>
+						<ProtectedString name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Debris = game:GetService("Debris")
+local Workspace = game:GetService("Workspace")
+
+local RUMBLE_TIME = 0.8
+local COLLAPSE_TIME = 2.6
+local DEBRIS_CHUNKS = 9
+local FX_DISTANCE = 900
+local DEBRIS_GROUP = "CollapseDebris"
+local DARK = Color3.new(0, 0, 0)
+
+local SFX_COLLAPSE = "rbxassetid://127181227297856"
+local SFX_BUILDING_HITS = { "rbxassetid://138817960173178", "rbxassetid://104781713803672" }
+local SFX_FLICKER = "rbxassetid://5948753051"
+local SFX_COLLAPSE_VOLUME = 1
+local SFX_HIT_VOLUME = 0.8
+local SFX_FLICKER_VOLUME = 0.2
+
+local remote = ReplicatedStorage:WaitForChild("BuildingFX")
+
+local function lerp(a, b, t) return a + (b - a) * t end
+local function rand(a, b) return a + math.random() * (b - a) end
+local function maxAxis(part)
+	return math.max(part.Size.X, part.Size.Y, part.Size.Z) / 2
+end
+
+local function easeLinear(p) return p end
+local function easeInOut(p)
+	if p < 0.5 then return 2 * p * p end
+	return 1 - (-2 * p + 2) ^ 2 / 2
+end
+local function easeCollapse(p) return p ^ 1.7 end
+local function easeTilt(p) return p ^ 1.6 end
+
+local function nearCamera(position)
+	local camera = Workspace.CurrentCamera
+	return camera ~= nil and (camera.CFrame.Position - position).Magnitude <= FX_DISTANCE
+end
+
+local function playOneShot(parent, soundId, volume, lifetime)
+	if not parent or not parent.Parent then return end
+	local s = Instance.new("Sound")
+	s.SoundId = soundId
+	s.Volume = volume
+	s.RollOffMaxDistance = 400
+	s.Parent = parent
+	s:Play()
+	Debris:AddItem(s, lifetime or 8)
+end
+
+local function playHitSound(base)
+	if not base or not base.Parent then return end
+	local template = remote:FindFirstChild("HitSound")
+	if template and template:IsA("Sound") then
+		local s = template:Clone()
+		s.Parent = base
+		s:Play()
+		Debris:AddItem(s, 5)
+	end
+	playOneShot(base, SFX_BUILDING_HITS[math.random(#SFX_BUILDING_HITS)], SFX_HIT_VOLUME, 6)
+end
+
+local states = setmetatable({}, { __mode = "k" })
+local tracked = setmetatable({}, { __mode = "k" })
+local active = {}
+local heartbeat = nil
+
+local function getState(building)
+	if not building or not building.Parent then return nil end
+	local existing = states[building]
+	if existing then
+		if existing.base.Parent then return existing end
+		states[building] = nil
+	end
+	local base = building:FindFirstChild("BuildingBase")
+	if not base or not base:IsA("BasePart") then return nil end
+
+	local parts, origCFs = {}, {}
+	local minY = math.huge
+	for _, d in building:GetDescendants() do
+		if d:IsA("BasePart") and not d.Name:lower():find("leftover") then
+			table.insert(parts, d)
+			table.insert(origCFs, d.CFrame)
+			minY = math.min(minY, d.Position.Y - d.Size.Y / 2)
+		end
+	end
+	if #parts == 0 then return nil end
+
+	local basePos = base.Position
+	local footW, footD = base.Size.X, base.Size.Z
+	local s = {
+		building = building,
+		base = base,
+		parts = parts,
+		origCFs = origCFs,
+		cframes = table.create(#parts),
+		pivot = Vector3.new(basePos.X, minY, basePos.Z),
+		footW = footW,
+		footD = footD,
+		shakeScale = math.clamp(maxAxis(base) / 25, 0.4, 2.5),
+		dustScale = math.clamp(math.max(footW, footD) / 8, 3, 14),
+		pose = { sink = 0, tx = 0, tz = 0 },
+		anim = nil,
+		jolt = nil,
+		seed = math.random() * 1000,
+		epoch = 0,
+	}
+	states[building] = s
+	return s
+end
+
+local function apply(s, sx, sy, sz, rx, rz)
+	local pose = s.pose
+	local rot = CFrame.Angles(pose.tx + rx, 0, pose.tz + rz)
+	local offset = CFrame.new(sx, sy - pose.sink, sz) * CFrame.new(s.pivot) * rot * CFrame.new(-s.pivot)
+	local cframes, origCFs = s.cframes, s.origCFs
+	for i = 1, #s.parts do cframes[i] = offset * origCFs[i] end
+	pcall(Workspace.BulkMoveTo, Workspace, s.parts, cframes, Enum.BulkMoveMode.FireCFrameChanged)
+end
+
+local function step(s, now)
+	local pose = s.pose
+	local amp = 0
+	local anim = s.anim
+	if anim then
+		local p = math.clamp((now - anim.t0) / anim.dur, 0, 1)
+		local e = anim.ease(p)
+		local te = anim.tiltEase(p)
+		pose.sink = lerp(anim.from.sink, anim.to.sink, e)
+		pose.tx = lerp(anim.from.tx, anim.to.tx, te)
+		pose.tz = lerp(anim.from.tz, anim.to.tz, te)
+		amp = anim.amp * math.sin(math.pi * p ^ 0.6)
+		if p >= 1 then s.anim = nil end
+	end
+	local jolt = s.jolt
+	if jolt then
+		local jp = (now - jolt.t0) / jolt.dur
+		if jp >= 1 then
+			s.jolt = nil
+		else
+			amp += jolt.amp * (1 - jp) ^ 2
+		end
+	end
+	local sx, sy, sz, rx, rz = 0, 0, 0, 0, 0
+	if amp > 0.001 then
+		local t = now * 24
+		local ts = amp * s.shakeScale
+		local seed = s.seed
+		sx = math.noise(t, seed, 0.5) * 2 * ts
+		sy = math.noise(t, seed, 10.5) * ts
+		sz = math.noise(t, seed, 20.5) * 2 * ts
+		rx = math.noise(t, seed, 30.5) * 0.012 * amp
+		rz = math.noise(t, seed, 40.5) * 0.012 * amp
+	end
+	apply(s, sx, sy, sz, rx, rz)
+	return s.anim ~= nil or s.jolt ~= nil
+end
+
+local function onHeartbeat()
+	local now = os.clock()
+	for s in active do
+		if not s.base.Parent or not step(s, now) then
+			active[s] = nil
+		end
+	end
+	if next(active) == nil and heartbeat then
+		heartbeat:Disconnect()
+		heartbeat = nil
+	end
+end
+
+local function activate(s)
+	active[s] = true
+	if not heartbeat then
+		heartbeat = RunService.Heartbeat:Connect(onHeartbeat)
+	end
+end
+
+local function startAnim(s, sink, tx, tz, dur, amp, ease, tiltEase)
+	s.seed = math.random() * 1000
+	local pose = s.pose
+	s.anim = {
+		from = { sink = pose.sink, tx = pose.tx, tz = pose.tz },
+		to = { sink = sink, tx = tx, tz = tz },
+		t0 = os.clock(), dur = dur, amp = amp,
+		ease = ease, tiltEase = tiltEase or ease,
+	}
+	activate(s)
+end
+
+local function addJolt(s, amp, dur)
+	local current = s.jolt
+	if current and current.amp * (1 - (os.clock() - current.t0) / current.dur) > amp then return end
+	s.seed = math.random() * 1000
+	s.jolt = { amp = amp, dur = dur, t0 = os.clock() }
+	activate(s)
+end
+
+local function setPose(s, sink, tx, tz)
+	s.anim, s.jolt = nil, nil
+	active[s] = nil
+	s.pose.sink, s.pose.tx, s.pose.tz = sink, tx, tz
+	apply(s, 0, 0, 0, 0, 0)
+end
+
+local function dust(s, count, sources)
+	if not nearCamera(s.pivot) then return end
+	for _ = 1, sources do
+		local att = Instance.new("Attachment")
+		att.Parent = Workspace.Terrain
+		att.WorldPosition = s.pivot + Vector3.new(rand(-s.footW / 2, s.footW / 2) * 0.8, 0.5, rand(-s.footD / 2, s.footD / 2) * 0.8)
+		local e = Instance.new("ParticleEmitter")
+		e.Texture = "rbxasset://textures/particles/smoke_main.dds"
+		e.Rate = 0
+		e.Lifetime = NumberRange.new(2, 4)
+		e.Speed = NumberRange.new(8, 26)
+		e.SpreadAngle = Vector2.new(75, 75)
+		e.EmissionDirection = Enum.NormalId.Top
+		e.Rotation = NumberRange.new(0, 360)
+		e.RotSpeed = NumberRange.new(-40, 40)
+		e.Drag = 2
+		e.Acceleration = Vector3.new(0, 1.5, 0)
+		e.Color = ColorSequence.new(Color3.fromRGB(155, 145, 130), Color3.fromRGB(105, 105, 105))
+		e.Size = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, s.dustScale * 0.4),
+			NumberSequenceKeypoint.new(1, s.dustScale * 1.6),
+		})
+		e.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.5),
+			NumberSequenceKeypoint.new(0.6, 0.75),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		e.Parent = att
+		e:Emit(count)
+		Debris:AddItem(att, 7)
+	end
+end
+
+local function throwChunks(s, count)
+	if not nearCamera(s.pivot) then return end
+	for _ = 1, count do
+		local chunk = Instance.new("Part")
+		chunk.Name = "CollapseChunk"
+		chunk.Size = Vector3.new(rand(0.8, 2.8), rand(0.8, 2.8), rand(0.8, 2.8))
+		chunk.Material = Enum.Material.CorrodedMetal
+		chunk.Color = s.base.Color
+		chunk.CanTouch = false
+		chunk.CanQuery = false
+		pcall(function() chunk.CollisionGroup = DEBRIS_GROUP end)
+		chunk.CFrame = CFrame.new(s.pivot + Vector3.new(rand(-s.footW / 2, s.footW / 2), rand(2, 15), rand(-s.footD / 2, s.footD / 2)))
+			* CFrame.Angles(rand(0, 6), rand(0, 6), rand(0, 6))
+		chunk.Parent = Workspace
+		chunk.AssemblyLinearVelocity = Vector3.new(rand(-1, 1), rand(0.4, 1.2), rand(-1, 1)).Unit * rand(18, 45)
+		chunk.AssemblyAngularVelocity = Vector3.new(rand(-8, 8), rand(-8, 8), rand(-8, 8))
+		local life = rand(2, 2.8)
+		task.delay(life - 1, function()
+			if chunk.Parent then TweenService:Create(chunk, TweenInfo.new(1), { Transparency = 1 }):Play() end
+		end)
+		Debris:AddItem(chunk, life)
+	end
+end
+
+local flickerToken = setmetatable({}, { __mode = "k" })
+
+local function flickerWindow(window, duration, litColor, material, color)
+	flickerToken[window] = (flickerToken[window] or 0) + 1
+	local mine = flickerToken[window]
+	task.spawn(function()
+		local stop = os.clock() + duration
+		while flickerToken[window] == mine and window.Parent and os.clock() < stop do
+			window.Material = Enum.Material.Neon
+			window.Color = math.random() < 0.5 and litColor or DARK
+			task.wait(0.03 + math.random() * 0.09)
+		end
+		if flickerToken[window] ~= mine or not window.Parent then return end
+		window.Material, window.Color = material, color
+	end)
+end
+
+local handlers = {}
+
+handlers.Sound = function(building)
+	local base = building and building:FindFirstChild("BuildingBase")
+	if base and nearCamera(base.Position) then playHitSound(base) end
+end
+
+handlers.Hit = function(building, hp)
+	local s = getState(building)
+	if not s then return end
+	addJolt(s, 1 + (100 - math.max(hp or 0, 0)) / 60, 0.45)
+	dust(s, 6, 1)
+end
+
+handlers.Half = function(building, fraction, angle, direction)
+	local s = getState(building)
+	if not s then return end
+	startAnim(s, s.base.Size.Y * fraction, angle * math.cos(direction), angle * math.sin(direction), 1.6, 1.8, easeInOut)
+	dust(s, 25, 2)
+end
+
+handlers.Destroy = function(building, direction, angle, useBaseSound)
+	local s = getState(building)
+	if not s then return end
+	s.epoch += 1
+	local epoch = s.epoch
+
+	local sound = s.base:FindFirstChildOfClass("Sound")
+	if useBaseSound and sound then
+		sound:Play()
+	elseif nearCamera(s.pivot) then
+		playOneShot(s.base, SFX_COLLAPSE, SFX_COLLAPSE_VOLUME, 12)
+	end
+
+	local pose = s.pose
+	startAnim(s, pose.sink, pose.tx, pose.tz, RUMBLE_TIME, 2.6, easeLinear)
+	dust(s, 20, 2)
+
+	task.delay(RUMBLE_TIME, function()
+		if s.epoch ~= epoch or not s.base.Parent then return end
+		startAnim(s, s.base.Size.Y, angle * math.cos(direction), angle * math.sin(direction), COLLAPSE_TIME, 3.4, easeCollapse, easeTilt)
+		dust(s, 35, 4)
+		task.spawn(function()
+			local t0 = os.clock()
+			while s.epoch == epoch and s.base.Parent and os.clock() - t0 < COLLAPSE_TIME do
+				throwChunks(s, 1)
+				task.wait(COLLAPSE_TIME / DEBRIS_CHUNKS)
+			end
+		end)
+		task.delay(COLLAPSE_TIME, function()
+			if s.epoch ~= epoch or not s.base.Parent then return end
+			dust(s, 80, 5)
+			addJolt(s, 5, 0.9)
+		end)
+	end)
+end
+
+handlers.Respawn = function(building)
+	local s = getState(building)
+	if not s then return end
+	s.epoch += 1
+	setPose(s, 0, 0, 0)
+	local sound = s.base:FindFirstChildOfClass("Sound")
+	if sound then sound:Stop() end
+end
+
+handlers.Flicker = function(building, windows)
+	local base = building and building:FindFirstChild("BuildingBase")
+	if not base or not nearCamera(base.Position) then return end
+	playOneShot(base, SFX_FLICKER, SFX_FLICKER_VOLUME, 4)
+	for _, entry in windows do
+		local window = entry[1]
+		if window and window.Parent then
+			flickerWindow(window, entry[2], entry[5], entry[3], entry[4])
+		end
+	end
+end
+
+remote.OnClientEvent:Connect(function(kind, ...)
+	local handler = handlers[kind]
+	if not handler then return end
+	local ok, err = pcall(handler, ...)
+	if not ok then warn("[BuildingFX] " .. tostring(kind) .. " failed: " .. tostring(err)) end
+end)
+
+local function snapToServerState(building)
+	local state = building:GetAttribute("FXState")
+	if state ~= "Half" and state ~= "Destroyed" then return end
+	if states[building] then return end
+	local s = getState(building)
+	if not s then return end
+	local angle = building:GetAttribute("FXAng") or 0
+	local direction = building:GetAttribute("FXDir") or 0
+	local fraction = state == "Destroyed" and 1 or (building:GetAttribute("FXFrac") or 0.5)
+	setPose(s, s.base.Size.Y * fraction, angle * math.cos(direction), angle * math.sin(direction))
+end
+
+local function track(inst)
+	if tracked[inst] or not inst:IsA("Model") or not inst.Name:lower():find("building") then return end
+	if not inst:FindFirstChild("BuildingBase") then return end
+	tracked[inst] = true
+	snapToServerState(inst)
+end
+
+task.spawn(function()
+	local map = Workspace:WaitForChild("Map")
+	for _, d in map:GetDescendants() do track(d) end
+	map.DescendantAdded:Connect(function(d)
+		if d:IsA("Model") then
+			task.wait(0.1)
+			track(d)
+		end
+	end)
+end)
+]]></ProtectedString>
+					</Properties>
 				</Item>
 			</Item>
 		</Item>

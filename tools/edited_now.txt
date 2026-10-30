@@ -1,1 +1,3 @@
 BeamCombat/ServerScriptService/framework/modules/Combat.lua
+BeamCombat/ServerScriptService/framework/modules/World.lua
+BeamCombat/StarterPlayer/StarterPlayerScripts/BuildingFX.client.lua

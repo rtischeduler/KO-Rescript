@@ -2,10 +2,8 @@ local World = {}
 
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
-local Debris = game:GetService("Debris")
 local PhysicsService = game:GetService("PhysicsService")
 local CollectionService = game:GetService("CollectionService")
-local TweenService = game:GetService("TweenService")
 local ReplicatedFirst = game:GetService("ReplicatedFirst")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local HolidayConfigs = require(ReplicatedStorage:WaitForChild("HolidayConfigs"))
@@ -15,23 +13,25 @@ local initialized = false
 local windowApi = {}
 local savedWindowState = setmetatable({}, { __mode = "k" })
 
-local SFX_COLLAPSE = "rbxassetid://127181227297856"
-local SFX_BUILDING_HITS = { "rbxassetid://138817960173178", "rbxassetid://104781713803672" }
-local SFX_FLICKER = "rbxassetid://5948753051"
-local SFX_COLLAPSE_VOLUME = 1
-local SFX_HIT_VOLUME = 0.8
-local SFX_FLICKER_VOLUME = 0.2
+local buildingRemote = nil
 
-local function playOneShot(parent, soundId, volume, lifetime)
-	if not parent or not parent.Parent then return end
-	local s = Instance.new("Sound")
-	s.SoundId = soundId
-	s.Volume = volume
-	s.RollOffMaxDistance = 400
-	s.Parent = parent
-	s:Play()
-	Debris:AddItem(s, lifetime or 8)
+local function fireBuildingFX(...)
+	if buildingRemote then buildingRemote:FireAllClients(...) end
 end
+
+local function initBuildingRemote()
+	buildingRemote = ReplicatedStorage:FindFirstChild("BuildingFX")
+	if buildingRemote and not buildingRemote:IsA("RemoteEvent") then
+		buildingRemote:Destroy()
+		buildingRemote = nil
+	end
+	if not buildingRemote then
+		buildingRemote = Instance.new("RemoteEvent")
+		buildingRemote.Name = "BuildingFX"
+		buildingRemote.Parent = ReplicatedStorage
+	end
+end
+
 
 local DEBRIS_GROUP = "CollapseDebris"
 local CHARACTER_GROUP = "Characters"
@@ -82,14 +82,6 @@ end
 local function maxAxis(part)
 	return math.max(part.Size.X, part.Size.Y, part.Size.Z) / 2
 end
-
-local function easeLinear(p) return p end
-local function easeInOut(p)
-	if p < 0.5 then return 2 * p * p end
-	return 1 - (-2 * p + 2) ^ 2 / 2
-end
-local function easeCollapse(p) return p ^ 1.7 end
-local function easeTilt(p) return p ^ 1.6 end
 
 local function initDayNight()
 	local DAY_LENGTH_MIN = 30
@@ -411,6 +403,24 @@ local function initWindowLights()
 		end)
 	end
 
+	local function finalProps(window, final)
+		if final == "lit" then return Enum.Material.Neon, colorOf(window) end
+		if final == "dark" then return Enum.Material.Neon, DARK end
+		local s = saved[window]
+		if s then return s.Material, s.Color end
+		return Enum.Material.Glass, DARK
+	end
+
+	local function scheduleFinal(window, duration, material, color)
+		if not window.Parent then return end
+		winToken[window] = (winToken[window] or 0) + 1
+		local mine = winToken[window]
+		task.delay(duration, function()
+			if winToken[window] ~= mine or not window.Parent then return end
+			window.Material, window.Color = material, color
+		end)
+	end
+
 	local function ensureLight(base)
 		if lights[base] or pending[base] or not base.Parent then return end
 		pending[base] = true
@@ -554,9 +564,8 @@ local function initWindowLights()
 	windowApi.flickerBuilding = function(building, duration, ruined)
 		local list = windowsOf(building)
 		if #list == 0 then return end
-		local sfxPart = building:FindFirstChild("BuildingBase") or list[1]
-		playOneShot(sfxPart, SFX_FLICKER, SFX_FLICKER_VOLUME, 4)
 		local darkCount = #list == 1 and 1 or math.random(1, math.min(#list, 3))
+		local payload = {}
 		for i, w in shuffle(list) do
 			local final
 			if ruined then
@@ -568,8 +577,13 @@ local function initWindowLights()
 			else
 				final = windowsOn and "lit" or "restore"
 			end
-			flickerWindow(w, duration * (0.7 + math.random() * 0.3), final)
+			local windowDuration = duration * (0.7 + math.random() * 0.3)
+			capture(w)
+			local material, color = finalProps(w, final)
+			scheduleFinal(w, windowDuration, material, color)
+			table.insert(payload, { w, windowDuration, material, color, colorOf(w) })
 		end
+		fireBuildingFX("Flicker", building, payload)
 	end
 
 	windowApi.resetBuilding = function(building)
@@ -719,7 +733,6 @@ local function initBuilding()
 	local RUMBLE_TIME = 0.8
 	local COLLAPSE_TIME = 2.6
 	local RESPAWN_DELAY = 60
-	local DEBRIS_CHUNKS = 9
 
 	local touchingParts = {}
 	local hitboxOwners = {}
@@ -763,16 +776,14 @@ local function initBuilding()
 		return attacker and Players:FindFirstChild(attacker) or nil
 	end
 
+	local hitSoundTemplate = script:FindFirstChild("HitSound")
+	if hitSoundTemplate and buildingRemote and not buildingRemote:FindFirstChild("HitSound") then
+		hitSoundTemplate:Clone().Parent = buildingRemote
+	end
+
 	local function playHitSound(base)
-		local template = script:FindFirstChild("HitSound")
-		if template and base and base.Parent then
-			local s = template:Clone()
-			s.Parent = base
-			s:Play()
-			Debris:AddItem(s, 5)
-		end
 		if base and base.Parent then
-			playOneShot(base, SFX_BUILDING_HITS[math.random(#SFX_BUILDING_HITS)], SFX_HIT_VOLUME, 6)
+			fireBuildingFX("Sound", base.Parent)
 		end
 	end
 
@@ -886,153 +897,14 @@ local function initBuilding()
 			end
 		end
 
-		local parts, original, origCFs = {}, {}, {}
-		local minY = math.huge
+		local parts, original = {}, {}
 		for _, d in building:GetDescendants() do
 			if d:IsA("BasePart") and not d.Name:lower():find("leftover") then
 				table.insert(parts, d)
-				table.insert(origCFs, d.CFrame)
 				original[d] = { Material = d.Material, Color = d.Color, CanCollide = d.CanCollide }
-				minY = math.min(minY, d.Position.Y - d.Size.Y / 2)
 				if d.Name:lower():find("window", 1, true) and not savedWindowState[d] then
 					savedWindowState[d] = { Material = d.Material, Color = d.Color }
 				end
-			end
-		end
-
-		local basePos = base.Position
-		local pivot = Vector3.new(basePos.X, minY, basePos.Z)
-		local footW, footD = base.Size.X, base.Size.Z
-		local shakeScale = math.clamp(maxAxis(base) / 25, 0.4, 2.5)
-		local dustScale = math.clamp(math.max(footW, footD) / 8, 3, 14)
-
-		local pose = { sink = 0, tx = 0, tz = 0 }
-		local anim, jolt = nil, nil
-		local rendering = false
-		local seed = math.random() * 1000
-		local cframes = table.create(#parts)
-
-		local function apply(sx, sy, sz, rx, rz)
-			local rot = CFrame.Angles(pose.tx + rx, 0, pose.tz + rz)
-			local offset = CFrame.new(sx, sy - pose.sink, sz) * CFrame.new(pivot) * rot * CFrame.new(-pivot)
-			for i = 1, #parts do cframes[i] = offset * origCFs[i] end
-			pcall(workspace.BulkMoveTo, workspace, parts, cframes, Enum.BulkMoveMode.FireCFrameChanged)
-		end
-
-		local function render()
-			if rendering then return end
-			rendering = true
-			task.spawn(function()
-				while base.Parent do
-					local now = os.clock()
-					local amp = 0
-					if anim then
-						local p = math.clamp((now - anim.t0) / anim.dur, 0, 1)
-						local e = anim.ease(p)
-						local te = anim.tiltEase(p)
-						pose.sink = lerp(anim.from.sink, anim.to.sink, e)
-						pose.tx = lerp(anim.from.tx, anim.to.tx, te)
-						pose.tz = lerp(anim.from.tz, anim.to.tz, te)
-						amp = anim.amp * math.sin(math.pi * p ^ 0.6)
-						if p >= 1 then anim = nil end
-					end
-					if jolt then
-						local jp = (now - jolt.t0) / jolt.dur
-						if jp >= 1 then
-							jolt = nil
-						else
-							amp += jolt.amp * (1 - jp) ^ 2
-						end
-					end
-					local sx, sy, sz, rx, rz = 0, 0, 0, 0, 0
-					if amp > 0.001 then
-						local t = now * 24
-						local ts = amp * shakeScale
-						sx = math.noise(t, seed, 0.5) * 2 * ts
-						sy = math.noise(t, seed, 10.5) * ts
-						sz = math.noise(t, seed, 20.5) * 2 * ts
-						rx = math.noise(t, seed, 30.5) * 0.012 * amp
-						rz = math.noise(t, seed, 40.5) * 0.012 * amp
-					end
-					apply(sx, sy, sz, rx, rz)
-					if not anim and not jolt then break end
-					task.wait(1 / 30)
-				end
-				rendering = false
-			end)
-		end
-
-		local function startAnim(sink, tx, tz, dur, amp, ease, tiltEase)
-			seed = math.random() * 1000
-			anim = {
-				from = { sink = pose.sink, tx = pose.tx, tz = pose.tz },
-				to = { sink = sink, tx = tx, tz = tz },
-				t0 = os.clock(), dur = dur, amp = amp,
-				ease = ease, tiltEase = tiltEase or ease,
-			}
-			render()
-		end
-
-		local function addJolt(amp, dur)
-			if jolt and jolt.amp * (1 - (os.clock() - jolt.t0) / jolt.dur) > amp then return end
-			seed = math.random() * 1000
-			jolt = { amp = amp, dur = dur, t0 = os.clock() }
-			render()
-		end
-
-		local function dust(count, sources)
-			for _ = 1, sources do
-				local att = Instance.new("Attachment")
-				att.Parent = workspace.Terrain
-				att.WorldPosition = pivot + Vector3.new(rand(-footW / 2, footW / 2) * 0.8, 0.5, rand(-footD / 2, footD / 2) * 0.8)
-				local e = Instance.new("ParticleEmitter")
-				e.Texture = "rbxasset://textures/particles/smoke_main.dds"
-				e.Rate = 0
-				e.Lifetime = NumberRange.new(2, 4)
-				e.Speed = NumberRange.new(8, 26)
-				e.SpreadAngle = Vector2.new(75, 75)
-				e.EmissionDirection = Enum.NormalId.Top
-				e.Rotation = NumberRange.new(0, 360)
-				e.RotSpeed = NumberRange.new(-40, 40)
-				e.Drag = 2
-				e.Acceleration = Vector3.new(0, 1.5, 0)
-				e.Color = ColorSequence.new(Color3.fromRGB(155, 145, 130), Color3.fromRGB(105, 105, 105))
-				e.Size = NumberSequence.new({
-					NumberSequenceKeypoint.new(0, dustScale * 0.4),
-					NumberSequenceKeypoint.new(1, dustScale * 1.6),
-				})
-				e.Transparency = NumberSequence.new({
-					NumberSequenceKeypoint.new(0, 0.5),
-					NumberSequenceKeypoint.new(0.6, 0.75),
-					NumberSequenceKeypoint.new(1, 1),
-				})
-				e.Parent = att
-				e:Emit(count)
-				Debris:AddItem(att, 7)
-			end
-		end
-
-		local function throwChunks(count)
-			for _ = 1, count do
-				local chunk = Instance.new("Part")
-				chunk.Name = "CollapseChunk"
-				chunk.Size = Vector3.new(rand(0.8, 2.8), rand(0.8, 2.8), rand(0.8, 2.8))
-				chunk.Material = Enum.Material.CorrodedMetal
-				chunk.Transparency = 0
-				chunk.Color = base.Color
-				chunk.CanTouch = false
-				chunk.CanQuery = false
-				if debrisReady then chunk.CollisionGroup = DEBRIS_GROUP end
-				chunk.CFrame = CFrame.new(pivot + Vector3.new(rand(-footW / 2, footW / 2), rand(2, 15), rand(-footD / 2, footD / 2)))
-					* CFrame.Angles(rand(0, 6), rand(0, 6), rand(0, 6))
-				chunk.Parent = workspace
-				chunk.AssemblyLinearVelocity = Vector3.new(rand(-1, 1), rand(0.4, 1.2), rand(-1, 1)).Unit * rand(18, 45)
-				chunk.AssemblyAngularVelocity = Vector3.new(rand(-8, 8), rand(-8, 8), rand(-8, 8))
-				local life = rand(2, 2.8)
-				task.delay(life - 1, function()
-					if chunk.Parent then TweenService:Create(chunk, TweenInfo.new(1), { Transparency = 1 }):Play() end
-				end)
-				Debris:AddItem(chunk, life)
 			end
 		end
 
@@ -1044,27 +916,32 @@ local function initBuilding()
 			end
 		end
 
+		local function setFxState(state, direction, angle, fraction)
+			building:SetAttribute("FXState", state)
+			building:SetAttribute("FXDir", direction)
+			building:SetAttribute("FXAng", angle)
+			building:SetAttribute("FXFrac", fraction)
+		end
+
 		local halfTriggered = false
 		local lastFlicker = 0
 		HP.Value = 100
 		touchingParts[building] = {}
+		setFxState("Intact", nil, nil, nil)
 
 		local function respawn()
 			if not base.Parent then return end
-			anim, jolt = nil, nil
-			pose.sink, pose.tx, pose.tz = 0, 0, 0
-			apply(0, 0, 0, 0, 0)
 			HP.Value = 100
 			halfTriggered = false
 			for _, l in leftovers do l.Transparency, l.CanCollide = 1, false end
 			setLeftoverEffects(false)
-			local sound = base:FindFirstChildOfClass("Sound")
-			if sound then sound:Stop() end
 			for _, p in parts do
 				local o = original[p]
 				p.Material, p.Color, p.CanCollide = o.Material, o.Color, o.CanCollide
 			end
 			destroyed[building] = nil
+			setFxState("Intact", nil, nil, nil)
+			fireBuildingFX("Respawn", building)
 			if windowApi.resetBuilding then windowApi.resetBuilding(building) end
 		end
 
@@ -1073,15 +950,13 @@ local function initBuilding()
 			destroyed[building] = true
 
 			for _, p in parts do p.Material, p.CanCollide = Enum.Material.CorrodedMetal, false end
-			local sound = base:FindFirstChildOfClass("Sound")
-			if sound and math.random() < 0.5 then
-				sound:Play()
-			else
-				playOneShot(base, SFX_COLLAPSE, SFX_COLLAPSE_VOLUME, 12)
-			end
 
-			startAnim(pose.sink, pose.tx, pose.tz, RUMBLE_TIME, 2.6, easeLinear)
-			dust(20, 2)
+			local direction = math.random() * math.pi * 2
+			local angle = math.rad(rand(10, 22))
+			local useBaseSound = base:FindFirstChildOfClass("Sound") ~= nil and math.random() < 0.5
+			setFxState("Destroyed", direction, angle, 1)
+			fireBuildingFX("Destroy", building, direction, angle, useBaseSound)
+
 			if windowApi.flickerBuilding then
 				windowApi.flickerBuilding(building, RUMBLE_TIME + COLLAPSE_TIME, true)
 			end
@@ -1091,22 +966,8 @@ local function initBuilding()
 				for _, l in leftovers do l.Transparency, l.CanCollide = 0, false end
 				setLeftoverEffects(true)
 
-				local ang = math.rad(rand(10, 22))
-				local dir = math.random() * math.pi * 2
-				startAnim(base.Size.Y, ang * math.cos(dir), ang * math.sin(dir), COLLAPSE_TIME, 3.4, easeCollapse, easeTilt)
-				dust(35, 4)
-				task.spawn(function()
-					local t0 = os.clock()
-					while base.Parent and os.clock() - t0 < COLLAPSE_TIME do
-						throwChunks(1)
-						task.wait(COLLAPSE_TIME / DEBRIS_CHUNKS)
-					end
-				end)
-
 				task.delay(COLLAPSE_TIME, function()
 					if not base.Parent then return end
-					dust(80, 5)
-					addJolt(5, 0.9)
 					task.delay(RESPAWN_DELAY, respawn)
 				end)
 			end)
@@ -1115,18 +976,18 @@ local function initBuilding()
 		local function halfCollapse()
 			halfTriggered = true
 			for _, p in parts do p.Material = Enum.Material.CorrodedMetal end
-			local ang = math.rad(rand(3, 8))
-			local dir = math.random() * math.pi * 2
-			startAnim(base.Size.Y * rand(0.25, 0.75), ang * math.cos(dir), ang * math.sin(dir), 1.6, 1.8, easeInOut)
-			dust(25, 2)
+			local fraction = rand(0.25, 0.75)
+			local angle = math.rad(rand(3, 8))
+			local direction = math.random() * math.pi * 2
+			setFxState("Half", direction, angle, fraction)
+			fireBuildingFX("Half", building, fraction, angle, direction)
 		end
 
 		local function applyDamage(amount, rewardsByPlayer)
 			if HP.Value <= 0 or destroyed[building] then return false end
 			HP.Value -= amount
 			if HP.Value <= 50 and not halfTriggered then halfCollapse() end
-			addJolt(1 + (100 - math.max(HP.Value, 0)) / 60, 0.45)
-			dust(6, 1)
+			fireBuildingFX("Hit", building, HP.Value)
 			if windowApi.flickerBuilding and os.clock() - lastFlicker > 0.35 then
 				lastFlicker = os.clock()
 				windowApi.flickerBuilding(building, 0.45, false)
@@ -1327,6 +1188,7 @@ end
 function World.Init()
 	if initialized then return end
 	initialized = true
+	initBuildingRemote()
 	task.spawn(initDayNight)
 	task.spawn(initWindowLights)
 	task.spawn(initRain)
