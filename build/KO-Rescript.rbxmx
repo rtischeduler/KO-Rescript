@@ -1022,6 +1022,12 @@ local function initAttackHandler()
 		end
 	end
 
+	local FOUR_SECOND_DORSAL_CHARGE = {
+		["GODZILLA 2014"] = true,
+		["TITANUS GOJIRA"] = true,
+		["FROSTBITE GODZILLA"] = true,
+	}
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -1031,6 +1037,10 @@ local function initAttackHandler()
 
 		local duration = remote:GetAttribute("BeamDuration") or remote:GetAttribute("HitboxDuration") or 4.7
 		local chargeTime = remote:GetAttribute("BeamChargeTime") or 0
+		local kaijuValue = character:FindFirstChild("Kaiju")
+		if kaijuValue and FOUR_SECOND_DORSAL_CHARGE[kaijuValue.Value] then
+			chargeTime = 4
+		end
 
 		playAttackAnimation(character, getAnimName(remoteName))
 
