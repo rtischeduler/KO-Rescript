@@ -204,10 +204,18 @@ local function stopAnimations()
 	end
 end
 
+local function groundMoveTrack()
+	local canFly = character:FindFirstChild("canFly")
+	if sprintOn and Sprint and not (canFly and canFly.Value == true) then
+		return Sprint
+	end
+	return Walk
+end
+
 local function refreshGroundAnimation()
 	stopAnimations()
 	if currentAnim == "Walk" then
-		play(sprintOn and Sprint or Walk)
+		play(groundMoveTrack())
 	else
 		play(Idle)
 	end
@@ -507,6 +515,8 @@ local function stopManualFly()
 end
 
 local function updateLand(now, wet)
+	if Fly and Fly.IsPlaying then Fly:Stop(0) end
+	if Swim and Swim.IsPlaying and not wet then Swim:Stop(0) end
 	if now >= landLockUntil then
 		local velocity = rootPart.AssemblyLinearVelocity
 		local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
