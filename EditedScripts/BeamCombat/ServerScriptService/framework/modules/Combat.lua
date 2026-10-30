@@ -74,6 +74,14 @@ local function giveXP(player, minXP, maxXP, at, isKill)
 	end
 end
 
+local COMBAT_DURATION = 10
+
+local function markInCombat(player)
+	if player then
+		player:SetAttribute("CombatUntil", workspace:GetServerTimeNow() + COMBAT_DURATION)
+	end
+end
+
 local function setCreator(humanoid, player)
 	local creator = humanoid:FindFirstChild("creator")
 	if not creator then
@@ -243,6 +251,9 @@ local function initCombat()
 							return
 						end
 					end
+
+					markInCombat(attacker)
+					markInCombat(Players:GetPlayerFromCharacter(character))
 
 					local log = damageLog[character]
 					if not log then

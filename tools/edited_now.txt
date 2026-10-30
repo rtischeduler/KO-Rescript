@@ -1,2 +1,2 @@
-BeamCombat/ServerScriptService/framework/modules/World.lua
-BeamCombat/StarterPlayer/StarterPlayerScripts/BuildingFX.client.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua
+BeamCombat/StarterGui/GameGui/MainFrame/Interface/Bars/Menu/MenuScript.client.lua
