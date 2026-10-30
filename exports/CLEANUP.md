@@ -1,0 +1,334 @@
+# Cleanup report
+
+Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
+
+- scripts: 972
+- events: 399
+- modules never required: 2
+- modules maybe loaded dynamically: 21
+- scripts that never run: 385
+- empty running scripts: 302
+- events never referenced: 10
+- events maybe fired dynamically: 54
+- unused trees holding dead scripts: 14
+
+## Events never referenced (10)
+
+- `ReplicatedStorage/AthosDaiju`
+- `ReplicatedStorage/BuyRelic`
+- `ReplicatedStorage/CharDespawn`
+- `ReplicatedStorage/CharSpawn`
+- `ReplicatedStorage/DataRemote`
+- `ReplicatedStorage/GetMousePosition`
+- `ReplicatedStorage/MakeNest`
+- `ReplicatedStorage/ReturnMenu`
+- `ReplicatedStorage/SkinMorph`
+- `ReplicatedStorage/TankMorph`
+
+## ModuleScripts never required (2)
+
+- `TestService/LuauLSP_Settings`
+- `Workspace/HD Admin/READ_ME`
+
+## Trees holding scripts that never run (14)
+
+- `Lighting/mappiece (206 dead scripts, referenced by: nothing)`
+- `Lighting/KaijusUnused (93 dead scripts, referenced by: Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript, ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript, ServerScriptService/framework/modules/Data)`
+- `Lighting/GUIs (39 dead scripts, referenced by: nothing)`
+- `ReplicatedStorage/oldMenu (23 dead scripts, referenced by: StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu)`
+- `ReplicatedStorage/MorphSupplies (9 dead scripts, referenced by: Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript, ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript, ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/ClientMorph, ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/ClientMorph, ServerScriptService/SecurityPolicy)`
+- `ReplicatedStorage/FINAL WARS GODZILLA (3 dead scripts, referenced by: Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript, ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
+- `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript, ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
+- `Lighting/BurningHeiseiBlast (2 dead scripts, referenced by: nothing)`
+- `Lighting/GO (2 dead scripts, referenced by: nothing)`
+- `Lighting/BlastHitbox (1 dead scripts, referenced by: nothing)`
+- `Lighting/Bomb1 (1 dead scripts, referenced by: nothing)`
+- `Lighting/Bomb2 (1 dead scripts, referenced by: nothing)`
+- `Lighting/Rocket (1 dead scripts, referenced by: nothing)`
+- `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/ClientMorph, ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/LoadingScript, ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/ClientMorph, ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/LoadingScript)`
+
+## Scripts that never run (385)
+
+- `Lighting/BlastHitbox/BlastEffect (Script, sits in a container where it never runs)`
+- `Lighting/Bomb1/RocketScript (Script, disabled)`
+- `Lighting/Bomb2/RocketScript (Script, disabled)`
+- `Lighting/BurningHeiseiBlast/BlastScript (Script, disabled)`
+- `Lighting/BurningHeiseiBlast/BlastScript2 (Script, disabled)`
+- `Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/LocalControl (LocalScript, disabled)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/BuyXP/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/LocalRecolor (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/RecolorScript (Script, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/LocalRecolor (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/RecolorScript (Script, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/LocalRecolor (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/RecolorScript (Script, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/LocalRecolor (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/RecolorScript (Script, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/LocalRecolor (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/RecolorScript (Script, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/LocalRecolor (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/RecolorScript (Script, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/LightingFX/FX/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Mobile/MobileScript (LocalScript, disabled)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Recolor/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Relic/No/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/Relic/Yes/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/ResetStats/FX/No/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Interface/ResetStats/FX/Yes/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/MainFrame/Loading/TextLabel/Fade (LocalScript, disabled)`
+- `Lighting/GUIs/GameGui/Music/MusicScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/GameGui/UIScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/Menu/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/BuyGCells/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/BuyGCells/GCells/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/HTP/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/MoreGames/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/MoreGames/Britannic Tragedy/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/MoreGames/Kaiju Simulator/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/MoreGames/Titanic Tragedy/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/Selection/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/Skins/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/Store/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/Store/GCells/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/MainFrame/Store/Skins/LocalScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/GUIs/oldMenu/UIScript (LocalScript, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/Behemoth/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Behemoth/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Behemoth/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/Behemoth/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Biollante/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Biollante/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Biollante/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/Biollante/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/FinalWars/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/FinalWars/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/FinalWars/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/FinalWars/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/FireGodzilla/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/FireGodzilla/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/FireGodzilla/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/FireGodzilla/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/FireGodzilla/DisableSwim (LocalScript, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/FireGodzilla/ROAR1 (LocalScript, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/FireGodzilla/ROAR2 (LocalScript, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/FireGodzilla/attack2 (LocalScript, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/FireGodzilla/attack3 (LocalScript, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Attack/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Attack3/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Beam/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
+- `Lighting/KaijusUnused/Human/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Human/CharacterScripts/Control/LocalScript (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Human/CharacterScripts/LocalControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Human/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/KamataKun/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/KamataKun/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/KamataKun/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/KamataKun/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/Fly/FlyControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/Fly/FlyControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/Fly/FlyControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/FlyControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/OldFire/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/OldFire/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/OldFire/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/OldFire/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/Fly/FlyControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Shin/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Shin/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Shin/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/Shin/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Attack/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Beam/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript (Script, disabled)`
+- `Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
+- `Lighting/KaijusUnused/Tank/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/Tank/CharacterScripts/LocalControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/Tank/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/VolcanicBio/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/VolcanicBio/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/VolcanicBio/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/VolcanicBio/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/KaijusUnused/oldFrozen/CharacterScripts/Anim (LocalScript, disabled)`
+- `Lighting/KaijusUnused/oldFrozen/CharacterScripts/ChargeScript (Script, disabled)`
+- `Lighting/KaijusUnused/oldFrozen/CharacterScripts/ProgressManager (Script, disabled)`
+- `Lighting/KaijusUnused/oldFrozen/CharacterScripts/SwimControl (LocalScript, disabled)`
+- `Lighting/Rocket/RocketScript (Script, disabled)`
+- `Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x34
+- `Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x62
+- `Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x36
+- `Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x22
+- `Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x20
+- `Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x22
+- `Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding (Script, sits in a container where it never runs)` x10
+- `ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack/ServerScript (Script, disabled)`
+- `ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript (Script, disabled)`
+- `ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript (Script, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/ANGUIRUS [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/LocalControl (LocalScript, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/ProgressManager (Script, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/F16C [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
+- `ReplicatedStorage/MorphSupplies/Morphs/SHIN FORM 3/CharacterScripts/Anim (LocalScript, disabled)`
+- `ReplicatedStorage/oldMenu/CameraHandler (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/BuyGCells/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/BuyGCells/GCells/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/HTP/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/MainMenu/Classic/TeleportScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/MainMenu/Sandbox/TeleportScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/MoreGames/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/MoreGames/Britannic Tragedy/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/MoreGames/Kaiju Simulator/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/MoreGames/Titanic Tragedy/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Selection/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Selection/CharacterSelectionScript (Script, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/ClientMorph (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/LoadingScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Skins/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Skins/ScrollWindow/SkinHandler (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/ClientMorph (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/LoadingScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Store/Back/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Store/GCells/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/MainFrame/Store/Skins/LocalScript (LocalScript, sits in a container where it never runs)`
+- `ReplicatedStorage/oldMenu/UIScript (LocalScript, sits in a container where it never runs)`
+- `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript (Script, disabled)`
+- `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript (Script, disabled)`
+- `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript (Script, disabled)`
+- `StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript (LocalScript, disabled)`
+
+## Empty running scripts (302)
+
+- `StarterGui/GameGui/MainFrame/Interface/BuyXP/LocalScript`
+- `StarterGui/GameGui/MainFrame/Interface/Relic/No/LocalScript`
+- `StarterGui/GameGui/MainFrame/Interface/Relic/Yes/LocalScript`
+- `StarterGui/GameGui/MainFrame/Interface/ResetStats/FX/Yes/LocalScript`
+- `StarterGui/NEWMenu/CameraHandler`
+- `StarterPlayer/StarterPlayerScripts/RbxCharacterSounds`
+- `Workspace/Map/Building1Destroyable/Stats/DestroyBuilding` x45
+- `Workspace/Map/Building2Destroyable/Stats/DestroyBuilding` x79
+- `Workspace/Map/Building3Destroyable/Stats/DestroyBuilding` x56
+- `Workspace/Map/Building4Destroy/Stats/DestroyBuilding` x32
+- `Workspace/Map/Building5Destroy/Stats/DestroyBuilding` x41
+- `Workspace/Map/Building6Destroyable/Stats/DestroyBuilding` x32
+- `Workspace/Map/Building7Destroy/Stats/DestroyBuilding` x11
+
+## Modules maybe loaded dynamically (check first) (21)
+
+- `Chat/ChatModules/ChatCommandsTeller`
+- `Chat/ChatModules/ChatFloodDetector`
+- `Chat/ChatModules/ChatMessageValidator`
+- `Chat/ChatModules/ExtraDataInitializer`
+- `Chat/ChatModules/FriendJoinNotifier`
+- `Chat/ChatModules/PrivateMessaging`
+- `Chat/ChatModules/TeamChat`
+- `Chat/ClientChatModules/CommandModules/ClearMessages`
+- `Chat/ClientChatModules/CommandModules/DeveloperConsole`
+- `Chat/ClientChatModules/CommandModules/GetVersion`
+- `Chat/ClientChatModules/CommandModules/SwallowGuestChat`
+- `Chat/ClientChatModules/CommandModules/SwitchChannel`
+- `Chat/ClientChatModules/MessageCreatorModules/DefaultChatMessage`
+- `Chat/ClientChatModules/MessageCreatorModules/MeCommandMessage`
+- `Chat/ClientChatModules/MessageCreatorModules/SetCoreMessage`
+- `Chat/ClientChatModules/MessageCreatorModules/SystemMessage`
+- `Chat/ClientChatModules/MessageCreatorModules/WhisperMessage`
+- `ReplicatedStorage/Knit/Input`
+- `ReplicatedStorage/Knit/_Index/evaera_promise@4.0.0/promise/init.spec`
+- `ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/Streamable.spec`
+- `ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.spec`
+
+## Events maybe fired dynamically (check first) (54)
+
+- `Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/Biollante/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Biollante/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/FinalWars/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/FinalWars/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/FireGodzilla/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/FireGodzilla/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/KamataKun/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/KamataKun/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Mothra/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/OldFire/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/OldFire/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/Shin/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Shin/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/SprintEvent`
+- `Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/WalkEvent`
+- `Lighting/KaijusUnused/VolcanicBio/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/VolcanicBio/CharacterScripts/AnimEvents/StepSoundEvent`
+- `Lighting/KaijusUnused/oldFrozen/CharacterScripts/AnimEvents/IdleEvent`
+- `Lighting/KaijusUnused/oldFrozen/CharacterScripts/AnimEvents/StepSoundEvent`
+- `ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/AnimEvents/IdleEvent`
+- `ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/AnimEvents/SprintEvent`
+- `ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/AnimEvents/WalkEvent`
+- `ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/CharacterScripts/AnimEvents/IdleEvent`
+- `ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/CharacterScripts/AnimEvents/StepSoundEvent`

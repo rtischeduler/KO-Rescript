@@ -1,0 +1,2444 @@
+{
+  "totals": {
+    "scripts": 972,
+    "events": 399,
+    "modules_never_required": 2,
+    "modules_maybe_loaded_dynamically": 21,
+    "scripts_that_never_run": 385,
+    "empty_running_scripts": 302,
+    "events_never_referenced": 10,
+    "events_maybe_fired_dynamically": 54,
+    "unused_trees_holding_dead_scripts": 14
+  },
+  "safe_to_delete": {
+    "events_never_referenced": [
+      "ReplicatedStorage/AthosDaiju",
+      "ReplicatedStorage/BuyRelic",
+      "ReplicatedStorage/CharDespawn",
+      "ReplicatedStorage/CharSpawn",
+      "ReplicatedStorage/DataRemote",
+      "ReplicatedStorage/GetMousePosition",
+      "ReplicatedStorage/MakeNest",
+      "ReplicatedStorage/ReturnMenu",
+      "ReplicatedStorage/SkinMorph",
+      "ReplicatedStorage/TankMorph"
+    ],
+    "modules_never_required": [
+      "TestService/LuauLSP_Settings",
+      "Workspace/HD Admin/READ_ME"
+    ],
+    "scripts_that_never_run": [
+      {
+        "path": "Lighting/BlastHitbox/BlastEffect",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/Bomb1/RocketScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/Bomb2/RocketScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/BurningHeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/BurningHeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/LocalControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/BuyXP/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/LocalRecolor",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/RecolorScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/LocalRecolor",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/RecolorScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/LocalRecolor",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/RecolorScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/LocalRecolor",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/RecolorScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/LocalRecolor",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/RecolorScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/LocalRecolor",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/RecolorScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/LightingFX/FX/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Mobile/MobileScript",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Recolor/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Relic/No/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Relic/Yes/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/ResetStats/FX/No/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Interface/ResetStats/FX/Yes/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/MainFrame/Loading/TextLabel/Fade",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/Music/MusicScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/GameGui/UIScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/Menu/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/BuyGCells/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/BuyGCells/GCells/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/HTP/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/MoreGames/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/MoreGames/Britannic Tragedy/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/MoreGames/Kaiju Simulator/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/MoreGames/Titanic Tragedy/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/Selection/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/Skins/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/Store/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/Store/GCells/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/MainFrame/Store/Skins/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/GUIs/oldMenu/UIScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Behemoth/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Behemoth/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Behemoth/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Behemoth/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Biollante/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Biollante/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Biollante/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Biollante/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FinalWars/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FinalWars/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FinalWars/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FinalWars/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/DisableSwim",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/ROAR1",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/ROAR2",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/attack2",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/FireGodzilla/attack3",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Attack/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Attack3/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar1/Roar1Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar2/Roar2Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Human/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Human/CharacterScripts/Control/LocalScript",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Human/CharacterScripts/LocalControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Human/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KamataKun/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KamataKun/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KamataKun/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KamataKun/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/Fly/FlyControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/Fly/FlyControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mosura/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mosura/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mosura/CharacterScripts/Fly/FlyControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mosura/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mosura/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mothra/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mothra/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mothra/CharacterScripts/FlyControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mothra/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Mothra/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/OldFire/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/OldFire/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/OldFire/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/OldFire/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Rodan/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Rodan/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Rodan/CharacterScripts/Fly/FlyControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Rodan/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Rodan/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Shin/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Shin/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Shin/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Shin/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Attack/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1/Roar1Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2/Roar2Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Tank/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Tank/CharacterScripts/LocalControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/Tank/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/VolcanicBio/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/VolcanicBio/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/VolcanicBio/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/VolcanicBio/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/oldFrozen/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/oldFrozen/CharacterScripts/ChargeScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/oldFrozen/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/KaijusUnused/oldFrozen/CharacterScripts/SwimControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/Rocket/RocketScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building1Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building2Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building3Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building4Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building5Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building6Destroyable/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "Lighting/mappiece/Building7Destroy/Stats/DestroyBuilding",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/ANGUIRUS [FREE]/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/LocalControl",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/ProgressManager",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/F16C [FREE]/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies/Morphs/SHIN FORM 3/CharacterScripts/Anim",
+        "class": "LocalScript",
+        "reason": "disabled"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/CameraHandler",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/BuyGCells/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/BuyGCells/GCells/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/HTP/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/MainMenu/Classic/TeleportScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/MainMenu/Sandbox/TeleportScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/MoreGames/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/MoreGames/Britannic Tragedy/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/MoreGames/Kaiju Simulator/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/MoreGames/Titanic Tragedy/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Selection/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Selection/CharacterSelectionScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/ClientMorph",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/LoadingScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Skins/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Skins/ScrollWindow/SkinHandler",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/ClientMorph",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/LoadingScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Store/Back/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Store/GCells/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/MainFrame/Store/Skins/LocalScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu/UIScript",
+        "class": "LocalScript",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript",
+        "class": "LocalScript",
+        "reason": "disabled"
+      }
+    ],
+    "trees_holding_dead_scripts": [
+      {
+        "path": "Lighting/mappiece",
+        "scripts_inside": 206,
+        "name_referenced_by": []
+      },
+      {
+        "path": "Lighting/KaijusUnused",
+        "scripts_inside": 93,
+        "name_referenced_by": [
+          "Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript",
+          "ServerScriptService/framework/modules/Data"
+        ]
+      },
+      {
+        "path": "Lighting/GUIs",
+        "scripts_inside": 39,
+        "name_referenced_by": []
+      },
+      {
+        "path": "ReplicatedStorage/oldMenu",
+        "scripts_inside": 23,
+        "name_referenced_by": [
+          "StarterGui/NEWMenu/UIScript",
+          "StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu"
+        ]
+      },
+      {
+        "path": "ReplicatedStorage/MorphSupplies",
+        "scripts_inside": 9,
+        "name_referenced_by": [
+          "Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/ClientMorph",
+          "ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/ClientMorph",
+          "ServerScriptService/SecurityPolicy"
+        ]
+      },
+      {
+        "path": "ReplicatedStorage/FINAL WARS GODZILLA",
+        "scripts_inside": 3,
+        "name_referenced_by": [
+          "Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript",
+          "ServerScriptService/SecurityPolicy",
+          "ServerScriptService/framework/modules/Data"
+        ]
+      },
+      {
+        "path": "ServerStorage/TITANUS GHIDORAH",
+        "scripts_inside": 3,
+        "name_referenced_by": [
+          "Lighting/GUIs/oldMenu/MainFrame/Selection/LocalScript",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/LocalScript",
+          "ServerScriptService/SecurityPolicy",
+          "ServerScriptService/framework/modules/Data"
+        ]
+      },
+      {
+        "path": "Lighting/BurningHeiseiBlast",
+        "scripts_inside": 2,
+        "name_referenced_by": []
+      },
+      {
+        "path": "Lighting/GO",
+        "scripts_inside": 2,
+        "name_referenced_by": []
+      },
+      {
+        "path": "Lighting/BlastHitbox",
+        "scripts_inside": 1,
+        "name_referenced_by": []
+      },
+      {
+        "path": "Lighting/Bomb1",
+        "scripts_inside": 1,
+        "name_referenced_by": []
+      },
+      {
+        "path": "Lighting/Bomb2",
+        "scripts_inside": 1,
+        "name_referenced_by": []
+      },
+      {
+        "path": "Lighting/Rocket",
+        "scripts_inside": 1,
+        "name_referenced_by": []
+      },
+      {
+        "path": "StarterGui/GameGui",
+        "scripts_inside": 1,
+        "name_referenced_by": [
+          "ReplicatedStorage/ChargeManager",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/ClientMorph",
+          "ReplicatedStorage/oldMenu/MainFrame/Selection/StatsWindow/Play/LoadingScript",
+          "ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/ClientMorph",
+          "ReplicatedStorage/oldMenu/MainFrame/Skins/StatsWindow/Play/LoadingScript"
+        ]
+      }
+    ],
+    "empty_running_scripts": [
+      "StarterGui/GameGui/MainFrame/Interface/BuyXP/LocalScript",
+      "StarterGui/GameGui/MainFrame/Interface/Relic/No/LocalScript",
+      "StarterGui/GameGui/MainFrame/Interface/Relic/Yes/LocalScript",
+      "StarterGui/GameGui/MainFrame/Interface/ResetStats/FX/Yes/LocalScript",
+      "StarterGui/NEWMenu/CameraHandler",
+      "StarterPlayer/StarterPlayerScripts/RbxCharacterSounds",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building1Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building2Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building3Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building4Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building5Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building6Destroyable/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding",
+      "Workspace/Map/Building7Destroy/Stats/DestroyBuilding"
+    ]
+  },
+  "check_before_deleting": {
+    "modules_maybe_loaded_dynamically": [
+      "Chat/ChatModules/ChatCommandsTeller",
+      "Chat/ChatModules/ChatFloodDetector",
+      "Chat/ChatModules/ChatMessageValidator",
+      "Chat/ChatModules/ExtraDataInitializer",
+      "Chat/ChatModules/FriendJoinNotifier",
+      "Chat/ChatModules/PrivateMessaging",
+      "Chat/ChatModules/TeamChat",
+      "Chat/ClientChatModules/CommandModules/ClearMessages",
+      "Chat/ClientChatModules/CommandModules/DeveloperConsole",
+      "Chat/ClientChatModules/CommandModules/GetVersion",
+      "Chat/ClientChatModules/CommandModules/SwallowGuestChat",
+      "Chat/ClientChatModules/CommandModules/SwitchChannel",
+      "Chat/ClientChatModules/MessageCreatorModules/DefaultChatMessage",
+      "Chat/ClientChatModules/MessageCreatorModules/MeCommandMessage",
+      "Chat/ClientChatModules/MessageCreatorModules/SetCoreMessage",
+      "Chat/ClientChatModules/MessageCreatorModules/SystemMessage",
+      "Chat/ClientChatModules/MessageCreatorModules/WhisperMessage",
+      "ReplicatedStorage/Knit/Input",
+      "ReplicatedStorage/Knit/_Index/evaera_promise@4.0.0/promise/init.spec",
+      "ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/Streamable.spec",
+      "ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.spec"
+    ],
+    "events_maybe_fired_dynamically": [
+      "Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/GO/GO_Kaijus/Godzilla2014/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/Biollante/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Biollante/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/FinalWars/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/FinalWars/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/FireGodzilla/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/FireGodzilla/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/KamataKun/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/KamataKun/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/KingGhidorah/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/MALE MUTO/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/Mosura/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/Mothra/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Mothra/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/OldFire/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/OldFire/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/Rodan/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/Shin/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Shin/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/ShinagawaKun/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/SprintEvent",
+      "Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/WalkEvent",
+      "Lighting/KaijusUnused/VolcanicBio/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/VolcanicBio/CharacterScripts/AnimEvents/StepSoundEvent",
+      "Lighting/KaijusUnused/oldFrozen/CharacterScripts/AnimEvents/IdleEvent",
+      "Lighting/KaijusUnused/oldFrozen/CharacterScripts/AnimEvents/StepSoundEvent",
+      "ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/AnimEvents/IdleEvent",
+      "ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/AnimEvents/SprintEvent",
+      "ReplicatedStorage/MorphSupplies/Morphs/CIVILIAN [FREE]/CharacterScripts/AnimEvents/WalkEvent",
+      "ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/CharacterScripts/AnimEvents/IdleEvent",
+      "ReplicatedStorage/MorphSupplies/Morphs/HEISEI GODZILLA/CharacterScripts/AnimEvents/StepSoundEvent"
+    ]
+  }
+}
