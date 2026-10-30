@@ -97,6 +97,8 @@ local beamPredictChar = nil
 local beamPredictBeamStart = nil
 local beamPredictHitbox = nil
 local beamEndsReparented = false
+local beamClientFx = nil
+local BeamClientFX = require(game:GetService("ReplicatedStorage"):WaitForChild("BeamClientFX"))
 
 local stopBeamRotation
 local startBeamRotation
@@ -431,6 +433,11 @@ local function startBeamPrediction()
 	beamPredictEnd = startPos
 	beamPredictHitbox.CFrame = CFrame.new(startPos)
 
+	if beamClientFx then
+		beamClientFx:Destroy()
+	end
+	beamClientFx = BeamClientFX.new(beamPredictChar)
+
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
 		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
 		local hrp = beamPredictChar:FindFirstChild("HumanoidRootPart")
@@ -469,6 +476,8 @@ local function startBeamPrediction()
 
 		local extent
 		local dirTarget
+		local shiftLock = getShiftLockState()
+		local clashing = serverHitbox ~= nil and serverHitbox:GetAttribute("IsClashing") == true
 		if serverMode then
 			extent = serverHitbox:GetAttribute("BeamExtent") or 1
 			beamPredictEnd = beamPredictEnd:Lerp(serverHitbox.Position, 1 - math.exp(-PRED_SERVER_RATE * dt))
@@ -477,12 +486,14 @@ local function startBeamPrediction()
 		else
 			local aim = getAimPosition(beamPredictChar)
 			if aim and beamPredictTip then
+				local shaped = BeamClientFX.ShapeTip(beamPredictChar, startPos, aim, shiftLock)
 				local rate = now < beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
-				beamPredictTip = beamPredictTip:Lerp(aim, 1 - math.exp(-rate * dt))
+				beamPredictTip = beamPredictTip:Lerp(shaped, 1 - math.exp(-rate * dt))
 			end
 			extent = easeOutCubic(math.clamp((now - beamPredictStartTime) / PRED_INTRO_TIME, 0, 1))
-			beamPredictEnd = startPos:Lerp(beamPredictTip or startPos, extent)
-			dirTarget = beamPredictTip or beamPredictEnd
+			local effectiveTip = BeamClientFX.EnforceForward(hrp, startPos, beamPredictTip or startPos, shiftLock)
+			beamPredictEnd = startPos:Lerp(effectiveTip, extent)
+			dirTarget = effectiveTip
 		end
 
 		beamPredictHitbox.CFrame = orientHitbox(serverMode and startPos or hrp.Position, dirTarget, beamPredictEnd)
@@ -494,14 +505,8 @@ local function startBeamPrediction()
 			end
 		end
 
-		if beamPredictBeamStart and beamPredictBeamStart.Parent then
-			local beamStartPos = beamPredictBeamStart.WorldPosition
-			for i = 1, 6 do
-				local att = hrp:FindFirstChild("BeamGlowLight" .. i)
-				if att then
-					att.WorldPosition = beamStartPos:Lerp(beamPredictEnd, i / 7)
-				end
-			end
+		if beamClientFx then
+			beamClientFx:Step(beamPredictEnd, extent, not clashing, beamPredictHitbox)
 		end
 	end)
 end
@@ -521,6 +526,10 @@ local function stopBeamPrediction()
 	if beamPredictionConnection then
 		beamPredictionConnection:Disconnect()
 		beamPredictionConnection = nil
+	end
+	if beamClientFx then
+		beamClientFx:Destroy()
+		beamClientFx = nil
 	end
 
 	

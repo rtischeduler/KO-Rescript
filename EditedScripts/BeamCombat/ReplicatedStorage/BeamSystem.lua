@@ -492,7 +492,8 @@ function BeamSystem.ActivateBeam(config)
 		if activeBeams[player] and activeBeams[player].character == character then
 			BeamSystem.ForceCleanup(player)
 		end
-	end)	local beamStarts, beamEnds = findBeamAttachments(character)
+	end)
+	local beamStarts, beamEnds = findBeamAttachments(character)
 	local primaryBeamStart = beamStarts[1]
 	local hitbox = Instance.new("Part")
 	hitbox.Name = "BeamHitbox"
@@ -653,6 +654,8 @@ function BeamSystem.ActivateBeam(config)
 		end
 		local impactFolder = Instance.new("Folder")
 		impactFolder.Name = "BeamImpact"
+		impactFolder:SetAttribute("OwnerUserId", player.UserId)
+		impactFolder:SetAttribute("FxMode", "normal")
 		impactFolder.Parent = Workspace
 		activeBeams[player].impactFolder = impactFolder
 		activeBeams[player].impactColor = impactColor
@@ -675,6 +678,7 @@ function BeamSystem.ActivateBeam(config)
 		local startSmoke = {}
 		for _, beamStart in ipairs(beamStarts) do
 			local smoke = makeStartSmokeEmitter(smokeColor)
+			smoke.Name = "BeamStartSmoke"
 			smoke.Parent = beamStart
 			table.insert(startSmoke, smoke)
 		end
@@ -712,6 +716,7 @@ function BeamSystem.ActivateBeam(config)
 		local function buildFx(key, sources)
 			clearFx()
 			fxKey = key
+			impactFolder:SetAttribute("FxMode", string.sub(key, 1, 5) == "clash" and "clash" or "normal")
 			for _, source in ipairs(sources) do
 				local ring = makeFxEmitter(source, "ring", 1)
 				ring.Parent = impactAnchor
