@@ -5,7 +5,7 @@ name: Sync Roblox Scripts
 # Required repo secret:   ROBLOX_API_KEY   (Open Cloud key owned by your group)
 #   Key permissions:      universe.place (read) + assets (read)
 #                         (add legacy-asset:manage if the download step returns 401/403)
-# Default universe ID is 10772894009; override with the manual input or the
+# Default universe ID is 3926279738; override with the manual input or the
 # ROBLOX_UNIVERSE_ID repo variable. If the universe -> place lookup ever fails,
 # set the ROBLOX_PLACE_ID variable (or the place_id input) to skip it.
 
@@ -13,9 +13,9 @@ on:
   workflow_dispatch:
     inputs:
       universe_id:
-        description: "Roblox Universe ID (default 10772894009)"
+        description: "Roblox Universe ID (default 3926279738)"
         required: false
-        default: "10772894009"
+        default: "3926279738"
         type: string
       place_id:
         description: "Optional place ID; skips the universe lookup"
@@ -45,8 +45,8 @@ jobs:
         id: place
         env:
           ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
-          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '10772894009' }}
-          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID || '97464982861959' }}
+          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '3926279738' }}
+          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID || '10879318443' }}
         run: |
           set -uo pipefail
           PLACE_ID="${PLACE_ID_OVERRIDE:-}"

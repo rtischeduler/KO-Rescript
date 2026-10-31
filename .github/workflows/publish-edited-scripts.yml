@@ -24,11 +24,12 @@ on:
       universe_id:
         description: "Roblox Universe ID"
         required: false
-        default: "10772894009"
+        default: "3926279738"
         type: string
       place_id:
-        description: "Optional place ID; skips the universe lookup"
+        description: "Place ID (must belong to the universe above)"
         required: false
+        default: "10879318443"
         type: string
 
 permissions:
@@ -53,8 +54,8 @@ jobs:
         id: place
         env:
           ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
-          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '10772894009' }}
-          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID || '97464982861959' }}
+          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '3926279738' }}
+          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID || '10879318443' }}
         run: |
           set -uo pipefail
           PLACE_ID="${PLACE_ID_OVERRIDE:-}"
