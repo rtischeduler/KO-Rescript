@@ -39,6 +39,10 @@ local FLY_TURN = 14
 local FLY_MIN_HEALTH_PERCENT = 0.25
 local FLY_MIN_CHARGE = 5
 local FLY_CHARGE_DRAIN_RATE = 2
+local FLY_LAUNCH_MIN = 20
+local FLY_LAUNCH_MAX = 45
+local FLY_GROUND_CLEARANCE = 1.5
+local FLY_GROUND_BRAKE = 5
 
 local SWIM_SPEED = 80
 local SWIM_STRAFE = 0.6
@@ -384,6 +388,25 @@ local function getVerticalInput()
 	return (up and 1 or 0) - (down and 1 or 0)
 end
 
+local function limitDescent(vy, groundDistance, clearance, brake)
+	if vy >= 0 or not groundDistance then return vy end
+	local remaining = math.max(groundDistance - clearance, 0)
+	return math.max(vy, -remaining * brake)
+end
+
+local function lowestGround(position, groundDistance)
+	local lowest = groundDistance
+	local span = boxSize and math.max(boxSize.X, boxSize.Z) * 0.35 or 0
+	if span <= 0 then return lowest end
+	local flatFacing = safeFlat(facing, Vector3.new(0, 0, -1))
+	local side = Vector3.new(-flatFacing.Z, 0, flatFacing.X)
+	for _, offset in ipairs({ flatFacing * span, -flatFacing * span, side * span, -side * span }) do
+		local result = workspace:Raycast(position + offset, Vector3.new(0, -GROUND_RAY, 0), rayParams)
+		if result and (not lowest or result.Distance < lowest) then lowest = result.Distance end
+	end
+	return lowest
+end
+
 local function buildRig()
 	flightVel = rootPart.AssemblyLinearVelocity
 	facing = rootPart.CFrame.LookVector
@@ -438,6 +461,11 @@ local function enterAir(newMode, fade)
 	if previous == "Land" then
 		measureBody()
 		buildRig()
+		if newMode == "Fly" then
+			local launch = math.clamp(bodyHalf * 2.5, FLY_LAUNCH_MIN, FLY_LAUNCH_MAX)
+			flightVel = Vector3.new(flightVel.X, math.max(flightVel.Y, launch), flightVel.Z)
+			linear.VectorVelocity = flightVel
+		end
 		ChargeManager.setFlying(true)
 		stopTrack(Idle, fade)
 		stopTrack(Walk, fade)
@@ -601,6 +629,10 @@ local function updateAir(dt, now, wet, level)
 			flightVel.Y + (target.Y - flightVel.Y) * alphaY,
 			flightVel.Z + (target.Z - flightVel.Z) * alpha
 		)
+		if not wet then
+			local lowest = lowestGround(position, groundDistance)
+			flightVel = Vector3.new(flightVel.X, limitDescent(flightVel.Y, lowest and (lowest - bodyHalf), FLY_GROUND_CLEARANCE, FLY_GROUND_BRAKE), flightVel.Z)
+		end
 		desired = look
 		turn = FLY_TURN
 		ChargeManager.drainCharge(dt * FLY_CHARGE_DRAIN_RATE)
