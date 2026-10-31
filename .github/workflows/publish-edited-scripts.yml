@@ -1,0 +1,185 @@
+name: Publish Edited Scripts
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: show what would change, do NOT publish"
+        type: boolean
+        default: true
+      files:
+        description: "Empty = tools/edited_now.txt, 'all' = every .lua in EditedScripts, or comma-separated paths relative to EditedScripts"
+        required: false
+        default: ""
+        type: string
+      create_missing:
+        description: "Also create scripts that do not exist in the game (parent must already exist). Default only edits existing scripts"
+        type: boolean
+        default: false
+      version_type:
+        description: "Published = live, Saved = saved version only"
+        type: choice
+        options: [Published, Saved]
+        default: Published
+      universe_id:
+        description: "Roblox Universe ID"
+        required: false
+        default: "10772894009"
+        type: string
+      place_id:
+        description: "Optional place ID; skips the universe lookup"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-edited-scripts
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            EditedScripts
+            tools
+
+      - name: Resolve universe ID -> root place ID
+        id: place
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '10772894009' }}
+          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID || '97464982861959' }}
+        run: |
+          set -uo pipefail
+          PLACE_ID="${PLACE_ID_OVERRIDE:-}"
+          if [ -z "$PLACE_ID" ]; then
+            PLACE_ID=$(curl -fsS -H "x-api-key: $ROBLOX_API_KEY" \
+              "https://apis.roblox.com/cloud/v2/universes/$UNIVERSE_ID" 2>/dev/null \
+              | jq -r '.rootPlace // empty' | sed 's#.*/places/##') || PLACE_ID=""
+          fi
+          if ! [[ "$PLACE_ID" =~ ^[0-9]+$ ]]; then
+            PLACE_ID=$(curl -fsS "https://games.roblox.com/v1/games?universeIds=$UNIVERSE_ID" 2>/dev/null \
+              | jq -r '.data[0].rootPlaceId // empty') || PLACE_ID=""
+          fi
+          if ! [[ "$PLACE_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::Could not resolve a place for universe $UNIVERSE_ID. Set the ROBLOX_PLACE_ID repo variable (or place_id input)."
+            exit 1
+          fi
+          echo "Using universe $UNIVERSE_ID place $PLACE_ID"
+          echo "place_id=$PLACE_ID" >> "$GITHUB_OUTPUT"
+          echo "universe_id=$UNIVERSE_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Download current place
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          PLACE_ID: ${{ steps.place.outputs.place_id }}
+        run: |
+          set -euo pipefail
+          LOCATION=$(curl -fsS -H "x-api-key: $ROBLOX_API_KEY" \
+            "https://apis.roblox.com/asset-delivery-api/v1/assetId/$PLACE_ID" | jq -r '.location')
+          if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
+            echo "::error::Asset delivery returned no download location"
+            exit 1
+          fi
+          ok=0
+          for attempt in 1 2 3; do
+            curl -fsSL --compressed "$LOCATION" -o place.rbxl || true
+            if [ "$(head -c 2 place.rbxl | od -An -tx1 | tr -d ' \n')" = "1f8b" ]; then
+              mv place.rbxl place.gz && gunzip -c place.gz > place.rbxl && rm place.gz
+            fi
+            if head -c 7 place.rbxl | grep -aq '<roblox'; then ok=1; break; fi
+            sleep $((attempt * 5))
+          done
+          [ "$ok" = "1" ] || { echo "::error::Downloaded file is not a Roblox place file"; exit 1; }
+          ls -l place.rbxl
+
+      - name: Install Lune
+        run: |
+          set -euo pipefail
+          URL=$(curl -fsS -H "Authorization: Bearer ${{ github.token }}" \
+            "https://api.github.com/repos/lune-org/lune/releases/latest" \
+            | jq -r '.assets[].browser_download_url' \
+            | grep -i linux | grep -i x86_64 | grep '\.zip$' | head -n1)
+          [ -n "$URL" ] || { echo "::error::No Lune linux x86_64 asset found"; exit 1; }
+          curl -fsSL -o lune.zip "$URL"
+          unzip -q lune.zip -d "$RUNNER_TEMP/lune"
+          chmod +x "$RUNNER_TEMP/lune/lune"
+          echo "$RUNNER_TEMP/lune" >> "$GITHUB_PATH"
+
+      - name: Build file list
+        env:
+          FILES: ${{ inputs.files }}
+        run: |
+          set -euo pipefail
+          if [ -z "$FILES" ]; then
+            cp tools/edited_now.txt manifest.txt
+          elif [ "$FILES" = "all" ]; then
+            (cd EditedScripts && find . -name '*.lua' | sed 's|^\./||' | sort) > manifest.txt
+          else
+            echo "$FILES" | tr ',' '\n' | sed 's/^ *//; s/ *$//' > manifest.txt
+          fi
+          echo "Files to apply: $(grep -c . manifest.txt)"
+
+      - name: Edit scripts in place (only Source)
+        id: apply
+        run: |
+          set -euo pipefail
+          CREATE=0
+          [ "${{ inputs.create_missing }}" = "true" ] && CREATE=1
+          set +e
+          lune run tools/apply_edited_scripts place.rbxl edited.rbxl report.md EditedScripts manifest.txt "$CREATE"
+          CODE=$?
+          set -e
+          [ -f report.md ] && cat report.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f report.md.result ]; then
+            cat report.md.result >> "$GITHUB_OUTPUT"
+          fi
+          exit $CODE
+
+      - name: Upload change report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: change-report
+          path: report.md
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Dry run result
+        if: ${{ inputs.dry_run }}
+        run: echo "Dry run: nothing published. Re-run with dry_run unchecked to publish."
+
+      - name: Back up original place
+        if: ${{ !inputs.dry_run && (steps.apply.outputs.changed != '0' || steps.apply.outputs.created != '0') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-place-backup
+          path: place.rbxl
+          retention-days: 30
+
+      - name: Publish place
+        if: ${{ !inputs.dry_run && (steps.apply.outputs.changed != '0' || steps.apply.outputs.created != '0') }}
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          PLACE_ID: ${{ steps.place.outputs.place_id }}
+          UNIVERSE_ID: ${{ steps.place.outputs.universe_id }}
+          VERSION_TYPE: ${{ inputs.version_type }}
+        run: |
+          set -euo pipefail
+          CODE=$(curl -sS -o resp.json -w '%{http_code}' -X POST \
+            "https://apis.roblox.com/universes/v1/$UNIVERSE_ID/places/$PLACE_ID/versions?versionType=$VERSION_TYPE" \
+            -H "x-api-key: $ROBLOX_API_KEY" \
+            -H "Content-Type: application/octet-stream" \
+            --data-binary @edited.rbxl)
+          cat resp.json; echo
+          if [ "$CODE" != "200" ]; then
+            echo "::error::Publish failed with HTTP $CODE (key needs universe-places:write on this universe)"
+            exit 1
+          fi
+          echo "Published ($VERSION_TYPE): $(cat resp.json)" >> "$GITHUB_STEP_SUMMARY"
