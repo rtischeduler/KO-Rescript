@@ -81,8 +81,15 @@ jobs:
           PLACE_ID: ${{ steps.place.outputs.place_id }}
         run: |
           set -euo pipefail
-          LOCATION=$(curl -fsS -H "x-api-key: $ROBLOX_API_KEY" \
-            "https://apis.roblox.com/asset-delivery-api/v1/assetId/$PLACE_ID" | jq -r '.location')
+          CODE=$(curl -sS -o delivery.json -w '%{http_code}' -H "x-api-key: $ROBLOX_API_KEY" \
+            "https://apis.roblox.com/asset-delivery-api/v1/assetId/$PLACE_ID")
+          if [ "$CODE" != "200" ]; then
+            echo "Asset delivery for place $PLACE_ID returned HTTP $CODE:"
+            cat delivery.json; echo
+            echo "::error::Download failed (HTTP $CODE). The API key must include this experience (universe ${{ steps.place.outputs.universe_id }}) with place read and legacy-asset:manage / asset read, and the key owner must own or have access to the place."
+            exit 1
+          fi
+          LOCATION=$(jq -r '.location' delivery.json)
           if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
             echo "::error::Asset delivery returned no download location"
             exit 1
