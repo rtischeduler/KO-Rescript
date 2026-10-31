@@ -467,40 +467,59 @@ local function initPulse()
 
 		local damagePerTick = damage / 10
 		local gcellsPerTick = 25
-		local startSize = 50
 		maxSize = math.max(maxSize, 300)
 		local tickInterval = 0.5
+		local burstTime, sustainTime = 0.4, 0.5
+		local peak = maxSize * 1.1
+		local heartbeat = game:GetService("RunService").Heartbeat
 
 		local overlapParams = OverlapParams.new()
 		overlapParams.FilterDescendantsInstances = { character }
 		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
 
 		local startTime = os.clock()
+		local nextPlayerTick = startTime + 0.15
+		local nextBuildingCheck = startTime
 		while os.clock() - startTime < duration do
 			if not hitbox.Parent or not hrp.Parent then break end
 
-			local progress = math.clamp((os.clock() - startTime) / duration, 0, 1)
-			local size = startSize + (maxSize - startSize) * progress
+			local now = os.clock()
+			local elapsed = now - startTime
+			local growing = elapsed < burstTime + sustainTime
+			local size
+			if elapsed < burstTime then
+				local p = elapsed / burstTime
+				size = 2 + (peak - 2) * (1 - (1 - p) ^ 4)
+			elseif growing then
+				local p = (elapsed - burstTime) / sustainTime
+				size = peak + (maxSize - peak) * p
+			else
+				size = maxSize
+			end
 			hitbox.Size = Vector3.new(size, size, size)
 			hitbox.CFrame = hrp.CFrame
 
-			local hitThisTick = {}
-			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
-				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
-					hitThisTick[hitPlayer] = true
-					setCreator(hitHumanoid, player)
-					hitHumanoid:TakeDamage(damagePerTick)
-					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
-					pulseHitEvent:FireClient(hitPlayer)
-					giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
-				end
+			if _G.DestroyBuildingsInRadius and now >= nextBuildingCheck then
+				nextBuildingCheck = growing and now or now + 0.25
+				_G.DestroyBuildingsInRadius(hrp.Position, size / 2, player)
 			end
 
-			if _G.DamageBuildingsInRadius then
-				_G.DamageBuildingsInRadius(hrp.Position, size / 2, player)
+			if now >= nextPlayerTick then
+				nextPlayerTick = now + tickInterval
+				local hitThisTick = {}
+				for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
+					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+						hitThisTick[hitPlayer] = true
+						setCreator(hitHumanoid, player)
+						hitHumanoid:TakeDamage(damagePerTick)
+						if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
+						pulseHitEvent:FireClient(hitPlayer)
+						giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
+					end
+				end
 			end
-			task.wait(tickInterval)
+			heartbeat:Wait()
 		end
 
 		if hitbox.Parent then
@@ -939,25 +958,35 @@ local function initAttackHandler()
 		overlapParams.FilterDescendantsInstances = { character }
 		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
 
+		local heartbeat = game:GetService("RunService").Heartbeat
 		local startTime = os.clock()
+		local nextPlayerTick = startTime
 		while os.clock() - startTime < duration do
 			if not character.Parent or not hrp.Parent or not pulsePart.Parent then break end
 
-			local progress = math.clamp((os.clock() - startTime) / duration, 0, 1)
+			local now = os.clock()
+			local progress = math.clamp((now - startTime) / duration, 0, 1)
 			local currentSize = startSize + (maxSize - startSize) * progress
 			pulsePart.Size = Vector3.new(currentSize, currentSize, currentSize)
 			pulsePart.Transparency = progress
 			pulsePart.CFrame = hrp.CFrame
 
-			local hitThisTick = {}
-			for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
-				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
-					hitThisTick[hitPlayer] = true
-					registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
+			if _G.DestroyBuildingsInRadius then
+				_G.DestroyBuildingsInRadius(hrp.Position, currentSize / 2, player)
+			end
+
+			if now >= nextPlayerTick then
+				nextPlayerTick = now + tickInterval
+				local hitThisTick = {}
+				for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
+					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+						hitThisTick[hitPlayer] = true
+						registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
+					end
 				end
 			end
-			task.wait(tickInterval)
+			heartbeat:Wait()
 		end
 
 		if pulsePart.Parent then pulsePart:Destroy() end
@@ -1136,6 +1165,7 @@ local function initAttackHandler()
 			local hrp = char and char:FindFirstChild("HumanoidRootPart")
 			local humanoid = char and char:FindFirstChildOfClass("Humanoid")
 			if not hrp or not humanoid or humanoid.Health <= 0 then return end
+			if not remote:IsDescendantOf(char) then return end
 
 			debounces[remote] = true
 

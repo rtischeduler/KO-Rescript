@@ -744,6 +744,7 @@ local function initBuilding()
 
 	local function isValidDamager(name)
 		name = name:lower()
+		if name == "pulsehitbox" then return false end
 		for _, k in DAMAGE_KEYWORDS do
 			if name:find(k, 1, true) then return true end
 		end
@@ -993,7 +994,7 @@ local function initBuilding()
 				windowApi.flickerBuilding(building, 0.45, false)
 			end
 			playHitSound(base)
-			for player, cells in rewardsByPlayer do reward(player, cells, amount, building) end
+			for player in rewardsByPlayer do reward(player, math.random(1, 3), amount, building) end
 			if HP.Value <= 0 then
 				HP.Value = 0
 				onDestroyed()
@@ -1037,6 +1038,16 @@ local function initBuilding()
 			onDestroyed = onDestroyed,
 			damageBuilding = function(attacker)
 				applyDamage(20, attacker and { [attacker] = 3 } or {})
+			end,
+			destroyBuilding = function(attacker)
+				if HP.Value <= 0 or destroyed[building] then return false end
+				local removed = HP.Value
+				HP.Value = 0
+				playHitSound(base)
+				fireBuildingFX("Hit", building, 0)
+				if attacker then reward(attacker, math.random(1, 3), removed, building) end
+				onDestroyed()
+				return true
 			end,
 		}
 
@@ -1144,6 +1155,16 @@ local function initBuilding()
 	end
 	Players.PlayerAdded:Connect(hookPlayer)
 	for _, p in Players:GetPlayers() do hookPlayer(p) end
+
+	_G.DestroyBuildingsInRadius = function(position, radius, attacker)
+		local count = 0
+		for _, refs in liveRefs() do
+			if (position - refs.pos).Magnitude <= radius + refs.radius then
+				if refs.destroyBuilding(attacker) then count += 1 end
+			end
+		end
+		return count
+	end
 
 	_G.DamageBuildingsInRadius = function(position, radius, attacker)
 		for _, refs in liveRefs() do

@@ -1,3 +1,2 @@
-BeamCombat/ReplicatedStorage/BeamSystem.lua
-BeamCombat/ReplicatedStorage/BeamClientFX.lua
-BeamCombat/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
+BeamCombat/ServerScriptService/framework/modules/World.lua
+BeamCombat/ServerScriptService/framework/modules/Combat.lua
