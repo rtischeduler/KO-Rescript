@@ -2,3 +2,4 @@ BeamCombat/ReplicatedStorage/DPSTemplate.server.lua
 BeamCombat/ServerScriptService/framework/modules/Combat.lua
 ServerScriptService/Server/Services/IndicatorService.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/Indicators.lua
+StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua

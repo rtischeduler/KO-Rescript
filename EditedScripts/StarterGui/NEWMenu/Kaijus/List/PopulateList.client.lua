@@ -303,9 +303,6 @@ local function populate()
 		elseif model.Name == "thedenis"
 			and player.Name ~= "DenisTheCheeseKing" then
 			clone.Visible = false
-		elseif model.Name == "RED"
-			and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then
-			clone.Visible = false
 		else
 			clone.Visible = true
 		end
