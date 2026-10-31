@@ -172,7 +172,9 @@ local function getStat(name, fallback)
 end
 
 local function applyWalkSpeed()
-	humanoid.WalkSpeed = sprintOn and getStat("SS", baseWalkSpeed) or getStat("WS", baseWalkSpeed)
+	local canFly = character:FindFirstChild("canFly")
+	local sprinting = sprintOn and not (canFly and canFly.Value == true)
+	humanoid.WalkSpeed = sprinting and getStat("SS", baseWalkSpeed) or getStat("WS", baseWalkSpeed)
 end
 
 local function loadTrack(name, priority)
