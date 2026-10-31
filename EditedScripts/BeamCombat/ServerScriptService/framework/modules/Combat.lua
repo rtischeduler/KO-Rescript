@@ -1281,6 +1281,7 @@ local function initDPS()
 			if part:GetAttribute("LevelScaled") then
 				multiplier = multiplier * levelScale(attacker)
 			end
+			if attacker then setCreator(humanoid, attacker) end
 			humanoid.Health = humanoid.Health - (part:GetAttribute("Damage") or 0.9) * multiplier
 			if attacker then
 				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)

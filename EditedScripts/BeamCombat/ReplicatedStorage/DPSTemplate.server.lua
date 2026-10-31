@@ -112,6 +112,13 @@ task.spawn(function()
 								if characterTouchesHitbox(char, hitbox) then
 									hitDebounce[char] = true
 
+									local creator = humanoid:FindFirstChild("creator")
+									if not creator then
+										creator = Instance.new("ObjectValue")
+										creator.Name = "creator"
+										creator.Parent = humanoid
+									end
+									creator.Value = attacker
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
 									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end

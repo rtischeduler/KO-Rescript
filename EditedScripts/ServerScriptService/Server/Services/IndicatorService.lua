@@ -44,7 +44,7 @@ local function flush()
 			for _, entry in bucket do
 				local position = resolve(entry.at, player)
 				if position then
-					remote:FireClient(player, position, entry.damage, entry.gcells, entry.xp, entry.candy)
+					remote:FireClient(player, player.UserId, position, entry.damage, entry.gcells, entry.xp, entry.candy)
 				end
 			end
 		end

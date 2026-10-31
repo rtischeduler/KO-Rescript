@@ -1,2 +1,4 @@
-BeamCombat/ServerScriptService/framework/modules/World.lua
+BeamCombat/ReplicatedStorage/DPSTemplate.server.lua
 BeamCombat/ServerScriptService/framework/modules/Combat.lua
+ServerScriptService/Server/Services/IndicatorService.lua
+StarterPlayer/StarterPlayerScripts/Client/Controllers/Indicators.lua
