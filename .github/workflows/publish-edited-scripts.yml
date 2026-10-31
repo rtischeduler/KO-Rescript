@@ -153,7 +153,8 @@ jobs:
 
       - name: Dry run result
         if: ${{ inputs.dry_run }}
-        run: echo "Dry run: nothing published. Re-run with dry_run unchecked to publish."
+        run: |
+          echo "Dry run - nothing published. Re-run with dry_run unchecked to publish."
 
       - name: Back up original place
         if: ${{ !inputs.dry_run && (steps.apply.outputs.changed != '0' || steps.apply.outputs.created != '0') }}
