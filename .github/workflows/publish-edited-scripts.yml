@@ -181,14 +181,29 @@ jobs:
           VERSION_TYPE: ${{ inputs.version_type }}
         run: |
           set -euo pipefail
-          CODE=$(curl -sS -o resp.json -w '%{http_code}' -X POST \
-            "https://apis.roblox.com/universes/v1/$UNIVERSE_ID/places/$PLACE_ID/versions?versionType=$VERSION_TYPE" \
-            -H "x-api-key: $ROBLOX_API_KEY" \
-            -H "Content-Type: application/octet-stream" \
-            --data-binary @edited.rbxl)
-          cat resp.json; echo
+          MAX_ATTEMPTS=30
+          DELAY=90
+          CODE=000
+          for attempt in $(seq 1 $MAX_ATTEMPTS); do
+            CODE=$(curl -sS -o resp.json -w '%{http_code}' -X POST \
+              "https://apis.roblox.com/universes/v1/$UNIVERSE_ID/places/$PLACE_ID/versions?versionType=$VERSION_TYPE" \
+              -H "x-api-key: $ROBLOX_API_KEY" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary @edited.rbxl) || CODE=000
+            echo "Attempt $attempt/$MAX_ATTEMPTS: HTTP $CODE"
+            cat resp.json 2>/dev/null; echo
+            case "$CODE" in
+              200) break ;;
+              409|429|000|5??) echo "Roblox is busy or unavailable, retrying in ${DELAY}s..."; sleep $DELAY ;;
+              *) break ;;
+            esac
+          done
           if [ "$CODE" != "200" ]; then
-            echo "::error::Publish failed with HTTP $CODE (key needs universe-places:write on this universe)"
+            if [ "$CODE" = "401" ] || [ "$CODE" = "403" ]; then
+              echo "::error::Publish failed with HTTP $CODE (key needs universe-places:write on this universe)"
+            else
+              echo "::error::Publish failed with HTTP $CODE after $attempt attempt(s). See the response above."
+            fi
             exit 1
           fi
           echo "Published ($VERSION_TYPE): $(cat resp.json)" >> "$GITHUB_STEP_SUMMARY"
