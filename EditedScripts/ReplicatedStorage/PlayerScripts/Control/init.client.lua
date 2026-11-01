@@ -742,6 +742,70 @@ local function updateAir(dt, now, wet, level)
 	end
 end
 
+-- Ledge assist: when your feet are in water (swimming OR wading) and you push into a ledge
+-- you could step onto, give a lift + forward push so you climb out easily.
+local LEDGE_COOLDOWN = 0.5
+local LEDGE_MAX_TIME = 1.2
+local ledgeSince = nil
+local ledgeBlockedUntil = 0
+
+local function ledgeAssist(now)
+	if mode ~= "Land" and mode ~= "Swim" then ledgeSince = nil return end
+	if now < ledgeBlockedUntil then return end
+
+	local dir
+	if mode == "Land" then
+		local md = humanoid.MoveDirection
+		dir = Vector3.new(md.X, 0, md.Z)
+	else
+		local camera = workspace.CurrentCamera
+		if not camera then return end
+		local forwardIn, rightIn = getMoveInput()
+		local cf = camera.CFrame
+		dir = safeFlat(cf.LookVector, facing) * forwardIn + safeFlat(cf.RightVector, Vector3.new(1, 0, 0)) * rightIn
+		dir = Vector3.new(dir.X, 0, dir.Z)
+	end
+	if dir.Magnitude < 0.1 then ledgeSince = nil return end
+	dir = dir.Unit
+
+	local pos = rootPart.Position
+	if not sampleWater(pos - Vector3.new(0, bodyHalf * 0.8, 0), now) then ledgeSince = nil return end
+
+	local feetY = pos.Y - bodyHalf
+	local maxStep = bodyHalf * 1.6 + 3
+	local reach = bodyHalf + 6
+
+	local wall = workspace:Raycast(Vector3.new(pos.X, feetY + 1, pos.Z), dir * reach, rayParams)
+	if not wall or wall.Normal.Y > 0.6 then ledgeSince = nil return end
+	-- too tall to climb?
+	if workspace:Raycast(Vector3.new(pos.X, feetY + maxStep + 1, pos.Z), dir * (reach + 2), rayParams) then
+		ledgeSince = nil
+		return
+	end
+	local probe = wall.Position + dir * 2.5 + Vector3.new(0, maxStep + 1, 0)
+	local top = workspace:Raycast(probe, Vector3.new(0, -(maxStep + 6), 0), rayParams)
+	if not top or top.Normal.Y < 0.5 then ledgeSince = nil return end
+	local rise = top.Position.Y - feetY
+	if rise < 0.3 or rise > maxStep then ledgeSince = nil return end
+
+	ledgeSince = ledgeSince or now
+	if now - ledgeSince > LEDGE_MAX_TIME then
+		ledgeSince = nil
+		ledgeBlockedUntil = now + LEDGE_COOLDOWN
+		return
+	end
+
+	local up = math.clamp((rise + 2) / 0.35, 24, 85)
+	local speed = math.max(humanoid.WalkSpeed, 18)
+	if mode == "Land" then
+		local v = rootPart.AssemblyLinearVelocity
+		rootPart.AssemblyLinearVelocity = Vector3.new(dir.X * speed, math.max(v.Y, up), dir.Z * speed)
+	else
+		flightVel = Vector3.new(dir.X * speed * 0.6, math.max(flightVel.Y, up), dir.Z * speed * 0.6)
+		if linear then linear.VectorVelocity = flightVel end
+	end
+end
+
 RunService.Heartbeat:Connect(function(dt)
 	if humanoid.Health <= 0 or not rootPart.Parent then return end
 	dt = math.min(dt, 0.1)
@@ -753,6 +817,7 @@ RunService.Heartbeat:Connect(function(dt)
 	else
 		updateAir(dt, now, wet, level)
 	end
+	ledgeAssist(now)
 end)
 
 humanoid.Died:Connect(function()
