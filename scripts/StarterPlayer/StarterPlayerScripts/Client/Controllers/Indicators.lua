@@ -185,8 +185,8 @@ function IndicatorsController:Start()
 			end
 		end)
 
-		remote.OnClientEvent:Connect(function(position, damage, gcells, xp, candy)
-			if typeof(position) ~= "Vector3" then
+		remote.OnClientEvent:Connect(function(ownerId, position, damage, gcells, xp, candy)
+			if ownerId ~= player.UserId or typeof(position) ~= "Vector3" then
 				return
 			end
 			pcall(spawnIndicator, position, {

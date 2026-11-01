@@ -414,6 +414,49 @@ local module = {
 	};
 	
 	{
+		Name = "gcells";
+		Aliases = {"givegcells", "addgcells"};
+		Prefixes = {};
+		Rank = 3;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Give GCells to a player (e.g. ;gcells all 1000 or ;gcells me 500)";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"amount";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+					table.insert(targetPlayers, players)
+			end
+
+			local amount = tonumber(args[2])
+			if not amount then return end
+			amount = math.floor(amount)
+
+			for _, plr in ipairs(targetPlayers) do
+				local leaderstats = plr:FindFirstChild("leaderstats")
+				if not leaderstats then continue end
+				local gcells = leaderstats:FindFirstChild("GCells")
+				if gcells and gcells:IsA("ValueBase") then
+				gcells.Value = gcells.Value + amount
+				print("[gcells] Gave " .. amount .. " GCells to " .. plr.Name .. " (new total: " .. gcells.Value .. ")")
+			end
+			end
+		end;
+
+	};
+
+	{
 		Name = "Raffle";
 		Aliases = {};
 		Prefixes = {};

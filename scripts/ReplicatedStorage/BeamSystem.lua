@@ -89,6 +89,46 @@ local function makeFxEmitter(source, kind, power)
 	end
 	return emitter
 end
+local SMOKE_TEXTURE = "rbxasset://textures/particles/smoke_main.dds"
+local function makeSmokeEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Texture = SMOKE_TEXTURE
+	emitter.Color = ColorSequence.new(color)
+	emitter.LightEmission = 0.05
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2.5), NumberSequenceKeypoint.new(1, 9)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.45), NumberSequenceKeypoint.new(1, 1)})
+	emitter.Lifetime = NumberRange.new(0.25, 0.45)
+	emitter.Speed = NumberRange.new(35, 50)
+	emitter.Drag = 4
+	emitter.SpreadAngle = Vector2.new(18, 18)
+	emitter.Rotation = NumberRange.new(0, 360)
+	emitter.RotSpeed = NumberRange.new(-60, 60)
+	emitter.LockedToPart = false
+	emitter.Rate = 0
+	emitter.Enabled = false
+	return emitter
+end
+local function makeStartSmokeEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Texture = SMOKE_TEXTURE
+	emitter.Color = ColorSequence.new(color)
+	emitter.LightEmission = 0
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 5)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.78), NumberSequenceKeypoint.new(1, 1)})
+	emitter.Lifetime = NumberRange.new(0.2, 0.35)
+	emitter.Speed = NumberRange.new(28, 44)
+	emitter.Drag = 3
+	emitter.Shape = Enum.ParticleEmitterShape.Sphere
+	emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+	emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+	emitter.SpreadAngle = Vector2.new(180, 180)
+	emitter.Rotation = NumberRange.new(0, 360)
+	emitter.RotSpeed = NumberRange.new(-40, 40)
+	emitter.LockedToPart = false
+	emitter.Rate = 12
+	emitter.Enabled = true
+	return emitter
+end
 local function restoreBeamTextures(list)
 	if not list then return end
 	for _, entry in ipairs(list) do
@@ -163,11 +203,16 @@ local function releaseBeamSlow(humanoid)
 	if not data then return end
 	slowedHumanoids[humanoid] = nil
 	if humanoid.Parent then
+		local current = humanoid.WalkSpeed
+		local trueBase = humanoid:GetAttribute("BeamSlowBase")
 		humanoid:SetAttribute("BeamSlowFactor", nil)
-		if humanoid.WalkSpeed == data.applied then
+		humanoid:SetAttribute("BeamSlowBase", nil)
+		if math.abs(current - data.applied) < 0.05 then
 			humanoid.WalkSpeed = data.base
 		elseif humanoid:GetAttribute("Slowed") then
-			humanoid.WalkSpeed = humanoid.WalkSpeed / data.factor
+			humanoid.WalkSpeed = current / data.factor
+		elseif trueBase then
+			humanoid.WalkSpeed = trueBase
 		end
 	end
 end
@@ -190,7 +235,7 @@ local function ensureSlowLoop()
 	end)
 end
 function BeamSystem.ApplyBeamSlow(humanoid)
-	if not humanoid or not humanoid.Parent then return end
+	if not humanoid or not humanoid.Parent or humanoid.Health <= 0 then return end
 	local data = slowedHumanoids[humanoid]
 	if data then
 		data.expires = os.clock() + BEAM_SLOW_LINGER
@@ -372,6 +417,37 @@ local function getHeadPosition(character)
 	local hrp = character:FindFirstChild("HumanoidRootPart")
 	return hrp and hrp.Position or nil
 end
+local SHIFTLOCK_RAISE = 8
+
+local function clampTipToWalls(startPos, tip, character)
+	local direction = tip - startPos
+	local distance = direction.Magnitude
+	if distance < 1 then return tip end
+	local unit = direction.Unit
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	local excluded = { character }
+	local origin = startPos
+	local remaining = distance
+	for _ = 1, 12 do
+		params.FilterDescendantsInstances = excluded
+		local result = Workspace:Raycast(origin, unit * remaining, params)
+		if not result then return tip end
+		local inst = result.Instance
+		local model = inst:FindFirstAncestorOfClass("Model")
+		local isCharacter = model ~= nil and model:FindFirstChildOfClass("Humanoid") ~= nil
+		local skip = isCharacter or result.Material == Enum.Material.Water or inst.Transparency >= 0.95 or not inst.CanCollide
+		if not skip then
+			return result.Position - unit * 0.5
+		end
+		remaining = remaining - (result.Position - origin).Magnitude
+		if remaining <= 0.1 then return tip end
+		origin = result.Position
+		table.insert(excluded, inst)
+	end
+	return tip
+end
+
 function BeamSystem.ActivateBeam(config)
 	local character = config.character
 	local player = config.player
@@ -388,6 +464,8 @@ function BeamSystem.ActivateBeam(config)
 	if not character or not player then return end
 	local hrp = character:FindFirstChild("HumanoidRootPart")
 	if not hrp then return end
+	local ownerHumanoid = character:FindFirstChildOfClass("Humanoid")
+	if ownerHumanoid and ownerHumanoid.Health <= 0 then return end
 	if activeBeams[player] then
 		local prevData = activeBeams[player]
 		local prevChar = prevData and prevData.character
@@ -414,7 +492,8 @@ function BeamSystem.ActivateBeam(config)
 		if activeBeams[player] and activeBeams[player].character == character then
 			BeamSystem.ForceCleanup(player)
 		end
-	end)	local beamStarts, beamEnds = findBeamAttachments(character)
+	end)
+	local beamStarts, beamEnds = findBeamAttachments(character)
 	local primaryBeamStart = beamStarts[1]
 	local hitbox = Instance.new("Part")
 	hitbox.Name = "BeamHitbox"
@@ -575,6 +654,8 @@ function BeamSystem.ActivateBeam(config)
 		end
 		local impactFolder = Instance.new("Folder")
 		impactFolder.Name = "BeamImpact"
+		impactFolder:SetAttribute("OwnerUserId", player.UserId)
+		impactFolder:SetAttribute("FxMode", "normal")
 		impactFolder.Parent = Workspace
 		activeBeams[player].impactFolder = impactFolder
 		activeBeams[player].impactColor = impactColor
@@ -593,6 +674,19 @@ function BeamSystem.ActivateBeam(config)
 			end
 		end
 		activeBeams[player].beamTextureBases = beamTextures
+		local smokeColor = Color3.new(0.82, 0.82, 0.82):Lerp(impactColor, 0.2)
+		local startSmoke = {}
+		for _, beamStart in ipairs(beamStarts) do
+			local smoke = makeStartSmokeEmitter(smokeColor)
+			smoke.Name = "BeamStartSmoke"
+			smoke.Parent = beamStart
+			table.insert(startSmoke, smoke)
+		end
+		impactFolder.Destroying:Connect(function()
+			for _, smoke in ipairs(startSmoke) do
+				pcall(function() smoke:Destroy() end)
+			end
+		end)
 		local texBoost = 1
 		local lastEndPos = nil
 		local lastTexTime = tick()
@@ -622,6 +716,7 @@ function BeamSystem.ActivateBeam(config)
 		local function buildFx(key, sources)
 			clearFx()
 			fxKey = key
+			impactFolder:SetAttribute("FxMode", string.sub(key, 1, 5) == "clash" and "clash" or "normal")
 			for _, source in ipairs(sources) do
 				local ring = makeFxEmitter(source, "ring", 1)
 				ring.Parent = impactAnchor
@@ -631,6 +726,18 @@ function BeamSystem.ActivateBeam(config)
 				table.insert(fxGroup, {emitter = core, rate = 22})
 			end
 		end
+		local SMOKE_DIRECTIONS = 8
+		local SMOKE_REACH = 32
+		local smokeGroup = {}
+		for i = 1, SMOKE_DIRECTIONS do
+			local att = Instance.new("Attachment")
+			att.Parent = impactAnchor
+			local smoke = makeSmokeEmitter(smokeColor)
+			smoke.Parent = att
+			smokeGroup[i] = { att = att, emitter = smoke }
+		end
+		local smokeOpenness = 1
+		local templateSpreadBase = {}
 		local function setFxIntensity(intensity)
 			local enabled = intensity > 0.05
 			for _, entry in ipairs(fxGroup) do
@@ -638,10 +745,50 @@ function BeamSystem.ActivateBeam(config)
 				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
 			end
+			for _, entry in ipairs(smokeGroup) do
+				local rate = enabled and math.floor(9 * intensity + 0.5) or 0
+				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
+				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+			end
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
 		local impactParams = RaycastParams.new()
 		impactParams.FilterType = Enum.RaycastFilterType.Exclude
+		local function updateSmoke(impactPos, normal)
+			local base = normal:Cross(Vector3.xAxis)
+			if base.Magnitude < 0.1 then
+				base = normal:Cross(Vector3.zAxis)
+			end
+			base = base.Unit
+			local origin = impactPos + normal * 2
+			local openTotal = 0
+			for i, entry in ipairs(smokeGroup) do
+				local angle = (i - 1) / SMOKE_DIRECTIONS * math.pi * 2
+				local dir = CFrame.fromAxisAngle(normal, angle):VectorToWorldSpace(base)
+				local result = Workspace:Raycast(origin, dir * SMOKE_REACH, impactParams)
+				local free = SMOKE_REACH
+				local emitDir = (dir * 0.85 + normal * 0.15).Unit
+				if result then
+					free = math.max(result.Distance - 1.5, 0)
+					local slide = dir - result.Normal * dir:Dot(result.Normal)
+					emitDir = (normal * 0.8 + slide * 0.2 + result.Normal * 0.2).Unit
+				end
+				openTotal = openTotal + free / SMOKE_REACH
+				entry.att.WorldCFrame = CFrame.lookAt(origin, origin + emitDir) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local life = math.clamp(free / 50, 0.15, 0.5)
+				entry.emitter.Lifetime = NumberRange.new(life * 0.8, life)
+			end
+			smokeOpenness = openTotal / SMOKE_DIRECTIONS
+			for _, source in ipairs(templateEmitters) do
+				local baseSpread = templateSpreadBase[source]
+				if not baseSpread then
+					baseSpread = source.SpreadAngle
+					templateSpreadBase[source] = baseSpread
+				end
+				local extra = 35 + 30 * smokeOpenness
+				source.SpreadAngle = Vector2.new(math.min(baseSpread.X + extra, 180), math.min(baseSpread.Y + extra, 180))
+			end
+		end
 		local function updateImpact(endPos, extent, now, clashInfo)
 			if clashInfo and not clashInfo.lead then
 				setFxIntensity(0)
@@ -670,6 +817,7 @@ function BeamSystem.ActivateBeam(config)
 				local mix = (math.sin(now * 9) + 1) / 2
 				impactLight.Color = impactColor:Lerp(clashInfo.partnerColor or impactColor, mix)
 				impactLight.Brightness = 3 * extent
+				updateSmoke(endPos, Vector3.yAxis)
 				setFxIntensity(extent * 1.4)
 			else
 				if beamIteration % 2 == 0 or not impactSurfaceOffset then
@@ -686,6 +834,7 @@ function BeamSystem.ActivateBeam(config)
 						impactSurfaceOffset = Vector3.zero
 						impactSurfaceNormal = Vector3.yAxis
 					end
+					updateSmoke(endPos + impactSurfaceOffset, impactSurfaceNormal)
 				end
 				local impactPos = endPos + impactSurfaceOffset
 				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
@@ -788,6 +937,9 @@ function BeamSystem.ActivateBeam(config)
 		while tick() - startTime < duration or overpower do
 			beamIteration += 1
 			if not character.Parent or not character:FindFirstChild("HumanoidRootPart") then
+				break
+			end
+			if ownerHumanoid and ownerHumanoid.Health <= 0 then
 				break
 			end
 			local myHRP = character:FindFirstChild("HumanoidRootPart")
@@ -965,7 +1117,16 @@ function BeamSystem.ActivateBeam(config)
 				if latestAim then
 					currentTarget = latestAim
 				end
-				desiredTip = currentTarget
+				local aimTarget = currentTarget
+				if playerShiftLock[player] then
+					aimTarget = aimTarget + Vector3.new(0, SHIFTLOCK_RAISE, 0)
+				end
+				local wallOrigin = getHeadPosition(character)
+				if not wallOrigin then
+					local rootPart = character:FindFirstChild("HumanoidRootPart")
+					wallOrigin = rootPart and rootPart.Position
+				end
+				desiredTip = wallOrigin and clampTipToWalls(wallOrigin, aimTarget, character) or aimTarget
 				if extent >= 0.5 then
 					if dpsScript and not dpsScript.Enabled then
 						dpsScript.Enabled = true
@@ -1022,13 +1183,14 @@ function BeamSystem.ActivateBeam(config)
 									end
 									creator.Value = attackerPlayer
 									ownerHum:TakeDamage(dmg)
-									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, 25, 0, ownerHum.Parent) end
+									local gcellAmount = math.floor(25 * (_G.RewardScale and _G.RewardScale(attackerPlayer, ownerHum.Parent, false) or 1) + math.random())
+									if _G.ShowIndicator then _G.ShowIndicator(attackerPlayer, dmg, gcellAmount, 0, ownerHum.Parent) end
 									local leaderstats = attackerPlayer:FindFirstChild("leaderstats")
 									if leaderstats then
 										local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 										if gcells and gcells:IsA("IntValue") then
-											if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 25) end
-											gcells.Value = gcells.Value + 25
+											if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, gcellAmount) end
+											gcells.Value = gcells.Value + gcellAmount
 										end
 									end
 									task.spawn(function()
@@ -1045,7 +1207,8 @@ function BeamSystem.ActivateBeam(config)
 		end
 		if character.Parent and character:FindFirstChild("HumanoidRootPart") then
 			local overpoweredBy = nil
-			if lastClashData and lastClashData.character and lastClashData.character.Parent
+			local ownerDead = ownerHumanoid and ownerHumanoid.Health <= 0
+			if not ownerDead and lastClashData and lastClashData.character and lastClashData.character.Parent
 				and lastClashData.hitbox and lastClashData.hitbox.Parent and not lastClashData.ending then
 				overpoweredBy = lastClashData
 				overpoweredBy.overpowerRequest = activeBeams[player]

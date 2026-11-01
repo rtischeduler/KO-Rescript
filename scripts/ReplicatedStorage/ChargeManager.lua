@@ -167,6 +167,7 @@ function ChargeManager.canUseCharge(abilityName, remoteEvent)
 	return currentCharge >= required
 end
 
+
 function ChargeManager.consumeCharge(abilityName, remoteEvent)
 	local amount = ChargeManager.getRequiredCharge(abilityName, remoteEvent)
 	if amount > 0 then

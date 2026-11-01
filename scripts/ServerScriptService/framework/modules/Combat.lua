@@ -17,6 +17,10 @@ end
 
 safeRequire("LevelGuard")
 safeRequire("ChargeManager")
+local Knockback = safeRequire("Knockback")
+if not Knockback then
+	warn("[Combat] Knockback module missing from ReplicatedStorage")
+end
 
 local function getOrCreateRemote(name)
 	local remote = ReplicatedStorage:FindFirstChild(name)
@@ -36,9 +40,19 @@ local function getGCells(player)
 	return nil
 end
 
+local function rewardScale(player, at, isKill)
+	if _G.RewardScale and typeof(at) == "Instance" then
+		return _G.RewardScale(player, at, isKill)
+	end
+	return 1, 1
+end
+
 local function giveGCells(player, amount, isKillReward, at)
 	local gcells = getGCells(player)
 	if not gcells then return end
+	local gcellMult = rewardScale(player, at, isKillReward)
+	amount = math.floor(amount * gcellMult + math.random())
+	if amount <= 0 then return end
 	if isKillReward and _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
 	if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
 	gcells.Value += amount
@@ -46,15 +60,25 @@ local function giveGCells(player, amount, isKillReward, at)
 	if isKillReward and _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
 end
 
-local function giveXP(player, minXP, maxXP, at)
+local function giveXP(player, minXP, maxXP, at, isKill)
 	local character = player.Character
 	local addXP = character and character:FindFirstChild("AddXP")
 	if addXP and addXP:IsA("BindableEvent") then
+		local _, xpMult = rewardScale(player, at, isKill)
+		local xpAmount = math.floor(math.random(minXP, maxXP) * xpMult + math.random())
+		if xpAmount <= 0 then return end
 		if _G.SetKillRewardFlag then _G.SetKillRewardFlag(player) end
-		local xpAmount = math.random(minXP, maxXP)
 		addXP:Fire(xpAmount)
 		if _G.ShowIndicator then _G.ShowIndicator(player, 0, 0, xpAmount, at) end
 		if _G.ClearKillRewardFlag then _G.ClearKillRewardFlag(player) end
+	end
+end
+
+local COMBAT_DURATION = 10
+
+local function markInCombat(player)
+	if player then
+		player:SetAttribute("CombatUntil", workspace:GetServerTimeNow() + COMBAT_DURATION)
 	end
 end
 
@@ -189,6 +213,7 @@ local function initCombat()
 					isLowHealth = true
 					local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
 					baseWalkSpeed = humanoid.WalkSpeed / beamFactor
+					humanoid:SetAttribute("BeamSlowBase", nil)
 					humanoid:SetAttribute("Slowed", true)
 					isApplyingSlow = true
 					humanoid.WalkSpeed = baseWalkSpeed * (1 - SLOW_PERCENT) * beamFactor
@@ -200,6 +225,9 @@ local function initCombat()
 				isApplyingSlow = true
 				local beamFactor = humanoid:GetAttribute("BeamSlowFactor") or 1
 				humanoid.WalkSpeed = baseWalkSpeed and (baseWalkSpeed * beamFactor) or humanoid.WalkSpeed / (1 - SLOW_PERCENT)
+				if baseWalkSpeed and beamFactor ~= 1 then
+					humanoid:SetAttribute("BeamSlowBase", baseWalkSpeed)
+				end
 				isApplyingSlow = false
 				baseWalkSpeed = nil
 			end
@@ -223,6 +251,9 @@ local function initCombat()
 							return
 						end
 					end
+
+					markInCombat(attacker)
+					markInCombat(Players:GetPlayerFromCharacter(character))
 
 					local log = damageLog[character]
 					if not log then
@@ -276,13 +307,13 @@ local function initCombat()
 					local stats = topKiller:FindFirstChild("leaderstats")
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end
-					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
+					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
 					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
 				end
 				for _, attacker in ipairs(others) do
 					if attacker ~= topKiller and attacker:IsA("Player") then
 						giveGCells(attacker, ASSIST_REWARD, true, character)
-						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
+						giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character, false)
 					end
 				end
 			end
@@ -320,7 +351,7 @@ local function initCombat()
 			if reward > 0 then
 				sendKillMessage(topKiller.Name, player.Name)
 				giveGCells(topKiller, reward, true, character)
-				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character)
+				giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
 			end
 		end
 		for _, attacker in ipairs(others) do
@@ -328,7 +359,7 @@ local function initCombat()
 				local reward = math.floor(damagePercent * ASSIST_REWARD)
 				if reward > 0 then
 					giveGCells(attacker, reward, true, character)
-					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character)
+					giveXP(attacker, ASSIST_XP_MIN, ASSIST_XP_MAX, character, false)
 				end
 			end
 		end
@@ -436,40 +467,59 @@ local function initPulse()
 
 		local damagePerTick = damage / 10
 		local gcellsPerTick = 25
-		local startSize = 50
 		maxSize = math.max(maxSize, 300)
 		local tickInterval = 0.5
+		local burstTime, sustainTime = 0.4, 0.5
+		local peak = maxSize * 1.1
+		local heartbeat = game:GetService("RunService").Heartbeat
 
 		local overlapParams = OverlapParams.new()
 		overlapParams.FilterDescendantsInstances = { character }
 		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
 
 		local startTime = os.clock()
+		local nextPlayerTick = startTime + 0.15
+		local nextBuildingCheck = startTime
 		while os.clock() - startTime < duration do
 			if not hitbox.Parent or not hrp.Parent then break end
 
-			local progress = math.clamp((os.clock() - startTime) / duration, 0, 1)
-			local size = startSize + (maxSize - startSize) * progress
+			local now = os.clock()
+			local elapsed = now - startTime
+			local growing = elapsed < burstTime + sustainTime
+			local size
+			if elapsed < burstTime then
+				local p = elapsed / burstTime
+				size = 2 + (peak - 2) * (1 - (1 - p) ^ 4)
+			elseif growing then
+				local p = (elapsed - burstTime) / sustainTime
+				size = peak + (maxSize - peak) * p
+			else
+				size = maxSize
+			end
 			hitbox.Size = Vector3.new(size, size, size)
 			hitbox.CFrame = hrp.CFrame
 
-			local hitThisTick = {}
-			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
-				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
-					hitThisTick[hitPlayer] = true
-					setCreator(hitHumanoid, player)
-					hitHumanoid:TakeDamage(damagePerTick)
-					if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
-					pulseHitEvent:FireClient(hitPlayer)
-					giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
-				end
+			if _G.DestroyBuildingsInRadius and now >= nextBuildingCheck then
+				nextBuildingCheck = growing and now or now + 0.25
+				_G.DestroyBuildingsInRadius(hrp.Position, size / 2, player)
 			end
 
-			if _G.DamageBuildingsInRadius then
-				_G.DamageBuildingsInRadius(hrp.Position, size / 2, player)
+			if now >= nextPlayerTick then
+				nextPlayerTick = now + tickInterval
+				local hitThisTick = {}
+				for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
+					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+						hitThisTick[hitPlayer] = true
+						setCreator(hitHumanoid, player)
+						hitHumanoid:TakeDamage(damagePerTick)
+						if _G.ShowIndicator then _G.ShowIndicator(player, damagePerTick, 0, 0, hitHumanoid.Parent) end
+						pulseHitEvent:FireClient(hitPlayer)
+						giveGCells(player, gcellsPerTick, false, hitHumanoid.Parent)
+					end
+				end
 			end
-			task.wait(tickInterval)
+			heartbeat:Wait()
 		end
 
 		if hitbox.Parent then
@@ -675,9 +725,16 @@ local function initAttackHandler()
 		if part.Name == "AttackHitbox" or part.Name == "BeamHitbox" or part.Name == "PulseHitbox" or part:GetAttribute("MeleeHit") then
 			return nil, nil
 		end
-		local character = part.Parent
-		if not character then return nil, nil end
-		return character:FindFirstChildOfClass("Humanoid"), Players:GetPlayerFromCharacter(character)
+		local model = part.Parent
+		while model do
+			local humanoid = model:FindFirstChildOfClass("Humanoid")
+			if humanoid then
+				return humanoid, Players:GetPlayerFromCharacter(model)
+			end
+			model = model.Parent
+			if model == workspace then break end
+		end
+		return nil, nil
 	end
 
 	local function findSounds(character)
@@ -705,6 +762,25 @@ local function initAttackHandler()
 		clone.Ended:Connect(function() clone:Destroy() end)
 		clone:Play()
 		Debris:AddItem(clone, 15)
+		return clone
+	end
+
+	local function playSoundUntilDeath(character, soundName, parent)
+		local clone = playSoundFrom(character, soundName, parent)
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if not clone or not humanoid then return clone end
+		local connection
+		connection = humanoid.Died:Connect(function()
+			connection:Disconnect()
+			if clone.Parent then
+				clone:Stop()
+				clone:Destroy()
+			end
+		end)
+		clone.Destroying:Connect(function()
+			if connection.Connected then connection:Disconnect() end
+		end)
+		return clone
 	end
 
 	local function playHitSound(character)
@@ -735,9 +811,12 @@ local function initAttackHandler()
 		return value and value.Value or 10
 	end
 
-	local function registerHit(attacker, attackerChar, humanoid, damage, gcells)
+	local function registerHit(attacker, attackerChar, humanoid, damage, gcells, noKnockback)
 		setCreator(humanoid, attacker)
 		humanoid:TakeDamage(damage)
+		if Knockback and not noKnockback then
+			Knockback.push(humanoid.Parent, attackerChar, "attack")
+		end
 		if _G.ShowIndicator then _G.ShowIndicator(attacker, damage, 0, 0, humanoid.Parent) end
 		playHitSound(attackerChar)
 		giveGCells(attacker, gcells, false, humanoid.Parent)
@@ -851,7 +930,7 @@ local function initAttackHandler()
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
 
 		playAttackAnimation(character, getAnimName(remoteName))
-		playSoundFrom(character, "Beam", hrp)
+		playSoundUntilDeath(character, "Beam", hrp)
 
 		local pulsePart = Instance.new("Part")
 		pulsePart.Name = "PulseHitbox"
@@ -879,29 +958,69 @@ local function initAttackHandler()
 		overlapParams.FilterDescendantsInstances = { character }
 		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
 
+		local heartbeat = game:GetService("RunService").Heartbeat
 		local startTime = os.clock()
+		local nextPlayerTick = startTime
 		while os.clock() - startTime < duration do
 			if not character.Parent or not hrp.Parent or not pulsePart.Parent then break end
 
-			local progress = math.clamp((os.clock() - startTime) / duration, 0, 1)
+			local now = os.clock()
+			local progress = math.clamp((now - startTime) / duration, 0, 1)
 			local currentSize = startSize + (maxSize - startSize) * progress
 			pulsePart.Size = Vector3.new(currentSize, currentSize, currentSize)
 			pulsePart.Transparency = progress
 			pulsePart.CFrame = hrp.CFrame
 
-			local hitThisTick = {}
-			for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
-				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
-					hitThisTick[hitPlayer] = true
-					registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick)
+			if _G.DestroyBuildingsInRadius then
+				_G.DestroyBuildingsInRadius(hrp.Position, currentSize / 2, player)
+			end
+
+			if now >= nextPlayerTick then
+				nextPlayerTick = now + tickInterval
+				local hitThisTick = {}
+				for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
+					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+						hitThisTick[hitPlayer] = true
+						registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
+					end
 				end
 			end
-			task.wait(tickInterval)
+			heartbeat:Wait()
 		end
 
 		if pulsePart.Parent then pulsePart:Destroy() end
 		disableHitParts(partConns, partsEnabled)
+	end
+
+	local function readColor(value)
+		local kind = typeof(value)
+		if kind == "Color3" then return value end
+		if kind == "BrickColor" then return value.Color end
+		if kind == "number" then
+			local ok, brick = pcall(BrickColor.new, value)
+			return ok and brick.Color or nil
+		end
+		if kind == "Vector3" then
+			if math.max(value.X, value.Y, value.Z) > 1 then
+				return Color3.fromRGB(value.X, value.Y, value.Z)
+			end
+			return Color3.new(value.X, value.Y, value.Z)
+		end
+		if kind == "string" then
+			local hex = value:match("^#?(%x%x%x%x%x%x)$")
+			if hex then return Color3.fromHex(hex) end
+			local r, g, b = value:match("([%d%.]+)[%s,]+([%d%.]+)[%s,]+([%d%.]+)")
+			r, g, b = tonumber(r), tonumber(g), tonumber(b)
+			if r and g and b then
+				if math.max(r, g, b) > 1 then return Color3.fromRGB(r, g, b) end
+				return Color3.new(r, g, b)
+			end
+		end
+		if value ~= nil then
+			warn("[Combat] PulseColor attribute has unsupported value: " .. tostring(value))
+		end
+		return nil
 	end
 
 	local function executeFirePulse(player, character, remote, remoteName)
@@ -910,7 +1029,7 @@ local function initAttackHandler()
 
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
 		local windup = remote:GetAttribute("PulseWindup") or 0
-		local pulseColor = remote:GetAttribute("PulseColor") or Color3.fromRGB(255, 120, 0)
+		local pulseColor = readColor(remote:GetAttribute("PulseColor")) or Color3.fromRGB(255, 120, 0)
 		local pulseMaxSize = remote:GetAttribute("PulseMaxSize") or 300
 		local pulseDuration = remote:GetAttribute("HitboxDuration") or 4
 
@@ -923,6 +1042,12 @@ local function initAttackHandler()
 		end
 	end
 
+	local FOUR_SECOND_DORSAL_CHARGE = {
+		["GODZILLA 2014"] = true,
+		["TITANUS GOJIRA"] = true,
+		["FROSTBITE GODZILLA"] = true,
+	}
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -932,13 +1057,17 @@ local function initAttackHandler()
 
 		local duration = remote:GetAttribute("BeamDuration") or remote:GetAttribute("HitboxDuration") or 4.7
 		local chargeTime = remote:GetAttribute("BeamChargeTime") or 0
+		local kaijuValue = character:FindFirstChild("Kaiju")
+		if kaijuValue and FOUR_SECOND_DORSAL_CHARGE[kaijuValue.Value] then
+			chargeTime = 4
+		end
 
 		playAttackAnimation(character, getAnimName(remoteName))
 
 		local glowManager = getGlowManager(character)
 		if glowManager then glowManager.StartGlow(chargeTime) end
 
-		playSoundFrom(character, "Beam", hrp)
+		playSoundUntilDeath(character, "Beam", hrp)
 
 		local sortedSpikes = {}
 		local originalProps = {}
@@ -980,6 +1109,12 @@ local function initAttackHandler()
 			end
 		elseif chargeTime > 0 then
 			task.wait(chargeTime)
+		end
+
+		local ownerHumanoid = character:FindFirstChildOfClass("Humanoid")
+		if not character.Parent or not ownerHumanoid or ownerHumanoid.Health <= 0 then
+			resetEffects()
+			return
 		end
 
 		local ok, err = pcall(BeamSystem.ActivateBeam, {
@@ -1030,6 +1165,7 @@ local function initAttackHandler()
 			local hrp = char and char:FindFirstChild("HumanoidRootPart")
 			local humanoid = char and char:FindFirstChildOfClass("Humanoid")
 			if not hrp or not humanoid or humanoid.Health <= 0 then return end
+			if not remote:IsDescendantOf(char) then return end
 
 			debounces[remote] = true
 
@@ -1145,6 +1281,7 @@ local function initDPS()
 			if part:GetAttribute("LevelScaled") then
 				multiplier = multiplier * levelScale(attacker)
 			end
+			if attacker then setCreator(humanoid, attacker) end
 			humanoid.Health = humanoid.Health - (part:GetAttribute("Damage") or 0.9) * multiplier
 			if attacker then
 				humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)

@@ -97,6 +97,8 @@ local beamPredictChar = nil
 local beamPredictBeamStart = nil
 local beamPredictHitbox = nil
 local beamEndsReparented = false
+local beamClientFx = nil
+local BeamClientFX = require(game:GetService("ReplicatedStorage"):WaitForChild("BeamClientFX"))
 
 local stopBeamRotation
 local startBeamRotation
@@ -218,7 +220,9 @@ local function raycastFiltered(origin, direction, character)
 		if not result then return nil end
 
 		local inst = result.Instance
-		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and (inst.Transparency >= 0.95 or not inst.CanCollide)
+		local model = inst:FindFirstAncestorOfClass("Model")
+		local isCharacterPart = model ~= nil and model:FindFirstChildOfClass("Humanoid") ~= nil
+		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and not isCharacterPart and (inst.Transparency >= 0.95 or not inst.CanCollide)
 		local isWater = result.Material == Enum.Material.Water
 
 		if isTransparent or isWater then
@@ -275,10 +279,12 @@ local function getAimPosition(character)
 		end
 	else
 		local screenPos = nil
+		local fromMouse = false
 
-		if UserInputService.MouseEnabled then
+		if UserInputService.MouseEnabled and pickBestTouchPos() == nil then
 			local mouseLocation = UserInputService:GetMouseLocation()
 			screenPos = Vector2.new(mouseLocation.X, mouseLocation.Y)
+			fromMouse = true
 		end
 
 		if not screenPos then
@@ -286,7 +292,9 @@ local function getAimPosition(character)
 		end
 
 		local ray
-		if screenPos then
+		if screenPos and fromMouse then
+			ray = camera:ViewportPointToRay(screenPos.X, screenPos.Y)
+		elseif screenPos then
 			ray = camera:ScreenPointToRay(screenPos.X, screenPos.Y)
 		else
 			local viewport = camera.ViewportSize
@@ -425,6 +433,11 @@ local function startBeamPrediction()
 	beamPredictEnd = startPos
 	beamPredictHitbox.CFrame = CFrame.new(startPos)
 
+	if beamClientFx then
+		beamClientFx:Destroy()
+	end
+	beamClientFx = BeamClientFX.new(beamPredictChar)
+
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
 		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
 		local hrp = beamPredictChar:FindFirstChild("HumanoidRootPart")
@@ -463,6 +476,8 @@ local function startBeamPrediction()
 
 		local extent
 		local dirTarget
+		local shiftLock = getShiftLockState()
+		local clashing = serverHitbox ~= nil and serverHitbox:GetAttribute("IsClashing") == true
 		if serverMode then
 			extent = serverHitbox:GetAttribute("BeamExtent") or 1
 			beamPredictEnd = beamPredictEnd:Lerp(serverHitbox.Position, 1 - math.exp(-PRED_SERVER_RATE * dt))
@@ -471,12 +486,14 @@ local function startBeamPrediction()
 		else
 			local aim = getAimPosition(beamPredictChar)
 			if aim and beamPredictTip then
+				local shaped = BeamClientFX.ShapeTip(beamPredictChar, startPos, aim, shiftLock)
 				local rate = now < beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
-				beamPredictTip = beamPredictTip:Lerp(aim, 1 - math.exp(-rate * dt))
+				beamPredictTip = beamPredictTip:Lerp(shaped, 1 - math.exp(-rate * dt))
 			end
 			extent = easeOutCubic(math.clamp((now - beamPredictStartTime) / PRED_INTRO_TIME, 0, 1))
-			beamPredictEnd = startPos:Lerp(beamPredictTip or startPos, extent)
-			dirTarget = beamPredictTip or beamPredictEnd
+			local effectiveTip = BeamClientFX.EnforceForward(hrp, startPos, beamPredictTip or startPos, shiftLock)
+			beamPredictEnd = startPos:Lerp(effectiveTip, extent)
+			dirTarget = effectiveTip
 		end
 
 		beamPredictHitbox.CFrame = orientHitbox(serverMode and startPos or hrp.Position, dirTarget, beamPredictEnd)
@@ -488,14 +505,8 @@ local function startBeamPrediction()
 			end
 		end
 
-		if beamPredictBeamStart and beamPredictBeamStart.Parent then
-			local beamStartPos = beamPredictBeamStart.WorldPosition
-			for i = 1, 6 do
-				local att = hrp:FindFirstChild("BeamGlowLight" .. i)
-				if att then
-					att.WorldPosition = beamStartPos:Lerp(beamPredictEnd, i / 7)
-				end
-			end
+		if beamClientFx then
+			beamClientFx:Step(beamPredictEnd, extent, not clashing, beamPredictHitbox)
 		end
 	end)
 end
@@ -515,6 +526,10 @@ local function stopBeamPrediction()
 	if beamPredictionConnection then
 		beamPredictionConnection:Disconnect()
 		beamPredictionConnection = nil
+	end
+	if beamClientFx then
+		beamClientFx:Destroy()
+		beamClientFx = nil
 	end
 
 	
@@ -859,6 +874,26 @@ local function playClientPrediction(eventName, char)
 	end
 end
 
+local chargeTweens = {}
+
+local function playChargeFill(button, duration)
+	local charge = button:FindFirstChild("Charge")
+	if not charge then return end
+	local previous = chargeTweens[charge]
+	if previous then
+		previous:Cancel()
+	end
+	charge.Size = UDim2.new(1, 0, -1, 0)
+	local tween = TweenService:Create(charge, TweenInfo.new(math.max(duration, 0.05), Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
+	chargeTweens[charge] = tween
+	tween.Completed:Connect(function()
+		if chargeTweens[charge] == tween then
+			chargeTweens[charge] = nil
+		end
+	end)
+	tween:Play()
+end
+
 local function fireAbility(eventName)
 	local button = activeButtons[eventName]
 	if not button then return end
@@ -888,11 +923,18 @@ local function fireAbility(eventName)
 	CooldownManager.start(eventName, cdDuration)
 	ChargeManager.consumeCharge(eventName)
 
-	playClientPrediction(eventName, char)
+	local attackDuration = CooldownManager.getAttackDuration(eventName)
+	activeCooldowns[eventName] = true
+	playChargeFill(button, math.max(cdDuration, attackDuration))
+	task.delay(math.max(cdDuration, attackDuration), function()
+		activeCooldowns[eventName] = nil
+	end)
+
+	pcall(playClientPrediction, eventName, char)
 
 	if needsAimPosition(eventName) then
-		local aimPos = getAimPosition(char)
-		if aimPos then
+		local okAim, aimPos = pcall(getAimPosition, char)
+		if okAim and aimPos then
 			evt:FireServer(aimPos)
 		else
 			local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -920,31 +962,10 @@ local function fireAbility(eventName)
 
 	CooldownManager.startAttackDuration(eventName)
 
-	local attackDuration = CooldownManager.getAttackDuration(eventName)
-	local visualDuration = math.max(cdDuration, attackDuration)
-
-	local charge = button:FindFirstChild("Charge")
-	if charge then
-		charge.Size = UDim2.new(1, 0, -1, 0)
-		local tween = TweenService:Create(charge, TweenInfo.new(visualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-		activeCooldowns[eventName] = true
-		tween.Completed:Connect(function()
-			activeCooldowns[eventName] = nil
-		end)
-		tween:Play()
-	end
-
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-
 			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
-			local otherVisualDuration = math.max(otherRemaining, attackDuration)
-			local otherCharge = otherButton:FindFirstChild("Charge")
-			if otherCharge then
-				otherCharge.Size = UDim2.new(1, 0, -1, 0)
-				local otherTween = TweenService:Create(otherCharge, TweenInfo.new(otherVisualDuration, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 0)})
-				otherTween:Play()
-			end
+			playChargeFill(otherButton, math.max(otherRemaining, attackDuration))
 		end
 	end
 end

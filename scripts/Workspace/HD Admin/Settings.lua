@@ -2,7 +2,7 @@
 
 
 Ranks = {
-		{4,	"Owner", 	{"l0tzie", 3882403525, "riotfan1223",4190983061}	};
+		{4,	"Owner", 	{"l0tzie", 3882403525,}	};
 		{3,	"HeadAdmin",	{"mr_bolde2", 7797782638, "DenisTheCheeseKing", 459870224, "EclipsedFormula",392381235, "BlueEnderCookie_2",274893778,"Player1",-1} };
 	{2,	"Admin",		{"",0},	};
 	{1,	"Mod",			{"",0}	};
@@ -98,7 +98,9 @@ AlertPitch			= 1;
 
 WelcomeBadgeId		= 0;			
 
-CommandDebounce		= true;			
+CommandDebounce		= false;			
+CommandLimitPerMinute		= 1000000;	
+IgnoreCommandLimitPerMinute	= 1;			
 SaveRank			= true;			
 LoopCommands		= 3;			
 

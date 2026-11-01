@@ -218,9 +218,7 @@ local function getSelectedMorphName()
 end
 
 local function findMorphFireRemote()
-	local supplies = ReplicatedStorage:FindFirstChild("MorphSupplies")
-	local events = supplies and supplies:FindFirstChild("Events")
-	return events and events:FindFirstChild("Fire")
+	return ReplicatedStorage:FindFirstChild("MorphFire")
 end
 
 local function waitForMorphReady(timeout)
@@ -246,18 +244,6 @@ local function startPlay()
 	local selectedMorphName = getSelectedMorphName()
 	if not selectedMorphName then
 		warn("No kaiju selected! Please select a kaiju first.")
-		playing = false
-		return
-	end
-
-	local supplies = ReplicatedStorage:FindFirstChild("MorphSupplies")
-	local morphs = supplies and supplies:FindFirstChild("Morphs")
-	if not morphs then
-		playing = false
-		return
-	end
-	if not morphs:FindFirstChild(selectedMorphName, true) then
-		warn("Could not find morph model: " .. tostring(selectedMorphName))
 		playing = false
 		return
 	end

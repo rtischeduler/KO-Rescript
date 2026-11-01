@@ -11,6 +11,14 @@ task.spawn(function()
 		if ok then BeamSystem = result end
 	end
 end)
+local Knockback = nil
+task.spawn(function()
+	local module = ReplicatedStorage:WaitForChild("Knockback", 10)
+	if module then
+		local ok, result = pcall(require, module)
+		if ok then Knockback = result end
+	end
+end)
 local hitDebounce = {}
 
 
@@ -27,14 +35,31 @@ local function getCharRadius(char)
 	return radius
 end
 
+local function characterTouchesHitbox(char, hitbox)
+	local cf = hitbox.CFrame
+	local half = hitbox.Size / 2
+	for _, part in ipairs(char:GetDescendants()) do
+		if part:IsA("BasePart") then
+			local lp = cf:PointToObjectSpace(part.Position)
+			local r = part.Size.Magnitude / 2
+			if math.abs(lp.X) <= half.X + r and math.abs(lp.Y) <= half.Y + r and math.abs(lp.Z) <= half.Z + r then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 local function awardGCells(attacker, at)
 	local leaderstats = attacker:FindFirstChild("leaderstats")
 	if leaderstats then
 		local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 		if gcells and gcells:IsA("IntValue") then
-			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, 2) end
-			gcells.Value = gcells.Value + 2
-			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, 2, 0, at) end
+			local amount = math.floor(2 * (_G.RewardScale and _G.RewardScale(attacker, at, false) or 1) + math.random())
+			if amount <= 0 then return end
+			if _G.GCellGuardAllow then _G.GCellGuardAllow(gcells, amount) end
+			gcells.Value = gcells.Value + amount
+			if _G.ShowIndicator then _G.ShowIndicator(attacker, 0, amount, 0, at) end
 		end
 	end
 end
@@ -80,15 +105,27 @@ task.spawn(function()
 						if humanoid and humanoid.Health > 0 then
 							local hrp = char:FindFirstChild("HumanoidRootPart")
 							if hrp then
-								local dist = (hitboxPos - hrp.Position).Magnitude
-								local charRadius = getCharRadius(char)
-								if dist <= hitRadius + charRadius then
+								local attackerHumanoid = attackerChar and attackerChar:FindFirstChildOfClass("Humanoid")
+								if attackerHumanoid and attackerHumanoid.Health <= 0 then
+									continue
+								end
+								if characterTouchesHitbox(char, hitbox) then
 									hitDebounce[char] = true
 
+									local creator = humanoid:FindFirstChild("creator")
+									if not creator then
+										creator = Instance.new("ObjectValue")
+										creator.Name = "creator"
+										creator.Parent = humanoid
+									end
+									creator.Value = attacker
 									humanoid:SetAttribute("LastDPSAttacker", attacker.UserId)
 									humanoid.Health = humanoid.Health - DAMAGE_AMOUNT
 									if _G.ShowIndicator then _G.ShowIndicator(attacker, DAMAGE_AMOUNT, 0, 0, char) end
 									awardGCells(attacker, char)
+									if Knockback and attackerChar then
+										Knockback.push(char, attackerChar, "beam")
+									end
 									if BeamSystem and BeamSystem.ApplyBeamSlow then
 										BeamSystem.ApplyBeamSlow(humanoid)
 									end

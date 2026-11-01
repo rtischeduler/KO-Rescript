@@ -55,6 +55,23 @@ local FREE_MORPHS = {
     ["CIVILIAN [FREE]"] = true,
 }
 
+-- Kaijus that only specific players may use. Keys are morph names,
+-- values are sets of lowercase player names allowed to use them.
+local ExclusiveKaijus = {
+	["Evo Shin"] = {
+		["mr_bolde2"] = true,
+	},
+}
+
+local function isExclusiveAllowed(player, morphName)
+	local allowed = ExclusiveKaijus[morphName]
+	if not allowed then
+		return true
+	end
+	return allowed[string.lower(player.Name)] == true
+end
+
+
 local legacyNames = {
 	Godzilla2014 = "GODZILLA 2014",
 	TitanusGhidorah = "TITANUS GHIDORAH",
@@ -84,8 +101,7 @@ local legacyNames = {
 
 local function getMorphFolder()
 	local replicatedStorage = game:GetService("ReplicatedStorage")
-	local supplies = replicatedStorage:FindFirstChild("MorphSupplies")
-	return supplies and supplies:FindFirstChild("Morphs")
+	return game:GetService("ServerStorage"):FindFirstChild("Kaijus")
 end
 
 local function getPrice(model)
@@ -169,6 +185,11 @@ function SecurityPolicy.CanUseMorph(player, selectedCreature)
 	end
 
 	local morphName = selectedCreature.Name
+	local exclusivePlayers = ExclusiveKaijus[morphName]
+	if exclusivePlayers then
+		-- Exclusive kaiju: only listed players may use it, no purchase required
+		return exclusivePlayers[string.lower(player.Name)] == true
+	end
 	local price = getPrice(selectedCreature)
 	if price == nil then
     return FREE_MORPHS[morphName] == true

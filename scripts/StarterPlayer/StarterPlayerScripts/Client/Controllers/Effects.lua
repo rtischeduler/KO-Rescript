@@ -1,5 +1,23 @@
 local EffectsController = { Name = "Effects" }
 
+local DEFAULT_QUALITY = { OceanRate = nil, WaterFx = 1, ParticleScale = 1 }
+local resolvedQuality
+local Quality = {
+	Settings = function()
+		if not resolvedQuality then
+			local shared = game:GetService("ReplicatedStorage"):FindFirstChild("Shared")
+			local module = shared and shared:FindFirstChild("GraphicsQuality")
+			if module then
+				local ok, result = pcall(require, module)
+				if ok then
+					resolvedQuality = result
+				end
+			end
+		end
+		return resolvedQuality and resolvedQuality.Settings() or DEFAULT_QUALITY
+	end,
+}
+
 local function startRain(cfg)
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local RunService = game:GetService("RunService")
@@ -45,6 +63,7 @@ local function startRain(cfg)
 
 		local clone = rainTemplate:Clone()
 		rainClone = clone
+		clone:SetAttribute("GraphicsManaged", true)
 		clone.Parent = Workspace
 
 		local holiday = okCfg and HolidayConfigs.getActive() or nil
@@ -53,7 +72,7 @@ local function startRain(cfg)
 		for _, child in clone:GetChildren() do
 			if child:IsA("ParticleEmitter") then
 				if tint then child.Color = ColorSequence.new(tint) end
-				local rate = child.Rate * rainScale
+				local rate = child.Rate * rainScale * Quality.Settings().ParticleScale
 				child.Rate = 0
 				child.Enabled = true
 				TweenService:Create(child, info, { Rate = rate }):Play()
@@ -152,6 +171,29 @@ local function startPulse(cfg)
 	local function easeInPow(p) return p ^ 2.2 end
 	local function rand(a, b) return a + math.random() * (b - a) end
 
+	local function playFallback(position, color, maxSize)
+		local ball = Instance.new("Part")
+		ball.Shape = Enum.PartType.Ball
+		ball.Material = Enum.Material.Neon
+		ball.Color = color
+		ball.Anchored = true
+		ball.CanCollide = false
+		ball.CanTouch = false
+		ball.CanQuery = false
+		ball.CastShadow = false
+		ball.Transparency = 0.35
+		ball.Size = Vector3.new(2, 2, 2)
+		ball.Position = position
+		ball.Parent = workspace
+		local total = BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME
+		Debris:AddItem(ball, total + 1)
+		local size = maxSize * BURST_OVERSHOOT
+		game:GetService("TweenService"):Create(ball, TweenInfo.new(total, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+			Size = Vector3.new(size, size, size),
+			Transparency = 1,
+		}):Play()
+	end
+
 	local function runPulse(firingPlayer, color, maxSize)
 		if typeof(color) ~= "Color3" then color = DEFAULT_COLOR end
 		if type(maxSize) ~= "number" then maxSize = cfg.DefaultSize end
@@ -162,8 +204,12 @@ local function startPulse(cfg)
 		local hrp = character and character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
 
-		local template = ReplicatedStorage:FindFirstChild("Pulse")
-		if not template then return end
+		local template = ReplicatedStorage:FindFirstChild("Pulse") or ReplicatedStorage:WaitForChild("Pulse", 3)
+		if not template then
+			warn("[Pulse] template missing from ReplicatedStorage, using fallback")
+			playFallback(hrp.Position, color, maxSize)
+			return
+		end
 
 		local localPlayer = game:GetService("Players").LocalPlayer
 		local strength = 1
@@ -221,6 +267,23 @@ local function startPulse(cfg)
 					desc.Enabled = true
 					desc.Color = ColorSequence.new(color)
 					table.insert(emitters, desc)
+				elseif desc:IsA("Beam") or desc:IsA("Trail") then
+					desc.Color = ColorSequence.new(color)
+				elseif desc:IsA("Light") then
+					desc.Color = color
+				elseif desc:IsA("Fire") then
+					desc.Color = color
+					desc.SecondaryColor = color
+				elseif desc:IsA("Smoke") then
+					desc.Color = color
+				elseif desc:IsA("Sparkles") then
+					desc.SparkleColor = color
+				elseif desc:IsA("Decal") then
+					desc.Color3 = color
+				elseif desc:IsA("SurfaceAppearance") then
+					desc.Color = color
+				elseif desc:IsA("SpecialMesh") then
+					desc.VertexColor = Vector3.new(color.R, color.G, color.B)
 				end
 			end
 
@@ -229,7 +292,9 @@ local function startPulse(cfg)
 				clone.PrimaryPart = (sw and sw:IsA("BasePart") and sw) or clone:FindFirstChildWhichIsA("BasePart", true)
 			end
 			if not clone.PrimaryPart then
+				warn("[Pulse] template has no parts, using fallback")
 				clone:Destroy()
+				playFallback(hrp.Position, color, maxSize)
 				return
 			end
 
@@ -315,7 +380,7 @@ local function startPulse(cfg)
 			clone.Parent = workspace
 
 			for _, e in ipairs(emitters) do
-				e:Emit(math.max(1, math.floor(e:GetAttribute("EmitCount") or 25)))
+				e:Emit(math.max(1, math.floor((e:GetAttribute("EmitCount") or 25) * Quality.Settings().ParticleScale)))
 			end
 
 			local startSize = 2
@@ -354,6 +419,8 @@ local function startPulse(cfg)
 
 		if not ok then
 			warn("[Pulse] visual failed: " .. tostring(err))
+			if clone.Parent then clone:Destroy() end
+			playFallback(hrp.Position, color, maxSize)
 		end
 
 		destroyEntry(entry)

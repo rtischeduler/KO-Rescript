@@ -1,6 +1,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataStoreService = game:GetService("DataStoreService")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
@@ -11,6 +12,8 @@ local AUTOSAVE_INTERVAL = 120
 local RETRIES = 3
 local LOAD_RETRY_INTERVAL = 30
 local LOAD_RETRY_LIMIT = 10
+local AUTOSAVE_SPREAD = 60
+local MAX_DEFER = 10
 
 local CandyService = { Name = "Candy" }
 
@@ -19,6 +22,7 @@ local ready = {}
 local synced = {}
 local delta = {}
 local busy = {}
+local lastSaved = {}
 
 local function storeKey(player)
 	return "Player_" .. player.UserId
@@ -73,6 +77,7 @@ local function save(player)
 	local amount = balance(player)
 	for attempt = 1, RETRIES do
 		if pcall(store.SetAsync, store, storeKey(player), amount) then
+			lastSaved[player] = amount
 			break
 		end
 		task.wait(attempt)
@@ -94,6 +99,7 @@ local function load(player)
 	end
 	if value ~= nil then
 		setBalance(player, value)
+		lastSaved[player] = value
 		synced[player] = true
 		ready[player] = true
 		return
@@ -187,16 +193,37 @@ function CandyService:Init()
 		synced[player] = nil
 		delta[player] = nil
 		busy[player] = nil
+		lastSaved[player] = nil
 	end)
+end
+
+local function autosaveAll()
+	local players = Players:GetPlayers()
+	if #players == 0 then
+		return
+	end
+	local gap = math.min(AUTOSAVE_SPREAD / #players, 5)
+	for _, player in ipairs(players) do
+		if player.Parent and synced[player] and balance(player) ~= lastSaved[player] then
+			local waited = 0
+			while ServerScriptService:GetAttribute("ServerLagging") == true and waited < MAX_DEFER do
+				task.wait(1)
+				waited += 1
+			end
+			local budget = DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.SetIncrementAsync)
+			if player.Parent and budget >= 2 then
+				save(player)
+			end
+			task.wait(gap)
+		end
+	end
 end
 
 function CandyService:Start()
 	task.spawn(function()
 		while true do
 			task.wait(AUTOSAVE_INTERVAL)
-			for _, player in Players:GetPlayers() do
-				task.spawn(save, player)
-			end
+			pcall(autosaveAll)
 		end
 	end)
 

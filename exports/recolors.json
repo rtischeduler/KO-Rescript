@@ -1,37 +1,20 @@
 {
   "containers": {
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors": 27,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors": 25,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/LocalRecolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/Recolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/RecolorScript": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/LocalRecolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/Recolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/RecolorScript": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/LocalRecolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/Recolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/RecolorScript": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/LocalRecolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/Recolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/RecolorScript": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/LocalRecolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/Recolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/RecolorScript": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/LocalRecolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/Recolor": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/RecolorScript": 0,
-    "Lighting/GUIs/GameGui/MainFrame/Interface/Recolor": 1,
     "ReplicatedStorage/GetRecolorData": 0,
     "ReplicatedStorage/Recolors": 0,
     "ReplicatedStorage/SetRecolor": 0,
     "StarterGui/NEWMenu/Kaijus/Stats/Recolors": 4,
     "StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator": 0
   },
-  "count": 38,
+  "count": 8,
   "entries": [
     {
       "class": "ScrollingFrame",
       "path": "StarterGui/NEWMenu/Kaijus/Stats/Recolors"
+    },
+    {
+      "class": "LocalScript",
+      "path": "StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator"
     },
     {
       "class": "ImageLabel",
@@ -46,128 +29,8 @@
       "path": "StarterGui/NEWMenu/Kaijus/Stats/Recolors/Template/TextLabel"
     },
     {
-      "class": "LocalScript",
-      "path": "StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator"
-    },
-    {
-      "class": "Frame",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors"
-    },
-    {
-      "class": "TextLabel",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/TextLabel"
-    },
-    {
-      "class": "Frame",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny"
-    },
-    {
-      "class": "Script",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/RecolorScript"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/LocalRecolor"
-    },
-    {
-      "class": "RemoteEvent",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Shiny/Recolor"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom"
-    },
-    {
-      "class": "Script",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/RecolorScript"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/LocalRecolor"
-    },
-    {
-      "class": "RemoteEvent",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Phantom/Recolor"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire"
-    },
-    {
-      "class": "Script",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/RecolorScript"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/LocalRecolor"
-    },
-    {
-      "class": "RemoteEvent",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Fire/Recolor"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink"
-    },
-    {
-      "class": "Script",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/RecolorScript"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/LocalRecolor"
-    },
-    {
-      "class": "RemoteEvent",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Pink/Recolor"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold"
-    },
-    {
-      "class": "Script",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/RecolorScript"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/LocalRecolor"
-    },
-    {
-      "class": "RemoteEvent",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Gold/Recolor"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black"
-    },
-    {
-      "class": "Script",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/RecolorScript"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/LocalRecolor"
-    },
-    {
-      "class": "RemoteEvent",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/Black/Recolor"
-    },
-    {
-      "class": "UIGridLayout",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Colors/Colors/UIGridLayout"
-    },
-    {
-      "class": "TextButton",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Recolor"
-    },
-    {
-      "class": "LocalScript",
-      "path": "Lighting/GUIs/GameGui/MainFrame/Interface/Recolor/LocalScript"
+      "class": "ModuleScript",
+      "path": "ReplicatedStorage/Recolors"
     },
     {
       "class": "RemoteEvent",
@@ -176,10 +39,6 @@
     {
       "class": "RemoteFunction",
       "path": "ReplicatedStorage/GetRecolorData"
-    },
-    {
-      "class": "ModuleScript",
-      "path": "ReplicatedStorage/Recolors"
     }
   ]
 }

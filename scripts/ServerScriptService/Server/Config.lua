@@ -44,11 +44,31 @@ return {
 
 	LegacyModules = { "Character", "Combat", "Data", "World" },
 
+	RewardScaling = {
+		FreeMorphs = {
+			"GOJIRA [FREE]",
+			"SHIN FORM 2 [FREE]",
+			"ANGUIRUS [FREE]",
+			"MILITARY TANK [FREE]",
+			"F16C [FREE]",
+			"CIVILIAN [FREE]",
+		},
+		FullUntil = 2,
+		GCellsZeroAt = 10,
+		XpZeroAt = 25,
+		StarterXp = 0.05,
+	},
+
+	Performance = {
+		SampleSeconds = 3,
+		LagFrameTime = 1 / 30,
+	},
+
 	OceanDepth = {
 		Enabled = true,
 		FloorNames = { "Bottom" },
-		DepthDrop = 25,
-		WedgeGrow = 25,
+		DepthDrop = 18,
+		WedgeGrow = 18,
 		ColorTolerance = 0.02,
 		MinUpright = 0.9,
 		YieldEvery = 3000,

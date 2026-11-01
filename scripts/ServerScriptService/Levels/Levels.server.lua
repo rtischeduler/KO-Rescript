@@ -6,6 +6,8 @@ local LevelManager = require(ReplicatedStorage:WaitForChild("LevelManager"))
 local LevelDataStore = DataStoreService:GetDataStore("PlayerLevels_v3")
 local ModifierDataStore = DataStoreService:GetDataStore("PlayerModifiers_v1")
 
+local BadgeService = game:GetService("BadgeService")
+
 local levelUpdateRemote = ReplicatedStorage:FindFirstChild("LevelUpdate")
 if not levelUpdateRemote then
 	levelUpdateRemote = Instance.new("RemoteEvent")
@@ -67,6 +69,54 @@ local MINILLA_MULTIPLIERS = {
 }
 
 local fullPlayerData = nil
+
+local BADGE_LEVEL = 100
+
+local KAIJU_BADGES = {
+	["GOJIRA"] = 1105527027918476,
+	["ANGUIRUS"] = 851063685517230,
+	["SHIN FORM 2"] = 579135022857993,
+	["KAMATA KUN"] = 579135022857993,
+	["CIVILIAN"] = 112448504672953,
+	["MINILLA"] = 3948584322241242,
+	["SHIN FORM 3"] = 1864240061775839,
+	["SHIN GOJIRA"] = 781098265853385,
+	["SHIN GODZILLA"] = 781098265853385,
+	["MILITARY TANK"] = 972638743160783,
+	["TANK"] = 972638743160783,
+	["BIOLLANTE"] = 694858654647157,
+	["BURNING GODZILLA"] = 2969849915068378,
+	["THERMONUCLEAR GODZILLA"] = 2619077333410178,
+}
+
+local function badgeKey(name)
+	local key = string.upper(tostring(name))
+	key = key:gsub("%s*%[FREE%]", "")
+	key = key:gsub("^%s+", ""):gsub("%s+$", "")
+	return key
+end
+
+local function awardLevelBadge(level)
+	if not player or level < BADGE_LEVEL then return end
+	local badgeId = KAIJU_BADGES[badgeKey(kaijuName)]
+	if not badgeId then return end
+	local flag = "BadgeChecked_" .. badgeId
+	if player:GetAttribute(flag) then return end
+	player:SetAttribute(flag, true)
+	task.spawn(function()
+		local okHas, has = pcall(function()
+			return BadgeService:UserHasBadgeAsync(player.UserId, badgeId)
+		end)
+		if okHas and has then return end
+		local ok, err = pcall(function()
+			return BadgeService:AwardBadge(player.UserId, badgeId)
+		end)
+		if not ok then
+			warn("Badge award failed", badgeId, err)
+			if player.Parent then player:SetAttribute(flag, nil) end
+		end
+	end)
+end
 
 local function getPlayerData(p)
 	if cachedData then
@@ -174,6 +224,7 @@ local function addXP(amount)
 
 	if data.level ~= oldLevel then
 		updateLeaderstatLevel(data.level)
+		awardLevelBadge(data.level)
 	end
 
 	if leveledUp then
@@ -351,6 +402,7 @@ local function initialize()
 	end
 
 	updateLeaderstatLevel(data.level)
+	awardLevelBadge(data.level)
 
 	local modSuccess, modData = pcall(function()
 		return ModifierDataStore:GetAsync("Player_" .. player.UserId)
