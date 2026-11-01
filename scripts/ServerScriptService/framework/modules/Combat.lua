@@ -870,6 +870,16 @@ local function initAttackHandler()
 
 		playAttackAnimation(character, getAnimName(remoteName))
 
+		-- Travel: forward lunge for the attacker, configurable per attack remote
+		-- via TravelSpeed / TravelDistance / TravelDuration attributes.
+		if Knockback then
+			Knockback.travel(character, {
+				speed = remote:GetAttribute("TravelSpeed"),
+				distance = remote:GetAttribute("TravelDistance"),
+				duration = remote:GetAttribute("TravelDuration"),
+			})
+		end
+
 		local hitbox = Instance.new("Part")
 		hitbox.Name = "AttackHitbox"
 		hitbox:SetAttribute("MeleeHit", true)
@@ -1062,6 +1072,22 @@ local function initAttackHandler()
 			chargeTime = 4
 		end
 
+		-- Glow config lives on each spike part, with the Spikes folder as the default:
+		-- "BeamGlow" (bool, defaults to true) enables/disables that part's glow,
+		-- "GlowColor" (Color3) sets that part's glow color. A part without its own
+		-- attributes falls back to the Spikes folder's, then the Beam RemoteEvent's
+		-- "GlowColor", then the part's own original color.
+		local spikesFolder = character:FindFirstChild("Spikes")
+		local folderGlow = spikesFolder and spikesFolder:GetAttribute("BeamGlow")
+		if folderGlow == nil then folderGlow = true end
+		local folderColor = spikesFolder and spikesFolder:GetAttribute("GlowColor")
+		if typeof(folderColor) ~= "Color3" then
+			folderColor = remote:GetAttribute("GlowColor")
+			if typeof(folderColor) ~= "Color3" then
+				folderColor = nil
+			end
+		end
+
 		playAttackAnimation(character, getAnimName(remoteName))
 
 		local glowManager = getGlowManager(character)
@@ -1071,14 +1097,13 @@ local function initAttackHandler()
 
 		local sortedSpikes = {}
 		local originalProps = {}
-		local spikesFolder = character:FindFirstChild("Spikes")
 		if spikesFolder then
 			for _, child in ipairs(spikesFolder:GetChildren()) do
 				if child:IsA("BasePart") then
 					local number = tonumber(string.match(child.Name, "%d+"))
 					if number then
 						table.insert(sortedSpikes, { part = child, number = number })
-						originalProps[child] = { Material = child.Material, UsePartColor = child.UsePartColor }
+						originalProps[child] = { Material = child.Material, UsePartColor = child.UsePartColor, Color = child.Color }
 					end
 				end
 			end
@@ -1093,6 +1118,7 @@ local function initAttackHandler()
 					if props and spike.Parent then
 						spike.Material = props.Material
 						spike.UsePartColor = props.UsePartColor
+						spike.Color = props.Color
 					end
 					task.wait(0.1)
 				end
@@ -1103,8 +1129,18 @@ local function initAttackHandler()
 		if #sortedSpikes > 0 then
 			local perSpikeDelay = chargeTime > 0 and chargeTime / #sortedSpikes or 0.21
 			for _, data in ipairs(sortedSpikes) do
-				data.part.Material = Enum.Material.Neon
-				data.part.UsePartColor = true
+				local part = data.part
+				local partGlow = part:GetAttribute("BeamGlow")
+				if partGlow == nil then partGlow = folderGlow end
+				if partGlow then
+					part.Material = Enum.Material.Neon
+					part.UsePartColor = true
+					local partColor = part:GetAttribute("GlowColor")
+					if typeof(partColor) ~= "Color3" then partColor = folderColor end
+					if partColor then
+						part.Color = partColor
+					end
+				end
 				task.wait(perSpikeDelay)
 			end
 		elseif chargeTime > 0 then

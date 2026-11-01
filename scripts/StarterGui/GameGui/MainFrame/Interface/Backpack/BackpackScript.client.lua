@@ -346,6 +346,11 @@ local beamPredictServerMode = false
 local beamPredictTransitionUntil = 0
 local beamPredictServerHitbox = nil
 local beamPredictLastTime = 0
+local beamPredictLocalOnly = false
+local beamPredictOrigins = {}
+local beamPredictLocalBeams = {}
+local FOUR_SECOND_CHARGE = {["GODZILLA 2014"] = true, ["TITANUS GOJIRA"] = true, ["FROSTBITE GODZILLA"] = true}
+local PRED_CONFIRM_GRACE = 2
 
 local function easeOutCubic(t)
 	return 1 - (1 - t) ^ 3
@@ -387,7 +392,7 @@ local function findServerBeamHitbox()
 	return nil
 end
 
-local function startBeamPrediction()
+local function startBeamPrediction(localOnly)
 	beamPredictChar = player.Character
 	if not beamPredictChar then return end
 
@@ -437,6 +442,35 @@ local function startBeamPrediction()
 		beamClientFx:Destroy()
 	end
 	beamClientFx = BeamClientFX.new(beamPredictChar)
+
+	-- Local-only prediction: the server has not started the beam yet, so show it ourselves.
+	beamPredictLocalOnly = localOnly == true
+	beamPredictOrigins = {}
+	beamPredictLocalBeams = {}
+	if beamPredictLocalOnly then
+		for _, d in ipairs(beamPredictChar:GetDescendants()) do
+			if d:IsA("Attachment") and d.Name == "BeamEnd" then
+				local op = d.Parent
+				local offset = Vector3.new(0, 0, 0)
+				if op then
+					if op.Name == "LHead" then offset = Vector3.new(-8, 0, 0)
+					elseif op.Name == "RHead" or op.Name == "RUmouth" then offset = Vector3.new(8, 0, 0) end
+				end
+				beamPredictOrigins[d] = {parent = op, cframe = d.CFrame}
+				d:SetAttribute("BeamEndOffset", offset)
+				d.Parent = beamPredictHitbox
+				for _, c in ipairs(d:GetChildren()) do
+					if c:IsA("ParticleEmitter") or c:IsA("Light") then c.Enabled = true end
+				end
+			elseif d:IsA("Beam") and d.Parent and d.Parent:IsA("Attachment") and d.Parent.Name == "BeamStart" then
+				d.Transparency = NumberSequence.new(0)
+				d.LightEmission = 1
+				d.LightInfluence = 0
+				d.Enabled = true
+				table.insert(beamPredictLocalBeams, d)
+			end
+		end
+	end
 
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
 		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
@@ -543,7 +577,13 @@ local function stopBeamPrediction()
 						local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
 						child.CFrame = CFrame.new(offset)
 					else
-						child.Parent = nil
+						local origin = beamPredictOrigins[child]
+						if origin and origin.parent and origin.parent.Parent then
+							child.Parent = origin.parent
+							child.CFrame = origin.cframe
+						else
+							child.Parent = nil
+						end
 					end
 				else
 					child.Parent = nil
@@ -553,6 +593,15 @@ local function stopBeamPrediction()
 		beamPredictHitbox:Destroy()
 		beamPredictHitbox = nil
 	end
+
+	if beamPredictLocalOnly then
+		for _, b in ipairs(beamPredictLocalBeams) do
+			if b.Parent then b.Enabled = false end
+		end
+	end
+	beamPredictLocalOnly = false
+	beamPredictOrigins = {}
+	beamPredictLocalBeams = {}
 
 	beamEndsReparented = false
 	if beamPredictChar and beamPredictChar.Parent then
@@ -625,6 +674,10 @@ Knit.OnStart():andThen(function()
 					beamLockedYaw = math.atan2(-charLook.X, charLook.Z)
 				end
 			end
+		end
+		if beamActive and beamPredictionConnection then
+			-- already predicted locally; just adopt the server generation (no restart/flicker)
+			return
 		end
 		beamActive = true
 		startBeamRotation()
@@ -946,11 +999,35 @@ local function fireAbility(eventName)
 		evt:FireServer()
 	end
 
-	if isBeamEvent(eventName) then
+	if isBeamEvent(eventName) and evt:GetAttribute("AttackType") == "Beam" then
 		if beamStartTimeout then
 			task.cancel(beamStartTimeout)
 		end
-		beamStartTimeout = task.delay(5, function()
+		local charge = evt:GetAttribute("BeamChargeTime") or 0
+		local kaijuVal = char:FindFirstChild("Kaiju")
+		if kaijuVal and FOUR_SECOND_CHARGE[kaijuVal.Value] then charge = 4 end
+		if beamDelayToken then task.cancel(beamDelayToken) end
+		beamDelayToken = task.delay(charge, function()
+			beamDelayToken = nil
+			if beamActive then return end
+			local c = player.Character
+			if c ~= char or not c.Parent then return end
+			local hum = c:FindFirstChildOfClass("Humanoid")
+			if not hum or hum.Health <= 0 then return end
+			beamActive = true
+			startBeamRotation()
+			startBeamPrediction(true)
+			if beamStartTimeout then task.cancel(beamStartTimeout) end
+			beamStartTimeout = task.delay(PRED_CONFIRM_GRACE, function()
+				beamStartTimeout = nil
+				beamActive = false
+				currentBeamGeneration = nil
+				beamLockedYaw = nil
+				stopBeamRotation()
+				stopBeamPrediction()
+			end)
+		end)
+		beamStartTimeout = task.delay(math.max(5, charge + 2), function()
 			beamStartTimeout = nil
 			beamActive = false
 			currentBeamGeneration = nil
@@ -1294,4 +1371,3 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 		doSprintToggle()
 	end
 end)
-

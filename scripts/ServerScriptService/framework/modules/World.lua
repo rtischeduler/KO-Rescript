@@ -100,8 +100,8 @@ local function initDayNight()
 		Cloud = Color3.new(1, 1, 1),
 	}
 	local NIGHT = {
-		Brightness = 1.2, Ambient = Color3.new(0.28, 0.32, 0.45),
-		OutdoorAmbient = Color3.new(0.15, 0.18, 0.3),
+		Brightness = 1.4, Ambient = Color3.new(0.33, 0.37, 0.5),
+		OutdoorAmbient = Color3.new(0.19, 0.22, 0.34),
 		ColorShift_Top = Color3.new(0.12, 0.15, 0.28),
 		ColorShift_Bottom = Color3.new(0.06, 0.07, 0.14),
 		FogColor = Color3.new(0.18, 0.21, 0.3), FogEnd = 3000,
@@ -109,7 +109,7 @@ local function initDayNight()
 		Cloud = Color3.new(0.12, 0.12, 0.16),
 	}
 	local RAIN = {
-		FogEndMul = 0.4, DensityAdd = 0.15, HazeAdd = 1,
+		FogEndMul = 0.55, DensityAdd = 0.1, HazeAdd = 0.7,
 		FogColor = Color3.new(0.35, 0.37, 0.4),
 		AtmColor = Color3.new(0.4, 0.42, 0.45),
 		Cloud = Color3.new(0.15, 0.15, 0.18),
@@ -291,6 +291,7 @@ local function initWindowLights()
 	workspace.DescendantAdded:Connect(register)
 	workspace.DescendantRemoving:Connect(function(inst)
 		saved[inst] = nil
+		if not inst:IsA("UnionOperation") then return end
 		for b, list in buildings do
 			local i = table.find(list, inst)
 			if i then
@@ -1192,16 +1193,16 @@ local function initCollisions()
 	fixTree(workspace)
 
 	workspace.DescendantAdded:Connect(function(d)
-		task.defer(fixPart, d)
+		if d:IsA("BasePart") then task.defer(fixPart, d) end
 	end)
 
 	while true do
-		task.wait(30)
+		task.wait(120)
 		local n = 0
 		for _, d in workspace:GetDescendants() do
 			fixPart(d)
 			n += 1
-			if n % 2000 == 0 then task.wait() end
+			if n % 500 == 0 then task.wait() end
 		end
 	end
 end

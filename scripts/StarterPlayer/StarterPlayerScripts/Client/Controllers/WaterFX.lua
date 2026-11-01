@@ -1,13 +1,58 @@
 local WaterFX = { Name = "WaterFX" }
 
 local FOAM = "rbxasset://textures/particles/smoke_main.dds"
-local SPRAY = "rbxasset://textures/particles/sparkles_main.dds"
 
 local function sizeSequence(a, b)
 	return NumberSequence.new({
 		NumberSequenceKeypoint.new(0, a),
 		NumberSequenceKeypoint.new(1, b),
 	})
+end
+
+local function newFoam(attachment, fx)
+	local foam = Instance.new("ParticleEmitter")
+	foam.Texture = FOAM
+	foam.Rate = 0
+	foam.Lifetime = NumberRange.new(fx.WakeLifetime * 0.7, fx.WakeLifetime)
+	foam.Speed = NumberRange.new(1.5, 4)
+	foam.SpreadAngle = Vector2.new(18, 6)
+	foam.EmissionDirection = Enum.NormalId.Front
+	foam.Drag = 2
+	foam.LightEmission = 0.2
+	foam.Rotation = NumberRange.new(-180, 180)
+	foam.RotSpeed = NumberRange.new(-30, 30)
+	foam.Color = ColorSequence.new(fx.FoamColor)
+	foam.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.55),
+		NumberSequenceKeypoint.new(0.6, 0.75),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	foam.Size = sizeSequence(1, 2.5)
+	foam.Parent = attachment
+	return foam
+end
+
+local function newSplash(attachment, fx)
+	local splash = Instance.new("ParticleEmitter")
+	splash.Texture = fx.SplashTexture
+	splash.Rate = 0
+	splash.Lifetime = NumberRange.new(0.6, 1.1)
+	splash.Speed = NumberRange.new(8, 16)
+	splash.SpreadAngle = Vector2.new(16, 16)
+	splash.EmissionDirection = Enum.NormalId.Front
+	splash.Acceleration = Vector3.new(0, -workspace.Gravity * 0.8, 0)
+	splash.LightEmission = 0.35
+	splash.Rotation = NumberRange.new(-180, 180)
+	splash.RotSpeed = NumberRange.new(-60, 60)
+	splash.Color = ColorSequence.new(fx.SprayColor)
+	splash.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.1),
+		NumberSequenceKeypoint.new(0.7, 0.5),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	splash.Size = sizeSequence(0.9, 0.5)
+	splash.Parent = attachment
+	return splash
 end
 
 local function build(folder, fx)
@@ -22,43 +67,33 @@ local function build(folder, fx)
 	part.Size = Vector3.one
 	part.Parent = folder
 
-	local attachment = Instance.new("Attachment")
-	attachment.Parent = part
+	local rim = {}
+	for i = 1, fx.RimPoints do
+		local angle = (i - 1) / fx.RimPoints * math.pi * 2
+		local foamAttachment = Instance.new("Attachment")
+		foamAttachment.Parent = part
+		local splashAttachment = Instance.new("Attachment")
+		splashAttachment.Parent = part
+		rim[i] = {
+			dir = Vector3.new(math.cos(angle), 0, math.sin(angle)),
+			foamAttachment = foamAttachment,
+			splashAttachment = splashAttachment,
+			foam = newFoam(foamAttachment, fx),
+			splash = newSplash(splashAttachment, fx),
+		}
+	end
 
-	local wake = Instance.new("ParticleEmitter")
-	wake.Texture = FOAM
-	wake.Rate = 0
-	wake.Lifetime = NumberRange.new(fx.WakeLifetime * 0.7, fx.WakeLifetime)
-	wake.Speed = NumberRange.new(0.5, 2)
-	wake.SpreadAngle = Vector2.new(180, 180)
-	wake.Drag = 3
-	wake.LightEmission = 0.3
-	wake.Color = ColorSequence.new(fx.FoamColor)
-	wake.Transparency = NumberSequence.new({
-		NumberSequenceKeypoint.new(0, 0.45),
-		NumberSequenceKeypoint.new(1, 1),
-	})
-	wake.Size = sizeSequence(1, 3)
-	wake.Parent = attachment
+	return part, rim
+end
 
-	local spray = Instance.new("ParticleEmitter")
-	spray.Texture = SPRAY
-	spray.Rate = 0
-	spray.Lifetime = NumberRange.new(0.5, 0.9)
-	spray.Speed = NumberRange.new(8, 16)
-	spray.SpreadAngle = Vector2.new(35, 35)
-	spray.EmissionDirection = Enum.NormalId.Top
-	spray.Acceleration = Vector3.new(0, -workspace.Gravity * 0.6, 0)
-	spray.LightEmission = 0.5
-	spray.Color = ColorSequence.new(fx.SprayColor)
-	spray.Transparency = NumberSequence.new({
-		NumberSequenceKeypoint.new(0, 0.1),
-		NumberSequenceKeypoint.new(1, 1),
-	})
-	spray.Size = sizeSequence(0.6, 0.2)
-	spray.Parent = attachment
-
-	return part, wake, spray
+local function placeRim(rim, radius, pitch)
+	local tilt = math.rad(pitch)
+	for _, point in ipairs(rim) do
+		local position = point.dir * radius
+		point.foamAttachment.CFrame = CFrame.lookAt(position, position + point.dir)
+		local aim = point.dir * math.cos(tilt) + Vector3.yAxis * math.sin(tilt)
+		point.splashAttachment.CFrame = CFrame.lookAt(position, position + aim)
+	end
 end
 
 function WaterFX:Start()
@@ -93,13 +128,13 @@ function WaterFX:Start()
 		if not root then
 			return
 		end
-		local part, wake, spray = build(folder, fx)
+		local part, rim = build(folder, fx)
 		tracked[player] = {
 			root = root,
 			part = part,
-			wake = wake,
-			spray = spray,
+			rim = rim,
 			scale = 0,
+			radius = 0,
 			wasIn = false,
 			nextSplash = 0,
 		}
@@ -123,14 +158,20 @@ function WaterFX:Start()
 	Players.PlayerAdded:Connect(hook)
 	Players.PlayerRemoving:Connect(untrack)
 
-	local function applyScale(entry, scale)
-		if math.abs(entry.scale - scale) < 0.25 then
+	local function applyScale(entry, scale, radius)
+		if math.abs(entry.scale - scale) < 0.25 and math.abs(entry.radius - radius) < 0.25 then
 			return
 		end
 		entry.scale = scale
-		entry.wake.Size = sizeSequence(scale, scale * 3)
-		entry.spray.Size = sizeSequence(scale * 0.6, scale * 0.2)
-		entry.spray.Speed = NumberRange.new(8 * scale ^ 0.5, 16 * scale ^ 0.5)
+		entry.radius = radius
+		placeRim(entry.rim, radius, fx.SplashPitch)
+		local root = math.sqrt(scale)
+		for _, point in ipairs(entry.rim) do
+			point.foam.Size = sizeSequence(scale * 0.8, scale * 2.4)
+			point.foam.Speed = NumberRange.new(1.5 * root, 4 * root)
+			point.splash.Size = sizeSequence(scale * 0.9, scale * 0.4)
+			point.splash.Speed = NumberRange.new(8 * root, 16 * root)
+		end
 	end
 
 	local Quality = (function()
@@ -175,27 +216,54 @@ function WaterFX:Start()
 
 				if inWater then
 					local velocity = root.AssemblyLinearVelocity
-					local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
+					local flat = Vector3.new(velocity.X, 0, velocity.Z)
+					local speed = flat.Magnitude
+					local moveDir = speed > 0.1 and flat.Unit or Vector3.zero
 					local scale = math.clamp(math.max(root.Size.X, root.Size.Z) / fx.ReferenceSize, 1, fx.MaxScale)
-					applyScale(entry, scale)
+					local radius = math.clamp(math.max(root.Size.X, root.Size.Z) * fx.RimRadiusFactor, 1, fx.MaxRadius)
+					applyScale(entry, scale, radius)
 					entry.part.CFrame = CFrame.new(pos.X, level + fx.SurfaceLift, pos.Z)
 
-					entry.wake.Rate = (speed > fx.MinSpeed and math.min(speed * fx.RatePerSpeed, fx.MaxRate) or 0) * fxScale
-					entry.spray.Rate = (speed > fx.SprayMinSpeed
-							and math.min((speed - fx.SprayMinSpeed) * fx.SprayPerSpeed, fx.SprayMaxRate)
-						or 0) * fxScale
+					local moving = speed > fx.MinSpeed
+					local foamRate = moving and math.min(speed * fx.RatePerSpeed, fx.MaxRate) * 2 / fx.RimPoints or 0
+					local sprayRate = speed > fx.SprayMinSpeed
+						and math.min((speed - fx.SprayMinSpeed) * fx.SprayPerSpeed, fx.SprayMaxRate) * 2 / fx.RimPoints
+						or 0
+
+					for _, point in ipairs(entry.rim) do
+						local facing = moveDir:Dot(point.dir)
+						local foam = fx.IdleFoamRate
+						local spray = 0
+						if moving then
+							if facing < fx.TrailDot then
+								foam = foamRate
+							elseif facing > fx.BowDot then
+								foam = foamRate * 0.5
+								spray = sprayRate * facing
+							else
+								foam = foamRate * 0.4
+							end
+						end
+						point.foam.Rate = foam * fxScale
+						point.splash.Rate = spray * fxScale
+					end
 
 					if not entry.wasIn and now >= entry.nextSplash then
 						local count = math.clamp(-velocity.Y * fx.SplashPerSpeed * scale ^ 0.5, fx.SplashMinCount, fx.SplashMaxCount)
 						if fxScale > 0 then
-							entry.spray:Emit(math.max(1, math.floor(count * fxScale)))
-							entry.wake:Emit(math.max(1, math.floor(count * 0.5 * fxScale)))
+							local perPoint = math.max(1, math.floor(count * fxScale / fx.RimPoints + 0.5))
+							for _, point in ipairs(entry.rim) do
+								point.splash:Emit(perPoint)
+								point.foam:Emit(math.max(1, math.floor(perPoint * 0.5)))
+							end
 						end
 						entry.nextSplash = now + fx.SplashCooldown
 					end
 				else
-					entry.wake.Rate = 0
-					entry.spray.Rate = 0
+					for _, point in ipairs(entry.rim) do
+						point.foam.Rate = 0
+						point.splash.Rate = 0
+					end
 				end
 
 				entry.wasIn = inWater

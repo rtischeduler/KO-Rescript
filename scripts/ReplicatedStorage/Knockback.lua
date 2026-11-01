@@ -120,11 +120,25 @@ else
 		return mover
 	end
 
+	local function setFlightMoverEnabled(root, enabled)
+		-- The character's own flight/swim control rig ("FlyVelocity" LinearVelocity)
+		-- overrides any velocity we set while PlatformStand is on. Pause it while
+		-- knockback/travel is active so the motion actually applies.
+		local fly = root and root:FindFirstChild("FlyVelocity")
+		if fly and fly:IsA("LinearVelocity") then
+			fly.Enabled = enabled
+		end
+	end
+
 	local function clearActive()
 		active = nil
 		if mover then
 			mover.Enabled = false
 		end
+		local player = Players.LocalPlayer
+		local character = player and player.Character
+		local root = character and character:FindFirstChild("HumanoidRootPart")
+		setFlightMoverEnabled(root, true)
 	end
 
 	remote.OnClientEvent:Connect(function(vec, duration, mode)
@@ -185,13 +199,15 @@ else
 			clearActive()
 			return
 		end
-		-- Swim/Fly/Glide modes enable PlatformStand: apply velocity directly to the root
-		-- so knockback/travel still work in those modes.
+		-- Swim/Fly/Glide modes enable PlatformStand: pause the flight control mover
+		-- and apply velocity directly to the root so knockback/travel still work.
 		if humanoid.PlatformStand then
+			setFlightMoverEnabled(root, false)
 			local frac = active.travel and 1 or (active.untilT - now) / active.duration
 			root.AssemblyLinearVelocity = Vector3.new(active.vel.X * frac, root.AssemblyLinearVelocity.Y, active.vel.Z * frac)
 			return
 		end
+		setFlightMoverEnabled(root, true)
 		local frac = active.travel and 1 or (active.untilT - now) / active.duration
 		local walk = humanoid.MoveDirection * humanoid.WalkSpeed
 		local m = getMover(root)

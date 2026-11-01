@@ -21,6 +21,7 @@ local OVERPOWER_TIME = 0.8
 local OVERPOWER_DAMAGE = 50
 local BEAM_SLOW_FACTOR = 0.7
 local BEAM_SLOW_LINGER = 0.35
+local BEAM_COUNTER_ENABLED = false -- true = melee hits overlapping your beam tip damage you
 local function easeOutCubic(t)
 	return 1 - (1 - t) ^ 3
 end
@@ -480,7 +481,8 @@ function BeamSystem.ActivateBeam(config)
 	local myGeneration = beamGenerationCounter
 	beamGenerations[player] = myGeneration
 	activeBeams[player] = {character = character, hitbox = nil, dpsScript = nil, player = player, clashRequestedBy = nil, sideHitboxes = {}}
-	character.AncestryChanged:Connect(function(_, parent)
+	local ancestryConn
+	ancestryConn = character.AncestryChanged:Connect(function(_, parent)
 		if not parent and activeBeams[player] and activeBeams[player].character == character then
 			BeamSystem.ForceCleanup(player)
 		end
@@ -752,6 +754,8 @@ function BeamSystem.ActivateBeam(config)
 			end
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
+		local impactFilterBuilt = false
+		local cachedClampTip, cachedClampAim = nil, Vector3.zero
 		local impactParams = RaycastParams.new()
 		impactParams.FilterType = Enum.RaycastFilterType.Exclude
 		local function updateSmoke(impactPos, normal)
@@ -817,15 +821,18 @@ function BeamSystem.ActivateBeam(config)
 				local mix = (math.sin(now * 9) + 1) / 2
 				impactLight.Color = impactColor:Lerp(clashInfo.partnerColor or impactColor, mix)
 				impactLight.Brightness = 3 * extent
-				updateSmoke(endPos, Vector3.yAxis)
+				if beamIteration % 3 == 0 then updateSmoke(endPos, Vector3.yAxis) end
 				setFxIntensity(extent * 1.4)
 			else
-				if beamIteration % 2 == 0 or not impactSurfaceOffset then
-					local filter = {character, impactFolder, hitbox}
-					for _, plr in ipairs(Players:GetPlayers()) do
-						if plr.Character then table.insert(filter, plr.Character) end
+				if beamIteration % 3 == 0 or not impactSurfaceOffset then
+					if beamIteration % 15 == 0 or not impactFilterBuilt then
+						impactFilterBuilt = true
+						local filter = {character, impactFolder, hitbox}
+						for _, plr in ipairs(Players:GetPlayers()) do
+							if plr.Character then table.insert(filter, plr.Character) end
+						end
+						impactParams.FilterDescendantsInstances = filter
 					end
-					impactParams.FilterDescendantsInstances = filter
 					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), impactParams)
 					if result and (result.Position - endPos).Magnitude <= 7 then
 						impactSurfaceOffset = result.Position + result.Normal * 0.15 - endPos
@@ -928,7 +935,11 @@ function BeamSystem.ActivateBeam(config)
 					local t = i / (NUM_GLOW_LIGHTS + 1)
 					att.WorldPosition = beamStartPos:Lerp(endPos, t)
 					local light = att:FindFirstChildOfClass("PointLight")
-					if light then light.Brightness = 0.9 * ext light.Range = glowRange end
+					if light then
+						local b = 0.9 * ext
+						if math.abs(light.Brightness - b) > 0.02 then light.Brightness = b end
+						if math.abs(light.Range - glowRange) > 0.5 then light.Range = glowRange end
+					end
 				end
 			end
 			updateImpact(endPos, ext, now, clashInfo)
@@ -1051,7 +1062,7 @@ function BeamSystem.ActivateBeam(config)
 					end
 				end
 			end
-			if not clashPartner and myHRP then
+			if not clashPartner and myHRP and beamIteration % 3 == 0 then
 				for otherPlayer, otherData in pairs(activeBeams) do
 					if otherPlayer ~= player and otherData and otherData.hitbox and otherData.hitbox.Parent and not otherData.ending
 						and otherData.character and otherData.character.Parent then
@@ -1126,7 +1137,11 @@ function BeamSystem.ActivateBeam(config)
 					local rootPart = character:FindFirstChild("HumanoidRootPart")
 					wallOrigin = rootPart and rootPart.Position
 				end
-				desiredTip = wallOrigin and clampTipToWalls(wallOrigin, aimTarget, character) or aimTarget
+				if wallOrigin and (beamIteration % 2 == 0 or not cachedClampTip or (aimTarget - cachedClampAim).Magnitude > 3) then
+					cachedClampTip = clampTipToWalls(wallOrigin, aimTarget, character)
+					cachedClampAim = aimTarget
+				end
+				desiredTip = (wallOrigin and cachedClampTip) or aimTarget
 				if extent >= 0.5 then
 					if dpsScript and not dpsScript.Enabled then
 						dpsScript.Enabled = true
@@ -1142,7 +1157,7 @@ function BeamSystem.ActivateBeam(config)
 			local followRate = (isClashingNow or now < clashTransitionUntil) and CLASH_FOLLOW_RATE or AIM_FOLLOW_RATE
 			smoothTip = smoothTip:Lerp(desiredTip, 1 - math.exp(-followRate * dt))
 			renderFrame(extent, smoothTip, isClashingNow, now, clashInfo)
-			if beamIteration % 3 == 0 then
+			if BEAM_COUNTER_ENABLED and beamIteration % 3 == 0 then
 				local ownerHum = character:FindFirstChildOfClass("Humanoid")
 				if ownerHum and ownerHum.Health > 0 then
 					local ownerHRP = character:FindFirstChild("HumanoidRootPart")
@@ -1294,6 +1309,7 @@ function BeamSystem.ActivateBeam(config)
 	beamGenerations[player] = nil
 	playerAims[player] = nil
 	playerShiftLock[player] = nil
+	if ancestryConn then ancestryConn:Disconnect() end
 	if beamEndedSignal then
 		beamEndedSignal:Fire(player, myGeneration)
 	end

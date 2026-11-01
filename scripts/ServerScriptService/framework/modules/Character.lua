@@ -367,6 +367,29 @@ function Character.Init()
 		local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 		local TAG_TEMPLATE = ReplicatedStorage:FindFirstChild("Tag")
+		local NAMETAG_TEMPLATE = ReplicatedStorage:FindFirstChild("NametagGUI")
+		local DEFAULT_MAX_LEVEL = 100
+
+		local LevelManager = nil
+		pcall(function()
+			local module = ReplicatedStorage:WaitForChild("LevelManager", 5)
+			if module then LevelManager = require(module) end
+		end)
+
+		local function fillRatio(value, maxValue)
+			if type(value) ~= "number" or type(maxValue) ~= "number" or maxValue <= 0 then return 0 end
+			return math.clamp(value / maxValue, 0, 1)
+		end
+
+		local function getMaxLevel(character)
+			local kaijuValue = character:FindFirstChild("Kaiju")
+			local kaijuName = kaijuValue and kaijuValue:IsA("StringValue") and kaijuValue.Value or nil
+			if LevelManager and LevelManager.GetMaxLevel then
+				local ok, maxLevel = pcall(LevelManager.GetMaxLevel, kaijuName)
+				if ok and type(maxLevel) == "number" and maxLevel > 0 then return maxLevel end
+			end
+			return DEFAULT_MAX_LEVEL
+		end
 
 		local function getLevelValue(player, character)
 			local leaderstats = player:FindFirstChild("leaderstats")
@@ -455,15 +478,100 @@ function Character.Init()
 			end
 		end
 
+		local function giveNametag(player)
+			local character = player.Character
+			if not character then return end
+
+			local head = character:FindFirstChild("Head")
+			if not head then return end
+
+			local existingTag = head:FindFirstChild("Tag")
+			if existingTag then existingTag.Parent = nil end
+
+			local tag = NAMETAG_TEMPLATE:Clone()
+			tag.Name = "Tag"
+			tag.Parent = head
+
+			local frame = tag:FindFirstChild("Frame")
+			if not frame then return end
+
+			local nameLabel = frame:FindFirstChild("playername")
+			local hpLabel = frame:FindFirstChild("PlayerHealth")
+			local levelLabel = frame:FindFirstChild("PlayerLevel")
+			local hpFill = hpLabel and hpLabel:FindFirstChild("Color")
+			local levelFill = levelLabel and levelLabel:FindFirstChild("Color")
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+			if nameLabel then
+				nameLabel.Text = player.DisplayName
+			end
+
+			local function refreshHealth()
+				if not tag.Parent or not humanoid then return end
+				local maxHealth = math.max(humanoid.MaxHealth, 1)
+				local health = math.clamp(humanoid.Health, 0, maxHealth)
+				if hpLabel then
+					hpLabel.Text = "HP: " .. tostring(math.floor(health)) .. "/" .. tostring(math.floor(maxHealth))
+				end
+				if hpFill then
+					hpFill.Size = UDim2.new(fillRatio(health, maxHealth), 0, 1, 0)
+				end
+			end
+
+			local function refreshLevel()
+				if not tag.Parent then return end
+				local levelVal = getLevelValue(player, character)
+				local level = levelVal and levelVal.Value or 1
+				local maxLevel = getMaxLevel(character)
+				if levelLabel then
+					if level >= maxLevel then
+						levelLabel.Text = "LEVEL: " .. tostring(level) .. " (MAX)"
+					else
+						levelLabel.Text = "LEVEL: " .. tostring(level)
+					end
+				end
+				if levelFill then
+					levelFill.Size = UDim2.new(fillRatio(level, maxLevel), 0, 1, 0)
+				end
+			end
+
+			refreshHealth()
+			refreshLevel()
+
+			if humanoid then
+				humanoid.HealthChanged:Connect(refreshHealth)
+				humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(refreshHealth)
+				humanoid.Died:Connect(function()
+					tag.Parent = nil
+				end)
+			end
+
+			task.spawn(function()
+				while tag.Parent do
+					refreshLevel()
+					refreshHealth()
+					task.wait(0.5)
+				end
+			end)
+		end
+
+		local function giveAnyTag(player)
+			if NAMETAG_TEMPLATE then
+				giveNametag(player)
+			else
+				giveTag(player)
+			end
+		end
+
 		local function onPlayerAdded(player)
 			player.CharacterAdded:Connect(function()
 				task.wait(0.1)
-				giveTag(player)
+				giveAnyTag(player)
 			end)
 
 			if player.Character then
 				task.wait(0.1)
-				giveTag(player)
+				giveAnyTag(player)
 			end
 		end
 
@@ -547,6 +655,10 @@ function Character.Init()
 						end
 					end
 				end
+			end
+
+			if healthGui:IsA("BillboardGui") and game:GetService("ReplicatedStorage"):FindFirstChild("NametagGUI") and healthGui.Enabled then
+				healthGui.Enabled = false
 			end
 
 			local label = healthGui:FindFirstChild("Label")

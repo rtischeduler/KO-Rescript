@@ -107,6 +107,15 @@ end
 local function getPrice(model)
 	local stats = model and model:FindFirstChild("Stats")
 	local price = stats and stats:FindFirstChild("Price")
+	if not price and stats then
+		-- tolerate stray whitespace in the name (e.g. "Price ")
+		for _, child in ipairs(stats:GetChildren()) do
+			if child.Name:match("^%s*(.-)%s*$") == "Price" then
+				price = child
+				break
+			end
+		end
+	end
 	if not price then
 		return nil
 	end
@@ -192,9 +201,11 @@ function SecurityPolicy.CanUseMorph(player, selectedCreature)
 	end
 	local price = getPrice(selectedCreature)
 	if price == nil then
-    return FREE_MORPHS[morphName] == true
-	end
-	if price <= 0 then
+		-- no price found: free morphs are allowed, anything else falls through to the ownership check
+		if FREE_MORPHS[morphName] == true then
+			return true
+		end
+	elseif price <= 0 then
 		return true
 	end
 	if ownsGamepass(player, morphName) then
