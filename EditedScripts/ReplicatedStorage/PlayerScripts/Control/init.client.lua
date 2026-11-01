@@ -366,6 +366,8 @@ local function clearPosition(position)
 	return position
 end
 
+local ledgeActiveUntil = 0
+
 local function shoreSlide(position, velocity, dt, pushing)
 	local speed = velocity.Magnitude
 	if speed < 1 then return velocity end
@@ -378,7 +380,7 @@ local function shoreSlide(position, velocity, dt, pushing)
 	local into = velocity:Dot(normal)
 	if into >= 0 then return velocity end
 	local slid = velocity - normal * into
-	if pushing and math.abs(normal.Y) < 0.75 then
+	if pushing and math.abs(normal.Y) < 0.75 and os.clock() >= ledgeActiveUntil then
 		local flat = Vector3.new(direction.X, 0, direction.Z)
 		if flat.Magnitude > 0.1 then
 			local raised = workspace:Blockcast(CFrame.new(position + Vector3.new(0, climbStep, 0)), castSize, flat.Unit * reach, shoreParams)
@@ -748,10 +750,26 @@ local LEDGE_COOLDOWN = 0.5
 local LEDGE_MAX_TIME = 1.2
 local ledgeSince = nil
 local ledgeBlockedUntil = 0
+local ledgeLastMode = nil
+local ledgeLifting = false
+
+local function ledgeFinish()
+	if not ledgeLifting then return end
+	ledgeLifting = false
+	ledgeActiveUntil = os.clock() + 0.4
+	local v = rootPart.AssemblyLinearVelocity
+	if v.Y > 4 then rootPart.AssemblyLinearVelocity = Vector3.new(v.X, 4, v.Z) end
+	if flightVel and flightVel.Y > 4 then
+		flightVel = Vector3.new(flightVel.X, 4, flightVel.Z)
+		if linear then linear.VectorVelocity = flightVel end
+	end
+end
 
 local function ledgeAssist(now)
-	if mode ~= "Land" and mode ~= "Swim" then ledgeSince = nil return end
-	if now < ledgeBlockedUntil then return end
+	if mode == "Swim" and ledgeLastMode == "Land" then ledgeBlockedUntil = now + 0.5 end
+	ledgeLastMode = mode
+	if mode ~= "Land" and mode ~= "Swim" then ledgeSince = nil ledgeFinish() return end
+	if now < ledgeBlockedUntil then ledgeSince = nil ledgeFinish() return end
 
 	local dir
 	if mode == "Land" then
@@ -765,37 +783,41 @@ local function ledgeAssist(now)
 		dir = safeFlat(cf.LookVector, facing) * forwardIn + safeFlat(cf.RightVector, Vector3.new(1, 0, 0)) * rightIn
 		dir = Vector3.new(dir.X, 0, dir.Z)
 	end
-	if dir.Magnitude < 0.1 then ledgeSince = nil return end
+	if dir.Magnitude < 0.1 then ledgeSince = nil ledgeFinish() return end
 	dir = dir.Unit
 
 	local pos = rootPart.Position
-	if not sampleWater(pos - Vector3.new(0, bodyHalf * 0.8, 0), now) then ledgeSince = nil return end
+	if not sampleWater(pos - Vector3.new(0, bodyHalf * 0.8, 0), now) then ledgeSince = nil ledgeFinish() return end
 
 	local feetY = pos.Y - bodyHalf
 	local maxStep = bodyHalf * 1.6 + 3
 	local reach = bodyHalf + 6
 
 	local wall = workspace:Raycast(Vector3.new(pos.X, feetY + 1, pos.Z), dir * reach, rayParams)
-	if not wall or wall.Normal.Y > 0.6 then ledgeSince = nil return end
+	if not wall or wall.Normal.Y > 0.6 or wall.Normal:Dot(dir) > -0.3 then ledgeSince = nil ledgeFinish() return end
 	-- too tall to climb?
 	if workspace:Raycast(Vector3.new(pos.X, feetY + maxStep + 1, pos.Z), dir * (reach + 2), rayParams) then
 		ledgeSince = nil
+		ledgeFinish()
 		return
 	end
 	local probe = wall.Position + dir * 2.5 + Vector3.new(0, maxStep + 1, 0)
 	local top = workspace:Raycast(probe, Vector3.new(0, -(maxStep + 6), 0), rayParams)
-	if not top or top.Normal.Y < 0.5 then ledgeSince = nil return end
+	if not top or top.Normal.Y < 0.5 then ledgeSince = nil ledgeFinish() return end
 	local rise = top.Position.Y - feetY
-	if rise < 0.3 or rise > maxStep then ledgeSince = nil return end
+	if rise < 0.6 or rise > maxStep then ledgeSince = nil ledgeFinish() return end
 
 	ledgeSince = ledgeSince or now
 	if now - ledgeSince > LEDGE_MAX_TIME then
 		ledgeSince = nil
 		ledgeBlockedUntil = now + LEDGE_COOLDOWN
+		ledgeFinish()
 		return
 	end
 
-	local up = math.clamp((rise + 2) / 0.35, 24, 85)
+	ledgeLifting = true
+	ledgeActiveUntil = now + 0.3
+	local up = math.clamp(rise * 7 + 6, 10, 38)
 	local speed = math.max(humanoid.WalkSpeed, 18)
 	if mode == "Land" then
 		local v = rootPart.AssemblyLinearVelocity
