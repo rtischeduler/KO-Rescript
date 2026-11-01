@@ -8,3 +8,4 @@ StarterPlayer/StarterPlayerScripts/Client/Controllers/Ocean.lua
 ReplicatedStorage/BeamSystem.lua
 ReplicatedStorage/DPSTemplate.server.lua
 StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
+ServerScriptService/SecurityPolicy.lua
