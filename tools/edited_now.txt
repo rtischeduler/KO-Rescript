@@ -5,3 +5,6 @@ ServerScriptService/framework/modules/World.lua
 StarterPlayer/StarterPlayerScripts/Client/Config.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/WaterFX.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/Ocean.lua
+ReplicatedStorage/BeamSystem.lua
+ReplicatedStorage/DPSTemplate.server.lua
+StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
