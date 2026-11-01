@@ -999,7 +999,7 @@ local function fireAbility(eventName)
 		evt:FireServer()
 	end
 
-	if isBeamEvent(eventName) then
+	if isBeamEvent(eventName) and evt:GetAttribute("AttackType") == "Beam" then
 		if beamStartTimeout then
 			task.cancel(beamStartTimeout)
 		end
