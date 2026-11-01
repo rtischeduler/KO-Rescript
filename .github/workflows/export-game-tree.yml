@@ -24,7 +24,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: export-game-tree
@@ -40,6 +40,7 @@ jobs:
         with:
           sparse-checkout: |
             tools
+            export
 
       - name: Resolve universe ID -> root place ID
         id: place
@@ -111,20 +112,47 @@ jobs:
           chmod +x "$RUNNER_TEMP/lune/lune"
           echo "$RUNNER_TEMP/lune" >> "$GITHUB_PATH"
 
-      - name: Export tree (JSON) and scripts (Lua)
+      - name: Export tree (JSON) and scripts (Lua) into export/
         env:
           SEARCH: ${{ inputs.search }}
         run: |
           set -euo pipefail
           DEFAULTS=0
           [ "${{ inputs.include_defaults }}" = "true" ] && DEFAULTS=1
+          rm -rf export
           lune run tools/export_tree place.rbxl export "${SEARCH:-player}" "$DEFAULTS"
           cat export/summary.md >> "$GITHUB_STEP_SUMMARY"
+          BIG=$(find export -type f -size +90M)
+          if [ -n "$BIG" ]; then
+            echo "Files over 90 MB cannot be committed to GitHub, compressing them:"
+            for f in $BIG; do echo "  $f"; gzip -9 "$f"; done
+            {
+              echo ""
+              echo "Compressed (.gz) because they exceed GitHub's file size limit:"
+              echo "$BIG" | sed 's/^/- /'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
           du -sh export
 
-      - name: Upload game tree
-        uses: actions/upload-artifact@v4
-        with:
-          name: game-tree
-          path: export
-          retention-days: 14
+      - name: Commit export/ to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A export
+          if git diff --cached --quiet; then
+            echo "export/ is already up to date, nothing to commit."
+            exit 0
+          fi
+          git commit -m "Export game tree (universe ${{ steps.place.outputs.universe_id }}, place ${{ steps.place.outputs.place_id }})"
+          for attempt in 1 2 3 4 5; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              echo "Pushed export/ to ${{ github.ref_name }}" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "Push rejected, rebasing and retrying ($attempt/5)..."
+            git pull --rebase origin ${{ github.ref_name }}
+            sleep 5
+          done
+          echo "::error::Could not push export/ after 5 attempts"
+          exit 1
