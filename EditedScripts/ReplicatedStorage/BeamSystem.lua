@@ -21,6 +21,7 @@ local OVERPOWER_TIME = 0.8
 local OVERPOWER_DAMAGE = 50
 local BEAM_SLOW_FACTOR = 0.7
 local BEAM_SLOW_LINGER = 0.35
+local BEAM_COUNTER_ENABLED = false -- true = melee hits overlapping your beam tip damage you
 local function easeOutCubic(t)
 	return 1 - (1 - t) ^ 3
 end
@@ -1156,7 +1157,7 @@ function BeamSystem.ActivateBeam(config)
 			local followRate = (isClashingNow or now < clashTransitionUntil) and CLASH_FOLLOW_RATE or AIM_FOLLOW_RATE
 			smoothTip = smoothTip:Lerp(desiredTip, 1 - math.exp(-followRate * dt))
 			renderFrame(extent, smoothTip, isClashingNow, now, clashInfo)
-			if beamIteration % 3 == 0 then
+			if BEAM_COUNTER_ENABLED and beamIteration % 3 == 0 then
 				local ownerHum = character:FindFirstChildOfClass("Humanoid")
 				if ownerHum and ownerHum.Health > 0 then
 					local ownerHRP = character:FindFirstChild("HumanoidRootPart")

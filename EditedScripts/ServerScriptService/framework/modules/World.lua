@@ -291,6 +291,7 @@ local function initWindowLights()
 	workspace.DescendantAdded:Connect(register)
 	workspace.DescendantRemoving:Connect(function(inst)
 		saved[inst] = nil
+		if not inst:IsA("UnionOperation") then return end
 		for b, list in buildings do
 			local i = table.find(list, inst)
 			if i then
@@ -1192,16 +1193,16 @@ local function initCollisions()
 	fixTree(workspace)
 
 	workspace.DescendantAdded:Connect(function(d)
-		task.defer(fixPart, d)
+		if d:IsA("BasePart") then task.defer(fixPart, d) end
 	end)
 
 	while true do
-		task.wait(30)
+		task.wait(120)
 		local n = 0
 		for _, d in workspace:GetDescendants() do
 			fixPart(d)
 			n += 1
-			if n % 2000 == 0 then task.wait() end
+			if n % 500 == 0 then task.wait() end
 		end
 	end
 end
