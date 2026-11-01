@@ -101,6 +101,12 @@ local function setSprintFov(on)
 	sprintFovTween:Play()
 end
 local currentAnim = "Idle"
+local FLY_FADE_IN = 0.3
+local FLY_FADE_OUT = 0.35
+local GROUND_FADE = 0.15
+local landFadeUntil = 0
+local attackActive = false
+local lastAttackCheck = 0
 local flightVel = Vector3.zero
 local facing = Vector3.new(0, 0, -1)
 local lastYaw = 0
@@ -202,10 +208,10 @@ local function stopTrack(track, fade)
 	if track then track:Stop(fade or 0) end
 end
 
-local function stopAnimations()
+local function stopAnimations(fade)
 	for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
 		if track.Priority.Value < Enum.AnimationPriority.Action.Value then
-			track:Stop()
+			track:Stop(fade or 0)
 		end
 	end
 end
@@ -218,12 +224,32 @@ local function groundMoveTrack()
 	return Walk
 end
 
+-- While an attack (Action+ priority track that isn't ours) is playing, raise Walk/Sprint to the
+-- same priority so they blend with the attack instead of being fully overridden (legs keep moving).
+local function updateAttackState(now)
+	if now - lastAttackCheck < 0.1 then return end
+	lastAttackCheck = now
+	local active = false
+	for _, t in ipairs(animator:GetPlayingAnimationTracks()) do
+		local v = t.Priority.Value
+		if v >= Enum.AnimationPriority.Action.Value and v < 1000 and t.IsPlaying
+			and t ~= Idle and t ~= Walk and t ~= Sprint and t ~= Swim and t ~= Fly then
+			active = true
+			break
+		end
+	end
+	attackActive = active
+	local p = active and Enum.AnimationPriority.Action or Enum.AnimationPriority.Movement
+	if Walk and Walk.Priority ~= p then Walk.Priority = p end
+	if Sprint and Sprint.Priority ~= p then Sprint.Priority = p end
+end
+
 local function refreshGroundAnimation()
-	stopAnimations()
+	stopAnimations(GROUND_FADE)
 	if currentAnim == "Walk" then
-		play(groundMoveTrack())
+		play(groundMoveTrack(), GROUND_FADE)
 	else
-		play(Idle)
+		play(Idle, GROUND_FADE)
 	end
 end
 
@@ -486,6 +512,7 @@ local function endFlight(keepMomentum, fade)
 	local velocity = flightVel
 	local position = rootPart.Position
 	mode = "Land"
+	landFadeUntil = os.clock() + fade + 0.1
 
 	destroyRig()
 	ChargeManager.setFlying(false)
@@ -501,7 +528,7 @@ local function endFlight(keepMomentum, fade)
 
 	if humanoid.Health > 0 then
 		currentAnim = "Idle"
-		stopAnimations()
+		stopAnimations(fade)
 		play(Idle, fade)
 		landLockUntil = os.clock() + 0.5
 		if previous == "Swim" or previous == "Glide" then
@@ -531,7 +558,7 @@ local function startManualFly(fade)
 	if mode == "Fly" or humanoid.Health <= 0 then return end
 	if humanoid.MaxHealth > 0 and humanoid.Health < humanoid.MaxHealth * FLY_MIN_HEALTH_PERCENT then return end
 	if ChargeManager.getCharge() < FLY_MIN_CHARGE then return end
-	enterAir("Fly", fade or 0)
+	enterAir("Fly", (fade and fade > 0) and fade or FLY_FADE_IN)
 end
 
 local function stopManualFly()
@@ -540,13 +567,16 @@ local function stopManualFly()
 	if wet then
 		enterAir("Swim", 0.3)
 	else
-		endFlight(false, 0)
+		endFlight(false, FLY_FADE_OUT)
 	end
 end
 
 local function updateLand(now, wet)
-	if Fly and Fly.IsPlaying then Fly:Stop(0) end
-	if Swim and Swim.IsPlaying and not wet then Swim:Stop(0) end
+	if now >= landFadeUntil then
+		if Fly and Fly.IsPlaying then Fly:Stop(0) end
+		if Swim and Swim.IsPlaying and not wet then Swim:Stop(0) end
+	end
+	updateAttackState(now)
 	if now >= landLockUntil then
 		local velocity = rootPart.AssemblyLinearVelocity
 		local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
