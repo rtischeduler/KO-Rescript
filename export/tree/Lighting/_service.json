@@ -1,0 +1,39 @@
+{
+  "ChildCount": 21,
+  "ClassName": "Lighting",
+  "Name": "Lighting",
+  "Properties": {
+    "Ambient": {
+      "B": 0.7372549176216125,
+      "G": 0.7372549176216125,
+      "R": 0.7372549176216125
+    },
+    "Brightness": 1.6699999570846558,
+    "ClassName": "Lighting",
+    "ColorShift_Top": {
+      "B": 0.3137255012989044,
+      "G": 0.3490196168422699,
+      "R": 0.38823530077934265
+    },
+    "EnvironmentSpecularScale": 1,
+    "ExposureCompensation": 0.10000000149011612,
+    "FogColor": {
+      "B": 0.772549033164978,
+      "G": 0.6745098233222961,
+      "R": 0.6117647290229797
+    },
+    "FogEnd": 5500,
+    "GeographicLatitude": 12.210000038146973,
+    "GlobalShadows": true,
+    "LightingStyle": "Enum.LightingStyle.Realistic",
+    "OutdoorAmbient": {
+      "B": 0.19607843458652496,
+      "G": 0.2666666805744171,
+      "R": 0.239215686917305
+    },
+    "Outlines": false,
+    "PrioritizeLightingQuality": true,
+    "ShadowSoftness": 1,
+    "TimeOfDay": "12:00:00"
+  }
+}

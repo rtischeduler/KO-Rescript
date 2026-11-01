@@ -1,0 +1,3795 @@
+{
+  "Children": [
+    {
+      "ClassName": "Sound",
+      "Name": "Button",
+      "Properties": {
+        "AudioContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://3587004588)"
+        },
+        "ClassName": "Sound",
+        "Volume": 2
+      }
+    },
+    {
+      "ClassName": "LocalScript",
+      "Name": "UIScript",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/StarterGui/GameGui/UIScript.client.lua"
+    },
+    {
+      "ClassName": "LocalScript",
+      "Name": "ConsoleScript",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/StarterGui/GameGui/ConsoleScript.client.lua"
+    },
+    {
+      "ClassName": "LocalScript",
+      "Name": "PerformanceScript",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/StarterGui/GameGui/PerformanceScript.client.lua"
+    },
+    {
+      "ClassName": "BoolValue",
+      "Name": "Logged",
+      "Properties": {
+        "ClassName": "BoolValue"
+      }
+    },
+    {
+      "Children": [
+        {
+          "Children": [
+            {
+              "ClassName": "LocalScript",
+              "Name": "LevelXPDisplay",
+              "Properties": {
+                "ClassName": "LocalScript",
+                "RunContext": "Enum.RunContext.Legacy"
+              },
+              "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/LevelXPDisplay.client.lua"
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "ResetScript",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Return/ResetScript.client.lua"
+                }
+              ],
+              "ClassName": "TextButton",
+              "Name": "Return",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BorderColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "TextButton",
+                "Position": "0.5, 0, 0.97, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.155, 0, 0.04, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Style": "Enum.ButtonStyle.Custom",
+                "Text": "Return to Menu",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 1,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "ClassName": "TextLabel",
+              "Name": "XP",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "TextLabel",
+                "Position": "0.007424243, 0, 0.73647904, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.15555152, 0, 0.04678742, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Text": "XP:",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 70,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "Children": [
+                    {
+                      "ClassName": "UIAspectRatioConstraint",
+                      "Name": "UIAspectRatioConstraint",
+                      "Properties": {
+                        "ClassName": "UIAspectRatioConstraint"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "TextLabel",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "Position": "0.5, 0, 0.5, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.95, 0, 0.95, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "1000",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 50,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageLabel",
+                  "Name": "HP",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageLabel",
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=rbxassetid://3393183123)"
+                    },
+                    "Position": "0, 0, 0.55, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.45, 0, 0.5, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "UIAspectRatioConstraint",
+                      "Name": "UIAspectRatioConstraint",
+                      "Properties": {
+                        "ClassName": "UIAspectRatioConstraint"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "TextLabel",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "Position": "0.5, 0, 0.5, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.7, 0, 0.7, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "100",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 50,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageLabel",
+                  "Name": "Charge",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageLabel",
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=rbxassetid://3408204743)"
+                    },
+                    "Position": "0.54091024, 0, 0.5558682, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.45, 0, 0.5, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "ClassName": "UIAspectRatioConstraint",
+                  "Name": "UIAspectRatioConstraint",
+                  "Properties": {
+                    "ClassName": "UIAspectRatioConstraint"
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Stats",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.006, 0, 0.68, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.10388484, 0, 0.20934892, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "Children": [
+                    {
+                      "ClassName": "UIAspectRatioConstraint",
+                      "Name": "UIAspectRatioConstraint",
+                      "Properties": {
+                        "ClassName": "UIAspectRatioConstraint"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "TextLabel",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "Position": "0.5, 0, 0.5, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.7, 0, 0.7, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "10",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 50,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageLabel",
+                  "Name": "DMG",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageLabel",
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=rbxassetid://3588010932)"
+                    },
+                    "Position": "0, 0, 0.55, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.45, 0, 0.5, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "UIAspectRatioConstraint",
+                      "Name": "UIAspectRatioConstraint",
+                      "Properties": {
+                        "ClassName": "UIAspectRatioConstraint"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "TextLabel",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "Position": "0.5, 0, 0.5, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.7, 0, 0.7, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "10",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 50,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageLabel",
+                  "Name": "Defense",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageLabel",
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=rbxassetid://3393183497)"
+                    },
+                    "Position": "1.0843005, 0, 0.54990053, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.45, 0, 0.5, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "UIAspectRatioConstraint",
+                      "Name": "UIAspectRatioConstraint",
+                      "Properties": {
+                        "ClassName": "UIAspectRatioConstraint"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "TextLabel",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "Position": "0.5, 0, 0.5, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.7, 0, 0.7, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "10",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 50,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageLabel",
+                  "Name": "Speed",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageLabel",
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=rbxassetid://3393183859)"
+                    },
+                    "Position": "0.55, 0, 0.55, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.45, 0, 0.5, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "ClassName": "UIAspectRatioConstraint",
+                  "Name": "UIAspectRatioConstraint",
+                  "Properties": {
+                    "ClassName": "UIAspectRatioConstraint"
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Stats2",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.006, 0, 0.779, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.10388484, 0, 0.20934892, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "ClassName": "TextButton",
+              "Name": "Reset",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BorderColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "TextButton",
+                "Position": "0.949, 0, 0.91, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.1, 0, 0.04, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Style": "Enum.ButtonStyle.Custom",
+                "Text": "Reset Stats",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 1,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "LocalScript",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "Disabled": true,
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript.client.lua"
+                }
+              ],
+              "ClassName": "TextButton",
+              "Name": "LightingEffects",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BorderColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "TextButton",
+                "Position": "0.949, 0, 0.86, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.1, 0, 0.04, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Style": "Enum.ButtonStyle.Custom",
+                "Text": "Lighting Effects",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 1,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "ClassName": "TextButton",
+              "Name": "BuyGCells",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BorderColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "TextButton",
+                "Position": "0.949, 0, 0.71, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.1, 0, 0.04, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Style": "Enum.ButtonStyle.Custom",
+                "Text": "Buy G-Cells",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 1,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "LocalScript",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyXP/LocalScript.client.lua"
+                }
+              ],
+              "ClassName": "TextButton",
+              "Name": "BuyXP",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BorderColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "TextButton",
+                "Position": "0.949, 0, 0.76, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.1, 0, 0.04, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Style": "Enum.ButtonStyle.Custom",
+                "Text": "+25 XP",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 1,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "TextLabel",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "1, 0, 0.2, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "Lighting Effects",
+                    "TextColor3": {
+                      "B": 0.5607843399047852,
+                      "G": 0.44705885648727417,
+                      "R": 0.2666666805744171
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "LocalScript",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/LightingFX/FX/LocalScript.client.lua"
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 588616704
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "Normal",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "Bright",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 588616155
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "BW",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "Black & White",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 588615642
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "Sepia",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "Sepia",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 588616469
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "Realistic",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "Realistic",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "ClassName": "UIGridLayout",
+                      "Name": "UIGridLayout",
+                      "Properties": {
+                        "CellPadding": "0.05, 0, 0.05, 0",
+                        "CellSize": "0.3, 0, 0.4, 0",
+                        "ClassName": "UIGridLayout",
+                        "FillDirection": "Enum.FillDirection.Horizontal",
+                        "FillDirectionMaxCells": 3,
+                        "HorizontalAlignment": "Enum.HorizontalAlignment.Left",
+                        "SortOrder": "Enum.SortOrder.LayoutOrder",
+                        "VerticalAlignment": "Enum.VerticalAlignment.Top"
+                      }
+                    }
+                  ],
+                  "ClassName": "Frame",
+                  "Name": "FX",
+                  "Properties": {
+                    "AnchorPoint": {
+                      "X": 0.5,
+                      "Y": 0.5
+                    },
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "Frame",
+                    "Position": "0.5, 0, 0.6, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.99, 0, 0.8, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "LightingFX",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 0.5,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.5, 0, 0.55, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.5, 0, 0.5, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "FPS",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "Position": "-0.20220588, 0, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.3, 0, 1, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "FPS: 35",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0.800000011920929,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "Ping",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "Position": "0.09625749, 0, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.3, 0, 1, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "Ping: 105 ms",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0.800000011920929,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "Region",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "Position": "0.39472085, 0, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.4030731, 0, 1, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "Region: Central US",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0.800000011920929,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "ServerAge",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "Position": "0.7991327, 0, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.4030731, 0, 1, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "Server Age: 13.52 hours",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0.800000011920929,
+                    "TextWrapped": true
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Preformance",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.5, 0, 0, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.2, 0, 0.015, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+              }
+            },
+            {
+              "ClassName": "TextLabel",
+              "Name": "Level",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "TextLabel",
+                "Position": "0.007424243, 0, 0.6885675, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.15555152, 0, 0.04678742, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Text": "Level:",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 70,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "ImageButton",
+                  "Name": "Shop",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "ImageButton",
+                    "HoverImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044538530)"
+                    },
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044538530)"
+                    },
+                    "Position": "0, 0, 0.04, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.13, 0, 0.13, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeYY",
+                    "Style": "Enum.ButtonStyle.Custom"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "LocalScript",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Buttons/Music/LocalScript.client.lua"
+                    }
+                  ],
+                  "ClassName": "ImageButton",
+                  "Name": "Music",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "ImageButton",
+                    "HoverImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044541884)"
+                    },
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044541396)"
+                    },
+                    "Position": "0, 0, 0.18, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.13, 0, 0.13, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeYY",
+                    "Style": "Enum.ButtonStyle.Custom"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "TextLabel",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "Position": "0.05, 0, 0.725, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.9, 0, 0.25, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "CONTROL LOCK",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageButton",
+                  "Name": "CtrlLock",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "ImageButton",
+                    "HoverImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044539486)"
+                    },
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044539836)"
+                    },
+                    "Position": "0, 0, 0.32, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.13, 0, 0.13, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeYY",
+                    "Style": "Enum.ButtonStyle.Custom"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "LocalScript",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Buttons/HideUI/LocalScript.client.lua"
+                    }
+                  ],
+                  "ClassName": "ImageButton",
+                  "Name": "HideUI",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "ImageButton",
+                    "HoverImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044540861)"
+                    },
+                    "ImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=http://www.roblox.com/asset/?id=5044540341)"
+                    },
+                    "Position": "0, 0, 0.46, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.13, 0, 0.13, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeYY",
+                    "Style": "Enum.ButtonStyle.Custom"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "GCellCounterLS",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Buttons/GCells/GCellCounterLS.client.lua"
+                    }
+                  ],
+                  "ClassName": "TextLabel",
+                  "Name": "GCells",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "Position": "-1, 0, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "1.95, 0, 0.038, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "G-Cells: 10000",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0.800000011920929,
+                    "TextWrapped": true,
+                    "TextXAlignment": "Enum.TextXAlignment.Right"
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Buttons",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.94, 0, 0.38, -75",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.055, 0, 0.4, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXX"
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "TextLabel",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "1, 0, 0.2, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "ARE YOU SURE YOU WANT TO RESET YOUR LEVELS? THIS CHANGE CANNOT BE UNDONE!",
+                    "TextColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/ResetStats/FX/Yes/LocalScript.client.lua"
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "Yes",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "Position": "0.5, 0, 0.2, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.6, 0, 0.2, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "Yes",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/ResetStats/FX/No/LocalScript.client.lua"
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "No",
+                      "Properties": {
+                        "AnchorPoint": {
+                          "X": 0.5,
+                          "Y": 0.5
+                        },
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "Position": "0.5, 0, 0.55, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0.6, 0, 0.2, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "No",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextStrokeTransparency": 0,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "Frame",
+                  "Name": "FX",
+                  "Properties": {
+                    "AnchorPoint": {
+                      "X": 0.5,
+                      "Y": 0.5
+                    },
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "Frame",
+                    "Position": "0.5, 0, 0.6, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.99, 0, 0.8, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "ResetStats",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 0.5,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.5, 0, 0.55, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.5, 0, 0.5, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "TextLabel",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "1, 0, 0.4, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "Do you want to buy Hydra Relic for 30,000 G-Cells?",
+                    "TextColor3": {
+                      "B": 0,
+                      "G": 0.6666666865348816,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "LocalScript",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Relic/Yes/LocalScript.client.lua"
+                    }
+                  ],
+                  "ClassName": "TextButton",
+                  "Name": "Yes",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.5607843399047852,
+                      "G": 0.44705885648727417,
+                      "R": 0.2666666805744171
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.025, 0, 0.5, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.4, 0, 0.2, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Yes",
+                    "TextColor3": {
+                      "B": 0,
+                      "G": 0.6666666865348816,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "LocalScript",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Relic/No/LocalScript.client.lua"
+                    }
+                  ],
+                  "ClassName": "TextButton",
+                  "Name": "No",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.5607843399047852,
+                      "G": 0.44705885648727417,
+                      "R": 0.2666666805744171
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.575, 0, 0.5, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.4, 0, 0.2, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "No",
+                    "TextColor3": {
+                      "B": 0,
+                      "G": 0.6666666865348816,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Relic",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 0.5,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.5, 0, 0.55, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.5, 0, 0.5, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "TextLabel",
+                  "Name": "TextLabel",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextLabel",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "1, 0, 0.2, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Text": "Buy G-Cells",
+                    "TextColor3": {
+                      "B": 0.5607843399047852,
+                      "G": 0.44705885648727417,
+                      "R": 0.2666666805744171
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextWrapped": true
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "Script",
+                      "Name": "Script",
+                      "Properties": {
+                        "ClassName": "Script",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/Script.server.lua"
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/5000/LocalScript.client.lua"
+                        },
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 728850147
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "5000",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "5000 G-Cells (2500 R$)",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/2500/LocalScript.client.lua"
+                        },
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 728849395
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "2500",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "2500 G-Cells (1250 R$)",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/1000/LocalScript.client.lua"
+                        },
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 728848651
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "1000",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "1000 G-Cells (500 R$)",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/500/LocalScript.client.lua"
+                        },
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 728849711
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "500",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "500 G-Cells (250 R$)",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/250/LocalScript.client.lua"
+                        },
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 728849010
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "250",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "250  G-Cells (125 R$)",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "LocalScript",
+                          "Name": "LocalScript",
+                          "Properties": {
+                            "ClassName": "LocalScript",
+                            "RunContext": "Enum.RunContext.Legacy"
+                          },
+                          "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/BuyGCellWindow/GCells/100/LocalScript.client.lua"
+                        },
+                        {
+                          "ClassName": "IntValue",
+                          "Name": "id",
+                          "Properties": {
+                            "ClassName": "IntValue",
+                            "Value": 728848243
+                          }
+                        }
+                      ],
+                      "ClassName": "TextButton",
+                      "Name": "100",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.44705885648727417,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderColor3": {
+                          "B": 0.20784315466880798,
+                          "G": 0.16470588743686676,
+                          "R": 0.10588236153125763
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextButton",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 200, 0, 50",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Style": "Enum.ButtonStyle.Custom",
+                        "Text": "100 G-Cells (50 R$)",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 14,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "ClassName": "UIGridLayout",
+                      "Name": "UIGridLayout",
+                      "Properties": {
+                        "CellPadding": "0.05, 0, 0.05, 0",
+                        "CellSize": "0.3, 0, 0.4, 0",
+                        "ClassName": "UIGridLayout",
+                        "FillDirection": "Enum.FillDirection.Horizontal",
+                        "FillDirectionMaxCells": 3,
+                        "HorizontalAlignment": "Enum.HorizontalAlignment.Left",
+                        "SortOrder": "Enum.SortOrder.LayoutOrder",
+                        "VerticalAlignment": "Enum.VerticalAlignment.Top"
+                      }
+                    }
+                  ],
+                  "ClassName": "Frame",
+                  "Name": "GCells",
+                  "Properties": {
+                    "AnchorPoint": {
+                      "X": 0.5,
+                      "Y": 0.5
+                    },
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 1
+                    },
+                    "BackgroundTransparency": 1,
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "Frame",
+                    "Position": "0.5, 0, 0.6, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.99, 0, 0.8, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "BuyGCellWindow",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 0.5,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.5, 0, 0.55, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.5, 0, 0.5, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "MobileScript",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Mobile/MobileScript.client.lua"
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Roar2",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.8419255, 0, 0.45614246, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Roar2",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Roar1",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.7136646, 0, 0.45614246, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Roar1",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Attack1",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.7136646, 0, 0.54017204, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Attack",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Attack2",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.8419255, 0, 0.54017204, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Special Attack",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Run",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.8419255, 0, 0.37211302, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Sprint/Fly",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Walk",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.7136646, 0, 0.37211302, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Walk",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "Attack3",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.842, 0, 0.624, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Attack 3",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "TextButton",
+                  "Name": "ShiftLock",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.6627451181411743,
+                      "G": 0.8313726186752319,
+                      "R": 1
+                    },
+                    "BorderColor3": {
+                      "B": 0.20784315466880798,
+                      "G": 0.16470588743686676,
+                      "R": 0.10588236153125763
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "TextButton",
+                    "Position": "0.842, 0, 0.288, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0.1282609, 0, 0.08402949, 0",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Shiftlock",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextScaled": true,
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0,
+                    "TextWrapped": true,
+                    "Visible": false
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Mobile",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0, 0, -0.1, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "1, 0, 1, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "MuteMusic",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/MusicButton/MuteMusic.client.lua"
+                },
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "UnmuteMusic",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "Disabled": true,
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/MusicButton/UnmuteMusic.client.lua"
+                }
+              ],
+              "ClassName": "TextButton",
+              "Name": "MusicButton",
+              "Properties": {
+                "AnchorPoint": {
+                  "X": 0.5,
+                  "Y": 0.5
+                },
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BorderColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "TextButton",
+                "Position": "0.949, 0, 0.66, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.1, 0, 0.04, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Style": "Enum.ButtonStyle.Custom",
+                "Text": "Mute Music",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 1,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "GCellCounterLS",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/GCells/GCellCounterLS.client.lua"
+                }
+              ],
+              "ClassName": "TextLabel",
+              "Name": "GCells",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0.5607843399047852,
+                  "G": 0.44705885648727417,
+                  "R": 0.2666666805744171
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "TextLabel",
+                "Position": "0.6936376, 0, 0.9538821, 0",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.3060858, 0, 0.035730902, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Text": "G-Cells:",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 70,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "Visible": false
+              }
+            },
+            {
+              "Children": [
+                {
+                  "Children": [
+                    {
+                      "ClassName": "Frame",
+                      "Name": "Fill",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 1
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "Frame",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 1, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Text",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundTransparency": 1,
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "FontFace": "rbxasset://fonts/families/SourceSansPro.json, Regular, Normal",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 1, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "HP: 1000/1000",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextSize": 14,
+                        "TextStrokeTransparency": 0.6000000238418579,
+                        "ZIndex": 2
+                      }
+                    }
+                  ],
+                  "ClassName": "Frame",
+                  "Name": "HealthBar",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "Frame",
+                    "ClipsDescendants": true,
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0, 120, 0, 20",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "Frame",
+                      "Name": "Fill",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.41568630933761597,
+                          "G": 0.960784375667572,
+                          "R": 1
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "Frame",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 1, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Text",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundTransparency": 1,
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "FontFace": "rbxasset://fonts/families/SourceSansPro.json, Regular, Normal",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 1, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "LV: 1",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextSize": 14,
+                        "TextStrokeTransparency": 0.6000000238418579,
+                        "ZIndex": 2
+                      }
+                    }
+                  ],
+                  "ClassName": "Frame",
+                  "Name": "LevelBar",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "Frame",
+                    "ClipsDescendants": true,
+                    "Position": "0, 250, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0, 120, 0, 20",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "Frame",
+                      "Name": "Fill",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0.5607843399047852,
+                          "G": 0.4470588266849518,
+                          "R": 0.2666666805744171
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "Frame",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 1, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Text",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundTransparency": 1,
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "ClassName": "TextLabel",
+                        "FontFace": "rbxasset://fonts/families/SourceSansPro.json, Regular, Normal",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 1, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "Charge: 100/100",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextSize": 14,
+                        "TextStrokeTransparency": 0.6000000238418579,
+                        "ZIndex": 2
+                      }
+                    }
+                  ],
+                  "ClassName": "Frame",
+                  "Name": "ChargeBar",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "Frame",
+                    "ClipsDescendants": true,
+                    "Position": "0, 125, 0, 0",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0, 120, 0, 20",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "LocalScript",
+                      "Name": "MenuScript",
+                      "Properties": {
+                        "ClassName": "LocalScript",
+                        "RunContext": "Enum.RunContext.Legacy"
+                      },
+                      "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Bars/Menu/MenuScript.client.lua"
+                    }
+                  ],
+                  "ClassName": "TextButton",
+                  "Name": "Menu",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0.5607843399047852,
+                      "G": 0.4470588266849518,
+                      "R": 0.2666666805744171
+                    },
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "ClassName": "TextButton",
+                    "FontFace": "rbxasset://fonts/families/SourceSansPro.json, Regular, Normal",
+                    "Position": "0, 125, 0, -25",
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0, 120, 0, 20",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Text": "Menu",
+                    "TextColor3": {
+                      "B": 1,
+                      "G": 1,
+                      "R": 1
+                    },
+                    "TextSize": 14,
+                    "TextStrokeTransparency": 0.699999988079071
+                  }
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Bars",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundTransparency": 1,
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "Frame",
+                "Position": "0.5, -185, 1, -140",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0, 370, 0, 20",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+              }
+            },
+            {
+              "Children": [
+                {
+                  "Children": [
+                    {
+                      "ClassName": "UICorner",
+                      "Name": "UICorner",
+                      "Properties": {
+                        "BottomLeftRadius": "0, 7",
+                        "BottomRightRadius": "0, 7",
+                        "ClassName": "UICorner",
+                        "TopLeftRadius": "0, 7",
+                        "TopRightRadius": "0, 7"
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "Frame",
+                          "Name": "Fill",
+                          "Properties": {
+                            "AutomaticSize": "Enum.AutomaticSize.None",
+                            "BackgroundColor3": {
+                              "B": 0.1568627506494522,
+                              "G": 0.1568627506494522,
+                              "R": 0.1568627506494522
+                            },
+                            "BackgroundTransparency": 0.3499999940395355,
+                            "BorderMode": "Enum.BorderMode.Outline",
+                            "BorderSizePixel": 0,
+                            "ClassName": "Frame",
+                            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                            "Size": "1, 0, 1, 0",
+                            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                            "ZIndex": 4
+                          }
+                        }
+                      ],
+                      "ClassName": "Frame",
+                      "Name": "Charge",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "Frame",
+                        "ClipsDescendants": true,
+                        "Position": "0, 0, 1, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 0, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "ZIndex": 3
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Num",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextLabel",
+                        "Position": "0, 0, 0.057142857, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 28, 0, 9",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "ONE",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 6,
+                        "TextStrokeTransparency": 0.699999988079071,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Title",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextLabel",
+                        "Position": "0, 5, 0, 66",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 69, 0, 10",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "ATTACK 1",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 10,
+                        "TextStrokeTransparency": 0.699999988079071,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageButton",
+                  "Name": "Template",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageButton",
+                    "HoverImageContent": {
+                      "Type": "Content",
+                      "Value": "Content(Uri=rbxassetid://0)"
+                    },
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0, 80, 0, 80",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Visible": false
+                  }
+                },
+                {
+                  "Children": [
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "UICorner",
+                          "Name": "UICorner",
+                          "Properties": {
+                            "BottomLeftRadius": "0, 6",
+                            "BottomRightRadius": "0, 6",
+                            "ClassName": "UICorner",
+                            "TopLeftRadius": "0, 6",
+                            "TopRightRadius": "0, 6"
+                          }
+                        }
+                      ],
+                      "ClassName": "Frame",
+                      "Name": "ActiveIndicator",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 0.7843137383460999,
+                          "R": 0.3921568691730499
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "Frame",
+                        "Position": "0, 2, 0, 2",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, -4, 1, -4",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "ZIndex": 0
+                      }
+                    },
+                    {
+                      "ClassName": "UICorner",
+                      "Name": "UICorner",
+                      "Properties": {
+                        "BottomLeftRadius": "0, 4",
+                        "BottomRightRadius": "0, 4",
+                        "ClassName": "UICorner",
+                        "TopLeftRadius": "0, 4",
+                        "TopRightRadius": "0, 4"
+                      }
+                    },
+                    {
+                      "Children": [
+                        {
+                          "ClassName": "Frame",
+                          "Name": "Fill",
+                          "Properties": {
+                            "AutomaticSize": "Enum.AutomaticSize.None",
+                            "BackgroundColor3": {
+                              "B": 0.1568627506494522,
+                              "G": 0.1568627506494522,
+                              "R": 0.1568627506494522
+                            },
+                            "BackgroundTransparency": 0.3499999940395355,
+                            "BorderMode": "Enum.BorderMode.Outline",
+                            "BorderSizePixel": 0,
+                            "ClassName": "Frame",
+                            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                            "Size": "1, 0, 1, 0",
+                            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                            "ZIndex": 4
+                          }
+                        }
+                      ],
+                      "ClassName": "Frame",
+                      "Name": "Charge",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "Frame",
+                        "ClipsDescendants": true,
+                        "Position": "0, 0, 1, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "1, 0, 0, 0",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "ZIndex": 3
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Num",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextLabel",
+                        "Position": "0, 0, 0.057142857, 0",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 28, 0, 9",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "SHIFT",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 6,
+                        "TextStrokeTransparency": 0.699999988079071,
+                        "TextWrapped": true
+                      }
+                    },
+                    {
+                      "ClassName": "TextLabel",
+                      "Name": "Title",
+                      "Properties": {
+                        "AutomaticSize": "Enum.AutomaticSize.None",
+                        "BackgroundColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BackgroundTransparency": 1,
+                        "BorderColor3": {
+                          "B": 0,
+                          "G": 0,
+                          "R": 0
+                        },
+                        "BorderMode": "Enum.BorderMode.Outline",
+                        "BorderSizePixel": 0,
+                        "ClassName": "TextLabel",
+                        "Position": "0, 5, 0, 66",
+                        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                        "Size": "0, 69, 0, 10",
+                        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                        "Text": "ATTACK 1",
+                        "TextColor3": {
+                          "B": 1,
+                          "G": 1,
+                          "R": 1
+                        },
+                        "TextScaled": true,
+                        "TextSize": 10,
+                        "TextStrokeTransparency": 0.699999988079071,
+                        "TextWrapped": true
+                      }
+                    }
+                  ],
+                  "ClassName": "ImageButton",
+                  "Name": "Sprint",
+                  "Properties": {
+                    "AutomaticSize": "Enum.AutomaticSize.None",
+                    "BackgroundColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderColor3": {
+                      "B": 0,
+                      "G": 0,
+                      "R": 0
+                    },
+                    "BorderMode": "Enum.BorderMode.Outline",
+                    "BorderSizePixel": 0,
+                    "ClassName": "ImageButton",
+                    "LayoutOrder": 999,
+                    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                    "Size": "0, 80, 0, 80",
+                    "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                    "Style": "Enum.ButtonStyle.Custom",
+                    "Visible": false
+                  }
+                },
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "BackpackScript",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua"
+                }
+              ],
+              "ClassName": "Frame",
+              "Name": "Backpack",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "Frame",
+                "Position": "0.5, -315, 1, -110",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0, 630, 0, 95",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+              }
+            }
+          ],
+          "ClassName": "Frame",
+          "Name": "Interface",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 1,
+              "G": 0.7098039388656616,
+              "R": 0.3294117748737335
+            },
+            "BackgroundTransparency": 1,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "ClassName": "Frame",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 1, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "Visible": false
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "LocalScript",
+                  "Name": "Text",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "Disabled": true,
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Loading/TextLabel/Text.client.lua"
+                }
+              ],
+              "ClassName": "TextLabel",
+              "Name": "TextLabel",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 1,
+                "BorderMode": "Enum.BorderMode.Outline",
+                "ClassName": "TextLabel",
+                "Position": "0.2, 0, 0.5, -40",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.6, 0, 0, 80",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "Text": "Loading...",
+                "TextColor3": {
+                  "B": 1,
+                  "G": 1,
+                  "R": 1
+                },
+                "TextScaled": true,
+                "TextSize": 14,
+                "TextStrokeTransparency": 0,
+                "TextWrapped": true,
+                "ZIndex": 2131232131
+              }
+            }
+          ],
+          "ClassName": "Frame",
+          "Name": "Loading",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.5607843399047852,
+              "G": 0.4470588266849518,
+              "R": 0.2666666805744171
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "ClassName": "Frame",
+            "Position": "0, 0, -1, 0",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 1, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "Visible": false,
+            "ZIndex": 99999999
+          }
+        }
+      ],
+      "ClassName": "Frame",
+      "Name": "MainFrame",
+      "Properties": {
+        "AutomaticSize": "Enum.AutomaticSize.None",
+        "BackgroundColor3": {
+          "B": 0,
+          "G": 0,
+          "R": 0
+        },
+        "BackgroundTransparency": 1,
+        "BorderColor3": {
+          "B": 0.20784315466880798,
+          "G": 0.16470588743686676,
+          "R": 0.10588236153125763
+        },
+        "BorderMode": "Enum.BorderMode.Outline",
+        "ClassName": "Frame",
+        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+        "Size": "1, 0, 1, 0",
+        "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+      }
+    }
+  ],
+  "ClassName": "ScreenGui",
+  "Name": "GameGui",
+  "Properties": {
+    "ClassName": "ScreenGui",
+    "DisplayOrder": 2,
+    "ResetOnSpawn": false,
+    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+    "ZIndexBehavior": "Enum.ZIndexBehavior.Global"
+  }
+}

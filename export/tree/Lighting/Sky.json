@@ -1,0 +1,31 @@
+{
+  "ClassName": "Sky",
+  "Name": "Sky",
+  "Properties": {
+    "ClassName": "Sky",
+    "SkyboxBackContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://14053256616)"
+    },
+    "SkyboxDownContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://14053237521)"
+    },
+    "SkyboxFrontContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://14053244182)"
+    },
+    "SkyboxLeftContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://14053252170)"
+    },
+    "SkyboxRightContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://14053238864)"
+    },
+    "SkyboxUpContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://14053236181)"
+    }
+  }
+}

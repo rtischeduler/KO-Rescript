@@ -1,0 +1,8 @@
+{
+  "ClassName": "ModuleScript",
+  "Name": "BeamClientFX",
+  "Properties": {
+    "ClassName": "ModuleScript"
+  },
+  "SourceFile": "scripts/ReplicatedStorage/BeamClientFX.lua"
+}

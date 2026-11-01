@@ -1,0 +1,11 @@
+{
+  "ChildCount": 0,
+  "ClassName": "Players",
+  "Name": "Players",
+  "Properties": {
+    "CharacterAutoLoads": false,
+    "ClassName": "Players",
+    "MaxPlayers": 60,
+    "PreferredPlayers": 60
+  }
+}

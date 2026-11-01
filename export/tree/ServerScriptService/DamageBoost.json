@@ -1,0 +1,9 @@
+{
+  "ClassName": "Script",
+  "Name": "DamageBoost",
+  "Properties": {
+    "ClassName": "Script",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/ServerScriptService/DamageBoost.server.lua"
+}

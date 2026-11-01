@@ -1,0 +1,95 @@
+{
+  "hits": [
+    {
+      "class": "LocalizationTable",
+      "detail": "[{\"key\":\"GameChat_ChatChannel_MutedInChannel\",\"values\":{\"de\":\"Du wurdest stummgeschaltet und kannst in diesem Kanal nicht kommunizieren.\",\"en-us\":\"You are muted and cannot talk in this channel\",\"es\":\"",
+      "path": "Chat/ChatLocalization",
+      "why": "property Contents"
+    },
+    {
+      "class": "StarterPlayerScripts",
+      "detail": "StarterPlayerScripts",
+      "path": "StarterPlayer/StarterPlayerScripts",
+      "why": "property ClassName"
+    },
+    {
+      "class": "StarterPlayerScripts",
+      "detail": "StarterPlayerScripts",
+      "path": "StarterPlayer/StarterPlayerScripts",
+      "why": "name"
+    },
+    {
+      "class": "StarterPlayerScripts",
+      "detail": "StarterPlayerScripts",
+      "path": "StarterPlayer/StarterPlayerScripts",
+      "why": "class"
+    },
+    {
+      "class": "StringValue",
+      "detail": "PlayerName",
+      "path": "Lighting/Rocket/PlayerName",
+      "why": "name"
+    },
+    {
+      "class": "StringValue",
+      "detail": "PlayerName",
+      "path": "Lighting/KaijusUnused/HEISEI GODZILLA/HitParts/HeiseiBlast/PlayerName",
+      "why": "name"
+    },
+    {
+      "class": "TextLabel",
+      "detail": "playername",
+      "path": "ReplicatedStorage/NametagGUI/Frame/playername",
+      "why": "name"
+    },
+    {
+      "class": "TextLabel",
+      "detail": "PlayerHealth",
+      "path": "ReplicatedStorage/NametagGUI/Frame/PlayerHealth",
+      "why": "name"
+    },
+    {
+      "class": "TextLabel",
+      "detail": "PlayerLevel",
+      "path": "ReplicatedStorage/NametagGUI/Frame/PlayerLevel",
+      "why": "name"
+    },
+    {
+      "class": "Folder",
+      "detail": "PlayerScripts",
+      "path": "ReplicatedStorage/PlayerScripts",
+      "why": "name"
+    },
+    {
+      "class": "TextLabel",
+      "detail": "PlayerName",
+      "path": "ReplicatedStorage/Tag/Name",
+      "why": "property Text"
+    },
+    {
+      "class": "TextLabel",
+      "detail": "PlayerName",
+      "path": "ReplicatedStorage/Health/Name",
+      "why": "property Text"
+    },
+    {
+      "class": "ModuleScript",
+      "detail": "PlayerHooks",
+      "path": "ServerScriptService/Server/Core/PlayerHooks",
+      "why": "name"
+    },
+    {
+      "class": "StringValue",
+      "detail": "PlayerName",
+      "path": "ServerStorage/Kaijus/BURNING GODZILLA/HitParts/HeiseiBlast/PlayerName",
+      "why": "name"
+    },
+    {
+      "class": "StringValue",
+      "detail": "PlayerName",
+      "path": "ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/PlayerName",
+      "why": "name"
+    }
+  ],
+  "term": "player"
+}

@@ -1,0 +1,8 @@
+{
+  "ClassName": "BoolValue",
+  "Name": "canFly",
+  "Properties": {
+    "ClassName": "BoolValue",
+    "Value": true
+  }
+}

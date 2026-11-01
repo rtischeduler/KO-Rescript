@@ -1,0 +1,10 @@
+{
+  "ClassName": "Script",
+  "Name": "DPSTemplate",
+  "Properties": {
+    "ClassName": "Script",
+    "Disabled": true,
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/ReplicatedStorage/DPSTemplate.server.lua"
+}

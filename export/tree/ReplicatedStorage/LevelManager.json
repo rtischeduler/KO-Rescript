@@ -1,0 +1,8 @@
+{
+  "ClassName": "ModuleScript",
+  "Name": "LevelManager",
+  "Properties": {
+    "ClassName": "ModuleScript"
+  },
+  "SourceFile": "scripts/ReplicatedStorage/LevelManager.lua"
+}

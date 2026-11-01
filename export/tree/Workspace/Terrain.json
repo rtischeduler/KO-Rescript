@@ -1,0 +1,37 @@
+{
+  "Children": [
+    {
+      "ClassName": "Clouds",
+      "Name": "Clouds",
+      "Properties": {
+        "ClassName": "Clouds",
+        "Cover": 0.6669999957084656
+      }
+    }
+  ],
+  "ClassName": "Terrain",
+  "Name": "Terrain",
+  "Properties": {
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Inlet",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "ClassName": "Terrain",
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Plastic",
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "TopSurface": "Enum.SurfaceType.Studs",
+    "TopSurfaceInput": "Enum.InputType.NoInput",
+    "WaterColor": {
+      "B": 0.3607843220233917,
+      "G": 0.3294117748737335,
+      "R": 0.0470588244497776
+    },
+    "WaterReflectance": 0,
+    "WaterTransparency": 1
+  }
+}

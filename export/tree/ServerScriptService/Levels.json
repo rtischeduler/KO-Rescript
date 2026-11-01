@@ -1,0 +1,35 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "NumberValue",
+          "Name": "Level",
+          "Properties": {
+            "ClassName": "NumberValue"
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "XP",
+          "Properties": {
+            "ClassName": "NumberValue"
+          }
+        }
+      ],
+      "ClassName": "Script",
+      "Name": "Levels",
+      "Properties": {
+        "ClassName": "Script",
+        "Disabled": true,
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/ServerScriptService/Levels/Levels.server.lua"
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "Levels",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "TextLabel",
+          "Name": "playername",
+          "Properties": {
+            "Active": true,
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.49803924560546875,
+              "G": 0,
+              "R": 0
+            },
+            "BackgroundTransparency": 1,
+            "BorderColor3": {
+              "B": 0.49803924560546875,
+              "G": 0,
+              "R": 0
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "TextLabel",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0.33, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "Text": "Godzilla 1954",
+            "TextColor3": {
+              "B": 1,
+              "G": 1,
+              "R": 1
+            },
+            "TextScaled": true,
+            "TextSize": 30,
+            "TextStrokeColor3": {
+              "B": 0.6235294342041016,
+              "G": 0.6235294342041016,
+              "R": 0.6235294342041016
+            },
+            "TextWrapped": true
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "Frame",
+              "Name": "Color",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0,
+                  "G": 0,
+                  "R": 1
+                },
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "Frame",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "1, 0, 1, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "ZIndex": 0
+              }
+            }
+          ],
+          "ClassName": "TextLabel",
+          "Name": "PlayerHealth",
+          "Properties": {
+            "Active": true,
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 1,
+              "G": 1,
+              "R": 1
+            },
+            "BackgroundTransparency": 1,
+            "BorderColor3": {
+              "B": 0,
+              "G": 0.20000001788139343,
+              "R": 1
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "TextLabel",
+            "Position": "0, 0, 0.66, 0",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0.33, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "Text": "HP: 1000/1000",
+            "TextColor3": {
+              "B": 1,
+              "G": 1,
+              "R": 1
+            },
+            "TextScaled": true,
+            "TextSize": 24,
+            "TextStrokeColor3": {
+              "B": 0.5098039507865906,
+              "G": 0.5098039507865906,
+              "R": 0.5098039507865906
+            },
+            "TextStrokeTransparency": 0.800000011920929,
+            "TextWrapped": true
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "Frame",
+              "Name": "Color",
+              "Properties": {
+                "AutomaticSize": "Enum.AutomaticSize.None",
+                "BackgroundColor3": {
+                  "B": 0,
+                  "G": 1,
+                  "R": 1
+                },
+                "BackgroundTransparency": 0.4000000059604645,
+                "BorderColor3": {
+                  "B": 0.20784315466880798,
+                  "G": 0.16470588743686676,
+                  "R": 0.10588236153125763
+                },
+                "BorderMode": "Enum.BorderMode.Outline",
+                "BorderSizePixel": 0,
+                "ClassName": "Frame",
+                "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+                "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+                "Size": "0.18, 0, 1, 0",
+                "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+                "ZIndex": 0
+              }
+            }
+          ],
+          "ClassName": "TextLabel",
+          "Name": "PlayerLevel",
+          "Properties": {
+            "Active": true,
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 1,
+              "G": 1,
+              "R": 1
+            },
+            "BackgroundTransparency": 1,
+            "BorderColor3": {
+              "B": 0,
+              "G": 0.20000001788139343,
+              "R": 1
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "TextLabel",
+            "Position": "0, 0, 0.33, 0",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0.33, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "Text": "LEVEL: 1",
+            "TextColor3": {
+              "B": 1,
+              "G": 1,
+              "R": 1
+            },
+            "TextScaled": true,
+            "TextSize": 24,
+            "TextStrokeColor3": {
+              "B": 0.5098039507865906,
+              "G": 0.5098039507865906,
+              "R": 0.5098039507865906
+            },
+            "TextStrokeTransparency": 0.800000011920929,
+            "TextWrapped": true
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Border1",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.23137255012989044,
+              "G": 0.23137255012989044,
+              "R": 0.23137255012989044
+            },
+            "BackgroundTransparency": 0.800000011920929,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "0, 1, 1, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": 2
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Border4",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.23137255012989044,
+              "G": 0.23137255012989044,
+              "R": 0.23137255012989044
+            },
+            "BackgroundTransparency": 0.800000011920929,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0, 1",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": 2
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Border2",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.23137255012989044,
+              "G": 0.23137255012989044,
+              "R": 0.23137255012989044
+            },
+            "BackgroundTransparency": 0.800000011920929,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "Position": "1, -1, 0, 0",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "0, 1, 1, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": 2
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Border3",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.23137255012989044,
+              "G": 0.23137255012989044,
+              "R": 0.23137255012989044
+            },
+            "BackgroundTransparency": 0.800000011920929,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "Position": "0, 0, 1, -1",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0, 1",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": 2
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Color",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.45098039507865906,
+              "G": 0.45098039507865906,
+              "R": 0.45098039507865906
+            },
+            "BackgroundTransparency": 0.699999988079071,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 1, 0",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": -2
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Border5",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.23137255012989044,
+              "G": 0.23137255012989044,
+              "R": 0.23137255012989044
+            },
+            "BackgroundTransparency": 0.800000011920929,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "Position": "0, 0, 0.33, 0",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0, 1",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": 2
+          }
+        },
+        {
+          "ClassName": "Frame",
+          "Name": "Border6",
+          "Properties": {
+            "AutomaticSize": "Enum.AutomaticSize.None",
+            "BackgroundColor3": {
+              "B": 0.23137255012989044,
+              "G": 0.23137255012989044,
+              "R": 0.23137255012989044
+            },
+            "BackgroundTransparency": 0.800000011920929,
+            "BorderColor3": {
+              "B": 0.20784315466880798,
+              "G": 0.16470588743686676,
+              "R": 0.10588236153125763
+            },
+            "BorderMode": "Enum.BorderMode.Outline",
+            "BorderSizePixel": 0,
+            "ClassName": "Frame",
+            "Position": "0, 0, 0.66, 0",
+            "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+            "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+            "Size": "1, 0, 0, 1",
+            "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+            "ZIndex": 2
+          }
+        }
+      ],
+      "ClassName": "Frame",
+      "Name": "Frame",
+      "Properties": {
+        "AutomaticSize": "Enum.AutomaticSize.None",
+        "BackgroundColor3": {
+          "B": 0,
+          "G": 0,
+          "R": 0
+        },
+        "BackgroundTransparency": 1,
+        "BorderColor3": {
+          "B": 0.20784315466880798,
+          "G": 0.16470588743686676,
+          "R": 0.10588236153125763
+        },
+        "BorderMode": "Enum.BorderMode.Outline",
+        "BorderSizePixel": 0,
+        "ClassName": "Frame",
+        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+        "Size": "1, 0, 1, 0",
+        "SizeConstraint": "Enum.SizeConstraint.RelativeXY"
+      }
+    }
+  ],
+  "ClassName": "BillboardGui",
+  "Name": "NametagGUI",
+  "Properties": {
+    "Active": true,
+    "ClassName": "BillboardGui",
+    "ExtentsOffset": {
+      "X": 0,
+      "Y": 1,
+      "Z": 0
+    },
+    "MaxDistance": 300,
+    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+    "Size": "12, 0, 4, 0",
+    "StudsOffset": {
+      "X": 0,
+      "Y": 2.5,
+      "Z": 0
+    },
+    "ZIndexBehavior": "Enum.ZIndexBehavior.Global"
+  }
+}

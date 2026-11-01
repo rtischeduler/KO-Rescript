@@ -1,0 +1,9 @@
+{
+  "ChildCount": 0,
+  "ClassName": "Instance",
+  "Name": "FilteredSelection",
+  "Properties": {
+    "ClassName": "Instance",
+    "Sandboxed": false
+  }
+}

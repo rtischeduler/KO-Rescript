@@ -1,0 +1,84 @@
+{
+  "Children": [
+    {
+      "ClassName": "ColorCorrectionEffect",
+      "Name": "BW",
+      "Properties": {
+        "ClassName": "ColorCorrectionEffect",
+        "Enabled": false,
+        "Saturation": -1
+      }
+    },
+    {
+      "ClassName": "BloomEffect",
+      "Name": "Bloom",
+      "Properties": {
+        "ClassName": "BloomEffect",
+        "Intensity": 1,
+        "Threshold": 2
+      }
+    },
+    {
+      "ClassName": "BlurEffect",
+      "Name": "Blur",
+      "Properties": {
+        "ClassName": "BlurEffect",
+        "Size": 0
+      }
+    },
+    {
+      "ClassName": "BloomEffect",
+      "Name": "Bloom",
+      "Properties": {
+        "ClassName": "BloomEffect",
+        "Intensity": 0.3499999940395355,
+        "Threshold": 2
+      }
+    },
+    {
+      "ClassName": "ColorCorrectionEffect",
+      "Name": "Normal",
+      "Properties": {
+        "ClassName": "ColorCorrectionEffect",
+        "Contrast": 0.10000000149011612
+      }
+    },
+    {
+      "ClassName": "ColorCorrectionEffect",
+      "Name": "Realistic",
+      "Properties": {
+        "ClassName": "ColorCorrectionEffect",
+        "Contrast": -0.05000000074505806,
+        "Enabled": false,
+        "Saturation": -0.30000001192092896
+      }
+    },
+    {
+      "ClassName": "ColorCorrectionEffect",
+      "Name": "Sepia",
+      "Properties": {
+        "ClassName": "ColorCorrectionEffect",
+        "Enabled": false,
+        "Saturation": -1,
+        "TintColor": {
+          "B": 0.6823529601097107,
+          "G": 0.8705883026123047,
+          "R": 1
+        }
+      }
+    },
+    {
+      "ClassName": "SunRaysEffect",
+      "Name": "SunRays",
+      "Properties": {
+        "ClassName": "SunRaysEffect",
+        "Intensity": 0.05999999865889549
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "OldLighting",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "ChildCount": 0,
+  "ClassName": "HttpService",
+  "Name": "HttpService",
+  "Properties": {
+    "ClassName": "HttpService",
+    "HttpEnabled": true
+  }
+}

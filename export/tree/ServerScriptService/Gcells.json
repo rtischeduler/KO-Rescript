@@ -1,0 +1,9 @@
+{
+  "ClassName": "Script",
+  "Name": "Gcells",
+  "Properties": {
+    "ClassName": "Script",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/ServerScriptService/Gcells.server.lua"
+}

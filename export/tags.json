@@ -1,0 +1,162 @@
+[
+  {
+    "count": 1,
+    "name": "1793502661",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Melee2"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793496399",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793502846",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Walk"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793502690",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Melee2"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793498348",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "Assistant:b1abe821-399f-4ea6-81d9-2258d9261dc1",
+    "samples": [
+      {
+        "class": "Folder",
+        "path": "ReplicatedStorage/Knit"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793498889",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1630590167",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Charge"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793497104",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1657144698",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/ENTITY/AnimSaves/Swim"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793502733",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/SwimWalk"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793502822",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Idle"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1619485445",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/ENTITY/AnimSaves/Automatic Save"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1630938701",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Get Up"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1630940562",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Fall"
+      }
+    ]
+  },
+  {
+    "count": 1,
+    "name": "1793502785",
+    "samples": [
+      {
+        "class": "KeyframeSequence",
+        "path": "ServerStorage/Kaijus/zilla jr /AnimSaves/Sprint"
+      }
+    ]
+  }
+]

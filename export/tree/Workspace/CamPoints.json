@@ -1,0 +1,61 @@
+{
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Menu",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            142.5,
+            365.14111328125,
+            -78.60001373291016
+          ],
+          "Rotation": [
+            0.9063077569007874,
+            0,
+            0.4226182699203491,
+            0,
+            1,
+            -0.0,
+            -0.4226182699203491,
+            0,
+            0.9063077569007874
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.6039215922355652,
+          "G": 0.772549033164978,
+          "R": 0.843137264251709
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Grass",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 4,
+          "Y": 1,
+          "Z": 2
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "CamPoints",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

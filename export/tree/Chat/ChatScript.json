@@ -1,0 +1,109 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ChannelsBar",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/ChannelsBar.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ChatBar",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/ChatBar.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ChatChannel",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/ChatChannel.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "MessageLogDisplay",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/MessageLogDisplay.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ChatWindow",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/ChatWindow.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "MessageLabelCreator",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/MessageLabelCreator.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "CommandProcessor",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/CommandProcessor.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ChannelsTab",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/ChannelsTab.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ObjectPool",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/ObjectPool.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "MessageSender",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/MessageSender.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "CurveUtil",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ChatScript/ChatMain/CurveUtil.lua"
+        }
+      ],
+      "ClassName": "ModuleScript",
+      "Name": "ChatMain",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatScript/ChatMain.lua"
+    }
+  ],
+  "ClassName": "LocalScript",
+  "Name": "ChatScript",
+  "Properties": {
+    "ClassName": "LocalScript",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/Chat/ChatScript.client.lua"
+}

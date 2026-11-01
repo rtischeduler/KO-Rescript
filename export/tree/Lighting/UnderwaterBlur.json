@@ -1,0 +1,9 @@
+{
+  "ClassName": "BlurEffect",
+  "Name": "UnderwaterBlur",
+  "Properties": {
+    "ClassName": "BlurEffect",
+    "Enabled": false,
+    "Size": 7
+  }
+}

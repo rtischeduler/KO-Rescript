@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "ToggleRain",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

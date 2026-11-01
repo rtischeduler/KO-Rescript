@@ -1,0 +1,89 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "TeamChat",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/TeamChat.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ExtraDataInitializer",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/ExtraDataInitializer.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatCommandsTeller",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/ChatCommandsTeller.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatMessageValidator",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/ChatMessageValidator.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatFloodDetector",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/ChatFloodDetector.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "MuteSpeaker",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/MuteSpeaker.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "FriendJoinNotifier",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/FriendJoinNotifier.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "MeCommand",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/MeCommand.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "PrivateMessaging",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatModules/PrivateMessaging.lua"
+    },
+    {
+      "ClassName": "BoolValue",
+      "Name": "InsertDefaultModules",
+      "Properties": {
+        "ClassName": "BoolValue",
+        "Value": true
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "ChatModules",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

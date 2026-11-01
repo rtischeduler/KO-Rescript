@@ -1,0 +1,32 @@
+{
+  "ChildCount": 43,
+  "ClassName": "Workspace",
+  "Name": "Workspace",
+  "Properties": {
+    "ClassName": "Workspace",
+    "CurrentCamera": {
+      "Ref": "Workspace/Camera"
+    },
+    "Terrain": {
+      "Ref": "Workspace/Terrain"
+    },
+    "WorldPivotData": {
+      "Position": [
+        -479.22705078125,
+        319.1000061035156,
+        -98.800048828125
+      ],
+      "Rotation": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  }
+}

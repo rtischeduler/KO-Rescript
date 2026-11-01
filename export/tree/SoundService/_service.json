@@ -1,0 +1,9 @@
+{
+  "ChildCount": 0,
+  "ClassName": "SoundService",
+  "Name": "SoundService",
+  "Properties": {
+    "ClassName": "SoundService",
+    "RespectFilteringEnabled": true
+  }
+}

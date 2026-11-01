@@ -1,0 +1,17 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "BeamService",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ServerScriptService/KnitServices/BeamService.lua"
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "KnitServices",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "ClassName": "BloomEffect",
+  "Name": "Bloom",
+  "Properties": {
+    "ClassName": "BloomEffect",
+    "Intensity": 1,
+    "Threshold": 0.699999988079071
+  }
+}

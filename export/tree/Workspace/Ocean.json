@@ -1,0 +1,67 @@
+{
+  "Children": [
+    {
+      "ClassName": "BlockMesh",
+      "Name": "Mesh",
+      "Properties": {
+        "ClassName": "BlockMesh",
+        "Scale": {
+          "X": 5000,
+          "Y": 1,
+          "Z": 5000
+        }
+      }
+    }
+  ],
+  "ClassName": "Part",
+  "Name": "Ocean",
+  "Properties": {
+    "Anchored": true,
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        284.8399963378906,
+        336.79998779296875,
+        -13.40999984741211
+      ],
+      "Rotation": [
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "CanCollide": false,
+    "ClassName": "Part",
+    "Color": {
+      "B": 0.4470588266849518,
+      "G": 0.2705882489681244,
+      "R": 0.18039216101169586
+    },
+    "FormFactor": "Enum.FormFactor.Brick",
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Plastic",
+    "Reflectance": 0.30000001192092896,
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 6,
+      "Y": 1.2000000476837158,
+      "Z": 6
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput",
+    "Transparency": 0.30000001192092896
+  }
+}

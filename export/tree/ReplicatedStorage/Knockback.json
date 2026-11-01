@@ -1,0 +1,8 @@
+{
+  "ClassName": "ModuleScript",
+  "Name": "Knockback",
+  "Properties": {
+    "ClassName": "ModuleScript"
+  },
+  "SourceFile": "scripts/ReplicatedStorage/Knockback.lua"
+}

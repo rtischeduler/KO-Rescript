@@ -1,0 +1,53 @@
+{
+  "ClassName": "MeshPart",
+  "Name": "Witch hat",
+  "Properties": {
+    "Anchored": true,
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        -189.2221221923828,
+        364.8733215332031,
+        -92.57080841064453
+      ],
+      "Rotation": [
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    "ClassName": "MeshPart",
+    "Color": {
+      "B": 0.06666667014360428,
+      "G": 0.06666667014360428,
+      "R": 0.06666667014360428
+    },
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Plastic",
+    "MeshContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://8940211668)"
+    },
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 6.647597312927246,
+      "Y": 6.699343681335449,
+      "Z": 6.305903911590576
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput"
+  }
+}

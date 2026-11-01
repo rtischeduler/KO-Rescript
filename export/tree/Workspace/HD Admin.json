@@ -1,0 +1,98 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Settings",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Workspace/HD Admin/Settings.lua"
+    },
+    {
+      "Attributes": {
+        "CommandLimitPerMinute": "60"
+      },
+      "Children": [
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Server",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/Workspace/HD Admin/Config/Commands/Server.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Client",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/Workspace/HD Admin/Config/Commands/Client.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "Commands",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        }
+      ],
+      "ClassName": "Configuration",
+      "Name": "Config",
+      "Properties": {
+        "ClassName": "Configuration"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "MainModule",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Workspace/HD Admin/Core/MainModule.lua"
+        },
+        {
+          "ClassName": "Script",
+          "Name": "Loader",
+          "Properties": {
+            "ClassName": "Script",
+            "RunContext": "Enum.RunContext.Server"
+          },
+          "SourceFile": "scripts/Workspace/HD Admin/Core/Loader.server.lua"
+        }
+      ],
+      "ClassName": "Model",
+      "Name": "Core",
+      "Properties": {
+        "ClassName": "Model",
+        "WorldPivotData": {
+          "Position": [
+            290.3608093261719,
+            583.2723999023438,
+            -325.80194091796875
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "HD Admin",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "ClassName": "Sky",
+  "Name": "Sunny",
+  "Properties": {
+    "CelestialBodiesShown": false,
+    "ClassName": "Sky",
+    "SkyboxBackContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://679786546)"
+    },
+    "SkyboxDownContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://680029379)"
+    },
+    "SkyboxFrontContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://679786832)"
+    },
+    "SkyboxLeftContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://679786679)"
+    },
+    "SkyboxRightContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://679786411)"
+    },
+    "SkyboxUpContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://679787023)"
+    }
+  }
+}

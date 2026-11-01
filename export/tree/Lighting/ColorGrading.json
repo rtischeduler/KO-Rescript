@@ -1,0 +1,8 @@
+{
+  "ClassName": "ColorGradingEffect",
+  "Name": "ColorGrading",
+  "Properties": {
+    "ClassName": "ColorGradingEffect",
+    "TonemapperPreset": "Enum.TonemapperPreset.Retro"
+  }
+}

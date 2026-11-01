@@ -1,0 +1,175 @@
+{
+  "Children": [
+    {
+      "ClassName": "LocalScript",
+      "Name": "RbxCharacterSounds",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds.client.lua"
+    },
+    {
+      "ClassName": "Folder",
+      "Name": "KnitControllers",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Config",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Config.lua"
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Chat",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Chat.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Graphics",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Graphics.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Hud",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Hud.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Knit",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Knit.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Menu",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Ocean",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Ocean.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Settings",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Settings.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Sounds",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Sounds.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "WaterFX",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/WaterFX.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Effects",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Touch",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Indicators",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Controllers/Indicators.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "Controllers",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Util",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client/Core/Util.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "Core",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        }
+      ],
+      "ClassName": "LocalScript",
+      "Name": "Client",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/Client.client.lua"
+    },
+    {
+      "ClassName": "LocalScript",
+      "Name": "BuildingFX",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/StarterPlayer/StarterPlayerScripts/BuildingFX.client.lua"
+    }
+  ],
+  "ClassName": "StarterPlayerScripts",
+  "Name": "StarterPlayerScripts",
+  "Properties": {
+    "ClassName": "StarterPlayerScripts"
+  }
+}

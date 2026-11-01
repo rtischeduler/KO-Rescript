@@ -1,0 +1,141 @@
+{
+  "Children": [
+    {
+      "Attributes": {
+        "EclipseMeshTextureId": "8472e71a-642d-40ec-94da-f711603d7489"
+      },
+      "ClassName": "MeshPart",
+      "Name": "MeshPart",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -376.1784973144531,
+            315.4690246582031,
+            759.8573608398438
+          ],
+          "Rotation": [
+            -0.07847988605499268,
+            0,
+            0.9969158172607422,
+            0,
+            1,
+            0,
+            -0.9969158172607422,
+            0,
+            -0.07847988605499268
+          ]
+        },
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.41960784792900085,
+          "G": 0.6117647290229797,
+          "R": 0.48627451062202454
+        },
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://430330965)"
+        },
+        "RenderFidelity": "Enum.RenderFidelity.Precise",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 976.8125610351562,
+          "Y": 491.316162109375,
+          "Z": 1299.692138671875
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "Attributes": {
+        "EclipseMeshTextureId": "d70bf6f2-df96-4837-a30c-7797ca9bfb87"
+      },
+      "ClassName": "MeshPart",
+      "Name": "MeshPart",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -371.9889831542969,
+            292.89141845703125,
+            756.6425170898438
+          ],
+          "Rotation": [
+            -0.07847988605499268,
+            0,
+            0.9969158172607422,
+            0,
+            1,
+            0,
+            -0.9969158172607422,
+            0,
+            -0.07847988605499268
+          ]
+        },
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.27450981736183167,
+          "G": 0.3607843220233917,
+          "R": 0.48627451062202454
+        },
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://430330965)"
+        },
+        "RenderFidelity": "Enum.RenderFidelity.Precise",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 1018.0065307617188,
+          "Y": 512.035888671875,
+          "Z": 1354.5025634765625
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    }
+  ],
+  "ClassName": "Model",
+  "Name": "Model",
+  "Properties": {
+    "ClassName": "Model",
+    "WorldPivotData": {
+      "Position": [
+        -371.9889831542969,
+        299.00030517578125,
+        756.6425170898438
+      ],
+      "Rotation": [
+        -0.07847988605499268,
+        0,
+        0.9969158172607422,
+        0,
+        1,
+        0,
+        -0.9969158172607422,
+        0,
+        -0.07847988605499268
+      ]
+    }
+  }
+}

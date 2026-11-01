@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "BossEvent",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

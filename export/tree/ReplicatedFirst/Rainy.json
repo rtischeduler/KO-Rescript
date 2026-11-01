@@ -1,0 +1,33 @@
+{
+  "ClassName": "Sky",
+  "Name": "Rainy",
+  "Properties": {
+    "CelestialBodiesShown": false,
+    "ClassName": "Sky",
+    "SkyboxBackContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317731)"
+    },
+    "SkyboxDownContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317751)"
+    },
+    "SkyboxFrontContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317771)"
+    },
+    "SkyboxLeftContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317794)"
+    },
+    "SkyboxRightContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317814)"
+    },
+    "SkyboxUpContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317824)"
+    },
+    "StarCount": 1334
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "Children": [
+    {
+      "ClassName": "Decal",
+      "Name": "Decal",
+      "Properties": {
+        "ClassName": "Decal",
+        "Face": "Enum.NormalId.Right",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://3133876331)"
+        }
+      }
+    }
+  ],
+  "ClassName": "Part",
+  "Name": "Part",
+  "Properties": {
+    "Anchored": true,
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        -447.47540283203125,
+        12.700010299682617,
+        811.4500122070312
+      ],
+      "Rotation": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "CanCollide": false,
+    "ClassName": "Part",
+    "FormFactor": "Enum.FormFactor.Brick",
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Plastic",
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 0.09999977052211761,
+      "Y": 36.9999885559082,
+      "Z": 66.49998474121094
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput"
+  }
+}

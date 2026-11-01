@@ -1,0 +1,8 @@
+{
+  "ClassName": "SunRaysEffect",
+  "Name": "SunRays",
+  "Properties": {
+    "ClassName": "SunRaysEffect",
+    "Spread": 0.5
+  }
+}

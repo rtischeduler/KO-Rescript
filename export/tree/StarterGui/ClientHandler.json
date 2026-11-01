@@ -1,0 +1,9 @@
+{
+  "ClassName": "LocalScript",
+  "Name": "ClientHandler",
+  "Properties": {
+    "ClassName": "LocalScript",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/StarterGui/ClientHandler.client.lua"
+}

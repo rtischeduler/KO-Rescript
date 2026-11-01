@@ -1,0 +1,16 @@
+{
+  "ClassName": "ColorCorrectionEffect",
+  "Name": "UnderwaterCorrection",
+  "Properties": {
+    "Brightness": 0.20000000298023224,
+    "ClassName": "ColorCorrectionEffect",
+    "Contrast": 0.20000000298023224,
+    "Enabled": false,
+    "Saturation": 0.699999988079071,
+    "TintColor": {
+      "B": 1,
+      "G": 0.7921569347381592,
+      "R": 0.572549045085907
+    }
+  }
+}

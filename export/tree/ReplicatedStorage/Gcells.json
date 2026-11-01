@@ -1,0 +1,17 @@
+{
+  "Children": [
+    {
+      "ClassName": "NumberValue",
+      "Name": "Load",
+      "Properties": {
+        "ClassName": "NumberValue",
+        "Value": 100
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "Gcells",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

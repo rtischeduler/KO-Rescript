@@ -1,0 +1,32 @@
+{
+  "Children": [
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Blood",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 0.462745, 0.0588235, 0.0588235, 1 > 0.72549, 0.0666667, 0.0666667",
+        "EmissionDirection": "Enum.NormalId.Bottom",
+        "Lifetime": "2, 2",
+        "Rate": 100,
+        "RotSpeed": "15, 15",
+        "Size": "0 > 2.1875, 0.498753 > 4.875, 1 > 2.3125",
+        "Speed": "1, 1",
+        "SpreadAngle": {
+          "X": 15,
+          "Y": 15
+        },
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://292289455)"
+        },
+        "Transparency": "0 > 0.1, 1 > 0.1"
+      }
+    }
+  ],
+  "ClassName": "Attachment",
+  "Name": "Blood",
+  "Properties": {
+    "ClassName": "Attachment"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "Children": [
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Bubbles",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Lifetime": "2, 4",
+        "Rate": 2,
+        "Size": "0 > 0, 0.47058824 > 0.625, 0.7478992 > 0.3125, 0.917367 > 0.8125001, 1 > 0.7499999",
+        "Speed": "3, 3",
+        "SpreadAngle": {
+          "X": 70,
+          "Y": 70
+        },
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=254204945)"
+        }
+      }
+    },
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Bubbles",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Lifetime": "2, 4",
+        "Rate": 2,
+        "Size": "0 > 0, 0.47058824 > 0.625, 0.7478992 > 0.3125, 0.917367 > 0.8125001, 1 > 0.7499999",
+        "Speed": "3, 3",
+        "SpreadAngle": {
+          "X": 70,
+          "Y": 70
+        },
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=254204945)"
+        }
+      }
+    }
+  ],
+  "ClassName": "Attachment",
+  "Name": "bubbles",
+  "Properties": {
+    "ClassName": "Attachment"
+  }
+}

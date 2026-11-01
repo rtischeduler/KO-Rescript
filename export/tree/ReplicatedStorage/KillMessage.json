@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "KillMessage",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

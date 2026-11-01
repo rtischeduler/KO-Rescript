@@ -1,0 +1,38 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "LocalScript",
+          "Name": "MusicScript",
+          "Properties": {
+            "ClassName": "LocalScript",
+            "RunContext": "Enum.RunContext.Legacy"
+          },
+          "SourceFile": "scripts/StarterGui/Music/Music/MusicScript.client.lua"
+        }
+      ],
+      "ClassName": "Sound",
+      "Name": "Music",
+      "Properties": {
+        "AudioContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://0)"
+        },
+        "ClassName": "Sound",
+        "Volume": 1.2000000476837158
+      }
+    }
+  ],
+  "ClassName": "ScreenGui",
+  "Name": "Music",
+  "Properties": {
+    "ClassName": "ScreenGui",
+    "ResetOnSpawn": false,
+    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+    "ZIndexBehavior": "Enum.ZIndexBehavior.Sibling"
+  }
+}

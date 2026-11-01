@@ -1,0 +1,297 @@
+{
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "Spawn4",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -117.75615692138672,
+            394.9307556152344,
+            -242.74563598632812
+          ],
+          "Rotation": [
+            0.9062966704368591,
+            -0.0,
+            -0.4226420819759369,
+            0,
+            1,
+            -0.0,
+            0.4226420819759369,
+            0,
+            0.9062966704368591
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Locked": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 2.297245740890503,
+          "Y": 0.5743114352226257,
+          "Z": 1.1486228704452515
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Spawn6",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            116.49842834472656,
+            372.5220031738281,
+            -966.7969970703125
+          ],
+          "Rotation": [
+            0.9062966704368591,
+            0,
+            -0.4226420819759369,
+            0,
+            1,
+            0,
+            0.4226420819759369,
+            0,
+            0.9062966704368591
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Locked": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 2.297245740890503,
+          "Y": 0.5743114352226257,
+          "Z": 1.1486228704452515
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Spawn3",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -478.94427490234375,
+            398.2727966308594,
+            133.20921325683594
+          ],
+          "Rotation": [
+            0.9062966704368591,
+            -0.0,
+            -0.4226420819759369,
+            0,
+            1,
+            -0.0,
+            0.4226420819759369,
+            0,
+            0.9062966704368591
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Locked": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 2.297245740890503,
+          "Y": 0.5743114352226257,
+          "Z": 1.1486228704452515
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Spawn1",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            55.83442306518555,
+            397.730712890625,
+            -419.60089111328125
+          ],
+          "Rotation": [
+            0.9062966704368591,
+            0,
+            -0.4226420819759369,
+            0,
+            1,
+            0,
+            0.4226420819759369,
+            0,
+            0.9062966704368591
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Locked": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 2.297245740890503,
+          "Y": 0.5743114352226257,
+          "Z": 1.1486228704452515
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Spawn5",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1000.3333129882812,
+            394.9307556152344,
+            -195.08465576171875
+          ],
+          "Rotation": [
+            0.9062966704368591,
+            0,
+            -0.4226420819759369,
+            0,
+            1,
+            0,
+            0.4226420819759369,
+            0,
+            0.9062966704368591
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Locked": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 2.297245740890503,
+          "Y": 0.5743114352226257,
+          "Z": 1.1486228704452515
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "Spawn2",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            329.5814514160156,
+            403.4252014160156,
+            101.29049682617188
+          ],
+          "Rotation": [
+            0.9062966704368591,
+            0,
+            -0.4226420819759369,
+            0,
+            1,
+            0,
+            0.4226420819759369,
+            0,
+            0.9062966704368591
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Locked": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 2.297245740890503,
+          "Y": 0.5743114352226257,
+          "Z": 1.1486228704452515
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "SpawnPoints",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

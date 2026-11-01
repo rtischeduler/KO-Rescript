@@ -1,0 +1,50 @@
+{
+  "ClassName": "Part",
+  "Name": "Bottom",
+  "Properties": {
+    "Anchored": true,
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        2205.8818359375,
+        101.87454223632812,
+        -1349.756103515625
+      ],
+      "Rotation": [
+        0.017452407628297806,
+        0,
+        -0.9998477101325989,
+        -0.9998477101325989,
+        0,
+        -0.017452407628297806,
+        0,
+        1,
+        0
+      ]
+    },
+    "ClassName": "Part",
+    "Color": {
+      "B": 0.6039215922355652,
+      "G": 0.772549033164978,
+      "R": 0.843137264251709
+    },
+    "FormFactor": "Enum.FormFactor.Brick",
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Sand",
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 446.8147888183594,
+      "Y": 1.233122706413269,
+      "Z": 1262.7176513671875
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput"
+  }
+}

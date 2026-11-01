@@ -1,0 +1,45 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "Children": [
+            {
+              "ClassName": "Script",
+              "Name": "Script",
+              "Properties": {
+                "ClassName": "Script",
+                "RunContext": "Enum.RunContext.Legacy"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/PlayerScripts/Control/Run/Script.server.lua"
+            },
+            {
+              "ClassName": "BoolValue",
+              "Name": "Running",
+              "Properties": {
+                "ClassName": "BoolValue"
+              }
+            }
+          ],
+          "ClassName": "RemoteEvent",
+          "Name": "Run",
+          "Properties": {
+            "ClassName": "RemoteEvent"
+          }
+        }
+      ],
+      "ClassName": "LocalScript",
+      "Name": "Control",
+      "Properties": {
+        "ClassName": "LocalScript",
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/PlayerScripts/Control.client.lua"
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "PlayerScripts",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

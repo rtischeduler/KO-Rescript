@@ -1,0 +1,162 @@
+{
+  "Children": [
+    {
+      "ClassName": "TextLabel",
+      "Name": "Name",
+      "Properties": {
+        "AutomaticSize": "Enum.AutomaticSize.None",
+        "BackgroundColor3": {
+          "B": 0.45098042488098145,
+          "G": 0.45098042488098145,
+          "R": 0.45098042488098145
+        },
+        "BackgroundTransparency": 1,
+        "BorderColor3": {
+          "B": 0.20784315466880798,
+          "G": 0.16470588743686676,
+          "R": 0.10588236153125763
+        },
+        "BorderMode": "Enum.BorderMode.Outline",
+        "BorderSizePixel": 0,
+        "ClassName": "TextLabel",
+        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+        "Size": "0.8, 0, 0.2, 0",
+        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+        "Text": "PlayerName",
+        "TextColor3": {
+          "B": 1,
+          "G": 1,
+          "R": 1
+        },
+        "TextScaled": true,
+        "TextSize": 24,
+        "TextTransparency": 1,
+        "TextWrapped": true,
+        "Visible": false,
+        "ZIndex": 2
+      }
+    },
+    {
+      "ClassName": "StringValue",
+      "Name": "Loc",
+      "Properties": {
+        "ClassName": "StringValue",
+        "Value": "Head"
+      }
+    },
+    {
+      "ClassName": "UICorner",
+      "Name": "UICorner",
+      "Properties": {
+        "ClassName": "UICorner"
+      }
+    },
+    {
+      "ClassName": "TextLabel",
+      "Name": "Label",
+      "Properties": {
+        "AutomaticSize": "Enum.AutomaticSize.None",
+        "BackgroundColor3": {
+          "B": 0.45098042488098145,
+          "G": 0.45098042488098145,
+          "R": 0.45098042488098145
+        },
+        "BackgroundTransparency": 1,
+        "BorderColor3": {
+          "B": 0.20784315466880798,
+          "G": 0.16470588743686676,
+          "R": 0.10588236153125763
+        },
+        "BorderMode": "Enum.BorderMode.Outline",
+        "BorderSizePixel": 0,
+        "ClassName": "TextLabel",
+        "Position": "0, 0, 0.4, 0",
+        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+        "Size": "0.8, 0, 0.2, 0",
+        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+        "Text": "HP - 1000",
+        "TextColor3": {
+          "B": 1,
+          "G": 1,
+          "R": 1
+        },
+        "TextScaled": true,
+        "TextSize": 24,
+        "TextTransparency": 1,
+        "TextWrapped": true,
+        "Visible": false,
+        "ZIndex": 2
+      }
+    },
+    {
+      "ClassName": "TextLabel",
+      "Name": "Level",
+      "Properties": {
+        "AutomaticSize": "Enum.AutomaticSize.None",
+        "BackgroundColor3": {
+          "B": 0.45098042488098145,
+          "G": 0.45098042488098145,
+          "R": 0.45098042488098145
+        },
+        "BackgroundTransparency": 1,
+        "BorderColor3": {
+          "B": 0.20784315466880798,
+          "G": 0.16470588743686676,
+          "R": 0.10588236153125763
+        },
+        "BorderMode": "Enum.BorderMode.Outline",
+        "BorderSizePixel": 0,
+        "ClassName": "TextLabel",
+        "Position": "0, 0, 0.2, 0",
+        "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+        "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+        "Size": "0.8, 0, 0.2, 0",
+        "SizeConstraint": "Enum.SizeConstraint.RelativeXY",
+        "Text": "LVL 0",
+        "TextColor3": {
+          "B": 1,
+          "G": 1,
+          "R": 1
+        },
+        "TextScaled": true,
+        "TextSize": 24,
+        "TextTransparency": 1,
+        "TextWrapped": true,
+        "Visible": false,
+        "ZIndex": 2
+      }
+    }
+  ],
+  "ClassName": "BillboardGui",
+  "Name": "Health",
+  "Properties": {
+    "AlwaysOnTop": true,
+    "ClassName": "BillboardGui",
+    "ClipsDescendants": true,
+    "Enabled": false,
+    "MaxDistance": 150,
+    "SelectionBehaviorDown": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorLeft": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorRight": "Enum.SelectionBehavior.Escape",
+    "SelectionBehaviorUp": "Enum.SelectionBehavior.Escape",
+    "Size": "16, 0, 20, 0",
+    "SizeOffset": {
+      "X": 0,
+      "Y": 0.5
+    },
+    "StudsOffset": {
+      "X": 0,
+      "Y": 1,
+      "Z": 0
+    },
+    "ZIndexBehavior": "Enum.ZIndexBehavior.Global"
+  }
+}

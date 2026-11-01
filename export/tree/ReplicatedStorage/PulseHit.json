@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "PulseHit",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

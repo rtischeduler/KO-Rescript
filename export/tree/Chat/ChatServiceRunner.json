@@ -1,0 +1,43 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatService",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatServiceRunner/ChatService.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatChannel",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatServiceRunner/ChatChannel.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Speaker",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatServiceRunner/Speaker.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Util",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ChatServiceRunner/Util.lua"
+    }
+  ],
+  "ClassName": "Script",
+  "Name": "ChatServiceRunner",
+  "Properties": {
+    "ClassName": "Script",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/Chat/ChatServiceRunner.server.lua"
+}

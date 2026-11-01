@@ -1,0 +1,9 @@
+{
+  "ClassName": "Script",
+  "Name": "BeamEndCleanup",
+  "Properties": {
+    "ClassName": "Script",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/ServerStorage/BeamEndCleanup.server.lua"
+}

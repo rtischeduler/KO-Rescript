@@ -1,0 +1,741 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Comm",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Comm.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Component",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Component.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "EnumList",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/EnumList.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Input",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Input.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Option",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Option.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Promise",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Promise.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Signal",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Signal.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Streamable",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Streamable.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "TableUtil",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/TableUtil.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Timer",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Timer.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Trove",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Trove.lua"
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "KnitClient",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ReplicatedStorage/Knit/Knit/KnitClient.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "KnitServer",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ReplicatedStorage/Knit/Knit/KnitServer.lua"
+        }
+      ],
+      "ClassName": "ModuleScript",
+      "Name": "Knit",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Knit/Knit.lua"
+    },
+    {
+      "Children": [
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/evaera_promise@4.0.0/promise/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "promise",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/evaera_promise@4.0.0/promise.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "evaera_promise@4.0.0",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Option",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/Option.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Promise",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/Promise.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/Signal.lua"
+            },
+            {
+              "Children": [
+                {
+                  "Children": [
+                    {
+                      "ClassName": "ModuleScript",
+                      "Name": "ClientComm",
+                      "Properties": {
+                        "ClassName": "ModuleScript"
+                      },
+                      "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Client/ClientComm.lua"
+                    },
+                    {
+                      "ClassName": "ModuleScript",
+                      "Name": "ClientRemoteProperty",
+                      "Properties": {
+                        "ClassName": "ModuleScript"
+                      },
+                      "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Client/ClientRemoteProperty.lua"
+                    },
+                    {
+                      "ClassName": "ModuleScript",
+                      "Name": "ClientRemoteSignal",
+                      "Properties": {
+                        "ClassName": "ModuleScript"
+                      },
+                      "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Client/ClientRemoteSignal.lua"
+                    }
+                  ],
+                  "ClassName": "ModuleScript",
+                  "Name": "Client",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Client.lua"
+                },
+                {
+                  "Children": [
+                    {
+                      "ClassName": "ModuleScript",
+                      "Name": "RemoteProperty",
+                      "Properties": {
+                        "ClassName": "ModuleScript"
+                      },
+                      "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Server/RemoteProperty.lua"
+                    },
+                    {
+                      "ClassName": "ModuleScript",
+                      "Name": "RemoteSignal",
+                      "Properties": {
+                        "ClassName": "ModuleScript"
+                      },
+                      "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Server/RemoteSignal.lua"
+                    },
+                    {
+                      "ClassName": "ModuleScript",
+                      "Name": "ServerComm",
+                      "Properties": {
+                        "ClassName": "ModuleScript"
+                      },
+                      "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Server/ServerComm.lua"
+                    }
+                  ],
+                  "ClassName": "ModuleScript",
+                  "Name": "Server",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Server.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Types",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Types.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Util",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm/Util.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "comm",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_comm@1.0.1/comm.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_comm@1.0.1",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Promise",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/Promise.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/Signal.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Symbol",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/Symbol.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Trove",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/Trove.lua"
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/component/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "component",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_component@2.4.8/component.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_component@2.4.8",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_enum-list@2.1.0/enum-list/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "enum-list",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_enum-list@2.1.0/enum-list.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_enum-list@2.1.0",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/Signal.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Trove",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/Trove.lua"
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Gamepad",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/input/Gamepad.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Keyboard",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/input/Keyboard.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Mouse",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/input/Mouse.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "PreferredInput",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/input/PreferredInput.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Touch",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/input/Touch.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "input",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_input@2.3.0/input.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_input@2.3.0",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_option@1.0.5/option/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "option",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_option@1.0.5/option.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_option@1.0.5",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_signal@1.5.0/signal/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_signal@1.5.0/signal.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_signal@1.5.0",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_signal@2.0.1/signal/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_signal@2.0.1/signal.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_signal@2.0.1",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/Signal.lua"
+            },
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Trove",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/Trove.lua"
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Streamable",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/Streamable.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "Streamable.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/Streamable.spec.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "StreamableUtil",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.lua"
+                },
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "StreamableUtil.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "streamable",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_streamable@1.2.4",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_symbol@2.0.1/symbol/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "symbol",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_symbol@2.0.1/symbol.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_symbol@2.0.1",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_table-util@1.2.1/table-util/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "table-util",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_table-util@1.2.1/table-util.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_table-util@1.2.1",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "ModuleScript",
+              "Name": "Signal",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_timer@1.1.2/Signal.lua"
+            },
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_timer@1.1.2/timer/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "timer",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_timer@1.1.2/timer.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_timer@1.1.2",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_trove@0.4.2/trove/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "trove",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_trove@0.4.2/trove.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_trove@0.4.2",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "ModuleScript",
+                  "Name": "init.spec",
+                  "Properties": {
+                    "ClassName": "ModuleScript"
+                  },
+                  "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_trove@1.1.0/trove/init.spec.lua"
+                }
+              ],
+              "ClassName": "ModuleScript",
+              "Name": "trove",
+              "Properties": {
+                "ClassName": "ModuleScript"
+              },
+              "SourceFile": "scripts/ReplicatedStorage/Knit/_Index/sleitnick_trove@1.1.0/trove.lua"
+            }
+          ],
+          "ClassName": "Folder",
+          "Name": "sleitnick_trove@1.1.0",
+          "Properties": {
+            "ClassName": "Folder"
+          }
+        }
+      ],
+      "ClassName": "Folder",
+      "Name": "_Index",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "Knit",
+  "Properties": {
+    "ClassName": "Folder"
+  },
+  "Tags": [
+    "Assistant:b1abe821-399f-4ea6-81d9-2258d9261dc1"
+  ]
+}

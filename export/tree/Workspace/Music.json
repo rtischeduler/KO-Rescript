@@ -1,0 +1,11 @@
+{
+  "ClassName": "Sound",
+  "Name": "Music",
+  "Properties": {
+    "AudioContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://3148190557)"
+    },
+    "ClassName": "Sound"
+  }
+}

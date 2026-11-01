@@ -1,0 +1,9 @@
+{
+  "ChildCount": 0,
+  "ClassName": "ConfigureServerService",
+  "Name": "ConfigureServerService",
+  "Properties": {
+    "ClassName": "ConfigureServerService",
+    "Sandboxed": false
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "Children": [
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Flash",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 1, 0.858824, 0.286275, 1 > 1, 0.858824, 0.286275",
+        "Drag": 5,
+        "Lifetime": "2.7525, 2.7525",
+        "LightEmission": 1,
+        "LightInfluence": 1,
+        "Orientation": "Enum.ParticleOrientation.VelocityParallel",
+        "Rate": 1000,
+        "Speed": "0, 55",
+        "SpreadAngle": {
+          "X": 1000,
+          "Y": 1000
+        },
+        "Squash": "0 > -0.0375001, 0.00229621 > -3, 1 > -3",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://7645111252)"
+        },
+        "Transparency": "0 > 0, 1 > 1"
+      }
+    },
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Flash",
+      "Properties": {
+        "Acceleration": {
+          "X": 0,
+          "Y": 10,
+          "Z": 0
+        },
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 1, 0.858824, 0.286275, 1 > 1, 0.858824, 0.286275",
+        "Drag": 5,
+        "Lifetime": "3.75, 3.75",
+        "LightEmission": 1,
+        "LightInfluence": 1,
+        "Orientation": "Enum.ParticleOrientation.VelocityParallel",
+        "Rate": 100,
+        "Rotation": "90, 90",
+        "Size": "0 > 1.4375, 1 > 0",
+        "Speed": "0, 55",
+        "SpreadAngle": {
+          "X": 1000,
+          "Y": 1000
+        },
+        "Squash": "0 > -0.375, 0.121699 > -0.225, 1 > 0.6375",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://7216847958)"
+        },
+        "Transparency": "0 > 0, 1 > 1"
+      }
+    }
+  ],
+  "ClassName": "Attachment",
+  "Name": "LevelUp",
+  "Properties": {
+    "ClassName": "Attachment"
+  }
+}

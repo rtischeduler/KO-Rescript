@@ -1,0 +1,106 @@
+{
+  "Children": [
+    {
+      "ClassName": "Sky",
+      "Name": "Rainy",
+      "Properties": {
+        "CelestialBodiesShown": false,
+        "ClassName": "Sky",
+        "SkyboxBackContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317731)"
+        },
+        "SkyboxDownContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317751)"
+        },
+        "SkyboxFrontContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317771)"
+        },
+        "SkyboxLeftContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317794)"
+        },
+        "SkyboxRightContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317814)"
+        },
+        "SkyboxUpContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=366317824)"
+        },
+        "StarCount": 1334
+      }
+    },
+    {
+      "ClassName": "Sky",
+      "Name": "Sunny",
+      "Properties": {
+        "CelestialBodiesShown": false,
+        "ClassName": "Sky",
+        "SkyboxBackContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://679786546)"
+        },
+        "SkyboxDownContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://680029379)"
+        },
+        "SkyboxFrontContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://679786832)"
+        },
+        "SkyboxLeftContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://679786679)"
+        },
+        "SkyboxRightContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://679786411)"
+        },
+        "SkyboxUpContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://679787023)"
+        }
+      }
+    },
+    {
+      "ClassName": "Sky",
+      "Name": "Dark",
+      "Properties": {
+        "CelestialBodiesShown": false,
+        "ClassName": "Sky",
+        "SkyboxBackContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=5825490604)"
+        },
+        "SkyboxDownContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=5825490604)"
+        },
+        "SkyboxFrontContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=5825490604)"
+        },
+        "SkyboxLeftContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=5825490604)"
+        },
+        "SkyboxRightContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=5825490604)"
+        },
+        "SkyboxUpContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=5825490604)"
+        }
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "Skys",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

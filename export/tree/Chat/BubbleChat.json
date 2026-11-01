@@ -1,0 +1,9 @@
+{
+  "ClassName": "LocalScript",
+  "Name": "BubbleChat",
+  "Properties": {
+    "ClassName": "LocalScript",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/Chat/BubbleChat.client.lua"
+}

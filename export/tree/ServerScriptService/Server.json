@@ -1,0 +1,149 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "PlayerHooks",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Core/PlayerHooks.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Util",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Core/Util.lua"
+        }
+      ],
+      "ClassName": "Folder",
+      "Name": "Core",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "CandyService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/CandyService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "EliminatorService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/EliminatorService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "GCellGuardService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/GCellGuardService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "HealthService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/HealthService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "KnitService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/KnitService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "LegacyService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/LegacyService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "OceanDepthService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/OceanDepthService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "PerformanceService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/PerformanceService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "RewardScalingService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/RewardScalingService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "SettingsService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/SettingsService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "MorphService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/MorphService.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "IndicatorService",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/Server/Services/IndicatorService.lua"
+        }
+      ],
+      "ClassName": "Folder",
+      "Name": "Services",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Config",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ServerScriptService/Server/Config.lua"
+    }
+  ],
+  "ClassName": "Script",
+  "Name": "Server",
+  "Properties": {
+    "ClassName": "Script",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/ServerScriptService/Server.server.lua"
+}

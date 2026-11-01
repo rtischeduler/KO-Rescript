@@ -1,0 +1,8 @@
+{
+  "ClassName": "ModuleScript",
+  "Name": "LuauLSP_Settings",
+  "Properties": {
+    "ClassName": "ModuleScript"
+  },
+  "SourceFile": "scripts/TestService/LuauLSP_Settings.lua"
+}

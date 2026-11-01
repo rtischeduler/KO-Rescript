@@ -1,0 +1,8 @@
+{
+  "ClassName": "ModuleScript",
+  "Name": "CooldownManager",
+  "Properties": {
+    "ClassName": "ModuleScript"
+  },
+  "SourceFile": "scripts/ReplicatedStorage/CooldownManager.lua"
+}

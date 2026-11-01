@@ -1,0 +1,9 @@
+{
+  "ClassName": "Script",
+  "Name": "HealthCommandFix",
+  "Properties": {
+    "ClassName": "Script",
+    "RunContext": "Enum.RunContext.Legacy"
+  },
+  "SourceFile": "scripts/ServerScriptService/HealthCommandFix.server.lua"
+}

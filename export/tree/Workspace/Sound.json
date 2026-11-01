@@ -1,0 +1,14 @@
+{
+  "ClassName": "Sound",
+  "Name": "Sound",
+  "Properties": {
+    "AudioContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://1007854951)"
+    },
+    "ClassName": "Sound",
+    "Looped": true,
+    "Playing": true,
+    "Volume": 1
+  }
+}

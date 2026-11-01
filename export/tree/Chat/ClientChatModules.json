@@ -1,0 +1,195 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatSettings",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ClientChatModules/ChatSettings.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatConstants",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ClientChatModules/ChatConstants.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "ChatLocalization",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/Chat/ClientChatModules/ChatLocalization.lua"
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "UnknownMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/UnknownMessage.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "DefaultChatMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/DefaultChatMessage.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "WhisperMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/WhisperMessage.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "WelcomeMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/WelcomeMessage.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "SystemMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/SystemMessage.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "MeCommandMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/MeCommandMessage.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Util",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/Util.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "SetCoreMessage",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/MessageCreatorModules/SetCoreMessage.lua"
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "InsertDefaultModules",
+          "Properties": {
+            "ClassName": "BoolValue",
+            "Value": true
+          }
+        }
+      ],
+      "ClassName": "Folder",
+      "Name": "MessageCreatorModules",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "SwitchChannel",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/SwitchChannel.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "SwallowGuestChat",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/SwallowGuestChat.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Whisper",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/Whisper.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "GetVersion",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/GetVersion.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Util",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/Util.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "DeveloperConsole",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/DeveloperConsole.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "ClearMessages",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/ClearMessages.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Team",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/Chat/ClientChatModules/CommandModules/Team.lua"
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "InsertDefaultModules",
+          "Properties": {
+            "ClassName": "BoolValue",
+            "Value": true
+          }
+        }
+      ],
+      "ClassName": "Folder",
+      "Name": "CommandModules",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "ClientChatModules",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

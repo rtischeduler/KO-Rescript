@@ -1,0 +1,41 @@
+{
+  "Children": [
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Lifecycle",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Shared/Lifecycle.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Logger",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Shared/Logger.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "Util",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Shared/Util.lua"
+    },
+    {
+      "ClassName": "ModuleScript",
+      "Name": "GraphicsQuality",
+      "Properties": {
+        "ClassName": "ModuleScript"
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Shared/GraphicsQuality.lua"
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "Shared",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

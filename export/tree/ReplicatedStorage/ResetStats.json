@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "ResetStats",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

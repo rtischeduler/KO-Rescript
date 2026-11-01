@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "EliminatorPopup",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

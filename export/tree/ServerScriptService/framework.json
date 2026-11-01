@@ -1,0 +1,82 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Regen",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/framework/modules/Regen.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Data",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/framework/modules/Data.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Character",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/framework/modules/Character.lua"
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "StringValue",
+                  "Name": "Loc",
+                  "Properties": {
+                    "ClassName": "StringValue",
+                    "Value": "Torso"
+                  }
+                }
+              ],
+              "ClassName": "Sound",
+              "Name": "HitSound",
+              "Properties": {
+                "AudioContent": {
+                  "Type": "Content",
+                  "Value": "Content(Uri=rbxassetid://3588205950)"
+                },
+                "ClassName": "Sound",
+                "Volume": 7
+              }
+            }
+          ],
+          "ClassName": "ModuleScript",
+          "Name": "World",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/framework/modules/World.lua"
+        },
+        {
+          "ClassName": "ModuleScript",
+          "Name": "Combat",
+          "Properties": {
+            "ClassName": "ModuleScript"
+          },
+          "SourceFile": "scripts/ServerScriptService/framework/modules/Combat.lua"
+        }
+      ],
+      "ClassName": "Folder",
+      "Name": "modules",
+      "Properties": {
+        "ClassName": "Folder"
+      }
+    }
+  ],
+  "ClassName": "Folder",
+  "Name": "framework",
+  "Properties": {
+    "ClassName": "Folder"
+  }
+}

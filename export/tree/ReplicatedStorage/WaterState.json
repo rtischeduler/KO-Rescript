@@ -1,0 +1,7 @@
+{
+  "ClassName": "RemoteEvent",
+  "Name": "WaterState",
+  "Properties": {
+    "ClassName": "RemoteEvent"
+  }
+}

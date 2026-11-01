@@ -1,0 +1,51 @@
+{
+  "Children": [
+    {
+      "ClassName": "AvatarBodyRules",
+      "Name": "AvatarBodyRules",
+      "Properties": {
+        "ClassName": "AvatarBodyRules"
+      }
+    },
+    {
+      "ClassName": "AvatarCollisionRules",
+      "Name": "AvatarCollisionRules",
+      "Properties": {
+        "ClassName": "AvatarCollisionRules"
+      }
+    },
+    {
+      "ClassName": "AvatarAnimationRules",
+      "Name": "AvatarAnimationRules",
+      "Properties": {
+        "ClassName": "AvatarAnimationRules"
+      }
+    },
+    {
+      "ClassName": "AvatarAccessoryRules",
+      "Name": "AvatarAccessoryRules",
+      "Properties": {
+        "ClassName": "AvatarAccessoryRules"
+      }
+    },
+    {
+      "ClassName": "AvatarClothingRules",
+      "Name": "AvatarClothingRules",
+      "Properties": {
+        "ClassName": "AvatarClothingRules"
+      }
+    },
+    {
+      "ClassName": "AvatarAbilityRules",
+      "Name": "AvatarAbilityRules",
+      "Properties": {
+        "ClassName": "AvatarAbilityRules"
+      }
+    }
+  ],
+  "ClassName": "AvatarRules",
+  "Name": "DefaultAvatarRules",
+  "Properties": {
+    "ClassName": "AvatarRules"
+  }
+}

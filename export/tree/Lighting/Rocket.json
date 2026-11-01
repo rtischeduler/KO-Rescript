@@ -1,0 +1,91 @@
+{
+  "Children": [
+    {
+      "ClassName": "Script",
+      "Name": "RocketScript",
+      "Properties": {
+        "ClassName": "Script",
+        "Disabled": true,
+        "RunContext": "Enum.RunContext.Legacy"
+      },
+      "SourceFile": "scripts/Lighting/Rocket/RocketScript.server.lua"
+    },
+    {
+      "ClassName": "StringValue",
+      "Name": "PlayerName",
+      "Properties": {
+        "ClassName": "StringValue"
+      }
+    },
+    {
+      "ClassName": "BodyVelocity",
+      "Name": "BodyVelocity",
+      "Properties": {
+        "ClassName": "BodyVelocity",
+        "MaxForce": {
+          "X": 1000000,
+          "Y": 1000000,
+          "Z": 1000000
+        },
+        "P": 999999986991104,
+        "Velocity": {
+          "X": 0,
+          "Y": 0,
+          "Z": 0
+        }
+      }
+    }
+  ],
+  "ClassName": "MeshPart",
+  "Name": "Rocket",
+  "Properties": {
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        34.905399322509766,
+        5.870447635650635,
+        245.58975219726562
+      ],
+      "Rotation": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "CanCollide": false,
+    "ClassName": "MeshPart",
+    "Color": {
+      "B": 0.21960784494876862,
+      "G": 0.7215686440467834,
+      "R": 0.9372549057006836
+    },
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Neon",
+    "MeshContent": {
+      "Type": "Content",
+      "Value": "Content(Uri=rbxassetid://888904946)"
+    },
+    "RenderFidelity": "Enum.RenderFidelity.Precise",
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 0.3499999940395355,
+      "Y": 0.3499999940395355,
+      "Z": 0.3499999940395355
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "Children": [
+    {
+      "ClassName": "Script",
+      "Name": "Settings",
+      "Properties": {
+        "ClassName": "Script",
+        "RunContext": "Enum.RunContext.Legacy",
+        "Sandboxed": true
+      },
+      "SourceFile": "scripts/ReplicatedStorage/Rain/Settings.server.lua"
+    },
+    {
+      "ClassName": "Sound",
+      "Name": "Raining",
+      "Properties": {
+        "AudioContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://9064263922)"
+        },
+        "ClassName": "Sound",
+        "Looped": true,
+        "RollOffMaxDistance": 500,
+        "RollOffMinDistance": 1,
+        "Volume": 1
+      }
+    },
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "ParticleEmitter",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 0.3137255, 0.36078432, 1, 1 > 0.09019608, 0.2, 0.4392157",
+        "EmissionDirection": "Enum.NormalId.Bottom",
+        "Enabled": false,
+        "Lifetime": "1.1, 1.1",
+        "LightInfluence": 1,
+        "Rate": 20000,
+        "Rotation": "-1, 1",
+        "Size": "0 > 5, 1 > 5",
+        "Speed": "200, 200",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=3806148993)"
+        },
+        "Transparency": "0 > 0.5, 1 > 0.5"
+      }
+    },
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Rain3",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 0.8980392, 0.92156863, 1, 1 > 0.6862745, 0.7294118, 0.8",
+        "EmissionDirection": "Enum.NormalId.Bottom",
+        "Enabled": false,
+        "Lifetime": "1.1, 1.1",
+        "LightInfluence": 1,
+        "Orientation": "Enum.ParticleOrientation.FacingCameraWorldUp",
+        "Rate": 50000,
+        "Rotation": "-1, 1",
+        "Size": "0 > 3, 1 > 3",
+        "Speed": "200, 200",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=3806148993)"
+        },
+        "Transparency": "0 > 0.7329192, 1 > 0.39751554"
+      }
+    },
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Rain2",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 0.8980392, 0.92156863, 1, 1 > 0.6862745, 0.7294118, 0.8",
+        "EmissionDirection": "Enum.NormalId.Bottom",
+        "Enabled": false,
+        "Lifetime": "1.1, 1.1",
+        "LightInfluence": 1,
+        "Orientation": "Enum.ParticleOrientation.FacingCameraWorldUp",
+        "Rate": 30000,
+        "Size": "0 > 3, 1 > 3",
+        "Speed": "200, 200",
+        "Squash": "0 > 0.5, 1 > 3",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=3806148993)"
+        },
+        "Transparency": "0 > 0.57142854, 1 > 0.41614908"
+      }
+    },
+    {
+      "ClassName": "ParticleEmitter",
+      "Name": "Rain1",
+      "Properties": {
+        "ClassName": "ParticleEmitter",
+        "Color": "0 > 0.8980392, 0.92156863, 1, 1 > 0.6862745, 0.7294118, 0.8",
+        "EmissionDirection": "Enum.NormalId.Bottom",
+        "Enabled": false,
+        "Lifetime": "1.1, 1.1",
+        "LightInfluence": 1,
+        "Orientation": "Enum.ParticleOrientation.FacingCameraWorldUp",
+        "Rate": 50000,
+        "Rotation": "-1, 1",
+        "Size": "0 > 3, 1 > 3",
+        "Speed": "200, 200",
+        "TextureContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=http://www.roblox.com/asset/?id=3806148993)"
+        },
+        "Transparency": "0 > 0.5031056, 1 > 0.43478262"
+      }
+    }
+  ],
+  "ClassName": "Part",
+  "Name": "Rain",
+  "Properties": {
+    "Anchored": true,
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        -0.000030517578125,
+        -0.000030517578125,
+        -948.3850708007812
+      ],
+      "Rotation": [
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "CanCollide": false,
+    "CanQuery": false,
+    "CanTouch": false,
+    "ClassName": "Part",
+    "Color": {
+      "B": 0,
+      "G": 0,
+      "R": 1
+    },
+    "FormFactor": "Enum.FormFactor.Brick",
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.SmoothPlastic",
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 60,
+      "Y": 1,
+      "Z": 60
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput",
+    "Transparency": 1
+  }
+}

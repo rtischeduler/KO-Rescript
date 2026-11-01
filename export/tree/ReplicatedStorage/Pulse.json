@@ -1,0 +1,1150 @@
+{
+  "Children": [
+    {
+      "Children": [
+        {
+          "ClassName": "NumberValue",
+          "Name": "Delay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.08
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "DoWeld",
+          "Properties": {
+            "ClassName": "BoolValue"
+          }
+        },
+        {
+          "ClassName": "StringValue",
+          "Name": "EasingStyle",
+          "Properties": {
+            "ClassName": "StringValue",
+            "Value": "Circular"
+          }
+        },
+        {
+          "ClassName": "Vector3Value",
+          "Name": "EndOr",
+          "Properties": {
+            "ClassName": "Vector3Value"
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "Speed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 1.85
+          }
+        },
+        {
+          "ClassName": "WeldConstraint",
+          "Name": "WeldConstraint",
+          "Properties": {
+            "ClassName": "WeldConstraint",
+            "Part0": {
+              "Ref": "ReplicatedStorage/Pulse/WD"
+            },
+            "Part1": {
+              "Ref": "ReplicatedStorage/Pulse/Shockwave"
+            }
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencyDelay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.85
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencySpeed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.6
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "Flatten",
+          "Properties": {
+            "ClassName": "BoolValue"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "NumberValue",
+              "Name": "Duration",
+              "Properties": {
+                "ClassName": "NumberValue",
+                "Value": 1.65
+              }
+            }
+          ],
+          "ClassName": "ParticleEmitter",
+          "Name": "Particle",
+          "Properties": {
+            "Brightness": 3,
+            "ClassName": "ParticleEmitter",
+            "Color": "0 > 1, 0.623529, 0.196078, 1 > 1, 0.623529, 0.196078",
+            "Enabled": false,
+            "Lifetime": "1, 1",
+            "LightEmission": 1,
+            "Orientation": "Enum.ParticleOrientation.VelocityPerpendicular",
+            "Rate": 250,
+            "RotSpeed": "-80, 80",
+            "Rotation": "-25, 25",
+            "Shape": "Enum.ParticleEmitterShape.Sphere",
+            "Size": "0 > 10, 0.153975 > 10, 0.37908 > 2.8125, 0.643515 > 10, 0.841004 > 5.625, 0.915481 > 5.875, 1 > 0",
+            "Speed": "35, 35",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://7216855489)"
+            },
+            "Transparency": "0 > 1, 0.0746269 > 0.5, 0.233065 > 0.675, 0.389208 > 0.8625, 0.632606 > 0.90625, 1 > 1",
+            "ZOffset": 5
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "NumberValue",
+              "Name": "Duration",
+              "Properties": {
+                "ClassName": "NumberValue",
+                "Value": 1.65
+              }
+            }
+          ],
+          "ClassName": "ParticleEmitter",
+          "Name": "Particle",
+          "Properties": {
+            "Brightness": 3,
+            "ClassName": "ParticleEmitter",
+            "Color": "0 > 1, 0.623529, 0.196078, 1 > 1, 0.623529, 0.196078",
+            "Enabled": false,
+            "Lifetime": "1, 1",
+            "LightEmission": 1,
+            "Orientation": "Enum.ParticleOrientation.VelocityParallel",
+            "Rate": 250,
+            "RotSpeed": "-80, 80",
+            "Rotation": "-25, 25",
+            "Shape": "Enum.ParticleEmitterShape.Sphere",
+            "Size": "0 > 10, 0.153975 > 10, 0.37908 > 2.8125, 0.643515 > 10, 0.841004 > 5.625, 0.915481 > 5.875, 1 > 0",
+            "Speed": "35, 35",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://7216855489)"
+            },
+            "Transparency": "0 > 1, 0.0987371 > 0.41875, 0.26636 > 0.7625, 0.402985 > 0.85, 0.632606 > 0.90625, 1 > 1",
+            "ZOffset": 5
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "WeldConstraint",
+              "Name": "WeldConstraint",
+              "Properties": {
+                "ClassName": "WeldConstraint",
+                "Part0": {
+                  "Ref": "ReplicatedStorage/Pulse/WD"
+                },
+                "Part1": {
+                  "Ref": "ReplicatedStorage/Pulse/Shockwave/EndCFrame"
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "EndCFrame",
+          "Properties": {
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                483.4317626953125,
+                1.4568748474121094,
+                206.1576385498047
+              ],
+              "Rotation": [
+                0,
+                0,
+                -1,
+                0,
+                1,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            "CanCollide": false,
+            "CanTouch": false,
+            "ClassName": "MeshPart",
+            "Color": {
+              "B": 0.3137255012989044,
+              "G": 0.48627451062202454,
+              "R": 1
+            },
+            "DoubleSided": true,
+            "EnableFluidForces": false,
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Massless": true,
+            "Material": "Enum.Material.Neon",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://10942443714)"
+            },
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 418.8599853515625,
+              "Y": 0.0010004043579101562,
+              "Z": 431.7954406738281
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput",
+            "Transparency": 1
+          }
+        }
+      ],
+      "ClassName": "MeshPart",
+      "Name": "Shockwave",
+      "Properties": {
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            483.4317321777344,
+            1.4568748474121094,
+            206.1576385498047
+          ],
+          "Rotation": [
+            -0.7881292104721069,
+            0,
+            0.6155098080635071,
+            0,
+            1,
+            0,
+            -0.6155098080635071,
+            0,
+            -0.7881292104721069
+          ]
+        },
+        "CanCollide": false,
+        "CanQuery": false,
+        "CanTouch": false,
+        "CastShadow": false,
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.3137255012989044,
+          "G": 0.48627451062202454,
+          "R": 1
+        },
+        "DoubleSided": true,
+        "EnableFluidForces": false,
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Massless": true,
+        "Material": "Enum.Material.Neon",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://10942443714)"
+        },
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 418.8599853515625,
+          "Y": 0.0010004043579101562,
+          "Z": 431.7954406738281
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "NumberValue",
+          "Name": "Delay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.07
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "DoWeld",
+          "Properties": {
+            "ClassName": "BoolValue"
+          }
+        },
+        {
+          "ClassName": "StringValue",
+          "Name": "EasingStyle",
+          "Properties": {
+            "ClassName": "StringValue",
+            "Value": "Circular"
+          }
+        },
+        {
+          "ClassName": "Vector3Value",
+          "Name": "EndOr",
+          "Properties": {
+            "ClassName": "Vector3Value"
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "Speed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 1.85
+          }
+        },
+        {
+          "ClassName": "WeldConstraint",
+          "Name": "WeldConstraint",
+          "Properties": {
+            "ClassName": "WeldConstraint",
+            "Part0": {
+              "Ref": "ReplicatedStorage/Pulse/WD"
+            },
+            "Part1": {
+              "Ref": "ReplicatedStorage/Pulse/Shock"
+            }
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencyDelay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.85
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencySpeed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.6
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "Flatten",
+          "Properties": {
+            "ClassName": "BoolValue"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "NumberValue",
+              "Name": "Duration",
+              "Properties": {
+                "ClassName": "NumberValue",
+                "Value": 1.65
+              }
+            }
+          ],
+          "ClassName": "ParticleEmitter",
+          "Name": "Particle",
+          "Properties": {
+            "Brightness": 5,
+            "ClassName": "ParticleEmitter",
+            "Color": "0 > 0.74902, 0.470588, 0.14902, 1 > 0.74902, 0.470588, 0.14902",
+            "Enabled": false,
+            "Lifetime": "1, 1",
+            "LightEmission": 1,
+            "Orientation": "Enum.ParticleOrientation.VelocityParallel",
+            "Rate": 25,
+            "RotSpeed": "-80, 80",
+            "Rotation": "-50, 50",
+            "Shape": "Enum.ParticleEmitterShape.Disc",
+            "Size": "0 > 0, 0.153975 > 10, 0.377406 > 0.125, 0.643515 > 10, 0.860251 > 0, 0.915481 > 5.875, 1 > 0",
+            "Speed": "25, 25",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://7216855489)"
+            },
+            "Transparency": "0 > 1, 0.0849598 > 0.10625, 0.307692 > 0.70625, 0.383467 > 0.9, 0.632606 > 0.90625, 1 > 1",
+            "ZOffset": 5
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "NumberValue",
+              "Name": "Duration",
+              "Properties": {
+                "ClassName": "NumberValue",
+                "Value": 1.65
+              }
+            }
+          ],
+          "ClassName": "ParticleEmitter",
+          "Name": "Particle",
+          "Properties": {
+            "Brightness": 5,
+            "ClassName": "ParticleEmitter",
+            "Color": "0 > 0.74902, 0.470588, 0.14902, 1 > 0.74902, 0.470588, 0.14902",
+            "Enabled": false,
+            "Lifetime": "1, 1",
+            "LightEmission": 1,
+            "Orientation": "Enum.ParticleOrientation.VelocityParallel",
+            "Rate": 250,
+            "RotSpeed": "-80, 80",
+            "Rotation": "-50, 50",
+            "Shape": "Enum.ParticleEmitterShape.Sphere",
+            "Size": "0 > 0, 0.153975 > 10, 0.4 > 10, 0.643515 > 10, 0.843515 > 7.9375, 0.915481 > 5.875, 1 > 0",
+            "Speed": "25, 25",
+            "SpreadAngle": {
+              "X": 55,
+              "Y": 55
+            },
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://7216855489)"
+            },
+            "Transparency": "0 > 1, 0.0849598 > 0.10625, 0.322618 > 0.35, 0.509759 > 0.6375, 0.632606 > 0.90625, 1 > 1",
+            "ZOffset": 5
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "WeldConstraint",
+              "Name": "WeldConstraint",
+              "Properties": {
+                "ClassName": "WeldConstraint",
+                "Part0": {
+                  "Ref": "ReplicatedStorage/Pulse/WD"
+                },
+                "Part1": {
+                  "Ref": "ReplicatedStorage/Pulse/Shock/EndCFrame"
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "EndCFrame",
+          "Properties": {
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                476.6291198730469,
+                82.82694244384766,
+                210.8803253173828
+              ],
+              "Rotation": [
+                0.7216342687606812,
+                0.07503381371498108,
+                -0.6881961226463318,
+                0.00002039968967437744,
+                0.9941064119338989,
+                0.10840851068496704,
+                0.6922745108604431,
+                -0.07824534177780151,
+                0.7173797488212585
+              ]
+            },
+            "CanCollide": false,
+            "CanTouch": false,
+            "ClassName": "MeshPart",
+            "Color": {
+              "B": 0.27843138575553894,
+              "G": 0.6627451181411743,
+              "R": 1
+            },
+            "DoubleSided": true,
+            "EnableFluidForces": false,
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Massless": true,
+            "Material": "Enum.Material.Neon",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://10942444291)"
+            },
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 358.9514465332031,
+              "Y": 128.06141662597656,
+              "Z": 380.85693359375
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput",
+            "Transparency": 1
+          }
+        }
+      ],
+      "ClassName": "MeshPart",
+      "Name": "Shock",
+      "Properties": {
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            476.6291809082031,
+            82.82696533203125,
+            210.88031005859375
+          ],
+          "Rotation": [
+            -0.9928635358810425,
+            -0.002611288335174322,
+            0.11922730505466461,
+            -0.013056153431534767,
+            0.9961307644844055,
+            -0.08690790086984634,
+            -0.11853905022144318,
+            -0.08784433454275131,
+            -0.9890561103820801
+          ]
+        },
+        "CanCollide": false,
+        "CanQuery": false,
+        "CanTouch": false,
+        "CastShadow": false,
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.27843138575553894,
+          "G": 0.6627451181411743,
+          "R": 1
+        },
+        "DoubleSided": true,
+        "EnableFluidForces": false,
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Massless": true,
+        "Material": "Enum.Material.Neon",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://10942444291)"
+        },
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 358.9514465332031,
+          "Y": 128.06141662597656,
+          "Z": 380.85693359375
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "NumberValue",
+          "Name": "Delay",
+          "Properties": {
+            "ClassName": "NumberValue"
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "DoWeld",
+          "Properties": {
+            "ClassName": "BoolValue"
+          }
+        },
+        {
+          "ClassName": "StringValue",
+          "Name": "EasingStyle",
+          "Properties": {
+            "ClassName": "StringValue",
+            "Value": "Circular"
+          }
+        },
+        {
+          "ClassName": "Vector3Value",
+          "Name": "EndOr",
+          "Properties": {
+            "ClassName": "Vector3Value"
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "Speed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 1.75
+          }
+        },
+        {
+          "ClassName": "WeldConstraint",
+          "Name": "WeldConstraint",
+          "Properties": {
+            "ClassName": "WeldConstraint",
+            "Part0": {
+              "Ref": "ReplicatedStorage/Pulse/WD"
+            },
+            "Part1": {
+              "Ref": "ReplicatedStorage/Pulse/Sphere"
+            }
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencySpeed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.85
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "Flatten",
+          "Properties": {
+            "ClassName": "BoolValue",
+            "Value": true
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencyDelay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.99
+          }
+        },
+        {
+          "Children": [
+            {
+              "Children": [
+                {
+                  "ClassName": "NumberValue",
+                  "Name": "Duration",
+                  "Properties": {
+                    "ClassName": "NumberValue",
+                    "Value": 1.25
+                  }
+                }
+              ],
+              "ClassName": "ParticleEmitter",
+              "Name": "ParticleEmitter",
+              "Properties": {
+                "ClassName": "ParticleEmitter",
+                "Color": "0 > 1, 0.486275, 0.313726, 1 > 1, 0.486275, 0.313726",
+                "Enabled": false,
+                "Lifetime": "3, 3",
+                "LightEmission": 1,
+                "Orientation": "Enum.ParticleOrientation.FacingCameraWorldUp",
+                "Rate": 3,
+                "ShapeInOut": "Enum.ParticleEmitterShapeInOut.InAndOut",
+                "Size": "0 > 55, 1 > 200",
+                "Speed": "0.65, 0.65",
+                "TextureContent": {
+                  "Type": "Content",
+                  "Value": "Content(Uri=http://www.roblox.com/asset/?id=10007830927)"
+                },
+                "Transparency": "0 > 1, 0.215844 > 1, 0.35132 > 0, 0.768083 > 0.3125, 1 > 1"
+              }
+            }
+          ],
+          "ClassName": "Attachment",
+          "Name": "Attachment",
+          "Properties": {
+            "ClassName": "Attachment"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "NumberValue",
+              "Name": "Duration",
+              "Properties": {
+                "ClassName": "NumberValue",
+                "Value": 1.65
+              }
+            }
+          ],
+          "ClassName": "ParticleEmitter",
+          "Name": "Particle",
+          "Properties": {
+            "Brightness": 5,
+            "ClassName": "ParticleEmitter",
+            "Color": "0 > 0.74902, 0.470588, 0.14902, 1 > 0.74902, 0.470588, 0.14902",
+            "Enabled": false,
+            "Lifetime": "1, 1",
+            "LightEmission": 1,
+            "Orientation": "Enum.ParticleOrientation.VelocityParallel",
+            "Rate": 85,
+            "RotSpeed": "-155, 155",
+            "Rotation": "-50, 50",
+            "Shape": "Enum.ParticleEmitterShape.Sphere",
+            "Size": "0 > 15, 1 > 200",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://7216855489)"
+            },
+            "Transparency": "0 > 1, 0.0998852 > 0.425, 0.210103 > 0.74375, 0.342135 > 0.86875, 0.475316 > 0.89375, 0.632606 > 0.90625, 1 > 1",
+            "ZOffset": 5
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "WeldConstraint",
+              "Name": "WeldConstraint",
+              "Properties": {
+                "ClassName": "WeldConstraint",
+                "Part0": {
+                  "Ref": "ReplicatedStorage/Pulse/WD"
+                },
+                "Part1": {
+                  "Ref": "ReplicatedStorage/Pulse/Sphere/EndCFrame"
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "EndCFrame",
+          "Properties": {
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                484.922607421875,
+                54.21331024169922,
+                202.12998962402344
+              ],
+              "Rotation": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "CanCollide": false,
+            "CanTouch": false,
+            "ClassName": "MeshPart",
+            "Color": {
+              "B": 0.3137255012989044,
+              "G": 0.48627451062202454,
+              "R": 1
+            },
+            "DoubleSided": true,
+            "EnableFluidForces": false,
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Massless": true,
+            "Material": "Enum.Material.Neon",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://10942444237)"
+            },
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 277.5272216796875,
+              "Y": 221.06582641601562,
+              "Z": 278.7900085449219
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput",
+            "Transparency": 1
+          }
+        }
+      ],
+      "ClassName": "MeshPart",
+      "Name": "Sphere",
+      "Properties": {
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            484.9226379394531,
+            54.21331024169922,
+            202.1300048828125
+          ],
+          "Rotation": [
+            -0.942765474319458,
+            -0.12993116676807404,
+            -0.3071024417877197,
+            -0.13651736080646515,
+            0.9906376600265503,
+            -0.000035470351576805115,
+            0.3042318820953369,
+            0.04189136624336243,
+            -0.9516768455505371
+          ]
+        },
+        "CanCollide": false,
+        "CanQuery": false,
+        "CanTouch": false,
+        "CastShadow": false,
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.3137255012989044,
+          "G": 0.48627451062202454,
+          "R": 1
+        },
+        "DoubleSided": true,
+        "EnableFluidForces": false,
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Massless": true,
+        "Material": "Enum.Material.Neon",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://10942444237)"
+        },
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 277.5272216796875,
+          "Y": 221.06582641601562,
+          "Z": 278.7900085449219
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "NumberValue",
+          "Name": "Delay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.05
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "DoWeld",
+          "Properties": {
+            "ClassName": "BoolValue"
+          }
+        },
+        {
+          "ClassName": "StringValue",
+          "Name": "EasingStyle",
+          "Properties": {
+            "ClassName": "StringValue",
+            "Value": "Circular"
+          }
+        },
+        {
+          "ClassName": "Vector3Value",
+          "Name": "EndOr",
+          "Properties": {
+            "ClassName": "Vector3Value"
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "Speed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 1.75
+          }
+        },
+        {
+          "ClassName": "WeldConstraint",
+          "Name": "WeldConstraint",
+          "Properties": {
+            "ClassName": "WeldConstraint",
+            "Part0": {
+              "Ref": "ReplicatedStorage/Pulse/WD"
+            },
+            "Part1": {
+              "Ref": "ReplicatedStorage/Pulse/Sphere2"
+            }
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencyDelay",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.99
+          }
+        },
+        {
+          "ClassName": "NumberValue",
+          "Name": "TransparencySpeed",
+          "Properties": {
+            "ClassName": "NumberValue",
+            "Value": 0.85
+          }
+        },
+        {
+          "ClassName": "BoolValue",
+          "Name": "Flatten",
+          "Properties": {
+            "ClassName": "BoolValue",
+            "Value": true
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "WeldConstraint",
+              "Name": "WeldConstraint",
+              "Properties": {
+                "ClassName": "WeldConstraint",
+                "Part0": {
+                  "Ref": "ReplicatedStorage/Pulse/WD"
+                },
+                "Part1": {
+                  "Ref": "ReplicatedStorage/Pulse/Sphere2/EndCFrame"
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "EndCFrame",
+          "Properties": {
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                470.59014892578125,
+                29.226364135742188,
+                200.50872802734375
+              ],
+              "Rotation": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "CanCollide": false,
+            "CanTouch": false,
+            "ClassName": "MeshPart",
+            "Color": {
+              "B": 0.3137255012989044,
+              "G": 0.48627451062202454,
+              "R": 1
+            },
+            "DoubleSided": true,
+            "EnableFluidForces": false,
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Massless": true,
+            "Material": "Enum.Material.Neon",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://10942443716)"
+            },
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 343.1288146972656,
+              "Y": 269.5178527832031,
+              "Z": 316.97998046875
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput",
+            "Transparency": 1
+          }
+        }
+      ],
+      "ClassName": "MeshPart",
+      "Name": "Sphere2",
+      "Properties": {
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            470.59014892578125,
+            29.226348876953125,
+            200.50869750976562
+          ],
+          "Rotation": [
+            -0.8888479471206665,
+            -0.33609116077423096,
+            -0.31143659353256226,
+            -0.35368603467941284,
+            0.9353641867637634,
+            0.000017192214727401733,
+            0.291300892829895,
+            0.1101660430431366,
+            -0.9502673149108887
+          ]
+        },
+        "CanCollide": false,
+        "CanQuery": false,
+        "CanTouch": false,
+        "CastShadow": false,
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.3137255012989044,
+          "G": 0.48627451062202454,
+          "R": 1
+        },
+        "DoubleSided": true,
+        "EnableFluidForces": false,
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Massless": true,
+        "Material": "Enum.Material.Neon",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://10942443716)"
+        },
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 343.1288146972656,
+          "Y": 269.5178527832031,
+          "Z": 316.97998046875
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "BoolValue",
+          "Name": "DoWeld",
+          "Properties": {
+            "ClassName": "BoolValue",
+            "Value": true
+          }
+        },
+        {
+          "ClassName": "WeldConstraint",
+          "Name": "WeldConstraint",
+          "Properties": {
+            "ClassName": "WeldConstraint",
+            "Part1": {
+              "Ref": "ReplicatedStorage/Pulse/WD"
+            }
+          }
+        }
+      ],
+      "ClassName": "Part",
+      "Name": "WD",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            474.06793212890625,
+            40.74000549316406,
+            206.916015625
+          ],
+          "Rotation": [
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            -1,
+            0,
+            0
+          ]
+        },
+        "CanCollide": false,
+        "CanQuery": false,
+        "CanTouch": false,
+        "CastShadow": false,
+        "ClassName": "Part",
+        "EnableFluidForces": false,
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Massless": true,
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 24.65672492980957,
+          "Y": 43.776607513427734,
+          "Z": 31.293312072753906
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    }
+  ],
+  "ClassName": "Model",
+  "Name": "Pulse",
+  "Properties": {
+    "ClassName": "Model",
+    "WorldPivotData": {
+      "Position": [
+        483.4317626953125,
+        29.22635269165039,
+        206.1576385498047
+      ],
+      "Rotation": [
+        -0.7881292104721069,
+        0,
+        0.6155098080635071,
+        0,
+        1,
+        0,
+        -0.6155098080635071,
+        0,
+        -0.7881292104721069
+      ]
+    }
+  }
+}
