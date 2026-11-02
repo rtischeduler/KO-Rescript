@@ -370,7 +370,11 @@ local function startDetection()
 							local targetLevel = targetLevelVal and targetLevelVal.Value or 1
 
 							if not (attackerLevel > 10 and targetLevel < 10) then
-								addXP(math.random(10, 20))
+								local xpGain = math.random(10, 20)
+								addXP(xpGain)
+								if _G.ShowIndicator and targetChar then
+									_G.ShowIndicator(player, 0, 0, xpGain, targetChar)
+								end
 							end
 
 							task.delay(0.5, function()
