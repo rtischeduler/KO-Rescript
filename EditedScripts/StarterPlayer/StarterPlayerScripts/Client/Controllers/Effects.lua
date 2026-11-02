@@ -131,11 +131,11 @@ local function startRain(cfg)
 			local lifetime = (cfg.OffsetY + cfg.FallDepth) / layer.speed
 			local emitter = Instance.new("ParticleEmitter")
 			emitter.Texture = streakTexture
-			emitter.Orientation = Enum.ParticleOrientation.VelocityParallel
+			emitter.Orientation = Enum.ParticleOrientation.FacingCamera
 			emitter.EmissionDirection = Enum.NormalId.Bottom
 			emitter.Lifetime = NumberRange.new(lifetime * 0.92, lifetime * 1.08)
 			emitter.Speed = NumberRange.new(layer.speed * 0.94, layer.speed * 1.06)
-			emitter.Acceleration = Vector3.new(cfg.WindX, 0, cfg.WindZ)
+			emitter.Rotation = NumberRange.new(0, 0)
 			emitter.SpreadAngle = Vector2.new(1.5, 1.5)
 			emitter.Size = NumberSequence.new(layer.size)
 			emitter.Color = ColorSequence.new(tint or layer.color)
@@ -172,10 +172,19 @@ local function startRain(cfg)
 		splashParams.FilterType = Enum.RaycastFilterType.Exclude
 		splashParams.IgnoreWater = false
 
+		local mood = Instance.new("ColorCorrectionEffect")
+		mood.Name = "StormMoodCorrection"
+		mood.Parent = Lighting
+
 		part.Parent = Workspace
 
 		return {
 			part = part,
+			mood = mood,
+			lastPosition = nil,
+			cameraVelocity = Vector3.zero,
+			roll = 0,
+			lastRoll = 0,
 			emitters = emitters,
 			sound = sound,
 			equalizer = equalizer,
@@ -204,6 +213,7 @@ local function startRain(cfg)
 		if r.sound then
 			r.sound:Stop()
 		end
+		r.mood:Destroy()
 		r.part:Destroy()
 	end
 
@@ -281,10 +291,64 @@ local function startRain(cfg)
 			r.equalizer.HighGain = -cfg.CoverMuffle * r.cover
 		end
 
+		local moodAmount = r.intensity * (1 - cfg.MoodCover * r.cover)
+		r.mood.Brightness = -cfg.MoodDarken * moodAmount
+		r.mood.Contrast = cfg.MoodContrast * moodAmount
+		r.mood.Saturation = -cfg.MoodDesaturate * moodAmount
+		r.mood.TintColor = Color3.new(1, 1, 1):Lerp(cfg.MoodTint, moodAmount)
+
 		r.splashClock += dt
 		if r.splashClock >= cfg.SplashInterval then
 			r.splashClock = 0
 			emitSplashes(r, cameraPosition)
+		end
+	end
+
+	local function followCamera(r, dt)
+		local camera = Workspace.CurrentCamera
+		if not camera or not r.part.Parent then return end
+		local cameraCFrame = camera.CFrame
+		local position = cameraCFrame.Position
+
+		if r.lastPosition and dt > 0 then
+			local velocity = (position - r.lastPosition) / dt
+			if velocity.Magnitude > cfg.MaxCameraSpeed then
+				velocity = Vector3.zero
+			end
+			r.cameraVelocity = r.cameraVelocity:Lerp(velocity, math.min(1, dt * cfg.VelocityResponse))
+		end
+		r.lastPosition = position
+
+		local horizontal = Vector3.new(r.cameraVelocity.X, 0, r.cameraVelocity.Z)
+		local sideways = Vector3.new(cfg.WindX, 0, cfg.WindZ) - horizontal * cfg.MoveTilt
+		local maxSideways = cfg.TiltSpeed * math.tan(math.rad(cfg.MaxTiltDegrees))
+		if sideways.Magnitude > maxSideways then
+			sideways = sideways.Unit * maxSideways
+		end
+
+		local drop = Vector3.new(sideways.X, -cfg.TiltSpeed, sideways.Z)
+		local direction = drop.Unit
+
+		local axis = Vector3.new(0, -1, 0):Cross(direction)
+		local rotation = CFrame.identity
+		if axis.Magnitude > 1e-4 then
+			rotation = CFrame.fromAxisAngle(axis.Unit, math.acos(math.clamp(-direction.Y, -1, 1)))
+		end
+
+		local drift = Vector3.new(direction.X, 0, direction.Z) / -direction.Y * cfg.OffsetY
+		r.part.CFrame = CFrame.new(position + Vector3.new(0, cfg.OffsetY, 0) - drift) * rotation
+
+		local screenX = drop:Dot(cameraCFrame.RightVector)
+		local screenY = drop:Dot(cameraCFrame.UpVector)
+		local targetRoll = math.deg(math.atan2(screenX, -screenY)) * cfg.RollSign
+		targetRoll = math.clamp(targetRoll, -cfg.MaxRollDegrees, cfg.MaxRollDegrees)
+		r.roll += (targetRoll - r.roll) * math.min(1, dt * cfg.TiltResponse)
+
+		if math.abs(r.roll - r.lastRoll) > 0.3 then
+			r.lastRoll = r.roll
+			for _, entry in r.emitters do
+				entry.emitter.Rotation = NumberRange.new(r.roll, r.roll)
+			end
 		end
 	end
 
@@ -297,11 +361,8 @@ local function startRain(cfg)
 		local r = buildRig()
 		rig = r
 
-		r.connections[#r.connections + 1] = RunService.RenderStepped:Connect(function()
-			local camera = Workspace.CurrentCamera
-			if camera and r.part.Parent then
-				r.part.CFrame = CFrame.new(camera.CFrame.Position + Vector3.new(0, cfg.OffsetY, 0))
-			end
+		r.connections[#r.connections + 1] = RunService.RenderStepped:Connect(function(dt)
+			followCamera(r, dt)
 		end)
 		r.connections[#r.connections + 1] = RunService.Heartbeat:Connect(function(dt)
 			stepRig(r, dt)
