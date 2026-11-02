@@ -11,3 +11,4 @@ StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
 ServerScriptService/SecurityPolicy.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
 ServerScriptService/framework/modules/Combat.lua
+StarterGui/Music/Music/MusicScript.client.lua
