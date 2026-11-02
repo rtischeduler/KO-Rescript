@@ -7,10 +7,10 @@ local KAIJU_MAX_LEVELS = {
 }
 
 local DEFAULT_MAX_LEVEL = 100
-local XP_STEP = 36.8
-local PRIOR_STEPS = { [1] = 32, [2] = 160, [3] = 200 }
+local XP_STEP = 40
+local PRIOR_STEPS = { [1] = 32, [2] = 160, [3] = 200, [4] = 36.8 }
 
-LevelManager.XP_VERSION = 4
+LevelManager.XP_VERSION = 5
 
 local function xpForLevel(level, kaijuName, step)
 	if level <= 1 then return 0 end
