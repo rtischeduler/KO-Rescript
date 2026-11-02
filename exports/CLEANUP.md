@@ -3,7 +3,7 @@
 Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
 
 - scripts: 713
-- events: 389
+- events: 404
 - modules never required: 1
 - modules maybe loaded dynamically: 21
 - scripts that never run: 111

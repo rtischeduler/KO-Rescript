@@ -123,8 +123,8 @@ local module = {
 			
 			
 			character:SetAttribute("BossMode", true)
-			humanoid.MaxHealth = 20000
-			humanoid.Health = 20000
+			humanoid.MaxHealth = 1
+			humanoid.Health = 1
 			humanoid.WalkSpeed = originalWalkSpeed * 1.5
 			
 			

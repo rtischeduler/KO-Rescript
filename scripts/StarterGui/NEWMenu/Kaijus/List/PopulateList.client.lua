@@ -291,14 +291,14 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "ENTITY" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "Eater Of Worlds" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
 			clone.Visible = false
 		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
 			clone.Visible = false
-		elseif model.Name == "DESTOROYAH"
-			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then
+		elseif model.Name == "Munto"
+			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "DandyDandicusDancif" and player.Name ~= "Coral" then
 			clone.Visible = false
 		elseif model.Name == "thedenis"
 			and player.Name ~= "DenisTheCheeseKing" then

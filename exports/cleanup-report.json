@@ -1,7 +1,7 @@
 {
   "totals": {
     "scripts": 713,
-    "events": 389,
+    "events": 404,
     "modules_never_required": 1,
     "modules_maybe_loaded_dynamically": 21,
     "scripts_that_never_run": 111,

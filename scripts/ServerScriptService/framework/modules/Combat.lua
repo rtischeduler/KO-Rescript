@@ -308,7 +308,10 @@ local function initCombat()
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end
 					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
-					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
+					local gcellScale, xpScale = rewardScale(topKiller, character, true)
+					if gcellScale > 0 or xpScale > 0 then
+						healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
+					end
 				end
 				for _, attacker in ipairs(others) do
 					if attacker ~= topKiller and attacker:IsA("Player") then
@@ -870,8 +873,6 @@ local function initAttackHandler()
 
 		playAttackAnimation(character, getAnimName(remoteName))
 
-		-- Travel: forward lunge for the attacker, configurable per attack remote
-		-- via TravelSpeed / TravelDistance / TravelDuration attributes.
 		if Knockback then
 			Knockback.travel(character, {
 				speed = remote:GetAttribute("TravelSpeed"),
@@ -1072,11 +1073,6 @@ local function initAttackHandler()
 			chargeTime = 4
 		end
 
-		-- Glow config lives on each spike part, with the Spikes folder as the default:
-		-- "BeamGlow" (bool, defaults to true) enables/disables that part's glow,
-		-- "GlowColor" (Color3) sets that part's glow color. A part without its own
-		-- attributes falls back to the Spikes folder's, then the Beam RemoteEvent's
-		-- "GlowColor", then the part's own original color.
 		local spikesFolder = character:FindFirstChild("Spikes")
 		local folderGlow = spikesFolder and spikesFolder:GetAttribute("BeamGlow")
 		if folderGlow == nil then folderGlow = true end
