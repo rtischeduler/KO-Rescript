@@ -22,6 +22,16 @@ function Data.Init()
 			warn("KaijusUnused not found in Lighting at script start - will retry on demand")
 		end
 		local Morphs = ServerStorage:FindFirstChild("Kaijus")
+		if Morphs then
+			for _, inst in ipairs(Morphs:GetDescendants()) do
+				if inst:IsA("ValueBase") then
+					local trimmed = inst.Name:match("^%s*(.-)%s*$")
+					if trimmed ~= "" and trimmed ~= inst.Name and inst.Parent and not inst.Parent:FindFirstChild(trimmed) then
+						inst.Name = trimmed
+					end
+				end
+			end
+		end
 		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 		local playerKaijus = {}
