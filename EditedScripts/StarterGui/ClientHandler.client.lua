@@ -83,6 +83,8 @@ local function initCameraToggle()
 		return found.fakehead or found.head or found.headpart
 	end
 
+	local HEAD_REF_SIZE = 40
+	local HEAD_MIN_FACTOR = 0.35
 	local anchorPart = nil
 	local anchorCharacter = nil
 	local anchorOffset = Vector3.new(0, 0, 0)
@@ -96,7 +98,8 @@ local function initCameraToggle()
 		if not (hrp and head) then return nil end
 		if anchorPart then anchorPart:Destroy() end
 		anchorCharacter = character
-		anchorOffset = hrp.CFrame:PointToObjectSpace(head.Position)
+		local fullOffset = hrp.CFrame:PointToObjectSpace(head.Position)
+		anchorOffset = fullOffset * math.clamp(fullOffset.Magnitude / HEAD_REF_SIZE, HEAD_MIN_FACTOR, 1)
 		anchorPart = Instance.new("Part")
 		anchorPart.Name = "CameraHeadAnchor"
 		anchorPart.Anchored = true
