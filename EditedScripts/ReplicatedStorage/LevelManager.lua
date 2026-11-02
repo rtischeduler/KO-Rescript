@@ -7,11 +7,10 @@ local KAIJU_MAX_LEVELS = {
 }
 
 local DEFAULT_MAX_LEVEL = 100
-local LEGACY_XP_STEP = 32
-local XP_SCALE = 5
-local XP_STEP = LEGACY_XP_STEP * XP_SCALE
+local XP_STEP = 200
+local PRIOR_STEPS = { [1] = 32, [2] = 160 }
 
-LevelManager.XP_VERSION = 2
+LevelManager.XP_VERSION = 3
 
 local function xpForLevel(level, kaijuName, step)
 	if level <= 1 then return 0 end
@@ -33,9 +32,6 @@ function LevelManager.GetXPForLevel(level, kaijuName)
 	return xpForLevel(level, kaijuName, XP_STEP)
 end
 
-function LevelManager.GetLegacyXPForLevel(level, kaijuName)
-	return xpForLevel(level, kaijuName, LEGACY_XP_STEP)
-end
 
 function LevelManager.GetMaxLevel(kaijuName)
 	if kaijuName and KAIJU_MAX_LEVELS[kaijuName] then
@@ -44,10 +40,11 @@ function LevelManager.GetMaxLevel(kaijuName)
 	return DEFAULT_MAX_LEVEL
 end
 
-function LevelManager.GetLegacyTotalXP(level, xp, kaijuName)
+function LevelManager.GetPriorTotalXP(level, xp, kaijuName, version)
+	local step = PRIOR_STEPS[version or 1] or PRIOR_STEPS[1]
 	local total = xp or 0
 	for l = 2, level or 1 do
-		total = total + LevelManager.GetLegacyXPForLevel(l, kaijuName)
+		total = total + xpForLevel(l, kaijuName, step)
 	end
 	return total
 end
@@ -76,7 +73,7 @@ end
 
 function LevelManager.MigrateEntry(name, entry)
 	if type(entry) ~= "table" or entry.xpVersion == LevelManager.XP_VERSION then return false end
-	local total = LevelManager.GetLegacyTotalXP(entry.level or 1, entry.xp or 0, name)
+	local total = LevelManager.GetPriorTotalXP(entry.level or 1, entry.xp or 0, name, entry.xpVersion)
 	local lvl, rem = LevelManager.GetLevelAndXPFromTotal(total, name)
 	entry.level = lvl
 	entry.xp = math.floor(rem)
