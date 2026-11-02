@@ -281,7 +281,7 @@ local function selectKaiju(morphName)
 	end
 end
 local function populate()
-	for _, model in ipairs(sortedMorphs) do
+	local function buildCard(model)
 		local clone = scrollingFrame:FindFirstChild(model.Name)
 		if not clone or not clone:IsA("GuiObject") then
 			clone = template:Clone()
@@ -354,6 +354,12 @@ local function populate()
 			selectKaiju(morphName)
 		end)
 		clone.Parent = scrollingFrame
+	end
+	for _, model in ipairs(sortedMorphs) do
+		local ok, err = pcall(buildCard, model)
+		if not ok then
+			warn("PopulateList: failed to build card for", tostring(model and model.Name), err)
+		end
 	end
 	template.Visible = false
 	task.defer(refreshListCanvas)
