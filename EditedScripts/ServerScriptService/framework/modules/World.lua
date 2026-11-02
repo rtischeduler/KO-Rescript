@@ -704,6 +704,46 @@ local function initRain()
 	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
 	local toggleSnow = ReplicatedStorage:FindFirstChild("ToggleSnow")
 
+	local THUNDER_SOUNDS = 3
+	local THUNDER_FIRST = { 4, 12 }
+	local THUNDER_GAP = { 9, 32 }
+	local THUNDER_REPEAT_CHANCE = 0.3
+
+	local thunderRemote = ReplicatedStorage:FindFirstChild("ThunderStrike")
+	if not thunderRemote then
+		thunderRemote = Instance.new("RemoteEvent")
+		thunderRemote.Name = "ThunderStrike"
+		thunderRemote.Parent = ReplicatedStorage
+	end
+
+	local stormId = 0
+
+	local function fireThunder(lastIndex)
+		local index = math.random(1, THUNDER_SOUNDS)
+		if index == lastIndex then
+			index = index % THUNDER_SOUNDS + 1
+		end
+		local speed = 0.9 + math.random() * 0.2
+		local volume = 0.55 + math.random() * 0.45
+		local distance = math.random() ^ 1.4
+		thunderRemote:FireAllClients(index, speed, volume, distance)
+		return index
+	end
+
+	local function runStorm(id)
+		task.wait(math.random(THUNDER_FIRST[1], THUNDER_FIRST[2]) + math.random())
+		local last = nil
+		while id == stormId and state.IsRaining do
+			last = fireThunder(last)
+			if math.random() < THUNDER_REPEAT_CHANCE then
+				task.wait(0.4 + math.random() * 2)
+				if id ~= stormId or not state.IsRaining then break end
+				last = fireThunder(last)
+			end
+			task.wait(math.random(THUNDER_GAP[1], THUNDER_GAP[2]) + math.random())
+		end
+	end
+
 	while true do
 		local weather = HolidayConfigs.getWeather()
 		task.wait(math.random(weather.Gap[1], weather.Gap[2]))
@@ -716,6 +756,8 @@ local function initRain()
 		else
 			state.IsRaining = true
 			if toggleRain then toggleRain:FireAllClients(true) end
+			stormId += 1
+			task.spawn(runStorm, stormId)
 		end
 
 		task.wait(math.random(weather.Duration[1], weather.Duration[2]))
@@ -725,6 +767,7 @@ local function initRain()
 			if toggleSnow then toggleSnow:FireAllClients(false) end
 		else
 			state.IsRaining = false
+			stormId += 1
 			if toggleRain then toggleRain:FireAllClients(false) end
 		end
 	end
