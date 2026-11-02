@@ -446,9 +446,14 @@ local module = {
 			for _, plr in ipairs(targetPlayers) do
 				local leaderstats = plr:FindFirstChild("leaderstats")
 				if not leaderstats then continue end
-				local gcells = leaderstats:FindFirstChild("GCells")
+				local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 				if gcells and gcells:IsA("ValueBase") then
-				gcells.Value = gcells.Value + amount
+					-- This command is HeadAdmin+ (Rank 3), so authorized admins bypass
+					-- the GCellGuard anti-cheat entirely for a short window.
+					if type(_G.GCellGuardBypass) == "function" then
+						_G.GCellGuardBypass(gcells, 5)
+					end
+					gcells.Value = gcells.Value + amount
 				print("[gcells] Gave " .. amount .. " GCells to " .. plr.Name .. " (new total: " .. gcells.Value .. ")")
 			end
 			end

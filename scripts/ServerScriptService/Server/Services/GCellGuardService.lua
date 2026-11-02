@@ -18,6 +18,19 @@ function GCellGuardService:Init()
 
 	local pendingAllowances = setmetatable({}, { __mode = "k" })
 	local hookedValues = setmetatable({}, { __mode = "k" })
+	local bypassedValues = setmetatable({}, { __mode = "k" })
+
+	-- Allows trusted sources (e.g. the headadmin+ ;gcells command) to freely
+	-- modify a watched value for a short window without the guard reverting it.
+	_G.GCellGuardBypass = function(value, duration)
+		if typeof(value) ~= "Instance" or not value:IsA("IntValue") then
+			return
+		end
+		bypassedValues[value] = true
+		task.delay(duration or 5, function()
+			bypassedValues[value] = nil
+		end)
+	end
 
 	_G.GCellGuardAllow = function(value, amount)
 		if typeof(value) ~= "Instance" or not value:IsA("IntValue") then
@@ -53,7 +66,7 @@ function GCellGuardService:Init()
 
 		value:GetPropertyChangedSignal("Value"):Connect(function()
 			local current = value.Value
-			if state.repairing or not state.ready then
+			if state.repairing or not state.ready or bypassedValues[value] then
 				state.last = current
 				return
 			end
