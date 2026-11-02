@@ -71,20 +71,56 @@ local function initCameraToggle()
 
 	local function findHeadPart(character)
 		if not character then return nil end
-		local fakeHead = character:FindFirstChild("FakeHead")
-		if fakeHead and fakeHead:IsA("BasePart") then
-			return fakeHead
+		local found = {}
+		for _, child in ipairs(character:GetChildren()) do
+			if child:IsA("BasePart") then
+				local lower = string.lower(child.Name)
+				if lower == "fakehead" or lower == "head" or lower == "headpart" then
+					found[lower] = found[lower] or child
+				end
+			end
 		end
-		local head = character:FindFirstChild("Head")
-		if head and head:IsA("BasePart") then
-			return head
-		end
-		local headPart = character:FindFirstChild("HeadPart")
-		if headPart and headPart:IsA("BasePart") then
-			return headPart
-		end
-		return nil
+		return found.fakehead or found.head or found.headpart
 	end
+
+	local HEAD_REF_SIZE = 40
+	local HEAD_MIN_FACTOR = 0.35
+	local anchorPart = nil
+	local anchorCharacter = nil
+	local anchorOffset = Vector3.new(0, 0, 0)
+
+	local function getAnchor(character)
+		if anchorPart and anchorPart.Parent and anchorCharacter == character then
+			return anchorPart
+		end
+		local hrp = character:FindFirstChild("HumanoidRootPart")
+		local head = findHeadPart(character)
+		if not (hrp and head) then return nil end
+		if anchorPart then anchorPart:Destroy() end
+		anchorCharacter = character
+		local fullOffset = hrp.CFrame:PointToObjectSpace(head.Position)
+		anchorOffset = fullOffset * math.clamp(fullOffset.Magnitude / HEAD_REF_SIZE, HEAD_MIN_FACTOR, 1)
+		anchorPart = Instance.new("Part")
+		anchorPart.Name = "CameraHeadAnchor"
+		anchorPart.Anchored = true
+		anchorPart.CanCollide = false
+		anchorPart.CanTouch = false
+		anchorPart.CanQuery = false
+		anchorPart.CastShadow = false
+		anchorPart.Transparency = 1
+		anchorPart.Size = Vector3.new(0.2, 0.2, 0.2)
+		anchorPart.CFrame = hrp.CFrame * CFrame.new(anchorOffset)
+		anchorPart.Parent = workspace.CurrentCamera
+		return anchorPart
+	end
+
+	RunService:BindToRenderStep("CameraHeadAnchor", Enum.RenderPriority.Camera.Value - 1, function()
+		if not (anchorPart and anchorPart.Parent and anchorCharacter and anchorCharacter.Parent) then return end
+		local hrp = anchorCharacter:FindFirstChild("HumanoidRootPart")
+		if hrp then
+			anchorPart.CFrame = hrp.CFrame * CFrame.new(anchorOffset)
+		end
+	end)
 
 	local function enforceMaxZoom()
 		player.CameraMaxZoomDistance = maxZoomDistance
@@ -111,9 +147,14 @@ local function initCameraToggle()
 				currentHeadPart = nil
 			end
 		else
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if humanoid then
-				cam.CameraSubject = humanoid
+			local anchor = getAnchor(character)
+			if anchor then
+				cam.CameraSubject = anchor
+			else
+				local humanoid = character:FindFirstChildOfClass("Humanoid")
+				if humanoid then
+					cam.CameraSubject = humanoid
+				end
 			end
 			currentHeadPart = nil
 		end
@@ -143,6 +184,18 @@ local function initCameraToggle()
 		enforceMaxZoom()
 		updateCameraSubject()
 		startHeadMonitor(character)
+		task.spawn(function()
+			while character.Parent do
+				task.wait(0.25)
+				if not isHeadMode and player.Character == character and not player:GetAttribute("MenuCameraActive") then
+					local cam = getCamera()
+					local humanoid = character:FindFirstChildOfClass("Humanoid")
+					if cam and humanoid and cam.CameraSubject == humanoid then
+						updateCameraSubject()
+					end
+				end
+			end
+		end)
 		character.ChildAdded:Connect(function(child)
 			if isHeadMode and (child.Name == "FakeHead" or child.Name == "Head" or child.Name == "HeadPart") then
 				if child:IsA("BasePart") and not player:GetAttribute("MenuCameraActive") then

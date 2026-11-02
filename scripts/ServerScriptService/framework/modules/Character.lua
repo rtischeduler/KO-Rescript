@@ -307,7 +307,29 @@ function Character.Init()
 							child.Rate = 0
 						end
 					end
-					task.delay(1, function()
+					local emitters = {}
+					local life = 0.5
+					for _, child in ipairs(bloodClone:GetChildren()) do
+						if child:IsA("ParticleEmitter") then
+							table.insert(emitters, { emitter = child, keys = child.Transparency.Keypoints })
+							life = math.max(life, child.Lifetime.Max)
+						end
+					end
+					task.spawn(function()
+						local steps = 10
+						local stepTime = life / steps
+						for i = 1, steps do
+							task.wait(stepTime)
+							if not (bloodClone and bloodClone.Parent) then return end
+							local f = i / steps
+							for _, info in ipairs(emitters) do
+								local points = {}
+								for _, k in ipairs(info.keys) do
+									table.insert(points, NumberSequenceKeypoint.new(k.Time, 1 - (1 - k.Value) * (1 - f)))
+								end
+								info.emitter.Transparency = NumberSequence.new(points)
+							end
+						end
 						if bloodClone and bloodClone.Parent then
 							bloodClone.Parent = nil
 						end

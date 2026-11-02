@@ -13,6 +13,11 @@ local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
 if not scrollingFrame then return end
 local template = scrollingFrame:FindFirstChild("Template")
 if not template then return end
+for _, child in ipairs(scrollingFrame:GetChildren()) do
+	if child ~= template and child:IsA("GuiObject") then
+		child.Visible = false
+	end
+end
 local kaijuInfoFunc = ReplicatedStorage:WaitForChild("GetKaijuInfo", 30)
 if not kaijuInfoFunc then
 	warn("PopulateList: GetKaijuInfo was not available")
@@ -276,10 +281,6 @@ local function selectKaiju(morphName)
 	end
 end
 local function populate()
-	fetchKaijuData()
-	fetchGamepassKaijus()
-	fetchGamepassInfo()
-	fetchOwnership()
 	for _, model in ipairs(sortedMorphs) do
 		local clone = scrollingFrame:FindFirstChild(model.Name)
 		if not clone or not clone:IsA("GuiObject") then
@@ -440,7 +441,8 @@ if selectButton then
 	end
 end
 populate()
-local function selectInitialMorph()
+local selectInitialMorph
+function selectInitialMorph()
 	refreshRemotes()
 	local selectedMorph = nil
 	if getSelectedKaijuFunc then
@@ -461,7 +463,20 @@ local function selectInitialMorph()
 		end
 	end
 end
-selectInitialMorph()
+task.spawn(function()
+	local pending = 4
+	local function done()
+		pending -= 1
+	end
+	task.spawn(function() fetchKaijuData() done() end)
+	task.spawn(function() fetchOwnership() done() end)
+	task.spawn(function() fetchGamepassKaijus() fetchGamepassInfo() done() end)
+	task.spawn(function() refreshRemotes() done() end)
+	while pending > 0 do
+		task.wait()
+	end
+	selectInitialMorph()
+end)
 task.spawn(function()
 	for _ = 1, 60 do
 		refreshRemotes()

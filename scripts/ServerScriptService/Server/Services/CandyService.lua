@@ -182,6 +182,26 @@ function CandyService:Init()
 		return true
 	end
 
+	_G.AdminCandy = function(player, amount)
+		-- HeadAdmin+ command bypass: adds (or removes, if negative) candy
+		-- directly, ignoring the seasonal award check and sync gating.
+		if typeof(player) ~= "Instance" or not player:IsA("Player") then
+			return false
+		end
+		amount = math.floor(tonumber(amount) or 0)
+		if amount == 0 then
+			return true, balance(player)
+		end
+		local current = balance(player)
+		local newValue = math.max(current + amount, 0)
+		setBalance(player, newValue)
+		if not synced[player] then
+			delta[player] = (delta[player] or 0) + (newValue - current)
+		end
+		task.spawn(save, player)
+		return true, newValue
+	end
+
 	Players.PlayerAdded:Connect(track)
 	for _, player in Players:GetPlayers() do
 		track(player)

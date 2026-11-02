@@ -8,6 +8,7 @@ local IndicatorService = { Name = "Indicators" }
 
 local pending = {}
 local stamps = setmetatable({}, { __mode = "k" })
+local headOffsets = setmetatable({}, { __mode = "k" })
 local remote
 
 local function ownHead(player)
@@ -28,6 +29,16 @@ local function resolve(at, player)
 			return at.Position
 		end
 		if at and at:IsA("Model") then
+			local root = at:FindFirstChild("HumanoidRootPart")
+			if root and root:IsA("BasePart") then
+				local offset = headOffsets[at]
+				if offset == nil then
+					local head = at:FindFirstChild("Head")
+					offset = head and head:IsA("BasePart") and math.max(head.Position.Y - root.Position.Y, 0) or 0
+					headOffsets[at] = offset
+				end
+				return root.Position + Vector3.new(0, offset, 0)
+			end
 			local ok, cframe, size = pcall(at.GetBoundingBox, at)
 			if ok then
 				return cframe.Position + Vector3.new(0, size.Y * 0.35, 0)
