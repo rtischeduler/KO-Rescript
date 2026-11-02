@@ -12,3 +12,7 @@ ServerScriptService/SecurityPolicy.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
 ServerScriptService/framework/modules/Combat.lua
 StarterGui/Music/Music/MusicScript.client.lua
+ReplicatedStorage/LevelManager.lua
+ServerScriptService/framework/modules/Data.lua
+ServerScriptService/Server/Services/IndicatorService.lua
+StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
