@@ -642,25 +642,6 @@ local function startPulse(cfg)
 			return
 		end
 
-		local localPlayer = game:GetService("Players").LocalPlayer
-		local strength = 1
-		if firingPlayer ~= localPlayer then
-			local myRoot = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
-			if myRoot then
-				strength = math.clamp(1 - (myRoot.Position - hrp.Position).Magnitude / (maxSize * 1.5), 0, 1) * 0.6
-			else
-				strength = 0
-			end
-		end
-		if strength > 0.02 then
-			local now = os.clock()
-			if now >= (localPlayer:GetAttribute("PulseShakeEnd") or 0) or strength >= (localPlayer:GetAttribute("PulseShakeAmp") or 0) then
-				localPlayer:SetAttribute("PulseShakeStart", now)
-				localPlayer:SetAttribute("PulseShakeEnd", now + BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME)
-				localPlayer:SetAttribute("PulseShakeAmp", strength)
-			end
-		end
-
 		local clone = template:Clone()
 		local entry = { clone = clone }
 
