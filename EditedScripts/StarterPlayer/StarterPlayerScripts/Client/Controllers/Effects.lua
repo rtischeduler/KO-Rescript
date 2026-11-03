@@ -843,6 +843,101 @@ local function startPulse(cfg)
 	end)
 end
 
+local function startBeamTrails()
+	local Workspace = game:GetService("Workspace")
+	local Lighting = game:GetService("Lighting")
+	local TEXTURE = "rbxassetid://18455290017"
+	local LIFETIME = 0.2
+	local ENABLE_DELAY = 0.1
+	local MAX_LENGTH = 30
+
+	local function brightness()
+		local t = Lighting.ClockTime
+		if t >= 17.5 or t <= 6.5 then return 4 end
+		return 1
+	end
+
+	local function midColor(seq)
+		local kps = seq.Keypoints
+		if #kps == 0 then return Color3.new(1, 1, 1) end
+		if #kps == 1 then return kps[1].Value end
+		for i = 1, #kps - 1 do
+			local a, b = kps[i], kps[i + 1]
+			if 0.5 >= a.Time and 0.5 <= b.Time then
+				return a.Value:Lerp(b.Value, (0.5 - a.Time) / math.max(b.Time - a.Time, 1e-4))
+			end
+		end
+		return kps[#kps].Value
+	end
+
+	local tracked = setmetatable({}, { __mode = "k" })
+
+	local function setup(beam)
+		if tracked[beam] then return end
+		local holder = beam.Parent
+		if not holder or not holder:IsA("Attachment") or holder.Name ~= "BeamStart" then return end
+		local trail = Instance.new("Trail")
+		trail.Name = "BeamSweepTrail"
+		trail.Texture = TEXTURE
+		trail.TextureMode = Enum.TextureMode.Stretch
+		trail.TextureLength = 1
+		trail.LightEmission = 1
+		trail.LightInfluence = 0
+		trail.Lifetime = LIFETIME
+		trail.MinLength = 0.2
+		trail.MaxLength = MAX_LENGTH
+		trail.FaceCamera = false
+		trail.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.1),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		trail.Enabled = false
+		trail.Parent = holder
+		tracked[beam] = trail
+
+		local token = 0
+		local function refresh()
+			token += 1
+			if not beam.Enabled then
+				trail.Enabled = false
+				return
+			end
+			local a0, a1 = beam.Attachment0, beam.Attachment1
+			if not (a0 and a1) then return end
+			trail.Enabled = false
+			trail.Attachment0 = a0
+			trail.Attachment1 = a1
+			trail.Color = ColorSequence.new(midColor(beam.Color))
+			trail.Brightness = brightness()
+			local mine = token
+			task.delay(ENABLE_DELAY, function()
+				if mine == token and beam.Parent and beam.Enabled and trail.Parent then
+					trail.Enabled = true
+				end
+			end)
+		end
+		beam:GetPropertyChangedSignal("Enabled"):Connect(refresh)
+		beam:GetPropertyChangedSignal("Attachment1"):Connect(function()
+			if beam.Enabled then refresh() end
+		end)
+		if beam.Enabled then refresh() end
+	end
+
+	Workspace.DescendantAdded:Connect(function(d)
+		if d:IsA("Beam") then
+			task.defer(setup, d)
+		end
+	end)
+	local count = 0
+	for _, d in ipairs(Workspace:GetDescendants()) do
+		if d:IsA("Beam") then
+			setup(d)
+		end
+		count += 1
+		if count % 3000 == 0 then task.wait() end
+	end
+end
+
 function EffectsController:Start()
 	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config)
@@ -850,6 +945,7 @@ function EffectsController:Start()
 	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Effects")
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
+	Util.spawn(log, "BeamTrails", startBeamTrails)
 end
 
 return EffectsController
