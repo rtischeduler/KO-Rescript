@@ -1,5 +1,5 @@
 {
-  "count": 405,
+  "count": 412,
   "events": [
     {
       "path": "Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/Attack1Event",
@@ -1730,9 +1730,10 @@
       "class": "RemoteEvent",
       "referenced_by": [
         "ReplicatedStorage/PlayerScripts/Control",
-        "ServerScriptService/framework/modules/Combat"
+        "ServerScriptService/framework/modules/Combat",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 2
+      "reference_count": 3
     },
     {
       "path": "ReplicatedStorage/RaffleEvent",
@@ -2949,6 +2950,75 @@
       "reference_count": 7
     },
     {
+      "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Attack",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "ServerScriptService/framework/modules/Combat",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 4
+    },
+    {
+      "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Attack3",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Attack3/ServerScript",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 6
+    },
+    {
+      "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Beam",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/FireGodzilla/attack2",
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Beam/ServerScript",
+        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Beam/ServerScript",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
+        "ReplicatedStorage/BeamClientFX",
+        "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+      ],
+      "reference_count": 15
+    },
+    {
+      "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Roar1",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/FireGodzilla/ROAR1",
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar1/Roar1Script",
+        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1/Roar1Script",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 7
+    },
+    {
+      "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Roar2",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/FireGodzilla/ROAR2",
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar2/Roar2Script",
+        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2/Roar2Script",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 7
+    },
+    {
       "path": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/CharacterScripts/Attack",
       "class": "RemoteEvent",
       "referenced_by": [
@@ -3663,34 +3733,6 @@
         "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
       ],
       "reference_count": 15
-    },
-    {
-      "path": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/CharacterScripts/Roar1",
-      "class": "RemoteEvent",
-      "referenced_by": [
-        "Lighting/KaijusUnused/FireGodzilla/ROAR1",
-        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar1/Roar1Script",
-        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1/Roar1Script",
-        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
-        "ReplicatedStorage/ChargeManager",
-        "ReplicatedStorage/CooldownManager",
-        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
-      ],
-      "reference_count": 7
-    },
-    {
-      "path": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/CharacterScripts/Roar2",
-      "class": "RemoteEvent",
-      "referenced_by": [
-        "Lighting/KaijusUnused/FireGodzilla/ROAR2",
-        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar2/Roar2Script",
-        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2/Roar2Script",
-        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
-        "ReplicatedStorage/ChargeManager",
-        "ReplicatedStorage/CooldownManager",
-        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
-      ],
-      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Attack",
@@ -4560,6 +4602,62 @@
     },
     {
       "path": "ServerStorage/Kaijus/thedenis/CharacterScripts/Roar2",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/FireGodzilla/ROAR2",
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar2/Roar2Script",
+        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2/Roar2Script",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 7
+    },
+    {
+      "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "ServerScriptService/framework/modules/Combat",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 4
+    },
+    {
+      "path": "ServerStorage/REDBOSS/CharacterScripts/Beam",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/FireGodzilla/attack2",
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Beam/ServerScript",
+        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Beam/ServerScript",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
+        "ReplicatedStorage/BeamClientFX",
+        "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+      ],
+      "reference_count": 15
+    },
+    {
+      "path": "ServerStorage/REDBOSS/CharacterScripts/Roar1",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "Lighting/KaijusUnused/FireGodzilla/ROAR1",
+        "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar1/Roar1Script",
+        "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1/Roar1Script",
+        "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 7
+    },
+    {
+      "path": "ServerStorage/REDBOSS/CharacterScripts/Roar2",
       "class": "RemoteEvent",
       "referenced_by": [
         "Lighting/KaijusUnused/FireGodzilla/ROAR2",

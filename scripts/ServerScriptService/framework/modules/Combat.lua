@@ -994,6 +994,7 @@ local function initAttackHandler()
 					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
 						hitThisTick[hitPlayer] = true
 						registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
+						getOrCreateRemote("PulseHit"):FireClient(hitPlayer)
 					end
 				end
 			end

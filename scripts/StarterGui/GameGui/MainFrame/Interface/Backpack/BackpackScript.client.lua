@@ -772,24 +772,94 @@ local PULSE_ROT = 0.005
 local PULSE_POS = 0.02
 local ROAR_FALLBACK = 3
 local KICK_TIME = 0.45
+local HIT_ROT = 0.012
+local HIT_POS = 0.05
+local HIT_TIME = 0.8
+local HEAD_YAW = 0.008
+local HEAD_ROLL = 0.005
+local HEAD_PITCH = 0.005
+local HEAD_POS = 0.03
+local HEAD_FOLLOW = 12
+local HEAD_TAIL = 0.5
+local MAX_TILT_UP = 0.02
+local FLY_SHAKE_SCALE = 0.25
+local FLY_MAX_PITCH = 0.005
 
-local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
+local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1, hitStart = -10, melee = nil }
 
 local function shakeNoise(t, seed)
 	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
 end
 
+local function findAbilityEvent(char, name)
+	local scripts = char and char:FindFirstChild("CharacterScripts")
+	if not scripts then return nil end
+	local evt = scripts:FindFirstChild(name)
+	if evt then return evt end
+	local anim = scripts:FindFirstChild("AnimEvents")
+	return anim and anim:FindFirstChild(name) or nil
+end
+
+local function collectHeadParts(char)
+	local parts = {}
+	for _, d in ipairs(char:GetDescendants()) do
+		if d:IsA("BasePart") and string.find(string.lower(d.Name), "head", 1, true) then
+			table.insert(parts, d)
+		end
+	end
+	return parts
+end
+
+local function startMeleeFollow(eventName)
+	local char = player.Character
+	local root = char and char:FindFirstChild("HumanoidRootPart")
+	if not root then return false end
+	local heads = collectHeadParts(char)
+	if #heads == 0 then return false end
+	local base = {}
+	for i, part in ipairs(heads) do
+		base[i] = root.CFrame:PointToObjectSpace(part.Position)
+	end
+	local evt = findAbilityEvent(char, eventName)
+	local dur = math.clamp(evt and evt:GetAttribute("AttackDuration") or 0.8, 0.3, 2.5)
+	local okSize, size = pcall(function() return char:GetExtentsSize().Y end)
+	shakeState.melee = {
+		start = os.clock(), dur = dur, heads = heads, base = base,
+		size = math.max(okSize and size or 10, 6), delta = Vector3.zero, root = root, peak = 0, kicked = false,
+	}
+	return true
+end
+
 local function onShakeAbility(eventName)
-	if isBeamEvent(eventName) then return end
+	local evt = findAbilityEvent(player.Character, eventName)
+	local attackType = evt and evt:GetAttribute("AttackType")
+	if attackType == "Beam" then return end
+	if attackType == nil and isBeamEvent(eventName) then return end
 	local now = os.clock()
-	if ROAR_EVENTS[eventName] then
+	if attackType == "Roar" or ROAR_EVENTS[eventName] then
 		shakeState.roarStart = now
 		shakeState.roarEnd = now + ROAR_FALLBACK
-	else
+		return
+	end
+	local followable = attackType == nil or attackType == "Melee" or attackType == "BackBeam"
+	local ok, followed = false, false
+	if followable then
+		ok, followed = pcall(startMeleeFollow, eventName)
+	end
+	if not (ok and followed) then
 		shakeState.kickStart = now
 		shakeState.kickDir = -shakeState.kickDir
 	end
 end
+
+task.spawn(function()
+	local pulseHit = game:GetService("ReplicatedStorage"):FindFirstChild("PulseHit") or game:GetService("ReplicatedStorage"):WaitForChild("PulseHit", 15)
+	if pulseHit then
+		pulseHit.OnClientEvent:Connect(function()
+			shakeState.hitStart = os.clock()
+		end)
+	end
+end)
 
 local function syncRoarShakeToSound(sound)
 	local startedAt = shakeState.roarStart
@@ -809,6 +879,9 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 	local camera = workspace.CurrentCamera
 	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
 	if player:GetAttribute("CameraShake") == false then return end
+	local shakeChar = player.Character
+	local shakeRoot = shakeChar and shakeChar:FindFirstChild("HumanoidRootPart")
+	local flying = shakeRoot ~= nil and shakeRoot:FindFirstChild("FlyVelocity") ~= nil
 	local now = os.clock()
 	local target = beamActive and 1 or 0
 	local rate = target > shakeState.beamLevel and 5 or 3
@@ -827,19 +900,72 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 	end
 	local kickAge = now - shakeState.kickStart
 	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 9) or 0
-	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT)
-	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS)
-	if rotAmp == 0 and posAmp == 0 and kick == 0 then return end
-	local pitch = shakeNoise(now, 1) * rotAmp
-	local yaw = shakeNoise(now, 2) * rotAmp
-	local roll = shakeNoise(now, 3) * rotAmp * 0.7
-	local px = shakeNoise(now, 4) * posAmp
-	local py = shakeNoise(now, 5) * posAmp
+	local hitAge = now - shakeState.hitStart
+	local hit = hitAge < HIT_TIME and math.min(hitAge / 0.04, 1) * math.exp(-hitAge * 4) or 0
+	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT, hit * HIT_ROT)
+	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS, hit * HIT_POS)
+
+	local mPitch, mYaw, mRoll, mPx, mPy = 0, 0, 0, 0, 0
+	local m = shakeState.melee
+	if m then
+		local age = now - m.start
+		local target = Vector3.zero
+		if age < m.dur and m.root.Parent then
+			local bestMag = 0
+			for i, part in ipairs(m.heads) do
+				if part.Parent then
+					local rel = m.root.CFrame:PointToObjectSpace(part.Position) - m.base[i]
+					if rel.Magnitude > bestMag then
+						bestMag = rel.Magnitude
+						target = rel
+					end
+				end
+			end
+		end
+		m.peak = math.max(m.peak, target.Magnitude / m.size)
+		if not m.kicked and age > 0.2 and age < m.dur and m.peak < 0.02 then
+			m.kicked = true
+			shakeState.kickStart = now
+			shakeState.kickDir = -shakeState.kickDir
+			kickAge = 0
+			kick = 1
+		end
+		m.delta = m.delta:Lerp(target, 1 - math.exp(-dt * HEAD_FOLLOW))
+		if age > m.dur + HEAD_TAIL and m.delta.Magnitude < 0.01 then
+			shakeState.melee = nil
+		else
+			local scaled = m.delta / m.size * 20
+			local cd = camera.CFrame:VectorToObjectSpace(m.root.CFrame:VectorToWorldSpace(scaled))
+			mYaw = math.clamp(-cd.X * HEAD_YAW, -0.06, 0.06)
+			mRoll = math.clamp(-cd.X * HEAD_ROLL, -0.04, 0.04)
+			mPitch = math.clamp(cd.Y * HEAD_PITCH, -0.04, MAX_TILT_UP)
+			mPx = math.clamp(cd.X * HEAD_POS, -0.3, 0.3)
+			mPy = math.clamp(cd.Y * HEAD_POS, -0.3, 0.1)
+		end
+	end
+
+	if rotAmp == 0 and posAmp == 0 and kick == 0 and not shakeState.melee then return end
+	local pitch = shakeNoise(now, 1) * rotAmp + mPitch
+	local yaw = shakeNoise(now, 2) * rotAmp + mYaw
+	local roll = shakeNoise(now, 3) * rotAmp * 0.7 + mRoll
+	local px = shakeNoise(now, 4) * posAmp + mPx
+	local py = shakeNoise(now, 5) * posAmp + mPy
+	if hit > 0 then
+		pitch -= 0.008 * hit
+	end
 	if kick > 0 then
 		roll += shakeState.kickDir * 0.016 * kick * math.cos(kickAge * 20)
 		pitch -= 0.009 * kick * math.cos(kickAge * 16)
 		yaw += shakeState.kickDir * 0.004 * kick * math.sin(kickAge * 14)
 		py -= 0.04 * kick
+	end
+	pitch = math.clamp(pitch, -0.04, MAX_TILT_UP)
+	if flying then
+		pitch = math.clamp(pitch * FLY_SHAKE_SCALE, -FLY_MAX_PITCH, FLY_MAX_PITCH)
+		yaw *= FLY_SHAKE_SCALE
+		roll *= FLY_SHAKE_SCALE
+		px *= FLY_SHAKE_SCALE
+		py *= FLY_SHAKE_SCALE
 	end
 	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
 end)
@@ -1116,8 +1242,36 @@ local function buildButtons(character)
 		end
 	end
 
+	local function isRoarName(n)
+		return n == "Roar1" or n == "Roar1Event" or n == "Roar2" or n == "Roar2Event"
+	end
+
 	table.sort(events, function(a, b)
 		return (ORDER[a.Name] or 99) < (ORDER[b.Name] or 99)
+	end)
+
+	local slots = {}
+	local nextSlot = 1
+	for _, e in ipairs(events) do
+		if e:GetAttribute("AttackType") ~= "Beam" and not isRoarName(e.Name) then
+			slots[e] = nextSlot
+			nextSlot += 1
+		end
+	end
+	for _, e in ipairs(events) do
+		if e:GetAttribute("AttackType") == "Beam" and not isRoarName(e.Name) then
+			slots[e] = nextSlot
+			nextSlot += 1
+		end
+	end
+	for _, e in ipairs(events) do
+		if slots[e] == nil then
+			slots[e] = ORDER[e.Name] or 99
+		end
+	end
+
+	table.sort(events, function(a, b)
+		return slots[a] < slots[b]
 	end)
 
 	local sprintCount = (sprint and sprint.Visible) and 1 or 0
@@ -1135,7 +1289,7 @@ local function buildButtons(character)
 			scaleButtonChildren(button)
 			button.Parent = backpack
 			activeButtons[event.Name] = button
-			slotToEvent[ORDER[event.Name] or 99] = event.Name
+			slotToEvent[slots[event]] = event.Name
 
 			local attackImage = event:GetAttribute("AttackImage")
 			if attackImage and attackImage ~= "" then

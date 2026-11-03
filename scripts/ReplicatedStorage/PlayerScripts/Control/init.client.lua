@@ -246,8 +246,11 @@ end
 
 local function refreshGroundAnimation()
 	stopAnimations(GROUND_FADE)
-	if currentAnim == "Walk" then
-		play(groundMoveTrack(), GROUND_FADE)
+	local move = currentAnim == "Walk" and groundMoveTrack() or nil
+	if Walk and Walk ~= move then Walk:Stop(GROUND_FADE) end
+	if Sprint and Sprint ~= move then Sprint:Stop(GROUND_FADE) end
+	if move then
+		play(move, GROUND_FADE)
 	else
 		play(Idle, GROUND_FADE)
 	end
@@ -589,6 +592,11 @@ local function updateLand(now, wet)
 		elseif currentAnim == "Walk" and (not moving or speed < 1) then
 			currentAnim = "Idle"
 			refreshGroundAnimation()
+		end
+		if currentAnim ~= "Walk" then
+			if Walk and Walk.IsPlaying then Walk:Stop(GROUND_FADE) end
+			if Sprint and Sprint.IsPlaying then Sprint:Stop(GROUND_FADE) end
+			if Idle and not Idle.IsPlaying then play(Idle, GROUND_FADE) end
 		end
 	end
 	if wet and now >= swimBlockedUntil then

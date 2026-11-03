@@ -292,7 +292,7 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "Evolved Godzilla" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "Eater Of Worlds" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
 			clone.Visible = false
@@ -309,7 +309,6 @@ local function populate()
 			clone.Visible = false
 		else
 			clone.Visible = true
-			
 		end
 		clone.LayoutOrder = layoutOrders[model.Name] or 0
 		local kaijuName = model.kaijuName

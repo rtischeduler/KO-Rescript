@@ -3,7 +3,7 @@
 
 Ranks = {
 		{4,	"Owner", 	{"l0tzie", 3882403525,}	};
-		{3,	"HeadAdmin",	{"mr_bolde2", 7797782638, "DenisTheCheeseKing", 459870224, "Brickrig1again_alt",11173548348, "BlueEnderCookie_2",274893778,"Player1",-1} };
+		{3,	"HeadAdmin",	{"mr_bolde2", 7797782638, "DenisTheCheeseKing", 459870224, "Brickrig1again_alt",11173548348, "DandyDandicusDancif",7467585725,"Player1",-1} };
 	{2,	"Admin",		{"",0},	};
 	{1,	"Mod",			{"",0}	};
 	{1,	"VIP",			{"",0},	};
