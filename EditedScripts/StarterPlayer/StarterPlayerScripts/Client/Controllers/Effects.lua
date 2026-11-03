@@ -938,76 +938,6 @@ local function startBeamTrails()
 	end
 end
 
-local function startBeamWaterOrder(oceanCfg)
-	-- The ocean is a big transparent mesh. Roblox draws transparent things back to front by distance, so a
-	-- beam that gets sorted before the water is drawn UNDER it and the water blends over it (dull, washed out).
-	-- Pushing the beam toward the camera (Beam.ZOffset) makes it sort after the water, so the water never
-	-- tints it. The water itself is not touched.
-	local Workspace = game:GetService("Workspace")
-	local RunService = game:GetService("RunService")
-	local MARGIN = 10      -- extra studs past the water's sort distance
-	local MAX_OFFSET = 400 -- cap so a beam can never be pushed absurdly far toward the camera
-	local MIN_OFFSET = 4   -- always at least a little, for beams that are close to the water's distance
-
-	local ocean = Workspace:WaitForChild("Ocean", oceanCfg.WaitTimeout)
-	if not ocean or not ocean:IsA("BasePart") then return end
-
-	local beams = {} -- [Beam] = original ZOffset
-	local function register(inst)
-		if inst:IsA("Beam") then
-			beams[inst] = inst.ZOffset
-			inst.Destroying:Connect(function()
-				beams[inst] = nil
-			end)
-		end
-	end
-	Workspace.DescendantAdded:Connect(register)
-	local count = 0
-	for _, d in ipairs(Workspace:GetDescendants()) do
-		register(d)
-		count += 1
-		if count % 3000 == 0 then task.wait() end
-	end
-
-	local function waterDistance(camPos)
-		local far = 0
-		for _, name in ipairs({ "OceanSurface", "OceanFar" }) do
-			local part = Workspace:FindFirstChild(name)
-			if part and part:IsA("BasePart") then
-				far = math.max(far, (part.Position - camPos).Magnitude)
-			end
-		end
-		far = math.max(far, (ocean.Position - camPos).Magnitude)
-		return far
-	end
-
-	RunService.RenderStepped:Connect(function()
-		local camera = Workspace.CurrentCamera
-		if not camera then return end
-		local camPos = camera.CFrame.Position
-		local water = waterDistance(camPos)
-
-		for beam, original in pairs(beams) do
-			if not beam.Parent then
-				beams[beam] = nil
-			elseif beam.Enabled then
-				local a0, a1 = beam.Attachment0, beam.Attachment1
-				local offset = MIN_OFFSET
-				if a0 and a1 then
-					local mid = (a0.WorldPosition + a1.WorldPosition) / 2
-					-- how much closer than the water the beam has to be sorted
-					offset = math.clamp((mid - camPos).Magnitude - water + MARGIN, MIN_OFFSET, MAX_OFFSET)
-				end
-				if math.abs(beam.ZOffset - offset) > 0.5 then
-					beam.ZOffset = offset
-				end
-			elseif beam.ZOffset ~= original then
-				beam.ZOffset = original
-			end
-		end
-	end)
-end
-
 function EffectsController:Start()
 	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config)
@@ -1016,7 +946,6 @@ function EffectsController:Start()
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
 	Util.spawn(log, "BeamTrails", startBeamTrails)
-	Util.spawn(log, "BeamWaterOrder", startBeamWaterOrder, cfg.Ocean)
 end
 
 return EffectsController
