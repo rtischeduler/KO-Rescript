@@ -315,6 +315,22 @@ local function needsAimPosition(eventName)
 		or eventName == "Attack3" or eventName == "Attack3Event"
 end
 
+local function charHasBeamRig(char)
+	if not char then return false end
+	for _, d in ipairs(char:GetDescendants()) do
+		if d:IsA("Attachment") and d.Name == "BeamStart" then
+			for _, c in ipairs(d:GetChildren()) do
+				if c:IsA("Beam") then return true end
+			end
+		end
+	end
+	return false
+end
+
+local function isRealBeam(evt, char)
+	return evt ~= nil and evt:GetAttribute("AttackType") == "Beam" and charHasBeamRig(char or player.Character)
+end
+
 local function isBeamEvent(eventName)
 	return eventName == "Beam" or eventName == "Attack2Event"
 		or eventName == "Attack3" or eventName == "Attack3Event"
@@ -833,7 +849,8 @@ end
 local function onShakeAbility(eventName)
 	local evt = findAbilityEvent(player.Character, eventName)
 	local attackType = evt and evt:GetAttribute("AttackType")
-	if attackType == "Beam" then return end
+	if attackType == "Beam" and not isRealBeam(evt) then attackType = "Melee" end
+	if isRealBeam(evt) then return end
 	if attackType == nil and isBeamEvent(eventName) then return end
 	local now = os.clock()
 	if attackType == "Roar" or ROAR_EVENTS[eventName] then
@@ -1125,7 +1142,7 @@ local function fireAbility(eventName)
 		evt:FireServer()
 	end
 
-	if isBeamEvent(eventName) and evt:GetAttribute("AttackType") == "Beam" then
+	if isBeamEvent(eventName) and isRealBeam(evt, char) then
 		if beamStartTimeout then
 			task.cancel(beamStartTimeout)
 		end
@@ -1253,13 +1270,13 @@ local function buildButtons(character)
 	local slots = {}
 	local nextSlot = 1
 	for _, e in ipairs(events) do
-		if e:GetAttribute("AttackType") ~= "Beam" and not isRoarName(e.Name) then
+		if not isRealBeam(e) and not isRoarName(e.Name) then
 			slots[e] = nextSlot
 			nextSlot += 1
 		end
 	end
 	for _, e in ipairs(events) do
-		if e:GetAttribute("AttackType") == "Beam" and not isRoarName(e.Name) then
+		if isRealBeam(e) and not isRoarName(e.Name) then
 			slots[e] = nextSlot
 			nextSlot += 1
 		end
