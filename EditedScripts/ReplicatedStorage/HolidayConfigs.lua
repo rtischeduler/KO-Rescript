@@ -13,7 +13,6 @@ HolidayConfigs.DefaultWeather = { Kind = "Rain", Gap = { 120, 200 }, Duration = 
 HolidayConfigs.Halloween = {
 	Name = "Halloween",
 	Months = { 10, 11 },
-	Sky = "Dark",
 	Lighting = {
 		Day = {
 			Brightness = 1.5, Ambient = Color3.new(0.38, 0.36, 0.4),
@@ -48,13 +47,12 @@ HolidayConfigs.Halloween = {
 	},
 	Weather = { Kind = "Rain", Gap = { 100, 180 }, Duration = { 30, 120 } },
 	WindowColors = {
-		rgb(255, 120, 20), rgb(255, 120, 20), rgb(255, 120, 20),
-		rgb(150, 60, 220), rgb(150, 60, 220), rgb(150, 60, 220),
-		rgb(205, 55, 165),
-		rgb(110, 230, 60),
+		rgb(255, 150, 50), rgb(255, 150, 50), rgb(255, 150, 50),
+		rgb(255, 175, 80), rgb(255, 175, 80),
+		rgb(240, 160, 60),
+		rgb(255, 200, 120),
 	},
-	GroundColor = rgb(96, 52, 128),
-	RainColor = rgb(165, 95, 235),
+	GroundColor = rgb(105, 95, 56),
 }
 
 HolidayConfigs.Christmas = {
