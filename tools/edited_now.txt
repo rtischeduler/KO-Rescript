@@ -17,3 +17,4 @@ ServerScriptService/framework/modules/Data.lua
 ServerScriptService/Server/Services/IndicatorService.lua
 StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
 StarterGui/ClientHandler.client.lua
+ReplicatedStorage/HolidayConfigs.lua
