@@ -781,6 +781,9 @@ local HEAD_PITCH = 0.005
 local HEAD_POS = 0.03
 local HEAD_FOLLOW = 12
 local HEAD_TAIL = 0.5
+local MAX_TILT_UP = 0.02
+local FLY_SHAKE_SCALE = 0.25
+local FLY_MAX_PITCH = 0.005
 
 local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1, hitStart = -10, melee = nil }
 
@@ -878,14 +881,7 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 	if player:GetAttribute("CameraShake") == false then return end
 	local shakeChar = player.Character
 	local shakeRoot = shakeChar and shakeChar:FindFirstChild("HumanoidRootPart")
-	if shakeRoot and shakeRoot:FindFirstChild("FlyVelocity") then
-		shakeState.melee = nil
-		shakeState.kickStart = -10
-		shakeState.hitStart = -10
-		shakeState.roarEnd = 0
-		shakeState.beamLevel = 0
-		return
-	end
+	local flying = shakeRoot ~= nil and shakeRoot:FindFirstChild("FlyVelocity") ~= nil
 	local now = os.clock()
 	local target = beamActive and 1 or 0
 	local rate = target > shakeState.beamLevel and 5 or 3
@@ -942,9 +938,9 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 			local cd = camera.CFrame:VectorToObjectSpace(m.root.CFrame:VectorToWorldSpace(scaled))
 			mYaw = math.clamp(-cd.X * HEAD_YAW, -0.06, 0.06)
 			mRoll = math.clamp(-cd.X * HEAD_ROLL, -0.04, 0.04)
-			mPitch = math.clamp(cd.Y * HEAD_PITCH, -0.04, 0.04)
+			mPitch = math.clamp(cd.Y * HEAD_PITCH, -0.04, MAX_TILT_UP)
 			mPx = math.clamp(cd.X * HEAD_POS, -0.3, 0.3)
-			mPy = math.clamp(cd.Y * HEAD_POS, -0.3, 0.3)
+			mPy = math.clamp(cd.Y * HEAD_POS, -0.3, 0.1)
 		end
 	end
 
@@ -962,6 +958,14 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 		pitch -= 0.009 * kick * math.cos(kickAge * 16)
 		yaw += shakeState.kickDir * 0.004 * kick * math.sin(kickAge * 14)
 		py -= 0.04 * kick
+	end
+	pitch = math.clamp(pitch, -0.04, MAX_TILT_UP)
+	if flying then
+		pitch = math.clamp(pitch * FLY_SHAKE_SCALE, -FLY_MAX_PITCH, FLY_MAX_PITCH)
+		yaw *= FLY_SHAKE_SCALE
+		roll *= FLY_SHAKE_SCALE
+		px *= FLY_SHAKE_SCALE
+		py *= FLY_SHAKE_SCALE
 	end
 	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
 end)
