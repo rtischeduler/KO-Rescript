@@ -972,8 +972,9 @@ local function fireAbility(eventName)
 
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
-			playChargeFill(otherButton, math.max(otherRemaining, attackDuration))
+			if CooldownManager.getRemaining(otherButton.Name) <= 0 then
+				playChargeFill(otherButton, attackDuration)
+			end
 		end
 	end
 end
