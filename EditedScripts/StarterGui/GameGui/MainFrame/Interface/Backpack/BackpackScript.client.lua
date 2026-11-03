@@ -822,23 +822,30 @@ local function startMeleeFollow(eventName)
 	local okSize, size = pcall(function() return char:GetExtentsSize().Y end)
 	shakeState.melee = {
 		start = os.clock(), dur = dur, heads = heads, base = base,
-		size = math.max(okSize and size or 10, 6), delta = Vector3.zero, root = root,
+		size = math.max(okSize and size or 10, 6), delta = Vector3.zero, root = root, peak = 0, kicked = false,
 	}
 	return true
 end
 
 local function onShakeAbility(eventName)
-	if isBeamEvent(eventName) then return end
+	local evt = findAbilityEvent(player.Character, eventName)
+	local attackType = evt and evt:GetAttribute("AttackType")
+	if attackType == "Beam" then return end
+	if attackType == nil and isBeamEvent(eventName) then return end
 	local now = os.clock()
-	if ROAR_EVENTS[eventName] then
+	if attackType == "Roar" or ROAR_EVENTS[eventName] then
 		shakeState.roarStart = now
 		shakeState.roarEnd = now + ROAR_FALLBACK
-	else
-		local ok, followed = pcall(startMeleeFollow, eventName)
-		if not (ok and followed) then
-			shakeState.kickStart = now
-			shakeState.kickDir = -shakeState.kickDir
-		end
+		return
+	end
+	local followable = attackType == nil or attackType == "Melee" or attackType == "BackBeam"
+	local ok, followed = false, false
+	if followable then
+		ok, followed = pcall(startMeleeFollow, eventName)
+	end
+	if not (ok and followed) then
+		shakeState.kickStart = now
+		shakeState.kickDir = -shakeState.kickDir
 	end
 end
 
@@ -908,6 +915,14 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 					end
 				end
 			end
+		end
+		m.peak = math.max(m.peak, target.Magnitude / m.size)
+		if not m.kicked and age > 0.2 and age < m.dur and m.peak < 0.02 then
+			m.kicked = true
+			shakeState.kickStart = now
+			shakeState.kickDir = -shakeState.kickDir
+			kickAge = 0
+			kick = 1
 		end
 		m.delta = m.delta:Lerp(target, 1 - math.exp(-dt * HEAD_FOLLOW))
 		if age > m.dur + HEAD_TAIL and m.delta.Magnitude < 0.01 then
