@@ -281,7 +281,7 @@ local function selectKaiju(morphName)
 	end
 end
 local function populate()
-	for _, model in ipairs(sortedMorphs) do
+	local function buildCard(model)
 		local clone = scrollingFrame:FindFirstChild(model.Name)
 		if not clone or not clone:IsA("GuiObject") then
 			clone = template:Clone()
@@ -292,7 +292,7 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "Eater Of Worlds" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "Evolved Godzilla" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
 			clone.Visible = false
@@ -309,6 +309,7 @@ local function populate()
 			clone.Visible = false
 		else
 			clone.Visible = true
+			
 		end
 		clone.LayoutOrder = layoutOrders[model.Name] or 0
 		local kaijuName = model.kaijuName
@@ -354,6 +355,12 @@ local function populate()
 			selectKaiju(morphName)
 		end)
 		clone.Parent = scrollingFrame
+	end
+	for _, model in ipairs(sortedMorphs) do
+		local ok, err = pcall(buildCard, model)
+		if not ok then
+			warn("PopulateList: failed to build card for", tostring(model and model.Name), err)
+		end
 	end
 	template.Visible = false
 	task.defer(refreshListCanvas)

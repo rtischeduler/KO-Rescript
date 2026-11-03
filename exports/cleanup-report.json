@@ -1,10 +1,10 @@
 {
   "totals": {
-    "scripts": 730,
-    "events": 425,
+    "scripts": 714,
+    "events": 405,
     "modules_never_required": 1,
     "modules_maybe_loaded_dynamically": 21,
-    "scripts_that_never_run": 130,
+    "scripts_that_never_run": 114,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
@@ -524,61 +524,6 @@
         "reason": "disabled"
       },
       {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Attack/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Attack3/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Beam/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Attack/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Attack3/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Beam/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Roar1/Roar1Script",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Roar2/Roar2Script",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /reed/ Blackmass goji/CharacterScripts/Anim",
-        "class": "LocalScript",
-        "reason": "disabled"
-      },
-      {
         "path": "ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/LocalControl",
         "class": "LocalScript",
         "reason": "disabled"
@@ -587,31 +532,6 @@
         "path": "ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/ProgressManager",
         "class": "Script",
         "reason": "disabled"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack3/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Beam/ServerScript",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar1/Roar1Script",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
-        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar2/Roar2Script",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
       },
       {
         "path": "ServerStorage/Kaijus/F16C [FREE]/CharacterScripts/Anim",
@@ -679,7 +599,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 27,
+        "scripts_inside": 11,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",

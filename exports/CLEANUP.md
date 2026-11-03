@@ -2,11 +2,11 @@
 
 Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
 
-- scripts: 730
-- events: 425
+- scripts: 714
+- events: 405
 - modules never required: 1
 - modules maybe loaded dynamically: 21
-- scripts that never run: 130
+- scripts that never run: 114
 - empty running scripts: 302
 - events never referenced: 1
 - events maybe fired dynamically: 51
@@ -23,7 +23,7 @@ Names are matched against every script's identifiers and string literals. Anythi
 ## Trees holding scripts that never run (8)
 
 - `Lighting/KaijusUnused (93 dead scripts, referenced by: ServerScriptService/framework/modules/Data)`
-- `ServerStorage/Kaijus (27 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
+- `ServerStorage/Kaijus (11 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
 - `ReplicatedStorage/FINAL WARS GODZILLA (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `Lighting/Rocket (1 dead scripts, referenced by: nothing)`
@@ -31,7 +31,7 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/zilla jr  (dont delete) (1 dead scripts, referenced by: nothing)`
 - `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, StarterGui/ClientHandler, StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu, StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch)`
 
-## Scripts that never run (130)
+## Scripts that never run (114)
 
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/Anim (LocalScript, disabled)`
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/ChargeScript (Script, disabled)`
@@ -134,24 +134,8 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
 - `ServerStorage/Kaijus/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
 - `ServerStorage/Kaijus/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Attack/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Attack3/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Beam/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /Evolved Godzilla/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Attack/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Attack3/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Beam/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /evo Shin Godzilla/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Bricks Dev characters, rename them into Evo shin when using /reed/ Blackmass goji/CharacterScripts/Anim (LocalScript, disabled)`
 - `ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/LocalControl (LocalScript, disabled)`
 - `ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/ProgressManager (Script, disabled)`
-- `ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack3/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Evo shin/CharacterScripts/Beam/ServerScript (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
-- `ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
 - `ServerStorage/Kaijus/F16C [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
 - `ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
 - `ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`

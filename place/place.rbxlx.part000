@@ -292,7 +292,7 @@
 
 Ranks = {
 		{4,	"Owner", 	{"l0tzie", 3882403525,}	};
-		{3,	"HeadAdmin",	{"mr_bolde2", 7797782638, "DenisTheCheeseKing", 459870224, "EclipsedFormula",392381235, "BlueEnderCookie_2",274893778,"Player1",-1} };
+		{3,	"HeadAdmin",	{"mr_bolde2", 7797782638, "DenisTheCheeseKing", 459870224, "Brickrig1again_alt",11173548348, "BlueEnderCookie_2",274893778,"Player1",-1} };
 	{2,	"Admin",		{"",0},	};
 	{1,	"Mod",			{"",0}	};
 	{1,	"VIP",			{"",0},	};
@@ -911705,7 +911705,7 @@ local function selectKaiju(morphName)
 	end
 end
 local function populate()
-	for _, model in ipairs(sortedMorphs) do
+	local function buildCard(model)
 		local clone = scrollingFrame:FindFirstChild(model.Name)
 		if not clone or not clone:IsA("GuiObject") then
 			clone = template:Clone()
@@ -911716,7 +911716,7 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "Eater Of Worlds" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "Evolved Godzilla" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
 			clone.Visible = false
@@ -911733,6 +911733,7 @@ local function populate()
 			clone.Visible = false
 		else
 			clone.Visible = true
+			
 		end
 		clone.LayoutOrder = layoutOrders[model.Name] or 0
 		local kaijuName = model.kaijuName
@@ -911778,6 +911779,12 @@ local function populate()
 			selectKaiju(morphName)
 		end)
 		clone.Parent = scrollingFrame
+	end
+	for _, model in ipairs(sortedMorphs) do
+		local ok, err = pcall(buildCard, model)
+		if not ok then
+			warn("PopulateList: failed to build card for", tostring(model and model.Name), err)
+		end
 	end
 	template.Visible = false
 	task.defer(refreshListCanvas)
@@ -923355,7 +923362,7 @@ end</string>
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea1</UniqueId>
+        <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000e9d</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10378">
         <Properties>
@@ -923413,7 +923420,7 @@ end</string>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea2</UniqueId>
+          <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000e9e</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10379">
@@ -923436,7 +923443,7 @@ end</string>
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea3</UniqueId>
+          <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000e9f</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10380">
@@ -923481,7 +923488,7 @@ end</string>
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea4</UniqueId>
+          <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000ea0</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -923530,7 +923537,7 @@ end</string>
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea5</UniqueId>
+          <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000ea1</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -923588,7 +923595,7 @@ end</string>
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea6</UniqueId>
+          <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000ea2</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10383">
@@ -923615,7 +923622,7 @@ end</string>
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">75e000239939b6350afaac9700000ea7</UniqueId>
+          <UniqueId name="UniqueId">210b8008134ddcd70afab32d00000ea3</UniqueId>
         </Properties>
       </Item>
     </Item>
@@ -2022341,7 +2022348,4 @@ end)
                           <R21>0</R21>
                           <R22>1</R22>
                         </CoordinateFrame>
-                        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                        <token name="EasingDirection">1</token>
-                        <token name="EasingStyle">0</token>
-                        <UniqueId nam
+                        <SecurityCapabilities name="
