@@ -1,3 +1,4 @@
+ReplicatedStorage/BeamSystem.lua
 ReplicatedStorage/HolidayConfigs.lua
 StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
