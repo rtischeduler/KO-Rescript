@@ -1060,6 +1060,17 @@ local function initAttackHandler()
 		["FROSTBITE GODZILLA"] = true,
 	}
 
+	local function hasBeamRig(character)
+		for _, d in ipairs(character:GetDescendants()) do
+			if d:IsA("Attachment") and d.Name == "BeamStart" then
+				for _, c in ipairs(d:GetChildren()) do
+					if c:IsA("Beam") then return true end
+				end
+			end
+		end
+		return false
+	end
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -1209,7 +1220,11 @@ local function initAttackHandler()
 				elseif attackType == "Pulse" then
 					executePulseAttack(player, char, remote, remoteName)
 				elseif attackType == "Beam" then
-					executeBeamAttack(player, char, remote, remoteName, args[1])
+					if hasBeamRig(char) then
+						executeBeamAttack(player, char, remote, remoteName, args[1])
+					else
+						executeMeleeAttack(player, char, remote, remoteName, remote:GetAttribute("HitboxDuration") or remote:GetAttribute("BeamDuration"))
+					end
 				elseif attackType == "FirePulse" then
 					executeFirePulse(player, char, remote, remoteName)
 				elseif attackType == "BackBeam" then
