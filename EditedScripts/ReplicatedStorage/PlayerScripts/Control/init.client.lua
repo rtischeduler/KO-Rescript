@@ -68,7 +68,22 @@ local MAX_PITCH = math.rad(80)
 local ASCEND_KEYS = { Enum.KeyCode.Q, Enum.KeyCode.Space }
 local DESCEND_KEYS = { Enum.KeyCode.E }
 
-local originalHipHeight = humanoid.HipHeight
+local baseHipHeight = humanoid.HipHeight
+local originalHipHeight = baseHipHeight
+
+local function refreshHipHeight()
+	local scale = character:GetAttribute("KaijuScale")
+	originalHipHeight = baseHipHeight * ((typeof(scale) == "number" and scale > 0) and scale or 1)
+	return originalHipHeight
+end
+refreshHipHeight()
+character:GetAttributeChangedSignal("KaijuScale"):Connect(function()
+	local wasGrounded = humanoid.HipHeight <= originalHipHeight
+	refreshHipHeight()
+	if wasGrounded then
+		humanoid.HipHeight = originalHipHeight
+	end
+end)
 local baseWalkSpeed = humanoid.WalkSpeed
 local bodyHalf = math.max(character:GetExtentsSize().Y / 2, 2.5)
 local GROUND_RAY = bodyHalf + 14

@@ -809,22 +809,8 @@ local module = {
 				if not humanoid then continue end
 
 				local previous = character:GetAttribute("KaijuScale") or 1
-				local fixedHip = character:GetAttribute("KaijuBaseHipHeight") or humanoid.HipHeight
-				character:SetAttribute("KaijuBaseHipHeight", fixedHip)
 				character:SetAttribute("KaijuScale", scale)
-
-				if not character:GetAttribute("KaijuHipLocked") then
-					character:SetAttribute("KaijuHipLocked", true)
-					humanoid:GetPropertyChangedSignal("HipHeight"):Connect(function()
-						local locked = character:GetAttribute("KaijuBaseHipHeight")
-						if locked and humanoid.HipHeight ~= locked then
-							humanoid.HipHeight = locked
-						end
-					end)
-				end
-
 				character:ScaleTo(scale)
-				humanoid.HipHeight = fixedHip
 
 				local ratio = scale / previous
 				local stats = character:FindFirstChild("Stats")
