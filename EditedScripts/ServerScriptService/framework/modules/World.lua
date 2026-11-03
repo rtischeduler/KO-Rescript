@@ -120,6 +120,8 @@ local function initDayNight()
 	local lastCheck = -math.huge
 	local baseDecay = nil
 	local wxLevel, wxTable = 0, nil
+	local forceNight = false
+	local FORCED_NIGHT_MINUTES = 1380
 	local lastWx = os.clock()
 
 	local fxBase = setmetatable({}, { __mode = "k" })
@@ -174,14 +176,15 @@ local function initDayNight()
 			RAIN = set.Rain or DEFAULT.Rain
 			SNOW = set.Snow or set.Rain or DEFAULT.Rain
 			applyEffects(holiday and holiday.Effects or nil)
+			forceNight = holiday ~= nil and holiday.ForceNight == true
 		end
 
 		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
 		local clouds = workspace.Terrain:FindFirstChildOfClass("Clouds")
 
-		local minutes = (START_MINUTES + (os.clock() - t0) * timeRatio) % 1440
+		local minutes = forceNight and FORCED_NIGHT_MINUTES or (START_MINUTES + (os.clock() - t0) * timeRatio) % 1440
 		Lighting:SetMinutesAfterMidnight(minutes)
-		local t = dayFactor(minutes)
+		local t = forceNight and 0 or dayFactor(minutes)
 
 		Lighting.Brightness = lerp(NIGHT.Brightness, DAY.Brightness, t)
 		Lighting.Ambient = NIGHT.Ambient:Lerp(DAY.Ambient, t)
