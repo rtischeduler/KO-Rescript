@@ -453,6 +453,7 @@ local function initPulse()
 		while current and current ~= workspace do
 			local humanoid = current:FindFirstChildOfClass("Humanoid")
 			if humanoid then
+				if humanoid.Health <= 0 then return nil, nil end
 				return humanoid, Players:GetPlayerFromCharacter(current)
 			end
 			current = current.Parent
@@ -756,6 +757,7 @@ local function initAttackHandler()
 		while model do
 			local humanoid = model:FindFirstChildOfClass("Humanoid")
 			if humanoid then
+				if humanoid.Health <= 0 then return nil, nil end
 				return humanoid, Players:GetPlayerFromCharacter(model)
 			end
 			model = model.Parent

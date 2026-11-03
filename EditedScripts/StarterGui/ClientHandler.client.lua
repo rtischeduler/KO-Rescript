@@ -429,6 +429,15 @@ local function initShiftLock()
 		end
 	end)
 
+	RunService.Heartbeat:Connect(function()
+		if not isShiftLocked then return end
+		local character = player.Character
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		if not humanoid or humanoid.Health <= 0 then
+			setShiftLock(false)
+		end
+	end)
+
 	if player.Character and isShiftLocked then
 		startRotation()
 	end

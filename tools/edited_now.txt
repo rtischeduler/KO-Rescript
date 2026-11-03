@@ -1,5 +1,6 @@
 ReplicatedStorage/HolidayConfigs.lua
 ReplicatedStorage/PlayerScripts/Control/init.client.lua
+ServerScriptService/framework/modules/Character.lua
 ServerScriptService/framework/modules/Combat.lua
 StarterGui/ClientHandler.client.lua
 StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
