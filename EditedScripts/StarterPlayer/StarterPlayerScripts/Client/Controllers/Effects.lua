@@ -939,30 +939,31 @@ local function startBeamTrails()
 end
 
 local function startBeamWaterBoost(oceanCfg)
+	-- The ocean is a transparent surface that Roblox alpha-blends OVER beams, which washes out their
+	-- color and texture (beam brightness is clamped, so boosting it cannot win). While a beam is active
+	-- near the water, the water is made solid so nothing is blended over the beam: it keeps its full
+	-- brightness and texture. The water fades back to its normal look when no beam is active.
 	local Workspace = game:GetService("Workspace")
 	local RunService = game:GetService("RunService")
-	local MAX_BOOST = 4        -- never multiply brightness by more than this
-	local MIN_ALPHA = 0.25     -- caps the boost for very opaque water
-	local EXTRA_BOOST = 1.15   -- covers the water tint/darkening on top of the transparency
-	local SURFACE_MARGIN = 1.5 -- studs; waves and bobbing move the surface around its level
-	local BLEND_SPEED = 14     -- how fast the boost eases in/out (no popping at the surface)
+	local BEAMING_TRANSPARENCY = 0 -- water transparency while a beam is active (0 = solid, nothing blends over the beam)
+	local MAX_DISTANCE = 1500      -- only beams this close to the camera count
+	local LINGER = 0.35            -- seconds to keep the water solid after the last beam stops
+	local FADE_IN = 18             -- ease speeds (per second)
+	local FADE_OUT = 5
 
 	local ocean = Workspace:WaitForChild("Ocean", oceanCfg.WaitTimeout)
 	if not ocean or not ocean:IsA("BasePart") then return end
-
 	local levelOffset = oceanCfg.LevelOffset or 0
-	local tracked = {} -- [Beam or Trail] = { base = number, applied = number, boost = number }
 
+	local beams = {}
 	local function register(inst)
-		if tracked[inst] then return end
-		if inst:IsA("Beam") or (inst:IsA("Trail") and inst.Name == "BeamSweepTrail") then
-			tracked[inst] = { base = inst.Brightness, applied = inst.Brightness, boost = 1 }
+		if inst:IsA("Beam") then
+			beams[inst] = true
 			inst.Destroying:Connect(function()
-				tracked[inst] = nil
+				beams[inst] = nil
 			end)
 		end
 	end
-
 	Workspace.DescendantAdded:Connect(register)
 	local count = 0
 	for _, d in ipairs(Workspace:GetDescendants()) do
@@ -971,58 +972,67 @@ local function startBeamWaterBoost(oceanCfg)
 		if count % 3000 == 0 then task.wait() end
 	end
 
-	-- The ocean is a transparent surface drawn over the (additive) beams, so it washes their color out.
-	-- Instead of touching the water, brighten any beam the water sits in front of or around.
-	local function waterBoost()
-		-- transparency of the real ocean, not the LocalTransparencyModifier that hides it
-		local alpha = math.max(1 - ocean.Transparency, MIN_ALPHA)
-		return math.clamp(EXTRA_BOOST / alpha, 1, MAX_BOOST)
+	-- water parts: the animated surface and the far water are created by the Ocean controller
+	local waters = {} -- [part] = original transparency
+	local function trackWater(part)
+		if part and part:IsA("BasePart") and waters[part] == nil then
+			waters[part] = part.Transparency
+		end
 	end
+	local function scanWater()
+		trackWater(Workspace:FindFirstChild("OceanSurface"))
+		trackWater(Workspace:FindFirstChild("OceanFar"))
+	end
+	scanWater()
+	Workspace.ChildAdded:Connect(function(child)
+		if child.Name == "OceanSurface" or child.Name == "OceanFar" then
+			trackWater(child)
+		end
+	end)
 
-	local function endpoints(inst)
-		local a0, a1 = inst.Attachment0, inst.Attachment1
-		if not (a0 and a1) then return nil end
-		return a0.WorldPosition, a1.WorldPosition
-	end
+	local amount = 0 -- 0 = normal water, 1 = solid water
+	local lastActive = -math.huge
 
 	RunService.RenderStepped:Connect(function(dt)
-		if not ocean.Parent then return end
 		local camera = Workspace.CurrentCamera
 		if not camera then return end
-
+		local camPos = camera.CFrame.Position
 		local level = ocean.Position.Y + ocean.Size.Y / 2 + levelOffset
-		local cameraUnder = camera.CFrame.Position.Y < level + SURFACE_MARGIN
-		local full = waterBoost()
-		local blend = 1 - math.exp(-BLEND_SPEED * dt)
 
-		for inst, data in pairs(tracked) do
-			if not inst.Parent then
-				tracked[inst] = nil
-				continue
-			end
-			-- somebody else (BeamSystem / the trail script) changed Brightness: adopt it as the new base
-			if inst.Brightness ~= data.applied then
-				data.base = inst.Brightness
-			end
-
-			local target = 1
-			if inst.Enabled then
-				local p0, p1 = endpoints(inst)
-				if p0 then
-					local lowest = math.min(p0.Y, p1.Y)
-					-- the beam is in/under the water, or the water is between the camera and the beam
-					if lowest < level + SURFACE_MARGIN or cameraUnder then
-						target = full
+		local active = false
+		-- from below the surface the water is a backface, nothing is blended over the beam
+		if camPos.Y > level then
+			for beam in pairs(beams) do
+				if beam.Enabled and beam.Parent then
+					local a0, a1 = beam.Attachment0, beam.Attachment1
+					if a0 and a1 then
+						local p0, p1 = a0.WorldPosition, a1.WorldPosition
+						if (p0 - camPos).Magnitude < MAX_DISTANCE or (p1 - camPos).Magnitude < MAX_DISTANCE then
+							active = true
+							break
+						end
 					end
 				end
 			end
+		end
 
-			data.boost += (target - data.boost) * blend
-			local value = data.base * data.boost
-			if math.abs(value - inst.Brightness) > 1e-3 then
-				inst.Brightness = value
+		local now = os.clock()
+		if active then lastActive = now end
+		local want = (now - lastActive) < LINGER and 1 or 0
+		local speed = want > amount and FADE_IN or FADE_OUT
+		amount += (want - amount) * (1 - math.exp(-speed * dt))
+		if math.abs(want - amount) < 0.002 then amount = want end
+
+		for part, original in pairs(waters) do
+			if not part.Parent then
+				waters[part] = nil
+			else
+				-- the Ocean controller never changes Transparency after creation, so this stays in sync
+				local target = original + (BEAMING_TRANSPARENCY - original) * amount
+				if math.abs(part.Transparency - target) > 1e-3 then
+					part.Transparency = target
+				end
 			end
-			data.applied = inst.Brightness
 		end
 	end)
 end
