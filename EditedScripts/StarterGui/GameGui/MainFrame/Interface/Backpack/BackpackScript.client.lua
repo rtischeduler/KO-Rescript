@@ -772,11 +772,59 @@ local PULSE_ROT = 0.005
 local PULSE_POS = 0.02
 local ROAR_FALLBACK = 3
 local KICK_TIME = 0.45
+local HIT_ROT = 0.012
+local HIT_POS = 0.05
+local HIT_TIME = 0.8
+local HEAD_YAW = 0.008
+local HEAD_ROLL = 0.005
+local HEAD_PITCH = 0.005
+local HEAD_POS = 0.03
+local HEAD_FOLLOW = 12
+local HEAD_TAIL = 0.5
 
-local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
+local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1, hitStart = -10, melee = nil }
 
 local function shakeNoise(t, seed)
 	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
+end
+
+local function findAbilityEvent(char, name)
+	local scripts = char and char:FindFirstChild("CharacterScripts")
+	if not scripts then return nil end
+	local evt = scripts:FindFirstChild(name)
+	if evt then return evt end
+	local anim = scripts:FindFirstChild("AnimEvents")
+	return anim and anim:FindFirstChild(name) or nil
+end
+
+local function collectHeadParts(char)
+	local parts = {}
+	for _, d in ipairs(char:GetDescendants()) do
+		if d:IsA("BasePart") and string.find(string.lower(d.Name), "head", 1, true) then
+			table.insert(parts, d)
+		end
+	end
+	return parts
+end
+
+local function startMeleeFollow(eventName)
+	local char = player.Character
+	local root = char and char:FindFirstChild("HumanoidRootPart")
+	if not root then return false end
+	local heads = collectHeadParts(char)
+	if #heads == 0 then return false end
+	local base = {}
+	for i, part in ipairs(heads) do
+		base[i] = root.CFrame:PointToObjectSpace(part.Position)
+	end
+	local evt = findAbilityEvent(char, eventName)
+	local dur = math.clamp(evt and evt:GetAttribute("AttackDuration") or 0.8, 0.3, 2.5)
+	local okSize, size = pcall(function() return char:GetExtentsSize().Y end)
+	shakeState.melee = {
+		start = os.clock(), dur = dur, heads = heads, base = base,
+		size = math.max(okSize and size or 10, 6), delta = Vector3.zero, root = root,
+	}
+	return true
 end
 
 local function onShakeAbility(eventName)
@@ -786,10 +834,22 @@ local function onShakeAbility(eventName)
 		shakeState.roarStart = now
 		shakeState.roarEnd = now + ROAR_FALLBACK
 	else
-		shakeState.kickStart = now
-		shakeState.kickDir = -shakeState.kickDir
+		local ok, followed = pcall(startMeleeFollow, eventName)
+		if not (ok and followed) then
+			shakeState.kickStart = now
+			shakeState.kickDir = -shakeState.kickDir
+		end
 	end
 end
+
+task.spawn(function()
+	local pulseHit = game:GetService("ReplicatedStorage"):FindFirstChild("PulseHit") or game:GetService("ReplicatedStorage"):WaitForChild("PulseHit", 15)
+	if pulseHit then
+		pulseHit.OnClientEvent:Connect(function()
+			shakeState.hitStart = os.clock()
+		end)
+	end
+end)
 
 local function syncRoarShakeToSound(sound)
 	local startedAt = shakeState.roarStart
@@ -827,14 +887,51 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 	end
 	local kickAge = now - shakeState.kickStart
 	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 9) or 0
-	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT)
-	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS)
-	if rotAmp == 0 and posAmp == 0 and kick == 0 then return end
-	local pitch = shakeNoise(now, 1) * rotAmp
-	local yaw = shakeNoise(now, 2) * rotAmp
-	local roll = shakeNoise(now, 3) * rotAmp * 0.7
-	local px = shakeNoise(now, 4) * posAmp
-	local py = shakeNoise(now, 5) * posAmp
+	local hitAge = now - shakeState.hitStart
+	local hit = hitAge < HIT_TIME and math.min(hitAge / 0.04, 1) * math.exp(-hitAge * 4) or 0
+	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT, hit * HIT_ROT)
+	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS, hit * HIT_POS)
+
+	local mPitch, mYaw, mRoll, mPx, mPy = 0, 0, 0, 0, 0
+	local m = shakeState.melee
+	if m then
+		local age = now - m.start
+		local target = Vector3.zero
+		if age < m.dur and m.root.Parent then
+			local bestMag = 0
+			for i, part in ipairs(m.heads) do
+				if part.Parent then
+					local rel = m.root.CFrame:PointToObjectSpace(part.Position) - m.base[i]
+					if rel.Magnitude > bestMag then
+						bestMag = rel.Magnitude
+						target = rel
+					end
+				end
+			end
+		end
+		m.delta = m.delta:Lerp(target, 1 - math.exp(-dt * HEAD_FOLLOW))
+		if age > m.dur + HEAD_TAIL and m.delta.Magnitude < 0.01 then
+			shakeState.melee = nil
+		else
+			local scaled = m.delta / m.size * 20
+			local cd = camera.CFrame:VectorToObjectSpace(m.root.CFrame:VectorToWorldSpace(scaled))
+			mYaw = math.clamp(-cd.X * HEAD_YAW, -0.06, 0.06)
+			mRoll = math.clamp(-cd.X * HEAD_ROLL, -0.04, 0.04)
+			mPitch = math.clamp(cd.Y * HEAD_PITCH, -0.04, 0.04)
+			mPx = math.clamp(cd.X * HEAD_POS, -0.3, 0.3)
+			mPy = math.clamp(cd.Y * HEAD_POS, -0.3, 0.3)
+		end
+	end
+
+	if rotAmp == 0 and posAmp == 0 and kick == 0 and not shakeState.melee then return end
+	local pitch = shakeNoise(now, 1) * rotAmp + mPitch
+	local yaw = shakeNoise(now, 2) * rotAmp + mYaw
+	local roll = shakeNoise(now, 3) * rotAmp * 0.7 + mRoll
+	local px = shakeNoise(now, 4) * posAmp + mPx
+	local py = shakeNoise(now, 5) * posAmp + mPy
+	if hit > 0 then
+		pitch -= 0.008 * hit
+	end
 	if kick > 0 then
 		roll += shakeState.kickDir * 0.016 * kick * math.cos(kickAge * 20)
 		pitch -= 0.009 * kick * math.cos(kickAge * 16)
