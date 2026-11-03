@@ -1,83 +1,4 @@
->ShoulderB</string>
-                        <BinaryString name="AttributesSerialize"></BinaryString>
-                        <CoordinateFrame name="CFrame">
-                          <X>0</X>
-                          <Y>0</Y>
-                          <Z>0</Z>
-                          <R00>1</R00>
-                          <R01>0</R01>
-                          <R02>0</R02>
-                          <R10>0</R10>
-                          <R11>1</R11>
-                          <R12>0</R12>
-                          <R20>0</R20>
-                          <R21>0</R21>
-                          <R22>1</R22>
-                        </CoordinateFrame>
-                        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                        <token name="EasingDirection">1</token>
-                        <token name="EasingStyle">0</token>
-                        <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                        <bool name="DefinesCapabilities">false</bool>
-                        <BinaryString name="SerializedOverrides">
-                        </BinaryString>
-                        <int64 name="SourceAssetId">-1</int64>
-                        <BinaryString name="Tags"></BinaryString>
-                        <UniqueId name="UniqueId">00000000000000000000000000017abf</UniqueId>
-                        <float name="Weight">1</float>
-                      </Properties>
-                      <Item class="Pose" referent="35672">
-                        <Properties>
-                          <string name="Name">ArmB</string>
-                          <BinaryString name="AttributesSerialize"></BinaryString>
-                          <CoordinateFrame name="CFrame">
-                            <X>0</X>
-                            <Y>0</Y>
-                            <Z>0</Z>
-                            <R00>1</R00>
-                            <R01>0</R01>
-                            <R02>0</R02>
-                            <R10>0</R10>
-                            <R11>1</R11>
-                            <R12>0</R12>
-                            <R20>0</R20>
-                            <R21>0</R21>
-                            <R22>1</R22>
-                          </CoordinateFrame>
-                          <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                          <token name="EasingDirection">1</token>
-                          <token name="EasingStyle">0</token>
-                          <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                          <bool name="DefinesCapabilities">false</bool>
-                          <BinaryString name="SerializedOverrides">
-                          </BinaryString>
-                          <int64 name="SourceAssetId">-1</int64>
-                          <BinaryString name="Tags"></BinaryString>
-                          <UniqueId name="UniqueId">00000000000000000000000000017ac0</UniqueId>
-                          <float name="Weight">1</float>
-                        </Properties>
-                        <Item class="Pose" referent="35673">
-                          <Properties>
-                            <string name="Name">ElbowB</string>
-                            <BinaryString name="AttributesSerialize"></BinaryString>
-                            <CoordinateFrame name="CFrame">
-                              <X>0</X>
-                              <Y>0</Y>
-                              <Z>0</Z>
-                              <R00>1</R00>
-                              <R01>0</R01>
-                              <R02>0</R02>
-                              <R10>0</R10>
-                              <R11>1</R11>
-                              <R12>0</R12>
-                              <R20>0</R20>
-                              <R21>0</R21>
-                              <R22>1</R22>
-                            </CoordinateFrame>
-                            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                            <token name="EasingDirection">1</token>
-                            <token name="EasingStyle">0</token>
-                            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+d>
                             <bool name="DefinesCapabilities">false</bool>
                             <BinaryString name="SerializedOverrides">
                             </BinaryString>
@@ -244839,27 +244760,27 @@ HolidayConfigs.Halloween = {
 	ForceNight = true,
 	Lighting = {
 		Day = {
-			Brightness = 1.35, Ambient = Color3.new(0.34, 0.27, 0.46),
-			OutdoorAmbient = Color3.new(0.24, 0.18, 0.37),
+			Brightness = 1.7, Ambient = Color3.new(0.44, 0.36, 0.58),
+			OutdoorAmbient = Color3.new(0.32, 0.25, 0.48),
 			ColorShift_Top = Color3.new(0.5, 0.35, 0.78),
 			ColorShift_Bottom = Color3.new(0.08, 0.05, 0.14),
-			FogColor = Color3.new(0.2, 0.13, 0.32), FogEnd = 4200,
-			Density = 0.38, AtmColor = Color3.new(0.24, 0.14, 0.4), Haze = 2.6,
+			FogColor = Color3.new(0.2, 0.13, 0.32), FogEnd = 5200,
+			Density = 0.3, AtmColor = Color3.new(0.24, 0.14, 0.4), Haze = 2.1,
 			AtmDecay = Color3.new(0.55, 0.3, 0.6),
 			Cloud = Color3.new(0.18, 0.12, 0.28),
 		},
 		Night = {
-			Brightness = 1.35, Ambient = Color3.new(0.34, 0.27, 0.46),
-			OutdoorAmbient = Color3.new(0.24, 0.18, 0.37),
+			Brightness = 1.7, Ambient = Color3.new(0.44, 0.36, 0.58),
+			OutdoorAmbient = Color3.new(0.32, 0.25, 0.48),
 			ColorShift_Top = Color3.new(0.5, 0.35, 0.78),
 			ColorShift_Bottom = Color3.new(0.08, 0.05, 0.14),
-			FogColor = Color3.new(0.2, 0.13, 0.32), FogEnd = 4200,
-			Density = 0.38, AtmColor = Color3.new(0.24, 0.14, 0.4), Haze = 2.6,
+			FogColor = Color3.new(0.2, 0.13, 0.32), FogEnd = 5200,
+			Density = 0.3, AtmColor = Color3.new(0.24, 0.14, 0.4), Haze = 2.1,
 			AtmDecay = Color3.new(0.55, 0.3, 0.6),
 			Cloud = Color3.new(0.18, 0.12, 0.28),
 		},
 		Rain = {
-			FogEndMul = 0.55, DensityAdd = 0.1, HazeAdd = 0.7,
+			FogEndMul = 0.65, DensityAdd = 0.07, HazeAdd = 0.5,
 			FogColor = Color3.new(0.24, 0.18, 0.32),
 			AtmColor = Color3.new(0.3, 0.22, 0.4),
 			Cloud = Color3.new(0.14, 0.1, 0.2),
@@ -244867,7 +244788,7 @@ HolidayConfigs.Halloween = {
 	},
 	DayLights = { Buildings = 0.35, Windows = 0.5, Spread = 25 },
 	Effects = {
-		Exposure = -0.1,
+		Exposure = 0.05,
 	},
 	Weather = { Kind = "Rain", Gap = { 100, 180 }, Duration = { 30, 120 } },
 	WindowColors = {
@@ -266240,19 +266161,107 @@ local function refreshGroundAnimation()
 	end
 end
 
-local function playFootstep()
+local FOOT_SOUND_ID = "rbxassetid://3165303798"
+local footParts = {}
+local footState = {}
+local lastFootTime = 0
+local footRayParams = RaycastParams.new()
+footRayParams.FilterType = Enum.RaycastFilterType.Exclude
+footRayParams.FilterDescendantsInstances = { character }
+
+local function collectFootParts()
+	table.clear(footParts)
+	for _, d in ipairs(character:GetDescendants()) do
+		if d:IsA("BasePart") then
+			local n = string.lower(d.Name)
+			if string.find(n, "foot", 1, true) and not string.find(n, "step", 1, true) then
+				table.insert(footParts, d)
+			end
+		end
+	end
+end
+
+local function playFootstep(foot)
 	local scripts = character:FindFirstChild("CharacterScripts")
 	local sounds = scripts and scripts:FindFirstChild("Sounds")
 	local template = sounds and sounds:FindFirstChild("FootStep")
-	if not template then return end
-	local sound = template:Clone()
-	sound.Parent = rootPart
+	local sound
+	if template then
+		sound = template:Clone()
+	else
+		sound = Instance.new("Sound")
+		sound.SoundId = FOOT_SOUND_ID
+	end
+	if sound.Volume &lt;= 0 then sound.Volume = 2 end
+	local size = rootPart.Size.Magnitude
+	sound.RollOffMode = Enum.RollOffMode.InverseTapered
+	sound.RollOffMinDistance = math.max(sound.RollOffMinDistance, size * 3)
+	sound.RollOffMaxDistance = math.max(sound.RollOffMaxDistance, size * 40, 400)
+	sound.PlaybackSpeed = (sound.PlaybackSpeed &gt; 0 and sound.PlaybackSpeed or 1) * (0.92 + math.random() * 0.16)
+	sound.Looped = false
+	sound.Parent = foot or rootPart
 	sound:Play()
 	sound.Ended:Once(function()
 		sound:Destroy()
 	end)
 	Debris:AddItem(sound, 10)
 end
+
+local function canStep()
+	return mode == "Land"
+		and humanoid.Health &gt; 0
+		and humanoid.FloorMaterial ~= Enum.Material.Air
+		and humanoid.HipHeight &lt;= originalHipHeight
+		and rootPart.AssemblyLinearVelocity.Magnitude &gt; 1
+end
+
+local function footClearance(foot)
+	local cf, sz = foot.CFrame, foot.Size
+	local halfY = (math.abs(cf.UpVector.Y) * sz.Y + math.abs(cf.RightVector.Y) * sz.X + math.abs(cf.LookVector.Y) * sz.Z) / 2
+	local hit = workspace:Raycast(cf.Position, Vector3.new(0, -(halfY + 80), 0), footRayParams)
+	if not hit then return nil, halfY end
+	return (cf.Position.Y - hit.Position.Y) - halfY, halfY
+end
+
+local function updateFootsteps()
+	if #footParts == 0 then return end
+	local stepping = canStep()
+	local now = os.clock()
+	for _, foot in ipairs(footParts) do
+		if foot.Parent then
+			local clearance, halfY = footClearance(foot)
+			local st = footState[foot]
+			if not st then
+				st = { lifted = false, last = 0 }
+				footState[foot] = st
+			end
+			if clearance then
+				local plant = math.max(0.4, halfY * 0.2)
+				local lift = plant * 2.5
+				if clearance &gt; lift then
+					st.lifted = true
+				elseif st.lifted and clearance &lt; plant then
+					st.lifted = false
+					if stepping and now - st.last &gt; 0.2 and now - lastFootTime &gt; 0.12 then
+						st.last = now
+						lastFootTime = now
+						playFootstep(foot)
+					end
+				end
+			end
+		end
+	end
+end
+
+collectFootParts()
+character.DescendantAdded:Connect(function(d)
+	if d:IsA("BasePart") then
+		local n = string.lower(d.Name)
+		if string.find(n, "foot", 1, true) and not string.find(n, "step", 1, true) then
+			table.insert(footParts, d)
+		end
+	end
+end)
 
 local function clampMagnitude(vector, maxMagnitude)
 	if vector.Magnitude &gt; maxMagnitude then
@@ -266919,13 +266928,16 @@ humanoid:GetAttributeChangedSignal("Slowed"):Connect(function()
 	end
 end)
 
+local footConn
+footConn = RunService.Heartbeat:Connect(function()
+	if not character.Parent then footConn:Disconnect() return end
+	updateFootsteps()
+end)
+
 task.spawn(function()
 	while character.Parent do
-		task.wait(sprintOn and 1.1 or 1.5)
-		if mode == "Land"
-			and currentAnim == "Walk"
-			and humanoid.HipHeight &lt;= originalHipHeight
-			and humanoid.FloorMaterial ~= Enum.Material.Air then
+		task.wait(sprintOn and 0.55 or 0.8)
+		if #footParts == 0 and canStep() and currentAnim == "Walk" then
 			playFootstep()
 		end
 	end
@@ -331833,6 +331845,17 @@ local function initAttackHandler()
 		["FROSTBITE GODZILLA"] = true,
 	}
 
+	local function hasBeamRig(character)
+		for _, d in ipairs(character:GetDescendants()) do
+			if d:IsA("Attachment") and d.Name == "BeamStart" then
+				for _, c in ipairs(d:GetChildren()) do
+					if c:IsA("Beam") then return true end
+				end
+			end
+		end
+		return false
+	end
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -331982,7 +332005,11 @@ local function initAttackHandler()
 				elseif attackType == "Pulse" then
 					executePulseAttack(player, char, remote, remoteName)
 				elseif attackType == "Beam" then
-					executeBeamAttack(player, char, remote, remoteName, args[1])
+					if hasBeamRig(char) then
+						executeBeamAttack(player, char, remote, remoteName, args[1])
+					else
+						executeMeleeAttack(player, char, remote, remoteName, remote:GetAttribute("HitboxDuration") or remote:GetAttribute("BeamDuration"))
+					end
 				elseif attackType == "FirePulse" then
 					executeFirePulse(player, char, remote, remoteName)
 				elseif attackType == "BackBeam" then
@@ -1413680,7 +1413707,7 @@ end)
       <Item class="Model" referent="86001">
         <Properties>
           <string name="Name">BIOLLANTE</string>
-          <BinaryString name="AttributesSerialize">BAAAABAAAABLYWlqdURlc2NyaXB0aW9uAhMAAABUaGUgU3VmZmVyaW5nIFNvdWwuCgAAAEthaWp1SW1hZ2UCFwAAAHJieGFzc2V0aWQ6Ly8zNTc3ODU5MjAzCQAAAEthaWp1TmFtZQIJAAAAQmlvbGxhbnRlCwAAAFJlcXVpcmVtZW50AhMAAABIRUlTRUkgR09EWklMTEE6IDI1</BinaryString>
+          <BinaryString name="AttributesSerialize">BAAAABAAAABLYWlqdURlc2NyaXB0aW9uAhMAAABUaGUgU3VmZmVyaW5nIFNvdWwuCgAAAEthaWp1SW1hZ2UCFwAAAHJieGFzc2V0aWQ6Ly8zNTc3ODU5MjAzCQAAAEthaWp1TmFtZQIJAAAAQmlvbGxhbnRlCwAAAFJlcXVpcmVtZW50AiUAAABIRUlTRUkgR09EWklMTEE6MjUsQ0lWSUxJQU4gW0ZSRUVdOjE1</BinaryString>
           <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
           <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
           <token name="LevelOfDetail">0</token>
@@ -1710118,4 +1710145,21 @@ end
                             <bool name="DefinesCapabilities">false</bool>
                             <BinaryString name="SerializedOverrides">
                             </BinaryString>
-                            
+                            <int64 name="SourceAssetId">-1</int64>
+                            <BinaryString name="Tags"></BinaryString>
+                            <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900009053</UniqueId>
+                            <float name="Weight">1</float>
+                          </Properties>
+                          <Item class="Pose" referent="92737">
+                            <Properties>
+                              <string name="Name">Jaw</string>
+                              <BinaryString name="AttributesSerialize"></BinaryString>
+                              <CoordinateFrame name="CFrame">
+                                <X>0</X>
+                                <Y>0.00000029802322</Y>
+                                <Z>-0.00000020861626</Z>
+                                <R00>1</R00>
+                                <R01>0</R01>
+                                <R02>0</R02>
+                                <R10>0</R10>
+                                <R11>0.9847523</R11

@@ -565,6 +565,12 @@ local function startPulse(cfg)
 	local DISSIPATE_GROWTH = cfg.DissipateGrowth
 	local MAX_ACTIVE = cfg.MaxActive
 	local DEFAULT_COLOR = Color3.fromRGB(255, 120, 0)
+	-- the fireball/spheres expand along ONE continuous curve over CORE_TIME (no burst -> pause -> grow phases)
+	local CORE_TIME = BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME
+	-- the shockwave ring lives longer than the fireball and travels much farther
+	local SHOCK_TIME = cfg.ShockTime or (CORE_TIME * 2.4)
+	local SHOCK_REACH = cfg.ShockReach or 3.5 -- final shockwave size as a multiple of the pulse size
+	local TOTAL_TIME = math.max(CORE_TIME, SHOCK_TIME)
 
 	local PART_SPIN = {
 		Shock     = Vector3.new(0,   90,  0),
@@ -642,25 +648,6 @@ local function startPulse(cfg)
 			return
 		end
 
-		local localPlayer = game:GetService("Players").LocalPlayer
-		local strength = 1
-		if firingPlayer ~= localPlayer then
-			local myRoot = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
-			if myRoot then
-				strength = math.clamp(1 - (myRoot.Position - hrp.Position).Magnitude / (maxSize * 1.5), 0, 1) * 0.6
-			else
-				strength = 0
-			end
-		end
-		if strength > 0.02 then
-			local now = os.clock()
-			if now >= (localPlayer:GetAttribute("PulseShakeEnd") or 0) or strength >= (localPlayer:GetAttribute("PulseShakeAmp") or 0) then
-				localPlayer:SetAttribute("PulseShakeStart", now)
-				localPlayer:SetAttribute("PulseShakeEnd", now + BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME)
-				localPlayer:SetAttribute("PulseShakeAmp", strength)
-			end
-		end
-
 		local clone = template:Clone()
 		local entry = { clone = clone }
 
@@ -668,7 +655,7 @@ local function startPulse(cfg)
 			destroyEntry(active[1])
 		end
 		table.insert(active, entry)
-		Debris:AddItem(clone, BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME + 5)
+		Debris:AddItem(clone, TOTAL_TIME + 5)
 
 		local ok, err = pcall(function()
 			local parts, emitters, baseTransparency = {}, {}, {}
@@ -760,7 +747,7 @@ local function startPulse(cfg)
 			local seed = math.random() * 1000
 			local lastTick = os.clock()
 
-			local function setPose(size, shake, spinMult, shockExtra)
+			local function setPose(size, shake, spinMult, shockSize)
 				local now = os.clock()
 				local dt = math.min(now - lastTick, 0.05)
 				lastTick = now
@@ -769,8 +756,11 @@ local function startPulse(cfg)
 				local jitterScale = 1 + math.noise(now * 8, seed, 1) * 0.03 * shake
 				pcall(clone.ScaleTo, clone, scale * jitterScale)
 
+				-- shockwave: horizontal size follows its own (farther, slower) curve; it gets thinner as it spreads
+				local shockK = math.max(0.01, shockSize / baseDim)
+				local thickK = shockK ^ 0.75
 				for _, s in ipairs(shockParts) do
-					s.part.Size = s.baseSize * (scale * jitterScale * shockExtra)
+					s.part.Size = Vector3.new(s.baseSize.X * shockK, s.baseSize.Y * thickK, s.baseSize.Z * shockK)
 				end
 
 				local tiltX = math.noise(now * 6, seed, 2) * 0.05 * shake
@@ -788,10 +778,15 @@ local function startPulse(cfg)
 				end
 			end
 
-			local function setTransparency(level, sphereLevel)
+			local function setTransparency(level, sphereLevel, shockLevel)
 				for _, p in ipairs(parts) do
 					local base = baseTransparency[p] or 0
-					local l = sphereSet[p] and sphereLevel or level
+					local l = level
+					if sphereSet[p] then
+						l = sphereLevel
+					elseif p.Name == SHOCK_NAME then
+						l = shockLevel
+					end
 					p.Transparency = base + (1 - base) * math.clamp(l, 0, 1)
 				end
 			end
@@ -815,37 +810,46 @@ local function startPulse(cfg)
 			end
 
 			local startSize = 2
-			local peak = maxSize * BURST_OVERSHOOT
+			local finalCore = maxSize * DISSIPATE_GROWTH
+			local finalShock = maxSize * SHOCK_REACH
+			local emittersOff = false
 
-			runPhase(BURST_TIME, function(p)
-				local size = startSize + (peak - startSize) * easeOutQuart(p)
-				setPose(size, 1.2 * (1 - p * 0.4), 1.6 * (1 - p * 0.4), 1 + 0.15 * easeOutQuart(p))
-				light.Brightness = 10 - 7 * p
-				setTransparency(0, 0)
-			end)
-			if not clone.Parent then return end
+			local function smooth(x)
+				x = math.clamp(x, 0, 1)
+				return x * x * (3 - 2 * x)
+			end
 
-			runPhase(SUSTAIN_TIME, function(p)
-				local size = peak + (maxSize - peak) * p
-				setPose(size, 1 - p * 0.5, 1.0 - p * 0.3, 1.15 + 0.10 * p)
-				light.Brightness = 3 - p
-				setTransparency(0, 0.35 * p)
-			end)
-			if not clone.Parent then return end
+			runPhase(TOTAL_TIME, function(p)
+				local e = p * TOTAL_TIME
+				local c = math.clamp(e / CORE_TIME, 0, 1)     -- fireball progress
+				local q = math.clamp(e / SHOCK_TIME, 0, 1)    -- shockwave progress
 
-			for _, e in ipairs(emitters) do e.Enabled = false end
+				-- fireball: fast start, then keeps easing outward until it fades. Never shrinks, never pauses.
+				local coreSize = startSize + (finalCore - startSize) * (1 - (1 - c) ^ 2.6)
+				-- shockwave: blast-wave style, very fast at first and decelerating, but still moving when it fades
+				local shockSize = startSize + (finalShock - startSize) * (1 - (1 - q) ^ 3.2)
 
-			runPhase(DISSIPATE_TIME, function(p)
-				local grow = maxSize + (maxSize * DISSIPATE_GROWTH - maxSize) * easeOutQuart(p)
-				setPose(grow, 0.5 * (1 - p), 0.7 * (1 - p), 1.25 + 0.30 * easeOutQuart(p))
-				local level = easeInPow(p)
-				local sphereLevel = 0.35 + p * 1.1
-				setTransparency(level, sphereLevel)
-				for _, e in ipairs(emitters) do
-					e.Transparency = NumberSequence.new(level)
+				if not emittersOff and e >= BURST_TIME + SUSTAIN_TIME then
+					emittersOff = true
+					for _, em in ipairs(emitters) do em.Enabled = false end
 				end
-				light.Brightness = 2 * (1 - p) ^ 2
+
+				setPose(coreSize, 1.2 * (1 - c * 0.8), 1.6 * (1 - c * 0.7), shockSize)
+
+				local level = easeInPow(smooth((c - 0.4) / 0.6))
+				local sphereLevel = math.clamp((c - 0.2) / 0.8, 0, 1) ^ 1.4
+				local shockLevel = smooth((q - 0.35) / 0.65) ^ 1.3
+				setTransparency(level, sphereLevel, shockLevel)
+				if emittersOff then
+					for _, em in ipairs(emitters) do
+						em.Transparency = NumberSequence.new(level)
+					end
+				end
+
+				light.Brightness = 10 * (1 - c) ^ 1.6 + 1.5 * (1 - q) ^ 2
+				light.Range = 80 + 120 * q
 			end)
+			if not clone.Parent then return end
 		end)
 
 		if not ok then
@@ -862,6 +866,101 @@ local function startPulse(cfg)
 	end)
 end
 
+local function startBeamTrails()
+	local Workspace = game:GetService("Workspace")
+	local Lighting = game:GetService("Lighting")
+	local TEXTURE = "rbxassetid://18455290017"
+	local LIFETIME = 0.2
+	local ENABLE_DELAY = 0.1
+	local MAX_LENGTH = 30
+
+	local function brightness()
+		local t = Lighting.ClockTime
+		if t >= 17.5 or t <= 6.5 then return 4 end
+		return 1
+	end
+
+	local function midColor(seq)
+		local kps = seq.Keypoints
+		if #kps == 0 then return Color3.new(1, 1, 1) end
+		if #kps == 1 then return kps[1].Value end
+		for i = 1, #kps - 1 do
+			local a, b = kps[i], kps[i + 1]
+			if 0.5 >= a.Time and 0.5 <= b.Time then
+				return a.Value:Lerp(b.Value, (0.5 - a.Time) / math.max(b.Time - a.Time, 1e-4))
+			end
+		end
+		return kps[#kps].Value
+	end
+
+	local tracked = setmetatable({}, { __mode = "k" })
+
+	local function setup(beam)
+		if tracked[beam] then return end
+		local holder = beam.Parent
+		if not holder or not holder:IsA("Attachment") or holder.Name ~= "BeamStart" then return end
+		local trail = Instance.new("Trail")
+		trail.Name = "BeamSweepTrail"
+		trail.Texture = TEXTURE
+		trail.TextureMode = Enum.TextureMode.Stretch
+		trail.TextureLength = 1
+		trail.LightEmission = 1
+		trail.LightInfluence = 0
+		trail.Lifetime = LIFETIME
+		trail.MinLength = 0.2
+		trail.MaxLength = MAX_LENGTH
+		trail.FaceCamera = false
+		trail.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.1),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		trail.Enabled = false
+		trail.Parent = holder
+		tracked[beam] = trail
+
+		local token = 0
+		local function refresh()
+			token += 1
+			if not beam.Enabled then
+				trail.Enabled = false
+				return
+			end
+			local a0, a1 = beam.Attachment0, beam.Attachment1
+			if not (a0 and a1) then return end
+			trail.Enabled = false
+			trail.Attachment0 = a0
+			trail.Attachment1 = a1
+			trail.Color = ColorSequence.new(midColor(beam.Color))
+			trail.Brightness = brightness()
+			local mine = token
+			task.delay(ENABLE_DELAY, function()
+				if mine == token and beam.Parent and beam.Enabled and trail.Parent then
+					trail.Enabled = true
+				end
+			end)
+		end
+		beam:GetPropertyChangedSignal("Enabled"):Connect(refresh)
+		beam:GetPropertyChangedSignal("Attachment1"):Connect(function()
+			if beam.Enabled then refresh() end
+		end)
+		if beam.Enabled then refresh() end
+	end
+
+	Workspace.DescendantAdded:Connect(function(d)
+		if d:IsA("Beam") then
+			task.defer(setup, d)
+		end
+	end)
+	local count = 0
+	for _, d in ipairs(Workspace:GetDescendants()) do
+		if d:IsA("Beam") then
+			setup(d)
+		end
+		count += 1
+		if count % 3000 == 0 then task.wait() end
+	end
+end
+
 function EffectsController:Start()
 	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config)
@@ -869,6 +968,7 @@ function EffectsController:Start()
 	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Effects")
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
+	Util.spawn(log, "BeamTrails", startBeamTrails)
 end
 
 return EffectsController

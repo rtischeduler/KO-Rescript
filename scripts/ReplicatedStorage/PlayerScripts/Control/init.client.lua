@@ -256,19 +256,107 @@ local function refreshGroundAnimation()
 	end
 end
 
-local function playFootstep()
+local FOOT_SOUND_ID = "rbxassetid://3165303798"
+local footParts = {}
+local footState = {}
+local lastFootTime = 0
+local footRayParams = RaycastParams.new()
+footRayParams.FilterType = Enum.RaycastFilterType.Exclude
+footRayParams.FilterDescendantsInstances = { character }
+
+local function collectFootParts()
+	table.clear(footParts)
+	for _, d in ipairs(character:GetDescendants()) do
+		if d:IsA("BasePart") then
+			local n = string.lower(d.Name)
+			if string.find(n, "foot", 1, true) and not string.find(n, "step", 1, true) then
+				table.insert(footParts, d)
+			end
+		end
+	end
+end
+
+local function playFootstep(foot)
 	local scripts = character:FindFirstChild("CharacterScripts")
 	local sounds = scripts and scripts:FindFirstChild("Sounds")
 	local template = sounds and sounds:FindFirstChild("FootStep")
-	if not template then return end
-	local sound = template:Clone()
-	sound.Parent = rootPart
+	local sound
+	if template then
+		sound = template:Clone()
+	else
+		sound = Instance.new("Sound")
+		sound.SoundId = FOOT_SOUND_ID
+	end
+	if sound.Volume <= 0 then sound.Volume = 2 end
+	local size = rootPart.Size.Magnitude
+	sound.RollOffMode = Enum.RollOffMode.InverseTapered
+	sound.RollOffMinDistance = math.max(sound.RollOffMinDistance, size * 3)
+	sound.RollOffMaxDistance = math.max(sound.RollOffMaxDistance, size * 40, 400)
+	sound.PlaybackSpeed = (sound.PlaybackSpeed > 0 and sound.PlaybackSpeed or 1) * (0.92 + math.random() * 0.16)
+	sound.Looped = false
+	sound.Parent = foot or rootPart
 	sound:Play()
 	sound.Ended:Once(function()
 		sound:Destroy()
 	end)
 	Debris:AddItem(sound, 10)
 end
+
+local function canStep()
+	return mode == "Land"
+		and humanoid.Health > 0
+		and humanoid.FloorMaterial ~= Enum.Material.Air
+		and humanoid.HipHeight <= originalHipHeight
+		and rootPart.AssemblyLinearVelocity.Magnitude > 1
+end
+
+local function footClearance(foot)
+	local cf, sz = foot.CFrame, foot.Size
+	local halfY = (math.abs(cf.UpVector.Y) * sz.Y + math.abs(cf.RightVector.Y) * sz.X + math.abs(cf.LookVector.Y) * sz.Z) / 2
+	local hit = workspace:Raycast(cf.Position, Vector3.new(0, -(halfY + 80), 0), footRayParams)
+	if not hit then return nil, halfY end
+	return (cf.Position.Y - hit.Position.Y) - halfY, halfY
+end
+
+local function updateFootsteps()
+	if #footParts == 0 then return end
+	local stepping = canStep()
+	local now = os.clock()
+	for _, foot in ipairs(footParts) do
+		if foot.Parent then
+			local clearance, halfY = footClearance(foot)
+			local st = footState[foot]
+			if not st then
+				st = { lifted = false, last = 0 }
+				footState[foot] = st
+			end
+			if clearance then
+				local plant = math.max(0.4, halfY * 0.2)
+				local lift = plant * 2.5
+				if clearance > lift then
+					st.lifted = true
+				elseif st.lifted and clearance < plant then
+					st.lifted = false
+					if stepping and now - st.last > 0.2 and now - lastFootTime > 0.12 then
+						st.last = now
+						lastFootTime = now
+						playFootstep(foot)
+					end
+				end
+			end
+		end
+	end
+end
+
+collectFootParts()
+character.DescendantAdded:Connect(function(d)
+	if d:IsA("BasePart") then
+		local n = string.lower(d.Name)
+		if string.find(n, "foot", 1, true) and not string.find(n, "step", 1, true) then
+			table.insert(footParts, d)
+		end
+	end
+end)
 
 local function clampMagnitude(vector, maxMagnitude)
 	if vector.Magnitude > maxMagnitude then
@@ -935,13 +1023,16 @@ humanoid:GetAttributeChangedSignal("Slowed"):Connect(function()
 	end
 end)
 
+local footConn
+footConn = RunService.Heartbeat:Connect(function()
+	if not character.Parent then footConn:Disconnect() return end
+	updateFootsteps()
+end)
+
 task.spawn(function()
 	while character.Parent do
-		task.wait(sprintOn and 1.1 or 1.5)
-		if mode == "Land"
-			and currentAnim == "Walk"
-			and humanoid.HipHeight <= originalHipHeight
-			and humanoid.FloorMaterial ~= Enum.Material.Air then
+		task.wait(sprintOn and 0.55 or 0.8)
+		if #footParts == 0 and canStep() and currentAnim == "Walk" then
 			playFootstep()
 		end
 	end

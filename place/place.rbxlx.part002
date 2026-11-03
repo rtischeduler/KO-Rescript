@@ -1,21 +1,4 @@
-<int64 name="SourceAssetId">-1</int64>
-                            <BinaryString name="Tags"></BinaryString>
-                            <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900009053</UniqueId>
-                            <float name="Weight">1</float>
-                          </Properties>
-                          <Item class="Pose" referent="92737">
-                            <Properties>
-                              <string name="Name">Jaw</string>
-                              <BinaryString name="AttributesSerialize"></BinaryString>
-                              <CoordinateFrame name="CFrame">
-                                <X>0</X>
-                                <Y>0.00000029802322</Y>
-                                <Z>-0.00000020861626</Z>
-                                <R00>1</R00>
-                                <R01>0</R01>
-                                <R02>0</R02>
-                                <R10>0</R10>
-                                <R11>0.9847523</R11>
+>
                                 <R12>-0.17396249</R12>
                                 <R20>0</R20>
                                 <R21>0.17396249</R21>
@@ -1086336,7 +1086319,7 @@ end</string>
         <Item class="Model" referent="121330">
           <Properties>
             <string name="Name">Vampire Minilla</string>
-            <BinaryString name="AttributesSerialize">BwAAABkAAABFY2xpcHNlQW5pbWF0b3JTdGFtcFRva2VuAiQAAAAzZjY0MTVhNS0xOThlLTQwN2UtOTc0NS00NjZhMzMzNGZhYWMYAAAARWNsaXBzZUlLU2V0dGluZ3NWZXJzaW9uBgAAAAAAAABADgAAAEVjbGlwc2VUcmFja0lkAiQAAAA2M2MzOWNhNS0zZjVjLTQzNWUtYjhlYy03M2Q1OWU0N2Q1YzMQAAAAS2FpanVEZXNjcmlwdGlvbgIIAAAAU2NhcnkhISEKAAAAS2FpanVJbWFnZQIcAAAAcmJ4YXNzZXRpZDovLzExOTI0NzcwNzE5NTk5OAkAAABLYWlqdU5hbWUCDwAAAFZhbXBpcmUgTWluaWxsYQsAAABSZXF1aXJlbWVudAIKAAAATUlOSUxMQTogMQ==</BinaryString>
+            <BinaryString name="AttributesSerialize">BwAAABkAAABFY2xpcHNlQW5pbWF0b3JTdGFtcFRva2VuAiQAAAAzZjY0MTVhNS0xOThlLTQwN2UtOTc0NS00NjZhMzMzNGZhYWMYAAAARWNsaXBzZUlLU2V0dGluZ3NWZXJzaW9uBgAAAAAAAABADgAAAEVjbGlwc2VUcmFja0lkAiQAAAA2M2MzOWNhNS0zZjVjLTQzNWUtYjhlYy03M2Q1OWU0N2Q1YzMQAAAAS2FpanVEZXNjcmlwdGlvbgIIAAAAU2NhcnkhISEKAAAAS2FpanVJbWFnZQIcAAAAcmJ4YXNzZXRpZDovLzExOTI0NzcwNzE5NTk5OAkAAABLYWlqdU5hbWUCDwAAAFZhbXBpcmUgTWluaWxsYQsAAABSZXF1aXJlbWVudAIJAAAATUlOSUxMQTox</BinaryString>
             <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
             <UniqueId name="HistoryId">45574028d4f122100975ab7900000ae3</UniqueId>
             <token name="LevelOfDetail">0</token>
@@ -1199463,7 +1199446,7 @@ end</string>
         <Item class="Model" referent="123966">
           <Properties>
             <string name="Name">Candy Corn Space Godzilla</string>
-            <BinaryString name="AttributesSerialize">BAAAABAAAABLYWlqdURlc2NyaXB0aW9uAlwAAABJbnRlcmdhbGFjdGljIHNwYWNlIGthaWp1IHdobyB3YXMgYm9ybiBmcm9tIHNwYWNlIHN1Z2FyISBUYXN0ZXMgc3dlZXQgYnV0IHZlcnkgaGFyZCB0byBjaGV3LgoAAABLYWlqdUltYWdlAhsAAAByYnhhc3NldGlkOi8vOTY3MDEyOTI2NjQ5NTQJAAAAS2FpanVOYW1lAhkAAABDYW5keSBDb3JuIFNwYWNlIEdvZHppbGxhCwAAAFJlcXVpcmVtZW50AhEAAABTUEFDRSBHT0RaSUxMQTogMQ==</BinaryString>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABLYWlqdURlc2NyaXB0aW9uAlwAAABJbnRlcmdhbGFjdGljIHNwYWNlIGthaWp1IHdobyB3YXMgYm9ybiBmcm9tIHNwYWNlIHN1Z2FyISBUYXN0ZXMgc3dlZXQgYnV0IHZlcnkgaGFyZCB0byBjaGV3LgoAAABLYWlqdUltYWdlAhsAAAByYnhhc3NldGlkOi8vOTY3MDEyOTI2NjQ5NTQJAAAAS2FpanVOYW1lAhkAAABDYW5keSBDb3JuIFNwYWNlIEdvZHppbGxhCwAAAFJlcXVpcmVtZW50AhAAAABTUEFDRSBHT0RaSUxMQTox</BinaryString>
             <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
             <UniqueId name="HistoryId">000000000000000000000000000032f5</UniqueId>
             <token name="LevelOfDetail">0</token>
@@ -1472371,7 +1472354,7 @@ end</string>
         <Item class="Model" referent="47427">
           <Properties>
             <string name="Name">Pumpkin Biollante</string>
-            <BinaryString name="AttributesSerialize">CAAAABkAAABFY2xpcHNlQW5pbWF0b3JTdGFtcFRva2VuAiQAAAA2ZjhlODVlMS00M2E1LTRhNjMtYWMwYi03NzNlNDMxMTljNTMRAAAARWNsaXBzZUV2ZW50UmlnSWQCJAAAADBjZjRkNjdhLTNmZGYtNGU2ZC04ZmMxLWRhZWE4NTg3YjQxOBgAAABFY2xpcHNlSUtTZXR0aW5nc1ZlcnNpb24GAAAAAAAAAEAOAAAARWNsaXBzZVRyYWNrSWQCJAAAAGRiZjkzZmNlLWNmNmQtNGMyNC1iZDI5LWIzZDRlZTY1MGIzOBAAAABLYWlqdURlc2NyaXB0aW9uAj8AAABBIGNvbXBsZXRlbHkgbXV0YXRlZCBjcmVhdHVyZSBpbmZlY3RlZCBieSB0aGUgZXllIG9mIGhhbGxvd2Vlbi4KAAAAS2FpanVJbWFnZQIXAAAAcmJ4YXNzZXRpZDovLzM1Nzc4NTkyMDMJAAAAS2FpanVOYW1lAhEAAABQdW1wa2luIEJpb2xsYW50ZQsAAABSZXF1aXJlbWVudAIMAAAAQklPTExBTlRFOiAx</BinaryString>
+            <BinaryString name="AttributesSerialize">CAAAABkAAABFY2xpcHNlQW5pbWF0b3JTdGFtcFRva2VuAiQAAAA2ZjhlODVlMS00M2E1LTRhNjMtYWMwYi03NzNlNDMxMTljNTMRAAAARWNsaXBzZUV2ZW50UmlnSWQCJAAAADBjZjRkNjdhLTNmZGYtNGU2ZC04ZmMxLWRhZWE4NTg3YjQxOBgAAABFY2xpcHNlSUtTZXR0aW5nc1ZlcnNpb24GAAAAAAAAAEAOAAAARWNsaXBzZVRyYWNrSWQCJAAAAGRiZjkzZmNlLWNmNmQtNGMyNC1iZDI5LWIzZDRlZTY1MGIzOBAAAABLYWlqdURlc2NyaXB0aW9uAj8AAABBIGNvbXBsZXRlbHkgbXV0YXRlZCBjcmVhdHVyZSBpbmZlY3RlZCBieSB0aGUgZXllIG9mIGhhbGxvd2Vlbi4KAAAAS2FpanVJbWFnZQIXAAAAcmJ4YXNzZXRpZDovLzM1Nzc4NTkyMDMJAAAAS2FpanVOYW1lAhEAAABQdW1wa2luIEJpb2xsYW50ZQsAAABSZXF1aXJlbWVudAILAAAAQklPTExBTlRFOjE=</BinaryString>
             <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
             <UniqueId name="HistoryId">00000000000000000000000000008dcc</UniqueId>
             <token name="LevelOfDetail">0</token>
@@ -1644817,7 +1644800,7 @@ end</string>
         <Item class="Model" referent="140442">
           <Properties>
             <string name="Name">Decaying Muto</string>
-            <BinaryString name="AttributesSerialize">BAAAABAAAABLYWlqdURlc2NyaXB0aW9uAjIAAABIZSBjYW1lIGJhY2sgdG8gbGlmZSBhZnRlciBab21iaWUgR2lnYW4gYml0IGhpbS4uLgoAAABLYWlqdUltYWdlAhcAAAByYnhhc3NldGlkOi8vMzU3Nzg4ODgwMQkAAABLYWlqdU5hbWUCDQAAAERlY2F5aW5nIE11dG8LAAAAUmVxdWlyZW1lbnQCDAAAAE1BTEUgTVVUTzogMQ==</BinaryString>
+            <BinaryString name="AttributesSerialize">BAAAABAAAABLYWlqdURlc2NyaXB0aW9uAjIAAABIZSBjYW1lIGJhY2sgdG8gbGlmZSBhZnRlciBab21iaWUgR2lnYW4gYml0IGhpbS4uLgoAAABLYWlqdUltYWdlAhcAAAByYnhhc3NldGlkOi8vMzU3Nzg4ODgwMQkAAABLYWlqdU5hbWUCDQAAAERlY2F5aW5nIE11dG8LAAAAUmVxdWlyZW1lbnQCCwAAAE1BTEUgTVVUTzox</BinaryString>
             <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
             <UniqueId name="HistoryId">5cf0b50e057fa2390af5c199000061ea</UniqueId>
             <token name="LevelOfDetail">0</token>
@@ -1670951,7 +1670934,7 @@ end</string>
         <Item class="Model" referent="141071">
           <Properties>
             <string name="Name">Headless Female Muto</string>
-            <BinaryString name="AttributesSerialize">CAAAABkAAABFY2xpcHNlQW5pbWF0b3JTdGFtcFRva2VuAiQAAAAxNjU0MjYyZC1hMzIzLTQxNzYtOWY2OC1mMDM1YTJiZDQ4M2IRAAAARWNsaXBzZUV2ZW50UmlnSWQCJAAAADdlZTBhMDJiLTgyZjYtNGFhMi05ODE2LTg3YzBlZDYwNDVmMRgAAABFY2xpcHNlSUtTZXR0aW5nc1ZlcnNpb24GAAAAAAAAAEAUAAAARWNsaXBzZVI2QmVuZFBlcmNlbnQGAAAAAABAUEAOAAAARWNsaXBzZVRyYWNrSWQCJAAAADhmNjhiYzYxLTZlZGItNDVmNi1hNzc3LTRjY2I3YjJlYzY1OBAAAABLYWlqdURlc2NyaXB0aW9uAnUAAABEZWNhcGl0YXRlZCBmcm9tIEdvZHppbGxhcyBmaW5hbCBiYXR0bGUgaW4gU2FuIEZyYW5jaXNjby4gVGhpcyBpcyBvbmUgb2YgdGhlIG1hbnkga2FpanUgYXdha2VuZWQgZnJvbSBab21iaWUgR2lnYW4uLi4KAAAAS2FpanVJbWFnZQIXAAAAcmJ4YXNzZXRpZDovLzM1Nzc4ODg4MDEJAAAAS2FpanVOYW1lAg8AAABIZWFkbGVzcyBGZW11dG8=</BinaryString>
+            <BinaryString name="AttributesSerialize">CQAAABkAAABFY2xpcHNlQW5pbWF0b3JTdGFtcFRva2VuAiQAAAAxNjU0MjYyZC1hMzIzLTQxNzYtOWY2OC1mMDM1YTJiZDQ4M2IRAAAARWNsaXBzZUV2ZW50UmlnSWQCJAAAADdlZTBhMDJiLTgyZjYtNGFhMi05ODE2LTg3YzBlZDYwNDVmMRgAAABFY2xpcHNlSUtTZXR0aW5nc1ZlcnNpb24GAAAAAAAAAEAUAAAARWNsaXBzZVI2QmVuZFBlcmNlbnQGAAAAAABAUEAOAAAARWNsaXBzZVRyYWNrSWQCJAAAADhmNjhiYzYxLTZlZGItNDVmNi1hNzc3LTRjY2I3YjJlYzY1OBAAAABLYWlqdURlc2NyaXB0aW9uAnUAAABEZWNhcGl0YXRlZCBmcm9tIEdvZHppbGxhcyBmaW5hbCBiYXR0bGUgaW4gU2FuIEZyYW5jaXNjby4gVGhpcyBpcyBvbmUgb2YgdGhlIG1hbnkga2FpanUgYXdha2VuZWQgZnJvbSBab21iaWUgR2lnYW4uLi4KAAAAS2FpanVJbWFnZQIXAAAAcmJ4YXNzZXRpZDovLzM1Nzc4ODg4MDEJAAAAS2FpanVOYW1lAg8AAABIZWFkbGVzcyBGZW11dG8LAAAAUmVxdWlyZW1lbnQCDQAAAEZFTUFMRSBNVVRPOjE=</BinaryString>
             <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
             <UniqueId name="HistoryId">5cf0b50e057fa2390af5c199000061ea</UniqueId>
             <token name="LevelOfDetail">0</token>
@@ -1747984,4 +1747967,21 @@ end</string>
                         <R12>-0.4110826</R12>
                         <R20>-0.023214983</R20>
                         <R21>0.41065666</R21>
-                   
+                        <R22>0.9114945</R22>
+                      </CoordinateFrame>
+                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                      <token name="EasingDirection">0</token>
+                      <token name="EasingStyle">0</token>
+                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                      <bool name="DefinesCapabilities">false</bool>
+                      <BinaryString name="SerializedOverrides">
+                      </BinaryString>
+                      <int64 name="SourceAssetId">-1</int64>
+                      <BinaryString name="Tags"></BinaryString>
+                      <UniqueId name="UniqueId">5cf0b50e057fa2390af5c1990000427a</UniqueId>
+                      <float name="Weight">1</float>
+                    </Properties>
+                  </Item>
+                  <Item class="Pose" referent="142850">
+                    <Properties>
+                 

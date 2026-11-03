@@ -652997,7 +652997,7 @@ mainModule.initialize(loader)</string>
           <PhysicalProperties name="CustomPhysicalProperties">
             <CustomPhysics>false</CustomPhysics>
           </PhysicalProperties>
-          <bool name="DoubleSided">false</bool>
+          <bool name="DoubleSided">true</bool>
           <bool name="EnableFluidForces">true</bool>
           <token name="FluidFidelityInternal">0</token>
           <float name="FrontParamA">-0.5</float>
@@ -891040,6 +891040,12 @@ local function startPulse(cfg)
 	local DISSIPATE_GROWTH = cfg.DissipateGrowth
 	local MAX_ACTIVE = cfg.MaxActive
 	local DEFAULT_COLOR = Color3.fromRGB(255, 120, 0)
+	-- the fireball/spheres expand along ONE continuous curve over CORE_TIME (no burst -&gt; pause -&gt; grow phases)
+	local CORE_TIME = BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME
+	-- the shockwave ring lives longer than the fireball and travels much farther
+	local SHOCK_TIME = cfg.ShockTime or (CORE_TIME * 2.4)
+	local SHOCK_REACH = cfg.ShockReach or 3.5 -- final shockwave size as a multiple of the pulse size
+	local TOTAL_TIME = math.max(CORE_TIME, SHOCK_TIME)
 
 	local PART_SPIN = {
 		Shock     = Vector3.new(0,   90,  0),
@@ -891117,25 +891123,6 @@ local function startPulse(cfg)
 			return
 		end
 
-		local localPlayer = game:GetService("Players").LocalPlayer
-		local strength = 1
-		if firingPlayer ~= localPlayer then
-			local myRoot = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
-			if myRoot then
-				strength = math.clamp(1 - (myRoot.Position - hrp.Position).Magnitude / (maxSize * 1.5), 0, 1) * 0.6
-			else
-				strength = 0
-			end
-		end
-		if strength &gt; 0.02 then
-			local now = os.clock()
-			if now &gt;= (localPlayer:GetAttribute("PulseShakeEnd") or 0) or strength &gt;= (localPlayer:GetAttribute("PulseShakeAmp") or 0) then
-				localPlayer:SetAttribute("PulseShakeStart", now)
-				localPlayer:SetAttribute("PulseShakeEnd", now + BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME)
-				localPlayer:SetAttribute("PulseShakeAmp", strength)
-			end
-		end
-
 		local clone = template:Clone()
 		local entry = { clone = clone }
 
@@ -891143,7 +891130,7 @@ local function startPulse(cfg)
 			destroyEntry(active[1])
 		end
 		table.insert(active, entry)
-		Debris:AddItem(clone, BURST_TIME + SUSTAIN_TIME + DISSIPATE_TIME + 5)
+		Debris:AddItem(clone, TOTAL_TIME + 5)
 
 		local ok, err = pcall(function()
 			local parts, emitters, baseTransparency = {}, {}, {}
@@ -891235,7 +891222,7 @@ local function startPulse(cfg)
 			local seed = math.random() * 1000
 			local lastTick = os.clock()
 
-			local function setPose(size, shake, spinMult, shockExtra)
+			local function setPose(size, shake, spinMult, shockSize)
 				local now = os.clock()
 				local dt = math.min(now - lastTick, 0.05)
 				lastTick = now
@@ -891244,8 +891231,11 @@ local function startPulse(cfg)
 				local jitterScale = 1 + math.noise(now * 8, seed, 1) * 0.03 * shake
 				pcall(clone.ScaleTo, clone, scale * jitterScale)
 
+				-- shockwave: horizontal size follows its own (farther, slower) curve; it gets thinner as it spreads
+				local shockK = math.max(0.01, shockSize / baseDim)
+				local thickK = shockK ^ 0.75
 				for _, s in ipairs(shockParts) do
-					s.part.Size = s.baseSize * (scale * jitterScale * shockExtra)
+					s.part.Size = Vector3.new(s.baseSize.X * shockK, s.baseSize.Y * thickK, s.baseSize.Z * shockK)
 				end
 
 				local tiltX = math.noise(now * 6, seed, 2) * 0.05 * shake
@@ -891263,10 +891253,15 @@ local function startPulse(cfg)
 				end
 			end
 
-			local function setTransparency(level, sphereLevel)
+			local function setTransparency(level, sphereLevel, shockLevel)
 				for _, p in ipairs(parts) do
 					local base = baseTransparency[p] or 0
-					local l = sphereSet[p] and sphereLevel or level
+					local l = level
+					if sphereSet[p] then
+						l = sphereLevel
+					elseif p.Name == SHOCK_NAME then
+						l = shockLevel
+					end
 					p.Transparency = base + (1 - base) * math.clamp(l, 0, 1)
 				end
 			end
@@ -891290,37 +891285,46 @@ local function startPulse(cfg)
 			end
 
 			local startSize = 2
-			local peak = maxSize * BURST_OVERSHOOT
+			local finalCore = maxSize * DISSIPATE_GROWTH
+			local finalShock = maxSize * SHOCK_REACH
+			local emittersOff = false
 
-			runPhase(BURST_TIME, function(p)
-				local size = startSize + (peak - startSize) * easeOutQuart(p)
-				setPose(size, 1.2 * (1 - p * 0.4), 1.6 * (1 - p * 0.4), 1 + 0.15 * easeOutQuart(p))
-				light.Brightness = 10 - 7 * p
-				setTransparency(0, 0)
-			end)
-			if not clone.Parent then return end
+			local function smooth(x)
+				x = math.clamp(x, 0, 1)
+				return x * x * (3 - 2 * x)
+			end
 
-			runPhase(SUSTAIN_TIME, function(p)
-				local size = peak + (maxSize - peak) * p
-				setPose(size, 1 - p * 0.5, 1.0 - p * 0.3, 1.15 + 0.10 * p)
-				light.Brightness = 3 - p
-				setTransparency(0, 0.35 * p)
-			end)
-			if not clone.Parent then return end
+			runPhase(TOTAL_TIME, function(p)
+				local e = p * TOTAL_TIME
+				local c = math.clamp(e / CORE_TIME, 0, 1)     -- fireball progress
+				local q = math.clamp(e / SHOCK_TIME, 0, 1)    -- shockwave progress
 
-			for _, e in ipairs(emitters) do e.Enabled = false end
+				-- fireball: fast start, then keeps easing outward until it fades. Never shrinks, never pauses.
+				local coreSize = startSize + (finalCore - startSize) * (1 - (1 - c) ^ 2.6)
+				-- shockwave: blast-wave style, very fast at first and decelerating, but still moving when it fades
+				local shockSize = startSize + (finalShock - startSize) * (1 - (1 - q) ^ 3.2)
 
-			runPhase(DISSIPATE_TIME, function(p)
-				local grow = maxSize + (maxSize * DISSIPATE_GROWTH - maxSize) * easeOutQuart(p)
-				setPose(grow, 0.5 * (1 - p), 0.7 * (1 - p), 1.25 + 0.30 * easeOutQuart(p))
-				local level = easeInPow(p)
-				local sphereLevel = 0.35 + p * 1.1
-				setTransparency(level, sphereLevel)
-				for _, e in ipairs(emitters) do
-					e.Transparency = NumberSequence.new(level)
+				if not emittersOff and e &gt;= BURST_TIME + SUSTAIN_TIME then
+					emittersOff = true
+					for _, em in ipairs(emitters) do em.Enabled = false end
 				end
-				light.Brightness = 2 * (1 - p) ^ 2
+
+				setPose(coreSize, 1.2 * (1 - c * 0.8), 1.6 * (1 - c * 0.7), shockSize)
+
+				local level = easeInPow(smooth((c - 0.4) / 0.6))
+				local sphereLevel = math.clamp((c - 0.2) / 0.8, 0, 1) ^ 1.4
+				local shockLevel = smooth((q - 0.35) / 0.65) ^ 1.3
+				setTransparency(level, sphereLevel, shockLevel)
+				if emittersOff then
+					for _, em in ipairs(emitters) do
+						em.Transparency = NumberSequence.new(level)
+					end
+				end
+
+				light.Brightness = 10 * (1 - c) ^ 1.6 + 1.5 * (1 - q) ^ 2
+				light.Range = 80 + 120 * q
 			end)
+			if not clone.Parent then return end
 		end)
 
 		if not ok then
@@ -891337,6 +891341,101 @@ local function startPulse(cfg)
 	end)
 end
 
+local function startBeamTrails()
+	local Workspace = game:GetService("Workspace")
+	local Lighting = game:GetService("Lighting")
+	local TEXTURE = "rbxassetid://18455290017"
+	local LIFETIME = 0.2
+	local ENABLE_DELAY = 0.1
+	local MAX_LENGTH = 30
+
+	local function brightness()
+		local t = Lighting.ClockTime
+		if t &gt;= 17.5 or t &lt;= 6.5 then return 4 end
+		return 1
+	end
+
+	local function midColor(seq)
+		local kps = seq.Keypoints
+		if #kps == 0 then return Color3.new(1, 1, 1) end
+		if #kps == 1 then return kps[1].Value end
+		for i = 1, #kps - 1 do
+			local a, b = kps[i], kps[i + 1]
+			if 0.5 &gt;= a.Time and 0.5 &lt;= b.Time then
+				return a.Value:Lerp(b.Value, (0.5 - a.Time) / math.max(b.Time - a.Time, 1e-4))
+			end
+		end
+		return kps[#kps].Value
+	end
+
+	local tracked = setmetatable({}, { __mode = "k" })
+
+	local function setup(beam)
+		if tracked[beam] then return end
+		local holder = beam.Parent
+		if not holder or not holder:IsA("Attachment") or holder.Name ~= "BeamStart" then return end
+		local trail = Instance.new("Trail")
+		trail.Name = "BeamSweepTrail"
+		trail.Texture = TEXTURE
+		trail.TextureMode = Enum.TextureMode.Stretch
+		trail.TextureLength = 1
+		trail.LightEmission = 1
+		trail.LightInfluence = 0
+		trail.Lifetime = LIFETIME
+		trail.MinLength = 0.2
+		trail.MaxLength = MAX_LENGTH
+		trail.FaceCamera = false
+		trail.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.1),
+			NumberSequenceKeypoint.new(1, 1),
+		})
+		trail.Enabled = false
+		trail.Parent = holder
+		tracked[beam] = trail
+
+		local token = 0
+		local function refresh()
+			token += 1
+			if not beam.Enabled then
+				trail.Enabled = false
+				return
+			end
+			local a0, a1 = beam.Attachment0, beam.Attachment1
+			if not (a0 and a1) then return end
+			trail.Enabled = false
+			trail.Attachment0 = a0
+			trail.Attachment1 = a1
+			trail.Color = ColorSequence.new(midColor(beam.Color))
+			trail.Brightness = brightness()
+			local mine = token
+			task.delay(ENABLE_DELAY, function()
+				if mine == token and beam.Parent and beam.Enabled and trail.Parent then
+					trail.Enabled = true
+				end
+			end)
+		end
+		beam:GetPropertyChangedSignal("Enabled"):Connect(refresh)
+		beam:GetPropertyChangedSignal("Attachment1"):Connect(function()
+			if beam.Enabled then refresh() end
+		end)
+		if beam.Enabled then refresh() end
+	end
+
+	Workspace.DescendantAdded:Connect(function(d)
+		if d:IsA("Beam") then
+			task.defer(setup, d)
+		end
+	end)
+	local count = 0
+	for _, d in ipairs(Workspace:GetDescendants()) do
+		if d:IsA("Beam") then
+			setup(d)
+		end
+		count += 1
+		if count % 3000 == 0 then task.wait() end
+	end
+end
+
 function EffectsController:Start()
 	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config)
@@ -891344,6 +891443,7 @@ function EffectsController:Start()
 	local log = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger")).new("Effects")
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
+	Util.spawn(log, "BeamTrails", startBeamTrails)
 end
 
 return EffectsController</string>
@@ -894530,6 +894630,209 @@ end</string>
         </Properties>
         <Item class="Frame" referent="10029">
           <Properties>
+            <string name="Name">Loading</string>
+            <bool name="Active">false</bool>
+            <Vector2 name="AnchorPoint">
+              <X>0</X>
+              <Y>0</Y>
+            </Vector2>
+            <BinaryString name="AttributesSerialize"></BinaryString>
+            <bool name="AutoLocalize">true</bool>
+            <token name="AutomaticSize">0</token>
+            <Color3 name="BackgroundColor3">
+              <R>0.26666668</R>
+              <G>0.44705883</G>
+              <B>0.56078434</B>
+            </Color3>
+            <float name="BackgroundTransparency">0</float>
+            <Color3 name="BorderColor3">
+              <R>0.105882354</R>
+              <G>0.16470589</G>
+              <B>0.20784314</B>
+            </Color3>
+            <token name="BorderMode">0</token>
+            <int name="BorderSizePixel">1</int>
+            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+            <bool name="ClipsDescendants">false</bool>
+            <bool name="Draggable">false</bool>
+            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+            <bool name="Interactable">true</bool>
+            <int name="LayoutOrder">0</int>
+            <Ref name="NextSelectionDown">null</Ref>
+            <Ref name="NextSelectionLeft">null</Ref>
+            <Ref name="NextSelectionRight">null</Ref>
+            <Ref name="NextSelectionUp">null</Ref>
+            <UDim2 name="Position">
+              <XS>0</XS>
+              <XO>0</XO>
+              <YS>-1</YS>
+              <YO>0</YO>
+            </UDim2>
+            <Ref name="RootLocalizationTable">null</Ref>
+            <float name="Rotation">0</float>
+            <bool name="DefinesCapabilities">false</bool>
+            <bool name="Selectable">false</bool>
+            <token name="SelectionBehaviorDown">0</token>
+            <token name="SelectionBehaviorLeft">0</token>
+            <token name="SelectionBehaviorRight">0</token>
+            <token name="SelectionBehaviorUp">0</token>
+            <bool name="SelectionGroup">false</bool>
+            <Ref name="SelectionImageObject">null</Ref>
+            <int name="SelectionOrder">0</int>
+            <BinaryString name="SerializedOverrides">
+            </BinaryString>
+            <token name="Sink">0</token>
+            <UDim2 name="Size">
+              <XS>1</XS>
+              <XO>0</XO>
+              <YS>1</YS>
+              <YO>0</YO>
+            </UDim2>
+            <token name="SizeConstraint">0</token>
+            <int64 name="SourceAssetId">-1</int64>
+            <token name="Style">0</token>
+            <BinaryString name="Tags"></BinaryString>
+            <UniqueId name="UniqueId">0000000000000000000000000000319e</UniqueId>
+            <bool name="Visible">false</bool>
+            <int name="ZIndex">99999999</int>
+          </Properties>
+          <Item class="TextLabel" referent="10030">
+            <Properties>
+              <string name="Name">TextLabel</string>
+              <bool name="Active">false</bool>
+              <Vector2 name="AnchorPoint">
+                <X>0</X>
+                <Y>0</Y>
+              </Vector2>
+              <BinaryString name="AttributesSerialize"></BinaryString>
+              <bool name="AutoLocalize">true</bool>
+              <token name="AutomaticSize">0</token>
+              <Color3 name="BackgroundColor3">
+                <R>1</R>
+                <G>1</G>
+                <B>1</B>
+              </Color3>
+              <float name="BackgroundTransparency">1</float>
+              <Color3 name="BorderColor3">
+                <R>0.105882354</R>
+                <G>0.16470589</G>
+                <B>0.20784314</B>
+              </Color3>
+              <token name="BorderMode">0</token>
+              <int name="BorderSizePixel">1</int>
+              <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+              <bool name="ClipsDescendants">false</bool>
+              <bool name="Draggable">false</bool>
+              <Font name="FontFace">
+                <Family>
+                  <url>rbxasset://fonts/families/LegacyArial.json</url>
+                </Family>
+                <Weight>400</Weight>
+                <Style>Normal</Style>
+                <CachedFaceId>
+                  <url>rbxasset://fonts/Arimo-Regular.ttf</url>
+                </CachedFaceId>
+              </Font>
+              <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+              <bool name="Interactable">true</bool>
+              <int name="LayoutOrder">0</int>
+              <float name="LineHeight">1</float>
+              <string name="LocalizationMatchIdentifier"></string>
+              <string name="LocalizationMatchedSourceText"></string>
+              <int name="MaxVisibleGraphemes">-1</int>
+              <Ref name="NextSelectionDown">null</Ref>
+              <Ref name="NextSelectionLeft">null</Ref>
+              <Ref name="NextSelectionRight">null</Ref>
+              <Ref name="NextSelectionUp">null</Ref>
+              <string name="OpenTypeFeatures"></string>
+              <UDim2 name="Position">
+                <XS>0.2</XS>
+                <XO>0</XO>
+                <YS>0.5</YS>
+                <YO>-40</YO>
+              </UDim2>
+              <bool name="RichText">false</bool>
+              <Ref name="RootLocalizationTable">null</Ref>
+              <float name="Rotation">0</float>
+              <bool name="DefinesCapabilities">false</bool>
+              <bool name="Selectable">false</bool>
+              <token name="SelectionBehaviorDown">0</token>
+              <token name="SelectionBehaviorLeft">0</token>
+              <token name="SelectionBehaviorRight">0</token>
+              <token name="SelectionBehaviorUp">0</token>
+              <bool name="SelectionGroup">false</bool>
+              <Ref name="SelectionImageObject">null</Ref>
+              <int name="SelectionOrder">0</int>
+              <BinaryString name="SerializedOverrides">
+              </BinaryString>
+              <token name="Sink">0</token>
+              <UDim2 name="Size">
+                <XS>0.6</XS>
+                <XO>0</XO>
+                <YS>0</YS>
+                <YO>80</YO>
+              </UDim2>
+              <token name="SizeConstraint">0</token>
+              <int64 name="SourceAssetId">-1</int64>
+              <BinaryString name="Tags"></BinaryString>
+              <string name="Text">Loading...</string>
+              <Color3 name="TextColor3">
+                <R>1</R>
+                <G>1</G>
+                <B>1</B>
+              </Color3>
+              <token name="TextDirection">0</token>
+              <bool name="TextScaled">true</bool>
+              <float name="TextSize">14</float>
+              <Color3 name="TextStrokeColor3">
+                <R>0</R>
+                <G>0</G>
+                <B>0</B>
+              </Color3>
+              <float name="TextStrokeTransparency">0</float>
+              <float name="TextTransparency">0</float>
+              <token name="TextTruncate">0</token>
+              <bool name="TextWrapped">true</bool>
+              <token name="TextXAlignment">2</token>
+              <token name="TextYAlignment">1</token>
+              <UniqueId name="UniqueId">0000000000000000000000000000319f</UniqueId>
+              <bool name="Visible">true</bool>
+              <int name="ZIndex">2131232131</int>
+            </Properties>
+            <Item class="LocalScript" referent="10031">
+              <Properties>
+                <string name="Name">Text</string>
+                <BinaryString name="AttributesSerialize"></BinaryString>
+                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                <bool name="Disabled">true</bool>
+                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                <ContentId name="LinkedSource">
+                  <null>
+                  </null>
+                </ContentId>
+                <token name="RunContext">0</token>
+                <bool name="DefinesCapabilities">false</bool>
+                <string name="ScriptGuid">{6217DDA1-476E-4514-8A91-4D42AA36C5D0}</string>
+                <BinaryString name="SerializedOverrides">
+                </BinaryString>
+                <string name="Source"><![CDATA[while true do
+script.Parent.Text = "Loading..."
+wait(0.5)
+script.Parent.Text = "Loading.."
+wait(0.5)
+	script.Parent.Text = "Loading."
+	wait(0.5)
+end
+]]></string>
+                <int64 name="SourceAssetId">-1</int64>
+                <BinaryString name="Tags"></BinaryString>
+                <UniqueId name="UniqueId">000000000000000000000000000031a0</UniqueId>
+              </Properties>
+            </Item>
+          </Item>
+        </Item>
+        <Item class="Frame" referent="10032">
+          <Properties>
             <string name="Name">Interface</string>
             <bool name="Active">false</bool>
             <Vector2 name="AnchorPoint">
@@ -894592,11 +894895,11 @@ end</string>
             <int64 name="SourceAssetId">-1</int64>
             <token name="Style">0</token>
             <BinaryString name="Tags"></BinaryString>
-            <UniqueId name="UniqueId">00000000000000000000000000003114</UniqueId>
-            <bool name="Visible">false</bool>
+            <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ca</UniqueId>
+            <bool name="Visible">true</bool>
             <int name="ZIndex">1</int>
           </Properties>
-          <Item class="LocalScript" referent="10030">
+          <Item class="LocalScript" referent="10033">
             <Properties>
               <string name="Name">LevelXPDisplay</string>
               <BinaryString name="AttributesSerialize"></BinaryString>
@@ -894672,13 +894975,13 @@ local function updateDisplay()
 	end
 	if levelBarText then
 		if isMaxed then
-			levelBarText.Text = "Lvl. " .. tostring(currentLevel) .. " (MAX)"
+			levelBarText.Text = "Level. " .. tostring(currentLevel) .. " (MAX)"
 		else
 			local xpNeeded = currentXPNeeded
 			if xpNeeded <= 0 then
 				xpNeeded = LevelManager.GetXPForNextLevel(currentLevel, currentKaiju)
 			end
-			levelBarText.Text = "Lvl. " .. tostring(currentLevel) .. " (" .. tostring(currentXP) .. "/" .. tostring(xpNeeded) .. ")"
+			levelBarText.Text = "Level. " .. tostring(currentLevel) .. " (" .. tostring(currentXP) .. "/" .. tostring(xpNeeded) .. ")"
 		end
 	end
 end
@@ -894726,10 +895029,10 @@ updateDisplay()
 ]]></string>
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003115</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156cb</UniqueId>
             </Properties>
           </Item>
-          <Item class="TextButton" referent="10031">
+          <Item class="TextButton" referent="10034">
             <Properties>
               <string name="Name">Return</string>
               <bool name="Active">true</bool>
@@ -894834,11 +895137,11 @@ updateDisplay()
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">00000000000000000000000000003116</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156cc</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="LocalScript" referent="10032">
+            <Item class="LocalScript" referent="10035">
               <Properties>
                 <string name="Name">ResetScript</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -894885,11 +895188,11 @@ end)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003117</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156cd</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="TextLabel" referent="10033">
+          <Item class="TextLabel" referent="10036">
             <Properties>
               <string name="Name">XP</string>
               <bool name="Active">false</bool>
@@ -894988,12 +895291,12 @@ end)
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">00000000000000000000000000003118</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ce</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
           </Item>
-          <Item class="Frame" referent="10034">
+          <Item class="Frame" referent="10037">
             <Properties>
               <string name="Name">Stats</string>
               <bool name="Active">false</bool>
@@ -895057,11 +895360,11 @@ end)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003119</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156cf</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="ImageLabel" referent="10035">
+            <Item class="ImageLabel" referent="10038">
               <Properties>
                 <string name="Name">HP</string>
                 <bool name="Active">false</bool>
@@ -895160,11 +895463,11 @@ end)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">0000000000000000000000000000311a</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d0</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="UIAspectRatioConstraint" referent="10036">
+              <Item class="UIAspectRatioConstraint" referent="10039">
                 <Properties>
                   <string name="Name">UIAspectRatioConstraint</string>
                   <float name="AspectRatio">1</float>
@@ -895178,10 +895481,10 @@ end)
                   </BinaryString>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000311b</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d1</UniqueId>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10037">
+              <Item class="TextLabel" referent="10040">
                 <Properties>
                   <string name="Name">TextLabel</string>
                   <bool name="Active">false</bool>
@@ -895280,13 +895583,13 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000311c</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d2</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="ImageLabel" referent="10038">
+            <Item class="ImageLabel" referent="10041">
               <Properties>
                 <string name="Name">Charge</string>
                 <bool name="Active">false</bool>
@@ -895385,11 +895688,11 @@ end)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">0000000000000000000000000000311d</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d3</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="UIAspectRatioConstraint" referent="10039">
+              <Item class="UIAspectRatioConstraint" referent="10042">
                 <Properties>
                   <string name="Name">UIAspectRatioConstraint</string>
                   <float name="AspectRatio">1</float>
@@ -895403,10 +895706,10 @@ end)
                   </BinaryString>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000311e</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d4</UniqueId>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10040">
+              <Item class="TextLabel" referent="10043">
                 <Properties>
                   <string name="Name">TextLabel</string>
                   <bool name="Active">false</bool>
@@ -895505,13 +895808,13 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000311f</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d5</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="UIAspectRatioConstraint" referent="10041">
+            <Item class="UIAspectRatioConstraint" referent="10044">
               <Properties>
                 <string name="Name">UIAspectRatioConstraint</string>
                 <float name="AspectRatio">1</float>
@@ -895525,11 +895828,11 @@ end)
                 </BinaryString>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003120</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d6</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="Frame" referent="10042">
+          <Item class="Frame" referent="10045">
             <Properties>
               <string name="Name">Stats2</string>
               <bool name="Active">false</bool>
@@ -895593,11 +895896,11 @@ end)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003121</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d7</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="ImageLabel" referent="10043">
+            <Item class="ImageLabel" referent="10046">
               <Properties>
                 <string name="Name">DMG</string>
                 <bool name="Active">false</bool>
@@ -895696,232 +895999,7 @@ end)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003122</UniqueId>
-                <bool name="Visible">true</bool>
-                <int name="ZIndex">1</int>
-              </Properties>
-              <Item class="UIAspectRatioConstraint" referent="10044">
-                <Properties>
-                  <string name="Name">UIAspectRatioConstraint</string>
-                  <float name="AspectRatio">1</float>
-                  <token name="AspectType">0</token>
-                  <BinaryString name="AttributesSerialize"></BinaryString>
-                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                  <token name="DominantAxis">0</token>
-                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                  <bool name="DefinesCapabilities">false</bool>
-                  <BinaryString name="SerializedOverrides">
-                  </BinaryString>
-                  <int64 name="SourceAssetId">-1</int64>
-                  <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003123</UniqueId>
-                </Properties>
-              </Item>
-              <Item class="TextLabel" referent="10045">
-                <Properties>
-                  <string name="Name">TextLabel</string>
-                  <bool name="Active">false</bool>
-                  <Vector2 name="AnchorPoint">
-                    <X>0.5</X>
-                    <Y>0.5</Y>
-                  </Vector2>
-                  <BinaryString name="AttributesSerialize"></BinaryString>
-                  <bool name="AutoLocalize">true</bool>
-                  <token name="AutomaticSize">0</token>
-                  <Color3 name="BackgroundColor3">
-                    <R>1</R>
-                    <G>1</G>
-                    <B>1</B>
-                  </Color3>
-                  <float name="BackgroundTransparency">1</float>
-                  <Color3 name="BorderColor3">
-                    <R>0.10588236</R>
-                    <G>0.16470589</G>
-                    <B>0.20784315</B>
-                  </Color3>
-                  <token name="BorderMode">0</token>
-                  <int name="BorderSizePixel">1</int>
-                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                  <bool name="ClipsDescendants">false</bool>
-                  <bool name="Draggable">false</bool>
-                  <Font name="FontFace">
-                    <Family>
-                      <url>rbxasset://fonts/families/LegacyArial.json</url>
-                    </Family>
-                    <Weight>400</Weight>
-                    <Style>Normal</Style>
-                    <CachedFaceId>
-                      <url>rbxasset://fonts/Arimo-Regular.ttf</url>
-                    </CachedFaceId>
-                  </Font>
-                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                  <bool name="Interactable">true</bool>
-                  <int name="LayoutOrder">0</int>
-                  <float name="LineHeight">1</float>
-                  <string name="LocalizationMatchIdentifier"></string>
-                  <string name="LocalizationMatchedSourceText"></string>
-                  <int name="MaxVisibleGraphemes">-1</int>
-                  <Ref name="NextSelectionDown">null</Ref>
-                  <Ref name="NextSelectionLeft">null</Ref>
-                  <Ref name="NextSelectionRight">null</Ref>
-                  <Ref name="NextSelectionUp">null</Ref>
-                  <string name="OpenTypeFeatures"></string>
-                  <UDim2 name="Position">
-                    <XS>0.5</XS>
-                    <XO>0</XO>
-                    <YS>0.5</YS>
-                    <YO>0</YO>
-                  </UDim2>
-                  <bool name="RichText">false</bool>
-                  <Ref name="RootLocalizationTable">null</Ref>
-                  <float name="Rotation">0</float>
-                  <bool name="DefinesCapabilities">false</bool>
-                  <bool name="Selectable">false</bool>
-                  <token name="SelectionBehaviorDown">0</token>
-                  <token name="SelectionBehaviorLeft">0</token>
-                  <token name="SelectionBehaviorRight">0</token>
-                  <token name="SelectionBehaviorUp">0</token>
-                  <bool name="SelectionGroup">false</bool>
-                  <Ref name="SelectionImageObject">null</Ref>
-                  <int name="SelectionOrder">0</int>
-                  <BinaryString name="SerializedOverrides">
-                  </BinaryString>
-                  <token name="Sink">0</token>
-                  <UDim2 name="Size">
-                    <XS>0.7</XS>
-                    <XO>0</XO>
-                    <YS>0.7</YS>
-                    <YO>0</YO>
-                  </UDim2>
-                  <token name="SizeConstraint">0</token>
-                  <int64 name="SourceAssetId">-1</int64>
-                  <BinaryString name="Tags"></BinaryString>
-                  <string name="Text">10</string>
-                  <Color3 name="TextColor3">
-                    <R>1</R>
-                    <G>1</G>
-                    <B>1</B>
-                  </Color3>
-                  <token name="TextDirection">0</token>
-                  <bool name="TextScaled">true</bool>
-                  <float name="TextSize">50</float>
-                  <Color3 name="TextStrokeColor3">
-                    <R>0</R>
-                    <G>0</G>
-                    <B>0</B>
-                  </Color3>
-                  <float name="TextStrokeTransparency">0</float>
-                  <float name="TextTransparency">0</float>
-                  <token name="TextTruncate">0</token>
-                  <bool name="TextWrapped">true</bool>
-                  <token name="TextXAlignment">2</token>
-                  <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003124</UniqueId>
-                  <bool name="Visible">true</bool>
-                  <int name="ZIndex">1</int>
-                </Properties>
-              </Item>
-            </Item>
-            <Item class="ImageLabel" referent="10046">
-              <Properties>
-                <string name="Name">Defense</string>
-                <bool name="Active">false</bool>
-                <Vector2 name="AnchorPoint">
-                  <X>0</X>
-                  <Y>0</Y>
-                </Vector2>
-                <BinaryString name="AttributesSerialize"></BinaryString>
-                <bool name="AutoLocalize">true</bool>
-                <token name="AutomaticSize">0</token>
-                <Color3 name="BackgroundColor3">
-                  <R>0</R>
-                  <G>0</G>
-                  <B>0</B>
-                </Color3>
-                <float name="BackgroundTransparency">1</float>
-                <Color3 name="BorderColor3">
-                  <R>0</R>
-                  <G>0</G>
-                  <B>0</B>
-                </Color3>
-                <token name="BorderMode">0</token>
-                <int name="BorderSizePixel">0</int>
-                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                <bool name="ClipsDescendants">false</bool>
-                <bool name="Draggable">false</bool>
-                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                <Color3 name="ImageColor3">
-                  <R>1</R>
-                  <G>1</G>
-                  <B>1</B>
-                </Color3>
-                <Content name="ImageContent">
-                  <uri>rbxassetid://3393183497</uri>
-                </Content>
-                <Vector2 name="ImageRectOffset">
-                  <X>0</X>
-                  <Y>0</Y>
-                </Vector2>
-                <Vector2 name="ImageRectSize">
-                  <X>0</X>
-                  <Y>0</Y>
-                </Vector2>
-                <float name="ImageTransparency">0</float>
-                <bool name="Interactable">true</bool>
-                <int name="LayoutOrder">0</int>
-                <Ref name="NextSelectionDown">null</Ref>
-                <Ref name="NextSelectionLeft">null</Ref>
-                <Ref name="NextSelectionRight">null</Ref>
-                <Ref name="NextSelectionUp">null</Ref>
-                <UDim2 name="Position">
-                  <XS>1.0843005</XS>
-                  <XO>0</XO>
-                  <YS>0.54990053</YS>
-                  <YO>0</YO>
-                </UDim2>
-                <token name="ResampleMode">0</token>
-                <Ref name="RootLocalizationTable">null</Ref>
-                <float name="Rotation">0</float>
-                <bool name="DefinesCapabilities">false</bool>
-                <token name="ScaleType">0</token>
-                <bool name="Selectable">false</bool>
-                <token name="SelectionBehaviorDown">0</token>
-                <token name="SelectionBehaviorLeft">0</token>
-                <token name="SelectionBehaviorRight">0</token>
-                <token name="SelectionBehaviorUp">0</token>
-                <bool name="SelectionGroup">false</bool>
-                <Ref name="SelectionImageObject">null</Ref>
-                <int name="SelectionOrder">0</int>
-                <BinaryString name="SerializedOverrides">
-                </BinaryString>
-                <token name="Sink">0</token>
-                <UDim2 name="Size">
-                  <XS>0.45</XS>
-                  <XO>0</XO>
-                  <YS>0.5</YS>
-                  <YO>0</YO>
-                </UDim2>
-                <token name="SizeConstraint">0</token>
-                <Rect2D name="SliceCenter">
-                  <min>
-                    <X>0</X>
-                    <Y>0</Y>
-                  </min>
-                  <max>
-                    <X>0</X>
-                    <Y>0</Y>
-                  </max>
-                </Rect2D>
-                <float name="SliceScale">1</float>
-                <int64 name="SourceAssetId">-1</int64>
-                <BinaryString name="Tags"></BinaryString>
-                <UDim2 name="TileSize">
-                  <XS>1</XS>
-                  <XO>0</XO>
-                  <YS>1</YS>
-                  <YO>0</YO>
-                </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003125</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d8</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
@@ -895939,7 +896017,7 @@ end)
                   </BinaryString>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003126</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156d9</UniqueId>
                 </Properties>
               </Item>
               <Item class="TextLabel" referent="10048">
@@ -896041,7 +896119,7 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003127</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156da</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
@@ -896049,7 +896127,7 @@ end)
             </Item>
             <Item class="ImageLabel" referent="10049">
               <Properties>
-                <string name="Name">Speed</string>
+                <string name="Name">Defense</string>
                 <bool name="Active">false</bool>
                 <Vector2 name="AnchorPoint">
                   <X>0</X>
@@ -896081,7 +896159,7 @@ end)
                   <B>1</B>
                 </Color3>
                 <Content name="ImageContent">
-                  <uri>rbxassetid://3393183859</uri>
+                  <uri>rbxassetid://3393183497</uri>
                 </Content>
                 <Vector2 name="ImageRectOffset">
                   <X>0</X>
@@ -896099,9 +896177,9 @@ end)
                 <Ref name="NextSelectionRight">null</Ref>
                 <Ref name="NextSelectionUp">null</Ref>
                 <UDim2 name="Position">
-                  <XS>0.55</XS>
+                  <XS>1.0843005</XS>
                   <XO>0</XO>
-                  <YS>0.55</YS>
+                  <YS>0.54990053</YS>
                   <YO>0</YO>
                 </UDim2>
                 <token name="ResampleMode">0</token>
@@ -896146,7 +896224,7 @@ end)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003128</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156db</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
@@ -896164,7 +896242,7 @@ end)
                   </BinaryString>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003129</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156dc</UniqueId>
                 </Properties>
               </Item>
               <Item class="TextLabel" referent="10051">
@@ -896266,13 +896344,238 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000312a</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156dd</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="UIAspectRatioConstraint" referent="10052">
+            <Item class="ImageLabel" referent="10052">
+              <Properties>
+                <string name="Name">Speed</string>
+                <bool name="Active">false</bool>
+                <Vector2 name="AnchorPoint">
+                  <X>0</X>
+                  <Y>0</Y>
+                </Vector2>
+                <BinaryString name="AttributesSerialize"></BinaryString>
+                <bool name="AutoLocalize">true</bool>
+                <token name="AutomaticSize">0</token>
+                <Color3 name="BackgroundColor3">
+                  <R>0</R>
+                  <G>0</G>
+                  <B>0</B>
+                </Color3>
+                <float name="BackgroundTransparency">1</float>
+                <Color3 name="BorderColor3">
+                  <R>0</R>
+                  <G>0</G>
+                  <B>0</B>
+                </Color3>
+                <token name="BorderMode">0</token>
+                <int name="BorderSizePixel">0</int>
+                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                <bool name="ClipsDescendants">false</bool>
+                <bool name="Draggable">false</bool>
+                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                <Color3 name="ImageColor3">
+                  <R>1</R>
+                  <G>1</G>
+                  <B>1</B>
+                </Color3>
+                <Content name="ImageContent">
+                  <uri>rbxassetid://3393183859</uri>
+                </Content>
+                <Vector2 name="ImageRectOffset">
+                  <X>0</X>
+                  <Y>0</Y>
+                </Vector2>
+                <Vector2 name="ImageRectSize">
+                  <X>0</X>
+                  <Y>0</Y>
+                </Vector2>
+                <float name="ImageTransparency">0</float>
+                <bool name="Interactable">true</bool>
+                <int name="LayoutOrder">0</int>
+                <Ref name="NextSelectionDown">null</Ref>
+                <Ref name="NextSelectionLeft">null</Ref>
+                <Ref name="NextSelectionRight">null</Ref>
+                <Ref name="NextSelectionUp">null</Ref>
+                <UDim2 name="Position">
+                  <XS>0.55</XS>
+                  <XO>0</XO>
+                  <YS>0.55</YS>
+                  <YO>0</YO>
+                </UDim2>
+                <token name="ResampleMode">0</token>
+                <Ref name="RootLocalizationTable">null</Ref>
+                <float name="Rotation">0</float>
+                <bool name="DefinesCapabilities">false</bool>
+                <token name="ScaleType">0</token>
+                <bool name="Selectable">false</bool>
+                <token name="SelectionBehaviorDown">0</token>
+                <token name="SelectionBehaviorLeft">0</token>
+                <token name="SelectionBehaviorRight">0</token>
+                <token name="SelectionBehaviorUp">0</token>
+                <bool name="SelectionGroup">false</bool>
+                <Ref name="SelectionImageObject">null</Ref>
+                <int name="SelectionOrder">0</int>
+                <BinaryString name="SerializedOverrides">
+                </BinaryString>
+                <token name="Sink">0</token>
+                <UDim2 name="Size">
+                  <XS>0.45</XS>
+                  <XO>0</XO>
+                  <YS>0.5</YS>
+                  <YO>0</YO>
+                </UDim2>
+                <token name="SizeConstraint">0</token>
+                <Rect2D name="SliceCenter">
+                  <min>
+                    <X>0</X>
+                    <Y>0</Y>
+                  </min>
+                  <max>
+                    <X>0</X>
+                    <Y>0</Y>
+                  </max>
+                </Rect2D>
+                <float name="SliceScale">1</float>
+                <int64 name="SourceAssetId">-1</int64>
+                <BinaryString name="Tags"></BinaryString>
+                <UDim2 name="TileSize">
+                  <XS>1</XS>
+                  <XO>0</XO>
+                  <YS>1</YS>
+                  <YO>0</YO>
+                </UDim2>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156de</UniqueId>
+                <bool name="Visible">true</bool>
+                <int name="ZIndex">1</int>
+              </Properties>
+              <Item class="UIAspectRatioConstraint" referent="10053">
+                <Properties>
+                  <string name="Name">UIAspectRatioConstraint</string>
+                  <float name="AspectRatio">1</float>
+                  <token name="AspectType">0</token>
+                  <BinaryString name="AttributesSerialize"></BinaryString>
+                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                  <token name="DominantAxis">0</token>
+                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                  <bool name="DefinesCapabilities">false</bool>
+                  <BinaryString name="SerializedOverrides">
+                  </BinaryString>
+                  <int64 name="SourceAssetId">-1</int64>
+                  <BinaryString name="Tags"></BinaryString>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156df</UniqueId>
+                </Properties>
+              </Item>
+              <Item class="TextLabel" referent="10054">
+                <Properties>
+                  <string name="Name">TextLabel</string>
+                  <bool name="Active">false</bool>
+                  <Vector2 name="AnchorPoint">
+                    <X>0.5</X>
+                    <Y>0.5</Y>
+                  </Vector2>
+                  <BinaryString name="AttributesSerialize"></BinaryString>
+                  <bool name="AutoLocalize">true</bool>
+                  <token name="AutomaticSize">0</token>
+                  <Color3 name="BackgroundColor3">
+                    <R>1</R>
+                    <G>1</G>
+                    <B>1</B>
+                  </Color3>
+                  <float name="BackgroundTransparency">1</float>
+                  <Color3 name="BorderColor3">
+                    <R>0.10588236</R>
+                    <G>0.16470589</G>
+                    <B>0.20784315</B>
+                  </Color3>
+                  <token name="BorderMode">0</token>
+                  <int name="BorderSizePixel">1</int>
+                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                  <bool name="ClipsDescendants">false</bool>
+                  <bool name="Draggable">false</bool>
+                  <Font name="FontFace">
+                    <Family>
+                      <url>rbxasset://fonts/families/LegacyArial.json</url>
+                    </Family>
+                    <Weight>400</Weight>
+                    <Style>Normal</Style>
+                    <CachedFaceId>
+                      <url>rbxasset://fonts/Arimo-Regular.ttf</url>
+                    </CachedFaceId>
+                  </Font>
+                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                  <bool name="Interactable">true</bool>
+                  <int name="LayoutOrder">0</int>
+                  <float name="LineHeight">1</float>
+                  <string name="LocalizationMatchIdentifier"></string>
+                  <string name="LocalizationMatchedSourceText"></string>
+                  <int name="MaxVisibleGraphemes">-1</int>
+                  <Ref name="NextSelectionDown">null</Ref>
+                  <Ref name="NextSelectionLeft">null</Ref>
+                  <Ref name="NextSelectionRight">null</Ref>
+                  <Ref name="NextSelectionUp">null</Ref>
+                  <string name="OpenTypeFeatures"></string>
+                  <UDim2 name="Position">
+                    <XS>0.5</XS>
+                    <XO>0</XO>
+                    <YS>0.5</YS>
+                    <YO>0</YO>
+                  </UDim2>
+                  <bool name="RichText">false</bool>
+                  <Ref name="RootLocalizationTable">null</Ref>
+                  <float name="Rotation">0</float>
+                  <bool name="DefinesCapabilities">false</bool>
+                  <bool name="Selectable">false</bool>
+                  <token name="SelectionBehaviorDown">0</token>
+                  <token name="SelectionBehaviorLeft">0</token>
+                  <token name="SelectionBehaviorRight">0</token>
+                  <token name="SelectionBehaviorUp">0</token>
+                  <bool name="SelectionGroup">false</bool>
+                  <Ref name="SelectionImageObject">null</Ref>
+                  <int name="SelectionOrder">0</int>
+                  <BinaryString name="SerializedOverrides">
+                  </BinaryString>
+                  <token name="Sink">0</token>
+                  <UDim2 name="Size">
+                    <XS>0.7</XS>
+                    <XO>0</XO>
+                    <YS>0.7</YS>
+                    <YO>0</YO>
+                  </UDim2>
+                  <token name="SizeConstraint">0</token>
+                  <int64 name="SourceAssetId">-1</int64>
+                  <BinaryString name="Tags"></BinaryString>
+                  <string name="Text">10</string>
+                  <Color3 name="TextColor3">
+                    <R>1</R>
+                    <G>1</G>
+                    <B>1</B>
+                  </Color3>
+                  <token name="TextDirection">0</token>
+                  <bool name="TextScaled">true</bool>
+                  <float name="TextSize">50</float>
+                  <Color3 name="TextStrokeColor3">
+                    <R>0</R>
+                    <G>0</G>
+                    <B>0</B>
+                  </Color3>
+                  <float name="TextStrokeTransparency">0</float>
+                  <float name="TextTransparency">0</float>
+                  <token name="TextTruncate">0</token>
+                  <bool name="TextWrapped">true</bool>
+                  <token name="TextXAlignment">2</token>
+                  <token name="TextYAlignment">1</token>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e0</UniqueId>
+                  <bool name="Visible">true</bool>
+                  <int name="ZIndex">1</int>
+                </Properties>
+              </Item>
+            </Item>
+            <Item class="UIAspectRatioConstraint" referent="10055">
               <Properties>
                 <string name="Name">UIAspectRatioConstraint</string>
                 <float name="AspectRatio">1</float>
@@ -896286,11 +896589,11 @@ end)
                 </BinaryString>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">0000000000000000000000000000312b</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e1</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="TextButton" referent="10053">
+          <Item class="TextButton" referent="10056">
             <Properties>
               <string name="Name">Reset</string>
               <bool name="Active">true</bool>
@@ -896395,12 +896698,12 @@ end)
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">0000000000000000000000000000312c</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e2</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
           </Item>
-          <Item class="TextButton" referent="10054">
+          <Item class="TextButton" referent="10057">
             <Properties>
               <string name="Name">LightingEffects</string>
               <bool name="Active">true</bool>
@@ -896505,11 +896808,11 @@ end)
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">0000000000000000000000000000312d</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e3</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="LocalScript" referent="10055">
+            <Item class="LocalScript" referent="10058">
               <Properties>
                 <string name="Name">LocalScript</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -896562,11 +896865,11 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">0000000000000000000000000000312e</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e4</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="TextButton" referent="10056">
+          <Item class="TextButton" referent="10059">
             <Properties>
               <string name="Name">BuyGCells</string>
               <bool name="Active">true</bool>
@@ -896671,12 +896974,12 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">0000000000000000000000000000312f</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e5</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
           </Item>
-          <Item class="TextButton" referent="10057">
+          <Item class="TextButton" referent="10060">
             <Properties>
               <string name="Name">BuyXP</string>
               <bool name="Active">true</bool>
@@ -896781,11 +897084,11 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">00000000000000000000000000003130</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e6</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="LocalScript" referent="10058">
+            <Item class="LocalScript" referent="10061">
               <Properties>
                 <string name="Name">LocalScript</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -896805,11 +897108,11 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003131</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e7</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="Frame" referent="10059">
+          <Item class="Frame" referent="10062">
             <Properties>
               <string name="Name">LightingFX</string>
               <bool name="Active">false</bool>
@@ -896873,11 +897176,11 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003132</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e8</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="TextLabel" referent="10060">
+            <Item class="TextLabel" referent="10063">
               <Properties>
                 <string name="Name">TextLabel</string>
                 <bool name="Active">false</bool>
@@ -896976,12 +897279,12 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003133</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156e9</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="Frame" referent="10061">
+            <Item class="Frame" referent="10064">
               <Properties>
                 <string name="Name">FX</string>
                 <bool name="Active">false</bool>
@@ -897045,11 +897348,11 @@ textbutton.MouseButton1Click:Connect(checkGamepassAndShow)
                 <int64 name="SourceAssetId">-1</int64>
                 <token name="Style">0</token>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003134</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ea</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10062">
+              <Item class="LocalScript" referent="10065">
                 <Properties>
                   <string name="Name">LocalScript</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -897092,10 +897395,10 @@ end
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003135</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156eb</UniqueId>
                 </Properties>
               </Item>
-              <Item class="TextButton" referent="10063">
+              <Item class="TextButton" referent="10066">
                 <Properties>
                   <string name="Name">Normal</string>
                   <bool name="Active">true</bool>
@@ -897200,11 +897503,11 @@ end
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003136</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ec</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="IntValue" referent="10064">
+                <Item class="IntValue" referent="10067">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -897215,12 +897518,12 @@ end
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003137</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ed</UniqueId>
                     <int64 name="Value">588616704</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10065">
+              <Item class="TextButton" referent="10068">
                 <Properties>
                   <string name="Name">BW</string>
                   <bool name="Active">true</bool>
@@ -897325,11 +897628,11 @@ end
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003138</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ee</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="IntValue" referent="10066">
+                <Item class="IntValue" referent="10069">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -897340,12 +897643,12 @@ end
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003139</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ef</UniqueId>
                     <int64 name="Value">588616155</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10067">
+              <Item class="TextButton" referent="10070">
                 <Properties>
                   <string name="Name">Sepia</string>
                   <bool name="Active">true</bool>
@@ -897450,11 +897753,11 @@ end
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000313a</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f0</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="IntValue" referent="10068">
+                <Item class="IntValue" referent="10071">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -897465,12 +897768,12 @@ end
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000313b</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f1</UniqueId>
                     <int64 name="Value">588615642</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10069">
+              <Item class="TextButton" referent="10072">
                 <Properties>
                   <string name="Name">Realistic</string>
                   <bool name="Active">true</bool>
@@ -897575,11 +897878,11 @@ end
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000313c</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f2</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="IntValue" referent="10070">
+                <Item class="IntValue" referent="10073">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -897590,12 +897893,12 @@ end
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000313d</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f3</UniqueId>
                     <int64 name="Value">588616469</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="UIGridLayout" referent="10071">
+              <Item class="UIGridLayout" referent="10074">
                 <Properties>
                   <string name="Name">UIGridLayout</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -897623,13 +897926,13 @@ end
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="StartCorner">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000313e</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f4</UniqueId>
                   <token name="VerticalAlignment">1</token>
                 </Properties>
               </Item>
             </Item>
           </Item>
-          <Item class="Frame" referent="10072">
+          <Item class="Frame" referent="10075">
             <Properties>
               <string name="Name">Preformance</string>
               <bool name="Active">false</bool>
@@ -897693,11 +897996,11 @@ end
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">0000000000000000000000000000313f</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f5</UniqueId>
               <bool name="Visible">true</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="TextLabel" referent="10073">
+            <Item class="TextLabel" referent="10076">
               <Properties>
                 <string name="Name">FPS</string>
                 <bool name="Active">false</bool>
@@ -897796,12 +898099,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003140</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f6</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextLabel" referent="10074">
+            <Item class="TextLabel" referent="10077">
               <Properties>
                 <string name="Name">Ping</string>
                 <bool name="Active">false</bool>
@@ -897900,12 +898203,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003141</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f7</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextLabel" referent="10075">
+            <Item class="TextLabel" referent="10078">
               <Properties>
                 <string name="Name">Region</string>
                 <bool name="Active">false</bool>
@@ -898004,12 +898307,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003142</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f8</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextLabel" referent="10076">
+            <Item class="TextLabel" referent="10079">
               <Properties>
                 <string name="Name">ServerAge</string>
                 <bool name="Active">false</bool>
@@ -898108,13 +898411,13 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003143</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156f9</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
           </Item>
-          <Item class="TextLabel" referent="10077">
+          <Item class="TextLabel" referent="10080">
             <Properties>
               <string name="Name">Level</string>
               <bool name="Active">false</bool>
@@ -898213,12 +898516,12 @@ end
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">00000000000000000000000000003144</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156fa</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
           </Item>
-          <Item class="Frame" referent="10078">
+          <Item class="Frame" referent="10081">
             <Properties>
               <string name="Name">Buttons</string>
               <bool name="Active">false</bool>
@@ -898282,11 +898585,11 @@ end
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003145</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156fb</UniqueId>
               <bool name="Visible">true</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="ImageButton" referent="10079">
+            <Item class="ImageButton" referent="10082">
               <Properties>
                 <string name="Name">Shop</string>
                 <bool name="Active">true</bool>
@@ -898398,12 +898701,12 @@ end
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003146</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156fc</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="ImageButton" referent="10080">
+            <Item class="ImageButton" referent="10083">
               <Properties>
                 <string name="Name">Music</string>
                 <bool name="Active">true</bool>
@@ -898515,11 +898818,11 @@ end
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003147</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156fd</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10081">
+              <Item class="LocalScript" referent="10084">
                 <Properties>
                   <string name="Name">LocalScript</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -898553,11 +898856,11 @@ end)
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003148</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156fe</UniqueId>
                 </Properties>
               </Item>
             </Item>
-            <Item class="ImageButton" referent="10082">
+            <Item class="ImageButton" referent="10085">
               <Properties>
                 <string name="Name">CtrlLock</string>
                 <bool name="Active">true</bool>
@@ -898669,11 +898972,11 @@ end)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003149</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd9000156ff</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="TextLabel" referent="10083">
+              <Item class="TextLabel" referent="10086">
                 <Properties>
                   <string name="Name">TextLabel</string>
                   <bool name="Active">false</bool>
@@ -898772,13 +899075,13 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000314a</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015700</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="ImageButton" referent="10084">
+            <Item class="ImageButton" referent="10087">
               <Properties>
                 <string name="Name">HideUI</string>
                 <bool name="Active">true</bool>
@@ -898890,11 +899193,11 @@ end)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">0000000000000000000000000000314b</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015701</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10085">
+              <Item class="LocalScript" referent="10088">
                 <Properties>
                   <string name="Name">LocalScript</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -898939,11 +899242,11 @@ end)
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000314c</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015702</UniqueId>
                 </Properties>
               </Item>
             </Item>
-            <Item class="TextLabel" referent="10086">
+            <Item class="TextLabel" referent="10089">
               <Properties>
                 <string name="Name">GCells</string>
                 <bool name="Active">false</bool>
@@ -899042,11 +899345,11 @@ end)
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">1</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">0000000000000000000000000000314d</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015703</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10087">
+              <Item class="LocalScript" referent="10090">
                 <Properties>
                   <string name="Name">GCellCounterLS</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -899099,12 +899402,12 @@ waitForLeaderstats()
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000314e</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015704</UniqueId>
                 </Properties>
               </Item>
             </Item>
           </Item>
-          <Item class="Frame" referent="10088">
+          <Item class="Frame" referent="10091">
             <Properties>
               <string name="Name">ResetStats</string>
               <bool name="Active">false</bool>
@@ -899168,11 +899471,11 @@ waitForLeaderstats()
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">0000000000000000000000000000314f</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015705</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="TextLabel" referent="10089">
+            <Item class="TextLabel" referent="10092">
               <Properties>
                 <string name="Name">TextLabel</string>
                 <bool name="Active">false</bool>
@@ -899271,12 +899574,12 @@ waitForLeaderstats()
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003150</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015706</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="Frame" referent="10090">
+            <Item class="Frame" referent="10093">
               <Properties>
                 <string name="Name">FX</string>
                 <bool name="Active">false</bool>
@@ -899340,11 +899643,11 @@ waitForLeaderstats()
                 <int64 name="SourceAssetId">-1</int64>
                 <token name="Style">0</token>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003151</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015707</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="TextButton" referent="10091">
+              <Item class="TextButton" referent="10094">
                 <Properties>
                   <string name="Name">Yes</string>
                   <bool name="Active">true</bool>
@@ -899449,11 +899752,11 @@ waitForLeaderstats()
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003152</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015708</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10092">
+                <Item class="LocalScript" referent="10095">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -899473,11 +899776,11 @@ waitForLeaderstats()
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003153</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015709</UniqueId>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10093">
+              <Item class="TextButton" referent="10096">
                 <Properties>
                   <string name="Name">No</string>
                   <bool name="Active">true</bool>
@@ -899582,11 +899885,11 @@ waitForLeaderstats()
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003154</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001570a</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10094">
+                <Item class="LocalScript" referent="10097">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -899610,13 +899913,13 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003155</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd90001570b</UniqueId>
                   </Properties>
                 </Item>
               </Item>
             </Item>
           </Item>
-          <Item class="Frame" referent="10095">
+          <Item class="Frame" referent="10098">
             <Properties>
               <string name="Name">Relic</string>
               <bool name="Active">false</bool>
@@ -899680,11 +899983,11 @@ end)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003156</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd90001570c</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="TextLabel" referent="10096">
+            <Item class="TextLabel" referent="10099">
               <Properties>
                 <string name="Name">TextLabel</string>
                 <bool name="Active">false</bool>
@@ -899783,12 +900086,12 @@ end)
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003157</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001570d</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10097">
+            <Item class="TextButton" referent="10100">
               <Properties>
                 <string name="Name">Yes</string>
                 <bool name="Active">true</bool>
@@ -899893,11 +900196,11 @@ end)
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003158</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001570e</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10098">
+              <Item class="LocalScript" referent="10101">
                 <Properties>
                   <string name="Name">LocalScript</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -899917,11 +900220,11 @@ end)
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003159</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001570f</UniqueId>
                 </Properties>
               </Item>
             </Item>
-            <Item class="TextButton" referent="10099">
+            <Item class="TextButton" referent="10102">
               <Properties>
                 <string name="Name">No</string>
                 <bool name="Active">true</bool>
@@ -900026,11 +900329,11 @@ end)
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">0000000000000000000000000000315a</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015710</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10100">
+              <Item class="LocalScript" referent="10103">
                 <Properties>
                   <string name="Name">LocalScript</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900050,12 +900353,12 @@ end)
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000315b</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015711</UniqueId>
                 </Properties>
               </Item>
             </Item>
           </Item>
-          <Item class="Frame" referent="10101">
+          <Item class="Frame" referent="10104">
             <Properties>
               <string name="Name">BuyGCellWindow</string>
               <bool name="Active">false</bool>
@@ -900119,11 +900422,11 @@ end)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">0000000000000000000000000000315c</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015712</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="TextLabel" referent="10102">
+            <Item class="TextLabel" referent="10105">
               <Properties>
                 <string name="Name">TextLabel</string>
                 <bool name="Active">false</bool>
@@ -900222,12 +900525,12 @@ end)
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">0000000000000000000000000000315d</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015713</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="Frame" referent="10103">
+            <Item class="Frame" referent="10106">
               <Properties>
                 <string name="Name">GCells</string>
                 <bool name="Active">false</bool>
@@ -900291,11 +900594,11 @@ end)
                 <int64 name="SourceAssetId">-1</int64>
                 <token name="Style">0</token>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">0000000000000000000000000000315e</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015714</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="Script" referent="10104">
+              <Item class="Script" referent="10107">
                 <Properties>
                   <string name="Name">Script</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900346,10 +900649,10 @@ end
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000315f</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015715</UniqueId>
                 </Properties>
               </Item>
-              <Item class="TextButton" referent="10105">
+              <Item class="TextButton" referent="10108">
                 <Properties>
                   <string name="Name">5000</string>
                   <bool name="Active">true</bool>
@@ -900454,11 +900757,11 @@ end
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003160</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015716</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10106">
+                <Item class="LocalScript" referent="10109">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900485,10 +900788,10 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003161</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015717</UniqueId>
                   </Properties>
                 </Item>
-                <Item class="IntValue" referent="10107">
+                <Item class="IntValue" referent="10110">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900499,12 +900802,12 @@ end)
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003162</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015718</UniqueId>
                     <int64 name="Value">728850147</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10108">
+              <Item class="TextButton" referent="10111">
                 <Properties>
                   <string name="Name">2500</string>
                   <bool name="Active">true</bool>
@@ -900609,11 +900912,11 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003163</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015719</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10109">
+                <Item class="LocalScript" referent="10112">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900640,10 +900943,10 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003164</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd90001571a</UniqueId>
                   </Properties>
                 </Item>
-                <Item class="IntValue" referent="10110">
+                <Item class="IntValue" referent="10113">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900654,12 +900957,12 @@ end)
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003165</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd90001571b</UniqueId>
                     <int64 name="Value">728849395</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10111">
+              <Item class="TextButton" referent="10114">
                 <Properties>
                   <string name="Name">1000</string>
                   <bool name="Active">true</bool>
@@ -900764,11 +901067,11 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003166</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001571c</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10112">
+                <Item class="LocalScript" referent="10115">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900795,10 +901098,10 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003167</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd90001571d</UniqueId>
                   </Properties>
                 </Item>
-                <Item class="IntValue" referent="10113">
+                <Item class="IntValue" referent="10116">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900809,12 +901112,12 @@ end)
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003168</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd90001571e</UniqueId>
                     <int64 name="Value">728848651</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10114">
+              <Item class="TextButton" referent="10117">
                 <Properties>
                   <string name="Name">500</string>
                   <bool name="Active">true</bool>
@@ -900919,11 +901222,11 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003169</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001571f</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10115">
+                <Item class="LocalScript" referent="10118">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900950,10 +901253,10 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000316a</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015720</UniqueId>
                   </Properties>
                 </Item>
-                <Item class="IntValue" referent="10116">
+                <Item class="IntValue" referent="10119">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -900964,12 +901267,12 @@ end)
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000316b</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015721</UniqueId>
                     <int64 name="Value">728849711</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10117">
+              <Item class="TextButton" referent="10120">
                 <Properties>
                   <string name="Name">250</string>
                   <bool name="Active">true</bool>
@@ -901074,11 +901377,11 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000316c</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015722</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10118">
+                <Item class="LocalScript" referent="10121">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -901105,10 +901408,10 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000316d</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015723</UniqueId>
                   </Properties>
                 </Item>
-                <Item class="IntValue" referent="10119">
+                <Item class="IntValue" referent="10122">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -901119,12 +901422,12 @@ end)
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000316e</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015724</UniqueId>
                     <int64 name="Value">728849010</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextButton" referent="10120">
+              <Item class="TextButton" referent="10123">
                 <Properties>
                   <string name="Name">100</string>
                   <bool name="Active">true</bool>
@@ -901229,11 +901532,11 @@ end)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000316f</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015725</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
-                <Item class="LocalScript" referent="10121">
+                <Item class="LocalScript" referent="10124">
                   <Properties>
                     <string name="Name">LocalScript</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -901260,10 +901563,10 @@ end)
 ]]></string>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003170</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015726</UniqueId>
                   </Properties>
                 </Item>
-                <Item class="IntValue" referent="10122">
+                <Item class="IntValue" referent="10125">
                   <Properties>
                     <string name="Name">id</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -901274,12 +901577,12 @@ end)
                     </BinaryString>
                     <int64 name="SourceAssetId">-1</int64>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003171</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015727</UniqueId>
                     <int64 name="Value">728848243</int64>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="UIGridLayout" referent="10123">
+              <Item class="UIGridLayout" referent="10126">
                 <Properties>
                   <string name="Name">UIGridLayout</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -901307,13 +901610,13 @@ end)
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="StartCorner">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003172</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015728</UniqueId>
                   <token name="VerticalAlignment">1</token>
                 </Properties>
               </Item>
             </Item>
           </Item>
-          <Item class="Frame" referent="10124">
+          <Item class="Frame" referent="10127">
             <Properties>
               <string name="Name">Mobile</string>
               <bool name="Active">false</bool>
@@ -901377,11 +901680,11 @@ end)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">00000000000000000000000000003173</UniqueId>
-              <bool name="Visible">false</bool>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015729</UniqueId>
+              <bool name="Visible">true</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="LocalScript" referent="10125">
+            <Item class="LocalScript" referent="10128">
               <Properties>
                 <string name="Name">MobileScript</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -901443,10 +901746,10 @@ end
 ]]></string>
                 <int64 name="SourceAssetId">5854500299</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003174</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001572a</UniqueId>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10126">
+            <Item class="TextButton" referent="10129">
               <Properties>
                 <string name="Name">Roar2</string>
                 <bool name="Active">true</bool>
@@ -901551,12 +901854,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003175</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001572b</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10127">
+            <Item class="TextButton" referent="10130">
               <Properties>
                 <string name="Name">Roar1</string>
                 <bool name="Active">true</bool>
@@ -901661,12 +901964,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003176</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001572c</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10128">
+            <Item class="TextButton" referent="10131">
               <Properties>
                 <string name="Name">Attack1</string>
                 <bool name="Active">true</bool>
@@ -901771,12 +902074,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003177</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001572d</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10129">
+            <Item class="TextButton" referent="10132">
               <Properties>
                 <string name="Name">Attack2</string>
                 <bool name="Active">true</bool>
@@ -901881,12 +902184,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003178</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001572e</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10130">
+            <Item class="TextButton" referent="10133">
               <Properties>
                 <string name="Name">Run</string>
                 <bool name="Active">true</bool>
@@ -901991,12 +902294,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">00000000000000000000000000003179</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001572f</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10131">
+            <Item class="TextButton" referent="10134">
               <Properties>
                 <string name="Name">Walk</string>
                 <bool name="Active">true</bool>
@@ -902101,12 +902404,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">0000000000000000000000000000317a</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015730</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10132">
+            <Item class="TextButton" referent="10135">
               <Properties>
                 <string name="Name">Attack3</string>
                 <bool name="Active">true</bool>
@@ -902211,12 +902514,12 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">0000000000000000000000000000317b</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015731</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
-            <Item class="TextButton" referent="10133">
+            <Item class="TextButton" referent="10136">
               <Properties>
                 <string name="Name">ShiftLock</string>
                 <bool name="Active">true</bool>
@@ -902321,13 +902624,13 @@ end
                 <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">0000000000000000000000000000317c</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015732</UniqueId>
                 <bool name="Visible">false</bool>
                 <int name="ZIndex">1</int>
               </Properties>
             </Item>
           </Item>
-          <Item class="TextButton" referent="10134">
+          <Item class="TextButton" referent="10137">
             <Properties>
               <string name="Name">MusicButton</string>
               <bool name="Active">true</bool>
@@ -902432,11 +902735,11 @@ end
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">0000000000000000000000000000317d</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015733</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="LocalScript" referent="10135">
+            <Item class="LocalScript" referent="10138">
               <Properties>
                 <string name="Name">MuteMusic</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -902467,10 +902770,10 @@ end)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">0000000000000000000000000000317e</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015734</UniqueId>
               </Properties>
             </Item>
-            <Item class="LocalScript" referent="10136">
+            <Item class="LocalScript" referent="10139">
               <Properties>
                 <string name="Name">UnmuteMusic</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -902501,11 +902804,11 @@ end)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">0000000000000000000000000000317f</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015735</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="TextLabel" referent="10137">
+          <Item class="TextLabel" referent="10140">
             <Properties>
               <string name="Name">GCells</string>
               <bool name="Active">false</bool>
@@ -902604,11 +902907,11 @@ end)
               <bool name="TextWrapped">true</bool>
               <token name="TextXAlignment">2</token>
               <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">00000000000000000000000000003180</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015736</UniqueId>
               <bool name="Visible">false</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="LocalScript" referent="10138">
+            <Item class="LocalScript" referent="10141">
               <Properties>
                 <string name="Name">GCellCounterLS</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -902661,11 +902964,11 @@ waitForLeaderstats()
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">00000000000000000000000000003181</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015737</UniqueId>
               </Properties>
             </Item>
           </Item>
-          <Item class="Frame" referent="10139">
+          <Item class="Frame" referent="10142">
             <Properties>
               <string name="Name">Bars</string>
               <bool name="Active">false</bool>
@@ -902700,9 +903003,9 @@ waitForLeaderstats()
               <Ref name="NextSelectionRight">null</Ref>
               <Ref name="NextSelectionUp">null</Ref>
               <UDim2 name="Position">
-                <XS>0.5</XS>
+                <XS>0.48079306</XS>
                 <XO>-185</XO>
-                <YS>1</YS>
+                <YS>0.9771429</YS>
                 <YO>-140</YO>
               </UDim2>
               <Ref name="RootLocalizationTable">null</Ref>
@@ -902721,19 +903024,19 @@ waitForLeaderstats()
               <token name="Sink">0</token>
               <UDim2 name="Size">
                 <XS>0</XS>
-                <XO>370</XO>
+                <XO>401</XO>
                 <YS>0</YS>
-                <YO>20</YO>
+                <YO>37</YO>
               </UDim2>
               <token name="SizeConstraint">0</token>
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c27</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015738</UniqueId>
               <bool name="Visible">true</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="Frame" referent="10140">
+            <Item class="Frame" referent="10143">
               <Properties>
                 <string name="Name">HealthBar</string>
                 <bool name="Active">false</bool>
@@ -902768,7 +903071,7 @@ waitForLeaderstats()
                 <Ref name="NextSelectionRight">null</Ref>
                 <Ref name="NextSelectionUp">null</Ref>
                 <UDim2 name="Position">
-                  <XS>0</XS>
+                  <XS>-0.09476309</XS>
                   <XO>0</XO>
                   <YS>0</YS>
                   <YO>0</YO>
@@ -902789,19 +903092,19 @@ waitForLeaderstats()
                 <token name="Sink">0</token>
                 <UDim2 name="Size">
                   <XS>0</XS>
-                  <XO>120</XO>
+                  <XO>151</XO>
                   <YS>0</YS>
-                  <YO>20</YO>
+                  <YO>25</YO>
                 </UDim2>
                 <token name="SizeConstraint">0</token>
                 <int64 name="SourceAssetId">-1</int64>
                 <token name="Style">0</token>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c28</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015739</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="Frame" referent="10141">
+              <Item class="Frame" referent="10144">
                 <Properties>
                   <string name="Name">Fill</string>
                   <bool name="Active">false</bool>
@@ -902865,12 +903168,12 @@ waitForLeaderstats()
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="Style">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c29</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001573a</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10142">
+              <Item class="TextLabel" referent="10145">
                 <Properties>
                   <string name="Name">Text</string>
                   <bool name="Active">false</bool>
@@ -902919,7 +903222,7 @@ waitForLeaderstats()
                   <UDim2 name="Position">
                     <XS>0</XS>
                     <XO>0</XO>
-                    <YS>0</YS>
+                    <YS>0.05</YS>
                     <YO>0</YO>
                   </UDim2>
                   <bool name="RichText">false</bool>
@@ -902940,7 +903243,7 @@ waitForLeaderstats()
                   <UDim2 name="Size">
                     <XS>1</XS>
                     <XO>0</XO>
-                    <YS>1</YS>
+                    <YS>0.8002344</YS>
                     <YO>0</YO>
                   </UDim2>
                   <token name="SizeConstraint">0</token>
@@ -902953,7 +903256,7 @@ waitForLeaderstats()
                     <B>1</B>
                   </Color3>
                   <token name="TextDirection">0</token>
-                  <bool name="TextScaled">false</bool>
+                  <bool name="TextScaled">true</bool>
                   <float name="TextSize">14</float>
                   <Color3 name="TextStrokeColor3">
                     <R>0</R>
@@ -902963,16 +903266,16 @@ waitForLeaderstats()
                   <float name="TextStrokeTransparency">0.6</float>
                   <float name="TextTransparency">0</float>
                   <token name="TextTruncate">0</token>
-                  <bool name="TextWrapped">false</bool>
+                  <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c2a</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001573b</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">2</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="Frame" referent="10143">
+            <Item class="Frame" referent="10146">
               <Properties>
                 <string name="Name">LevelBar</string>
                 <bool name="Active">false</bool>
@@ -903008,7 +903311,7 @@ waitForLeaderstats()
                 <Ref name="NextSelectionUp">null</Ref>
                 <UDim2 name="Position">
                   <XS>0</XS>
-                  <XO>250</XO>
+                  <XO>282</XO>
                   <YS>0</YS>
                   <YO>0</YO>
                 </UDim2>
@@ -903028,19 +903331,19 @@ waitForLeaderstats()
                 <token name="Sink">0</token>
                 <UDim2 name="Size">
                   <XS>0</XS>
-                  <XO>120</XO>
+                  <XO>151</XO>
                   <YS>0</YS>
-                  <YO>20</YO>
+                  <YO>25</YO>
                 </UDim2>
                 <token name="SizeConstraint">0</token>
                 <int64 name="SourceAssetId">-1</int64>
                 <token name="Style">0</token>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c2b</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001573c</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="Frame" referent="10144">
+              <Item class="Frame" referent="10147">
                 <Properties>
                   <string name="Name">Fill</string>
                   <bool name="Active">false</bool>
@@ -903104,12 +903407,12 @@ waitForLeaderstats()
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="Style">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c2c</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001573d</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10145">
+              <Item class="TextLabel" referent="10148">
                 <Properties>
                   <string name="Name">Text</string>
                   <bool name="Active">false</bool>
@@ -903158,7 +903461,7 @@ waitForLeaderstats()
                   <UDim2 name="Position">
                     <XS>0</XS>
                     <XO>0</XO>
-                    <YS>0</YS>
+                    <YS>0.05</YS>
                     <YO>0</YO>
                   </UDim2>
                   <bool name="RichText">false</bool>
@@ -903179,7 +903482,7 @@ waitForLeaderstats()
                   <UDim2 name="Size">
                     <XS>1</XS>
                     <XO>0</XO>
-                    <YS>1</YS>
+                    <YS>0.8002344</YS>
                     <YO>0</YO>
                   </UDim2>
                   <token name="SizeConstraint">0</token>
@@ -903192,7 +903495,7 @@ waitForLeaderstats()
                     <B>1</B>
                   </Color3>
                   <token name="TextDirection">0</token>
-                  <bool name="TextScaled">false</bool>
+                  <bool name="TextScaled">true</bool>
                   <float name="TextSize">14</float>
                   <Color3 name="TextStrokeColor3">
                     <R>0</R>
@@ -903202,16 +903505,16 @@ waitForLeaderstats()
                   <float name="TextStrokeTransparency">0.6</float>
                   <float name="TextTransparency">0</float>
                   <token name="TextTruncate">0</token>
-                  <bool name="TextWrapped">false</bool>
+                  <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c2d</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001573e</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">2</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="Frame" referent="10146">
+            <Item class="Frame" referent="10149">
               <Properties>
                 <string name="Name">ChargeBar</string>
                 <bool name="Active">false</bool>
@@ -903247,7 +903550,7 @@ waitForLeaderstats()
                 <Ref name="NextSelectionUp">null</Ref>
                 <UDim2 name="Position">
                   <XS>0</XS>
-                  <XO>125</XO>
+                  <XO>122</XO>
                   <YS>0</YS>
                   <YO>0</YO>
                 </UDim2>
@@ -903267,19 +903570,19 @@ waitForLeaderstats()
                 <token name="Sink">0</token>
                 <UDim2 name="Size">
                   <XS>0</XS>
-                  <XO>120</XO>
+                  <XO>151</XO>
                   <YS>0</YS>
-                  <YO>20</YO>
+                  <YO>25</YO>
                 </UDim2>
                 <token name="SizeConstraint">0</token>
                 <int64 name="SourceAssetId">-1</int64>
                 <token name="Style">0</token>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c2e</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001573f</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="Frame" referent="10147">
+              <Item class="Frame" referent="10150">
                 <Properties>
                   <string name="Name">Fill</string>
                   <bool name="Active">false</bool>
@@ -903343,12 +903646,12 @@ waitForLeaderstats()
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="Style">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c2f</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015740</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10148">
+              <Item class="TextLabel" referent="10151">
                 <Properties>
                   <string name="Name">Text</string>
                   <bool name="Active">false</bool>
@@ -903397,7 +903700,7 @@ waitForLeaderstats()
                   <UDim2 name="Position">
                     <XS>0</XS>
                     <XO>0</XO>
-                    <YS>0</YS>
+                    <YS>0.05</YS>
                     <YO>0</YO>
                   </UDim2>
                   <bool name="RichText">false</bool>
@@ -903418,7 +903721,7 @@ waitForLeaderstats()
                   <UDim2 name="Size">
                     <XS>1</XS>
                     <XO>0</XO>
-                    <YS>1</YS>
+                    <YS>0.8002344</YS>
                     <YO>0</YO>
                   </UDim2>
                   <token name="SizeConstraint">0</token>
@@ -903431,7 +903734,7 @@ waitForLeaderstats()
                     <B>1</B>
                   </Color3>
                   <token name="TextDirection">0</token>
-                  <bool name="TextScaled">false</bool>
+                  <bool name="TextScaled">true</bool>
                   <float name="TextSize">14</float>
                   <Color3 name="TextStrokeColor3">
                     <R>0</R>
@@ -903441,16 +903744,16 @@ waitForLeaderstats()
                   <float name="TextStrokeTransparency">0.6</float>
                   <float name="TextTransparency">0</float>
                   <token name="TextTruncate">0</token>
-                  <bool name="TextWrapped">false</bool>
+                  <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c30</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015741</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">2</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="TextButton" referent="10149">
+            <Item class="TextButton" referent="10152">
               <Properties>
                 <string name="Name">Menu</string>
                 <bool name="Active">true</bool>
@@ -903504,9 +903807,9 @@ waitForLeaderstats()
                 <string name="OpenTypeFeatures"></string>
                 <UDim2 name="Position">
                   <XS>0</XS>
-                  <XO>125</XO>
+                  <XO>122</XO>
                   <YS>0</YS>
-                  <YO>-25</YO>
+                  <YO>-31</YO>
                 </UDim2>
                 <Ref name="PressHapticEffect">null</Ref>
                 <bool name="RichText">false</bool>
@@ -903527,9 +903830,9 @@ waitForLeaderstats()
                 <token name="Sink">1</token>
                 <UDim2 name="Size">
                   <XS>0</XS>
-                  <XO>120</XO>
+                  <XO>151</XO>
                   <YS>0</YS>
-                  <YO>20</YO>
+                  <YO>25</YO>
                 </UDim2>
                 <token name="SizeConstraint">0</token>
                 <int64 name="SourceAssetId">-1</int64>
@@ -903542,7 +903845,7 @@ waitForLeaderstats()
                   <B>1</B>
                 </Color3>
                 <token name="TextDirection">0</token>
-                <bool name="TextScaled">false</bool>
+                <bool name="TextScaled">true</bool>
                 <float name="TextSize">14</float>
                 <Color3 name="TextStrokeColor3">
                   <R>0</R>
@@ -903552,14 +903855,14 @@ waitForLeaderstats()
                 <float name="TextStrokeTransparency">0.7</float>
                 <float name="TextTransparency">0</float>
                 <token name="TextTruncate">0</token>
-                <bool name="TextWrapped">false</bool>
+                <bool name="TextWrapped">true</bool>
                 <token name="TextXAlignment">2</token>
                 <token name="TextYAlignment">1</token>
-                <UniqueId name="UniqueId">1a54a6dc9c9dbfbc0a740a5b00000c31</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015742</UniqueId>
                 <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="LocalScript" referent="10150">
+              <Item class="LocalScript" referent="10153">
                 <Properties>
                   <string name="Name">MenuScript</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -903673,12 +903976,12 @@ button.Activated:Connect(activateMenu)
 ]]></string>
                   <int64 name="SourceAssetId">-1</int64>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">3bd646e3ed0b40ca0af7098c00000efa</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015743</UniqueId>
                 </Properties>
               </Item>
             </Item>
           </Item>
-          <Item class="Frame" referent="10151">
+          <Item class="Frame" referent="10154">
             <Properties>
               <string name="Name">Backpack</string>
               <bool name="Active">false</bool>
@@ -903694,7 +903997,7 @@ button.Activated:Connect(activateMenu)
                 <G>1</G>
                 <B>1</B>
               </Color3>
-              <float name="BackgroundTransparency">1</float>
+              <float name="BackgroundTransparency">0</float>
               <Color3 name="BorderColor3">
                 <R>0.10588236</R>
                 <G>0.16470589</G>
@@ -903713,9 +904016,9 @@ button.Activated:Connect(activateMenu)
               <Ref name="NextSelectionRight">null</Ref>
               <Ref name="NextSelectionUp">null</Ref>
               <UDim2 name="Position">
-                <XS>0.5</XS>
+                <XS>0.40644363</XS>
                 <XO>-315</XO>
-                <YS>1</YS>
+                <YS>0.9909091</YS>
                 <YO>-110</YO>
               </UDim2>
               <Ref name="RootLocalizationTable">null</Ref>
@@ -903734,7 +904037,7 @@ button.Activated:Connect(activateMenu)
               <token name="Sink">0</token>
               <UDim2 name="Size">
                 <XS>0</XS>
-                <XO>630</XO>
+                <XO>894</XO>
                 <YS>0</YS>
                 <YO>95</YO>
               </UDim2>
@@ -903742,11 +904045,11 @@ button.Activated:Connect(activateMenu)
               <int64 name="SourceAssetId">-1</int64>
               <token name="Style">0</token>
               <BinaryString name="Tags"></BinaryString>
-              <UniqueId name="UniqueId">0000000000000000000000000000318e</UniqueId>
+              <UniqueId name="UniqueId">69a4c66436b815270afbebd900015744</UniqueId>
               <bool name="Visible">true</bool>
               <int name="ZIndex">1</int>
             </Properties>
-            <Item class="ImageButton" referent="10152">
+            <Item class="ImageButton" referent="10155">
               <Properties>
                 <string name="Name">Template</string>
                 <bool name="Active">true</bool>
@@ -903859,11 +904162,11 @@ button.Activated:Connect(activateMenu)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003190</UniqueId>
-                <bool name="Visible">false</bool>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015745</UniqueId>
+                <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="UICorner" referent="10153">
+              <Item class="UICorner" referent="10156">
                 <Properties>
                   <string name="Name">UICorner</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -903890,10 +904193,10 @@ button.Activated:Connect(activateMenu)
                     <S>0</S>
                     <O>7</O>
                   </UDim>
-                  <UniqueId name="UniqueId">00000000000000000000000000003191</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015746</UniqueId>
                 </Properties>
               </Item>
-              <Item class="Frame" referent="10154">
+              <Item class="Frame" referent="10157">
                 <Properties>
                   <string name="Name">Charge</string>
                   <bool name="Active">false</bool>
@@ -903957,11 +904260,11 @@ button.Activated:Connect(activateMenu)
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="Style">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003192</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015747</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">3</int>
                 </Properties>
-                <Item class="Frame" referent="10155">
+                <Item class="Frame" referent="10158">
                   <Properties>
                     <string name="Name">Fill</string>
                     <bool name="Active">false</bool>
@@ -904025,13 +904328,13 @@ button.Activated:Connect(activateMenu)
                     <int64 name="SourceAssetId">-1</int64>
                     <token name="Style">0</token>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">00000000000000000000000000003193</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015748</UniqueId>
                     <bool name="Visible">true</bool>
                     <int name="ZIndex">4</int>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextLabel" referent="10156">
+              <Item class="TextLabel" referent="10159">
                 <Properties>
                   <string name="Name">Num</string>
                   <bool name="Active">false</bool>
@@ -904130,12 +904433,12 @@ button.Activated:Connect(activateMenu)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003194</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015749</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10157">
+              <Item class="TextLabel" referent="10160">
                 <Properties>
                   <string name="Name">Title</string>
                   <bool name="Active">false</bool>
@@ -904234,13 +904537,13 @@ button.Activated:Connect(activateMenu)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">00000000000000000000000000003195</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001574a</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="ImageButton" referent="10158">
+            <Item class="ImageButton" referent="10161">
               <Properties>
                 <string name="Name">Sprint</string>
                 <bool name="Active">true</bool>
@@ -904354,11 +904657,11 @@ button.Activated:Connect(activateMenu)
                   <YS>1</YS>
                   <YO>0</YO>
                 </UDim2>
-                <UniqueId name="UniqueId">00000000000000000000000000003196</UniqueId>
-                <bool name="Visible">false</bool>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd90001574b</UniqueId>
+                <bool name="Visible">true</bool>
                 <int name="ZIndex">1</int>
               </Properties>
-              <Item class="Frame" referent="10159">
+              <Item class="Frame" referent="10162">
                 <Properties>
                   <string name="Name">ActiveIndicator</string>
                   <bool name="Active">false</bool>
@@ -904422,11 +904725,11 @@ button.Activated:Connect(activateMenu)
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="Style">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">00000000000000000000000000003198</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001574c</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">0</int>
                 </Properties>
-                <Item class="UICorner" referent="10160">
+                <Item class="UICorner" referent="10163">
                   <Properties>
                     <string name="Name">UICorner</string>
                     <BinaryString name="AttributesSerialize"></BinaryString>
@@ -904453,11 +904756,11 @@ button.Activated:Connect(activateMenu)
                       <S>0</S>
                       <O>6</O>
                     </UDim>
-                    <UniqueId name="UniqueId">00000000000000000000000000003199</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd90001574d</UniqueId>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="UICorner" referent="10161">
+              <Item class="UICorner" referent="10164">
                 <Properties>
                   <string name="Name">UICorner</string>
                   <BinaryString name="AttributesSerialize"></BinaryString>
@@ -904484,10 +904787,10 @@ button.Activated:Connect(activateMenu)
                     <S>0</S>
                     <O>4</O>
                   </UDim>
-                  <UniqueId name="UniqueId">0000000000000000000000000000319a</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001574e</UniqueId>
                 </Properties>
               </Item>
-              <Item class="Frame" referent="10162">
+              <Item class="Frame" referent="10165">
                 <Properties>
                   <string name="Name">Charge</string>
                   <bool name="Active">false</bool>
@@ -904551,11 +904854,11 @@ button.Activated:Connect(activateMenu)
                   <int64 name="SourceAssetId">-1</int64>
                   <token name="Style">0</token>
                   <BinaryString name="Tags"></BinaryString>
-                  <UniqueId name="UniqueId">0000000000000000000000000000319b</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd90001574f</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">3</int>
                 </Properties>
-                <Item class="Frame" referent="10163">
+                <Item class="Frame" referent="10166">
                   <Properties>
                     <string name="Name">Fill</string>
                     <bool name="Active">false</bool>
@@ -904619,13 +904922,13 @@ button.Activated:Connect(activateMenu)
                     <int64 name="SourceAssetId">-1</int64>
                     <token name="Style">0</token>
                     <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">0000000000000000000000000000319c</UniqueId>
+                    <UniqueId name="UniqueId">69a4c66436b815270afbebd900015750</UniqueId>
                     <bool name="Visible">true</bool>
                     <int name="ZIndex">4</int>
                   </Properties>
                 </Item>
               </Item>
-              <Item class="TextLabel" referent="10164">
+              <Item class="TextLabel" referent="10167">
                 <Properties>
                   <string name="Name">Num</string>
                   <bool name="Active">false</bool>
@@ -904724,12 +905027,12 @@ button.Activated:Connect(activateMenu)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">0000000000000000000000000000319d</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015751</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
-              <Item class="TextLabel" referent="10165">
+              <Item class="TextLabel" referent="10168">
                 <Properties>
                   <string name="Name">Title</string>
                   <bool name="Active">false</bool>
@@ -904828,13 +905131,13 @@ button.Activated:Connect(activateMenu)
                   <bool name="TextWrapped">true</bool>
                   <token name="TextXAlignment">2</token>
                   <token name="TextYAlignment">1</token>
-                  <UniqueId name="UniqueId">4ddd1dbbafe91a920a7f03380000104a</UniqueId>
+                  <UniqueId name="UniqueId">69a4c66436b815270afbebd900015752</UniqueId>
                   <bool name="Visible">true</bool>
                   <int name="ZIndex">1</int>
                 </Properties>
               </Item>
             </Item>
-            <Item class="LocalScript" referent="10166">
+            <Item class="LocalScript" referent="10169">
               <Properties>
                 <string name="Name">BackpackScript</string>
                 <BinaryString name="AttributesSerialize"></BinaryString>
@@ -905165,6 +905468,22 @@ end
 local function needsAimPosition(eventName)
 	return eventName == "Beam" or eventName == "Attack2Event"
 		or eventName == "Attack3" or eventName == "Attack3Event"
+end
+
+local function charHasBeamRig(char)
+	if not char then return false end
+	for _, d in ipairs(char:GetDescendants()) do
+		if d:IsA("Attachment") and d.Name == "BeamStart" then
+			for _, c in ipairs(d:GetChildren()) do
+				if c:IsA("Beam") then return true end
+			end
+		end
+	end
+	return false
+end
+
+local function isRealBeam(evt, char)
+	return evt ~= nil and evt:GetAttribute("AttackType") == "Beam" and charHasBeamRig(char or player.Character)
 end
 
 local function isBeamEvent(eventName)
@@ -905613,215 +905932,6 @@ local ROAR_EVENTS = {
 
 
 
-local RunService = game:GetService("RunService")
-
-local SHAKE_FREQ = 7
-local BEAM_ROT = 0.0022
-local BEAM_POS = 0.008
-local ROAR_ROT = 0.0038
-local ROAR_POS = 0.014
-local PULSE_ROT = 0.005
-local PULSE_POS = 0.02
-local ROAR_FALLBACK = 3
-local KICK_TIME = 0.45
-local HIT_ROT = 0.012
-local HIT_POS = 0.05
-local HIT_TIME = 0.8
-local HEAD_YAW = 0.008
-local HEAD_ROLL = 0.005
-local HEAD_PITCH = 0.005
-local HEAD_POS = 0.03
-local HEAD_FOLLOW = 12
-local HEAD_TAIL = 0.5
-local MAX_TILT_UP = 0.02
-local FLY_SHAKE_SCALE = 0.25
-local FLY_MAX_PITCH = 0.005
-
-local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1, hitStart = -10, melee = nil }
-
-local function shakeNoise(t, seed)
-	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
-end
-
-local function findAbilityEvent(char, name)
-	local scripts = char and char:FindFirstChild("CharacterScripts")
-	if not scripts then return nil end
-	local evt = scripts:FindFirstChild(name)
-	if evt then return evt end
-	local anim = scripts:FindFirstChild("AnimEvents")
-	return anim and anim:FindFirstChild(name) or nil
-end
-
-local function collectHeadParts(char)
-	local parts = {}
-	for _, d in ipairs(char:GetDescendants()) do
-		if d:IsA("BasePart") and string.find(string.lower(d.Name), "head", 1, true) then
-			table.insert(parts, d)
-		end
-	end
-	return parts
-end
-
-local function startMeleeFollow(eventName)
-	local char = player.Character
-	local root = char and char:FindFirstChild("HumanoidRootPart")
-	if not root then return false end
-	local heads = collectHeadParts(char)
-	if #heads == 0 then return false end
-	local base = {}
-	for i, part in ipairs(heads) do
-		base[i] = root.CFrame:PointToObjectSpace(part.Position)
-	end
-	local evt = findAbilityEvent(char, eventName)
-	local dur = math.clamp(evt and evt:GetAttribute("AttackDuration") or 0.8, 0.3, 2.5)
-	local okSize, size = pcall(function() return char:GetExtentsSize().Y end)
-	shakeState.melee = {
-		start = os.clock(), dur = dur, heads = heads, base = base,
-		size = math.max(okSize and size or 10, 6), delta = Vector3.zero, root = root, peak = 0, kicked = false,
-	}
-	return true
-end
-
-local function onShakeAbility(eventName)
-	local evt = findAbilityEvent(player.Character, eventName)
-	local attackType = evt and evt:GetAttribute("AttackType")
-	if attackType == "Beam" then return end
-	if attackType == nil and isBeamEvent(eventName) then return end
-	local now = os.clock()
-	if attackType == "Roar" or ROAR_EVENTS[eventName] then
-		shakeState.roarStart = now
-		shakeState.roarEnd = now + ROAR_FALLBACK
-		return
-	end
-	local followable = attackType == nil or attackType == "Melee" or attackType == "BackBeam"
-	local ok, followed = false, false
-	if followable then
-		ok, followed = pcall(startMeleeFollow, eventName)
-	end
-	if not (ok and followed) then
-		shakeState.kickStart = now
-		shakeState.kickDir = -shakeState.kickDir
-	end
-end
-
-task.spawn(function()
-	local pulseHit = game:GetService("ReplicatedStorage"):FindFirstChild("PulseHit") or game:GetService("ReplicatedStorage"):WaitForChild("PulseHit", 15)
-	if pulseHit then
-		pulseHit.OnClientEvent:Connect(function()
-			shakeState.hitStart = os.clock()
-		end)
-	end
-end)
-
-local function syncRoarShakeToSound(sound)
-	local startedAt = shakeState.roarStart
-	task.spawn(function()
-		local t0 = os.clock()
-		while sound.Parent and sound.TimeLength == 0 and os.clock() - t0 < 1 do
-			task.wait()
-		end
-		if sound.TimeLength > 0 and shakeState.roarStart == startedAt then
-			shakeState.roarEnd = startedAt + sound.TimeLength / math.max(sound.PlaybackSpeed, 0.05)
-		end
-	end)
-end
-
-pcall(function() RunService:UnbindFromRenderStep("KOCameraShake") end)
-RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 1, function(dt)
-	local camera = workspace.CurrentCamera
-	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
-	if player:GetAttribute("CameraShake") == false then return end
-	local shakeChar = player.Character
-	local shakeRoot = shakeChar and shakeChar:FindFirstChild("HumanoidRootPart")
-	local flying = shakeRoot ~= nil and shakeRoot:FindFirstChild("FlyVelocity") ~= nil
-	local now = os.clock()
-	local target = beamActive and 1 or 0
-	local rate = target > shakeState.beamLevel and 5 or 3
-	shakeState.beamLevel += (target - shakeState.beamLevel) * math.min(dt * rate, 1)
-	if shakeState.beamLevel < 0.01 then shakeState.beamLevel = 0 end
-	local roar = 0
-	if now < shakeState.roarEnd then
-		roar = math.clamp(math.min((now - shakeState.roarStart) / 0.15, (shakeState.roarEnd - now) / 0.4, 1), 0, 1)
-	end
-	local pulse = 0
-	local pulseEnd = player:GetAttribute("PulseShakeEnd") or 0
-	if now < pulseEnd then
-		local pulseStart = player:GetAttribute("PulseShakeStart") or now
-		local env = math.clamp(math.min((now - pulseStart) / 0.08, (pulseEnd - now) / 0.5, 1), 0, 1)
-		pulse = env * (player:GetAttribute("PulseShakeAmp") or 0)
-	end
-	local kickAge = now - shakeState.kickStart
-	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 9) or 0
-	local hitAge = now - shakeState.hitStart
-	local hit = hitAge < HIT_TIME and math.min(hitAge / 0.04, 1) * math.exp(-hitAge * 4) or 0
-	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT, hit * HIT_ROT)
-	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS, hit * HIT_POS)
-
-	local mPitch, mYaw, mRoll, mPx, mPy = 0, 0, 0, 0, 0
-	local m = shakeState.melee
-	if m then
-		local age = now - m.start
-		local target = Vector3.zero
-		if age < m.dur and m.root.Parent then
-			local bestMag = 0
-			for i, part in ipairs(m.heads) do
-				if part.Parent then
-					local rel = m.root.CFrame:PointToObjectSpace(part.Position) - m.base[i]
-					if rel.Magnitude > bestMag then
-						bestMag = rel.Magnitude
-						target = rel
-					end
-				end
-			end
-		end
-		m.peak = math.max(m.peak, target.Magnitude / m.size)
-		if not m.kicked and age > 0.2 and age < m.dur and m.peak < 0.02 then
-			m.kicked = true
-			shakeState.kickStart = now
-			shakeState.kickDir = -shakeState.kickDir
-			kickAge = 0
-			kick = 1
-		end
-		m.delta = m.delta:Lerp(target, 1 - math.exp(-dt * HEAD_FOLLOW))
-		if age > m.dur + HEAD_TAIL and m.delta.Magnitude < 0.01 then
-			shakeState.melee = nil
-		else
-			local scaled = m.delta / m.size * 20
-			local cd = camera.CFrame:VectorToObjectSpace(m.root.CFrame:VectorToWorldSpace(scaled))
-			mYaw = math.clamp(-cd.X * HEAD_YAW, -0.06, 0.06)
-			mRoll = math.clamp(-cd.X * HEAD_ROLL, -0.04, 0.04)
-			mPitch = math.clamp(cd.Y * HEAD_PITCH, -0.04, MAX_TILT_UP)
-			mPx = math.clamp(cd.X * HEAD_POS, -0.3, 0.3)
-			mPy = math.clamp(cd.Y * HEAD_POS, -0.3, 0.1)
-		end
-	end
-
-	if rotAmp == 0 and posAmp == 0 and kick == 0 and not shakeState.melee then return end
-	local pitch = shakeNoise(now, 1) * rotAmp + mPitch
-	local yaw = shakeNoise(now, 2) * rotAmp + mYaw
-	local roll = shakeNoise(now, 3) * rotAmp * 0.7 + mRoll
-	local px = shakeNoise(now, 4) * posAmp + mPx
-	local py = shakeNoise(now, 5) * posAmp + mPy
-	if hit > 0 then
-		pitch -= 0.008 * hit
-	end
-	if kick > 0 then
-		roll += shakeState.kickDir * 0.016 * kick * math.cos(kickAge * 20)
-		pitch -= 0.009 * kick * math.cos(kickAge * 16)
-		yaw += shakeState.kickDir * 0.004 * kick * math.sin(kickAge * 14)
-		py -= 0.04 * kick
-	end
-	pitch = math.clamp(pitch, -0.04, MAX_TILT_UP)
-	if flying then
-		pitch = math.clamp(pitch * FLY_SHAKE_SCALE, -FLY_MAX_PITCH, FLY_MAX_PITCH)
-		yaw *= FLY_SHAKE_SCALE
-		roll *= FLY_SHAKE_SCALE
-		px *= FLY_SHAKE_SCALE
-		py *= FLY_SHAKE_SCALE
-	end
-	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
-end)
-
 local function silenceServerRoarSound(char, roarName)
 	local targets = {}
 	local head = char:FindFirstChild("Head")
@@ -905861,7 +905971,6 @@ end
 local function playClientPrediction(eventName, char)
 	local animName = PREDICTION_ANIM_MAP[eventName]
 	if not animName then return end
-	onShakeAbility(eventName)
 
 	local humanoid = char:FindFirstChildOfClass("Humanoid")
 	if not humanoid then return end
@@ -905891,7 +906000,6 @@ local function playClientPrediction(eventName, char)
 					soundClone:SetAttribute("ClientPrediction", true)
 					soundClone.Parent = char:FindFirstChild("Head") or char:FindFirstChild("Torso") or char
 					soundClone:Play()
-					syncRoarShakeToSound(soundClone)
 					local len = soundClone.TimeLength / soundClone.PlaybackSpeed
 					task.spawn(function()
 						task.wait(len > 0 and len or 5)
@@ -905977,7 +906085,7 @@ local function fireAbility(eventName)
 		evt:FireServer()
 	end
 
-	if isBeamEvent(eventName) and evt:GetAttribute("AttackType") == "Beam" then
+	if isBeamEvent(eventName) and isRealBeam(evt, char) then
 		if beamStartTimeout then
 			task.cancel(beamStartTimeout)
 		end
@@ -906019,8 +906127,9 @@ local function fireAbility(eventName)
 
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
-			playChargeFill(otherButton, math.max(otherRemaining, attackDuration))
+			if CooldownManager.getRemaining(otherButton.Name) <= 0 then
+				playChargeFill(otherButton, attackDuration)
+			end
 		end
 	end
 end
@@ -906105,13 +906214,13 @@ local function buildButtons(character)
 	local slots = {}
 	local nextSlot = 1
 	for _, e in ipairs(events) do
-		if e:GetAttribute("AttackType") ~= "Beam" and not isRoarName(e.Name) then
+		if not isRealBeam(e) and not isRoarName(e.Name) then
 			slots[e] = nextSlot
 			nextSlot += 1
 		end
 	end
 	for _, e in ipairs(events) do
-		if e:GetAttribute("AttackType") == "Beam" and not isRoarName(e.Name) then
+		if isRealBeam(e) and not isRoarName(e.Name) then
 			slots[e] = nextSlot
 			nextSlot += 1
 		end
@@ -906380,210 +906489,7 @@ end)
 ]]></string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">6704df20116f57150af7263600000ed4</UniqueId>
-              </Properties>
-            </Item>
-          </Item>
-        </Item>
-        <Item class="Frame" referent="10167">
-          <Properties>
-            <string name="Name">Loading</string>
-            <bool name="Active">false</bool>
-            <Vector2 name="AnchorPoint">
-              <X>0</X>
-              <Y>0</Y>
-            </Vector2>
-            <BinaryString name="AttributesSerialize"></BinaryString>
-            <bool name="AutoLocalize">true</bool>
-            <token name="AutomaticSize">0</token>
-            <Color3 name="BackgroundColor3">
-              <R>0.26666668</R>
-              <G>0.44705883</G>
-              <B>0.56078434</B>
-            </Color3>
-            <float name="BackgroundTransparency">0</float>
-            <Color3 name="BorderColor3">
-              <R>0.105882354</R>
-              <G>0.16470589</G>
-              <B>0.20784314</B>
-            </Color3>
-            <token name="BorderMode">0</token>
-            <int name="BorderSizePixel">1</int>
-            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-            <bool name="ClipsDescendants">false</bool>
-            <bool name="Draggable">false</bool>
-            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-            <bool name="Interactable">true</bool>
-            <int name="LayoutOrder">0</int>
-            <Ref name="NextSelectionDown">null</Ref>
-            <Ref name="NextSelectionLeft">null</Ref>
-            <Ref name="NextSelectionRight">null</Ref>
-            <Ref name="NextSelectionUp">null</Ref>
-            <UDim2 name="Position">
-              <XS>0</XS>
-              <XO>0</XO>
-              <YS>-1</YS>
-              <YO>0</YO>
-            </UDim2>
-            <Ref name="RootLocalizationTable">null</Ref>
-            <float name="Rotation">0</float>
-            <bool name="DefinesCapabilities">false</bool>
-            <bool name="Selectable">false</bool>
-            <token name="SelectionBehaviorDown">0</token>
-            <token name="SelectionBehaviorLeft">0</token>
-            <token name="SelectionBehaviorRight">0</token>
-            <token name="SelectionBehaviorUp">0</token>
-            <bool name="SelectionGroup">false</bool>
-            <Ref name="SelectionImageObject">null</Ref>
-            <int name="SelectionOrder">0</int>
-            <BinaryString name="SerializedOverrides">
-            </BinaryString>
-            <token name="Sink">0</token>
-            <UDim2 name="Size">
-              <XS>1</XS>
-              <XO>0</XO>
-              <YS>1</YS>
-              <YO>0</YO>
-            </UDim2>
-            <token name="SizeConstraint">0</token>
-            <int64 name="SourceAssetId">-1</int64>
-            <token name="Style">0</token>
-            <BinaryString name="Tags"></BinaryString>
-            <UniqueId name="UniqueId">0000000000000000000000000000319e</UniqueId>
-            <bool name="Visible">false</bool>
-            <int name="ZIndex">99999999</int>
-          </Properties>
-          <Item class="TextLabel" referent="10168">
-            <Properties>
-              <string name="Name">TextLabel</string>
-              <bool name="Active">false</bool>
-              <Vector2 name="AnchorPoint">
-                <X>0</X>
-                <Y>0</Y>
-              </Vector2>
-              <BinaryString name="AttributesSerialize"></BinaryString>
-              <bool name="AutoLocalize">true</bool>
-              <token name="AutomaticSize">0</token>
-              <Color3 name="BackgroundColor3">
-                <R>1</R>
-                <G>1</G>
-                <B>1</B>
-              </Color3>
-              <float name="BackgroundTransparency">1</float>
-              <Color3 name="BorderColor3">
-                <R>0.105882354</R>
-                <G>0.16470589</G>
-                <B>0.20784314</B>
-              </Color3>
-              <token name="BorderMode">0</token>
-              <int name="BorderSizePixel">1</int>
-              <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-              <bool name="ClipsDescendants">false</bool>
-              <bool name="Draggable">false</bool>
-              <Font name="FontFace">
-                <Family>
-                  <url>rbxasset://fonts/families/LegacyArial.json</url>
-                </Family>
-                <Weight>400</Weight>
-                <Style>Normal</Style>
-                <CachedFaceId>
-                  <url>rbxasset://fonts/Arimo-Regular.ttf</url>
-                </CachedFaceId>
-              </Font>
-              <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-              <bool name="Interactable">true</bool>
-              <int name="LayoutOrder">0</int>
-              <float name="LineHeight">1</float>
-              <string name="LocalizationMatchIdentifier"></string>
-              <string name="LocalizationMatchedSourceText"></string>
-              <int name="MaxVisibleGraphemes">-1</int>
-              <Ref name="NextSelectionDown">null</Ref>
-              <Ref name="NextSelectionLeft">null</Ref>
-              <Ref name="NextSelectionRight">null</Ref>
-              <Ref name="NextSelectionUp">null</Ref>
-              <string name="OpenTypeFeatures"></string>
-              <UDim2 name="Position">
-                <XS>0.2</XS>
-                <XO>0</XO>
-                <YS>0.5</YS>
-                <YO>-40</YO>
-              </UDim2>
-              <bool name="RichText">false</bool>
-              <Ref name="RootLocalizationTable">null</Ref>
-              <float name="Rotation">0</float>
-              <bool name="DefinesCapabilities">false</bool>
-              <bool name="Selectable">false</bool>
-              <token name="SelectionBehaviorDown">0</token>
-              <token name="SelectionBehaviorLeft">0</token>
-              <token name="SelectionBehaviorRight">0</token>
-              <token name="SelectionBehaviorUp">0</token>
-              <bool name="SelectionGroup">false</bool>
-              <Ref name="SelectionImageObject">null</Ref>
-              <int name="SelectionOrder">0</int>
-              <BinaryString name="SerializedOverrides">
-              </BinaryString>
-              <token name="Sink">0</token>
-              <UDim2 name="Size">
-                <XS>0.6</XS>
-                <XO>0</XO>
-                <YS>0</YS>
-                <YO>80</YO>
-              </UDim2>
-              <token name="SizeConstraint">0</token>
-              <int64 name="SourceAssetId">-1</int64>
-              <BinaryString name="Tags"></BinaryString>
-              <string name="Text">Loading...</string>
-              <Color3 name="TextColor3">
-                <R>1</R>
-                <G>1</G>
-                <B>1</B>
-              </Color3>
-              <token name="TextDirection">0</token>
-              <bool name="TextScaled">true</bool>
-              <float name="TextSize">14</float>
-              <Color3 name="TextStrokeColor3">
-                <R>0</R>
-                <G>0</G>
-                <B>0</B>
-              </Color3>
-              <float name="TextStrokeTransparency">0</float>
-              <float name="TextTransparency">0</float>
-              <token name="TextTruncate">0</token>
-              <bool name="TextWrapped">true</bool>
-              <token name="TextXAlignment">2</token>
-              <token name="TextYAlignment">1</token>
-              <UniqueId name="UniqueId">0000000000000000000000000000319f</UniqueId>
-              <bool name="Visible">true</bool>
-              <int name="ZIndex">2131232131</int>
-            </Properties>
-            <Item class="LocalScript" referent="10169">
-              <Properties>
-                <string name="Name">Text</string>
-                <BinaryString name="AttributesSerialize"></BinaryString>
-                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                <bool name="Disabled">true</bool>
-                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                <ContentId name="LinkedSource">
-                  <null>
-                  </null>
-                </ContentId>
-                <token name="RunContext">0</token>
-                <bool name="DefinesCapabilities">false</bool>
-                <string name="ScriptGuid">{6217DDA1-476E-4514-8A91-4D42AA36C5D0}</string>
-                <BinaryString name="SerializedOverrides">
-                </BinaryString>
-                <string name="Source"><![CDATA[while true do
-script.Parent.Text = "Loading..."
-wait(0.5)
-script.Parent.Text = "Loading.."
-wait(0.5)
-	script.Parent.Text = "Loading."
-	wait(0.5)
-end
-]]></string>
-                <int64 name="SourceAssetId">-1</int64>
-                <BinaryString name="Tags"></BinaryString>
-                <UniqueId name="UniqueId">000000000000000000000000000031a0</UniqueId>
+                <UniqueId name="UniqueId">69a4c66436b815270afbebd900015753</UniqueId>
               </Properties>
             </Item>
           </Item>
@@ -907834,7 +907740,7 @@ end</string>
                   <YO>0</YO>
                 </UDim2>
                 <UniqueId name="UniqueId">2755ed65099157d10afb5e7600021638</UniqueId>
-                <bool name="Visible">true</bool>
+                <bool name="Visible">false</bool>
                 <int name="ZIndex">2</int>
               </Properties>
               <Item class="UICorner" referent="10191">
@@ -935812,7 +935718,7 @@ end</string>
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000e9f</UniqueId>
+        <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea3</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10521">
         <Properties>
@@ -935870,7 +935776,7 @@ end</string>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea0</UniqueId>
+          <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea4</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10522">
@@ -935893,7 +935799,7 @@ end</string>
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea1</UniqueId>
+          <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea5</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10523">
@@ -935938,7 +935844,7 @@ end</string>
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea2</UniqueId>
+          <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea6</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -935987,7 +935893,7 @@ end</string>
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea3</UniqueId>
+          <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea7</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -936045,7 +935951,7 @@ end</string>
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea4</UniqueId>
+          <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea8</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10526">
@@ -936072,7 +935978,7 @@ end</string>
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea5</UniqueId>
+          <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000ea9</UniqueId>
         </Properties>
       </Item>
     </Item>
@@ -2025617,4 +2025523,83 @@ end)
                     </Item>
                     <Item class="Pose" referent="35671">
                       <Properties>
-                        <string name="Name"
+                        <string name="Name">ShoulderB</string>
+                        <BinaryString name="AttributesSerialize"></BinaryString>
+                        <CoordinateFrame name="CFrame">
+                          <X>0</X>
+                          <Y>0</Y>
+                          <Z>0</Z>
+                          <R00>1</R00>
+                          <R01>0</R01>
+                          <R02>0</R02>
+                          <R10>0</R10>
+                          <R11>1</R11>
+                          <R12>0</R12>
+                          <R20>0</R20>
+                          <R21>0</R21>
+                          <R22>1</R22>
+                        </CoordinateFrame>
+                        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                        <token name="EasingDirection">1</token>
+                        <token name="EasingStyle">0</token>
+                        <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                        <bool name="DefinesCapabilities">false</bool>
+                        <BinaryString name="SerializedOverrides">
+                        </BinaryString>
+                        <int64 name="SourceAssetId">-1</int64>
+                        <BinaryString name="Tags"></BinaryString>
+                        <UniqueId name="UniqueId">00000000000000000000000000017abf</UniqueId>
+                        <float name="Weight">1</float>
+                      </Properties>
+                      <Item class="Pose" referent="35672">
+                        <Properties>
+                          <string name="Name">ArmB</string>
+                          <BinaryString name="AttributesSerialize"></BinaryString>
+                          <CoordinateFrame name="CFrame">
+                            <X>0</X>
+                            <Y>0</Y>
+                            <Z>0</Z>
+                            <R00>1</R00>
+                            <R01>0</R01>
+                            <R02>0</R02>
+                            <R10>0</R10>
+                            <R11>1</R11>
+                            <R12>0</R12>
+                            <R20>0</R20>
+                            <R21>0</R21>
+                            <R22>1</R22>
+                          </CoordinateFrame>
+                          <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                          <token name="EasingDirection">1</token>
+                          <token name="EasingStyle">0</token>
+                          <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                          <bool name="DefinesCapabilities">false</bool>
+                          <BinaryString name="SerializedOverrides">
+                          </BinaryString>
+                          <int64 name="SourceAssetId">-1</int64>
+                          <BinaryString name="Tags"></BinaryString>
+                          <UniqueId name="UniqueId">00000000000000000000000000017ac0</UniqueId>
+                          <float name="Weight">1</float>
+                        </Properties>
+                        <Item class="Pose" referent="35673">
+                          <Properties>
+                            <string name="Name">ElbowB</string>
+                            <BinaryString name="AttributesSerialize"></BinaryString>
+                            <CoordinateFrame name="CFrame">
+                              <X>0</X>
+                              <Y>0</Y>
+                              <Z>0</Z>
+                              <R00>1</R00>
+                              <R01>0</R01>
+                              <R02>0</R02>
+                              <R10>0</R10>
+                              <R11>1</R11>
+                              <R12>0</R12>
+                              <R20>0</R20>
+                              <R21>0</R21>
+                              <R22>1</R22>
+                            </CoordinateFrame>
+                            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                            <token name="EasingDirection">1</token>
+                            <token name="EasingStyle">0</token>
+                            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueI

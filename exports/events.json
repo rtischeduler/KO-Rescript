@@ -1730,10 +1730,9 @@
       "class": "RemoteEvent",
       "referenced_by": [
         "ReplicatedStorage/PlayerScripts/Control",
-        "ServerScriptService/framework/modules/Combat",
-        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+        "ServerScriptService/framework/modules/Combat"
       ],
-      "reference_count": 3
+      "reference_count": 2
     },
     {
       "path": "ReplicatedStorage/RaffleEvent",

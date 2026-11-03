@@ -1,21 +1,4 @@
-     <R22>0.9114945</R22>
-                      </CoordinateFrame>
-                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                      <token name="EasingDirection">0</token>
-                      <token name="EasingStyle">0</token>
-                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                      <bool name="DefinesCapabilities">false</bool>
-                      <BinaryString name="SerializedOverrides">
-                      </BinaryString>
-                      <int64 name="SourceAssetId">-1</int64>
-                      <BinaryString name="Tags"></BinaryString>
-                      <UniqueId name="UniqueId">5cf0b50e057fa2390af5c1990000427a</UniqueId>
-                      <float name="Weight">1</float>
-                    </Properties>
-                  </Item>
-                  <Item class="Pose" referent="142850">
-                    <Properties>
-                      <string name="Name">RShoulder</string>
+     <string name="Name">RShoulder</string>
                       <BinaryString name="AttributesSerialize"></BinaryString>
                       <CoordinateFrame name="CFrame">
                         <X>0.00000011920929</X>
@@ -390983,7 +390966,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000e80</UniqueId>
+      <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000e80</UniqueId>
     </Properties>
   </Item>
   <Item class="PermissionsService" referent="155648">
@@ -390997,7 +390980,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000ea6</UniqueId>
+      <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000eaa</UniqueId>
     </Properties>
   </Item>
   <Item class="LuaWebService" referent="155649">
@@ -391011,7 +390994,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">2df2bb9cadd867a20afb65f500000fca</UniqueId>
+      <UniqueId name="UniqueId">6938ff02d8fc40d80afbebc700000fca</UniqueId>
     </Properties>
   </Item>
   <SharedStrings>
