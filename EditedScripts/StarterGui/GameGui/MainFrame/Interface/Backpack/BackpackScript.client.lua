@@ -876,6 +876,16 @@ RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 
 	local camera = workspace.CurrentCamera
 	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
 	if player:GetAttribute("CameraShake") == false then return end
+	local shakeChar = player.Character
+	local shakeRoot = shakeChar and shakeChar:FindFirstChild("HumanoidRootPart")
+	if shakeRoot and shakeRoot:FindFirstChild("FlyVelocity") then
+		shakeState.melee = nil
+		shakeState.kickStart = -10
+		shakeState.hitStart = -10
+		shakeState.roarEnd = 0
+		shakeState.beamLevel = 0
+		return
+	end
 	local now = os.clock()
 	local target = beamActive and 1 or 0
 	local rate = target > shakeState.beamLevel and 5 or 3
