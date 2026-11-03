@@ -351,9 +351,7 @@ function BeamSystem.ForceCleanup(player)
 	end
 	restoreBeamTextures(data.beamTextureBases)
 	if data.beamTrails then
-		for _, trail in ipairs(data.beamTrails) do
-			pcall(function() trail:Destroy() end)
-		end
+		table.clear(data.beamTrails)
 	end
 	if data.impactFolder and data.impactFolder.Parent then
 		pcall(function() data.impactFolder:Destroy() end)
@@ -416,50 +414,77 @@ local function evalColorSequence(seq, t)
 	return keypoints[#keypoints].Value
 end
 local BEAM_TRAIL_TEXTURE = "rbxassetid://18455290017"
-local BEAM_TRAIL_LIFETIME = 0.22
+local BEAM_TRAIL_LIFETIME = 0.25
+local BEAM_TRAIL_MIN_MOVE = 0.6
+local BEAM_TRAIL_MAX_GHOSTS = 14
 local function createBeamTrails(beamStarts, beamNameFilter)
-	local trails = {}
+	local sources = {}
 	for _, beamStart in ipairs(beamStarts) do
 		for _, child in ipairs(beamStart:GetChildren()) do
 			if child:IsA("Beam") and (not beamNameFilter or beamNameFilter[child.Name]) then
 				local a0, a1 = child.Attachment0, child.Attachment1
 				if a0 and a1 then
-					local trail = Instance.new("Trail")
-					trail.Name = "BeamSweepTrail"
-					trail.Texture = BEAM_TRAIL_TEXTURE
-					trail.TextureMode = Enum.TextureMode.Stretch
-					trail.Color = ColorSequence.new(evalColorSequence(child.Color, 0.5))
-					trail.LightEmission = 1
-					trail.LightInfluence = 0
-					trail.Brightness = beamBrightness()
-					trail.Lifetime = BEAM_TRAIL_LIFETIME
-					trail.MinLength = 0.1
-					trail.FaceCamera = true
-					trail.Transparency = NumberSequence.new({
-						NumberSequenceKeypoint.new(0, 0.1),
-						NumberSequenceKeypoint.new(1, 1),
-					})
-					trail.Attachment0 = a0
-					trail.Attachment1 = a1
-					trail.Enabled = false
-					trail.Parent = a0
-					table.insert(trails, trail)
-					task.delay(0.15, function()
-						if trail.Parent then trail.Enabled = true end
-					end)
+					table.insert(sources, {beam = child, a0 = a0, a1 = a1, lastEnd = nil, live = 0})
 				end
 			end
 		end
 	end
-	return trails
+	return sources
 end
-local function removeBeamTrails(trails)
-	if not trails then return end
-	for _, trail in ipairs(trails) do
-		if trail.Parent then
-			trail.Enabled = false
-			game:GetService("Debris"):AddItem(trail, BEAM_TRAIL_LIFETIME + 0.3)
+local function spawnBeamGhosts(sources)
+	local terrain = Workspace.Terrain
+	for _, src in ipairs(sources) do
+		local beam = src.beam
+		if beam.Parent and src.a0.Parent and src.a1.Parent and beam.Enabled then
+			local p0 = src.a0.WorldPosition
+			local p1 = src.a1.WorldPosition
+			local moved = not src.lastEnd or (p1 - src.lastEnd).Magnitude >= BEAM_TRAIL_MIN_MOVE
+			if moved and src.live < BEAM_TRAIL_MAX_GHOSTS then
+				src.lastEnd = p1
+				src.live += 1
+				local g0 = Instance.new("Attachment")
+				g0.Name = "BeamGhostStart"
+				g0.Parent = terrain
+				g0.WorldPosition = p0
+				local g1 = Instance.new("Attachment")
+				g1.Name = "BeamGhostEnd"
+				g1.Parent = terrain
+				g1.WorldPosition = p1
+				local ghost = Instance.new("Beam")
+				ghost.Name = "BeamSweepGhost"
+				ghost.Attachment0 = g0
+				ghost.Attachment1 = g1
+				ghost.Texture = BEAM_TRAIL_TEXTURE
+				ghost.TextureMode = Enum.TextureMode.Stretch
+				ghost.TextureLength = 1
+				ghost.TextureSpeed = 0
+				ghost.Color = beam.Color
+				ghost.Transparency = NumberSequence.new(0.15)
+				ghost.LightEmission = 1
+				ghost.LightInfluence = 0
+				ghost.Brightness = beamBrightness()
+				ghost.Width0 = beam.Width0
+				ghost.Width1 = beam.Width1
+				ghost.FaceCamera = beam.FaceCamera
+				ghost.Segments = 1
+				ghost.CurveSize0 = 0
+				ghost.CurveSize1 = 0
+				ghost.ZOffset = beam.ZOffset
+				ghost.Parent = g0
+				game:GetService("TweenService"):Create(ghost, TweenInfo.new(BEAM_TRAIL_LIFETIME, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Width0 = 0, Width1 = 0}):Play()
+				local Debris = game:GetService("Debris")
+				Debris:AddItem(g0, BEAM_TRAIL_LIFETIME + 0.1)
+				Debris:AddItem(g1, BEAM_TRAIL_LIFETIME + 0.1)
+				task.delay(BEAM_TRAIL_LIFETIME + 0.1, function()
+					src.live = math.max(src.live - 1, 0)
+				end)
+			end
 		end
+	end
+end
+local function removeBeamTrails(sources)
+	if sources then
+		table.clear(sources)
 	end
 end
 local function getHeadPosition(character)
@@ -982,6 +1007,9 @@ function BeamSystem.ActivateBeam(config)
 			positionSideHitboxes(startPos, hitbox.CFrame, sideHitboxes, ext)
 			for _, be in ipairs(beamEndOffsets) do
 				be.att.CFrame = CFrame.new(be.offset * ext)
+			end
+			if beamIteration % 2 == 0 and #beamTrails > 0 then
+				spawnBeamGhosts(beamTrails)
 			end
 			if beamIteration % 2 == 0 and #glowAttachments > 0 and primaryBeamStart and primaryBeamStart.Parent then
 				local beamStartPos = primaryBeamStart.WorldPosition
