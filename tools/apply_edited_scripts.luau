@@ -1,6 +1,8 @@
 local fs = require("@lune/fs")
 local roblox = require("@lune/roblox")
 local process = require("@lune/process")
+local serde = require("@lune/serde")
+local valuesLib = require("./values")
 
 local inPath = process.args[1]
 local outPath = process.args[2]
@@ -8,6 +10,7 @@ local reportPath = process.args[3]
 local editedDir = process.args[4]
 local manifestPath = process.args[5]
 local createMissing = process.args[6] == "1"
+local valuesDir = process.args[7]
 
 local SKIP_TOP = { tests = true, Migration = true }
 local STRIP_TOP = { BeamCombat = true }
@@ -203,15 +206,42 @@ for _, rel in manifest do
 	end
 end
 
+local valueResult = { changed = {}, unchanged = {}, missing = {}, ambiguous = {}, errors = {}, deletedClasses = {} }
+if valuesDir and valuesDir ~= "" and fs.isDir(valuesDir) then
+	local names = fs.readDir(valuesDir)
+	table.sort(names)
+	local ops = {}
+	for _, f in names do
+		if f:sub(-5) == ".json" then
+			local okDecode, data = pcall(function() return serde.decode("json", fs.readFile(valuesDir .. "/" .. f)) end)
+			if okDecode and type(data) == "table" then
+				for _, op in data do table.insert(ops, op) end
+			else
+				table.insert(valueResult.errors, f .. ": invalid JSON")
+			end
+		end
+	end
+	local applied = valuesLib.apply(place, ops)
+	for k, v in applied do
+		if k == "errors" then
+			for _, e in v do table.insert(valueResult.errors, e) end
+		else
+			valueResult[k] = v
+		end
+	end
+end
+
 local problems = {}
 local expected = {}
 for k, v in before do expected[k] = v end
 for k, v in createdClasses do expected[k] = (expected[k] or 0) + v end
+for k, v in valueResult.deletedClasses do expected[k] = (expected[k] or 0) - v end
+for _, e in valueResult.errors do table.insert(problems, "values: " .. e) end
 local afterClasses = countClasses(place)
 for _, d in diffCounts(expected, afterClasses) do table.insert(problems, "after edit: " .. d) end
 
 local serialized = nil
-if #changed + #created > 0 and #problems == 0 then
+if #changed + #created + #valueResult.changed > 0 and #problems == 0 then
 	serialized = roblox.serializePlace(place)
 	local reloaded = roblox.deserializePlace(serialized)
 	local reClasses = countClasses(reloaded)
@@ -229,8 +259,9 @@ add(("- unchanged: **%d**"):format(#unchanged))
 add(("- missing in game (skipped): **%d**"):format(#missing))
 add(("- ambiguous (skipped): **%d**"):format(#ambiguous))
 add(("- skipped: **%d**"):format(#skipped))
+add(("- values changed: **%d** (unchanged %d, missing %d, ambiguous %d)"):format(#valueResult.changed, #valueResult.unchanged, #valueResult.missing, #valueResult.ambiguous))
 add("")
-add("Only the `Source` of existing scripts is edited. Children (Sounds, values, etc.), properties and all other instances are left as they are. Nothing is deleted or replaced.")
+add("Scripts: only the `Source` of existing scripts is edited. Values: only what is listed in EditedValues (attributes, properties, listed deletions) is touched. Everything else is left as it is.")
 add("")
 
 if #problems > 0 then
@@ -243,6 +274,21 @@ if #changed > 0 then
 	for _, c in changed do
 		add(("- ✏️ `%s` [%s] +%d / -%d lines"):format(c.path, c.class, c.added, c.removed))
 	end
+	add("")
+end
+if #valueResult.changed > 0 then
+	add("## Values changed")
+	for _, c in valueResult.changed do add("- 🔧 `" .. c .. "`") end
+	add("")
+end
+if #valueResult.missing > 0 then
+	add("## Value paths not found (skipped)")
+	for _, m in valueResult.missing do add("- ❓ `" .. m .. "`") end
+	add("")
+end
+if #valueResult.ambiguous > 0 then
+	add("## Value paths ambiguous (skipped)")
+	for _, m in valueResult.ambiguous do add("- ⚠️ `" .. m .. "`") end
 	add("")
 end
 if #created > 0 then
@@ -276,7 +322,7 @@ end
 fs.writeFile(reportPath, table.concat(out, "\n") .. "\n")
 fs.writeFile(
 	reportPath .. ".result",
-	("changed=%d\ncreated=%d\nmissing=%d\nfailed=%d\n"):format(#changed, #created, #missing, #problems > 0 and 1 or 0)
+	("changed=%d\ncreated=%d\nmissing=%d\nfailed=%d\n"):format(#changed + #valueResult.changed, #created, #missing + #valueResult.missing, #problems > 0 and 1 or 0)
 )
 print(table.concat(out, "\n"))
 

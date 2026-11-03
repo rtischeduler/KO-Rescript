@@ -1116,8 +1116,36 @@ local function buildButtons(character)
 		end
 	end
 
+	local function isRoarName(n)
+		return n == "Roar1" or n == "Roar1Event" or n == "Roar2" or n == "Roar2Event"
+	end
+
 	table.sort(events, function(a, b)
 		return (ORDER[a.Name] or 99) < (ORDER[b.Name] or 99)
+	end)
+
+	local slots = {}
+	local nextSlot = 1
+	for _, e in ipairs(events) do
+		if e:GetAttribute("AttackType") ~= "Beam" and not isRoarName(e.Name) then
+			slots[e] = nextSlot
+			nextSlot += 1
+		end
+	end
+	for _, e in ipairs(events) do
+		if e:GetAttribute("AttackType") == "Beam" and not isRoarName(e.Name) then
+			slots[e] = nextSlot
+			nextSlot += 1
+		end
+	end
+	for _, e in ipairs(events) do
+		if slots[e] == nil then
+			slots[e] = ORDER[e.Name] or 99
+		end
+	end
+
+	table.sort(events, function(a, b)
+		return slots[a] < slots[b]
 	end)
 
 	local sprintCount = (sprint and sprint.Visible) and 1 or 0
@@ -1135,7 +1163,7 @@ local function buildButtons(character)
 			scaleButtonChildren(button)
 			button.Parent = backpack
 			activeButtons[event.Name] = button
-			slotToEvent[ORDER[event.Name] or 99] = event.Name
+			slotToEvent[slots[event]] = event.Name
 
 			local attackImage = event:GetAttribute("AttackImage")
 			if attackImage and attackImage ~= "" then

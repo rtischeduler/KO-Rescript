@@ -21,6 +21,10 @@ on:
         type: choice
         options: [Published, Saved]
         default: Published
+      apply_values:
+        description: "Also apply EditedValues (attributes, properties, deletions)"
+        type: boolean
+        default: true
       universe_id:
         description: "Roblox Universe ID"
         required: false
@@ -48,6 +52,7 @@ jobs:
         with:
           sparse-checkout: |
             EditedScripts
+            EditedValues
             tools
 
       - name: Resolve universe ID -> root place ID
@@ -140,8 +145,10 @@ jobs:
           set -euo pipefail
           CREATE=0
           [ "${{ inputs.create_missing }}" = "true" ] && CREATE=1
+          VALUES_DIR=""
+          [ "${{ inputs.apply_values }}" = "true" ] && VALUES_DIR="EditedValues"
           set +e
-          lune run tools/apply_edited_scripts place.rbxl edited.rbxl report.md EditedScripts manifest.txt "$CREATE"
+          lune run tools/apply_edited_scripts place.rbxl edited.rbxl report.md EditedScripts manifest.txt "$CREATE" "$VALUES_DIR"
           CODE=$?
           set -e
           [ -f report.md ] && cat report.md >> "$GITHUB_STEP_SUMMARY"
