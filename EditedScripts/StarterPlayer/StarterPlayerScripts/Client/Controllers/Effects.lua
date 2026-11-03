@@ -938,27 +938,24 @@ local function startBeamTrails()
 	end
 end
 
-local function startBeamWaterBoost(oceanCfg)
-	-- The ocean is a transparent surface that Roblox alpha-blends OVER beams, which washes out their
-	-- color and texture (beam brightness is clamped, so boosting it cannot win). While a beam is active
-	-- near the water, the water is made solid so nothing is blended over the beam: it keeps its full
-	-- brightness and texture. The water fades back to its normal look when no beam is active.
+local function startBeamWaterOrder(oceanCfg)
+	-- The ocean is a big transparent mesh. Roblox draws transparent things back to front by distance, so a
+	-- beam that gets sorted before the water is drawn UNDER it and the water blends over it (dull, washed out).
+	-- Pushing the beam toward the camera (Beam.ZOffset) makes it sort after the water, so the water never
+	-- tints it. The water itself is not touched.
 	local Workspace = game:GetService("Workspace")
 	local RunService = game:GetService("RunService")
-	local BEAMING_TRANSPARENCY = 0 -- water transparency while a beam is active (0 = solid, nothing blends over the beam)
-	local MAX_DISTANCE = 1500      -- only beams this close to the camera count
-	local LINGER = 0.35            -- seconds to keep the water solid after the last beam stops
-	local FADE_IN = 18             -- ease speeds (per second)
-	local FADE_OUT = 5
+	local MARGIN = 10      -- extra studs past the water's sort distance
+	local MAX_OFFSET = 400 -- cap so a beam can never be pushed absurdly far toward the camera
+	local MIN_OFFSET = 4   -- always at least a little, for beams that are close to the water's distance
 
 	local ocean = Workspace:WaitForChild("Ocean", oceanCfg.WaitTimeout)
 	if not ocean or not ocean:IsA("BasePart") then return end
-	local levelOffset = oceanCfg.LevelOffset or 0
 
-	local beams = {}
+	local beams = {} -- [Beam] = original ZOffset
 	local function register(inst)
 		if inst:IsA("Beam") then
-			beams[inst] = true
+			beams[inst] = inst.ZOffset
 			inst.Destroying:Connect(function()
 				beams[inst] = nil
 			end)
@@ -972,66 +969,40 @@ local function startBeamWaterBoost(oceanCfg)
 		if count % 3000 == 0 then task.wait() end
 	end
 
-	-- water parts: the animated surface and the far water are created by the Ocean controller
-	local waters = {} -- [part] = original transparency
-	local function trackWater(part)
-		if part and part:IsA("BasePart") and waters[part] == nil then
-			waters[part] = part.Transparency
+	local function waterDistance(camPos)
+		local far = 0
+		for _, name in ipairs({ "OceanSurface", "OceanFar" }) do
+			local part = Workspace:FindFirstChild(name)
+			if part and part:IsA("BasePart") then
+				far = math.max(far, (part.Position - camPos).Magnitude)
+			end
 		end
+		far = math.max(far, (ocean.Position - camPos).Magnitude)
+		return far
 	end
-	local function scanWater()
-		trackWater(Workspace:FindFirstChild("OceanSurface"))
-		trackWater(Workspace:FindFirstChild("OceanFar"))
-	end
-	scanWater()
-	Workspace.ChildAdded:Connect(function(child)
-		if child.Name == "OceanSurface" or child.Name == "OceanFar" then
-			trackWater(child)
-		end
-	end)
 
-	local amount = 0 -- 0 = normal water, 1 = solid water
-	local lastActive = -math.huge
-
-	RunService.RenderStepped:Connect(function(dt)
+	RunService.RenderStepped:Connect(function()
 		local camera = Workspace.CurrentCamera
 		if not camera then return end
 		local camPos = camera.CFrame.Position
-		local level = ocean.Position.Y + ocean.Size.Y / 2 + levelOffset
+		local water = waterDistance(camPos)
 
-		local active = false
-		-- from below the surface the water is a backface, nothing is blended over the beam
-		if camPos.Y > level then
-			for beam in pairs(beams) do
-				if beam.Enabled and beam.Parent then
-					local a0, a1 = beam.Attachment0, beam.Attachment1
-					if a0 and a1 then
-						local p0, p1 = a0.WorldPosition, a1.WorldPosition
-						if (p0 - camPos).Magnitude < MAX_DISTANCE or (p1 - camPos).Magnitude < MAX_DISTANCE then
-							active = true
-							break
-						end
-					end
+		for beam, original in pairs(beams) do
+			if not beam.Parent then
+				beams[beam] = nil
+			elseif beam.Enabled then
+				local a0, a1 = beam.Attachment0, beam.Attachment1
+				local offset = MIN_OFFSET
+				if a0 and a1 then
+					local mid = (a0.WorldPosition + a1.WorldPosition) / 2
+					-- how much closer than the water the beam has to be sorted
+					offset = math.clamp((mid - camPos).Magnitude - water + MARGIN, MIN_OFFSET, MAX_OFFSET)
 				end
-			end
-		end
-
-		local now = os.clock()
-		if active then lastActive = now end
-		local want = (now - lastActive) < LINGER and 1 or 0
-		local speed = want > amount and FADE_IN or FADE_OUT
-		amount += (want - amount) * (1 - math.exp(-speed * dt))
-		if math.abs(want - amount) < 0.002 then amount = want end
-
-		for part, original in pairs(waters) do
-			if not part.Parent then
-				waters[part] = nil
-			else
-				-- the Ocean controller never changes Transparency after creation, so this stays in sync
-				local target = original + (BEAMING_TRANSPARENCY - original) * amount
-				if math.abs(part.Transparency - target) > 1e-3 then
-					part.Transparency = target
+				if math.abs(beam.ZOffset - offset) > 0.5 then
+					beam.ZOffset = offset
 				end
+			elseif beam.ZOffset ~= original then
+				beam.ZOffset = original
 			end
 		end
 	end)
@@ -1045,7 +1016,7 @@ function EffectsController:Start()
 	Util.spawn(log, "Rain", startRain, cfg.Rain)
 	Util.spawn(log, "Pulse", startPulse, cfg.Pulse)
 	Util.spawn(log, "BeamTrails", startBeamTrails)
-	Util.spawn(log, "BeamWaterBoost", startBeamWaterBoost, cfg.Ocean)
+	Util.spawn(log, "BeamWaterOrder", startBeamWaterOrder, cfg.Ocean)
 end
 
 return EffectsController
