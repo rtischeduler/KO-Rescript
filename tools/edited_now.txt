@@ -1,2 +1,1 @@
-StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu.lua
+ReplicatedStorage/BeamSystem.lua
