@@ -1,1 +1,1 @@
-ReplicatedStorage/BeamSystem.lua
+ServerScriptService/framework/modules/Combat.lua
