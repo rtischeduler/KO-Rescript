@@ -88,6 +88,13 @@ function Character.Init()
 			[string.lower("BlueEnderCookie_2")] = true,
 		}
 
+		-- Kaiju playable ONLY by their listed players, regardless of any other permission.
+		local EXCLUSIVE_KAIJU = {
+			[string.lower("Evo shin")] = {
+				[string.lower("brickrig1again_alt")] = true,
+			},
+		}
+
 		event.OnServerEvent:Connect(function(player, selectedCreature)
 			local ok, err = pcall(function()
 				local morphFolder = game:GetService("ServerStorage"):FindFirstChild("Kaijus")
@@ -115,6 +122,12 @@ function Character.Init()
 						player:Kick("You cannot use this kaiju.")
 						return
 					end
+				end
+
+				local exclusivePlayers = selectedCreature and EXCLUSIVE_KAIJU[string.lower(selectedCreature.Name)]
+				if exclusivePlayers and not exclusivePlayers[string.lower(player.Name)] then
+					morphResultEvent:FireClient(player, false, "This kaiju is not available to you")
+					return
 				end
 
 				local newModel = selectedCreature:Clone()

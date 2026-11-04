@@ -1,10 +1,10 @@
 {
   "totals": {
-    "scripts": 723,
+    "scripts": 721,
     "events": 418,
     "modules_never_required": 1,
     "modules_maybe_loaded_dynamically": 21,
-    "scripts_that_never_run": 121,
+    "scripts_that_never_run": 120,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
@@ -509,14 +509,9 @@
         "reason": "sits in a container where it never runs"
       },
       {
-        "path": "ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript",
+        "path": "ReplicatedStorage/ZILLA/HumanoidRootPart/AntiFling",
         "class": "Script",
-        "reason": "disabled"
-      },
-      {
-        "path": "ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript2",
-        "class": "Script",
-        "reason": "disabled"
+        "reason": "sits in a container where it never runs"
       },
       {
         "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim",
@@ -544,14 +539,14 @@
         "reason": "disabled"
       },
       {
-        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack/ServerScript",
+        "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/BlastScript",
         "class": "Script",
-        "reason": "sits in a container where it never runs"
+        "reason": "disabled"
       },
       {
-        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack3/ServerScript",
+        "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/BlastScript2",
         "class": "Script",
-        "reason": "sits in a container where it never runs"
+        "reason": "disabled"
       },
       {
         "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
@@ -660,14 +655,6 @@
         ]
       },
       {
-        "path": "ServerStorage/Evo shin",
-        "scripts_inside": 2,
-        "name_referenced_by": [
-          "ServerScriptService/SecurityPolicy",
-          "StarterGui/NEWMenu/Kaijus/List/PopulateList"
-        ]
-      },
-      {
         "path": "Lighting/Rocket",
         "scripts_inside": 1,
         "name_referenced_by": []
@@ -682,6 +669,11 @@
           "ServerScriptService/framework/modules/Data",
           "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla"
         ]
+      },
+      {
+        "path": "ReplicatedStorage/ZILLA",
+        "scripts_inside": 1,
+        "name_referenced_by": []
       },
       {
         "path": "StarterGui/GameGui",

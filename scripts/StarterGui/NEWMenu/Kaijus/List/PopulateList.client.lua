@@ -305,8 +305,7 @@ local function populate()
 			and player.Name ~= "DenisTheCheeseKing" then
 			clone.Visible = false
 		elseif model.Name == "Evo shin"
-			and string.lower(player.Name) ~= "brickrig1again_alt"
-			and string.lower(player.Name) ~= "mr_bolde2" then
+			and string.lower(player.Name) ~= "brickrig1again_alt" then
 			clone.Visible = false
 		else
 			clone.Visible = true
