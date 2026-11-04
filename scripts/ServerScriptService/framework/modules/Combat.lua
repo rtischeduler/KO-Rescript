@@ -120,6 +120,23 @@ end
 
 local initialized = false
 
+local BEAM_RIG_NAMES = { BeamStart = true, BeamEnd = true }
+
+local function disableBeamRig(character)
+	for _, descendant in ipairs(character:GetDescendants()) do
+		if descendant:IsA("Attachment") and BEAM_RIG_NAMES[descendant.Name] then
+			for _, effect in ipairs(descendant:GetDescendants()) do
+				if effect:IsA("Beam") or effect:IsA("Trail") or effect:IsA("Light") or effect:IsA("Smoke") or effect:IsA("Fire") or effect:IsA("Sparkles") then
+					effect.Enabled = false
+				elseif effect:IsA("ParticleEmitter") then
+					effect.Enabled = false
+					effect:Clear()
+				end
+			end
+		end
+	end
+end
+
 local function initCombat()
 	local HEALTH_THRESHOLD = 0.50
 	local SLOW_PERCENT = 0.65
@@ -195,6 +212,9 @@ local function initCombat()
 			setupDone[character] = nil
 			return
 		end
+
+		disableBeamRig(character)
+		task.defer(disableBeamRig, character)
 
 		local isLowHealth = false
 		local isApplyingSlow = false
@@ -880,6 +900,57 @@ local function initAttackHandler()
 		end
 	end
 
+	local BODY_CONTACT_KAIJU = { ["ZILLA JR"] = true }
+
+	local function usesBodyContact(character)
+		local kaijuName = character:GetAttribute("KaijuName") or character.Name
+		return BODY_CONTACT_KAIJU[kaijuName] == true
+	end
+
+	local function collectVisibleParts(character)
+		local parts = {}
+		for _, descendant in ipairs(character:GetDescendants()) do
+			if descendant:IsA("BasePart")
+				and descendant.Transparency < 1
+				and descendant.Name ~= "HumanoidRootPart"
+				and descendant.Name ~= "AttackHitbox"
+				and descendant.Name ~= "BeamHitbox"
+				and descendant.Name ~= "PulseHitbox"
+				and not descendant:GetAttribute("MeleeHit") then
+				table.insert(parts, descendant)
+			end
+		end
+		return parts
+	end
+
+	local function bodyContactHit(character, visibleParts, hitPlayers, player, damage)
+		local boxCFrame, boxSize = character:GetBoundingBox()
+		local broadParams = OverlapParams.new()
+		broadParams.FilterDescendantsInstances = { character }
+		broadParams.FilterType = Enum.RaycastFilterType.Exclude
+
+		local candidates = {}
+		for _, part in ipairs(workspace:GetPartBoundsInBox(boxCFrame, boxSize, broadParams)) do
+			local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
+			if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitPlayers[hitPlayer] then
+				candidates[hitPlayer] = hitHumanoid
+			end
+		end
+
+		for hitPlayer, hitHumanoid in pairs(candidates) do
+			local exactParams = OverlapParams.new()
+			exactParams.FilterDescendantsInstances = { hitHumanoid.Parent }
+			exactParams.FilterType = Enum.RaycastFilterType.Include
+			for _, bodyPart in ipairs(visibleParts) do
+				if bodyPart.Parent and #workspace:GetPartsInPart(bodyPart, exactParams) > 0 then
+					hitPlayers[hitPlayer] = true
+					registerHit(player, character, hitHumanoid, damage, 25)
+					break
+				end
+			end
+		end
+	end
+
 	local function executeMeleeAttack(player, character, remote, remoteName, durationOverride)
 		local hrp = character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
@@ -936,6 +1007,8 @@ local function initAttackHandler()
 		overlapParams.FilterDescendantsInstances = { character }
 		overlapParams.FilterType = Enum.RaycastFilterType.Exclude
 
+		local bodyParts = usesBodyContact(character) and collectVisibleParts(character) or nil
+
 		local startTime = os.clock()
 		while os.clock() - startTime < duration do
 			if not character.Parent or not hrp.Parent or not hitbox.Parent then break end
@@ -945,6 +1018,9 @@ local function initAttackHandler()
 					hitPlayers[hitPlayer] = true
 					registerHit(player, character, hitHumanoid, damage, 25)
 				end
+			end
+			if bodyParts then
+				bodyContactHit(character, bodyParts, hitPlayers, player, damage)
 			end
 			task.wait(0.05)
 		end

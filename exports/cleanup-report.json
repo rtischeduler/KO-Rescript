@@ -1,8 +1,8 @@
 {
   "totals": {
-    "scripts": 721,
-    "events": 418,
-    "modules_never_required": 1,
+    "scripts": 722,
+    "events": 419,
+    "modules_never_required": 2,
     "modules_maybe_loaded_dynamically": 21,
     "scripts_that_never_run": 120,
     "empty_running_scripts": 302,
@@ -15,6 +15,7 @@
       "ReplicatedStorage/Buy"
     ],
     "modules_never_required": [
+      "ServerStorage/TemplateGlowManager",
       "TestService/LuauLSP_Settings"
     ],
     "scripts_that_never_run": [
@@ -509,11 +510,6 @@
         "reason": "sits in a container where it never runs"
       },
       {
-        "path": "ReplicatedStorage/ZILLA/HumanoidRootPart/AntiFling",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
         "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim",
         "class": "LocalScript",
         "reason": "disabled"
@@ -614,6 +610,11 @@
         "reason": "disabled"
       },
       {
+        "path": "ServerStorage/incomplete/ZILLA/HumanoidRootPart/AntiFling",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
         "path": "StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript",
         "class": "LocalScript",
         "reason": "disabled"
@@ -671,7 +672,7 @@
         ]
       },
       {
-        "path": "ReplicatedStorage/ZILLA",
+        "path": "ServerStorage/incomplete",
         "scripts_inside": 1,
         "name_referenced_by": []
       },
