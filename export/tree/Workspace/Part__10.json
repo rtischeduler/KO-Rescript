@@ -1,0 +1,62 @@
+{
+  "Children": [
+    {
+      "ClassName": "SpecialMesh",
+      "Name": "Mesh",
+      "Properties": {
+        "ClassName": "SpecialMesh",
+        "MeshType": "Enum.MeshType.Sphere"
+      }
+    }
+  ],
+  "ClassName": "Part",
+  "Name": "Part",
+  "Properties": {
+    "Anchored": true,
+    "BackSurface": "Enum.SurfaceType.Smooth",
+    "BackSurfaceInput": "Enum.InputType.NoInput",
+    "BottomSurface": "Enum.SurfaceType.Smooth",
+    "BottomSurfaceInput": "Enum.InputType.NoInput",
+    "CFrame": {
+      "Position": [
+        -982.220947265625,
+        333.47607421875,
+        -2598.58447265625
+      ],
+      "Rotation": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "CanCollide": false,
+    "ClassName": "Part",
+    "Color": {
+      "B": 0.21960784494876862,
+      "G": 0.7215686440467834,
+      "R": 0.9372549057006836
+    },
+    "FormFactor": "Enum.FormFactor.Brick",
+    "FrontSurface": "Enum.SurfaceType.Smooth",
+    "FrontSurfaceInput": "Enum.InputType.NoInput",
+    "LeftSurface": "Enum.SurfaceType.Smooth",
+    "LeftSurfaceInput": "Enum.InputType.NoInput",
+    "Material": "Enum.Material.Neon",
+    "RightSurface": "Enum.SurfaceType.Smooth",
+    "RightSurfaceInput": "Enum.InputType.NoInput",
+    "Size": {
+      "X": 161.53460693359375,
+      "Y": 90.20364379882812,
+      "Z": 153.86013793945312
+    },
+    "TopSurface": "Enum.SurfaceType.Smooth",
+    "TopSurfaceInput": "Enum.InputType.NoInput",
+    "Transparency": 0.8999999761581421
+  }
+}

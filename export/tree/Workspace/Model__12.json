@@ -1,0 +1,135 @@
+{
+  "Children": [
+    {
+      "ClassName": "MeshPart",
+      "Name": "MeshPart",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            262.96209716796875,
+            376.71337890625,
+            -1886.6485595703125
+          ],
+          "Rotation": [
+            -0.7071090340614319,
+            0,
+            -0.7071089744567871,
+            0,
+            1,
+            0,
+            0.7071089744567871,
+            0,
+            -0.7071090340614319
+          ]
+        },
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.41960784792900085,
+          "G": 0.6117647290229797,
+          "R": 0.48627451062202454
+        },
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://430330965)"
+        },
+        "RenderFidelity": "Enum.RenderFidelity.Precise",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 1072.0244140625,
+          "Y": 539.2056884765625,
+          "Z": 1426.3756103515625
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "MeshPart",
+      "Name": "MeshPart",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            224.3428497314453,
+            376.3350830078125,
+            -1854.9010009765625
+          ],
+          "Rotation": [
+            -0.7071090340614319,
+            0,
+            -0.7071089744567871,
+            0,
+            1,
+            0,
+            0.7071089744567871,
+            0,
+            -0.7071090340614319
+          ]
+        },
+        "ClassName": "MeshPart",
+        "Color": {
+          "B": 0.27450981736183167,
+          "G": 0.3607843220233917,
+          "R": 0.48627451062202454
+        },
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "MeshContent": {
+          "Type": "Content",
+          "Value": "Content(Uri=rbxassetid://430330965)"
+        },
+        "RenderFidelity": "Enum.RenderFidelity.Precise",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 1117.233642578125,
+          "Y": 561.9450073242188,
+          "Z": 1486.528564453125
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    }
+  ],
+  "ClassName": "Model",
+  "Name": "Model",
+  "Properties": {
+    "ClassName": "Model",
+    "WorldPivotData": {
+      "Position": [
+        233.94256591796875,
+        376.3350830078125,
+        -1864.500732421875
+      ],
+      "Rotation": [
+        -0.7071068286895752,
+        0,
+        -0.7071067690849304,
+        0,
+        1,
+        0,
+        0.7071067690849304,
+        0,
+        -0.7071068286895752
+      ]
+    }
+  }
+}

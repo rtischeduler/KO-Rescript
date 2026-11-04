@@ -60505,6 +60505,11 @@
             "Charge": 30,
             "CooldownDuration": 35,
             "DamageStat": "DMG2",
+            "GlowColor": {
+              "B": 0,
+              "G": 1,
+              "R": 1
+            },
             "HitboxDuration": 4.7
           },
           "Children": [
@@ -64957,6 +64962,14 @@
       }
     },
     {
+      "Attributes": {
+        "BeamGlow": true,
+        "GlowColor": {
+          "B": 0,
+          "G": 1,
+          "R": 1
+        }
+      },
       "ClassName": "UnionOperation",
       "Name": "Spikes",
       "Properties": {

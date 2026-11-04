@@ -83,8 +83,16 @@ function Character.Init()
 		local ALLOWED_PLAYERS = {
 			[string.lower("AthosGame2023")] = true,
 			[string.lower("mr_bolde2")] = true,
+			[string.lower("Brickrig1again_alt")] = true,
 			[string.lower("DenisTheCheeseKing")] = true,
 			[string.lower("BlueEnderCookie_2")] = true,
+		}
+
+		-- Kaiju playable ONLY by their listed players, regardless of any other permission.
+		local EXCLUSIVE_KAIJU = {
+			[string.lower("Evo shin")] = {
+				[string.lower("brickrig1again_alt")] = true,
+			},
 		}
 
 		event.OnServerEvent:Connect(function(player, selectedCreature)
@@ -114,6 +122,12 @@ function Character.Init()
 						player:Kick("You cannot use this kaiju.")
 						return
 					end
+				end
+
+				local exclusivePlayers = selectedCreature and EXCLUSIVE_KAIJU[string.lower(selectedCreature.Name)]
+				if exclusivePlayers and not exclusivePlayers[string.lower(player.Name)] then
+					morphResultEvent:FireClient(player, false, "This kaiju is not available to you")
+					return
 				end
 
 				local newModel = selectedCreature:Clone()
@@ -223,15 +237,31 @@ function Character.Init()
 				if not humanoid then return end
 			end
 
+			local function disableTouch(desc)
+				if desc:IsA("BasePart") then
+					desc.CanTouch = false
+					desc.CanQuery = false
+				end
+			end
+
 			humanoid.Died:Connect(function()
+				for _, desc in ipairs(character:GetDescendants()) do
+					disableTouch(desc)
+				end
+				local added = character.DescendantAdded:Connect(disableTouch)
 				task.wait(4)
+				added:Disconnect()
 				if character and character.Parent then
 					for _, desc in ipairs(character:GetDescendants()) do
 						if desc:IsA("BasePart") then
 							desc.CanTouch = false
 							desc.CanQuery = false
 							desc.Transparency = 1
-						elseif desc:IsA("ParticleEmitter") or desc:IsA("Fire") or desc:IsA("Smoke") or desc:IsA("Trail") or desc:IsA("Beam") then
+						elseif desc:IsA("Decal") or desc:IsA("Texture") then
+							desc.Transparency = 1
+						elseif desc:IsA("SurfaceGui") or desc:IsA("BillboardGui") then
+							desc.Enabled = false
+						elseif desc:IsA("Highlight") or desc:IsA("Light") or desc:IsA("ParticleEmitter") or desc:IsA("Fire") or desc:IsA("Smoke") or desc:IsA("Sparkles") or desc:IsA("Trail") or desc:IsA("Beam") then
 							desc.Enabled = false
 						end
 					end
@@ -307,7 +337,29 @@ function Character.Init()
 							child.Rate = 0
 						end
 					end
-					task.delay(1, function()
+					local emitters = {}
+					local life = 0.5
+					for _, child in ipairs(bloodClone:GetChildren()) do
+						if child:IsA("ParticleEmitter") then
+							table.insert(emitters, { emitter = child, keys = child.Transparency.Keypoints })
+							life = math.max(life, child.Lifetime.Max)
+						end
+					end
+					task.spawn(function()
+						local steps = 10
+						local stepTime = life / steps
+						for i = 1, steps do
+							task.wait(stepTime)
+							if not (bloodClone and bloodClone.Parent) then return end
+							local f = i / steps
+							for _, info in ipairs(emitters) do
+								local points = {}
+								for _, k in ipairs(info.keys) do
+									table.insert(points, NumberSequenceKeypoint.new(k.Time, 1 - (1 - k.Value) * (1 - f)))
+								end
+								info.emitter.Transparency = NumberSequence.new(points)
+							end
+						end
 						if bloodClone and bloodClone.Parent then
 							bloodClone.Parent = nil
 						end
@@ -367,6 +419,29 @@ function Character.Init()
 		local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 		local TAG_TEMPLATE = ReplicatedStorage:FindFirstChild("Tag")
+		local NAMETAG_TEMPLATE = ReplicatedStorage:FindFirstChild("NametagGUI")
+		local DEFAULT_MAX_LEVEL = 100
+
+		local LevelManager = nil
+		pcall(function()
+			local module = ReplicatedStorage:WaitForChild("LevelManager", 5)
+			if module then LevelManager = require(module) end
+		end)
+
+		local function fillRatio(value, maxValue)
+			if type(value) ~= "number" or type(maxValue) ~= "number" or maxValue <= 0 then return 0 end
+			return math.clamp(value / maxValue, 0, 1)
+		end
+
+		local function getMaxLevel(character)
+			local kaijuValue = character:FindFirstChild("Kaiju")
+			local kaijuName = kaijuValue and kaijuValue:IsA("StringValue") and kaijuValue.Value or nil
+			if LevelManager and LevelManager.GetMaxLevel then
+				local ok, maxLevel = pcall(LevelManager.GetMaxLevel, kaijuName)
+				if ok and type(maxLevel) == "number" and maxLevel > 0 then return maxLevel end
+			end
+			return DEFAULT_MAX_LEVEL
+		end
 
 		local function getLevelValue(player, character)
 			local leaderstats = player:FindFirstChild("leaderstats")
@@ -455,15 +530,100 @@ function Character.Init()
 			end
 		end
 
+		local function giveNametag(player)
+			local character = player.Character
+			if not character then return end
+
+			local head = character:FindFirstChild("Head")
+			if not head then return end
+
+			local existingTag = head:FindFirstChild("Tag")
+			if existingTag then existingTag.Parent = nil end
+
+			local tag = NAMETAG_TEMPLATE:Clone()
+			tag.Name = "Tag"
+			tag.Parent = head
+
+			local frame = tag:FindFirstChild("Frame")
+			if not frame then return end
+
+			local nameLabel = frame:FindFirstChild("playername")
+			local hpLabel = frame:FindFirstChild("PlayerHealth")
+			local levelLabel = frame:FindFirstChild("PlayerLevel")
+			local hpFill = hpLabel and hpLabel:FindFirstChild("Color")
+			local levelFill = levelLabel and levelLabel:FindFirstChild("Color")
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+			if nameLabel then
+				nameLabel.Text = player.DisplayName
+			end
+
+			local function refreshHealth()
+				if not tag.Parent or not humanoid then return end
+				local maxHealth = math.max(humanoid.MaxHealth, 1)
+				local health = math.clamp(humanoid.Health, 0, maxHealth)
+				if hpLabel then
+					hpLabel.Text = "HP: " .. tostring(math.floor(health)) .. "/" .. tostring(math.floor(maxHealth))
+				end
+				if hpFill then
+					hpFill.Size = UDim2.new(fillRatio(health, maxHealth), 0, 1, 0)
+				end
+			end
+
+			local function refreshLevel()
+				if not tag.Parent then return end
+				local levelVal = getLevelValue(player, character)
+				local level = levelVal and levelVal.Value or 1
+				local maxLevel = getMaxLevel(character)
+				if levelLabel then
+					if level >= maxLevel then
+						levelLabel.Text = "LEVEL: " .. tostring(level) .. " (MAX)"
+					else
+						levelLabel.Text = "LEVEL: " .. tostring(level)
+					end
+				end
+				if levelFill then
+					levelFill.Size = UDim2.new(fillRatio(level, maxLevel), 0, 1, 0)
+				end
+			end
+
+			refreshHealth()
+			refreshLevel()
+
+			if humanoid then
+				humanoid.HealthChanged:Connect(refreshHealth)
+				humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(refreshHealth)
+				humanoid.Died:Connect(function()
+					tag.Parent = nil
+				end)
+			end
+
+			task.spawn(function()
+				while tag.Parent do
+					refreshLevel()
+					refreshHealth()
+					task.wait(0.5)
+				end
+			end)
+		end
+
+		local function giveAnyTag(player)
+			if NAMETAG_TEMPLATE then
+				giveNametag(player)
+			else
+				giveTag(player)
+			end
+		end
+
 		local function onPlayerAdded(player)
 			player.CharacterAdded:Connect(function()
 				task.wait(0.1)
-				giveTag(player)
+				giveAnyTag(player)
 			end)
 
 			if player.Character then
 				task.wait(0.1)
-				giveTag(player)
+				giveAnyTag(player)
 			end
 		end
 
@@ -547,6 +707,10 @@ function Character.Init()
 						end
 					end
 				end
+			end
+
+			if healthGui:IsA("BillboardGui") and game:GetService("ReplicatedStorage"):FindFirstChild("NametagGUI") and healthGui.Enabled then
+				healthGui.Enabled = false
 			end
 
 			local label = healthGui:FindFirstChild("Label")

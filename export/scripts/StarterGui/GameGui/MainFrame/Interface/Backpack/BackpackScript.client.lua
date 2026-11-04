@@ -315,6 +315,22 @@ local function needsAimPosition(eventName)
 		or eventName == "Attack3" or eventName == "Attack3Event"
 end
 
+local function charHasBeamRig(char)
+	if not char then return false end
+	for _, d in ipairs(char:GetDescendants()) do
+		if d:IsA("Attachment") and d.Name == "BeamStart" then
+			for _, c in ipairs(d:GetChildren()) do
+				if c:IsA("Beam") then return true end
+			end
+		end
+	end
+	return false
+end
+
+local function isRealBeam(evt, char)
+	return evt ~= nil and evt:GetAttribute("AttackType") == "Beam" and charHasBeamRig(char or player.Character)
+end
+
 local function isBeamEvent(eventName)
 	return eventName == "Beam" or eventName == "Attack2Event"
 		or eventName == "Attack3" or eventName == "Attack3Event"
@@ -346,6 +362,11 @@ local beamPredictServerMode = false
 local beamPredictTransitionUntil = 0
 local beamPredictServerHitbox = nil
 local beamPredictLastTime = 0
+local beamPredictLocalOnly = false
+local beamPredictOrigins = {}
+local beamPredictLocalBeams = {}
+local FOUR_SECOND_CHARGE = {["GODZILLA 2014"] = true, ["TITANUS GOJIRA"] = true, ["FROSTBITE GODZILLA"] = true}
+local PRED_CONFIRM_GRACE = 2
 
 local function easeOutCubic(t)
 	return 1 - (1 - t) ^ 3
@@ -387,7 +408,7 @@ local function findServerBeamHitbox()
 	return nil
 end
 
-local function startBeamPrediction()
+local function startBeamPrediction(localOnly)
 	beamPredictChar = player.Character
 	if not beamPredictChar then return end
 
@@ -437,6 +458,35 @@ local function startBeamPrediction()
 		beamClientFx:Destroy()
 	end
 	beamClientFx = BeamClientFX.new(beamPredictChar)
+
+	-- Local-only prediction: the server has not started the beam yet, so show it ourselves.
+	beamPredictLocalOnly = localOnly == true
+	beamPredictOrigins = {}
+	beamPredictLocalBeams = {}
+	if beamPredictLocalOnly then
+		for _, d in ipairs(beamPredictChar:GetDescendants()) do
+			if d:IsA("Attachment") and d.Name == "BeamEnd" then
+				local op = d.Parent
+				local offset = Vector3.new(0, 0, 0)
+				if op then
+					if op.Name == "LHead" then offset = Vector3.new(-8, 0, 0)
+					elseif op.Name == "RHead" or op.Name == "RUmouth" then offset = Vector3.new(8, 0, 0) end
+				end
+				beamPredictOrigins[d] = {parent = op, cframe = d.CFrame}
+				d:SetAttribute("BeamEndOffset", offset)
+				d.Parent = beamPredictHitbox
+				for _, c in ipairs(d:GetChildren()) do
+					if c:IsA("ParticleEmitter") or c:IsA("Light") then c.Enabled = true end
+				end
+			elseif d:IsA("Beam") and d.Parent and d.Parent:IsA("Attachment") and d.Parent.Name == "BeamStart" then
+				d.Transparency = NumberSequence.new(0)
+				d.LightEmission = 1
+				d.LightInfluence = 0
+				d.Enabled = true
+				table.insert(beamPredictLocalBeams, d)
+			end
+		end
+	end
 
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
 		if not beamActive or not beamPredictChar or not beamPredictChar.Parent then return end
@@ -543,7 +593,13 @@ local function stopBeamPrediction()
 						local offset = child:GetAttribute("BeamEndOffset") or Vector3.new(0, 0, 0)
 						child.CFrame = CFrame.new(offset)
 					else
-						child.Parent = nil
+						local origin = beamPredictOrigins[child]
+						if origin and origin.parent and origin.parent.Parent then
+							child.Parent = origin.parent
+							child.CFrame = origin.cframe
+						else
+							child.Parent = nil
+						end
 					end
 				else
 					child.Parent = nil
@@ -553,6 +609,15 @@ local function stopBeamPrediction()
 		beamPredictHitbox:Destroy()
 		beamPredictHitbox = nil
 	end
+
+	if beamPredictLocalOnly then
+		for _, b in ipairs(beamPredictLocalBeams) do
+			if b.Parent then b.Enabled = false end
+		end
+	end
+	beamPredictLocalOnly = false
+	beamPredictOrigins = {}
+	beamPredictLocalBeams = {}
 
 	beamEndsReparented = false
 	if beamPredictChar and beamPredictChar.Parent then
@@ -625,6 +690,10 @@ Knit.OnStart():andThen(function()
 					beamLockedYaw = math.atan2(-charLook.X, charLook.Z)
 				end
 			end
+		end
+		if beamActive and beamPredictionConnection then
+			-- already predicted locally; just adopt the server generation (no restart/flicker)
+			return
 		end
 		beamActive = true
 		startBeamRotation()
@@ -708,89 +777,6 @@ local ROAR_EVENTS = {
 
 
 
-local RunService = game:GetService("RunService")
-
-local SHAKE_FREQ = 7
-local BEAM_ROT = 0.0022
-local BEAM_POS = 0.008
-local ROAR_ROT = 0.0038
-local ROAR_POS = 0.014
-local PULSE_ROT = 0.005
-local PULSE_POS = 0.02
-local ROAR_FALLBACK = 3
-local KICK_TIME = 0.45
-
-local shakeState = { beamLevel = 0, roarStart = 0, roarEnd = 0, kickStart = -10, kickDir = 1 }
-
-local function shakeNoise(t, seed)
-	return math.noise(t * SHAKE_FREQ, seed + 0.5, 0.37) * 2
-end
-
-local function onShakeAbility(eventName)
-	if isBeamEvent(eventName) then return end
-	local now = os.clock()
-	if ROAR_EVENTS[eventName] then
-		shakeState.roarStart = now
-		shakeState.roarEnd = now + ROAR_FALLBACK
-	else
-		shakeState.kickStart = now
-		shakeState.kickDir = -shakeState.kickDir
-	end
-end
-
-local function syncRoarShakeToSound(sound)
-	local startedAt = shakeState.roarStart
-	task.spawn(function()
-		local t0 = os.clock()
-		while sound.Parent and sound.TimeLength == 0 and os.clock() - t0 < 1 do
-			task.wait()
-		end
-		if sound.TimeLength > 0 and shakeState.roarStart == startedAt then
-			shakeState.roarEnd = startedAt + sound.TimeLength / math.max(sound.PlaybackSpeed, 0.05)
-		end
-	end)
-end
-
-pcall(function() RunService:UnbindFromRenderStep("KOCameraShake") end)
-RunService:BindToRenderStep("KOCameraShake", Enum.RenderPriority.Camera.Value + 1, function(dt)
-	local camera = workspace.CurrentCamera
-	if not camera or camera.CameraType == Enum.CameraType.Scriptable then return end
-	if player:GetAttribute("CameraShake") == false then return end
-	local now = os.clock()
-	local target = beamActive and 1 or 0
-	local rate = target > shakeState.beamLevel and 5 or 3
-	shakeState.beamLevel += (target - shakeState.beamLevel) * math.min(dt * rate, 1)
-	if shakeState.beamLevel < 0.01 then shakeState.beamLevel = 0 end
-	local roar = 0
-	if now < shakeState.roarEnd then
-		roar = math.clamp(math.min((now - shakeState.roarStart) / 0.15, (shakeState.roarEnd - now) / 0.4, 1), 0, 1)
-	end
-	local pulse = 0
-	local pulseEnd = player:GetAttribute("PulseShakeEnd") or 0
-	if now < pulseEnd then
-		local pulseStart = player:GetAttribute("PulseShakeStart") or now
-		local env = math.clamp(math.min((now - pulseStart) / 0.08, (pulseEnd - now) / 0.5, 1), 0, 1)
-		pulse = env * (player:GetAttribute("PulseShakeAmp") or 0)
-	end
-	local kickAge = now - shakeState.kickStart
-	local kick = kickAge < KICK_TIME and math.exp(-kickAge * 9) or 0
-	local rotAmp = math.max(shakeState.beamLevel * BEAM_ROT, roar * ROAR_ROT, pulse * PULSE_ROT)
-	local posAmp = math.max(shakeState.beamLevel * BEAM_POS, roar * ROAR_POS, pulse * PULSE_POS)
-	if rotAmp == 0 and posAmp == 0 and kick == 0 then return end
-	local pitch = shakeNoise(now, 1) * rotAmp
-	local yaw = shakeNoise(now, 2) * rotAmp
-	local roll = shakeNoise(now, 3) * rotAmp * 0.7
-	local px = shakeNoise(now, 4) * posAmp
-	local py = shakeNoise(now, 5) * posAmp
-	if kick > 0 then
-		roll += shakeState.kickDir * 0.016 * kick * math.cos(kickAge * 20)
-		pitch -= 0.009 * kick * math.cos(kickAge * 16)
-		yaw += shakeState.kickDir * 0.004 * kick * math.sin(kickAge * 14)
-		py -= 0.04 * kick
-	end
-	camera.CFrame = camera.CFrame * CFrame.new(px, py, 0) * CFrame.Angles(pitch, yaw, roll)
-end)
-
 local function silenceServerRoarSound(char, roarName)
 	local targets = {}
 	local head = char:FindFirstChild("Head")
@@ -830,7 +816,6 @@ end
 local function playClientPrediction(eventName, char)
 	local animName = PREDICTION_ANIM_MAP[eventName]
 	if not animName then return end
-	onShakeAbility(eventName)
 
 	local humanoid = char:FindFirstChildOfClass("Humanoid")
 	if not humanoid then return end
@@ -860,7 +845,6 @@ local function playClientPrediction(eventName, char)
 					soundClone:SetAttribute("ClientPrediction", true)
 					soundClone.Parent = char:FindFirstChild("Head") or char:FindFirstChild("Torso") or char
 					soundClone:Play()
-					syncRoarShakeToSound(soundClone)
 					local len = soundClone.TimeLength / soundClone.PlaybackSpeed
 					task.spawn(function()
 						task.wait(len > 0 and len or 5)
@@ -876,11 +860,14 @@ end
 
 local chargeTweens = {}
 
-local function playChargeFill(button, duration)
+local function playChargeFill(button, duration, keepRunning)
 	local charge = button:FindFirstChild("Charge")
 	if not charge then return end
 	local previous = chargeTweens[charge]
 	if previous then
+		if keepRunning and previous.PlaybackState == Enum.PlaybackState.Playing then
+			return
+		end
 		previous:Cancel()
 	end
 	charge.Size = UDim2.new(1, 0, -1, 0)
@@ -946,11 +933,35 @@ local function fireAbility(eventName)
 		evt:FireServer()
 	end
 
-	if isBeamEvent(eventName) then
+	if isBeamEvent(eventName) and isRealBeam(evt, char) then
 		if beamStartTimeout then
 			task.cancel(beamStartTimeout)
 		end
-		beamStartTimeout = task.delay(5, function()
+		local charge = evt:GetAttribute("BeamChargeTime") or 0
+		local kaijuVal = char:FindFirstChild("Kaiju")
+		if kaijuVal and FOUR_SECOND_CHARGE[kaijuVal.Value] then charge = 4 end
+		if beamDelayToken then task.cancel(beamDelayToken) end
+		beamDelayToken = task.delay(charge, function()
+			beamDelayToken = nil
+			if beamActive then return end
+			local c = player.Character
+			if c ~= char or not c.Parent then return end
+			local hum = c:FindFirstChildOfClass("Humanoid")
+			if not hum or hum.Health <= 0 then return end
+			beamActive = true
+			startBeamRotation()
+			startBeamPrediction(true)
+			if beamStartTimeout then task.cancel(beamStartTimeout) end
+			beamStartTimeout = task.delay(PRED_CONFIRM_GRACE, function()
+				beamStartTimeout = nil
+				beamActive = false
+				currentBeamGeneration = nil
+				beamLockedYaw = nil
+				stopBeamRotation()
+				stopBeamPrediction()
+			end)
+		end)
+		beamStartTimeout = task.delay(math.max(5, charge + 2), function()
 			beamStartTimeout = nil
 			beamActive = false
 			currentBeamGeneration = nil
@@ -964,8 +975,9 @@ local function fireAbility(eventName)
 
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-			local otherRemaining = CooldownManager.getRemaining(otherButton.Name)
-			playChargeFill(otherButton, math.max(otherRemaining, attackDuration))
+			if CooldownManager.getRemaining(otherButton.Name) <= 0 then
+				playChargeFill(otherButton, attackDuration, true)
+			end
 		end
 	end
 end
@@ -1039,8 +1051,36 @@ local function buildButtons(character)
 		end
 	end
 
+	local function isRoarName(n)
+		return n == "Roar1" or n == "Roar1Event" or n == "Roar2" or n == "Roar2Event"
+	end
+
 	table.sort(events, function(a, b)
 		return (ORDER[a.Name] or 99) < (ORDER[b.Name] or 99)
+	end)
+
+	local slots = {}
+	local nextSlot = 1
+	for _, e in ipairs(events) do
+		if not isRealBeam(e) and not isRoarName(e.Name) then
+			slots[e] = nextSlot
+			nextSlot += 1
+		end
+	end
+	for _, e in ipairs(events) do
+		if isRealBeam(e) and not isRoarName(e.Name) then
+			slots[e] = nextSlot
+			nextSlot += 1
+		end
+	end
+	for _, e in ipairs(events) do
+		if slots[e] == nil then
+			slots[e] = ORDER[e.Name] or 99
+		end
+	end
+
+	table.sort(events, function(a, b)
+		return slots[a] < slots[b]
 	end)
 
 	local sprintCount = (sprint and sprint.Visible) and 1 or 0
@@ -1058,7 +1098,7 @@ local function buildButtons(character)
 			scaleButtonChildren(button)
 			button.Parent = backpack
 			activeButtons[event.Name] = button
-			slotToEvent[ORDER[event.Name] or 99] = event.Name
+			slotToEvent[slots[event]] = event.Name
 
 			local attackImage = event:GetAttribute("AttackImage")
 			if attackImage and attackImage ~= "" then
@@ -1294,4 +1334,3 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 		doSprintToggle()
 	end
 end)
-

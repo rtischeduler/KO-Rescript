@@ -1,6 +1,9 @@
 {
   "Children": [
     {
+      "Attributes": {
+        "EclipseMeshTextureId": "4dea3e72-d9a6-448c-9862-e7e3a87c1361"
+      },
       "ClassName": "MeshPart",
       "Name": "MeshPart",
       "Properties": {
@@ -55,6 +58,9 @@
       }
     },
     {
+      "Attributes": {
+        "EclipseMeshTextureId": "c2497c3a-ed98-4f3d-87c7-a89211065ee3"
+      },
       "ClassName": "MeshPart",
       "Name": "MeshPart",
       "Properties": {

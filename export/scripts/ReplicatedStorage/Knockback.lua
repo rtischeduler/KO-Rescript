@@ -5,8 +5,8 @@ local RunService = game:GetService("RunService")
 local Knockback = {}
 
 local SETTINGS = {
-	attack = { speed = 40, lift = 8 },
-	beam = { speed = 3, lift = 0 },
+	attack = { speed = 0, lift = 0 },
+	beam = { speed = 0, lift = 0 },
 }
 
 -- Resolves speed/lift/duration from a base setting plus optional overrides.

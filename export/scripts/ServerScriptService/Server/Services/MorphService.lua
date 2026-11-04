@@ -43,6 +43,12 @@ function MorphService:Init()
 		allowedUserIds[id] = true
 	end
 
+	-- Kaiju restricted to a specific list of players only (case-insensitive).
+	local exclusiveKaiju = {}
+	for kaiju, names in pairs(cfg.ExclusiveKaiju or {}) do
+		exclusiveKaiju[string.lower(kaiju)] = Util.lowerSet(names)
+	end
+
 	local function fail(player, message)
 		morphResult:FireClient(player, false, nil, message)
 	end
@@ -71,6 +77,12 @@ function MorphService:Init()
 				fail(player, "Invalid morph")
 				return
 			end
+			local exclusivePlayers = exclusiveKaiju[string.lower(selectedCreature.Name)]
+			if exclusivePlayers and not exclusivePlayers[string.lower(player.Name)] then
+				fail(player, "This kaiju is not available to you")
+				return
+			end
+
 			if not SecurityPolicy.CanUseMorph(player, selectedCreature) then
 				fail(player, "You do not own this kaiju")
 				return

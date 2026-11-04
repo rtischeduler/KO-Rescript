@@ -32,6 +32,18 @@ local function getOrCreateRemote(name)
 	return remote
 end
 
+local function getKaijuScale(character)
+	local value = character and character:GetAttribute("KaijuScale")
+	if typeof(value) == "number" and value > 0 then
+		return value
+	end
+	return 1
+end
+
+local function isFlying(character)
+	return character ~= nil and character:GetAttribute("Flying") == true
+end
+
 local function getGCells(player)
 	local leaderstats = player:FindFirstChild("leaderstats")
 	if not leaderstats then return nil end
@@ -308,7 +320,10 @@ local function initCombat()
 					local kills = stats and stats:FindFirstChild("Kills")
 					if kills and kills:IsA("IntValue") then kills.Value += 1 end
 					giveXP(topKiller, KILL_XP_MIN, KILL_XP_MAX, character, true)
-					healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
+					local gcellScale, xpScale = rewardScale(topKiller, character, true)
+					if gcellScale > 0 or xpScale > 0 then
+						healPlayer(topKiller, HEAL_PERCENT_ON_KILL)
+					end
 				end
 				for _, attacker in ipairs(others) do
 					if attacker ~= topKiller and attacker:IsA("Player") then
@@ -424,12 +439,21 @@ end
 local function initPulse()
 	local pulseHitEvent = getOrCreateRemote("PulseHit")
 	local pulseFireEvent = getOrCreateRemote("PulseFire")
+	local flightStateEvent = getOrCreateRemote("FlightState")
+
+	flightStateEvent.OnServerEvent:Connect(function(plr, flying)
+		local char = plr.Character
+		if char then
+			char:SetAttribute("Flying", flying == true)
+		end
+	end)
 
 	local function getHumanoidAndPlayer(part)
 		local current = part.Parent
 		while current and current ~= workspace do
 			local humanoid = current:FindFirstChildOfClass("Humanoid")
 			if humanoid then
+				if humanoid.Health <= 0 then return nil, nil end
 				return humanoid, Players:GetPlayerFromCharacter(current)
 			end
 			current = current.Parent
@@ -441,6 +465,10 @@ local function initPulse()
 		local character = player and player.Character
 		local hrp = character and character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
+
+		local sizeMult = getKaijuScale(character)
+		local baseMin = 300 * sizeMult
+		maxSize = maxSize * sizeMult
 
 		pulseFireEvent:FireAllClients(player, color, maxSize, duration)
 
@@ -467,7 +495,7 @@ local function initPulse()
 
 		local damagePerTick = damage / 10
 		local gcellsPerTick = 25
-		maxSize = math.max(maxSize, 300)
+		maxSize = math.max(maxSize, baseMin)
 		local tickInterval = 0.5
 		local burstTime, sustainTime = 0.4, 0.5
 		local peak = maxSize * 1.1
@@ -509,7 +537,7 @@ local function initPulse()
 				local hitThisTick = {}
 				for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
 					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] and not isFlying(hitHumanoid.Parent) then
 						hitThisTick[hitPlayer] = true
 						setCreator(hitHumanoid, player)
 						hitHumanoid:TakeDamage(damagePerTick)
@@ -729,6 +757,7 @@ local function initAttackHandler()
 		while model do
 			local humanoid = model:FindFirstChildOfClass("Humanoid")
 			if humanoid then
+				if humanoid.Health <= 0 then return nil, nil end
 				return humanoid, Players:GetPlayerFromCharacter(model)
 			end
 			model = model.Parent
@@ -870,8 +899,6 @@ local function initAttackHandler()
 
 		playAttackAnimation(character, getAnimName(remoteName))
 
-		-- Travel: forward lunge for the attacker, configurable per attack remote
-		-- via TravelSpeed / TravelDistance / TravelDuration attributes.
 		if Knockback then
 			Knockback.travel(character, {
 				speed = remote:GetAttribute("TravelSpeed"),
@@ -931,11 +958,12 @@ local function initAttackHandler()
 		local hrp = character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
 
-		local sizeX = remote:GetAttribute("HitboxSizeX") or 50
-		local sizeY = remote:GetAttribute("HitboxSizeY") or 50
-		local sizeZ = remote:GetAttribute("HitboxSizeZ") or 50
+		local sizeMult = getKaijuScale(character)
+		local sizeX = (remote:GetAttribute("HitboxSizeX") or 50) * sizeMult
+		local sizeY = (remote:GetAttribute("HitboxSizeY") or 50) * sizeMult
+		local sizeZ = (remote:GetAttribute("HitboxSizeZ") or 50) * sizeMult
 		local duration = remote:GetAttribute("HitboxDuration") or 2
-		local maxSize = remote:GetAttribute("PulseMaxSize") or 500
+		local maxSize = (remote:GetAttribute("PulseMaxSize") or 500) * sizeMult
 		local tickInterval = remote:GetAttribute("PulseTickInterval") or 0.3
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
 
@@ -990,9 +1018,10 @@ local function initAttackHandler()
 				local hitThisTick = {}
 				for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
 					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] and not isFlying(hitHumanoid.Parent) then
 						hitThisTick[hitPlayer] = true
 						registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
+						getOrCreateRemote("PulseHit"):FireClient(hitPlayer)
 					end
 				end
 			end
@@ -1058,6 +1087,17 @@ local function initAttackHandler()
 		["FROSTBITE GODZILLA"] = true,
 	}
 
+	local function hasBeamRig(character)
+		for _, d in ipairs(character:GetDescendants()) do
+			if d:IsA("Attachment") and d.Name == "BeamStart" then
+				for _, c in ipairs(d:GetChildren()) do
+					if c:IsA("Beam") then return true end
+				end
+			end
+		end
+		return false
+	end
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -1072,6 +1112,17 @@ local function initAttackHandler()
 			chargeTime = 4
 		end
 
+		local spikesFolder = character:FindFirstChild("Spikes")
+		local folderGlow = spikesFolder and spikesFolder:GetAttribute("BeamGlow")
+		if folderGlow == nil then folderGlow = true end
+		local folderColor = spikesFolder and spikesFolder:GetAttribute("GlowColor")
+		if typeof(folderColor) ~= "Color3" then
+			folderColor = remote:GetAttribute("GlowColor")
+			if typeof(folderColor) ~= "Color3" then
+				folderColor = nil
+			end
+		end
+
 		playAttackAnimation(character, getAnimName(remoteName))
 
 		local glowManager = getGlowManager(character)
@@ -1081,14 +1132,13 @@ local function initAttackHandler()
 
 		local sortedSpikes = {}
 		local originalProps = {}
-		local spikesFolder = character:FindFirstChild("Spikes")
 		if spikesFolder then
 			for _, child in ipairs(spikesFolder:GetChildren()) do
 				if child:IsA("BasePart") then
 					local number = tonumber(string.match(child.Name, "%d+"))
 					if number then
 						table.insert(sortedSpikes, { part = child, number = number })
-						originalProps[child] = { Material = child.Material, UsePartColor = child.UsePartColor }
+						originalProps[child] = { Material = child.Material, UsePartColor = child.UsePartColor, Color = child.Color }
 					end
 				end
 			end
@@ -1103,6 +1153,7 @@ local function initAttackHandler()
 					if props and spike.Parent then
 						spike.Material = props.Material
 						spike.UsePartColor = props.UsePartColor
+						spike.Color = props.Color
 					end
 					task.wait(0.1)
 				end
@@ -1113,8 +1164,18 @@ local function initAttackHandler()
 		if #sortedSpikes > 0 then
 			local perSpikeDelay = chargeTime > 0 and chargeTime / #sortedSpikes or 0.21
 			for _, data in ipairs(sortedSpikes) do
-				data.part.Material = Enum.Material.Neon
-				data.part.UsePartColor = true
+				local part = data.part
+				local partGlow = part:GetAttribute("BeamGlow")
+				if partGlow == nil then partGlow = folderGlow end
+				if partGlow then
+					part.Material = Enum.Material.Neon
+					part.UsePartColor = true
+					local partColor = part:GetAttribute("GlowColor")
+					if typeof(partColor) ~= "Color3" then partColor = folderColor end
+					if partColor then
+						part.Color = partColor
+					end
+				end
 				task.wait(perSpikeDelay)
 			end
 		elseif chargeTime > 0 then
@@ -1186,7 +1247,11 @@ local function initAttackHandler()
 				elseif attackType == "Pulse" then
 					executePulseAttack(player, char, remote, remoteName)
 				elseif attackType == "Beam" then
-					executeBeamAttack(player, char, remote, remoteName, args[1])
+					if hasBeamRig(char) then
+						executeBeamAttack(player, char, remote, remoteName, args[1])
+					else
+						executeMeleeAttack(player, char, remote, remoteName, remote:GetAttribute("HitboxDuration") or remote:GetAttribute("BeamDuration"))
+					end
 				elseif attackType == "FirePulse" then
 					executeFirePulse(player, char, remote, remoteName)
 				elseif attackType == "BackBeam" then

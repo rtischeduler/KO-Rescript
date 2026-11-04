@@ -1,0 +1,8 @@
+{
+  "ClassName": "ModuleScript",
+  "Name": "TemplateGlowManager",
+  "Properties": {
+    "ClassName": "ModuleScript"
+  },
+  "SourceFile": "scripts/ServerStorage/TemplateGlowManager.lua"
+}

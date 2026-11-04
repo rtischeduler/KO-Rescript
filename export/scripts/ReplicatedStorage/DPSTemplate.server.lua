@@ -35,11 +35,28 @@ local function getCharRadius(char)
 	return radius
 end
 
+local partsCache = {}
+local function getCharParts(char)
+	local entry = partsCache[char]
+	local now = os.clock()
+	if entry and now - entry.t < 2 then return entry.list end
+	local list = {}
+	for _, part in ipairs(char:GetDescendants()) do
+		if part:IsA("BasePart") then list[#list + 1] = part end
+	end
+	partsCache[char] = {t = now, list = list}
+	return list
+end
+
 local function characterTouchesHitbox(char, hitbox)
 	local cf = hitbox.CFrame
 	local half = hitbox.Size / 2
-	for _, part in ipairs(char:GetDescendants()) do
-		if part:IsA("BasePart") then
+	local root = char:FindFirstChild("HumanoidRootPart")
+	if root and (root.Position - cf.Position).Magnitude > getCharRadius(char) * 2 + hitbox.Size.Magnitude / 2 + 10 then
+		return false
+	end
+	for _, part in ipairs(getCharParts(char)) do
+		if part.Parent then
 			local lp = cf:PointToObjectSpace(part.Position)
 			local r = part.Size.Magnitude / 2
 			if math.abs(lp.X) <= half.X + r and math.abs(lp.Y) <= half.Y + r and math.abs(lp.Z) <= half.Z + r then
@@ -146,6 +163,11 @@ task.spawn(function()
 		for char in pairs(charRadiusCache) do
 			if not char.Parent then
 				charRadiusCache[char] = nil
+			end
+		end
+		for char in pairs(partsCache) do
+			if not char.Parent then
+				partsCache[char] = nil
 			end
 		end
 

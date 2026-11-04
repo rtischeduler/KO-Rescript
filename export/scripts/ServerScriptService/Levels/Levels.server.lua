@@ -129,18 +129,23 @@ local function getPlayerData(p)
 
 	if success and data and type(data) == "table" then
 		fullPlayerData = data
+		for name, entry in pairs(data) do
+			if LevelManager.MigrateEntry(name, entry) then
+				dataDirty = true
+			end
+		end
 		if data[kaijuName] then
 			cachedData = data[kaijuName]
 			if not cachedData.usedSkillPoints then
 				cachedData.usedSkillPoints = 0
 			end
 		else
-			cachedData = { level = 1, xp = 0, usedSkillPoints = 0 }
+			cachedData = { level = 1, xp = 0, usedSkillPoints = 0, xpVersion = LevelManager.XP_VERSION }
 			fullPlayerData[kaijuName] = cachedData
 		end
 	else
 		fullPlayerData = {}
-		cachedData = { level = 1, xp = 0, usedSkillPoints = 0 }
+		cachedData = { level = 1, xp = 0, usedSkillPoints = 0, xpVersion = LevelManager.XP_VERSION }
 		fullPlayerData[kaijuName] = cachedData
 	end
 	return cachedData
@@ -165,6 +170,26 @@ local function applyHPBonus(level, fullHeal)
 
 	
 	if character:GetAttribute("BossMode") then return end
+
+	-- Evolved Godzilla: forced health curve.
+	-- Base level = 4500 HP, grows with XP as he levels up, reaching 5500 at max level.
+	-- This ignores any stale BaseMaxHP attribute so his health can never drift to wrong values.
+	if kaijuName == "Evolved Godzilla" then
+		local maxLevel = LevelManager.GetMaxLevel(kaijuName)
+		local baseHP = 4500
+		local cappedHP = 5500
+		local fraction = 0
+		if maxLevel and maxLevel > 1 then
+			fraction = math.clamp((level - 1) / (maxLevel - 1), 0, 1)
+		end
+		local newMaxHP = math.floor(baseHP + (cappedHP - baseHP) * fraction)
+		humanoid:SetAttribute("BaseMaxHP", baseHP)
+		humanoid.MaxHealth = newMaxHP
+		if fullHeal then
+			humanoid.Health = newMaxHP
+		end
+		return
+	end
 
 	local baseMaxHP = humanoid:GetAttribute("BaseMaxHP")
 	if not baseMaxHP then
@@ -365,7 +390,11 @@ local function startDetection()
 							local targetLevel = targetLevelVal and targetLevelVal.Value or 1
 
 							if not (attackerLevel > 10 and targetLevel < 10) then
-								addXP(math.random(10, 20))
+								local xpGain = math.random(10, 20)
+								addXP(xpGain)
+								if _G.ShowIndicator and targetChar then
+									_G.ShowIndicator(player, 0, 0, xpGain, targetChar)
+								end
 							end
 
 							task.delay(0.5, function()

@@ -81,13 +81,19 @@
     {
       "class": "StringValue",
       "detail": "PlayerName",
+      "path": "ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/PlayerName",
+      "why": "name"
+    },
+    {
+      "class": "StringValue",
+      "detail": "PlayerName",
       "path": "ServerStorage/Kaijus/BURNING GODZILLA/HitParts/HeiseiBlast/PlayerName",
       "why": "name"
     },
     {
       "class": "StringValue",
       "detail": "PlayerName",
-      "path": "ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/PlayerName",
+      "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/PlayerName",
       "why": "name"
     }
   ],

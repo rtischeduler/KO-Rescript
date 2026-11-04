@@ -1,8 +1,24 @@
 {
   "Children": [
     {
+      "Attributes": {
+        "BeamGlow": true,
+        "GlowColor": {
+          "B": 1,
+          "G": 1,
+          "R": 0.6666666865348816
+        }
+      },
       "Children": [
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -95,6 +111,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -187,6 +211,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -279,6 +311,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -371,6 +411,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -463,6 +511,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -555,6 +611,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -647,6 +711,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -739,6 +811,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -831,6 +911,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -923,6 +1011,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1015,6 +1111,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1107,6 +1211,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1199,6 +1311,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1291,6 +1411,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1383,6 +1511,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1475,6 +1611,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1567,6 +1711,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1659,6 +1811,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1751,6 +1911,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1843,6 +2011,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",
@@ -1935,6 +2111,14 @@
           }
         },
         {
+          "Attributes": {
+            "BeamGlow": true,
+            "GlowColor": {
+              "B": 1,
+              "G": 1,
+              "R": 0.6666666865348816
+            }
+          },
           "Children": [
             {
               "ClassName": "ParticleEmitter",

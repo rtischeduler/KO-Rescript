@@ -100,8 +100,8 @@ local function initDayNight()
 		Cloud = Color3.new(1, 1, 1),
 	}
 	local NIGHT = {
-		Brightness = 1.2, Ambient = Color3.new(0.28, 0.32, 0.45),
-		OutdoorAmbient = Color3.new(0.15, 0.18, 0.3),
+		Brightness = 1.4, Ambient = Color3.new(0.33, 0.37, 0.5),
+		OutdoorAmbient = Color3.new(0.19, 0.22, 0.34),
 		ColorShift_Top = Color3.new(0.12, 0.15, 0.28),
 		ColorShift_Bottom = Color3.new(0.06, 0.07, 0.14),
 		FogColor = Color3.new(0.18, 0.21, 0.3), FogEnd = 3000,
@@ -109,7 +109,7 @@ local function initDayNight()
 		Cloud = Color3.new(0.12, 0.12, 0.16),
 	}
 	local RAIN = {
-		FogEndMul = 0.4, DensityAdd = 0.15, HazeAdd = 1,
+		FogEndMul = 0.55, DensityAdd = 0.1, HazeAdd = 0.7,
 		FogColor = Color3.new(0.35, 0.37, 0.4),
 		AtmColor = Color3.new(0.4, 0.42, 0.45),
 		Cloud = Color3.new(0.15, 0.15, 0.18),
@@ -120,6 +120,8 @@ local function initDayNight()
 	local lastCheck = -math.huge
 	local baseDecay = nil
 	local wxLevel, wxTable = 0, nil
+	local forceNight = false
+	local FORCED_NIGHT_MINUTES = 1380
 	local lastWx = os.clock()
 
 	local fxBase = setmetatable({}, { __mode = "k" })
@@ -174,14 +176,15 @@ local function initDayNight()
 			RAIN = set.Rain or DEFAULT.Rain
 			SNOW = set.Snow or set.Rain or DEFAULT.Rain
 			applyEffects(holiday and holiday.Effects or nil)
+			forceNight = holiday ~= nil and holiday.ForceNight == true
 		end
 
 		local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere")
 		local clouds = workspace.Terrain:FindFirstChildOfClass("Clouds")
 
-		local minutes = (START_MINUTES + (os.clock() - t0) * timeRatio) % 1440
+		local minutes = forceNight and FORCED_NIGHT_MINUTES or (START_MINUTES + (os.clock() - t0) * timeRatio) % 1440
 		Lighting:SetMinutesAfterMidnight(minutes)
-		local t = dayFactor(minutes)
+		local t = forceNight and 0 or dayFactor(minutes)
 
 		Lighting.Brightness = lerp(NIGHT.Brightness, DAY.Brightness, t)
 		Lighting.Ambient = NIGHT.Ambient:Lerp(DAY.Ambient, t)
@@ -291,6 +294,7 @@ local function initWindowLights()
 	workspace.DescendantAdded:Connect(register)
 	workspace.DescendantRemoving:Connect(function(inst)
 		saved[inst] = nil
+		if not inst:IsA("UnionOperation") then return end
 		for b, list in buildings do
 			local i = table.find(list, inst)
 			if i then
@@ -703,6 +707,46 @@ local function initRain()
 	local toggleRain = ReplicatedStorage:FindFirstChild("ToggleRain")
 	local toggleSnow = ReplicatedStorage:FindFirstChild("ToggleSnow")
 
+	local THUNDER_SOUNDS = 3
+	local THUNDER_FIRST = { 4, 12 }
+	local THUNDER_GAP = { 9, 32 }
+	local THUNDER_REPEAT_CHANCE = 0.3
+
+	local thunderRemote = ReplicatedStorage:FindFirstChild("ThunderStrike")
+	if not thunderRemote then
+		thunderRemote = Instance.new("RemoteEvent")
+		thunderRemote.Name = "ThunderStrike"
+		thunderRemote.Parent = ReplicatedStorage
+	end
+
+	local stormId = 0
+
+	local function fireThunder(lastIndex)
+		local index = math.random(1, THUNDER_SOUNDS)
+		if index == lastIndex then
+			index = index % THUNDER_SOUNDS + 1
+		end
+		local speed = 0.9 + math.random() * 0.2
+		local volume = 0.55 + math.random() * 0.45
+		local distance = math.random() ^ 1.4
+		thunderRemote:FireAllClients(index, speed, volume, distance)
+		return index
+	end
+
+	local function runStorm(id)
+		task.wait(math.random(THUNDER_FIRST[1], THUNDER_FIRST[2]) + math.random())
+		local last = nil
+		while id == stormId and state.IsRaining do
+			last = fireThunder(last)
+			if math.random() < THUNDER_REPEAT_CHANCE then
+				task.wait(0.4 + math.random() * 2)
+				if id ~= stormId or not state.IsRaining then break end
+				last = fireThunder(last)
+			end
+			task.wait(math.random(THUNDER_GAP[1], THUNDER_GAP[2]) + math.random())
+		end
+	end
+
 	while true do
 		local weather = HolidayConfigs.getWeather()
 		task.wait(math.random(weather.Gap[1], weather.Gap[2]))
@@ -715,6 +759,8 @@ local function initRain()
 		else
 			state.IsRaining = true
 			if toggleRain then toggleRain:FireAllClients(true) end
+			stormId += 1
+			task.spawn(runStorm, stormId)
 		end
 
 		task.wait(math.random(weather.Duration[1], weather.Duration[2]))
@@ -724,6 +770,7 @@ local function initRain()
 			if toggleSnow then toggleSnow:FireAllClients(false) end
 		else
 			state.IsRaining = false
+			stormId += 1
 			if toggleRain then toggleRain:FireAllClients(false) end
 		end
 	end
@@ -1192,16 +1239,16 @@ local function initCollisions()
 	fixTree(workspace)
 
 	workspace.DescendantAdded:Connect(function(d)
-		task.defer(fixPart, d)
+		if d:IsA("BasePart") then task.defer(fixPart, d) end
 	end)
 
 	while true do
-		task.wait(30)
+		task.wait(120)
 		local n = 0
 		for _, d in workspace:GetDescendants() do
 			fixPart(d)
 			n += 1
-			if n % 2000 == 0 then task.wait() end
+			if n % 500 == 0 then task.wait() end
 		end
 	end
 end

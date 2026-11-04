@@ -2037,6 +2037,7 @@
           "G": 0.8039215803146362,
           "R": 0.8039215803146362
         },
+        "DoubleSided": true,
         "FrontSurface": "Enum.SurfaceType.Smooth",
         "FrontSurfaceInput": "Enum.InputType.NoInput",
         "LeftSurface": "Enum.SurfaceType.Smooth",

@@ -22,6 +22,16 @@ function Data.Init()
 			warn("KaijusUnused not found in Lighting at script start - will retry on demand")
 		end
 		local Morphs = ServerStorage:FindFirstChild("Kaijus")
+		if Morphs then
+			for _, inst in ipairs(Morphs:GetDescendants()) do
+				if inst:IsA("ValueBase") then
+					local trimmed = inst.Name:match("^%s*(.-)%s*$")
+					if trimmed ~= "" and trimmed ~= inst.Name and inst.Parent and not inst.Parent:FindFirstChild(trimmed) then
+						inst.Name = trimmed
+					end
+				end
+			end
+		end
 		local CandyConfig = require(ReplicatedStorage:WaitForChild("CandyConfig"))
 
 		local playerKaijus = {}
@@ -717,6 +727,9 @@ function Data.Init()
 
 			local result = {}
 			if success and data and type(data) == "table" then
+				for kName, kEntry in pairs(data) do
+					require(game:GetService("ReplicatedStorage"):WaitForChild("LevelManager")).MigrateEntry(kName, kEntry)
+				end
 				for kaijuName, kaijuData in pairs(data) do
 					if type(kaijuData) == "table" then
 						local canonicalName = levelNameMapping[kaijuName] or kaijuName
@@ -831,6 +844,9 @@ function Data.Init()
 
 			if success and data and type(data) == "table" then
 				levelCache[player.UserId] = data
+				for kName, kEntry in pairs(data) do
+					require(game:GetService("ReplicatedStorage"):WaitForChild("LevelManager")).MigrateEntry(kName, kEntry)
+				end
 			else
 				levelCache[player.UserId] = {}
 			end

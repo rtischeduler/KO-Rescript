@@ -123,8 +123,8 @@ local module = {
 			
 			
 			character:SetAttribute("BossMode", true)
-			humanoid.MaxHealth = 20000
-			humanoid.Health = 20000
+			humanoid.MaxHealth = 1
+			humanoid.Health = 1
 			humanoid.WalkSpeed = originalWalkSpeed * 1.5
 			
 			
@@ -446,13 +446,172 @@ local module = {
 			for _, plr in ipairs(targetPlayers) do
 				local leaderstats = plr:FindFirstChild("leaderstats")
 				if not leaderstats then continue end
-				local gcells = leaderstats:FindFirstChild("GCells")
+				local gcells = leaderstats:FindFirstChild("GCells") or leaderstats:FindFirstChild("gcells")
 				if gcells and gcells:IsA("ValueBase") then
-				gcells.Value = gcells.Value + amount
+					-- This command is HeadAdmin+ (Rank 3), so authorized admins bypass
+					-- the GCellGuard anti-cheat entirely for a short window.
+					if type(_G.GCellGuardBypass) == "function" then
+						_G.GCellGuardBypass(gcells, 5)
+					end
+					gcells.Value = gcells.Value + amount
 				print("[gcells] Gave " .. amount .. " GCells to " .. plr.Name .. " (new total: " .. gcells.Value .. ")")
 			end
 			end
 		end;
+
+	};
+
+	{
+		Name = "candy";
+		Aliases = {"givecandy", "addcandy", "removecandy"};
+		Prefixes = {};
+		Rank = 3;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Give or remove Candy from a player (e.g. ;candy all 1000 to give, ;candy me -500 to remove)";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"amount";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+				table.insert(targetPlayers, players)
+			end
+
+			local amount = tonumber(args[2])
+			if not amount then return end
+			amount = math.floor(amount)
+
+			for _, plr in ipairs(targetPlayers) do
+				-- HeadAdmin+ (Rank 3) bypass: AdminCandy ignores the seasonal
+				-- award check and applies the change directly, then saves.
+				if type(_G.AdminCandy) == "function" then
+					local ok, newTotal = _G.AdminCandy(plr, amount)
+					if ok then
+						print("[candy] " .. (amount >= 0 and "Gave " or "Removed " .. "") .. math.abs(amount) .. " Candy " .. (amount >= 0 and "to " or "from ") .. plr.Name .. " (new total: " .. tostring(newTotal) .. ")")
+					end
+				else
+					-- Fallback if CandyService hasn't initialized yet
+					local leaderstats = plr:FindFirstChild("leaderstats")
+					if not leaderstats then continue end
+					local candy = leaderstats:FindFirstChild("Candy")
+					if candy and candy:IsA("ValueBase") then
+						candy.Value = math.max(candy.Value + amount, 0)
+						plr:SetAttribute("Candy", candy.Value)
+						print("[candy] Set " .. plr.Name .. " Candy to " .. candy.Value .. " (fallback path)")
+					end
+				end
+			end
+		end;
+
+	};
+
+	{
+		Name = "givekaiju";
+		Aliases = {"givekaiju", "addkaiju"};
+		Prefixes = {};
+		Rank = 3;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Give a kaiju to a player for free (e.g. ;givekaiju me Godzilla In Hell). Not case sensitive.";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"string";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+				table.insert(targetPlayers, players)
+			end
+
+			-- Join remaining args so multi-word kaiju names work (e.g. "Godzilla In Hell")
+			local nameParts = {}
+			for i = 2, #args do
+				table.insert(nameParts, tostring(args[i]))
+			end
+			local kaijuName = table.concat(nameParts, " ")
+			if kaijuName == "" then return end
+
+			for _, plr in ipairs(targetPlayers) do
+				if type(_G.AdminGiveKaiju) == "function" then
+					local ok, result = _G.AdminGiveKaiju(plr, kaijuName)
+					if ok then
+						print("[givekaiju] Gave " .. tostring(result) .. " to " .. plr.Name)
+					else
+						warn("[givekaiju] Failed for " .. plr.Name .. ": " .. tostring(result))
+					end
+				else
+					warn("[givekaiju] Data module not loaded yet")
+				end
+			end
+		end;
+
+	};
+
+	{
+		Name = "removekaiju";
+		Aliases = {"takekaiju", "revokekaiju"};
+		Prefixes = {};
+		Rank = 3;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Remove a kaiju from a player so they must buy it again (e.g. ;removekaiju others Gigan). Not case sensitive.";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"string";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+				table.insert(targetPlayers, players)
+			end
+
+			-- Join remaining args so multi-word kaiju names work (e.g. "Godzilla In Hell")
+			local nameParts = {}
+			for i = 2, #args do
+				table.insert(nameParts, tostring(args[i]))
+			end
+			local kaijuName = table.concat(nameParts, " ")
+			if kaijuName == "" then return end
+
+			for _, plr in ipairs(targetPlayers) do
+				if type(_G.AdminRemoveKaiju) == "function" then
+					local removed, result = _G.AdminRemoveKaiju(plr, kaijuName)
+					if removed then
+						print("[removekaiju] Removed " .. tostring(result) .. " from " .. plr.Name)
+					elseif result then
+						print("[removekaiju] " .. plr.Name .. " did not own " .. tostring(result))
+					end
+				else
+					warn("[removekaiju] Data module not loaded yet")
+				end
+			end
+			end;
 
 	};
 
@@ -649,8 +808,21 @@ local module = {
 				local humanoid = character:FindFirstChildOfClass("Humanoid")
 				if not humanoid then continue end
 
-				character:ScaleTo(scale)
+				local previous = character:GetAttribute("KaijuScale") or 1
 				character:SetAttribute("KaijuScale", scale)
+				character:ScaleTo(scale)
+
+				local ratio = scale / previous
+				local stats = character:FindFirstChild("Stats")
+				if stats then
+					for _, statName in ipairs({"WS", "SS", "SwimSpeed"}) do
+						local stat = stats:FindFirstChild(statName)
+						if stat and stat:IsA("ValueBase") and typeof(stat.Value) == "number" then
+							stat.Value = stat.Value * ratio
+						end
+					end
+				end
+				humanoid.WalkSpeed = humanoid.WalkSpeed * ratio
 			end
 		end;
 

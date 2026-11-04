@@ -13,6 +13,11 @@ local scrollingFrame = script.Parent:FindFirstChild("ScrollingFrame")
 if not scrollingFrame then return end
 local template = scrollingFrame:FindFirstChild("Template")
 if not template then return end
+for _, child in ipairs(scrollingFrame:GetChildren()) do
+	if child ~= template and child:IsA("GuiObject") then
+		child.Visible = false
+	end
+end
 local kaijuInfoFunc = ReplicatedStorage:WaitForChild("GetKaijuInfo", 30)
 if not kaijuInfoFunc then
 	warn("PopulateList: GetKaijuInfo was not available")
@@ -276,11 +281,7 @@ local function selectKaiju(morphName)
 	end
 end
 local function populate()
-	fetchKaijuData()
-	fetchGamepassKaijus()
-	fetchGamepassInfo()
-	fetchOwnership()
-	for _, model in ipairs(sortedMorphs) do
+	local function buildCard(model)
 		local clone = scrollingFrame:FindFirstChild(model.Name)
 		if not clone or not clone:IsA("GuiObject") then
 			clone = template:Clone()
@@ -291,20 +292,20 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "ENTITY" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "Eater Of Worlds" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
 			clone.Visible = false
 		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
 			clone.Visible = false
-		elseif model.Name == "DESTOROYAH"
-			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" then
+		elseif model.Name == "Munto"
+			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "DandyDandicusDancif" and player.Name ~= "Coral" then
 			clone.Visible = false
 		elseif model.Name == "thedenis"
 			and player.Name ~= "DenisTheCheeseKing" then
 			clone.Visible = false
-		elseif model.Name == "Evo Shin"
-			and string.lower(player.Name) ~= "mr_bolde2" then
+		elseif model.Name == "Evo shin"
+			and string.lower(player.Name) ~= "brickrig1again_alt" then
 			clone.Visible = false
 		else
 			clone.Visible = true
@@ -353,6 +354,12 @@ local function populate()
 			selectKaiju(morphName)
 		end)
 		clone.Parent = scrollingFrame
+	end
+	for _, model in ipairs(sortedMorphs) do
+		local ok, err = pcall(buildCard, model)
+		if not ok then
+			warn("PopulateList: failed to build card for", tostring(model and model.Name), err)
+		end
 	end
 	template.Visible = false
 	task.defer(refreshListCanvas)
@@ -440,7 +447,8 @@ if selectButton then
 	end
 end
 populate()
-local function selectInitialMorph()
+local selectInitialMorph
+function selectInitialMorph()
 	refreshRemotes()
 	local selectedMorph = nil
 	if getSelectedKaijuFunc then
@@ -461,7 +469,20 @@ local function selectInitialMorph()
 		end
 	end
 end
-selectInitialMorph()
+task.spawn(function()
+	local pending = 4
+	local function done()
+		pending -= 1
+	end
+	task.spawn(function() fetchKaijuData() done() end)
+	task.spawn(function() fetchOwnership() done() end)
+	task.spawn(function() fetchGamepassKaijus() fetchGamepassInfo() done() end)
+	task.spawn(function() refreshRemotes() done() end)
+	while pending > 0 do
+		task.wait()
+	end
+	selectInitialMorph()
+end)
 task.spawn(function()
 	for _ = 1, 60 do
 		refreshRemotes()

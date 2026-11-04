@@ -5,8 +5,14 @@ return {
 		SpawnHeight = 50,
 
 		RestrictedKaiju = { "EVOLVED GOJIRA", "D.E.M.O.N", "Homelander", "d", "A-train", "e", "MG21" },
-		AllowedPlayers = { "AthosGame2023", "mr_bolde2", "DenisTheCheeseKing", "BlueEnderCookie_2" },
+		AllowedPlayers = { "AthosGame2023", "mr_bolde2", "Brickrig1again_alt", "DenisTheCheeseKing", "BlueEnderCookie_2","JustaProGamer8", },
 		AllowedUserIds = {},
+
+		-- Kaiju playable ONLY by the players listed for them (case-insensitive).
+		-- This overrides everything else, including AllowedPlayers.
+		ExclusiveKaiju = {
+			["evo shin"] = { "brickrig1again_alt" },
+		},
 	},
 
 	Health = {

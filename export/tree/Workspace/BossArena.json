@@ -1,0 +1,3122 @@
+{
+  "Children": [
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            307.0556945800781,
+            -1352.370849609375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0.8660253882408142,
+            0.5,
+            0,
+            -0.5,
+            0.8660253882408142
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 202,
+          "Y": 74,
+          "Z": 15
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            337.36651611328125,
+            -1369.8707275390625
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0.5,
+            0.8660253882408142,
+            0,
+            -0.8660253882408142,
+            0.5
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 202,
+          "Y": 4,
+          "Z": 15
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            339.0267639160156,
+            -1374.567138671875
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0.258819043636322,
+            0.9659258127212524,
+            0,
+            -0.9659258127212524,
+            0.258819043636322
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.11372549086809158,
+          "G": 0.501960813999176,
+          "R": 0.12156862765550613
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Grass",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 202,
+          "Y": 23.966156005859375,
+          "Z": 15
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            269.869384765625,
+            -1541.1759033203125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 360,
+          "Y": 314,
+          "Z": 159
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -912.5,
+            312.869384765625,
+            -1750.6759033203125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 553,
+          "Y": 109,
+          "Z": 245
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            420.4752502441406,
+            -1697.97998046875
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0.258819043636322,
+            0.9659258127212524,
+            0,
+            -0.9659258127212524,
+            0.258819043636322
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 360,
+          "Y": 4,
+          "Z": 30
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            407.0984802246094,
+            -1700.798828125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0.5,
+            0.8660253882408142,
+            0,
+            -0.8660253882408142,
+            0.5
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 360,
+          "Y": 14,
+          "Z": 55
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1009,
+            315.50811767578125,
+            -1639.9501953125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0.7071067094802856,
+            0.7071067094802856,
+            0,
+            -0.7071067094802856,
+            0.7071067094802856
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 360,
+          "Y": 218,
+          "Z": 100
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -739,
+            371.369384765625,
+            -1569.6759033203125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 206,
+          "Y": 471,
+          "Z": 362
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1220,
+            371.369384765625,
+            -1569.6759033203125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 206,
+          "Y": 471,
+          "Z": 362
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -776.2699584960938,
+            -471.1305847167969,
+            -1943.769287109375
+          ],
+          "Rotation": [
+            0.9659258127212524,
+            -0.258819043636322,
+            0,
+            0,
+            0,
+            1,
+            -0.258819043636322,
+            -0.9659258127212524,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 206,
+          "Y": 319,
+          "Z": 2047
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1186.0946044921875,
+            213.369384765625,
+            -1931.21240234375
+          ],
+          "Rotation": [
+            0.9659258127212524,
+            0.258819043636322,
+            0,
+            0,
+            0,
+            1,
+            0.258819043636322,
+            -0.9659258127212524,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 206,
+          "Y": 391,
+          "Z": 678
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -974,
+            264.869384765625,
+            -1994.6759033203125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 340,
+          "Y": 597,
+          "Z": 149
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1271.6248779296875,
+            213.369384765625,
+            -2182.56787109375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 478,
+          "Y": 219,
+          "Z": 678
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -634.6248779296875,
+            213.369384765625,
+            -2182.56787109375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 478,
+          "Y": 219,
+          "Z": 678
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1447.1248779296875,
+            213.369384765625,
+            -2453.56787109375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 127,
+          "Y": 761,
+          "Z": 678
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -963.1248779296875,
+            213.369384765625,
+            -2851.06787109375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 1095,
+          "Y": 152,
+          "Z": 678
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -546.1248779296875,
+            213.369384765625,
+            -2453.56787109375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 127,
+          "Y": 761,
+          "Z": 678
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1003.1248779296875,
+            551.869384765625,
+            -2277.06787109375
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 1041,
+          "Y": 1114,
+          "Z": 1
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "KaijuBlocker",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -912.5,
+            364.369384765625,
+            -1804.6759033203125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 553,
+          "Y": 1,
+          "Z": 348
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "MainArenaPart",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -974,
+            264.869384765625,
+            -2549.17578125
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1,
+            0
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.10980392247438431,
+          "G": 0.1568627506494522,
+          "R": 0.7686274647712708
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Slate",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 944,
+          "Y": 520,
+          "Z": 149
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "ClassName": "Part",
+      "Name": "BossArena",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -903.0119018554688,
+            352.5948181152344,
+            -1370.931640625
+          ],
+          "Rotation": [
+            0.6709631681442261,
+            0,
+            -0.7414903044700623,
+            0.716224730014801,
+            0.258819043636322,
+            0.6481006145477295,
+            0.19191183149814606,
+            -0.9659256339073181,
+            0.17365798354148865
+          ]
+        },
+        "ClassName": "Part",
+        "Color": {
+          "B": 0.03529411926865578,
+          "G": 0.2235294133424759,
+          "R": 0.4156862795352936
+        },
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Grass",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 171.42286682128906,
+          "Y": 23.966156005859375,
+          "Z": 146.53321838378906
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput"
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1009,
+                295.2695007324219,
+                -1340.870849609375
+              ],
+              "Rotation": [
+                0.9659258127212524,
+                0,
+                0.258819043636322,
+                0,
+                1,
+                0,
+                -0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 202,
+              "Y": 50.4278564453125,
+              "Z": 38
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1009,
+                295.7695007324219,
+                -1340.870849609375
+              ],
+              "Rotation": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 202,
+              "Y": 51.4278564453125,
+              "Z": 38
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1001.5,
+                319.0906982421875,
+                -1324.870849609375
+              ],
+              "Rotation": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 70
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -999.8176879882812,
+                319.0906982421875,
+                -1284.09228515625
+              ],
+              "Rotation": [
+                0.9659258127212524,
+                0,
+                0.258819043636322,
+                0,
+                1,
+                0,
+                -0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 14
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1000.0765991210938,
+                319.0906982421875,
+                -1270.5693359375
+              ],
+              "Rotation": [
+                0.9659258127212524,
+                0,
+                -0.258819043636322,
+                0,
+                1,
+                0,
+                0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 16
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -953.7346801757812,
+                319.0906982421875,
+                -1291.025146484375
+              ],
+              "Rotation": [
+                0.9659258127212524,
+                0,
+                0.258819043636322,
+                0,
+                1,
+                0,
+                -0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 16
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -960.2717895507812,
+                319.0906982421875,
+                -1302.86572265625
+              ],
+              "Rotation": [
+                0.7071067094802856,
+                0,
+                0.7071067690849304,
+                0,
+                1,
+                0,
+                -0.7071067690849304,
+                0,
+                0.7071067094802856
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 14
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -982.1179809570312,
+                319.0906982421875,
+                -1337.33984375
+              ],
+              "Rotation": [
+                0.8660253882408142,
+                0,
+                0.5,
+                0,
+                1,
+                0,
+                -0.5,
+                0,
+                0.8660253882408142
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 70
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -976.5465087890625,
+                319.0906982421875,
+                -1279.456787109375
+              ],
+              "Rotation": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 16
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -979.7962646484375,
+                319.0906982421875,
+                -1292.5859375
+              ],
+              "Rotation": [
+                0.8660253286361694,
+                0,
+                0.5,
+                0,
+                1,
+                0,
+                -0.5,
+                0,
+                0.8660253286361694
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 14
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -991.9755249023438,
+                319.0906982421875,
+                -1331.53955078125
+              ],
+              "Rotation": [
+                0.9659258127212524,
+                0,
+                0.258819043636322,
+                0,
+                1,
+                0,
+                -0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 70
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -936.9435424804688,
+                319.0906982421875,
+                -1290.068359375
+              ],
+              "Rotation": [
+                1,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 16
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -940.1932983398438,
+                319.0906982421875,
+                -1303.197509765625
+              ],
+              "Rotation": [
+                0.8660253286361694,
+                0,
+                0.5,
+                0,
+                1,
+                0,
+                -0.5,
+                0,
+                0.8660253286361694
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 14
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -952.37255859375,
+                319.0906982421875,
+                -1342.151123046875
+              ],
+              "Rotation": [
+                0.9659258127212524,
+                0,
+                0.258819043636322,
+                0,
+                1,
+                0,
+                -0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 70
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1030.7584228515625,
+                319.0906982421875,
+                -1257.683837890625
+              ],
+              "Rotation": [
+                -0.8660253882408142,
+                0,
+                0.5,
+                0,
+                -1,
+                0,
+                0.5,
+                0,
+                0.8660253882408142
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 16
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1034.5086669921875,
+                319.0906982421875,
+                -1270.6788330078125
+              ],
+              "Rotation": [
+                -1,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 14
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1043.43798828125,
+                319.0906982421875,
+                -1310.5032958984375
+              ],
+              "Rotation": [
+                -0.9659258127212524,
+                0,
+                0.258819043636322,
+                0,
+                -1,
+                0,
+                0.258819043636322,
+                0,
+                0.9659258127212524
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 70
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1019.87744140625,
+                319.0906982421875,
+                -1273.6961669921875
+              ],
+              "Rotation": [
+                -0.965925931930542,
+                0,
+                0.2588191032409668,
+                0,
+                -1,
+                0,
+                0.2588191032409668,
+                0,
+                0.965925931930542
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 16
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1020.1365966796875,
+                319.0906982421875,
+                -1287.2188720703125
+              ],
+              "Rotation": [
+                -0.9659258723258972,
+                0,
+                -0.258819043636322,
+                0,
+                -1,
+                0,
+                -0.258819043636322,
+                0,
+                0.9659258723258972
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 14
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "ClassName": "Part",
+          "Name": "BossArena",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1018.4542236328125,
+                319.0906982421875,
+                -1327.9974365234375
+              ],
+              "Rotation": [
+                -1,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "Part",
+            "Color": {
+              "B": 0.10980392247438431,
+              "G": 0.1568627506494522,
+              "R": 0.7686274647712708
+            },
+            "FormFactor": "Enum.FormFactor.Brick",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Slate",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 1,
+              "Y": 2.070281982421875,
+              "Z": 70
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        }
+      ],
+      "ClassName": "Model",
+      "Name": "Model",
+      "Properties": {
+        "ClassName": "Model",
+        "WorldPivotData": {
+          "Position": [
+            -1004.0714721679688,
+            295.7695007324219,
+            -1322.4774169921875
+          ],
+          "Rotation": [
+            0.9659258127212524,
+            0,
+            0.258819043636322,
+            0,
+            1,
+            0,
+            -0.258819043636322,
+            0,
+            0.9659258127212524
+          ]
+        }
+      }
+    },
+    {
+      "Children": [
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        },
+        {
+          "ClassName": "ParticleEmitter",
+          "Name": "ParticleEmitter",
+          "Properties": {
+            "ClassName": "ParticleEmitter",
+            "Drag": 2,
+            "Lifetime": "5, 20",
+            "LightInfluence": 1,
+            "Rate": 10000,
+            "Size": "0 > 6.4374995, 1 > 0.062499642",
+            "Speed": "2, 2",
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://244514423)"
+            },
+            "Transparency": "0 > 0.95, 1 > 0.9875"
+          }
+        }
+      ],
+      "ClassName": "Part",
+      "Name": "Fog",
+      "Properties": {
+        "Anchored": true,
+        "BackSurface": "Enum.SurfaceType.Smooth",
+        "BackSurfaceInput": "Enum.InputType.NoInput",
+        "BottomSurface": "Enum.SurfaceType.Smooth",
+        "BottomSurfaceInput": "Enum.InputType.NoInput",
+        "CFrame": {
+          "Position": [
+            -1008.873046875,
+            429.5361022949219,
+            -1402.7294921875
+          ],
+          "Rotation": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "CanCollide": false,
+        "ClassName": "Part",
+        "FormFactor": "Enum.FormFactor.Brick",
+        "FrontSurface": "Enum.SurfaceType.Smooth",
+        "FrontSurfaceInput": "Enum.InputType.NoInput",
+        "LeftSurface": "Enum.SurfaceType.Smooth",
+        "LeftSurfaceInput": "Enum.InputType.NoInput",
+        "Material": "Enum.Material.Plastic",
+        "RightSurface": "Enum.SurfaceType.Smooth",
+        "RightSurfaceInput": "Enum.InputType.NoInput",
+        "Size": {
+          "X": 257.9488220214844,
+          "Y": 195.09487915039062,
+          "Z": 142.42715454101562
+        },
+        "TopSurface": "Enum.SurfaceType.Smooth",
+        "TopSurfaceInput": "Enum.InputType.NoInput",
+        "Transparency": 1
+      }
+    },
+    {
+      "Children": [
+        {
+          "Children": [
+            {
+              "ClassName": "SpotLight",
+              "Name": "SpotLight",
+              "Properties": {
+                "ClassName": "SpotLight"
+              }
+            },
+            {
+              "ClassName": "PointLight",
+              "Name": "PointLight",
+              "Properties": {
+                "ClassName": "PointLight"
+              }
+            },
+            {
+              "ClassName": "SurfaceLight",
+              "Name": "SurfaceLight",
+              "Properties": {
+                "ClassName": "SurfaceLight",
+                "Color": {
+                  "B": 1,
+                  "G": 0,
+                  "R": 0.1333332061767578
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "Meshes/Bones_SM_Env_Bone_Skull_01",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1077.6820068359375,
+                356.3524475097656,
+                -2338.220703125
+              ],
+              "Rotation": [
+                0.9929822087287903,
+                -0.1182636171579361,
+                0,
+                0.1182636171579361,
+                0.9929822087287903,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "MeshPart",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Sand",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2915297478)"
+            },
+            "RenderFidelity": "Enum.RenderFidelity.Precise",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 62.16610336303711,
+              "Y": 29.17767333984375,
+              "Z": 49.12624740600586
+            },
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2913129928)"
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "SpotLight",
+              "Name": "SpotLight",
+              "Properties": {
+                "ClassName": "SpotLight"
+              }
+            },
+            {
+              "ClassName": "PointLight",
+              "Name": "PointLight",
+              "Properties": {
+                "ClassName": "PointLight"
+              }
+            },
+            {
+              "ClassName": "SurfaceLight",
+              "Name": "SurfaceLight",
+              "Properties": {
+                "ClassName": "SurfaceLight",
+                "Color": {
+                  "B": 1,
+                  "G": 0,
+                  "R": 0.1333332061767578
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "Meshes/Bones_SM_Env_Bone_Skull_Jaw_01",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -1065.765625,
+                342.0740051269531,
+                -2348.915771484375
+              ],
+              "Rotation": [
+                0.9929822087287903,
+                -0.1182636171579361,
+                0,
+                0.1182636171579361,
+                0.9929822087287903,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "ClassName": "MeshPart",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Sand",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2915298024)"
+            },
+            "RenderFidelity": "Enum.RenderFidelity.Precise",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 38.122459411621094,
+              "Y": 12.002604484558105,
+              "Z": 27.73569679260254
+            },
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2913129928)"
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        }
+      ],
+      "ClassName": "Model",
+      "Name": "Model",
+      "Properties": {
+        "ClassName": "Model",
+        "WorldPivotData": {
+          "Position": [
+            -1077.26806640625,
+            352.87701416015625,
+            -2338.22119140625
+          ],
+          "Rotation": [
+            0.9929822087287903,
+            -0.1182636171579361,
+            0,
+            0.1182636171579361,
+            0.9929822087287903,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "Children": [
+        {
+          "Children": [
+            {
+              "ClassName": "SpotLight",
+              "Name": "SpotLight",
+              "Properties": {
+                "ClassName": "SpotLight"
+              }
+            },
+            {
+              "ClassName": "PointLight",
+              "Name": "PointLight",
+              "Properties": {
+                "ClassName": "PointLight"
+              }
+            },
+            {
+              "ClassName": "SurfaceLight",
+              "Name": "SurfaceLight",
+              "Properties": {
+                "ClassName": "SurfaceLight",
+                "Color": {
+                  "B": 1,
+                  "G": 0,
+                  "R": 0.1333332061767578
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "Meshes/Bones_SM_Env_Bone_Skull_01",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -864.283935546875,
+                358.16082763671875,
+                -2314.67724609375
+              ],
+              "Rotation": [
+                0.07973479479551315,
+                -0.15617382526397705,
+                0.9845060706138611,
+                0.13599088788032532,
+                0.9801204204559326,
+                0.14446432888507843,
+                -0.9874959588050842,
+                0.12236498296260834,
+                0.09938811510801315
+              ]
+            },
+            "ClassName": "MeshPart",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Sand",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2915297478)"
+            },
+            "RenderFidelity": "Enum.RenderFidelity.Precise",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 62.16610336303711,
+              "Y": 29.17767333984375,
+              "Z": 49.12624740600586
+            },
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2913129928)"
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        },
+        {
+          "Children": [
+            {
+              "ClassName": "SpotLight",
+              "Name": "SpotLight",
+              "Properties": {
+                "ClassName": "SpotLight"
+              }
+            },
+            {
+              "ClassName": "PointLight",
+              "Name": "PointLight",
+              "Properties": {
+                "ClassName": "PointLight"
+              }
+            },
+            {
+              "ClassName": "SurfaceLight",
+              "Name": "SurfaceLight",
+              "Properties": {
+                "ClassName": "SurfaceLight",
+                "Color": {
+                  "B": 1,
+                  "G": 0,
+                  "R": 0.1333332061767578
+                }
+              }
+            }
+          ],
+          "ClassName": "MeshPart",
+          "Name": "Meshes/Bones_SM_Env_Bone_Skull_Jaw_01",
+          "Properties": {
+            "Anchored": true,
+            "BackSurface": "Enum.SurfaceType.Smooth",
+            "BackSurfaceInput": "Enum.InputType.NoInput",
+            "BottomSurface": "Enum.SurfaceType.Smooth",
+            "BottomSurfaceInput": "Enum.InputType.NoInput",
+            "CFrame": {
+              "Position": [
+                -871.570068359375,
+                342.7176208496094,
+                -2327.6650390625
+              ],
+              "Rotation": [
+                0.07973479479551315,
+                -0.15617382526397705,
+                0.9845060706138611,
+                0.13599088788032532,
+                0.9801204204559326,
+                0.14446432888507843,
+                -0.9874959588050842,
+                0.12236498296260834,
+                0.09938811510801315
+              ]
+            },
+            "ClassName": "MeshPart",
+            "FrontSurface": "Enum.SurfaceType.Smooth",
+            "FrontSurfaceInput": "Enum.InputType.NoInput",
+            "LeftSurface": "Enum.SurfaceType.Smooth",
+            "LeftSurfaceInput": "Enum.InputType.NoInput",
+            "Material": "Enum.Material.Sand",
+            "MeshContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2915298024)"
+            },
+            "RenderFidelity": "Enum.RenderFidelity.Precise",
+            "RightSurface": "Enum.SurfaceType.Smooth",
+            "RightSurfaceInput": "Enum.InputType.NoInput",
+            "Size": {
+              "X": 38.122459411621094,
+              "Y": 12.002604484558105,
+              "Z": 27.73569679260254
+            },
+            "TextureContent": {
+              "Type": "Content",
+              "Value": "Content(Uri=rbxassetid://2913129928)"
+            },
+            "TopSurface": "Enum.SurfaceType.Smooth",
+            "TopSurfaceInput": "Enum.InputType.NoInput"
+          }
+        }
+      ],
+      "ClassName": "Model",
+      "Name": "Model",
+      "Properties": {
+        "ClassName": "Model",
+        "WorldPivotData": {
+          "Position": [
+            -863.73779296875,
+            354.7303466796875,
+            -2315.105712890625
+          ],
+          "Rotation": [
+            0.07973480224609375,
+            -0.15617384016513824,
+            0.9845060706138611,
+            0.1359909027814865,
+            0.9801205396652222,
+            0.14446432888507843,
+            -0.9874960780143738,
+            0.12236499786376953,
+            0.09938811510801315
+          ]
+        }
+      }
+    }
+  ],
+  "ClassName": "Model",
+  "Name": "BossArena",
+  "Properties": {
+    "ClassName": "Model",
+    "WorldPivotData": {
+      "Position": [
+        -959.6248779296875,
+        -471.130615234375,
+        -2127.2216796875
+      ],
+      "Rotation": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    }
+  }
+}

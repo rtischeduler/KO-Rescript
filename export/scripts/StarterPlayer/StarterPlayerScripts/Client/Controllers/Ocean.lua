@@ -264,7 +264,7 @@ function OceanController:Start()
 	local ripples = {}
 	local partState = setmetatable({}, { __mode = "k" })
 
-	local function spawnRipple(x, z, amp, r0, clock)
+	local function spawnRipple(x, z, amp, r0, clock, widthScale)
 		if #ripples >= MAX_RIPPLES then
 			table.remove(ripples, 1)
 		end
@@ -275,9 +275,12 @@ function OceanController:Start()
 			r0 = r0,
 			t0 = clock,
 			radius = r0,
-			width = RIPPLE_WIDTH,
+			width0 = RIPPLE_WIDTH * widthScale,
+			speed = RIPPLE_SPEED * (0.8 + 0.2 * widthScale),
+			life = RIPPLE_LIFE * (0.8 + 0.2 * widthScale),
+			width = RIPPLE_WIDTH * widthScale,
 			amp = amp,
-			kk = 1.1 / RIPPLE_WIDTH,
+			kk = 1.1 / (RIPPLE_WIDTH * widthScale),
 			strength = 1,
 			lo2 = 0,
 			hi2 = 0,
@@ -306,13 +309,14 @@ function OceanController:Start()
 							local h = sample(pos.X, pos.Z, t, math.sqrt(d2))
 							local surfaceY = level + h
 							if math.abs(pos.Y - surfaceY) < half * 0.8 + 0.3 then
-								local interval = math.clamp(0.7 - speed * 0.03, 0.18, 0.7)
+								local widthScale = math.clamp(half / 3, 1, 3)
+								local interval = math.clamp(0.7 - speed * 0.03, 0.18, 0.7) * (1 + (widthScale - 1) * 0.35)
 								if clock - st.t >= interval then
 									st.t = clock
 									local amp = RIPPLE_HEIGHT
 										* math.clamp(0.4 + speed / 18, 0.4, 1.3)
 										* math.clamp(half / 2, 0.5, 1.4)
-									spawnRipple(pos.X, pos.Z, amp, half * 0.8, clock)
+									spawnRipple(pos.X, pos.Z, amp, half, clock, widthScale)
 								end
 							end
 						end
@@ -326,18 +330,19 @@ function OceanController:Start()
 		for i = #ripples, 1, -1 do
 			local rp = ripples[i]
 			local age = clock - rp.t0
-			if age >= RIPPLE_LIFE then
+			if age >= rp.life then
 				table.remove(ripples, i)
 			else
-				local fade = 1 - age / RIPPLE_LIFE
+				local fade = 1 - age / rp.life
 				fade *= fade
-				local radius = rp.r0 + RIPPLE_SPEED * age
-				local width = RIPPLE_WIDTH * (1 + age * 0.6)
+				local attack = math.min(1, age / 0.35)
+				local radius = rp.r0 + rp.speed * age
+				local width = rp.width0 * (1 + age * 0.6)
 				rp.radius = radius
 				rp.width = width
 				rp.kk = 1.1 / width
-				rp.amp = rp.amp0 * fade / (1 + radius * 0.05)
-				rp.strength = fade * math.min(1, rp.amp0 / RIPPLE_HEIGHT)
+				rp.amp = rp.amp0 * fade * attack / (1 + radius * 0.05)
+				rp.strength = fade * attack * math.min(1, rp.amp0 / RIPPLE_HEIGHT)
 				local lo = math.max(0, radius - width * 3)
 				local hi = radius + width * 3
 				rp.lo2 = lo * lo

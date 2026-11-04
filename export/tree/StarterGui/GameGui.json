@@ -3235,6 +3235,15 @@
             {
               "Children": [
                 {
+                  "ClassName": "LocalScript",
+                  "Name": "BackpackScript",
+                  "Properties": {
+                    "ClassName": "LocalScript",
+                    "RunContext": "Enum.RunContext.Legacy"
+                  },
+                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua"
+                },
+                {
                   "Children": [
                     {
                       "ClassName": "UICorner",
@@ -3619,15 +3628,6 @@
                     "Style": "Enum.ButtonStyle.Custom",
                     "Visible": false
                   }
-                },
-                {
-                  "ClassName": "LocalScript",
-                  "Name": "BackpackScript",
-                  "Properties": {
-                    "ClassName": "LocalScript",
-                    "RunContext": "Enum.RunContext.Legacy"
-                  },
-                  "SourceFile": "scripts/StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua"
                 }
               ],
               "ClassName": "Frame",

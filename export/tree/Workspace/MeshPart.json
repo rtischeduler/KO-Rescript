@@ -9,17 +9,17 @@
     "BottomSurfaceInput": "Enum.InputType.NoInput",
     "CFrame": {
       "Position": [
-        -1736.009033203125,
-        335.5914306640625,
-        -949.5208740234375
+        -1715.980224609375,
+        358.1690368652344,
+        -985.6454467773438
       ],
       "Rotation": [
         0.8386886119842529,
-        0,
+        -0.0,
         -0.5446112155914307,
         0,
         1,
-        0,
+        -0.0,
         0.5446112155914307,
         0,
         0.8386886119842529
@@ -28,8 +28,8 @@
     "CanCollide": false,
     "ClassName": "MeshPart",
     "Color": {
-      "B": 0.27450981736183167,
-      "G": 0.3607843220233917,
+      "B": 0.41960784792900085,
+      "G": 0.6117647290229797,
       "R": 0.48627451062202454
     },
     "FrontSurface": "Enum.SurfaceType.Smooth",
@@ -45,9 +45,9 @@
     "RightSurface": "Enum.SurfaceType.Smooth",
     "RightSurfaceInput": "Enum.InputType.NoInput",
     "Size": {
-      "X": 1018.0065307617188,
-      "Y": 512.035888671875,
-      "Z": 1428.05517578125
+      "X": 976.8125610351562,
+      "Y": 491.316162109375,
+      "Z": 1299.692138671875
     },
     "TopSurface": "Enum.SurfaceType.Smooth",
     "TopSurfaceInput": "Enum.InputType.NoInput"
