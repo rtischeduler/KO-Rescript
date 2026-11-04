@@ -876,8 +876,10 @@ function BeamSystem.ActivateBeam(config)
 			if not charHRP then return false end
 			return (hb.Position - charHRP.Position).Magnitude < getCharRadius(char)
 		end
-		local CLASH_START_SLACK = 0.55
-		local CLASH_KEEP_SLACK = 0.9
+		local CLASH_START_SLACK = 0.9
+		local CLASH_KEEP_SLACK = 1.4
+		local CLASH_BREAK_GRACE = 0.4
+		local clashAimLostAt = nil
 		local function aimsAt(plr, char, targetChar, slack)
 			local myHead = getHeadPosition(char)
 			local hrp = char:FindFirstChild("HumanoidRootPart")
@@ -893,7 +895,7 @@ function BeamSystem.ActivateBeam(config)
 			else
 				return false
 			end
-			local reach = math.max(getCharRadius(targetChar) - 5, 4) * slack + 2
+			local reach = math.max(getCharRadius(targetChar) - 5, 4) * slack + 3
 			local tHead = getHeadPosition(targetChar) or tHRP.Position
 			for _, c in ipairs({tHRP.Position, tHead}) do
 				local to = c - origin
@@ -1068,6 +1070,12 @@ function BeamSystem.ActivateBeam(config)
 						and otherData.hitbox and otherData.hitbox.Parent and not otherData.ending then
 						if myHRP and mutualAim(partner, CLASH_KEEP_SLACK) then
 							clashStillValid = true
+							clashAimLostAt = nil
+						elseif myHRP then
+							clashAimLostAt = clashAimLostAt or tick()
+							if tick() - clashAimLostAt < CLASH_BREAK_GRACE then
+								clashStillValid = true
+							end
 						end
 						break
 					end
@@ -1076,6 +1084,7 @@ function BeamSystem.ActivateBeam(config)
 					clashPartner = partner
 				else
 					currentClashPartner = nil
+					clashAimLostAt = nil
 				end
 			end
 			if not clashPartner and myHRP and activeBeams[player].clashRequestedBy then
