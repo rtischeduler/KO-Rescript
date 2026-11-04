@@ -2,11 +2,11 @@
 
 Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
 
-- scripts: 714
-- events: 412
+- scripts: 723
+- events: 418
 - modules never required: 1
 - modules maybe loaded dynamically: 21
-- scripts that never run: 114
+- scripts that never run: 121
 - empty running scripts: 302
 - events never referenced: 1
 - events maybe fired dynamically: 51
@@ -23,15 +23,15 @@ Names are matched against every script's identifiers and string literals. Anythi
 ## Trees holding scripts that never run (8)
 
 - `Lighting/KaijusUnused (93 dead scripts, referenced by: ServerScriptService/framework/modules/Data)`
-- `ServerStorage/Kaijus (11 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
+- `ServerStorage/Kaijus (17 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
 - `ReplicatedStorage/FINAL WARS GODZILLA (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
+- `ServerStorage/Evo shin (2 dead scripts, referenced by: ServerScriptService/SecurityPolicy, StarterGui/NEWMenu/Kaijus/List/PopulateList)`
 - `Lighting/Rocket (1 dead scripts, referenced by: nothing)`
 - `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/LevelManager, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data, ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla)`
-- `ServerStorage/zilla jr  (dont delete) (1 dead scripts, referenced by: nothing)`
 - `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, StarterGui/ClientHandler, StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu, StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch)`
 
-## Scripts that never run (114)
+## Scripts that never run (121)
 
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/Anim (LocalScript, disabled)`
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/ChargeScript (Script, disabled)`
@@ -131,11 +131,19 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript (Script, disabled)`
 - `ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript (Script, disabled)`
 - `ReplicatedStorage/MINILLA/CharacterScripts/Minilla (Script, sits in a container where it never runs)`
+- `ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
+- `ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
 - `ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
 - `ServerStorage/Kaijus/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
 - `ServerStorage/Kaijus/BURNING GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
 - `ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/LocalControl (LocalScript, disabled)`
 - `ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/ProgressManager (Script, disabled)`
+- `ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack/ServerScript (Script, sits in a container where it never runs)`
+- `ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack3/ServerScript (Script, sits in a container where it never runs)`
+- `ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript (Script, sits in a container where it never runs)`
+- `ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Beam/ServerScript (Script, sits in a container where it never runs)`
+- `ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script (Script, sits in a container where it never runs)`
+- `ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script (Script, sits in a container where it never runs)`
 - `ServerStorage/Kaijus/F16C [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
 - `ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
 - `ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
@@ -145,7 +153,6 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript (Script, disabled)`
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript (Script, disabled)`
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript (Script, disabled)`
-- `ServerStorage/zilla jr  (dont delete)/HumanoidRootPart/AntiFling (Script, sits in a container where it never runs)`
 - `StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript (LocalScript, disabled)`
 
 ## Empty running scripts (302)

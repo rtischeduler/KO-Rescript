@@ -68,7 +68,22 @@ local MAX_PITCH = math.rad(80)
 local ASCEND_KEYS = { Enum.KeyCode.Q, Enum.KeyCode.Space }
 local DESCEND_KEYS = { Enum.KeyCode.E }
 
-local originalHipHeight = humanoid.HipHeight
+local baseHipHeight = humanoid.HipHeight
+local originalHipHeight = baseHipHeight
+
+local function refreshHipHeight()
+	local scale = character:GetAttribute("KaijuScale")
+	originalHipHeight = baseHipHeight * ((typeof(scale) == "number" and scale > 0) and scale or 1)
+	return originalHipHeight
+end
+refreshHipHeight()
+character:GetAttributeChangedSignal("KaijuScale"):Connect(function()
+	local wasGrounded = humanoid.HipHeight <= originalHipHeight
+	refreshHipHeight()
+	if wasGrounded then
+		humanoid.HipHeight = originalHipHeight
+	end
+end)
 local baseWalkSpeed = humanoid.WalkSpeed
 local bodyHalf = math.max(character:GetExtentsSize().Y / 2, 2.5)
 local GROUND_RAY = bodyHalf + 14
@@ -171,6 +186,23 @@ end)
 task.spawn(function()
 	waterStateEvent = waterStateEvent or ReplicatedStorage:WaitForChild("WaterState", 10)
 end)
+
+local flightStateEvent = ReplicatedStorage:FindFirstChild("FlightState")
+local flightReported = false
+
+task.spawn(function()
+	flightStateEvent = flightStateEvent or ReplicatedStorage:WaitForChild("FlightState", 10)
+end)
+
+local function syncFlightState()
+	local flying = mode == "Fly" or mode == "Glide"
+	if flying == flightReported then return end
+	flightReported = flying
+	character:SetAttribute("Flying", flying)
+	if flightStateEvent then
+		flightStateEvent:FireServer(flying)
+	end
+end
 
 local function getStat(name, fallback)
 	local value = stats and stats:FindFirstChild(name)
@@ -579,6 +611,7 @@ local function enterAir(newMode, fade)
 	fade = fade or 0
 	local previous = mode
 	mode = newMode
+	syncFlightState()
 	if previous == "Land" then
 		measureBody()
 		buildRig()
@@ -605,6 +638,7 @@ local function endFlight(keepMomentum, fade)
 	local velocity = flightVel
 	local position = rootPart.Position
 	mode = "Land"
+	syncFlightState()
 	landFadeUntil = os.clock() + fade + 0.1
 
 	destroyRig()
@@ -940,17 +974,6 @@ end)
 
 humanoid.Died:Connect(function()
 	endFlight(false, 0)
-end)
-
-task.spawn(function()
-	local pulseHit = ReplicatedStorage:FindFirstChild("PulseHit") or ReplicatedStorage:WaitForChild("PulseHit", 10)
-	if pulseHit then
-		pulseHit.OnClientEvent:Connect(function()
-			if mode == "Fly" or mode == "Glide" then
-				endFlight(false, 0)
-			end
-		end)
-	end
 end)
 
 UserInputService.InputBegan:Connect(function(input, processed)

@@ -372,7 +372,7 @@ function BeamSystem.ForceCleanup(player)
 	end
 	cleanupStaleBeam(player)
 end
-local function createDPSScript(hitbox, player, character, duration)
+local function createDPSScript(hitbox, player, character, duration, damageStatName)
 	local dpsTemplate = ReplicatedStorage:FindFirstChild("DPSTemplate")
 	if not dpsTemplate then
 		warn("[BeamSystem] DPSTemplate not found in ReplicatedStorage!")
@@ -386,9 +386,9 @@ local function createDPSScript(hitbox, player, character, duration)
 	local beamDamage = 0
 	local stats = character and character:FindFirstChild("Stats")
 	if stats then
-		local dmg2 = stats:FindFirstChild("DMG2")
-		if dmg2 then
-			beamDamage = dmg2.Value
+		local dmgValue = stats:FindFirstChild(damageStatName or "DMG2")
+		if dmgValue then
+			beamDamage = dmgValue.Value
 		end
 	end
 	dpsScript:SetAttribute("BeamDamage", beamDamage)
@@ -510,7 +510,7 @@ function BeamSystem.ActivateBeam(config)
 	hitbox:SetAttribute("Attacker", player.Name)
 	hitbox:SetAttribute("BeamMain", true)
 	hitbox.Parent = Workspace
-	local dpsScript = createDPSScript(hitbox, player, character, duration)
+	local dpsScript = createDPSScript(hitbox, player, character, duration, config.damageStat)
 	activeBeams[player].hitbox = hitbox
 	activeBeams[player].dpsScript = dpsScript
 	local beamHitDebounce = {}

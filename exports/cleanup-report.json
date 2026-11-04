@@ -1,10 +1,10 @@
 {
   "totals": {
-    "scripts": 714,
-    "events": 412,
+    "scripts": 723,
+    "events": 418,
     "modules_never_required": 1,
     "modules_maybe_loaded_dynamically": 21,
-    "scripts_that_never_run": 114,
+    "scripts_that_never_run": 121,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
@@ -509,6 +509,16 @@
         "reason": "sits in a container where it never runs"
       },
       {
+        "path": "ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
         "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim",
         "class": "LocalScript",
         "reason": "disabled"
@@ -532,6 +542,36 @@
         "path": "ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/ProgressManager",
         "class": "Script",
         "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack3/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
       },
       {
         "path": "ServerStorage/Kaijus/F16C [FREE]/CharacterScripts/Anim",
@@ -579,11 +619,6 @@
         "reason": "disabled"
       },
       {
-        "path": "ServerStorage/zilla jr  (dont delete)/HumanoidRootPart/AntiFling",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
-      },
-      {
         "path": "StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript",
         "class": "LocalScript",
         "reason": "disabled"
@@ -599,7 +634,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 11,
+        "scripts_inside": 17,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",
@@ -625,6 +660,14 @@
         ]
       },
       {
+        "path": "ServerStorage/Evo shin",
+        "scripts_inside": 2,
+        "name_referenced_by": [
+          "ServerScriptService/SecurityPolicy",
+          "StarterGui/NEWMenu/Kaijus/List/PopulateList"
+        ]
+      },
+      {
         "path": "Lighting/Rocket",
         "scripts_inside": 1,
         "name_referenced_by": []
@@ -639,11 +682,6 @@
           "ServerScriptService/framework/modules/Data",
           "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla"
         ]
-      },
-      {
-        "path": "ServerStorage/zilla jr  (dont delete)",
-        "scripts_inside": 1,
-        "name_referenced_by": []
       },
       {
         "path": "StarterGui/GameGui",

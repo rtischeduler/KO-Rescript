@@ -32,6 +32,18 @@ local function getOrCreateRemote(name)
 	return remote
 end
 
+local function getKaijuScale(character)
+	local value = character and character:GetAttribute("KaijuScale")
+	if typeof(value) == "number" and value > 0 then
+		return value
+	end
+	return 1
+end
+
+local function isFlying(character)
+	return character ~= nil and character:GetAttribute("Flying") == true
+end
+
 local function getGCells(player)
 	local leaderstats = player:FindFirstChild("leaderstats")
 	if not leaderstats then return nil end
@@ -427,12 +439,21 @@ end
 local function initPulse()
 	local pulseHitEvent = getOrCreateRemote("PulseHit")
 	local pulseFireEvent = getOrCreateRemote("PulseFire")
+	local flightStateEvent = getOrCreateRemote("FlightState")
+
+	flightStateEvent.OnServerEvent:Connect(function(plr, flying)
+		local char = plr.Character
+		if char then
+			char:SetAttribute("Flying", flying == true)
+		end
+	end)
 
 	local function getHumanoidAndPlayer(part)
 		local current = part.Parent
 		while current and current ~= workspace do
 			local humanoid = current:FindFirstChildOfClass("Humanoid")
 			if humanoid then
+				if humanoid.Health <= 0 then return nil, nil end
 				return humanoid, Players:GetPlayerFromCharacter(current)
 			end
 			current = current.Parent
@@ -444,6 +465,10 @@ local function initPulse()
 		local character = player and player.Character
 		local hrp = character and character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
+
+		local sizeMult = getKaijuScale(character)
+		local baseMin = 300 * sizeMult
+		maxSize = maxSize * sizeMult
 
 		pulseFireEvent:FireAllClients(player, color, maxSize, duration)
 
@@ -470,7 +495,7 @@ local function initPulse()
 
 		local damagePerTick = damage / 10
 		local gcellsPerTick = 25
-		maxSize = math.max(maxSize, 300)
+		maxSize = math.max(maxSize, baseMin)
 		local tickInterval = 0.5
 		local burstTime, sustainTime = 0.4, 0.5
 		local peak = maxSize * 1.1
@@ -512,7 +537,7 @@ local function initPulse()
 				local hitThisTick = {}
 				for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
 					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] and not isFlying(hitHumanoid.Parent) then
 						hitThisTick[hitPlayer] = true
 						setCreator(hitHumanoid, player)
 						hitHumanoid:TakeDamage(damagePerTick)
@@ -732,6 +757,7 @@ local function initAttackHandler()
 		while model do
 			local humanoid = model:FindFirstChildOfClass("Humanoid")
 			if humanoid then
+				if humanoid.Health <= 0 then return nil, nil end
 				return humanoid, Players:GetPlayerFromCharacter(model)
 			end
 			model = model.Parent
@@ -932,11 +958,12 @@ local function initAttackHandler()
 		local hrp = character:FindFirstChild("HumanoidRootPart")
 		if not hrp then return end
 
-		local sizeX = remote:GetAttribute("HitboxSizeX") or 50
-		local sizeY = remote:GetAttribute("HitboxSizeY") or 50
-		local sizeZ = remote:GetAttribute("HitboxSizeZ") or 50
+		local sizeMult = getKaijuScale(character)
+		local sizeX = (remote:GetAttribute("HitboxSizeX") or 50) * sizeMult
+		local sizeY = (remote:GetAttribute("HitboxSizeY") or 50) * sizeMult
+		local sizeZ = (remote:GetAttribute("HitboxSizeZ") or 50) * sizeMult
 		local duration = remote:GetAttribute("HitboxDuration") or 2
-		local maxSize = remote:GetAttribute("PulseMaxSize") or 500
+		local maxSize = (remote:GetAttribute("PulseMaxSize") or 500) * sizeMult
 		local tickInterval = remote:GetAttribute("PulseTickInterval") or 0.3
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG3")
 
@@ -991,7 +1018,7 @@ local function initAttackHandler()
 				local hitThisTick = {}
 				for _, part in ipairs(workspace:GetPartsInPart(pulsePart, overlapParams)) do
 					local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
-					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] then
+					if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitThisTick[hitPlayer] and not isFlying(hitHumanoid.Parent) then
 						hitThisTick[hitPlayer] = true
 						registerHit(player, character, hitHumanoid, damagePerTick, gcellsPerTick, true)
 						getOrCreateRemote("PulseHit"):FireClient(hitPlayer)

@@ -122,8 +122,17 @@ local function initCameraToggle()
 		end
 	end)
 
+	local function getMaxZoom()
+		local character = player.Character
+		local scale = character and character:GetAttribute("KaijuScale")
+		if typeof(scale) == "number" and scale > 1 then
+			return maxZoomDistance * scale
+		end
+		return maxZoomDistance
+	end
+
 	local function enforceMaxZoom()
-		player.CameraMaxZoomDistance = maxZoomDistance
+		player.CameraMaxZoomDistance = getMaxZoom()
 		player.CameraMinZoomDistance = 0.5
 	end
 
@@ -230,8 +239,9 @@ local function initCameraToggle()
 			isConsole = detectedConsole
 			maxZoomDistance = isConsole and 200 or 100
 		end
-		if player.CameraMaxZoomDistance ~= maxZoomDistance then
-			player.CameraMaxZoomDistance = maxZoomDistance
+		local targetZoom = getMaxZoom()
+		if player.CameraMaxZoomDistance ~= targetZoom then
+			player.CameraMaxZoomDistance = targetZoom
 		end
 		if player.CameraMinZoomDistance ~= 0.5 then
 			player.CameraMinZoomDistance = 0.5
@@ -416,6 +426,15 @@ local function initShiftLock()
 		for i = 1, 20 do
 			if connectCtrlLockButton() then break end
 			task.wait(0.5)
+		end
+	end)
+
+	RunService.Heartbeat:Connect(function()
+		if not isShiftLocked then return end
+		local character = player.Character
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		if not humanoid or humanoid.Health <= 0 then
+			setShiftLock(false)
 		end
 	end)
 

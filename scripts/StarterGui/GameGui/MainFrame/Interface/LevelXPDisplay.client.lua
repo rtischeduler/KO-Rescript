@@ -58,13 +58,13 @@ local function updateDisplay()
 	end
 	if levelBarText then
 		if isMaxed then
-			levelBarText.Text = "Level. " .. tostring(currentLevel) .. " (MAX)"
+			levelBarText.Text = "Lvl. " .. tostring(currentLevel) .. " (MAX)"
 		else
 			local xpNeeded = currentXPNeeded
 			if xpNeeded <= 0 then
 				xpNeeded = LevelManager.GetXPForNextLevel(currentLevel, currentKaiju)
 			end
-			levelBarText.Text = "Level. " .. tostring(currentLevel) .. " (" .. tostring(currentXP) .. "/" .. tostring(xpNeeded) .. ")"
+			levelBarText.Text = "Lvl. " .. tostring(currentLevel) .. " (" .. tostring(currentXP) .. "/" .. tostring(xpNeeded) .. ")"
 		end
 	end
 end

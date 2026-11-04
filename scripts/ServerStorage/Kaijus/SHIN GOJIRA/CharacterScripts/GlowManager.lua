@@ -1,15 +1,12 @@
-local TweenService = game:GetService("TweenService")
-
 local GlowManager = {}
 
 local model = script.Parent.Parent
 local parts = nil
 local activeCount = 0
 local originalProps = {}
-local activeTweens = {}
+local generation = 0
 
-local brightPurple = Color3.fromRGB(160, 0, 255)
-local brighterPurple = Color3.fromRGB(255, 102, 204)
+local glowColor = Color3.fromRGB(160, 0, 255)
 
 local function getGlowAndRedParts()
 	if parts then return parts end
@@ -25,18 +22,39 @@ local function getGlowAndRedParts()
 	return parts
 end
 
-local function cancelAllTweens()
-	for _, tween in ipairs(activeTweens) do
-		tween:Cancel()
+-- Ignition order: parts sorted by the number in their name, ascending.
+-- Shin's glow parts are one continuous sequence (SpikeGlow 1-40 up the
+-- tail, then Red 41-75 up the body), so this sweeps tail to head, matching
+-- GODZILLA 2014's dorsal spike charge in this game.
+local function getIgnitionOrder()
+	local glowParts = getGlowAndRedParts()
+	local numbered = {}
+	local unnumbered = {}
+	for _, part in ipairs(glowParts) do
+		local number = tonumber(string.match(part.Name, "%d+"))
+		if number then
+			table.insert(numbered, { part = part, number = number })
+		else
+			table.insert(unnumbered, part)
+		end
 	end
-	activeTweens = {}
+	table.sort(numbered, function(a, b) return a.number < b.number end)
+	local ordered = {}
+	for _, entry in ipairs(numbered) do
+		table.insert(ordered, entry.part)
+	end
+	for _, part in ipairs(unnumbered) do
+		table.insert(ordered, part)
+	end
+	return ordered
 end
 
 function GlowManager.StartGlow(chargeDuration)
 	activeCount = activeCount + 1
 	local glowParts = getGlowAndRedParts()
 
-	cancelAllTweens()
+	generation += 1
+	local myGeneration = generation
 
 	if activeCount == 1 then
 		for _, part in ipairs(glowParts) do
@@ -50,51 +68,30 @@ function GlowManager.StartGlow(chargeDuration)
 	end
 
 	local totalDuration = tonumber(chargeDuration) or 0
+	local ordered = getIgnitionOrder()
 
-	-- No charge duration: snap to the glow instantly (original behavior)
+	-- No charge duration: snap everything to the glow instantly.
 	if totalDuration <= 0 then
-		for _, part in ipairs(glowParts) do
+		for _, part in ipairs(ordered) do
 			part.Material = Enum.Material.Neon
-			part.Color = brightPurple
-		end
-
-		local brightTweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-		for _, part in ipairs(glowParts) do
-			local tween = TweenService:Create(part, brightTweenInfo, { Color = brighterPurple })
-			table.insert(activeTweens, tween)
-			tween:Play()
+			part.Color = glowColor
 		end
 		return
 	end
 
-	-- Charge duration: tween the glow in over the charge period instead of snapping.
-	-- Stage 1 fades from the original color into the glow color (60% of the charge),
-	-- stage 2 brightens it to the full charge color (remaining 40%).
-	local stage1Time = totalDuration * 0.6
-	local stage2Time = totalDuration * 0.4
-
-	for _, part in ipairs(glowParts) do
-		part.Material = Enum.Material.Neon
-		local startColor = originalProps[part] and originalProps[part].Color or part.Color
-		part.Color = startColor
-	end
-
-	local stage1Info = TweenInfo.new(stage1Time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-	local stage2Info = TweenInfo.new(stage2Time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
-	for _, part in ipairs(glowParts) do
-		local tween = TweenService:Create(part, stage1Info, { Color = brightPurple })
-		local tween2 = TweenService:Create(part, stage2Info, { Color = brighterPurple })
-		table.insert(activeTweens, tween)
-		table.insert(activeTweens, tween2)
-
-		tween.Completed:Connect(function(playbackState)
-			if playbackState == Enum.PlaybackState.Completed and activeCount > 0 then
-				tween2:Play()
+	-- Charge duration: ignite the parts one by one, tail to head, each
+	-- one staying lit until the beam ends (2014-style dorsal charge).
+	local perPartDelay = totalDuration / #ordered
+	task.spawn(function()
+		for _, part in ipairs(ordered) do
+			if generation ~= myGeneration or activeCount <= 0 or not part.Parent then
+				break
 			end
-		end)
-		tween:Play()
-	end
+			part.Material = Enum.Material.Neon
+			part.Color = glowColor
+			task.wait(perPartDelay)
+		end
+	end)
 end
 
 function GlowManager.EndGlow()
@@ -104,26 +101,24 @@ function GlowManager.EndGlow()
 		return
 	end
 
-	cancelAllTweens()
-	local glowParts = getGlowAndRedParts()
-	local restoreTweenInfo = TweenInfo.new(2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+	generation += 1
+	local ordered = getIgnitionOrder()
 
-	for _, part in ipairs(glowParts) do
-		local props = originalProps[part]
-		if props then
-			local tween = TweenService:Create(part, restoreTweenInfo, { Color = props.Color })
-			table.insert(activeTweens, tween)
-			tween:Play()
-			local partRef = part
-			local propsRef = props
-			tween.Completed:Connect(function()
-				if activeCount == 0 then
-					partRef.Material = propsRef.Material
-					originalProps[partRef] = nil
-				end
-			end)
+	-- Power down in reverse ignition order (head to tail), one part at a
+	-- time, restoring each part's original look instantly.
+	local perPartDelay = math.min(0.1, 2 / #ordered)
+	task.spawn(function()
+		for i = #ordered, 1, -1 do
+			local part = ordered[i]
+			local props = originalProps[part]
+			if props and part.Parent then
+				part.Color = props.Color
+				part.Material = props.Material
+				originalProps[part] = nil
+			end
+			task.wait(perPartDelay)
 		end
-	end
+	end)
 end
 
 return GlowManager

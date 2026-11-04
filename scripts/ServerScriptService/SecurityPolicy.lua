@@ -58,7 +58,8 @@ local FREE_MORPHS = {
 -- Kaijus that only specific players may use. Keys are morph names,
 -- values are sets of lowercase player names allowed to use them.
 local ExclusiveKaijus = {
-	["Evo Shin"] = {
+	["Evo shin"] = {
+		["brickrig1again_alt"] = true,
 		["mr_bolde2"] = true,
 	},
 }

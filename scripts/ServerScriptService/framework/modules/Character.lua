@@ -83,6 +83,7 @@ function Character.Init()
 		local ALLOWED_PLAYERS = {
 			[string.lower("AthosGame2023")] = true,
 			[string.lower("mr_bolde2")] = true,
+			[string.lower("Brickrig1again_alt")] = true,
 			[string.lower("DenisTheCheeseKing")] = true,
 			[string.lower("BlueEnderCookie_2")] = true,
 		}
@@ -223,15 +224,31 @@ function Character.Init()
 				if not humanoid then return end
 			end
 
+			local function disableTouch(desc)
+				if desc:IsA("BasePart") then
+					desc.CanTouch = false
+					desc.CanQuery = false
+				end
+			end
+
 			humanoid.Died:Connect(function()
+				for _, desc in ipairs(character:GetDescendants()) do
+					disableTouch(desc)
+				end
+				local added = character.DescendantAdded:Connect(disableTouch)
 				task.wait(4)
+				added:Disconnect()
 				if character and character.Parent then
 					for _, desc in ipairs(character:GetDescendants()) do
 						if desc:IsA("BasePart") then
 							desc.CanTouch = false
 							desc.CanQuery = false
 							desc.Transparency = 1
-						elseif desc:IsA("ParticleEmitter") or desc:IsA("Fire") or desc:IsA("Smoke") or desc:IsA("Trail") or desc:IsA("Beam") then
+						elseif desc:IsA("Decal") or desc:IsA("Texture") then
+							desc.Transparency = 1
+						elseif desc:IsA("SurfaceGui") or desc:IsA("BillboardGui") then
+							desc.Enabled = false
+						elseif desc:IsA("Highlight") or desc:IsA("Light") or desc:IsA("ParticleEmitter") or desc:IsA("Fire") or desc:IsA("Smoke") or desc:IsA("Sparkles") or desc:IsA("Trail") or desc:IsA("Beam") then
 							desc.Enabled = false
 						end
 					end

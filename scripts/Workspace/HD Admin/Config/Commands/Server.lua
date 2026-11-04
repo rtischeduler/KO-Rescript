@@ -808,8 +808,21 @@ local module = {
 				local humanoid = character:FindFirstChildOfClass("Humanoid")
 				if not humanoid then continue end
 
-				character:ScaleTo(scale)
+				local previous = character:GetAttribute("KaijuScale") or 1
 				character:SetAttribute("KaijuScale", scale)
+				character:ScaleTo(scale)
+
+				local ratio = scale / previous
+				local stats = character:FindFirstChild("Stats")
+				if stats then
+					for _, statName in ipairs({"WS", "SS", "SwimSpeed"}) do
+						local stat = stats:FindFirstChild(statName)
+						if stat and stat:IsA("ValueBase") and typeof(stat.Value) == "number" then
+							stat.Value = stat.Value * ratio
+						end
+					end
+				end
+				humanoid.WalkSpeed = humanoid.WalkSpeed * ratio
 			end
 		end;
 

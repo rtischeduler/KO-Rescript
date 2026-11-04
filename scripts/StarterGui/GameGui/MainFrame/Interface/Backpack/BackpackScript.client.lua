@@ -860,11 +860,14 @@ end
 
 local chargeTweens = {}
 
-local function playChargeFill(button, duration)
+local function playChargeFill(button, duration, keepRunning)
 	local charge = button:FindFirstChild("Charge")
 	if not charge then return end
 	local previous = chargeTweens[charge]
 	if previous then
+		if keepRunning and previous.PlaybackState == Enum.PlaybackState.Playing then
+			return
+		end
 		previous:Cancel()
 	end
 	charge.Size = UDim2.new(1, 0, -1, 0)
@@ -973,7 +976,7 @@ local function fireAbility(eventName)
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
 			if CooldownManager.getRemaining(otherButton.Name) <= 0 then
-				playChargeFill(otherButton, attackDuration)
+				playChargeFill(otherButton, attackDuration, true)
 			end
 		end
 	end

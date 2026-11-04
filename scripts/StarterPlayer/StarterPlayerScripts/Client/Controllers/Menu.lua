@@ -177,9 +177,18 @@ local function runMenuCamera(cfg)
 	end
 
 	local function onDeath(deadCharacter)
+		if deadCharacter then
+			if deadCharacter:GetAttribute("DeathHandled") then
+				return
+			end
+			deadCharacter:SetAttribute("DeathHandled", true)
+		end
+
 		if player:GetAttribute("IsMorphing") then
 			player:SetAttribute("IsMorphing", false)
-			return
+			if player.Character ~= deadCharacter then
+				return
+			end
 		end
 
 		if player.Character and player.Character ~= deadCharacter and not player:GetAttribute("ReturnToMenu") then
@@ -265,6 +274,16 @@ local function runMenuCamera(cfg)
 		if humanoid then
 			humanoid.Died:Connect(function()
 				task.spawn(onDeath, character)
+			end)
+			humanoid.HealthChanged:Connect(function(health)
+				if health <= 0 then
+					task.spawn(onDeath, character)
+				end
+			end)
+			character.AncestryChanged:Connect(function(_, parent)
+				if not parent and player.Character == character then
+					task.spawn(onDeath, character)
+				end
 			end)
 		end
 	end

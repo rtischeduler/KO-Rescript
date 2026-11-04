@@ -171,6 +171,26 @@ local function applyHPBonus(level, fullHeal)
 	
 	if character:GetAttribute("BossMode") then return end
 
+	-- Evolved Godzilla: forced health curve.
+	-- Base level = 4500 HP, grows with XP as he levels up, reaching 5500 at max level.
+	-- This ignores any stale BaseMaxHP attribute so his health can never drift to wrong values.
+	if kaijuName == "Evolved Godzilla" then
+		local maxLevel = LevelManager.GetMaxLevel(kaijuName)
+		local baseHP = 4500
+		local cappedHP = 5500
+		local fraction = 0
+		if maxLevel and maxLevel > 1 then
+			fraction = math.clamp((level - 1) / (maxLevel - 1), 0, 1)
+		end
+		local newMaxHP = math.floor(baseHP + (cappedHP - baseHP) * fraction)
+		humanoid:SetAttribute("BaseMaxHP", baseHP)
+		humanoid.MaxHealth = newMaxHP
+		if fullHeal then
+			humanoid.Health = newMaxHP
+		end
+		return
+	end
+
 	local baseMaxHP = humanoid:GetAttribute("BaseMaxHP")
 	if not baseMaxHP then
 		baseMaxHP = humanoid.MaxHealth
