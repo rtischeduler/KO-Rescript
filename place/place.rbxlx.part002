@@ -1026443,7 +1026443,7 @@ end</string>
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900004053</UniqueId>
-              <double name="Value">200</double>
+              <double name="Value">135</double>
             </Properties>
           </Item>
           <Item class="NumberValue" referent="120289">
@@ -1026458,7 +1026458,7 @@ end</string>
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900004054</UniqueId>
-              <double name="Value">500</double>
+              <double name="Value">350</double>
             </Properties>
           </Item>
           <Item class="NumberValue" referent="120290">
@@ -1026608,7 +1026608,7 @@ end</string>
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">5cf0b50e057fa2390af5c1990000405e</UniqueId>
-              <double name="Value">214</double>
+              <double name="Value">130</double>
             </Properties>
           </Item>
           <Item class="NumberValue" referent="120300">

@@ -1340,12 +1340,12 @@
     "class": "NumberValue",
     "count": 12,
     "names": [
+      "SS",
+      "WS",
       "MaxHP",
       "HP",
       "DMG4",
-      "SwimSpeed",
-      "DMG3",
-      "WS"
+      "SwimSpeed"
     ],
     "parent": "ServerStorage/Kaijus/Evolved Godzilla/Stats"
   },
