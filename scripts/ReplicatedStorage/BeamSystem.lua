@@ -272,14 +272,37 @@ local function cleanupStaleBeam(player)
 		beamEndedSignal:Fire(player, gen)
 	end
 end
-local function findBeamAttachments(morphModel)
+local function findBeamAttachments(morphModel, beamNameFilter)
 	local beamStarts = {}
 	local beamEnds = {}
+	local matchedEnds = nil
+	if beamNameFilter then matchedEnds = {} end
 	for _, descendant in ipairs(morphModel:GetDescendants()) do
-		if descendant:IsA("Attachment") then
-			if descendant.Name == "BeamStart" then
+		if descendant:IsA("Attachment") and descendant.Name == "BeamStart" then
+			local hasMatch = not beamNameFilter
+			if beamNameFilter then
+				for _, child in ipairs(descendant:GetChildren()) do
+					if child:IsA("Beam") and beamNameFilter[child.Name] then
+						hasMatch = true
+						break
+					end
+				end
+			end
+			if hasMatch then
 				table.insert(beamStarts, descendant)
-			elseif descendant.Name == "BeamEnd" then
+				if matchedEnds then
+					for _, child in ipairs(descendant:GetChildren()) do
+						if child:IsA("Beam") and beamNameFilter[child.Name] and child.Attachment1 then
+							matchedEnds[child.Attachment1] = true
+						end
+					end
+				end
+			end
+		end
+	end
+	for _, descendant in ipairs(morphModel:GetDescendants()) do
+		if descendant:IsA("Attachment") and descendant.Name == "BeamEnd" then
+			if not matchedEnds or matchedEnds[descendant] then
 				table.insert(beamEnds, descendant)
 			end
 		end
@@ -372,7 +395,7 @@ function BeamSystem.ForceCleanup(player)
 	end
 	cleanupStaleBeam(player)
 end
-local function createDPSScript(hitbox, player, character, duration)
+local function createDPSScript(hitbox, player, character, duration, damageStat)
 	local dpsTemplate = ReplicatedStorage:FindFirstChild("DPSTemplate")
 	if not dpsTemplate then
 		warn("[BeamSystem] DPSTemplate not found in ReplicatedStorage!")
@@ -386,9 +409,9 @@ local function createDPSScript(hitbox, player, character, duration)
 	local beamDamage = 0
 	local stats = character and character:FindFirstChild("Stats")
 	if stats then
-		local dmg2 = stats:FindFirstChild("DMG2")
-		if dmg2 then
-			beamDamage = dmg2.Value
+		local dmgValue = stats:FindFirstChild(damageStat or "DMG2") or stats:FindFirstChild("DMG2")
+		if dmgValue then
+			beamDamage = dmgValue.Value
 		end
 	end
 	dpsScript:SetAttribute("BeamDamage", beamDamage)
@@ -495,7 +518,7 @@ function BeamSystem.ActivateBeam(config)
 			BeamSystem.ForceCleanup(player)
 		end
 	end)
-	local beamStarts, beamEnds = findBeamAttachments(character)
+	local beamStarts, beamEnds = findBeamAttachments(character, beamNameFilter)
 	local primaryBeamStart = beamStarts[1]
 	local hitbox = Instance.new("Part")
 	hitbox.Name = "BeamHitbox"
@@ -510,7 +533,7 @@ function BeamSystem.ActivateBeam(config)
 	hitbox:SetAttribute("Attacker", player.Name)
 	hitbox:SetAttribute("BeamMain", true)
 	hitbox.Parent = Workspace
-	local dpsScript = createDPSScript(hitbox, player, character, duration)
+	local dpsScript = createDPSScript(hitbox, player, character, duration, config.damageStat)
 	activeBeams[player].hitbox = hitbox
 	activeBeams[player].dpsScript = dpsScript
 	local beamHitDebounce = {}

@@ -313,6 +313,7 @@ end
 local function needsAimPosition(eventName)
 	return eventName == "Beam" or eventName == "Attack2Event"
 		or eventName == "Attack3" or eventName == "Attack3Event"
+		or eventName == "Attack4" or eventName == "Attack4Event"
 end
 
 local function charHasBeamRig(char)
@@ -334,6 +335,7 @@ end
 local function isBeamEvent(eventName)
 	return eventName == "Beam" or eventName == "Attack2Event"
 		or eventName == "Attack3" or eventName == "Attack3Event"
+		or eventName == "Attack4" or eventName == "Attack4Event"
 end
 
 stopBeamRotation = function()

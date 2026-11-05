@@ -1174,6 +1174,15 @@ local function initAttackHandler()
 		return false
 	end
 
+	local function parseBeamNames(value)
+		if typeof(value) ~= "string" or value == "" then return nil end
+		local names = {}
+		for name in string.gmatch(value, "[^,%s]+") do
+				table.insert(names, name)
+		end
+		return #names > 0 and names or nil
+	end
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -1269,6 +1278,8 @@ local function initAttackHandler()
 			player = player,
 			initialTargetPosition = targetPos,
 			duration = duration,
+			beamNames = parseBeamNames(remote:GetAttribute("BeamNames")),
+			damageStat = remote:GetAttribute("DamageStat"),
 		})
 		if not ok then warn("[AttackHandler] ActivateBeam failed: " .. tostring(err)) end
 

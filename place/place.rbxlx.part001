@@ -1,4 +1,5 @@
-tring name="Tags"></BinaryString>
+                                 <int64 name="SourceAssetId">-1</int64>
+                                      <BinaryString name="Tags"></BinaryString>
                                       <UniqueId name="UniqueId">00000000000000000000000000017abe</UniqueId>
                                       <float name="Weight">1</float>
                                     </Properties>
@@ -243762,14 +243763,37 @@ local function cleanupStaleBeam(player)
 		beamEndedSignal:Fire(player, gen)
 	end
 end
-local function findBeamAttachments(morphModel)
+local function findBeamAttachments(morphModel, beamNameFilter)
 	local beamStarts = {}
 	local beamEnds = {}
+	local matchedEnds = nil
+	if beamNameFilter then matchedEnds = {} end
 	for _, descendant in ipairs(morphModel:GetDescendants()) do
-		if descendant:IsA("Attachment") then
-			if descendant.Name == "BeamStart" then
+		if descendant:IsA("Attachment") and descendant.Name == "BeamStart" then
+			local hasMatch = not beamNameFilter
+			if beamNameFilter then
+				for _, child in ipairs(descendant:GetChildren()) do
+					if child:IsA("Beam") and beamNameFilter[child.Name] then
+						hasMatch = true
+						break
+					end
+				end
+			end
+			if hasMatch then
 				table.insert(beamStarts, descendant)
-			elseif descendant.Name == "BeamEnd" then
+				if matchedEnds then
+					for _, child in ipairs(descendant:GetChildren()) do
+						if child:IsA("Beam") and beamNameFilter[child.Name] and child.Attachment1 then
+							matchedEnds[child.Attachment1] = true
+						end
+					end
+				end
+			end
+		end
+	end
+	for _, descendant in ipairs(morphModel:GetDescendants()) do
+		if descendant:IsA("Attachment") and descendant.Name == "BeamEnd" then
+			if not matchedEnds or matchedEnds[descendant] then
 				table.insert(beamEnds, descendant)
 			end
 		end
@@ -243862,7 +243886,7 @@ function BeamSystem.ForceCleanup(player)
 	end
 	cleanupStaleBeam(player)
 end
-local function createDPSScript(hitbox, player, character, duration)
+local function createDPSScript(hitbox, player, character, duration, damageStat)
 	local dpsTemplate = ReplicatedStorage:FindFirstChild("DPSTemplate")
 	if not dpsTemplate then
 		warn("[BeamSystem] DPSTemplate not found in ReplicatedStorage!")
@@ -243876,9 +243900,9 @@ local function createDPSScript(hitbox, player, character, duration)
 	local beamDamage = 0
 	local stats = character and character:FindFirstChild("Stats")
 	if stats then
-		local dmg2 = stats:FindFirstChild("DMG2")
-		if dmg2 then
-			beamDamage = dmg2.Value
+		local dmgValue = stats:FindFirstChild(damageStat or "DMG2") or stats:FindFirstChild("DMG2")
+		if dmgValue then
+			beamDamage = dmgValue.Value
 		end
 	end
 	dpsScript:SetAttribute("BeamDamage", beamDamage)
@@ -243985,7 +244009,7 @@ function BeamSystem.ActivateBeam(config)
 			BeamSystem.ForceCleanup(player)
 		end
 	end)
-	local beamStarts, beamEnds = findBeamAttachments(character)
+	local beamStarts, beamEnds = findBeamAttachments(character, beamNameFilter)
 	local primaryBeamStart = beamStarts[1]
 	local hitbox = Instance.new("Part")
 	hitbox.Name = "BeamHitbox"
@@ -244000,7 +244024,7 @@ function BeamSystem.ActivateBeam(config)
 	hitbox:SetAttribute("Attacker", player.Name)
 	hitbox:SetAttribute("BeamMain", true)
 	hitbox.Parent = Workspace
-	local dpsScript = createDPSScript(hitbox, player, character, duration)
+	local dpsScript = createDPSScript(hitbox, player, character, duration, config.damageStat)
 	activeBeams[player].hitbox = hitbox
 	activeBeams[player].dpsScript = dpsScript
 	local beamHitDebounce = {}
@@ -332161,6 +332185,15 @@ local function initAttackHandler()
 		return false
 	end
 
+	local function parseBeamNames(value)
+		if typeof(value) ~= "string" or value == "" then return nil end
+		local names = {}
+		for name in string.gmatch(value, "[^,%s]+") do
+				table.insert(names, name)
+		end
+		return #names &gt; 0 and names or nil
+	end
+
 	local function executeBeamAttack(player, character, remote, remoteName, targetPos)
 		if not BeamSystem then return end
 		local hrp = character:FindFirstChild("HumanoidRootPart")
@@ -332256,6 +332289,8 @@ local function initAttackHandler()
 			player = player,
 			initialTargetPosition = targetPos,
 			duration = duration,
+			beamNames = parseBeamNames(remote:GetAttribute("BeamNames")),
+			damageStat = remote:GetAttribute("DamageStat"),
 		})
 		if not ok then warn("[AttackHandler] ActivateBeam failed: " .. tostring(err)) end
 
@@ -1700146,28 +1700181,4 @@ end
                 <Item class="Pose" referent="93387">
                   <Properties>
                     <string name="Name">Chest</string>
-                    <BinaryString name="AttributesSerialize"></BinaryString>
-                    <CoordinateFrame name="CFrame">
-                      <X>-0.016968966</X>
-                      <Y>0.6837232</Y>
-                      <Z>-1.1667615</Z>
-                      <R00>0.9999616</R00>
-                      <R01>0.006968975</R01>
-                      <R02>-0.0053129066</R02>
-                      <R10>-0.008452417</R10>
-                      <R11>0.9270497</R11>
-                      <R12>-0.37484318</R12>
-                      <R20>0.002313056</R20>
-                      <R21>0.3748737</R21>
-                      <R22>0.927073</R22>
-                    </CoordinateFrame>
-                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                    <token name="EasingDirection">0</token>
-                    <token name="EasingStyle">0</token>
-                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                    <bool name="DefinesCapabilities">false</bool>
-                    <BinaryString name="SerializedOverrides">
-                    </BinaryString>
-                    <int64 name="SourceAssetId">-1</int64>
-                    <BinaryString name="Tags"></BinaryString>
-                    <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900008e68</
+               

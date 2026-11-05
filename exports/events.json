@@ -1,5 +1,5 @@
 {
-  "count": 419,
+  "count": 420,
   "events": [
     {
       "path": "Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/Attack1Event",
@@ -4042,6 +4042,17 @@
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
       "reference_count": 6
+    },
+    {
+      "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Attack4",
+      "class": "RemoteEvent",
+      "referenced_by": [
+        "ReplicatedStorage/ChargeManager",
+        "ReplicatedStorage/CooldownManager",
+        "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
+        "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
+      ],
+      "reference_count": 4
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Beam",
