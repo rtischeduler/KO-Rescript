@@ -892,6 +892,169 @@ local module = {
 		end;
 	};
 
+	{
+		Name = "DMGStat";
+		Aliases = {"dmgstat"};
+		Prefixes = {};
+		Rank = 2;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Change a kaiju damage stat! (e.g. ;dmgstat me DMG1 500)";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"string";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+				table.insert(targetPlayers, players)
+			end
+
+			local combinedText = args[2]
+			if not combinedText then return end
+
+			local statName, damageString = string.match(combinedText, "(%S+)%s+(%S+)")
+			if not statName or not damageString then
+				print("Error: Make sure to type both the stat name and a number! (e.g. ;dmgstat me DMG1 500)")
+				return
+			end
+
+			local damage = tonumber(damageString)
+			if not damage then return end
+
+			-- Only allow DMG stats to be changed with this command
+			if not string.match(string.upper(statName), "^DMG%d*$") then
+				print("Error: Only DMG stats can be changed with dmgstat (e.g. DMG1, DMG2)")
+				return
+			end
+
+			for _, plr in ipairs(targetPlayers) do
+				local character = plr.Character
+				if not character then continue end
+
+				local statsFolder = character:FindFirstChild("Stats")
+				if not statsFolder then continue end
+
+				local attackObject = nil
+				for _, child in ipairs(statsFolder:GetChildren()) do
+					if string.lower(child.Name) == string.lower(statName) then
+						attackObject = child
+						break
+					end
+				end
+
+				if attackObject and attackObject:IsA("ValueBase") then
+					attackObject.Value = damage
+					print("Changed " .. attackObject.Name .. " value to " .. tostring(damage))
+			end
+			end
+		end;
+	};
+
+	{
+		Name = "DMG1Stat";
+		Aliases = {"dmg1stat"};
+		Prefixes = {};
+		Rank = 2;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Set your kaiju's first attack damage! (e.g. ;dmg1stat me 500)";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"string";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+					table.insert(targetPlayers, players)
+			end
+
+			local damage = tonumber(args[2])
+			if not damage then
+				print("Error: Make sure to type a number! (e.g. ;dmg1stat me 500)")
+				return
+			end
+
+			for _, plr in ipairs(targetPlayers) do
+				local character = plr.Character
+			if not character then continue end
+
+			local statsFolder = character:FindFirstChild("Stats")
+			if not statsFolder then continue end
+
+			local attackObject = statsFolder:FindFirstChild("DMG1")
+			if attackObject and attackObject:IsA("ValueBase") then
+					attackObject.Value = damage
+					print("Changed " .. attackObject.Name .. " value to " .. tostring(damage))
+				end
+			end
+		end;
+	};
+
+	{
+		Name = "DMG2Stat";
+		Aliases = {"dmg2stat"};
+		Prefixes = {};
+		Rank = 2;
+		RankLock = false;
+		Loopable = false;
+		Tags = {};
+		Description = "Set your kaiju's second attack damage! (e.g. ;dmg2stat me 40)";
+		Contributors = {};
+
+		Args = {
+			"player";
+			"string";
+		};
+		Function = function(speaker, args)
+			local targetPlayers = {}
+			local players = args[1]
+			if type(players) == "table" then
+				for _, v in ipairs(players) do
+					table.insert(targetPlayers, v)
+				end
+			elseif typeof(players) == "Instance" and players:IsA("Player") then
+				table.insert(targetPlayers, players)
+			end
+
+			local damage = tonumber(args[2])
+			if not damage then
+				print("Error: Make sure to type a number! (e.g. ;dmg2stat me 40)")
+				return
+			end
+
+			for _, plr in ipairs(targetPlayers) do
+				local character = plr.Character
+				if not character then continue end
+
+				local statsFolder = character:FindFirstChild("Stats")
+				if not statsFolder then continue end
+
+				local attackObject = statsFolder:FindFirstChild("DMG2")
+			if attackObject and attackObject:IsA("ValueBase") then
+					attackObject.Value = damage
+					print("Changed " .. attackObject.Name .. " value to " .. tostring(damage))
+				end
+			end
+		end;
+	};
+
 };
 
 

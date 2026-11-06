@@ -10,7 +10,7 @@ Names are matched against every script's identifiers and string literals. Anythi
 - empty running scripts: 302
 - events never referenced: 1
 - events maybe fired dynamically: 51
-- unused trees holding dead scripts: 8
+- unused trees holding dead scripts: 7
 
 ## Events never referenced (1)
 
@@ -21,15 +21,14 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/TemplateGlowManager`
 - `TestService/LuauLSP_Settings`
 
-## Trees holding scripts that never run (8)
+## Trees holding scripts that never run (7)
 
 - `Lighting/KaijusUnused (93 dead scripts, referenced by: ServerScriptService/framework/modules/Data)`
-- `ServerStorage/Kaijus (17 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
+- `ServerStorage/Kaijus (18 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
 - `ReplicatedStorage/FINAL WARS GODZILLA (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `Lighting/Rocket (1 dead scripts, referenced by: nothing)`
 - `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/LevelManager, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data, ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla)`
-- `ServerStorage/incomplete (1 dead scripts, referenced by: nothing)`
 - `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, StarterGui/ClientHandler, StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu, StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch)`
 
 ## Scripts that never run (120)
@@ -149,10 +148,10 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla (Script, sits in a container where it never runs)`
 - `ServerStorage/Kaijus/MINILLA/CharacterScripts/Minilla (Script, sits in a container where it never runs)`
 - `ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Anim (LocalScript, disabled)`
+- `ServerStorage/Kaijus/ZILLA/HumanoidRootPart/AntiFling (Script, sits in a container where it never runs)`
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript (Script, disabled)`
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript (Script, disabled)`
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript (Script, disabled)`
-- `ServerStorage/incomplete/ZILLA/HumanoidRootPart/AntiFling (Script, sits in a container where it never runs)`
 - `StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript (LocalScript, disabled)`
 
 ## Empty running scripts (302)

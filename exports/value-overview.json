@@ -80,17 +80,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 69,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -110,7 +100,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -120,7 +110,27 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 69,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 66,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -151,16 +161,6 @@
       "Overshoot"
     ],
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 66,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -216,41 +216,9 @@
     "class": "StringValue",
     "count": 23,
     "names": [
-      "HandleType"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth"
-  },
-  {
-    "class": "StringValue",
-    "count": 23,
-    "names": [
-      "Type"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
-  },
-  {
-    "class": "StringValue",
-    "count": 23,
-    "names": [
       "Direction"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
-  },
-  {
-    "class": "StringValue",
-    "count": 23,
-    "names": [
-      "Direction"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
-  },
-  {
-    "class": "StringValue",
-    "count": 23,
-    "names": [
-      "Direction"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
   },
   {
     "class": "StringValue",
@@ -272,6 +240,22 @@
     "class": "StringValue",
     "count": 23,
     "names": [
+      "Direction"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+  },
+  {
+    "class": "StringValue",
+    "count": 23,
+    "names": [
+      "HandleType"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth"
+  },
+  {
+    "class": "StringValue",
+    "count": 23,
+    "names": [
       "Type"
     ],
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
@@ -280,9 +264,25 @@
     "class": "StringValue",
     "count": 23,
     "names": [
-      "HandleType"
+      "Direction"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+  },
+  {
+    "class": "StringValue",
+    "count": 23,
+    "names": [
+      "Direction"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+  },
+  {
+    "class": "StringValue",
+    "count": 23,
+    "names": [
+      "Type"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
   },
   {
     "class": "StringValue",
@@ -296,9 +296,9 @@
     "class": "StringValue",
     "count": 23,
     "names": [
-      "Direction"
+      "HandleType"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth"
   },
   {
     "class": "StringValue",
@@ -306,7 +306,7 @@
     "names": [
       "Type"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
   },
   {
     "class": "StringValue",
@@ -314,7 +314,7 @@
     "names": [
       "HandleType"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth"
   },
   {
     "class": "StringValue",
@@ -330,31 +330,7 @@
     "names": [
       "Type"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
-      "Type"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
-      "HandleType"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
-      "HandleType"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Fakehead/UpperTooth/Ease"
   },
   {
     "class": "StringValue",
@@ -370,7 +346,39 @@
     "names": [
       "Type"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "Type"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "HandleType"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "HandleType"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "Direction"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
   },
   {
     "class": "StringValue",
@@ -386,31 +394,7 @@
     "names": [
       "Type"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
-      "Direction"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
-      "Type"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
-      "HandleType"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
   },
   {
     "class": "StringValue",
@@ -424,14 +408,6 @@
     "class": "StringValue",
     "count": 22,
     "names": [
-      "Type"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
-  },
-  {
-    "class": "StringValue",
-    "count": 22,
-    "names": [
       "Direction"
     ],
     "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
@@ -440,9 +416,9 @@
     "class": "StringValue",
     "count": 22,
     "names": [
-      "HandleType"
+      "Type"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
   },
   {
     "class": "StringValue",
@@ -450,7 +426,39 @@
     "names": [
       "Direction"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease/Params"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "HandleType"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "HandleType"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth"
+  },
+  {
+    "class": "StringValue",
+    "count": 22,
+    "names": [
+      "Type"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Neck2/Head/Jaw/LowerTooth/Ease"
+  },
+  {
+    "class": "IntValue",
+    "count": 20,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2"
   },
   {
     "class": "IntValue",
@@ -482,7 +490,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart"
   },
   {
     "class": "IntValue",
@@ -506,7 +514,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2"
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
   },
   {
     "class": "IntValue",
@@ -515,14 +523,6 @@
       "Null"
     ],
     "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
-  },
-  {
-    "class": "IntValue",
-    "count": 20,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart"
   },
   {
     "class": "StringValue",
@@ -549,6 +549,32 @@
     "class": "NumberValue",
     "count": 13,
     "names": [
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1",
+      "GPA",
+      "WS"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 13,
+    "names": [
+      "prompt",
+      "DMG3",
+      "SwimSpeed",
+      "prompt2",
+      "Defense",
+      "Price"
+    ],
+    "parent": "ServerStorage/Kaijus/BIOLLANTE/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 13,
+    "names": [
       "prompt",
       "SwimSpeed",
       "prompt2",
@@ -569,7 +595,20 @@
       "GPA",
       "Defense"
     ],
-    "parent": "Lighting/KaijusUnused/FireGodzilla/Stats"
+    "parent": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 13,
+    "names": [
+      "prompt",
+      "DMG3",
+      "SwimSpeed",
+      "prompt2",
+      "Defense",
+      "Price"
+    ],
+    "parent": "Lighting/KaijusUnused/VolcanicBio/Stats"
   },
   {
     "class": "NumberValue",
@@ -601,32 +640,6 @@
     "class": "NumberValue",
     "count": 13,
     "names": [
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1",
-      "GPA",
-      "WS"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 13,
-    "names": [
-      "prompt",
-      "DMG3",
-      "SwimSpeed",
-      "prompt2",
-      "Defense",
-      "Price"
-    ],
-    "parent": "Lighting/KaijusUnused/VolcanicBio/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 13,
-    "names": [
       "prompt",
       "Price",
       "MaxHP",
@@ -634,33 +647,7 @@
       "GPA",
       "Defense"
     ],
-    "parent": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 13,
-    "names": [
-      "prompt",
-      "DMG3",
-      "SwimSpeed",
-      "prompt2",
-      "Defense",
-      "Price"
-    ],
-    "parent": "ServerStorage/Kaijus/BIOLLANTE/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
-      "DMG4",
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price ",
-      "DMG2"
-    ],
-    "parent": "ServerStorage/Kaijus/SHIN GOJIRA/Stats"
+    "parent": "Lighting/KaijusUnused/FireGodzilla/Stats"
   },
   {
     "class": "ObjectValue",
@@ -671,7 +658,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item109"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item65"
   },
   {
     "class": "ObjectValue",
@@ -682,7 +669,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item107"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item96"
   },
   {
     "class": "ObjectValue",
@@ -693,106 +680,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item29"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item79"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item92"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item12"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item42"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item49"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item37"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item118"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item104"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item66"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item113"
   },
   {
     "class": "ObjectValue",
@@ -814,7 +702,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item59"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item54"
   },
   {
     "class": "ObjectValue",
@@ -825,7 +713,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item58"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item115"
   },
   {
     "class": "ObjectValue",
@@ -836,7 +724,79 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item6"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item11"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item36"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item91"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
+      "DMG4",
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2"
+    ],
+    "parent": "ServerStorage/Kaijus/FINAL WARS GODZILLA/Stats"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item95"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
+      "DMG4",
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price ",
+      "DMG2"
+    ],
+    "parent": "ServerStorage/Kaijus/SHIN GOJIRA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
+      "SwimSpeed",
+      "prompt",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price"
+    ],
+    "parent": "Lighting/KaijusUnused/oldFrozen/Stats"
   },
   {
     "class": "ObjectValue",
@@ -869,7 +829,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item119"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item110"
   },
   {
     "class": "ObjectValue",
@@ -880,7 +840,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item43"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item45"
   },
   {
     "class": "ObjectValue",
@@ -891,7 +851,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item33"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item116"
   },
   {
     "class": "ObjectValue",
@@ -902,7 +862,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item38"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item114"
   },
   {
     "class": "ObjectValue",
@@ -913,7 +873,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item54"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item42"
   },
   {
     "class": "ObjectValue",
@@ -924,29 +884,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item44"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item113"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item40"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item1"
   },
   {
     "class": "NumberValue",
@@ -970,448 +908,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item95"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item112"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item110"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item73"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item35"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item71"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item13"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item111"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item18"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item31"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item50"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item65"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item5"
-  },
-  {
-    "class": "IntValue",
-    "count": 12,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item21"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item89"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item115"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item1"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item36"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
-      "REQ",
-      "Price",
-      "MaxHP",
-      "HP",
-      "GPA",
-      "Defense"
-    ],
-    "parent": "ServerStorage/TITANUS GHIDORAH/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item60"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item102"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item27"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item76"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item99"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item10"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item70"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item106"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item69"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item14"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item74"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
-      "DMG4",
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price"
-    ],
-    "parent": "ServerStorage/Kaijus/TITANUS BEHEMOTH/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item86"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item53"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item47"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item3"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item64"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item78"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item19"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item61"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item57"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item117"
   },
   {
     "class": "ObjectValue",
@@ -1433,7 +930,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item34"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item7"
   },
   {
     "class": "ObjectValue",
@@ -1444,132 +941,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item97"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
-      "SwimSpeed",
-      "prompt",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price"
-    ],
-    "parent": "Lighting/KaijusUnused/oldFrozen/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item114"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item88"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item94"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item96"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item117"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item32"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item87"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item51"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
-      "DMG4",
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2"
-    ],
-    "parent": "ServerStorage/Kaijus/FINAL WARS GODZILLA/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item11"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item90"
   },
   {
     "class": "NumberValue",
@@ -1593,7 +965,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item98"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item112"
   },
   {
     "class": "ObjectValue",
@@ -1604,207 +976,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item20"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item8"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item67"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item56"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item45"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item2"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item72"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item90"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item39"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item55"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item82"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item91"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item116"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item84"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item103"
-  },
-  {
-    "class": "NumberValue",
-    "count": 12,
-    "names": [
-      "DMG4",
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2"
-    ],
-    "parent": "ServerStorage/incomplete/ZILLA/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item16"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item101"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item23"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item89"
   },
   {
     "class": "ObjectValue",
@@ -1826,7 +998,20 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item75"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item51"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
+      "REQ",
+      "Price",
+      "MaxHP",
+      "HP",
+      "GPA",
+      "Defense"
+    ],
+    "parent": "ServerStorage/TITANUS GHIDORAH/Stats"
   },
   {
     "class": "ObjectValue",
@@ -1837,7 +1022,580 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item41"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item118"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item32"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item111"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item2"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item20"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item88"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item34"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
+      "DMG4",
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price"
+    ],
+    "parent": "ServerStorage/Kaijus/TITANUS BEHEMOTH/Stats"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item59"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item67"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item98"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item35"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item31"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item39"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item10"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item8"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item66"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item6"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item38"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item21"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item58"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item40"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item103"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item19"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item12"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item33"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item119"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item102"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item94"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item43"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item82"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item56"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item57"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item61"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item72"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item29"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item104"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item87"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item60"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item106"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item23"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item14"
+  },
+  {
+    "class": "IntValue",
+    "count": 12,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item109"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item79"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item86"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item76"
+  },
+  {
+    "class": "NumberValue",
+    "count": 12,
+    "names": [
+      "DMG4",
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2"
+    ],
+    "parent": "ServerStorage/Kaijus/ZILLA/Stats"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item55"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item27"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item70"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item47"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item24"
   },
   {
     "class": "ObjectValue",
@@ -1849,17 +1607,6 @@
       "Target"
     ],
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item15"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 12,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item105"
   },
   {
     "class": "NumberValue",
@@ -1883,7 +1630,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item30"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item53"
   },
   {
     "class": "ObjectValue",
@@ -1905,7 +1652,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item22"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item16"
   },
   {
     "class": "ObjectValue",
@@ -1916,7 +1663,7 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item100"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item99"
   },
   {
     "class": "ObjectValue",
@@ -1927,7 +1674,62 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item24"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item30"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item71"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item75"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item64"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item50"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item5"
   },
   {
     "class": "ObjectValue",
@@ -1949,33 +1751,218 @@
       "TargetRig",
       "Target"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item7"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item3"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item97"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item49"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item100"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item69"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item101"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item107"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item13"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item44"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item74"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item92"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item78"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item22"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item105"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item41"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item84"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item37"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item73"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 12,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item18"
   },
   {
     "class": "NumberValue",
     "count": 11,
     "names": [
-      "DMG3",
       "SwimSpeed",
-      "Defense",
-      "Price ",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Ghost Gojira/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
       "DMG3",
-      "SwimSpeed",
+      "WS",
+      "SS",
       "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
+      "Price"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/Stats"
+    "parent": "ServerStorage/Kaijus/HEISEI GODZILLA/Stats"
   },
   {
     "class": "NumberValue",
@@ -1988,72 +1975,7 @@
       "Price",
       "MaxHP"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/KamataKun/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/Biollante/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/GIGAN/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/Stats"
+    "parent": "Lighting/KaijusUnused/Behemoth/Stats"
   },
   {
     "class": "NumberValue",
@@ -2079,7 +2001,20 @@
       "Price",
       "MaxHP"
     ],
-    "parent": "Lighting/KaijusUnused/Behemoth/Stats"
+    "parent": "ServerStorage/Kaijus/thedenis/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/Shin/Stats"
   },
   {
     "class": "NumberValue",
@@ -2092,7 +2027,41 @@
       "DMG3",
       "SwimSpeed"
     ],
-    "parent": "ReplicatedStorage/MINILLA/Stats"
+    "parent": "ServerStorage/Kaijus/Halloween/Vampire Minilla/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "HP"
+    ],
+    "parent": "Workspace/Map/Building7Destroy/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price ",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Ghost Gojira/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/F16C [FREE]/Stats"
   },
   {
     "class": "NumberValue",
@@ -2118,168 +2087,12 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "ReplicatedStorage/FINAL WARS GODZILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ServerStorage/Kaijus/TITANUS MOSURA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "Lighting/KaijusUnused/Rodan/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/KING GHIDORAH/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/MOTHRA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ServerStorage/Kaijus/TITANUS RODAN/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/SPACE GODZILLA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "Price",
-      "Defense",
-      "DMG1",
-      "DMG2",
-      "DMG3",
-      "SwimSpeed"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Vampire Minilla/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/GOJIRA [FREE]/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
     "parent": "ServerStorage/Kaijus/SHIN FORM 3/Stats"
   },
   {
     "class": "NumberValue",
     "count": 11,
     "names": [
-      "DMG3",
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/MILITARY TANK [FREE]/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "WS",
-      "SS",
-      "Price",
-      "MaxHP"
-    ],
-    "parent": "Lighting/KaijusUnused/Mosura/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
       "SwimSpeed",
       "DMG3",
       "Defense",
@@ -2287,20 +2100,7 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "Lighting/KaijusUnused/ShinagawaKun/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/MALE MUTO/Stats"
+    "parent": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/Stats"
   },
   {
     "class": "NumberValue",
@@ -2319,53 +2119,14 @@
     "class": "NumberValue",
     "count": 11,
     "names": [
-      "HP",
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2"
-    ],
-    "parent": "Lighting/KaijusUnused/Godzilla in Hell /Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
       "DMG2",
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
       "DMG1"
     ],
-    "parent": "Lighting/KaijusUnused/MALE MUTO/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "Lighting/KaijusUnused/KingGhidorah/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "SwimSpeed",
-      "DMG3",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1"
-    ],
-    "parent": "ServerStorage/Kaijus/ANGUIRUS [FREE]/Stats"
+    "parent": "ServerStorage/Kaijus/Evo shin/Stats"
   },
   {
     "class": "NumberValue",
@@ -2378,7 +2139,7 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "ServerStorage/Kaijus/F16C [FREE]/Stats"
+    "parent": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/Stats"
   },
   {
     "class": "NumberValue",
@@ -2386,20 +2147,12 @@
     "names": [
       "SwimSpeed",
       "DMG3",
-      "WS",
-      "SS",
+      "Defense",
       "Price",
-      "MaxHP"
+      "DMG2",
+      "DMG1"
     ],
-    "parent": "ServerStorage/Kaijus/TITANUS GOJIRA/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 11,
-    "names": [
-      "HP"
-    ],
-    "parent": "Workspace/Map/Building7Destroy/Stats"
+    "parent": "ReplicatedStorage/FINAL WARS GODZILLA/Stats"
   },
   {
     "class": "NumberValue",
@@ -2418,14 +2171,40 @@
     "class": "NumberValue",
     "count": 11,
     "names": [
-      "DMG3",
       "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
       "Defense",
       "Price",
       "DMG2",
       "DMG1"
     ],
-    "parent": "Lighting/KaijusUnused/Tank/Stats"
+    "parent": "ServerStorage/Kaijus/MALE MUTO/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/KamataKun/Stats"
   },
   {
     "class": "NumberValue",
@@ -2435,23 +2214,23 @@
       "DMG3",
       "WS",
       "SS",
-      "Price",
-      "MaxHP"
+      "Defense",
+      "Price"
     ],
-    "parent": "ServerStorage/Kaijus/thedenis/Stats"
+    "parent": "Lighting/KaijusUnused/HEISEI GODZILLA/Stats"
   },
   {
     "class": "NumberValue",
     "count": 11,
     "names": [
-      "SwimSpeed",
       "DMG3",
+      "SwimSpeed",
       "Defense",
       "Price",
       "DMG2",
       "DMG1"
     ],
-    "parent": "ServerStorage/Kaijus/Munto/Stats"
+    "parent": "ServerStorage/Kaijus/SPACE GODZILLA/Stats"
   },
   {
     "class": "NumberValue",
@@ -2477,7 +2256,20 @@
       "DMG2",
       "DMG1"
     ],
-    "parent": "Lighting/KaijusUnused/Shin/Stats"
+    "parent": "ServerStorage/Kaijus/MOTHRA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "Price",
+      "Defense",
+      "DMG1",
+      "DMG2",
+      "DMG3",
+      "SwimSpeed"
+    ],
+    "parent": "ReplicatedStorage/MINILLA/Stats"
   },
   {
     "class": "NumberValue",
@@ -2487,10 +2279,75 @@
       "DMG3",
       "WS",
       "SS",
-      "Defense",
-      "Price"
+      "Price",
+      "MaxHP"
     ],
-    "parent": "ServerStorage/Kaijus/HEISEI GODZILLA/Stats"
+    "parent": "ServerStorage/Kaijus/TITANUS RODAN/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ServerStorage/Kaijus/TITANUS GOJIRA/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/Mothra/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "Lighting/KaijusUnused/Rodan/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "HP",
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2"
+    ],
+    "parent": "Lighting/KaijusUnused/Godzilla in Hell /Stats"
   },
   {
     "class": "NumberValue",
@@ -2509,14 +2366,118 @@
     "class": "NumberValue",
     "count": 11,
     "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/GOJIRA [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/KingGhidorah/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/MALE MUTO/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/Munto/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
       "SwimSpeed",
       "DMG3",
       "WS",
       "SS",
-      "Defense",
-      "Price"
+      "Price",
+      "MaxHP"
     ],
-    "parent": "Lighting/KaijusUnused/HEISEI GODZILLA/Stats"
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/ANGUIRUS [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/KING GHIDORAH/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "Lighting/KaijusUnused/Mosura/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/Biollante/Stats"
   },
   {
     "class": "NumberValue",
@@ -2535,14 +2496,66 @@
     "class": "NumberValue",
     "count": 11,
     "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
       "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/MILITARY TANK [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
       "SwimSpeed",
       "DMG3",
       "Defense",
       "Price",
+      "DMG2",
       "DMG1"
     ],
-    "parent": "ServerStorage/Kaijus/Evo shin/Stats"
+    "parent": "Lighting/KaijusUnused/ShinagawaKun/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "ServerStorage/Kaijus/GIGAN/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "DMG3",
+      "SwimSpeed",
+      "Defense",
+      "Price",
+      "DMG2",
+      "DMG1"
+    ],
+    "parent": "Lighting/KaijusUnused/Tank/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 11,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "SS",
+      "Price",
+      "MaxHP"
+    ],
+    "parent": "ServerStorage/Kaijus/TITANUS MOSURA/Stats"
   },
   {
     "class": "NumberValue",
@@ -2558,17 +2571,133 @@
     "parent": "ServerStorage/Kaijus/MINILLA/Stats"
   },
   {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item93"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item9"
+  },
+  {
     "class": "NumberValue",
-    "count": 11,
+    "count": 10,
+    "names": [
+      "WS",
+      "SS",
+      "DMG3",
+      "SwimSpeed",
+      "DMG1",
+      "MaxHP"
+    ],
+    "parent": "ServerStorage/Kaijus/CIVILIAN [FREE]/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 10,
     "names": [
       "SwimSpeed",
-      "DMG3",
       "Defense",
       "Price",
       "DMG2",
-      "DMG1"
+      "DMG1",
+      "GPA"
     ],
-    "parent": "Lighting/KaijusUnused/Mothra/Stats"
+    "parent": "Lighting/KaijusUnused/Space Godzilla/Stats"
+  },
+  {
+    "class": "NumberValue",
+    "count": 10,
+    "names": [
+      "SwimSpeed",
+      "DMG3",
+      "WS",
+      "Price",
+      "MaxHP",
+      "HP"
+    ],
+    "parent": "ServerStorage/Kaijus/GODZILLA 2014/Stats"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item28"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item80"
+  },
+  {
+    "class": "NumberValue",
+    "count": 10,
+    "names": [
+      "DMG3",
+      "WS",
+      "SS",
+      "Defense",
+      "Price",
+      "DMG2"
+    ],
+    "parent": "ServerStorage/Kaijus/KIRYU/Stats"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item85"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item48"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item52"
   },
   {
     "class": "NumberValue",
@@ -2582,6 +2711,30 @@
       "DMG2"
     ],
     "parent": "ServerStorage/REDBOSS/Stats"
+  },
+  {
+    "class": "ObjectValue",
+    "count": 10,
+    "names": [
+      "ParentRig",
+      "Parent",
+      "TargetRig",
+      "Target"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item81"
+  },
+  {
+    "class": "NumberValue",
+    "count": 10,
+    "names": [
+      "WS",
+      "SS",
+      "DMG3",
+      "SwimSpeed",
+      "DMG1",
+      "MaxHP"
+    ],
+    "parent": "Lighting/KaijusUnused/Human/Stats"
   },
   {
     "class": "NumberValue",
@@ -2612,65 +2765,6 @@
     "count": 10,
     "names": [
       "SwimSpeed",
-      "DMG3",
-      "WS",
-      "Price",
-      "MaxHP",
-      "HP"
-    ],
-    "parent": "ServerStorage/Kaijus/GODZILLA 2014/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item81"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item93"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item80"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "SwimSpeed",
-      "Defense",
-      "Price",
-      "DMG2",
-      "DMG1",
-      "GPA"
-    ],
-    "parent": "Lighting/KaijusUnused/Space Godzilla/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "SwimSpeed",
       "Defense",
       "Price",
       "DMG2",
@@ -2678,41 +2772,6 @@
       "GPA"
     ],
     "parent": "ServerStorage/Kaijus/Halloween/RED/Stats"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "WS",
-      "SS",
-      "DMG3",
-      "SwimSpeed",
-      "DMG1",
-      "MaxHP"
-    ],
-    "parent": "Lighting/KaijusUnused/Human/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item52"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item28"
   },
   {
     "class": "ObjectValue",
@@ -2737,65 +2796,6 @@
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item17"
   },
   {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item48"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "WS",
-      "SS",
-      "DMG3",
-      "SwimSpeed",
-      "DMG1",
-      "MaxHP"
-    ],
-    "parent": "ServerStorage/Kaijus/CIVILIAN [FREE]/Stats"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item9"
-  },
-  {
-    "class": "ObjectValue",
-    "count": 10,
-    "names": [
-      "ParentRig",
-      "Parent",
-      "TargetRig",
-      "Target"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseTrackOrganization/Item85"
-  },
-  {
-    "class": "NumberValue",
-    "count": 10,
-    "names": [
-      "DMG3",
-      "WS",
-      "SS",
-      "Defense",
-      "Price",
-      "DMG2"
-    ],
-    "parent": "ServerStorage/Kaijus/KIRYU/Stats"
-  },
-  {
     "class": "NumberValue",
     "count": 9,
     "names": [
@@ -2803,197 +2803,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Spike1/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Spike1/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Spike2/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Spike1/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Spike1/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3013,106 +2823,6 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Spike2/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes9/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes9/Ease/Params"
   },
   {
@@ -3123,7 +2833,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Spike2/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3133,97 +2843,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Spike2/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Spike1/Ease/Params"
-  },
-  {
-    "class": "NumberValue",
-    "count": 9,
-    "names": [
-      "Period",
-      "Amplitude",
-      "Overshoot"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3243,7 +2863,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes9/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3253,7 +2873,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Spike2/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3273,7 +2893,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3283,7 +2903,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3293,7 +2913,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3303,7 +2923,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Spike1/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3313,7 +2933,27 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Spike2/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Spike1/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3333,7 +2973,7 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3343,7 +2983,127 @@
       "Amplitude",
       "Overshoot"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Spike1/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Spike1/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike7/Ease/Params"
   },
   {
     "class": "NumberValue",
@@ -3363,7 +3123,247 @@
       "Amplitude",
       "Overshoot"
     ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Spike1/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes9/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Spike2/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Spike2/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/4/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Spike1/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Spikes3/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes8/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Spike1/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spike5/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes10/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/UTorso/Neck1/Spike0/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Spikes6/Ease/Params"
+  },
+  {
+    "class": "NumberValue",
+    "count": 9,
+    "names": [
+      "Period",
+      "Amplitude",
+      "Overshoot"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/Tail1/Tail2/Tail3/Tail4/Spikes9/Ease/Params"
   },
   {
     "class": "IntValue",
@@ -3379,31 +3379,42 @@
     "names": [
       "Null"
     ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 8,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "IntValue",
+    "count": 8,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "IntValue",
+    "count": 8,
+    "names": [
+      "Null"
+    ],
     "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
   },
   {
-    "class": "IntValue",
+    "class": "StringValue",
     "count": 8,
     "names": [
-      "Null"
+      "000002",
+      "000001",
+      "000004",
+      "000003"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "IntValue",
-    "count": 8,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2"
-  },
-  {
-    "class": "IntValue",
-    "count": 8,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseKeyframeData"
   },
   {
     "class": "ObjectValue",
@@ -3422,6 +3433,14 @@
     "names": [
       "Null"
     ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2"
+  },
+  {
+    "class": "IntValue",
+    "count": 8,
+    "names": [
+      "Null"
+    ],
     "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
   },
   {
@@ -3430,18 +3449,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "StringValue",
-    "count": 8,
-    "names": [
-      "000002",
-      "000001",
-      "000004",
-      "000003"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/EclipseKeyframeData"
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes"
   },
   {
     "class": "IntValue",
@@ -3449,182 +3457,7 @@
     "names": [
       "Null"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
-  },
-  {
-    "class": "IntValue",
-    "count": 8,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/pecial/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
   },
   {
     "class": "IntValue",
@@ -3633,66 +3466,6 @@
       "Null"
     ],
     "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
   },
   {
     "class": "IntValue",
@@ -3713,342 +3486,7 @@
       "qrot_w",
       "loc_z"
     ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/45/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_FootRoll/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/45/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_FootRoll/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "loc_y",
-      "qrot_x",
-      "loc_z",
-      "qrot_y",
-      "loc_x"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/Torso_IK/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
   },
   {
     "class": "IntValue",
@@ -4057,234 +3495,6 @@
       "Null"
     ],
     "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2/Bip001_Neck"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/90/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/60/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
-  },
-  {
-    "class": "IntValue",
-    "count": 7,
-    "names": [
-      "Null"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
-  },
-  {
-    "class": "NumberValue",
-    "count": 7,
-    "names": [
-      "qrot_z",
-      "qrot_x",
-      "loc_y",
-      "loc_x",
-      "qrot_w",
-      "loc_z"
-    ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_FootRoll/EclipseChannelValues"
   },
   {
     "class": "NumberValue",
@@ -4310,7 +3520,65 @@
       "qrot_w",
       "loc_z"
     ],
-    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/90/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
   },
   {
     "class": "NumberValue",
@@ -4326,11 +3594,738 @@
     "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
   },
   {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_FootRoll/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_FootRoll/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/60/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/45/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_FootRoll/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/90/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/0/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/68/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/45/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "loc_y",
+      "qrot_x",
+      "loc_z",
+      "qrot_y",
+      "loc_x"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/Torso_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/0/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/30/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/90/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_FootRoll/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/run/Keyframe/RootPart/Cutscenes/CS_1_2"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/LeftHip/LeftLeg/LeftFoot/LeftFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/30/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKPole/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Eclipse Animator Saves/EclipseAnimator_Backups/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IK/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/idle/Keyframe/RootPart/Cutscenes/CS_1_2"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/60/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "NumberValue",
+    "count": 7,
+    "names": [
+      "qrot_z",
+      "qrot_x",
+      "loc_y",
+      "loc_x",
+      "qrot_w",
+      "loc_z"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /AnimSaves/Eclipse Animation/120/HumanoidRootPart/Torso/RightHip/RightLeg/RightFoot/RightFoot_IKTarget/EclipseChannelValues"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis"
+  },
+  {
     "class": "IntValue",
     "count": 7,
     "names": [
       "Null"
     ],
     "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/a1/Keyframe/RootPart/Cutscenes/CS_1_2/characters"
+  },
+  {
+    "class": "IntValue",
+    "count": 7,
+    "names": [
+      "Null"
+    ],
+    "parent": "ServerStorage/Kaijus/Halloween/ENTITY/AnimSaves/Roar/Keyframe/RootPart/Cutscenes/CS_1_2/characters/Godzilla_position/skm_character_monster_godzilla/Bip001/Bip001_Pelvis/Bip001_Spine/Bip001_Spine1/Bip001_Spine2/Bip001_Neck"
   }
 ]

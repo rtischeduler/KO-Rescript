@@ -100,7 +100,7 @@ WelcomeBadgeId		= 0;
 
 CommandDebounce		= false;			
 CommandLimitPerMinute		= 1000000;	
-IgnoreCommandLimitPerMinute	= 1;			
+IgnoreCommandLimitPerMinute	= 0;			
 SaveRank			= true;			
 LoopCommands		= 3;			
 

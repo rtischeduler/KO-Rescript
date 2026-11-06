@@ -8,7 +8,7 @@
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
-    "unused_trees_holding_dead_scripts": 8
+    "unused_trees_holding_dead_scripts": 7
   },
   "safe_to_delete": {
     "events_never_referenced": [
@@ -595,6 +595,11 @@
         "reason": "disabled"
       },
       {
+        "path": "ServerStorage/Kaijus/ZILLA/HumanoidRootPart/AntiFling",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
         "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack/ServerScript",
         "class": "Script",
         "reason": "disabled"
@@ -608,11 +613,6 @@
         "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "class": "Script",
         "reason": "disabled"
-      },
-      {
-        "path": "ServerStorage/incomplete/ZILLA/HumanoidRootPart/AntiFling",
-        "class": "Script",
-        "reason": "sits in a container where it never runs"
       },
       {
         "path": "StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript",
@@ -630,7 +630,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 17,
+        "scripts_inside": 18,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",
@@ -670,11 +670,6 @@
           "ServerScriptService/framework/modules/Data",
           "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla"
         ]
-      },
-      {
-        "path": "ServerStorage/incomplete",
-        "scripts_inside": 1,
-        "name_referenced_by": []
       },
       {
         "path": "StarterGui/GameGui",
