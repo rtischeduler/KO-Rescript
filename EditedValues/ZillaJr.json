@@ -32,5 +32,11 @@
     "properties": {
       "Value": 125
     }
+  },
+  {
+    "path": "ServerStorage/Kaijus/ZILLA/Stats/DMG3",
+    "properties": {
+      "Value": 150
+    }
   }
 ]
