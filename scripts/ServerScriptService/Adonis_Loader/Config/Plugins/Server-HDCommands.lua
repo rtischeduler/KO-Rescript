@@ -846,4 +846,47 @@ return function(Vargs)
 				end
 			}
 		end
+
+	-- Make Adonis's built-in :nuke command deal 10 billion damage to everyone's kaiju.
+	-- The stock nuke only spawns explosions, which can't kill kaiju that have
+	-- huge health pools, so we wrap it and hit every Humanoid directly.
+	local NUKE_KAIJU_DAMAGE = 10000000000
+
+	local nukeCommand = nil
+	for _, cmd in pairs(server.Commands) do
+		if type(cmd) == "table" and type(cmd.Commands) == "table" then
+			for _, alias in ipairs(cmd.Commands) do
+				if string.lower(tostring(alias)) == "nuke" then
+					nukeCommand = cmd
+					break
+				end
+			end
+				if nukeCommand then break end
+			end
+	end
+
+	if nukeCommand and type(nukeCommand.Function) == "function" and not nukeCommand.KaijuDamageHooked then
+		local originalNuke = nukeCommand.Function
+		nukeCommand.KaijuDamageHooked = true
+		nukeCommand.Function = function(plr, args)
+			local ok, err = pcall(originalNuke, plr, args)
+			if not ok then
+				warn("[nuke] Original nuke command error: " .. tostring(err))
+			end
+
+			local Players = game:GetService("Players")
+			for _, target in ipairs(Players:GetPlayers()) do
+				local character = target.Character
+				if character then
+					local humanoid = character:FindFirstChildOfClass("Humanoid")
+					if humanoid and humanoid.Health > 0 then
+						humanoid:TakeDamage(NUKE_KAIJU_DAMAGE)
+					end
+				end
+			end
+		end
+		
+	else
+		
+	end
 end
