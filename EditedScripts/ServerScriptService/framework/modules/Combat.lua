@@ -968,6 +968,10 @@ local function initAttackHandler()
 			remote:GetAttribute("HitboxOffsetY") or 0,
 			remote:GetAttribute("HitboxOffsetZ") or -10
 		)
+		if usesBodyContact(character) then
+			local p = offset.Position
+			offset = CFrame.new(p.X, p.Y, -math.abs(p.Z))
+		end
 		local duration = durationOverride or remote:GetAttribute("HitboxDuration") or 0.5
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG1")
 
@@ -1015,6 +1019,7 @@ local function initAttackHandler()
 		local startTime = os.clock()
 		while os.clock() - startTime < duration do
 			if not character.Parent or not hrp.Parent or not hitbox.Parent then break end
+			hitbox.CFrame = hrp.CFrame * offset
 			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
 				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
 				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitPlayers[hitPlayer] then
