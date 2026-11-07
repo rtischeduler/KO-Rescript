@@ -296,7 +296,7 @@ local function populate()
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
 			clone.Visible = false
-		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
+		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "25X_Rock" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
 			clone.Visible = false
 		elseif model.Name == "Munto"
 			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "DandyDandicusDancif" and player.Name ~= "Coral" then

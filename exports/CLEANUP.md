@@ -2,11 +2,11 @@
 
 Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
 
-- scripts: 722
-- events: 420
+- scripts: 748
+- events: 425
 - modules never required: 2
-- modules maybe loaded dynamically: 21
-- scripts that never run: 120
+- modules maybe loaded dynamically: 28
+- scripts that never run: 122
 - empty running scripts: 302
 - events never referenced: 1
 - events maybe fired dynamically: 51
@@ -24,14 +24,14 @@ Names are matched against every script's identifiers and string literals. Anythi
 ## Trees holding scripts that never run (7)
 
 - `Lighting/KaijusUnused (93 dead scripts, referenced by: ServerScriptService/framework/modules/Data)`
-- `ServerStorage/Kaijus (18 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
+- `ServerStorage/Kaijus (20 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
 - `ReplicatedStorage/FINAL WARS GODZILLA (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `Lighting/Rocket (1 dead scripts, referenced by: nothing)`
-- `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/LevelManager, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data, ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla)`
+- `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/LevelManager, ServerScriptService/GrantUncMinilla, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, StarterGui/ClientHandler, StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu, StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch)`
 
-## Scripts that never run (120)
+## Scripts that never run (122)
 
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/Anim (LocalScript, disabled)`
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/ChargeScript (Script, disabled)`
@@ -145,6 +145,8 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/Kaijus/F16C [FREE]/CharacterScripts/Anim (LocalScript, disabled)`
 - `ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
 - `ServerStorage/Kaijus/HEISEI GODZILLA/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
+- `ServerStorage/Kaijus/Halloween/Final Meltdown/HitParts/HeiseiBlast/BlastScript (Script, disabled)`
+- `ServerStorage/Kaijus/Halloween/Final Meltdown/HitParts/HeiseiBlast/BlastScript2 (Script, disabled)`
 - `ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla (Script, sits in a container where it never runs)`
 - `ServerStorage/Kaijus/MINILLA/CharacterScripts/Minilla (Script, sits in a container where it never runs)`
 - `ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Anim (LocalScript, disabled)`
@@ -170,7 +172,7 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `Workspace/Map/Building6Destroyable/Stats/DestroyBuilding` x32
 - `Workspace/Map/Building7Destroy/Stats/DestroyBuilding` x11
 
-## Modules maybe loaded dynamically (check first) (21)
+## Modules maybe loaded dynamically (check first) (28)
 
 - `Chat/ChatModules/ChatCommandsTeller`
 - `Chat/ChatModules/ChatFloodDetector`
@@ -189,10 +191,17 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `Chat/ClientChatModules/MessageCreatorModules/SetCoreMessage`
 - `Chat/ClientChatModules/MessageCreatorModules/SystemMessage`
 - `Chat/ClientChatModules/MessageCreatorModules/WhisperMessage`
-- `ReplicatedStorage/Knit/Input`
 - `ReplicatedStorage/Knit/_Index/evaera_promise@4.0.0/promise/init.spec`
 - `ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/Streamable.spec`
 - `ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.spec`
+- `ServerScriptService/Adonis_Loader/Config/Plugins/Client-ConsoleEnterFill`
+- `ServerScriptService/Adonis_Loader/Config/Plugins/Client-Example Plugin`
+- `ServerScriptService/Adonis_Loader/Config/Plugins/Server-Example Plugin`
+- `ServerScriptService/Adonis_Loader/Config/Plugins/Server-HDCommands`
+- `ServerScriptService/Adonis_Loader/Config/Settings/JoinMessages`
+- `ServerScriptService/Adonis_Loader/Config/Settings/_GAPI`
+- `ServerScriptService/Adonis_Loader/Config/Themes/README`
+- `ServerScriptService/Adonis_Loader/README`
 
 ## Events maybe fired dynamically (check first) (51)
 

@@ -1,0 +1,77 @@
+-------------------------------
+-- Scroll down for settings  --
+-------------------------------
+
+--[[
+	How to add administrators:
+		Below are the administrator permission levels/ranks (Mods, Admins, HeadAdmins, Creators, StuffYouAdd, etc)
+		Simply place users into the respective "Users" table for whatever level/rank you want to give them.
+
+		Format example:
+
+			Ranks = {
+				["Moderators"] = {
+					Level = 100;
+					Hidden = false; -- This would make the rank hidden from the AdminList, useful for hiding default ranks.
+					Users = {
+						"Username"; -- Example: "roblox"
+						"Username:UserId"; -- Example: "roblox:1"
+						UserId; -- Example: 1
+						"Group:GroupId:GroupRank"; -- Example: "Group:123456:50"
+						"Group:GroupId"; -- Example: "Group:123456"
+						"Item:ItemID"; -- Example: "Item:123456"
+						"GamePass:GamePassID"; -- Example: "GamePass:123456"
+						"Subscription:SubscriptionId"; -- Example: "Subscription:123456"
+					}
+				}
+			}
+
+		If you use custom ranks, existing custom ranks will be imported with a level of 1.
+		Add all new CustomRanks to the table below with the respective level you want them to be.
+		The Hidden property is not a required to be present on every rank.
+
+	NOTE: Changing the level of built-in ranks (Moderators, Admins, HeadAdmins, Creators)
+	will also change the permission level for any built-in commands associated with that rank.
+
+	!NOTE! When adding a group to a table, you may be tempted to replace the word Group with the name of your group - DON'T.
+	The group name is IRRELEVANT! If one's group was named 2Drool4School and it had the ID 2847031, the correct form is {"Group:2847031"}
+	and not {"2Drool4School:2847031"}
+
+--]]
+
+--------------------
+-- RANKS SETTINGS --
+--------------------
+
+return {
+	Ranks = {
+		["Moderators"] = {
+			Level = 100;
+			Users = {
+				-- Add users here
+			};
+		};
+
+		["Admins"] = {
+			Level = 200;
+			Users = {
+				-- Add users here
+			};
+		};
+
+		["HeadAdmins"] = {
+			Level = 300;
+			Users = {
+				-- Add users here
+			};
+		};
+
+		["Creators"] = {
+			Level = 900; -- Anything 900 or higher will be considered a creator and will bypass all perms & be allowed to edit settings in-game.
+			Users = { "DenisTheCheeseKing", "mr_bolde2", "L0tzie", "DandyDandicusDancif"
+
+				-- Add users here (Also, don't forget quotations and all that)
+			};
+		};
+	};
+};

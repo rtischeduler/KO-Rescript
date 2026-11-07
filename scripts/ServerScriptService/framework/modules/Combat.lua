@@ -901,6 +901,7 @@ local function initAttackHandler()
 	end
 
 	local BODY_CONTACT_KAIJU = { ["ZILLA JR"] = true }
+	local BODY_CONTACT_REACH = 3
 
 	local function usesBodyContact(character)
 		local kaijuName = character:GetAttribute("KaijuName") or character.Name
@@ -925,6 +926,7 @@ local function initAttackHandler()
 
 	local function bodyContactHit(character, visibleParts, hitPlayers, player, damage)
 		local boxCFrame, boxSize = character:GetBoundingBox()
+		boxSize = boxSize + Vector3.new(BODY_CONTACT_REACH, BODY_CONTACT_REACH, BODY_CONTACT_REACH) * 2
 		local broadParams = OverlapParams.new()
 		broadParams.FilterDescendantsInstances = { character }
 		broadParams.FilterType = Enum.RaycastFilterType.Exclude
@@ -942,7 +944,8 @@ local function initAttackHandler()
 			exactParams.FilterDescendantsInstances = { hitHumanoid.Parent }
 			exactParams.FilterType = Enum.RaycastFilterType.Include
 			for _, bodyPart in ipairs(visibleParts) do
-				if bodyPart.Parent and #workspace:GetPartsInPart(bodyPart, exactParams) > 0 then
+				local reachSize = bodyPart.Size + Vector3.new(BODY_CONTACT_REACH, BODY_CONTACT_REACH, BODY_CONTACT_REACH) * 2
+				if bodyPart.Parent and #workspace:GetPartBoundsInBox(bodyPart.CFrame, reachSize, exactParams) > 0 then
 					hitPlayers[hitPlayer] = true
 					registerHit(player, character, hitHumanoid, damage, 25)
 					break

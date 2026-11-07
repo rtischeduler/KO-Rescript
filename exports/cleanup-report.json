@@ -1,10 +1,10 @@
 {
   "totals": {
-    "scripts": 722,
-    "events": 420,
+    "scripts": 748,
+    "events": 425,
     "modules_never_required": 2,
-    "modules_maybe_loaded_dynamically": 21,
-    "scripts_that_never_run": 120,
+    "modules_maybe_loaded_dynamically": 28,
+    "scripts_that_never_run": 122,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
@@ -580,6 +580,16 @@
         "reason": "disabled"
       },
       {
+        "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
         "path": "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla",
         "class": "Script",
         "reason": "sits in a container where it never runs"
@@ -630,7 +640,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 18,
+        "scripts_inside": 20,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",
@@ -665,10 +675,10 @@
         "scripts_inside": 1,
         "name_referenced_by": [
           "ReplicatedStorage/LevelManager",
+          "ServerScriptService/GrantUncMinilla",
           "ServerScriptService/Levels/Levels",
           "ServerScriptService/SecurityPolicy",
-          "ServerScriptService/framework/modules/Data",
-          "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Minilla"
+          "ServerScriptService/framework/modules/Data"
         ]
       },
       {
@@ -1007,10 +1017,17 @@
       "Chat/ClientChatModules/MessageCreatorModules/SetCoreMessage",
       "Chat/ClientChatModules/MessageCreatorModules/SystemMessage",
       "Chat/ClientChatModules/MessageCreatorModules/WhisperMessage",
-      "ReplicatedStorage/Knit/Input",
       "ReplicatedStorage/Knit/_Index/evaera_promise@4.0.0/promise/init.spec",
       "ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/Streamable.spec",
-      "ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.spec"
+      "ReplicatedStorage/Knit/_Index/sleitnick_streamable@1.2.4/streamable/StreamableUtil.spec",
+      "ServerScriptService/Adonis_Loader/Config/Plugins/Client-ConsoleEnterFill",
+      "ServerScriptService/Adonis_Loader/Config/Plugins/Client-Example Plugin",
+      "ServerScriptService/Adonis_Loader/Config/Plugins/Server-Example Plugin",
+      "ServerScriptService/Adonis_Loader/Config/Plugins/Server-HDCommands",
+      "ServerScriptService/Adonis_Loader/Config/Settings/JoinMessages",
+      "ServerScriptService/Adonis_Loader/Config/Settings/_GAPI",
+      "ServerScriptService/Adonis_Loader/Config/Themes/README",
+      "ServerScriptService/Adonis_Loader/README"
     ],
     "events_maybe_fired_dynamically": [
       "Lighting/KaijusUnused/Behemoth/CharacterScripts/AnimEvents/IdleEvent",

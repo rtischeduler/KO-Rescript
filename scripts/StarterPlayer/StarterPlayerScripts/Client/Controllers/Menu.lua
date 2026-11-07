@@ -176,7 +176,47 @@ local function runMenuCamera(cfg)
 		end
 	end
 
-	local function onDeath(deadCharacter)
+	local function replacementAlive(deadCharacter)
+		local current = player.Character
+		if not current or current == deadCharacter or not current.Parent then
+			return false
+		end
+		local hum = current:FindFirstChildOfClass("Humanoid")
+		return hum ~= nil and hum.Health > 0
+	end
+
+	local function restoreAfterReplace()
+		player:SetAttribute("HasMorphed", true)
+		local playerGui = player:FindFirstChild("PlayerGui")
+		if not playerGui then
+			return
+		end
+		local gameGui = playerGui:FindFirstChild("GameGui")
+		if gameGui then
+			gameGui.Enabled = true
+			local mainFrame = gameGui:FindFirstChild("MainFrame")
+			local interface = mainFrame and mainFrame:FindFirstChild("Interface")
+			if interface then
+				interface.Visible = true
+			end
+		end
+		local touchGui = playerGui:FindFirstChild("TouchGui")
+		if touchGui then
+			touchGui.Enabled = true
+		end
+	end
+
+	local function onDeath(deadCharacter, removed)
+		if removed then
+			local graceEnd = os.clock() + 1.5
+			while os.clock() < graceEnd do
+				if replacementAlive(deadCharacter) then
+					return
+				end
+				task.wait(0.05)
+			end
+		end
+
 		if deadCharacter then
 			if deadCharacter:GetAttribute("DeathHandled") then
 				return
@@ -220,6 +260,11 @@ local function runMenuCamera(cfg)
 		end
 
 		task.wait(cfg.DeathReturnDelay)
+
+		if replacementAlive(deadCharacter) then
+			restoreAfterReplace()
+			return
+		end
 
 		if player:GetAttribute("HasMorphed") then
 			return
@@ -282,7 +327,7 @@ local function runMenuCamera(cfg)
 			end)
 			character.AncestryChanged:Connect(function(_, parent)
 				if not parent and player.Character == character then
-					task.spawn(onDeath, character)
+					task.spawn(onDeath, character, true)
 				end
 			end)
 		end
