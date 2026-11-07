@@ -8,7 +8,7 @@ local COOLDOWN = 0.15
 local ALLOWED = {
 	[string.lower("DenisTheCheeseKing")] = true,
 	[string.lower("L0tzie")] = true,
-	[string.lower("25X_ROCK")] = true,
+	[string.lower("25X_Rock")] = true,
 	[string.lower("DandyDandicusDancif")] = true,
 }
 

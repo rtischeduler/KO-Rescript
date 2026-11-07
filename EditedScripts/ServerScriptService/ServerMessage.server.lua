@@ -5,6 +5,7 @@ local ALLOWED = {
 	[string.lower("L0tzie")] = true,
 	[string.lower("DenisTheCheeseKing")] = true,
 	[string.lower("DandyDandicusDancif")] = true,
+	[string.lower("25X_Rock")] = true,
 }
 local MAX_LENGTH = 200
 

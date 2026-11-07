@@ -256,12 +256,7 @@ local function submit(text)
 	end
 	executeEvent:FireServer(text)
 	box.Text = ""
-	historyIndex = #history + 1
-	task.delay(0.03, function()
-		if isOpen then
-			box:CaptureFocus()
-		end
-	end)
+	closeBar()
 end
 
 box:GetPropertyChangedSignal("Text"):Connect(function()

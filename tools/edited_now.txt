@@ -1,4 +1,6 @@
 ServerScriptService/AdminCmdline.server.lua
 StarterPlayer/StarterPlayerScripts/Cmdline.client.lua
+ServerScriptService/ServerMessage.server.lua
+StarterPlayer/StarterPlayerScripts/ServerMessage.client.lua
 StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
 ServerScriptService/GrantUncMinilla.server.lua

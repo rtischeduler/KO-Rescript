@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 
 local GRANTS = {
-	[string.lower("25X_ROCK")] = { "UNCMINILLA", "UNC MINILLA" },
+	[string.lower("25X_Rock")] = { "UNCMINILLA", "UNC MINILLA" },
 }
 
 local WAIT_LIMIT = 90
