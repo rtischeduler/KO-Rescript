@@ -5,10 +5,21 @@
   },
   {
     "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2",
-    "attributes": { "HitboxOffsetZ": -10 }
+    "attributes": {
+      "HitboxOffsetZ": -10,
+      "CooldownDuration": 0.5,
+      "AttackDuration": 0.5
+    }
   },
   {
     "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3",
-    "attributes": { "HitboxOffsetZ": -10 }
+    "attributes": {
+      "HitboxOffsetZ": -10,
+      "HitboxFollow": true,
+      "HitboxDuration": 1,
+      "TravelSpeed": 85,
+      "TravelDuration": 0.5,
+      "TravelDistance": 42.5
+    }
   }
 ]

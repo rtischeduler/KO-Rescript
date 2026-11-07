@@ -1,1 +1,3 @@
+ServerScriptService/framework/modules/Combat.lua
+ReplicatedStorage/CooldownManager.lua
 ServerScriptService/Adonis_Loader/Config/Settings/General.lua
