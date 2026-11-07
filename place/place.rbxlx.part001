@@ -1,22 +1,4 @@
-841858</X>
-                              <Y>-0.00000047683716</Y>
-                              <Z>-0.000000000005456968</Z>
-                              <R00>0.9848125</R00>
-                              <R01>0.17362115</R01>
-                              <R02>0</R02>
-                              <R10>-0.17362115</R10>
-                              <R11>0.9848125</R11>
-                              <R12>-0</R12>
-                              <R20>-0</R20>
-                              <R21>0</R21>
-                              <R22>1</R22>
-                            </CoordinateFrame>
-                            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                            <token name="EasingDirection">1</token>
-                            <token name="EasingStyle">0</token>
-                            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                            <bool name="DefinesCapabilities">false</bool>
-                            <BinaryString name="SerializedOverrides">
+       <BinaryString name="SerializedOverrides">
                             </BinaryString>
                             <int64 name="SourceAssetId">-1</int64>
                             <BinaryString name="Tags"></BinaryString>
@@ -258788,7 +258770,7 @@
         <string name="ScriptGuid">{9BB10FB8-D278-4725-A522-D577119304CA}</string>
         <BinaryString name="SerializedOverrides">
         </BinaryString>
-        <string name="Source"><![CDATA[local Players = game:GetService("Players")
+        <string name="Source">local Players = game:GetService("Players")
 
 local CooldownManager = {}
 
@@ -258823,6 +258805,7 @@ local attackDurationEnd = 0
 local NAME_MAP = {
 	Attack = "Attack1", Attack1Event = "Attack1",
 	Beam = "Attack2", Attack2Event = "Attack2",
+	Attack2 = "Attack2", -- melee remotes literally named Attack2 (e.g. ZILLA JR Bite) must read their own Cooldown/AttackDuration attributes
 	Attack3 = "Attack3", Attack3Event = "Attack3",
 	Attack4 = "Attack4", Attack4Event = "Attack4",
 	Roar1 = "Roar1", Roar1Event = "Roar1",
@@ -258876,14 +258859,14 @@ local function getAttributeDuration(abilityName)
 end
 
 function CooldownManager.isInAttackDuration()
-	return os.clock() < attackDurationEnd
+	return os.clock() &lt; attackDurationEnd
 end
 
 function CooldownManager.canUse(abilityName)
 	abilityName = CooldownManager.normalize(abilityName)
 
 	local endTime = cooldowns[abilityName]
-	if endTime and os.clock() < endTime then
+	if endTime and os.clock() &lt; endTime then
 		return false
 	end
 
@@ -258903,7 +258886,7 @@ end
 function CooldownManager.getRemaining(abilityName)
 	abilityName = CooldownManager.normalize(abilityName)
 	local endTime = cooldowns[abilityName]
-	if endTime and os.clock() < endTime then
+	if endTime and os.clock() &lt; endTime then
 		return endTime - os.clock()
 	end
 	return 0
@@ -258976,8 +258959,7 @@ function CooldownManager.reset()
 	attackDurationEnd = 0
 end
 
-return CooldownManager
-]]></string>
+return CooldownManager</string>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
         <UniqueId name="UniqueId">000000000000000000000000000032e0</UniqueId>
@@ -345057,6 +345039,39 @@ function Character.Init()
 			morphResultEvent.Parent = ReplicatedStorage
 		end
 
+		local lastSpawnPoints = setmetatable({}, { __mode = "k" })
+
+		local function pickSpawnPoint(player, folder)
+			if not folder then
+				return nil
+			end
+			local candidates = {}
+			for _, child in ipairs(folder:GetChildren()) do
+				if child:IsA("BasePart") then
+					table.insert(candidates, child)
+				end
+			end
+			if #candidates == 0 then
+				return nil
+			end
+			local record = lastSpawnPoints[player]
+			if not record then
+				record = {}
+				lastSpawnPoints[player] = record
+			end
+			local previous = record[folder]
+			if previous and #candidates > 1 then
+				for index = #candidates, 1, -1 do
+					if candidates[index] == previous then
+						table.remove(candidates, index)
+					end
+				end
+			end
+			local chosen = candidates[math.random(1, #candidates)]
+			record[folder] = chosen
+			return chosen
+		end
+
 		local TANK_SPAWN_MORPHS = {
 			["MILITARY TANK [FREE]"] = true,
 			["F16C [FREE]"] = true,
@@ -345162,28 +345177,16 @@ function Character.Init()
 				local morphName = selectedCreature.Name
 
 				if TANK_SPAWN_MORPHS[morphName] then
-					local tankSpawns = workspace:FindFirstChild("TankSpawns")
-					if tankSpawns then
-						local spawns = tankSpawns:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								spawnCFrame = randomSpawn.CFrame + Vector3.new(0, 10, 0)
-							end
-						end
+					local tankSpawn = pickSpawnPoint(player, workspace:FindFirstChild("TankSpawns"))
+					if tankSpawn then
+						spawnCFrame = tankSpawn.CFrame + Vector3.new(0, 10, 0)
 					end
 				end
 
 				if not spawnCFrame then
-					local spawnPoints = workspace:FindFirstChild("SpawnPoints")
-					if spawnPoints then
-						local spawns = spawnPoints:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								spawnCFrame = randomSpawn.CFrame + Vector3.new(0, 50, 0)
-							end
-						end
+					local normalSpawn = pickSpawnPoint(player, workspace:FindFirstChild("SpawnPoints"))
+					if normalSpawn then
+						spawnCFrame = normalSpawn.CFrame + Vector3.new(0, 50, 0)
 					end
 				end
 
@@ -345688,15 +345691,9 @@ function Character.Init()
 				if player and not teleportedPlayers[player] then
 					teleportedPlayers[player] = true
 
-					local spawnPoints = game.Workspace:FindFirstChild("SpawnPoints")
-					if spawnPoints then
-						local spawns = spawnPoints:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								character:PivotTo(randomSpawn.CFrame + Vector3.new(0, 3, 0))
-							end
-						end
+					local firstSpawn = pickSpawnPoint(player, game.Workspace:FindFirstChild("SpawnPoints"))
+					if firstSpawn then
+						character:PivotTo(firstSpawn.CFrame + Vector3.new(0, 3, 0))
 					end
 				end
 			end
@@ -348097,6 +348094,8 @@ local function initAttackHandler()
 			remote:GetAttribute("HitboxOffsetZ") or -10
 		)
 		local duration = durationOverride or remote:GetAttribute("HitboxDuration") or 0.5
+		-- HitboxFollow: keep the hitbox glued to the attacker while they travel (lunges) so damage lands along the path.
+		local followHitbox = remote:GetAttribute("HitboxFollow") == true
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG1")
 
 		playAttackAnimation(character, getAnimName(remoteName))
@@ -348143,6 +348142,9 @@ local function initAttackHandler()
 		local startTime = os.clock()
 		while os.clock() - startTime &lt; duration do
 			if not character.Parent or not hrp.Parent or not hitbox.Parent then break end
+			if followHitbox then
+				hitbox.CFrame = hrp.CFrame * offset
+			end
 			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
 				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)
 				if hitHumanoid and hitPlayer and hitPlayer ~= player and not hitPlayers[hitPlayer] then
@@ -350087,7 +350089,7 @@ return SettingsService
             <string name="ScriptGuid">{58917C2E-BE35-4677-9E04-411C6A9B9981}</string>
             <BinaryString name="SerializedOverrides">
             </BinaryString>
-            <string name="Source"><![CDATA[local MorphService = { Name = "Morph" }
+            <string name="Source">local MorphService = { Name = "Morph" }
 
 function MorphService:Init()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -350142,15 +350144,44 @@ function MorphService:Init()
 		morphResult:FireClient(player, false, nil, message)
 	end
 
-	local function pickSpawnCFrame(morphName)
-		local isTank = tankSpawnMorphs[morphName] == true
-		local folder = Workspace:FindFirstChild(isTank and "TankSpawns" or "SpawnPoints")
+	local lastSpawnPoints = setmetatable({}, { __mode = "k" })
+
+	local function pickSpawnPoint(player, folder)
 		if not folder then
 			return nil
 		end
-		local points = folder:GetChildren()
-		local point = #points > 0 and points[math.random(1, #points)] or nil
-		if point and point:IsA("BasePart") then
+		local candidates = {}
+		for _, child in ipairs(folder:GetChildren()) do
+			if child:IsA("BasePart") then
+				table.insert(candidates, child)
+			end
+		end
+		if #candidates == 0 then
+			return nil
+		end
+		local record = lastSpawnPoints[player]
+		if not record then
+			record = {}
+			lastSpawnPoints[player] = record
+		end
+		local previous = record[folder]
+		if previous and #candidates &gt; 1 then
+			for index = #candidates, 1, -1 do
+				if candidates[index] == previous then
+					table.remove(candidates, index)
+				end
+			end
+		end
+		local chosen = candidates[math.random(1, #candidates)]
+		record[folder] = chosen
+		return chosen
+	end
+
+	local function pickSpawnCFrame(player, morphName)
+		local isTank = tankSpawnMorphs[morphName] == true
+		local folder = Workspace:FindFirstChild(isTank and "TankSpawns" or "SpawnPoints")
+		local point = pickSpawnPoint(player, folder)
+		if point then
 			return point.CFrame + Vector3.new(0, isTank and cfg.TankSpawnHeight or cfg.SpawnHeight, 0)
 		end
 		return nil
@@ -350225,7 +350256,7 @@ function MorphService:Init()
 				levelsScript.Parent = newModel
 			end
 
-			local spawnCFrame = pickSpawnCFrame(selectedCreature.Name)
+			local spawnCFrame = pickSpawnCFrame(player, selectedCreature.Name)
 			if spawnCFrame then
 				newModel:PivotTo(spawnCFrame)
 			end
@@ -350258,8 +350289,7 @@ function MorphService:Init()
 	log:info("Morph server ready")
 end
 
-return MorphService
-]]></string>
+return MorphService</string>
             <int64 name="SourceAssetId">-1</int64>
             <BinaryString name="Tags"></BinaryString>
             <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900003142</UniqueId>
@@ -352517,7 +352547,7 @@ return {
               <string name="ScriptGuid">{4E6524B7-EC18-4DD2-AD5D-97AF8FCD4898}</string>
               <BinaryString name="SerializedOverrides">
               </BinaryString>
-              <string name="Source"><![CDATA[----------------------
+              <string name="Source">----------------------
 -- GENERAL SETTINGS --
 ----------------------
 
@@ -352574,11 +352604,11 @@ return {
 	Blacklist = {};		-- List of people banned from running commands		Format: See the above format example
 	Whitelist = {};		-- People who can join if whitelist enabled		Format: See the above format example
 
-	WhitelistEnabled = false; -- If true enables the whitelist/server lock; Only lets admins & whitelisted users join
+	WhitelistEnabled = false; -- If true enables the whitelist/server lock; Only lets admins &amp; whitelisted users join
 
 	MusicList = {}; 	-- List of songs to appear in the :musiclist		Format: {{Name = "somesong", ID = 1234567}, {Name = "anotherone", ID = 1243562}}
 	CapeList = {};		-- List of capes		Format: {{Name = "somecape", Material = "Fabric", Color = "Bright yellow", ID = 12345567, Reflectance = 1}; {etc more stuff here}}
-	InsertList = {}; 	-- List of models to appear in the :insertlist and can be inserted using ':insert <name>'		Format: {{Name = "somemodel", ID = 1234567}; {Name = "anotherone", ID = 1243562}}
+	InsertList = {}; 	-- List of models to appear in the :insertlist and can be inserted using ':insert &lt;name&gt;'		Format: {{Name = "somemodel", ID = 1234567}; {Name = "anotherone", ID = 1243562}}
 
 	FunCommands = true;					-- Are fun commands enabled?
 	PlayerCommands = true;				-- Are player-level utility commands enabled?
@@ -352594,7 +352624,7 @@ return {
 
 	CodeExecution = false;	-- Enables the use of code execution in Adonis. Scripting related (such as :s) and a few other commands require this
 
-	Notification = true;	-- Whether or not to show the "You're an admin" and "Updated" notifications
+	Notification = false;	-- Whether or not to show the "You're an admin" and "Updated" notifications
 	SongHint = true;		-- Display a hint with the current song name and ID when a song is played via :music
 	TopBarShift = false;	-- By default hints and notifications will appear from the top edge of the window. Set this to true if you don't want hints/notifications to appear in that region.
 
@@ -352613,8 +352643,7 @@ return {
 	LegacyCommandList = false;	-- If true, :cmds will show the old plain command list instead of the modern command list UI
 
 	HttpWait = 60;	-- How long things that use the HttpService will wait before updating again
-};
-]]></string>
+};</string>
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">18a878ac0a9fddc60affecae000023ce</UniqueId>
@@ -1718279,7 +1718308,4 @@ end
                                     <R21>-0.4575701</R21>
                                     <R22>0.88917357</R22>
                                   </CoordinateFrame>
-                                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                                  <token name="EasingDirection">0</token>
-                                  <token name="EasingStyle">0</token>
-                                  <UniqueId name="HistoryId">00000000000000000000000000000000</U
+                   

@@ -65,6 +65,39 @@ function Character.Init()
 			morphResultEvent.Parent = ReplicatedStorage
 		end
 
+		local lastSpawnPoints = setmetatable({}, { __mode = "k" })
+
+		local function pickSpawnPoint(player, folder)
+			if not folder then
+				return nil
+			end
+			local candidates = {}
+			for _, child in ipairs(folder:GetChildren()) do
+				if child:IsA("BasePart") then
+					table.insert(candidates, child)
+				end
+			end
+			if #candidates == 0 then
+				return nil
+			end
+			local record = lastSpawnPoints[player]
+			if not record then
+				record = {}
+				lastSpawnPoints[player] = record
+			end
+			local previous = record[folder]
+			if previous and #candidates > 1 then
+				for index = #candidates, 1, -1 do
+					if candidates[index] == previous then
+						table.remove(candidates, index)
+					end
+				end
+			end
+			local chosen = candidates[math.random(1, #candidates)]
+			record[folder] = chosen
+			return chosen
+		end
+
 		local TANK_SPAWN_MORPHS = {
 			["MILITARY TANK [FREE]"] = true,
 			["F16C [FREE]"] = true,
@@ -170,28 +203,16 @@ function Character.Init()
 				local morphName = selectedCreature.Name
 
 				if TANK_SPAWN_MORPHS[morphName] then
-					local tankSpawns = workspace:FindFirstChild("TankSpawns")
-					if tankSpawns then
-						local spawns = tankSpawns:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								spawnCFrame = randomSpawn.CFrame + Vector3.new(0, 10, 0)
-							end
-						end
+					local tankSpawn = pickSpawnPoint(player, workspace:FindFirstChild("TankSpawns"))
+					if tankSpawn then
+						spawnCFrame = tankSpawn.CFrame + Vector3.new(0, 10, 0)
 					end
 				end
 
 				if not spawnCFrame then
-					local spawnPoints = workspace:FindFirstChild("SpawnPoints")
-					if spawnPoints then
-						local spawns = spawnPoints:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								spawnCFrame = randomSpawn.CFrame + Vector3.new(0, 50, 0)
-							end
-						end
+					local normalSpawn = pickSpawnPoint(player, workspace:FindFirstChild("SpawnPoints"))
+					if normalSpawn then
+						spawnCFrame = normalSpawn.CFrame + Vector3.new(0, 50, 0)
 					end
 				end
 
@@ -696,15 +717,9 @@ function Character.Init()
 				if player and not teleportedPlayers[player] then
 					teleportedPlayers[player] = true
 
-					local spawnPoints = game.Workspace:FindFirstChild("SpawnPoints")
-					if spawnPoints then
-						local spawns = spawnPoints:GetChildren()
-						if #spawns > 0 then
-							local randomSpawn = spawns[math.random(1, #spawns)]
-							if randomSpawn:IsA("BasePart") then
-								character:PivotTo(randomSpawn.CFrame + Vector3.new(0, 3, 0))
-							end
-						end
+					local firstSpawn = pickSpawnPoint(player, game.Workspace:FindFirstChild("SpawnPoints"))
+					if firstSpawn then
+						character:PivotTo(firstSpawn.CFrame + Vector3.new(0, 3, 0))
 					end
 				end
 			end

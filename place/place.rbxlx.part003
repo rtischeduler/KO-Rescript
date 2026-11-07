@@ -1,4 +1,9 @@
-erties>
+>
+                            <BinaryString name="Tags"></BinaryString>
+                            <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d424</UniqueId>
+                          </Properties>
+                          <Item class="StringValue" referent="143744">
+                            <Properties>
                               <string name="Name">Type</string>
                               <BinaryString name="AttributesSerialize"></BinaryString>
                               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>

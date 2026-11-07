@@ -33,6 +33,7 @@ local attackDurationEnd = 0
 local NAME_MAP = {
 	Attack = "Attack1", Attack1Event = "Attack1",
 	Beam = "Attack2", Attack2Event = "Attack2",
+	Attack2 = "Attack2", -- melee remotes literally named Attack2 (e.g. ZILLA JR Bite) must read their own Cooldown/AttackDuration attributes
 	Attack3 = "Attack3", Attack3Event = "Attack3",
 	Attack4 = "Attack4", Attack4Event = "Attack4",
 	Roar1 = "Roar1", Roar1Event = "Roar1",

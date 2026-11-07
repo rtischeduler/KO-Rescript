@@ -53,15 +53,44 @@ function MorphService:Init()
 		morphResult:FireClient(player, false, nil, message)
 	end
 
-	local function pickSpawnCFrame(morphName)
-		local isTank = tankSpawnMorphs[morphName] == true
-		local folder = Workspace:FindFirstChild(isTank and "TankSpawns" or "SpawnPoints")
+	local lastSpawnPoints = setmetatable({}, { __mode = "k" })
+
+	local function pickSpawnPoint(player, folder)
 		if not folder then
 			return nil
 		end
-		local points = folder:GetChildren()
-		local point = #points > 0 and points[math.random(1, #points)] or nil
-		if point and point:IsA("BasePart") then
+		local candidates = {}
+		for _, child in ipairs(folder:GetChildren()) do
+			if child:IsA("BasePart") then
+				table.insert(candidates, child)
+			end
+		end
+		if #candidates == 0 then
+			return nil
+		end
+		local record = lastSpawnPoints[player]
+		if not record then
+			record = {}
+			lastSpawnPoints[player] = record
+		end
+		local previous = record[folder]
+		if previous and #candidates > 1 then
+			for index = #candidates, 1, -1 do
+				if candidates[index] == previous then
+					table.remove(candidates, index)
+				end
+			end
+		end
+		local chosen = candidates[math.random(1, #candidates)]
+		record[folder] = chosen
+		return chosen
+	end
+
+	local function pickSpawnCFrame(player, morphName)
+		local isTank = tankSpawnMorphs[morphName] == true
+		local folder = Workspace:FindFirstChild(isTank and "TankSpawns" or "SpawnPoints")
+		local point = pickSpawnPoint(player, folder)
+		if point then
 			return point.CFrame + Vector3.new(0, isTank and cfg.TankSpawnHeight or cfg.SpawnHeight, 0)
 		end
 		return nil
@@ -136,7 +165,7 @@ function MorphService:Init()
 				levelsScript.Parent = newModel
 			end
 
-			local spawnCFrame = pickSpawnCFrame(selectedCreature.Name)
+			local spawnCFrame = pickSpawnCFrame(player, selectedCreature.Name)
 			if spawnCFrame then
 				newModel:PivotTo(spawnCFrame)
 			end

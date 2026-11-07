@@ -75,7 +75,7 @@ return {
 
 	CodeExecution = false;	-- Enables the use of code execution in Adonis. Scripting related (such as :s) and a few other commands require this
 
-	Notification = true;	-- Whether or not to show the "You're an admin" and "Updated" notifications
+	Notification = false;	-- Whether or not to show the "You're an admin" and "Updated" notifications
 	SongHint = true;		-- Display a hint with the current song name and ID when a song is played via :music
 	TopBarShift = false;	-- By default hints and notifications will appear from the top edge of the window. Set this to true if you don't want hints/notifications to appear in that region.
 
