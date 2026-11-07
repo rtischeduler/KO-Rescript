@@ -49,12 +49,12 @@
     "TravelSpeed": "12"
   },
   "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3": {
-    "AttackDuration": 1,
+    "AttackDuration": 6,
     "AttackImage": "",
     "AttackName": "Atrocious Invasion",
     "AttackType": "Melee",
     "Charge": 10,
-    "CooldownDuration": 4,
+    "CooldownDuration": 35,
     "DamageStat": "DMG3",
     "HitboxDuration": 5,
     "HitboxOffsetX": 0,
