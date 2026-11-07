@@ -1,3 +1,2 @@
-ServerScriptService/framework/modules/Combat.lua
-ServerScriptService/ServerMessage.server.lua
-StarterPlayer/StarterPlayerScripts/ServerMessage.client.lua
+ServerScriptService/AdminCmdline.server.lua
+StarterPlayer/StarterPlayerScripts/Cmdline.client.lua
