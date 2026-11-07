@@ -1,7 +1,10 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-local ALLOWED = "L0tzie"
+local ALLOWED = {
+	[string.lower("L0tzie")] = true,
+	[string.lower("DenisTheCheeseKing")] = true,
+}
 local MAX_LENGTH = 200
 
 local sendEvent = ReplicatedStorage:FindFirstChild("ServerMessageSend")
@@ -21,7 +24,7 @@ end
 local lastSent = {}
 
 sendEvent.OnServerEvent:Connect(function(player, text)
-	if player.Name ~= ALLOWED then
+	if not ALLOWED[string.lower(player.Name)] then
 		return
 	end
 	if typeof(text) ~= "string" then

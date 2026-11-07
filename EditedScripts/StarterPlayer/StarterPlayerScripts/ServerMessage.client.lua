@@ -3,7 +3,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
-local ALLOWED = "L0tzie"
+local ALLOWED = {
+	[string.lower("L0tzie")] = true,
+	[string.lower("DenisTheCheeseKing")] = true,
+}
 local COMMAND = ";serverm"
 local HOLD_TIME = 6
 local FADE_TIME = 0.5
@@ -31,7 +34,7 @@ local function closePanel()
 end
 
 local function openPanel()
-	if player.Name ~= ALLOWED then
+	if not ALLOWED[string.lower(player.Name)] then
 		return
 	end
 	closePanel()
@@ -244,7 +247,7 @@ showEvent.OnClientEvent:Connect(function(name, userId, message)
 end)
 
 player.Chatted:Connect(function(text)
-	if player.Name ~= ALLOWED then
+	if not ALLOWED[string.lower(player.Name)] then
 		return
 	end
 	if text:lower():match("^%s*" .. COMMAND .. "%s*$") then
