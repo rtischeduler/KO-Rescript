@@ -13,9 +13,9 @@ on:
         default: ""
         type: string
       create_missing:
-        description: "Also create scripts that do not exist in the game (parent must already exist). Default only edits existing scripts"
+        description: "Also create scripts that do not exist in the game (parent must already exist). Default on: missing scripts are created"
         type: boolean
-        default: false
+        default: true
       version_type:
         description: "Published = live, Saved = saved version only"
         type: choice
