@@ -70227,12 +70227,12 @@
         },
         {
           "Attributes": {
-            "AttackDuration": 6,
+            "AttackDuration": 1,
             "AttackImage": "",
             "AttackName": "Atrocious Invasion",
             "AttackType": "Melee",
             "Charge": 10,
-            "CooldownDuration": 35,
+            "CooldownDuration": 4,
             "DamageStat": "DMG3",
             "HitboxDuration": 5,
             "HitboxOffsetX": 0,
