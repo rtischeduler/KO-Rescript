@@ -3,3 +3,4 @@ ReplicatedStorage/CooldownManager.lua
 ServerScriptService/Adonis_Loader/Config/Settings/General.lua
 ServerScriptService/framework/modules/Character.lua
 ServerScriptService/Server/Services/MorphService.lua
+ReplicatedStorage/Knockback.lua

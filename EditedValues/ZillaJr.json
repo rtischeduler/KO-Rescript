@@ -1,7 +1,9 @@
 [
   {
     "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack",
-    "attributes": { "HitboxOffsetZ": -10 }
+    "attributes": {
+      "HitboxOffsetZ": -10
+    }
   },
   {
     "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2",
@@ -23,6 +25,12 @@
       "TravelSpeed": 85,
       "TravelDuration": 0.5,
       "TravelDistance": 42.5
+    }
+  },
+  {
+    "path": "ServerStorage/Kaijus/ZILLA/Stats/DMG2",
+    "properties": {
+      "Value": 125
     }
   }
 ]
