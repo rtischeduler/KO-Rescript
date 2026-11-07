@@ -25,7 +25,41 @@ end
 
 local lastSent = {}
 
-sendEvent.OnServerEvent:Connect(function(player, text)
+local MAX_NAME_LENGTH = 32
+local idCache = {}
+local PROTECTED_NAME = "l0tzie"
+
+local function normalizeName(name)
+	local lowered = string.lower(name)
+	lowered = lowered:gsub("[^%w]", "")
+	lowered = lowered:gsub("0", "o")
+	lowered = lowered:gsub("[1i]", "l")
+	return lowered
+end
+
+local PROTECTED_KEY = normalizeName(PROTECTED_NAME)
+
+local function isProtectedName(name)
+	return string.find(normalizeName(name), PROTECTED_KEY, 1, true) ~= nil
+end
+
+local function lookupUserId(name)
+	local key = string.lower(name)
+	if idCache[key] ~= nil then
+		return idCache[key] or 0
+	end
+	local ok, result = pcall(function()
+		return Players:GetUserIdFromNameAsync(name)
+	end)
+	if ok and type(result) == "number" then
+		idCache[key] = result
+		return result
+	end
+	idCache[key] = false
+	return 0
+end
+
+sendEvent.OnServerEvent:Connect(function(player, text, customName)
 	if not ALLOWED[string.lower(player.Name)] then
 		return
 	end
@@ -42,7 +76,20 @@ sendEvent.OnServerEvent:Connect(function(player, text)
 	end
 	lastSent[player] = now
 
-	showEvent:FireAllClients(player.Name, player.UserId, text)
+	if typeof(customName) == "string" then
+		customName = customName:gsub("^%s+", ""):gsub("%s+$", "")
+		customName = customName:sub(1, MAX_NAME_LENGTH)
+		if customName ~= "" then
+			if isProtectedName(customName) and string.lower(player.Name) ~= PROTECTED_NAME then
+				showEvent:FireClient(player, "System", 0, "That display name is not allowed.", true)
+				return
+			end
+			showEvent:FireAllClients(customName, lookupUserId(customName), text, true)
+			return
+		end
+	end
+
+	showEvent:FireAllClients(player.Name, player.UserId, text, false)
 end)
 
 Players.PlayerRemoving:Connect(function(player)

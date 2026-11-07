@@ -893456,6 +893456,7 @@ local COMMAND = ";serverm"
 local HOLD_TIME = 6
 local FADE_TIME = 0.5
 local MAX_LENGTH = 200
+local MAX_NAME_LENGTH = 32
 
 local player = Players.LocalPlayer
 local sendEvent = ReplicatedStorage:WaitForChild("ServerMessageSend")
@@ -893488,7 +893489,7 @@ local function openPanel()
 	panel.Name = "Panel"
 	panel.AnchorPoint = Vector2.new(0.5, 0.5)
 	panel.Position = UDim2.fromScale(0.5, 0.5)
-	panel.Size = UDim2.fromOffset(420, 220)
+	panel.Size = UDim2.fromOffset(420, 268)
 	panel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	panel.BorderSizePixel = 0
 	panel.Parent = gui
@@ -893528,8 +893529,30 @@ local function openPanel()
 	closeCorner.CornerRadius = UDim.new(0, 6)
 	closeCorner.Parent = close
 
+	local nameBox = Instance.new("TextBox")
+	nameBox.Position = UDim2.fromOffset(16, 48)
+	nameBox.Size = UDim2.new(1, -32, 0, 34)
+	nameBox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	nameBox.BorderSizePixel = 0
+	nameBox.ClearTextOnFocus = false
+	nameBox.Font = Enum.Font.Gotham
+	nameBox.PlaceholderText = "Custom display name (leave empty to show yours)"
+	nameBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+	nameBox.Text = ""
+	nameBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+	nameBox.TextSize = 15
+	nameBox.TextXAlignment = Enum.TextXAlignment.Left
+	nameBox.Parent = panel
+	local nameCorner = Instance.new("UICorner")
+	nameCorner.CornerRadius = UDim.new(0, 8)
+	nameCorner.Parent = nameBox
+	local namePadding = Instance.new("UIPadding")
+	namePadding.PaddingLeft = UDim.new(0, 8)
+	namePadding.PaddingRight = UDim.new(0, 8)
+	namePadding.Parent = nameBox
+
 	local box = Instance.new("TextBox")
-	box.Position = UDim2.fromOffset(16, 48)
+	box.Position = UDim2.fromOffset(16, 92)
 	box.Size = UDim2.new(1, -32, 0, 100)
 	box.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 	box.BorderSizePixel = 0
@@ -893576,13 +893599,19 @@ local function openPanel()
 		end
 	end)
 
+	nameBox:GetPropertyChangedSignal("Text"):Connect(function()
+		if #nameBox.Text &gt; MAX_NAME_LENGTH then
+			nameBox.Text = nameBox.Text:sub(1, MAX_NAME_LENGTH)
+		end
+	end)
+
 	close.Activated:Connect(closePanel)
 	send.Activated:Connect(function()
 		local text = box.Text
 		if text:match("^%s*$") then
 			return
 		end
-		sendEvent:FireServer(text)
+		sendEvent:FireServer(text, nameBox.Text)
 		closePanel()
 	end)
 
@@ -893593,7 +893622,7 @@ local function openPanel()
 	end)
 end
 
-local function showMessage(name, userId, message)
+local function showMessage(name, userId, message, anonymous)
 	currentToken += 1
 	local token = currentToken
 
@@ -893624,7 +893653,13 @@ local function showMessage(name, userId, message)
 	avatarCorner.CornerRadius = UDim.new(1, 0)
 	avatarCorner.Parent = avatar
 
+	local hasAvatar = userId &gt; 0
+	avatar.Visible = hasAvatar
+
 	task.spawn(function()
+		if not hasAvatar then
+			return
+		end
 		local ok, content = pcall(function()
 			return Players:GetUserThumbnailAsync(userId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
 		end)
@@ -893635,7 +893670,7 @@ local function showMessage(name, userId, message)
 
 	local nameLabel = Instance.new("TextLabel")
 	nameLabel.AnchorPoint = Vector2.new(0.5, 0)
-	nameLabel.Position = UDim2.new(0.5, 0, 0, 110)
+	nameLabel.Position = UDim2.new(0.5, 0, 0, hasAvatar and 110 or 40)
 	nameLabel.Size = UDim2.fromOffset(300, 24)
 	nameLabel.BackgroundTransparency = 1
 	nameLabel.Font = Enum.Font.GothamBold
@@ -893684,11 +893719,15 @@ local function showMessage(name, userId, message)
 	end)
 end
 
-showEvent.OnClientEvent:Connect(function(name, userId, message)
+showEvent.OnClientEvent:Connect(function(name, userId, message, anonymous)
 	if typeof(name) ~= "string" or typeof(userId) ~= "number" or typeof(message) ~= "string" then
 		return
 	end
-	showMessage(name, userId, message)
+	showMessage(name, userId, message, anonymous == true)
+end)
+
+player:GetAttributeChangedSignal("ServerMessageOpenRequest"):Connect(function()
+	openPanel()
 end)
 
 player.Chatted:Connect(function(text)
@@ -893717,7 +893756,7 @@ end)</string>
           </ContentId>
           <token name="RunContext">0</token>
           <bool name="DefinesCapabilities">false</bool>
-          <string name="ScriptGuid"></string>
+          <string name="ScriptGuid">{08be5edb-c726-4f77-97e4-a2770e61723b}</string>
           <BinaryString name="SerializedOverrides">
           </BinaryString>
           <string name="Source">local Players = game:GetService("Players")
@@ -893742,7 +893781,8 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 local bar = Instance.new("Frame")
 bar.Name = "Bar"
-bar.Position = UDim2.fromOffset(0, 0)
+bar.AnchorPoint = Vector2.new(0, 1)
+bar.Position = UDim2.new(0, 0, 1, 0)
 bar.Size = UDim2.new(1, 0, 0, BAR_HEIGHT)
 bar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 bar.BackgroundTransparency = 0.05
@@ -893808,7 +893848,7 @@ closeCorner.Parent = close
 
 local suggestions = Instance.new("TextLabel")
 suggestions.Name = "Suggestions"
-suggestions.Position = UDim2.fromOffset(0, BAR_HEIGHT)
+suggestions.Position = UDim2.fromOffset(0, -24)
 suggestions.Size = UDim2.new(1, 0, 0, 24)
 suggestions.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 suggestions.BackgroundTransparency = 0.35
@@ -893827,7 +893867,8 @@ suggestionsPadding.Parent = suggestions
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
-toast.Position = UDim2.fromOffset(0, BAR_HEIGHT + 28)
+toast.AnchorPoint = Vector2.new(0, 1)
+toast.Position = UDim2.new(0, 0, 1, 0)
 toast.Size = UDim2.new(1, 0, 0, 28)
 toast.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 toast.BackgroundTransparency = 0.25
@@ -893868,6 +893909,26 @@ local historyIndex = 0
 local isOpen = false
 local justOpened = false
 local toastToken = 0
+local keyboardOffset = 0
+
+local function layout()
+	bar.Position = UDim2.new(0, 0, 1, -keyboardOffset)
+	local lift = keyboardOffset
+	if isOpen then
+		lift += BAR_HEIGHT + 28
+	end
+	toast.Position = UDim2.new(0, 0, 1, -lift)
+end
+
+local function updateKeyboard()
+	if UserInputService.OnScreenKeyboardVisible then
+		local top = UserInputService.OnScreenKeyboardPosition.Y
+		keyboardOffset = math.max(0, gui.AbsoluteSize.Y - top)
+	else
+		keyboardOffset = 0
+	end
+	layout()
+end
 
 local function hasAccess()
 	return player:GetAttribute("CmdlineAuthorized") == true
@@ -893883,6 +893944,7 @@ local function commandNames()
 	for name in string.gmatch(raw, "[^,]+") do
 		table.insert(list, name)
 	end
+	table.insert(list, "serverm")
 	table.sort(list)
 	return list
 end
@@ -893923,7 +893985,7 @@ local function showToast(text, ok)
 	toast.Visible = true
 	local lines = math.max(1, math.ceil(#text / 80))
 	toast.Size = UDim2.new(1, 0, 0, 12 + lines * 18)
-	toast.Position = UDim2.fromOffset(0, isOpen and (BAR_HEIGHT + 28) or 0)
+	layout()
 	task.delay(TOAST_TIME, function()
 		if token == toastToken then
 			toast.Visible = false
@@ -893941,7 +894003,7 @@ local function closeBar()
 	if box:IsFocused() then
 		box:ReleaseFocus()
 	end
-	toast.Position = UDim2.fromOffset(0, 0)
+	layout()
 	updateToggle()
 end
 
@@ -893954,7 +894016,7 @@ local function openBar()
 	bar.Visible = true
 	box.Text = ""
 	historyIndex = #history + 1
-	toast.Position = UDim2.fromOffset(0, BAR_HEIGHT + 28)
+	layout()
 	updateToggle()
 	task.defer(function()
 		box:CaptureFocus()
@@ -893976,9 +894038,14 @@ local function submit(text)
 			table.remove(history, 1)
 		end
 	end
-	executeEvent:FireServer(text)
+	local first = string.lower(string.match(text, "^;?%s*(%S+)") or "")
 	box.Text = ""
 	closeBar()
+	if first == "serverm" then
+		player:SetAttribute("ServerMessageOpenRequest", os.clock())
+		return
+	end
+	executeEvent:FireServer(text)
 end
 
 box:GetPropertyChangedSignal("Text"):Connect(function()
@@ -894076,7 +894143,11 @@ end)
 
 executeEvent:GetAttributeChangedSignal("CommandList"):Connect(refreshSuggestions)
 
-updateToggle()</string>
+updateToggle()
+updateKeyboard()
+UserInputService:GetPropertyChangedSignal("OnScreenKeyboardVisible"):Connect(updateKeyboard)
+UserInputService:GetPropertyChangedSignal("OnScreenKeyboardPosition"):Connect(updateKeyboard)
+UserInputService:GetPropertyChangedSignal("OnScreenKeyboardSize"):Connect(updateKeyboard)</string>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <UniqueId name="UniqueId">7183b16a762e1125cadcf25f00000001</UniqueId>
@@ -897854,17 +897925,17 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "ENTITY" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "ENTITY" and string.lower(player.Name) ~= "l0tzie" and string.lower(player.Name) ~= "badkid235321" and string.lower(player.Name) ~= "riotfan1223" and string.lower(player.Name) ~= "cjax1710" then
 			clone.Visible = false
-		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
+		elseif model.Name == "LOTZIGAN" and string.lower(player.Name) ~= "l0tzie" then
 			clone.Visible = false
-		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "25X_Rock" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
+		elseif model.Name == "UNCMINILLA" and string.lower(player.Name) ~= "24x_rock" and string.lower(player.Name) ~= "25x_rock" and string.lower(player.Name) ~= "blueendercookie_2" and string.lower(player.Name) ~= "riotfan1223" and string.lower(player.Name) ~= "heiseigodzilla19933" then
 			clone.Visible = false
 		elseif model.Name == "Munto"
-			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "DandyDandicusDancif" and player.Name ~= "Coral" then
+			and string.lower(player.Name) ~= "denisthecheeseking" and string.lower(player.Name) ~= "dandydandicusdancif" and string.lower(player.Name) ~= "coral" then
 			clone.Visible = false
 		elseif model.Name == "thedenis"
-			and player.Name ~= "DenisTheCheeseKing" then
+			and string.lower(player.Name) ~= "denisthecheeseking" then
 			clone.Visible = false
 		elseif model.Name == "Evo shin"
 			and string.lower(player.Name) ~= "brickrig1again_alt" then
@@ -937525,7 +937596,7 @@ end
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000ea4</UniqueId>
+        <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea4</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10532">
         <Properties>
@@ -937583,7 +937654,7 @@ end
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000ea5</UniqueId>
+          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea5</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10533">
@@ -937606,7 +937677,7 @@ end
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000ea6</UniqueId>
+          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea6</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10534">
@@ -937651,7 +937722,7 @@ end
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000ea7</UniqueId>
+          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea7</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -937700,7 +937771,7 @@ end
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000ea8</UniqueId>
+          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea8</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -937758,7 +937829,7 @@ end
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000ea9</UniqueId>
+          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea9</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10537">
@@ -937785,7 +937856,7 @@ end
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000eaa</UniqueId>
+          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000eaa</UniqueId>
         </Properties>
       </Item>
     </Item>
@@ -2026260,54 +2026331,4 @@ end)
                         <R11>0.97493005</R11>
                         <R12>-0</R12>
                         <R20>-0</R20>
-                        <R21>0</R21>
-                        <R22>1</R22>
-                      </CoordinateFrame>
-                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                      <token name="EasingDirection">1</token>
-                      <token name="EasingStyle">0</token>
-                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                      <bool name="DefinesCapabilities">false</bool>
-                      <BinaryString name="SerializedOverrides">
-                      </BinaryString>
-                      <int64 name="SourceAssetId">-1</int64>
-                      <BinaryString name="Tags"></BinaryString>
-                      <UniqueId name="UniqueId">00000000000000000000000000017a9b</UniqueId>
-                      <float name="Weight">1</float>
-                    </Properties>
-                  </Item>
-                </Item>
-              </Item>
-            </Item>
-            <Item class="Keyframe" referent="35647">
-              <Properties>
-                <string name="Name">Keyframe</string>
-                <BinaryString name="AttributesSerialize"></BinaryString>
-                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                <bool name="DefinesCapabilities">false</bool>
-                <BinaryString name="SerializedOverrides">
-                </BinaryString>
-                <int64 name="SourceAssetId">-1</int64>
-                <BinaryString name="Tags"></BinaryString>
-                <float name="Time">2.35</float>
-                <UniqueId name="UniqueId">00000000000000000000000000017a9c</UniqueId>
-              </Properties>
-              <Item class="Pose" referent="35648">
-                <Properties>
-                  <string name="Name">Torso</string>
-                  <BinaryString name="AttributesSerialize"></BinaryString>
-                  <CoordinateFrame name="CFrame">
-                    <X>0</X>
-                    <Y>0</Y>
-                    <Z>0</Z>
-                    <R00>1</R00>
-                    <R01>0</R01>
-                    <R02>0</R02>
-                    <R10>0</R10>
-                    <R11>1</R11>
-                    <R12>0</R12>
-                    <R20>0</R20>
-                    <R21>0</R21>
-                    <R22>1</R22>
-                  </CoordinateFrame
+           

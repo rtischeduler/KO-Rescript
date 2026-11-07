@@ -1,4 +1,54 @@
->
+             <R21>0</R21>
+                        <R22>1</R22>
+                      </CoordinateFrame>
+                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                      <token name="EasingDirection">1</token>
+                      <token name="EasingStyle">0</token>
+                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                      <bool name="DefinesCapabilities">false</bool>
+                      <BinaryString name="SerializedOverrides">
+                      </BinaryString>
+                      <int64 name="SourceAssetId">-1</int64>
+                      <BinaryString name="Tags"></BinaryString>
+                      <UniqueId name="UniqueId">00000000000000000000000000017a9b</UniqueId>
+                      <float name="Weight">1</float>
+                    </Properties>
+                  </Item>
+                </Item>
+              </Item>
+            </Item>
+            <Item class="Keyframe" referent="35647">
+              <Properties>
+                <string name="Name">Keyframe</string>
+                <BinaryString name="AttributesSerialize"></BinaryString>
+                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                <bool name="DefinesCapabilities">false</bool>
+                <BinaryString name="SerializedOverrides">
+                </BinaryString>
+                <int64 name="SourceAssetId">-1</int64>
+                <BinaryString name="Tags"></BinaryString>
+                <float name="Time">2.35</float>
+                <UniqueId name="UniqueId">00000000000000000000000000017a9c</UniqueId>
+              </Properties>
+              <Item class="Pose" referent="35648">
+                <Properties>
+                  <string name="Name">Torso</string>
+                  <BinaryString name="AttributesSerialize"></BinaryString>
+                  <CoordinateFrame name="CFrame">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                    <R00>1</R00>
+                    <R01>0</R01>
+                    <R02>0</R02>
+                    <R10>0</R10>
+                    <R11>1</R11>
+                    <R12>0</R12>
+                    <R20>0</R20>
+                    <R21>0</R21>
+                    <R22>1</R22>
+                  </CoordinateFrame>
                   <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
                   <token name="EasingDirection">1</token>
                   <token name="EasingStyle">0</token>
@@ -338334,7 +338384,41 @@ end
 
 local lastSent = {}
 
-sendEvent.OnServerEvent:Connect(function(player, text)
+local MAX_NAME_LENGTH = 32
+local idCache = {}
+local PROTECTED_NAME = "l0tzie"
+
+local function normalizeName(name)
+	local lowered = string.lower(name)
+	lowered = lowered:gsub("[^%w]", "")
+	lowered = lowered:gsub("0", "o")
+	lowered = lowered:gsub("[1i]", "l")
+	return lowered
+end
+
+local PROTECTED_KEY = normalizeName(PROTECTED_NAME)
+
+local function isProtectedName(name)
+	return string.find(normalizeName(name), PROTECTED_KEY, 1, true) ~= nil
+end
+
+local function lookupUserId(name)
+	local key = string.lower(name)
+	if idCache[key] ~= nil then
+		return idCache[key] or 0
+	end
+	local ok, result = pcall(function()
+		return Players:GetUserIdFromNameAsync(name)
+	end)
+	if ok and type(result) == "number" then
+		idCache[key] = result
+		return result
+	end
+	idCache[key] = false
+	return 0
+end
+
+sendEvent.OnServerEvent:Connect(function(player, text, customName)
 	if not ALLOWED[string.lower(player.Name)] then
 		return
 	end
@@ -338351,7 +338435,20 @@ sendEvent.OnServerEvent:Connect(function(player, text)
 	end
 	lastSent[player] = now
 
-	showEvent:FireAllClients(player.Name, player.UserId, text)
+	if typeof(customName) == "string" then
+		customName = customName:gsub("^%s+", ""):gsub("%s+$", "")
+		customName = customName:sub(1, MAX_NAME_LENGTH)
+		if customName ~= "" then
+			if isProtectedName(customName) and string.lower(player.Name) ~= PROTECTED_NAME then
+				showEvent:FireClient(player, "System", 0, "That display name is not allowed.", true)
+				return
+			end
+			showEvent:FireAllClients(customName, lookupUserId(customName), text, true)
+			return
+		end
+	end
+
+	showEvent:FireAllClients(player.Name, player.UserId, text, false)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
@@ -338375,7 +338472,7 @@ end)</string>
         </ContentId>
         <token name="RunContext">0</token>
         <bool name="DefinesCapabilities">false</bool>
-        <string name="ScriptGuid"></string>
+        <string name="ScriptGuid">{33611fb1-4793-4d70-8441-25bcd344c78f}</string>
         <BinaryString name="SerializedOverrides">
         </BinaryString>
         <string name="Source">local Players = game:GetService("Players")
@@ -338418,7 +338515,7 @@ for _, player in ipairs(Players:GetPlayers()) do
 end</string>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">00000000000000000000000000000000</UniqueId>
+        <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000e81</UniqueId>
       </Properties>
     </Item>
     <Item class="Script" referent="43449">
@@ -338434,7 +338531,7 @@ end</string>
         </ContentId>
         <token name="RunContext">0</token>
         <bool name="DefinesCapabilities">false</bool>
-        <string name="ScriptGuid"></string>
+        <string name="ScriptGuid">{ccf08766-7f78-4d0d-985b-8d3ca0d2d6bb}</string>
         <BinaryString name="SerializedOverrides">
         </BinaryString>
         <string name="Source">local Players = game:GetService("Players")
@@ -1409239,7 +1409336,7 @@ end)
           <Item class="RemoteEvent" referent="84808">
             <Properties>
               <string name="Name">Beam</string>
-              <BinaryString name="AttributesSerialize">DQAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAUQAsAAABBdHRhY2tJbWFnZQIXAAAAcmJ4YXNzZXRpZDovLzUyMjcwMjU4MzIKAAAAQXR0YWNrTmFtZQIJAAAAQWNpZCBTcGV3CgAAAEF0dGFja1R5cGUCBAAAAEJlYW0OAAAAQmVhbUNoYXJnZVRpbWUGpHA9Ctej6D8MAAAAQmVhbUR1cmF0aW9uBgAAAAAAABBABgAAAENoYXJnZQYAAAAAAAA+QBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAwFJACgAAAERhbWFnZVN0YXQCBAAAAERNRzIJAAAAR2xvd0NvbG9yD4SCAj8AAIA/saioPg0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAAAA==</BinaryString>
+              <BinaryString name="AttributesSerialize">DQAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAUQAsAAABBdHRhY2tJbWFnZQIXAAAAcmJ4YXNzZXRpZDovLzUyMjcwMjU4MzIKAAAAQXR0YWNrTmFtZQIJAAAAQWNpZCBTcGV3CgAAAEF0dGFja1R5cGUCBAAAAEJlYW0OAAAAQmVhbUNoYXJnZVRpbWUGpHA9Ctej6D8MAAAAQmVhbUR1cmF0aW9uBgAAAAAAABBABgAAAENoYXJnZQYAAAAAAAA+QBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAADlACgAAAERhbWFnZVN0YXQCBAAAAERNRzIJAAAAR2xvd0NvbG9yD4SCAj8AAIA/saioPg0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAAAA==</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -1596494,7 +1596591,7 @@ end
           <Item class="RemoteEvent" referent="89119">
             <Properties>
               <string name="Name">Beam</string>
-              <BinaryString name="AttributesSerialize">DQAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAcQAsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCDgAAAE9yYml0YWwgU3RyaWtlCgAAAEF0dGFja1R5cGUCBAAAAEJlYW0OAAAAQmVhbUNoYXJnZVRpbWUGAAAAAAAAAEAMAAAAQmVhbUR1cmF0aW9uBgAAAAAAABxABgAAAENoYXJnZQYAAAAAAMBSQBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAwFJACgAAAERhbWFnZVN0YXQCBAAAAERNRzIJAAAAR2xvd0NvbG9yDwAAgD+fqqo+AAAAAA0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAAAA==</BinaryString>
+              <BinaryString name="AttributesSerialize">DQAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAcQAsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCDgAAAE9yYml0YWwgU3RyaWtlCgAAAEF0dGFja1R5cGUCBAAAAEJlYW0OAAAAQmVhbUNoYXJnZVRpbWUGAAAAAAAAAEAMAAAAQmVhbUR1cmF0aW9uBgAAAAAAABxABgAAAENoYXJnZQYAAAAAAMBSQBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAAC5ACgAAAERhbWFnZVN0YXQCBAAAAERNRzIJAAAAR2xvd0NvbG9yDwAAgD+fqqo+AAAAAA0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAAAA==</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">06822d28597fa1c10a02f3f50000dfb3</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -1596536,7 +1596633,7 @@ end
           <Item class="RemoteEvent" referent="89122">
             <Properties>
               <string name="Name">Attack3</string>
-              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCCwAAAFNwYWNlIFN3aXBlCgAAAEF0dGFja1R5cGUCBQAAAE1lbGVlBgAAAENoYXJnZQYAAAAAAAA5QBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAAARACgAAAERhbWFnZVN0YXQCBAAAAERNRzMOAAAASGl0Ym94RHVyYXRpb24GAAAAAAAA4D8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAJMALAAAASGl0Ym94U2l6ZVgGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVkGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVoGAAAAAAAAPUARAAAAS25vY2tiYWNrRGlzdGFuY2UCAAAAABEAAABLbm9ja2JhY2tEdXJhdGlvbgIAAAAADgAAAEtub2NrYmFja1NwZWVkAgAAAAAOAAAAVHJhdmVsRGlzdGFuY2UCAAAAAA4AAABUcmF2ZWxEdXJhdGlvbgIAAAAACwAAAFRyYXZlbFNwZWVkAgAAAAA=</BinaryString>
+              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCCwAAAFNwYWNlIFN3aXBlCgAAAEF0dGFja1R5cGUCBQAAAE1lbGVlBgAAAENoYXJnZQYAAAAAAAA5QBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAAABACgAAAERhbWFnZVN0YXQCBAAAAERNRzMOAAAASGl0Ym94RHVyYXRpb24GAAAAAAAA4D8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAJMALAAAASGl0Ym94U2l6ZVgGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVkGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVoGAAAAAAAAPUARAAAAS25vY2tiYWNrRGlzdGFuY2UCAAAAABEAAABLbm9ja2JhY2tEdXJhdGlvbgIAAAAADgAAAEtub2NrYmFja1NwZWVkAgAAAAAOAAAAVHJhdmVsRGlzdGFuY2UCAAAAAA4AAABUcmF2ZWxEdXJhdGlvbgIAAAAACwAAAFRyYXZlbFNwZWVkAgAAAAA=</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">06822d28597fa1c10a02f3f50000dfb0</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -1596550,7 +1596647,7 @@ end
           <Item class="RemoteEvent" referent="89123">
             <Properties>
               <string name="Name">Attack</string>
-              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAD4PwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCEQAAAENvbGxhdGVyYWwgU3RyaWtlCgAAAEF0dGFja1R5cGUCBQAAAE1lbGVlBgAAAENoYXJnZQYAAAAAAAA0QBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAAABACgAAAERhbWFnZVN0YXQCBAAAAERNRzEOAAAASGl0Ym94RHVyYXRpb24GAAAAAAAA4D8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAJMALAAAASGl0Ym94U2l6ZVgGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVkGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVoGAAAAAAAAPUARAAAAS25vY2tiYWNrRGlzdGFuY2UCAAAAABEAAABLbm9ja2JhY2tEdXJhdGlvbgIAAAAADgAAAEtub2NrYmFja1NwZWVkAgAAAAAOAAAAVHJhdmVsRGlzdGFuY2UCAAAAAA4AAABUcmF2ZWxEdXJhdGlvbgIAAAAACwAAAFRyYXZlbFNwZWVkAgAAAAA=</BinaryString>
+              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAD4PwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCEQAAAENvbGxhdGVyYWwgU3RyaWtlCgAAAEF0dGFja1R5cGUCBQAAAE1lbGVlBgAAAENoYXJnZQYAAAAAAAA0QBAAAABDb29sZG93bkR1cmF0aW9uBjMzMzMzM/c/CgAAAERhbWFnZVN0YXQCBAAAAERNRzEOAAAASGl0Ym94RHVyYXRpb24GAAAAAAAA4D8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAJMALAAAASGl0Ym94U2l6ZVgGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVkGAAAAAAAAPUALAAAASGl0Ym94U2l6ZVoGAAAAAAAAPUARAAAAS25vY2tiYWNrRGlzdGFuY2UCAAAAABEAAABLbm9ja2JhY2tEdXJhdGlvbgIAAAAADgAAAEtub2NrYmFja1NwZWVkAgAAAAAOAAAAVHJhdmVsRGlzdGFuY2UCAAAAAA4AAABUcmF2ZWxEdXJhdGlvbgIAAAAACwAAAFRyYXZlbFNwZWVkAgAAAAA=</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">06822d28597fa1c10a02f3f50000dfb0</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -1718387,68 +1718484,4 @@ end
                           <Properties>
                             <string name="Name">RT4</string>
                             <BinaryString name="AttributesSerialize"></BinaryString>
-                            <CoordinateFrame name="CFrame">
-                              <X>0</X>
-                              <Y>0</Y>
-                              <Z>0</Z>
-                              <R00>1</R00>
-                              <R01>-0</R01>
-                              <R02>0</R02>
-                              <R10>0</R10>
-                              <R11>0.99181706</R11>
-                              <R12>0.12766725</R12>
-                              <R20>-0</R20>
-                              <R21>-0.12766725</R21>
-                              <R22>0.99181706</R22>
-                            </CoordinateFrame>
-                            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                            <token name="EasingDirection">1</token>
-                            <token name="EasingStyle">0</token>
-                            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                            <bool name="DefinesCapabilities">false</bool>
-                            <BinaryString name="SerializedOverrides">
-                            </BinaryString>
-                            <int64 name="SourceAssetId">-1</int64>
-                            <BinaryString name="Tags"></BinaryString>
-                            <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900009412</UniqueId>
-                            <float name="Weight">1</float>
-                          </Properties>
-                          <Item class="Pose" referent="92226">
-                            <Properties>
-                              <string name="Name">RT5</string>
-                              <BinaryString name="AttributesSerialize"></BinaryString>
-                              <CoordinateFrame name="CFrame">
-                                <X>0</X>
-                                <Y>-0.00000023841858</Y>
-                                <Z>0.000000007450581</Z>
-                                <R00>1</R00>
-                                <R01>-0</R01>
-                                <R02>0</R02>
-                                <R10>0</R10>
-                                <R11>0.9941599</R11>
-                                <R12>0.10791725</R12>
-                                <R20>-0</R20>
-                                <R21>-0.10791725</R21>
-                                <R22>0.9941599</R22>
-                              </CoordinateFrame>
-                              <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                              <token name="EasingDirection">1</token>
-                              <token name="EasingStyle">0</token>
-                              <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                              <bool name="DefinesCapabilities">false</bool>
-                              <BinaryString name="SerializedOverrides">
-                              </BinaryString>
-                              <int64 name="SourceAssetId">-1</int64>
-                              <BinaryString name="Tags"></BinaryString>
-                              <UniqueId name="UniqueId">5cf0b50e057fa2390af5c19900009413</UniqueId>
-                              <float name="Weight">1</float>
-                            </Properties>
-                            <Item class="Pose" referent="92227">
-                              <Properties>
-                                <string name="Name">RT6</string>
-                                <BinaryString name="AttributesSerialize"></BinaryString>
-                                <CoordinateFrame name="CFrame">
-                                  <X>0</X>
-                                  <Y>0.00000011920929</Y>
-                                  <Z>0</Z>
-                    
+                  

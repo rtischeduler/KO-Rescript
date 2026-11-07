@@ -292,17 +292,17 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "ENTITY" and player.Name ~= "L0tzie" and player.Name ~= "badkid235321" and player.Name ~= "riotfan1223" and player.Name ~= "cjax1710" then
+		if model.Name == "ENTITY" and string.lower(player.Name) ~= "l0tzie" and string.lower(player.Name) ~= "badkid235321" and string.lower(player.Name) ~= "riotfan1223" and string.lower(player.Name) ~= "cjax1710" then
 			clone.Visible = false
-		elseif model.Name == "LOTZIGAN" and player.Name ~= "L0tzie" then
+		elseif model.Name == "LOTZIGAN" and string.lower(player.Name) ~= "l0tzie" then
 			clone.Visible = false
-		elseif model.Name == "UNCMINILLA" and player.Name ~= "24X_ROCK" and player.Name ~= "25X_Rock" and player.Name ~= "BlueEnderCookie_2" and player.Name ~= "riotfan1223" and player.Name ~= "HeiseiGodzilla19933" then
+		elseif model.Name == "UNCMINILLA" and string.lower(player.Name) ~= "24x_rock" and string.lower(player.Name) ~= "25x_rock" and string.lower(player.Name) ~= "blueendercookie_2" and string.lower(player.Name) ~= "riotfan1223" and string.lower(player.Name) ~= "heiseigodzilla19933" then
 			clone.Visible = false
 		elseif model.Name == "Munto"
-			and player.Name ~= "DenisTheCheeseKing" and player.Name ~= "DandyDandicusDancif" and player.Name ~= "Coral" then
+			and string.lower(player.Name) ~= "denisthecheeseking" and string.lower(player.Name) ~= "dandydandicusdancif" and string.lower(player.Name) ~= "coral" then
 			clone.Visible = false
 		elseif model.Name == "thedenis"
-			and player.Name ~= "DenisTheCheeseKing" then
+			and string.lower(player.Name) ~= "denisthecheeseking" then
 			clone.Visible = false
 		elseif model.Name == "Evo shin"
 			and string.lower(player.Name) ~= "brickrig1again_alt" then

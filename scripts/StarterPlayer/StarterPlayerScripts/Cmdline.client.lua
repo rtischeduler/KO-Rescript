@@ -20,7 +20,8 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 local bar = Instance.new("Frame")
 bar.Name = "Bar"
-bar.Position = UDim2.fromOffset(0, 0)
+bar.AnchorPoint = Vector2.new(0, 1)
+bar.Position = UDim2.new(0, 0, 1, 0)
 bar.Size = UDim2.new(1, 0, 0, BAR_HEIGHT)
 bar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 bar.BackgroundTransparency = 0.05
@@ -86,7 +87,7 @@ closeCorner.Parent = close
 
 local suggestions = Instance.new("TextLabel")
 suggestions.Name = "Suggestions"
-suggestions.Position = UDim2.fromOffset(0, BAR_HEIGHT)
+suggestions.Position = UDim2.fromOffset(0, -24)
 suggestions.Size = UDim2.new(1, 0, 0, 24)
 suggestions.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 suggestions.BackgroundTransparency = 0.35
@@ -105,7 +106,8 @@ suggestionsPadding.Parent = suggestions
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
-toast.Position = UDim2.fromOffset(0, BAR_HEIGHT + 28)
+toast.AnchorPoint = Vector2.new(0, 1)
+toast.Position = UDim2.new(0, 0, 1, 0)
 toast.Size = UDim2.new(1, 0, 0, 28)
 toast.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 toast.BackgroundTransparency = 0.25
@@ -146,6 +148,26 @@ local historyIndex = 0
 local isOpen = false
 local justOpened = false
 local toastToken = 0
+local keyboardOffset = 0
+
+local function layout()
+	bar.Position = UDim2.new(0, 0, 1, -keyboardOffset)
+	local lift = keyboardOffset
+	if isOpen then
+		lift += BAR_HEIGHT + 28
+	end
+	toast.Position = UDim2.new(0, 0, 1, -lift)
+end
+
+local function updateKeyboard()
+	if UserInputService.OnScreenKeyboardVisible then
+		local top = UserInputService.OnScreenKeyboardPosition.Y
+		keyboardOffset = math.max(0, gui.AbsoluteSize.Y - top)
+	else
+		keyboardOffset = 0
+	end
+	layout()
+end
 
 local function hasAccess()
 	return player:GetAttribute("CmdlineAuthorized") == true
@@ -161,6 +183,7 @@ local function commandNames()
 	for name in string.gmatch(raw, "[^,]+") do
 		table.insert(list, name)
 	end
+	table.insert(list, "serverm")
 	table.sort(list)
 	return list
 end
@@ -201,7 +224,7 @@ local function showToast(text, ok)
 	toast.Visible = true
 	local lines = math.max(1, math.ceil(#text / 80))
 	toast.Size = UDim2.new(1, 0, 0, 12 + lines * 18)
-	toast.Position = UDim2.fromOffset(0, isOpen and (BAR_HEIGHT + 28) or 0)
+	layout()
 	task.delay(TOAST_TIME, function()
 		if token == toastToken then
 			toast.Visible = false
@@ -219,7 +242,7 @@ local function closeBar()
 	if box:IsFocused() then
 		box:ReleaseFocus()
 	end
-	toast.Position = UDim2.fromOffset(0, 0)
+	layout()
 	updateToggle()
 end
 
@@ -232,7 +255,7 @@ local function openBar()
 	bar.Visible = true
 	box.Text = ""
 	historyIndex = #history + 1
-	toast.Position = UDim2.fromOffset(0, BAR_HEIGHT + 28)
+	layout()
 	updateToggle()
 	task.defer(function()
 		box:CaptureFocus()
@@ -254,9 +277,14 @@ local function submit(text)
 			table.remove(history, 1)
 		end
 	end
-	executeEvent:FireServer(text)
+	local first = string.lower(string.match(text, "^;?%s*(%S+)") or "")
 	box.Text = ""
 	closeBar()
+	if first == "serverm" then
+		player:SetAttribute("ServerMessageOpenRequest", os.clock())
+		return
+	end
+	executeEvent:FireServer(text)
 end
 
 box:GetPropertyChangedSignal("Text"):Connect(function()
@@ -355,3 +383,7 @@ end)
 executeEvent:GetAttributeChangedSignal("CommandList"):Connect(refreshSuggestions)
 
 updateToggle()
+updateKeyboard()
+UserInputService:GetPropertyChangedSignal("OnScreenKeyboardVisible"):Connect(updateKeyboard)
+UserInputService:GetPropertyChangedSignal("OnScreenKeyboardPosition"):Connect(updateKeyboard)
+UserInputService:GetPropertyChangedSignal("OnScreenKeyboardSize"):Connect(updateKeyboard)

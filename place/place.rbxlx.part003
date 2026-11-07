@@ -1,4 +1,68 @@
- name="SerializedOverrides">
+nTint">
+                      <R>0</R>
+                      <G>0</G>
+                      <B>0</B>
+                    </Color3>
+                    <bool name="DefinesCapabilities">false</bool>
+                    <BinaryString name="SerializedOverrides">
+                    </BinaryString>
+                    <int64 name="SourceAssetId">-1</int64>
+                    <BinaryString name="Tags"></BinaryString>
+                    <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d70d</UniqueId>
+                  </Properties>
+                  <Item class="ObjectValue" referent="144281">
+                    <Properties>
+                      <string name="Name">Target</string>
+                      <BinaryString name="AttributesSerialize"></BinaryString>
+                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                      <bool name="DefinesCapabilities">false</bool>
+                      <BinaryString name="SerializedOverrides">
+                      </BinaryString>
+                      <int64 name="SourceAssetId">-1</int64>
+                      <BinaryString name="Tags"></BinaryString>
+                      <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d70e</UniqueId>
+                      <Ref name="Value">57259</Ref>
+                    </Properties>
+                  </Item>
+                  <Item class="ObjectValue" referent="144282">
+                    <Properties>
+                      <string name="Name">TargetRig</string>
+                      <BinaryString name="AttributesSerialize"></BinaryString>
+                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                      <bool name="DefinesCapabilities">false</bool>
+                      <BinaryString name="SerializedOverrides">
+                      </BinaryString>
+                      <int64 name="SourceAssetId">-1</int64>
+                      <BinaryString name="Tags"></BinaryString>
+                      <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d70f</UniqueId>
+                      <Ref name="Value">57184</Ref>
+                    </Properties>
+                  </Item>
+                  <Item class="ObjectValue" referent="144283">
+                    <Properties>
+                      <string name="Name">Parent</string>
+                      <BinaryString name="AttributesSerialize"></BinaryString>
+                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                      <bool name="DefinesCapabilities">false</bool>
+                      <BinaryString name="SerializedOverrides">
+                      </BinaryString>
+                      <int64 name="SourceAssetId">-1</int64>
+                      <BinaryString name="Tags"></BinaryString>
+                      <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d710</UniqueId>
+                      <Ref name="Value">57291</Ref>
+                    </Properties>
+                  </Item>
+                  <Item class="ObjectValue" referent="144284">
+                    <Properties>
+                      <string name="Name">ParentRig</string>
+                      <BinaryString name="AttributesSerialize"></BinaryString>
+                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                      <bool name="DefinesCapabilities">false</bool>
+                      <BinaryString name="SerializedOverrides">
                       </BinaryString>
                       <int64 name="SourceAssetId">-1</int64>
                       <BinaryString name="Tags"></BinaryString>
@@ -688294,7 +688358,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000e80</UniqueId>
+      <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000e80</UniqueId>
     </Properties>
   </Item>
   <Item class="PermissionsService" referent="165675">
@@ -688308,7 +688372,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000eab</UniqueId>
+      <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000eab</UniqueId>
     </Properties>
   </Item>
   <Item class="LuaWebService" referent="165676">
@@ -688322,7 +688386,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">118ce7df630f90220b001e7f00000fcb</UniqueId>
+      <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000fcb</UniqueId>
     </Properties>
   </Item>
   <SharedStrings>

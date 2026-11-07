@@ -13,6 +13,7 @@ local COMMAND = ";serverm"
 local HOLD_TIME = 6
 local FADE_TIME = 0.5
 local MAX_LENGTH = 200
+local MAX_NAME_LENGTH = 32
 
 local player = Players.LocalPlayer
 local sendEvent = ReplicatedStorage:WaitForChild("ServerMessageSend")
@@ -45,7 +46,7 @@ local function openPanel()
 	panel.Name = "Panel"
 	panel.AnchorPoint = Vector2.new(0.5, 0.5)
 	panel.Position = UDim2.fromScale(0.5, 0.5)
-	panel.Size = UDim2.fromOffset(420, 220)
+	panel.Size = UDim2.fromOffset(420, 268)
 	panel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	panel.BorderSizePixel = 0
 	panel.Parent = gui
@@ -85,8 +86,30 @@ local function openPanel()
 	closeCorner.CornerRadius = UDim.new(0, 6)
 	closeCorner.Parent = close
 
+	local nameBox = Instance.new("TextBox")
+	nameBox.Position = UDim2.fromOffset(16, 48)
+	nameBox.Size = UDim2.new(1, -32, 0, 34)
+	nameBox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+	nameBox.BorderSizePixel = 0
+	nameBox.ClearTextOnFocus = false
+	nameBox.Font = Enum.Font.Gotham
+	nameBox.PlaceholderText = "Custom display name (leave empty to show yours)"
+	nameBox.PlaceholderColor3 = Color3.fromRGB(140, 140, 140)
+	nameBox.Text = ""
+	nameBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+	nameBox.TextSize = 15
+	nameBox.TextXAlignment = Enum.TextXAlignment.Left
+	nameBox.Parent = panel
+	local nameCorner = Instance.new("UICorner")
+	nameCorner.CornerRadius = UDim.new(0, 8)
+	nameCorner.Parent = nameBox
+	local namePadding = Instance.new("UIPadding")
+	namePadding.PaddingLeft = UDim.new(0, 8)
+	namePadding.PaddingRight = UDim.new(0, 8)
+	namePadding.Parent = nameBox
+
 	local box = Instance.new("TextBox")
-	box.Position = UDim2.fromOffset(16, 48)
+	box.Position = UDim2.fromOffset(16, 92)
 	box.Size = UDim2.new(1, -32, 0, 100)
 	box.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 	box.BorderSizePixel = 0
@@ -133,13 +156,19 @@ local function openPanel()
 		end
 	end)
 
+	nameBox:GetPropertyChangedSignal("Text"):Connect(function()
+		if #nameBox.Text > MAX_NAME_LENGTH then
+			nameBox.Text = nameBox.Text:sub(1, MAX_NAME_LENGTH)
+		end
+	end)
+
 	close.Activated:Connect(closePanel)
 	send.Activated:Connect(function()
 		local text = box.Text
 		if text:match("^%s*$") then
 			return
 		end
-		sendEvent:FireServer(text)
+		sendEvent:FireServer(text, nameBox.Text)
 		closePanel()
 	end)
 
@@ -150,7 +179,7 @@ local function openPanel()
 	end)
 end
 
-local function showMessage(name, userId, message)
+local function showMessage(name, userId, message, anonymous)
 	currentToken += 1
 	local token = currentToken
 
@@ -181,7 +210,13 @@ local function showMessage(name, userId, message)
 	avatarCorner.CornerRadius = UDim.new(1, 0)
 	avatarCorner.Parent = avatar
 
+	local hasAvatar = userId > 0
+	avatar.Visible = hasAvatar
+
 	task.spawn(function()
+		if not hasAvatar then
+			return
+		end
 		local ok, content = pcall(function()
 			return Players:GetUserThumbnailAsync(userId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
 		end)
@@ -192,7 +227,7 @@ local function showMessage(name, userId, message)
 
 	local nameLabel = Instance.new("TextLabel")
 	nameLabel.AnchorPoint = Vector2.new(0.5, 0)
-	nameLabel.Position = UDim2.new(0.5, 0, 0, 110)
+	nameLabel.Position = UDim2.new(0.5, 0, 0, hasAvatar and 110 or 40)
 	nameLabel.Size = UDim2.fromOffset(300, 24)
 	nameLabel.BackgroundTransparency = 1
 	nameLabel.Font = Enum.Font.GothamBold
@@ -241,11 +276,15 @@ local function showMessage(name, userId, message)
 	end)
 end
 
-showEvent.OnClientEvent:Connect(function(name, userId, message)
+showEvent.OnClientEvent:Connect(function(name, userId, message, anonymous)
 	if typeof(name) ~= "string" or typeof(userId) ~= "number" or typeof(message) ~= "string" then
 		return
 	end
-	showMessage(name, userId, message)
+	showMessage(name, userId, message, anonymous == true)
+end)
+
+player:GetAttributeChangedSignal("ServerMessageOpenRequest"):Connect(function()
+	openPanel()
 end)
 
 player.Chatted:Connect(function(text)
