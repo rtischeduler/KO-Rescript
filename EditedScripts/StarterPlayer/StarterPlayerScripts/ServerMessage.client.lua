@@ -282,6 +282,10 @@ showEvent.OnClientEvent:Connect(function(name, userId, message, anonymous)
 	showMessage(name, userId, message, anonymous == true)
 end)
 
+player:GetAttributeChangedSignal("ServerMessageOpenRequest"):Connect(function()
+	openPanel()
+end)
+
 player.Chatted:Connect(function(text)
 	if not ALLOWED[string.lower(player.Name)] then
 		return

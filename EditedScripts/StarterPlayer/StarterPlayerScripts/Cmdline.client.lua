@@ -183,6 +183,7 @@ local function commandNames()
 	for name in string.gmatch(raw, "[^,]+") do
 		table.insert(list, name)
 	end
+	table.insert(list, "serverm")
 	table.sort(list)
 	return list
 end
@@ -276,9 +277,14 @@ local function submit(text)
 			table.remove(history, 1)
 		end
 	end
-	executeEvent:FireServer(text)
+	local first = string.lower(string.match(text, "^;?%s*(%S+)") or "")
 	box.Text = ""
 	closeBar()
+	if first == "serverm" then
+		player:SetAttribute("ServerMessageOpenRequest", os.clock())
+		return
+	end
+	executeEvent:FireServer(text)
 end
 
 box:GetPropertyChangedSignal("Text"):Connect(function()
