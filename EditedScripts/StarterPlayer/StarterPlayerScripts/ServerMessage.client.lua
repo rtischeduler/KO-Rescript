@@ -210,10 +210,11 @@ local function showMessage(name, userId, message, anonymous)
 	avatarCorner.CornerRadius = UDim.new(1, 0)
 	avatarCorner.Parent = avatar
 
-	avatar.Visible = not anonymous
+	local hasAvatar = userId > 0
+	avatar.Visible = hasAvatar
 
 	task.spawn(function()
-		if anonymous then
+		if not hasAvatar then
 			return
 		end
 		local ok, content = pcall(function()
@@ -226,7 +227,7 @@ local function showMessage(name, userId, message, anonymous)
 
 	local nameLabel = Instance.new("TextLabel")
 	nameLabel.AnchorPoint = Vector2.new(0.5, 0)
-	nameLabel.Position = UDim2.new(0.5, 0, 0, anonymous and 40 or 110)
+	nameLabel.Position = UDim2.new(0.5, 0, 0, hasAvatar and 110 or 40)
 	nameLabel.Size = UDim2.fromOffset(300, 24)
 	nameLabel.BackgroundTransparency = 1
 	nameLabel.Font = Enum.Font.GothamBold

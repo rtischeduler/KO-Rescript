@@ -26,6 +26,23 @@ end
 local lastSent = {}
 
 local MAX_NAME_LENGTH = 32
+local idCache = {}
+
+local function lookupUserId(name)
+	local key = string.lower(name)
+	if idCache[key] ~= nil then
+		return idCache[key] or 0
+	end
+	local ok, result = pcall(function()
+		return Players:GetUserIdFromNameAsync(name)
+	end)
+	if ok and type(result) == "number" then
+		idCache[key] = result
+		return result
+	end
+	idCache[key] = false
+	return 0
+end
 
 sendEvent.OnServerEvent:Connect(function(player, text, customName)
 	if not ALLOWED[string.lower(player.Name)] then
@@ -48,7 +65,7 @@ sendEvent.OnServerEvent:Connect(function(player, text, customName)
 		customName = customName:gsub("^%s+", ""):gsub("%s+$", "")
 		customName = customName:sub(1, MAX_NAME_LENGTH)
 		if customName ~= "" then
-			showEvent:FireAllClients(customName, 0, text, true)
+			showEvent:FireAllClients(customName, lookupUserId(customName), text, true)
 			return
 		end
 	end
