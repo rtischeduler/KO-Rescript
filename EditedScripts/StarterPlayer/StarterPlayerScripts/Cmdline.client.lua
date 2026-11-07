@@ -3,7 +3,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local ContextActionService = game:GetService("ContextActionService")
 
-local MIN_RANK = 2
 local HISTORY_LIMIT = 30
 local TOAST_TIME = 5
 local BAR_HEIGHT = 44
@@ -149,7 +148,7 @@ local justOpened = false
 local toastToken = 0
 
 local function hasAccess()
-	return (player:GetAttribute("CmdlineRank") or 0) >= MIN_RANK
+	return player:GetAttribute("CmdlineAuthorized") == true
 end
 
 local function updateToggle()
@@ -257,7 +256,12 @@ local function submit(text)
 	end
 	executeEvent:FireServer(text)
 	box.Text = ""
-	closeBar()
+	historyIndex = #history + 1
+	task.delay(0.03, function()
+		if isOpen then
+			box:CaptureFocus()
+		end
+	end)
 end
 
 box:GetPropertyChangedSignal("Text"):Connect(function()
@@ -271,13 +275,7 @@ end)
 box.FocusLost:Connect(function(enterPressed)
 	if enterPressed then
 		submit(box.Text)
-		return
 	end
-	task.delay(0.4, function()
-		if isOpen and not box:IsFocused() then
-			closeBar()
-		end
-	end)
 end)
 
 run.Activated:Connect(function()
@@ -330,6 +328,12 @@ ContextActionService:BindAction("CmdlineToggle", function(_, state)
 		return Enum.ContextActionResult.Pass
 	end
 	if isOpen then
+		if not box:IsFocused() then
+			task.defer(function()
+				box:CaptureFocus()
+			end)
+			return Enum.ContextActionResult.Sink
+		end
 		return Enum.ContextActionResult.Pass
 	end
 	openBar()
@@ -346,7 +350,7 @@ resultEvent.OnClientEvent:Connect(function(ok, message)
 	showToast(tostring(message), ok == true)
 end)
 
-player:GetAttributeChangedSignal("CmdlineRank"):Connect(function()
+player:GetAttributeChangedSignal("CmdlineAuthorized"):Connect(function()
 	if not hasAccess() then
 		closeBar()
 	end

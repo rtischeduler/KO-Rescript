@@ -2,18 +2,14 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
-local MIN_RANK = 2
 local MAX_LINE = 300
 local COOLDOWN = 0.15
 
-local STATIC_RANKS = {
-	[3882403525] = 4,
-	[4603347038] = 3,
-	[7797782638] = 3,
-	[459870224] = 3,
-	[11173548348] = 3,
-	[7467585725] = 3,
-	[-1] = 3,
+local ALLOWED = {
+	[string.lower("DenisTheCheeseKing")] = true,
+	[string.lower("L0tzie")] = true,
+	[string.lower("25X_ROCK")] = true,
+	[string.lower("DandyDandicusDancif")] = true,
 }
 
 local function ensure(parent, className, name)
@@ -34,27 +30,16 @@ local executeEvent = ensure(ReplicatedStorage, "RemoteEvent", "CmdlineExecute")
 local resultEvent = ensure(ReplicatedStorage, "RemoteEvent", "CmdlineResult")
 local executedEvent = ensure(ServerScriptService, "BindableEvent", "CmdlineExecuted")
 
-local function getRank(player)
-	local rank = STATIC_RANKS[player.UserId] or 0
-	local main = _G.HDAdminMain
-	if type(main) == "table" and type(main.pdata) == "table" then
-		local ok, value = pcall(function()
-			local data = main.pdata[player.UserId]
-			return data and data.Rank
-		end)
-		if ok and type(value) == "number" and value > rank then
-			rank = value
-		end
-	end
-	return rank
+local function isAuthorized(player)
+	return ALLOWED[string.lower(player.Name)] == true
 end
 
-local function refreshRank(player)
-	local rank = getRank(player)
-	if player:GetAttribute("CmdlineRank") ~= rank then
-		player:SetAttribute("CmdlineRank", rank)
+local function refreshAuth(player)
+	local authorized = isAuthorized(player)
+	if player:GetAttribute("CmdlineAuthorized") ~= authorized then
+		player:SetAttribute("CmdlineAuthorized", authorized)
 	end
-	return rank
+	return authorized
 end
 
 local function resolveTargets(speaker, token)
@@ -398,7 +383,6 @@ end
 define({
 	Name = "xp",
 	Aliases = {},
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local amount = tonumber(rest[1])
@@ -424,7 +408,6 @@ define({
 define({
 	Name = "boss",
 	Aliases = {},
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets)
 		return startBoss(targets[1])
@@ -434,7 +417,6 @@ define({
 define({
 	Name = "studioinsert",
 	Aliases = { "insertmodel", "loadmodel" },
-	Rank = 3,
 	Targets = false,
 	Run = function(speaker, targets, rest)
 		local InsertService = game:GetService("InsertService")
@@ -490,7 +472,6 @@ define({
 define({
 	Name = "health",
 	Aliases = { "sethealth", "kaijuhealth", "maxhealth", "setmaxhealth" },
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local amount = tonumber(rest[1])
@@ -526,7 +507,6 @@ define({
 define({
 	Name = "gcells",
 	Aliases = { "givegcells", "addgcells" },
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local amount = tonumber(rest[1])
@@ -558,7 +538,6 @@ define({
 define({
 	Name = "candy",
 	Aliases = { "givecandy", "addcandy", "removecandy" },
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local amount = tonumber(rest[1])
@@ -593,7 +572,6 @@ define({
 define({
 	Name = "givekaiju",
 	Aliases = { "addkaiju" },
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local kaijuName = table.concat(rest, " ")
@@ -622,7 +600,6 @@ define({
 define({
 	Name = "removekaiju",
 	Aliases = { "takekaiju", "revokekaiju" },
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local kaijuName = table.concat(rest, " ")
@@ -651,7 +628,6 @@ define({
 define({
 	Name = "raffle",
 	Aliases = {},
-	Rank = 3,
 	Targets = false,
 	Run = function()
 		local raffleEvent = ReplicatedStorage:FindFirstChild("RaffleEvent")
@@ -675,7 +651,6 @@ define({
 define({
 	Name = "playereliminator",
 	Aliases = { "eliminator", "battleroyale" },
-	Rank = 3,
 	Targets = false,
 	Run = function(speaker, targets, rest)
 		local arg = string.lower(tostring(rest[1] or ""))
@@ -700,7 +675,6 @@ define({
 define({
 	Name = "snap",
 	Aliases = { "snapfade", "disintegrate" },
-	Rank = 3,
 	Targets = true,
 	Run = function(speaker, targets)
 		local snapped = {}
@@ -719,7 +693,6 @@ define({
 define({
 	Name = "kaijusize",
 	Aliases = { "kaijuscale", "morphsize", "morphscale" },
-	Rank = 2,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local scale = tonumber(rest[1])
@@ -758,7 +731,6 @@ define({
 define({
 	Name = "changestat",
 	Aliases = { "kaijustat" },
-	Rank = 2,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local statName = rest[1]
@@ -773,7 +745,6 @@ define({
 define({
 	Name = "dmgstat",
 	Aliases = {},
-	Rank = 2,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local statName = rest[1]
@@ -791,7 +762,6 @@ define({
 define({
 	Name = "dmg1stat",
 	Aliases = {},
-	Rank = 2,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local value = tonumber(rest[1])
@@ -805,7 +775,6 @@ define({
 define({
 	Name = "dmg2stat",
 	Aliases = {},
-	Rank = 2,
 	Targets = true,
 	Run = function(speaker, targets, rest)
 		local value = tonumber(rest[1])
@@ -819,15 +788,11 @@ define({
 define({
 	Name = "help",
 	Aliases = { "cmds", "commands" },
-	Rank = 2,
 	Targets = false,
 	Run = function(speaker)
-		local rank = getRank(speaker)
 		local available = {}
 		for _, def in ipairs(commands) do
-			if rank >= def.Rank then
-				table.insert(available, def.Name)
-			end
+			table.insert(available, def.Name)
 		end
 		return true, table.concat(available, ", ")
 	end,
@@ -868,8 +833,7 @@ executeEvent.OnServerEvent:Connect(function(player, line)
 		return
 	end
 
-	local rank = refreshRank(player)
-	if rank < MIN_RANK then
+	if not refreshAuth(player) then
 		return
 	end
 
@@ -881,10 +845,6 @@ executeEvent.OnServerEvent:Connect(function(player, line)
 	local def = lookup[string.lower(tokens[1])]
 	if not def then
 		reply(player, false, "Unknown command: " .. tokens[1])
-		return
-	end
-	if rank < def.Rank then
-		reply(player, false, "You do not have permission to use " .. def.Name)
 		return
 	end
 
@@ -921,12 +881,12 @@ executeEvent.OnServerEvent:Connect(function(player, line)
 end)
 
 local function track(player)
-	refreshRank(player)
+	refreshAuth(player)
 	task.spawn(function()
 		while player.Parent == Players do
 			task.wait(5)
 			if player.Parent == Players then
-				refreshRank(player)
+				refreshAuth(player)
 			end
 		end
 	end)
