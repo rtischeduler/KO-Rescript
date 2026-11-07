@@ -25,7 +25,9 @@ end
 
 local lastSent = {}
 
-sendEvent.OnServerEvent:Connect(function(player, text)
+local MAX_NAME_LENGTH = 32
+
+sendEvent.OnServerEvent:Connect(function(player, text, customName)
 	if not ALLOWED[string.lower(player.Name)] then
 		return
 	end
@@ -42,7 +44,16 @@ sendEvent.OnServerEvent:Connect(function(player, text)
 	end
 	lastSent[player] = now
 
-	showEvent:FireAllClients(player.Name, player.UserId, text)
+	if typeof(customName) == "string" then
+		customName = customName:gsub("^%s+", ""):gsub("%s+$", "")
+		customName = customName:sub(1, MAX_NAME_LENGTH)
+		if customName ~= "" then
+			showEvent:FireAllClients(customName, 0, text, true)
+			return
+		end
+	end
+
+	showEvent:FireAllClients(player.Name, player.UserId, text, false)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
