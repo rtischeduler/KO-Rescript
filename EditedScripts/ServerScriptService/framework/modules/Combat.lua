@@ -971,6 +971,9 @@ local function initAttackHandler()
 		local duration = durationOverride or remote:GetAttribute("HitboxDuration") or 0.5
 		-- HitboxFollow: keep the hitbox glued to the attacker while they travel (lunges) so damage lands along the path.
 		local followHitbox = remote:GetAttribute("HitboxFollow") == true
+		local destroysBuildings = remote:GetAttribute("DestroyBuildings") == true
+		local buildingRadius = math.max(size.X, size.Z) / 2
+		local nextBuildingCheck = 0
 		local damage = getDamage(character, remote:GetAttribute("DamageStat") or "DMG1")
 
 		playAttackAnimation(character, getAnimName(remoteName))
@@ -1019,6 +1022,11 @@ local function initAttackHandler()
 			if not character.Parent or not hrp.Parent or not hitbox.Parent then break end
 			if followHitbox then
 				hitbox.CFrame = hrp.CFrame * offset
+			end
+			if destroysBuildings and _G.DestroyBuildingsInRadius and os.clock() >= nextBuildingCheck then
+				nextBuildingCheck = os.clock() + 0.1
+				_G.DestroyBuildingsInRadius(hitbox.Position, buildingRadius, player)
+				_G.DestroyBuildingsInRadius(hrp.Position, buildingRadius, player)
 			end
 			for _, part in ipairs(workspace:GetPartsInPart(hitbox, overlapParams)) do
 				local hitHumanoid, hitPlayer = getHumanoidAndPlayer(part)

@@ -16,6 +16,7 @@
     "attributes": {
       "HitboxOffsetZ": -10,
       "HitboxFollow": true,
+      "DestroyBuildings": true,
       "HitboxDuration": 1,
       "AttackDuration": 1,
       "CooldownDuration": 4,
