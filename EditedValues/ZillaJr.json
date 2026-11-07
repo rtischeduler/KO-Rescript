@@ -1,0 +1,14 @@
+[
+  {
+    "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack",
+    "attributes": { "HitboxOffsetZ": -10 }
+  },
+  {
+    "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2",
+    "attributes": { "HitboxOffsetZ": -10 }
+  },
+  {
+    "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3",
+    "attributes": { "HitboxOffsetZ": -10 }
+  }
+]
