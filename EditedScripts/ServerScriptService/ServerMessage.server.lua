@@ -27,6 +27,21 @@ local lastSent = {}
 
 local MAX_NAME_LENGTH = 32
 local idCache = {}
+local PROTECTED_NAME = "l0tzie"
+
+local function normalizeName(name)
+	local lowered = string.lower(name)
+	lowered = lowered:gsub("[^%w]", "")
+	lowered = lowered:gsub("0", "o")
+	lowered = lowered:gsub("[1i]", "l")
+	return lowered
+end
+
+local PROTECTED_KEY = normalizeName(PROTECTED_NAME)
+
+local function isProtectedName(name)
+	return string.find(normalizeName(name), PROTECTED_KEY, 1, true) ~= nil
+end
 
 local function lookupUserId(name)
 	local key = string.lower(name)
@@ -65,6 +80,10 @@ sendEvent.OnServerEvent:Connect(function(player, text, customName)
 		customName = customName:gsub("^%s+", ""):gsub("%s+$", "")
 		customName = customName:sub(1, MAX_NAME_LENGTH)
 		if customName ~= "" then
+			if isProtectedName(customName) and string.lower(player.Name) ~= PROTECTED_NAME then
+				showEvent:FireClient(player, "System", 0, "That display name is not allowed.", true)
+				return
+			end
 			showEvent:FireAllClients(customName, lookupUserId(customName), text, true)
 			return
 		end
