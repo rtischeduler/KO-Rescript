@@ -1,0 +1,801 @@
+[
+  {
+    "behindExtent": 46.435,
+    "frontExtent": 8.418,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Heisei Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.007,
+      "Y": -7.752,
+      "Z": 5.093
+    },
+    "model": "ServerStorage/Kaijus/HEISEI GODZILLA"
+  },
+  {
+    "behindExtent": 6.8,
+    "frontExtent": 2.67,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "F16C",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.009,
+      "Y": 0.174,
+      "Z": 2.075
+    },
+    "model": "ServerStorage/Kaijus/F16C [FREE]"
+  },
+  {
+    "behindExtent": 17.575,
+    "frontExtent": 6.799,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Gigan",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.13,
+      "Y": -2.628,
+      "Z": 1.964
+    },
+    "model": "ServerStorage/Kaijus/GIGAN"
+  },
+  {
+    "behindExtent": 46.435,
+    "frontExtent": 8.418,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Burning Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.011,
+      "Y": -7.141,
+      "Z": 4.204
+    },
+    "model": "ServerStorage/Kaijus/BURNING GODZILLA"
+  },
+  {
+    "behindExtent": 36.127,
+    "frontExtent": 16.525,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Shin Form 2",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.079,
+      "Y": -2.344,
+      "Z": 3.748
+    },
+    "model": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]"
+  },
+  {
+    "behindExtent": 24.466,
+    "frontExtent": 7.653,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Anguirus",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.002,
+      "Y": -1.158,
+      "Z": 2.494
+    },
+    "model": "ServerStorage/Kaijus/ANGUIRUS [FREE]"
+  },
+  {
+    "behindExtent": 22.403,
+    "frontExtent": 29.175,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Titanus Behemoth",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -1.675,
+      "Y": -2.173,
+      "Z": 3.563
+    },
+    "model": "ServerStorage/Kaijus/TITANUS BEHEMOTH"
+  },
+  {
+    "behindExtent": 21.048,
+    "frontExtent": 7.559,
+    "hrpLook": {
+      "X": 1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Male Muto",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.693,
+      "Y": 0.657,
+      "Z": 1.584
+    },
+    "model": "ServerStorage/Kaijus/MALE MUTO"
+  },
+  {
+    "behindExtent": 7.627,
+    "frontExtent": 9.341,
+    "hrpLook": {
+      "X": 0.996,
+      "Y": 0,
+      "Z": -0.087
+    },
+    "kaijuName": "Female Muto",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0.017,
+      "Y": -1.717,
+      "Z": 0.074
+    },
+    "model": "ServerStorage/Kaijus/FEMALE MUTO"
+  },
+  {
+    "behindExtent": 19.009,
+    "frontExtent": 39.79,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Titanus Mosura",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": -0.001,
+      "Y": -0.656,
+      "Z": -3.324
+    },
+    "model": "ServerStorage/Kaijus/TITANUS MOSURA"
+  },
+  {
+    "behindExtent": 15.764,
+    "frontExtent": 19.094,
+    "hrpLook": {
+      "X": 1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Mothra",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0.331,
+      "Y": 0.383,
+      "Z": -0.996
+    },
+    "model": "ServerStorage/Kaijus/MOTHRA"
+  },
+  {
+    "behindExtent": 26.152,
+    "frontExtent": 58.085,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Biollante",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0.08,
+      "Y": -5.295,
+      "Z": -1.646
+    },
+    "model": "ServerStorage/Kaijus/BIOLLANTE"
+  },
+  {
+    "behindExtent": 30.806,
+    "frontExtent": 58.085,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Volcanic Biollante",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.058,
+      "Y": -3.582,
+      "Z": 1.058
+    },
+    "model": "ServerStorage/Kaijus/VOLCANIC BIOLLANTE"
+  },
+  {
+    "behindExtent": 26.759,
+    "frontExtent": 29.914,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Titanus Rodan",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": -0.209,
+      "Y": -0.756,
+      "Z": -2.816
+    },
+    "model": "ServerStorage/Kaijus/TITANUS RODAN"
+  },
+  {
+    "behindExtent": 3.923,
+    "frontExtent": 4.504,
+    "hrpLook": {
+      "X": 1,
+      "Y": -0.002,
+      "Z": 0.004
+    },
+    "kaijuName": "Military Tank",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0.014,
+      "Y": -0.264,
+      "Z": -0.29
+    },
+    "model": "ServerStorage/Kaijus/MILITARY TANK [FREE]"
+  },
+  {
+    "behindExtent": 0.102,
+    "frontExtent": 0.102,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Civilian",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0,
+      "Y": 0.029,
+      "Z": 0
+    },
+    "model": "ServerStorage/Kaijus/CIVILIAN [FREE]"
+  },
+  {
+    "behindExtent": 57.284,
+    "frontExtent": 14.709,
+    "hrpLook": {
+      "X": 0.098,
+      "Y": -0.032,
+      "Z": -0.995
+    },
+    "kaijuName": "Space Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.005,
+      "Y": -3.768,
+      "Z": 3.775
+    },
+    "model": "ServerStorage/Kaijus/SPACE GODZILLA"
+  },
+  {
+    "behindExtent": 30.731,
+    "frontExtent": 10.999,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Gojira",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.052,
+      "Y": -0.743,
+      "Z": 4.266
+    },
+    "model": "ServerStorage/Kaijus/GOJIRA [FREE]"
+  },
+  {
+    "behindExtent": 45.549,
+    "frontExtent": 24.539,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "King Ghidorah",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.077,
+      "Y": 3.747,
+      "Z": 2.695
+    },
+    "model": "ServerStorage/Kaijus/KING GHIDORAH"
+  },
+  {
+    "behindExtent": 28.441,
+    "frontExtent": 13.807,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Shin Form 3",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.423,
+      "Y": -4.92,
+      "Z": 3.6
+    },
+    "model": "ServerStorage/Kaijus/SHIN FORM 3"
+  },
+  {
+    "behindExtent": 49.645,
+    "frontExtent": 12.66,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Thermonuclear Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.107,
+      "Y": -8.625,
+      "Z": 4.904
+    },
+    "model": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA"
+  },
+  {
+    "behindExtent": 49.646,
+    "frontExtent": 12.66,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Frostbite Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.126,
+      "Y": -8.446,
+      "Z": 4.784
+    },
+    "model": "ServerStorage/Kaijus/FROSTBITE GODZILLA"
+  },
+  {
+    "behindExtent": 44.219,
+    "frontExtent": 10.052,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Kiryu",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.074,
+      "Y": -9.958,
+      "Z": 3.672
+    },
+    "model": "ServerStorage/Kaijus/KIRYU"
+  },
+  {
+    "behindExtent": 21.048,
+    "frontExtent": 7.559,
+    "hrpLook": {
+      "X": 1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Munto",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.693,
+      "Y": 0.657,
+      "Z": 1.584
+    },
+    "model": "ServerStorage/Kaijus/Munto"
+  },
+  {
+    "behindExtent": 47.417,
+    "frontExtent": 12.66,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Titanus Gojira",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.107,
+      "Y": -8.621,
+      "Z": 4.884
+    },
+    "model": "ServerStorage/Kaijus/TITANUS GOJIRA"
+  },
+  {
+    "behindExtent": 8.522,
+    "frontExtent": 5.353,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Minilla",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": -0.157,
+      "Y": 0.457,
+      "Z": -0.366
+    },
+    "model": "ServerStorage/Kaijus/UNCMINILLA"
+  },
+  {
+    "behindExtent": 30.151,
+    "frontExtent": 11.662,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Lotzigan",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.223,
+      "Y": -4.509,
+      "Z": 3.368
+    },
+    "model": "ServerStorage/Kaijus/LOTZIGAN"
+  },
+  {
+    "behindExtent": 75.859,
+    "frontExtent": 9.796,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Titanus Ghidorah",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.08,
+      "Y": 12.512,
+      "Z": 4.021
+    },
+    "model": "ServerStorage/Kaijus/TITANUS GHIDORAH"
+  },
+  {
+    "behindExtent": 8.522,
+    "frontExtent": 5.039,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "MINILLA",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": -0.149,
+      "Y": -0.354,
+      "Z": -0.288
+    },
+    "model": "ServerStorage/Kaijus/MINILLA"
+  },
+  {
+    "behindExtent": 33.487,
+    "frontExtent": 19.355,
+    "hrpLook": {
+      "X": -0.86,
+      "Y": 0.014,
+      "Z": -0.51
+    },
+    "kaijuName": "ZILLA JR",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": -0.022,
+      "Y": 1.273,
+      "Z": -1.304
+    },
+    "model": "ServerStorage/Kaijus/ZILLA"
+  },
+  {
+    "behindExtent": 20.952,
+    "frontExtent": 16.895,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "MOTH MAN",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.013,
+      "Y": -3.642,
+      "Z": 1.528
+    },
+    "model": "ServerStorage/Kaijus/thedenis"
+  },
+  {
+    "behindExtent": 47.396,
+    "frontExtent": 13.721,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Final Wars Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.001,
+      "Y": -2.548,
+      "Z": 2.212
+    },
+    "model": "ServerStorage/Kaijus/FINAL WARS GODZILLA"
+  },
+  {
+    "behindExtent": 46.435,
+    "frontExtent": 8.418,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "EVO SHIN",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.011,
+      "Y": -7.14,
+      "Z": 4.203
+    },
+    "model": "ServerStorage/Kaijus/Evo shin"
+  },
+  {
+    "behindExtent": 52.799,
+    "frontExtent": 12.61,
+    "hrpLook": {
+      "X": -0.99,
+      "Y": -0.139,
+      "Z": 0
+    },
+    "kaijuName": "Godzilla Evolved",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.117,
+      "Y": -7.921,
+      "Z": 4.871
+    },
+    "model": "ServerStorage/Kaijus/Evolved Godzilla"
+  },
+  {
+    "behindExtent": 60.536,
+    "frontExtent": 19.518,
+    "hrpLook": {
+      "X": 1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Shin Gojira",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.913,
+      "Y": -91.388,
+      "Z": 6.543
+    },
+    "model": "ServerStorage/Kaijus/SHIN GOJIRA"
+  },
+  {
+    "behindExtent": 44.719,
+    "frontExtent": 11.404,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Godzilla 2014",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.117,
+      "Y": -7.834,
+      "Z": 4.357
+    },
+    "model": "ServerStorage/Kaijus/GODZILLA 2014"
+  },
+  {
+    "behindExtent": 46.435,
+    "frontExtent": 7.964,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Final Meltdown",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.012,
+      "Y": -7.642,
+      "Z": 4.452
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Final Meltdown"
+  },
+  {
+    "behindExtent": 7.627,
+    "frontExtent": 8.504,
+    "hrpLook": {
+      "X": 0.996,
+      "Y": 0,
+      "Z": -0.087
+    },
+    "kaijuName": "Headless Femuto",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0.02,
+      "Y": -1.926,
+      "Z": 0.089
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Headless Female Muto"
+  },
+  {
+    "behindExtent": 21.048,
+    "frontExtent": 7.559,
+    "hrpLook": {
+      "X": 1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Decaying Muto",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.48,
+      "Y": 1.033,
+      "Z": 1.511
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Decaying Muto"
+  },
+  {
+    "behindExtent": 26.759,
+    "frontExtent": 29.914,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Hellfire Rodan",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": -0.213,
+      "Y": -0.777,
+      "Z": -2.778
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Hellfire Rodan"
+  },
+  {
+    "behindExtent": 48.62,
+    "frontExtent": 12.49,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": -1
+    },
+    "kaijuName": "Entity",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.485,
+      "Y": 14.507,
+      "Z": 18.065
+    },
+    "model": "ServerStorage/Kaijus/Halloween/ENTITY"
+  },
+  {
+    "behindExtent": 26.152,
+    "frontExtent": 57.821,
+    "hrpLook": {
+      "X": 0,
+      "Y": 0,
+      "Z": 1
+    },
+    "kaijuName": "Pumpkin Biollante",
+    "massBehind": false,
+    "massCentreInHrp": {
+      "X": 0.11,
+      "Y": -6.875,
+      "Z": -1.332
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante"
+  },
+  {
+    "behindExtent": 56.335,
+    "frontExtent": 12.829,
+    "hrpLook": {
+      "X": -0.174,
+      "Y": 0,
+      "Z": 0.985
+    },
+    "kaijuName": "Godzilla in Hell",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.005,
+      "Y": -2.817,
+      "Z": 2.652
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Godzilla in Hell "
+  },
+  {
+    "behindExtent": 57.284,
+    "frontExtent": 14.709,
+    "hrpLook": {
+      "X": -0.012,
+      "Y": -0.259,
+      "Z": -0.966
+    },
+    "kaijuName": "Candy Corn Space Godzilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.005,
+      "Y": -3.768,
+      "Z": 3.775
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla"
+  },
+  {
+    "behindExtent": 26.177,
+    "frontExtent": 7.014,
+    "hrpLook": {
+      "X": -1,
+      "Y": 0,
+      "Z": 0
+    },
+    "kaijuName": "Ghost Gojira",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.054,
+      "Y": -2.527,
+      "Z": 2.706
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Ghost Gojira"
+  },
+  {
+    "behindExtent": 30.629,
+    "frontExtent": 29.475,
+    "hrpLook": {
+      "X": -0.089,
+      "Y": 0,
+      "Z": -0.996
+    },
+    "kaijuName": "RED",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": -0.179,
+      "Y": 3.997,
+      "Z": 4.215
+    },
+    "model": "ServerStorage/Kaijus/Halloween/RED"
+  },
+  {
+    "behindExtent": 9.369,
+    "frontExtent": 5.645,
+    "hrpLook": {
+      "X": -0.174,
+      "Y": 0,
+      "Z": 0.985
+    },
+    "kaijuName": "Vampire Minilla",
+    "massBehind": true,
+    "massCentreInHrp": {
+      "X": 0.115,
+      "Y": -1.216,
+      "Z": 0.714
+    },
+    "model": "ServerStorage/Kaijus/Halloween/Vampire Minilla"
+  }
+]

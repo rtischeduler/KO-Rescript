@@ -1,0 +1,373 @@
+[
+  {
+    "allPartsBoundsCenterInHrpSpace": {
+      "X": -0.061,
+      "Y": -0.491,
+      "Z": 7.066
+    },
+    "allPartsBoundsInHrpSpace": {
+      "max": {
+        "X": 5.735,
+        "Y": 10.954,
+        "Z": 33.487
+      },
+      "min": {
+        "X": -5.857,
+        "Y": -11.936,
+        "Z": -19.355
+      },
+      "size": {
+        "X": 11.591,
+        "Y": 22.89,
+        "Z": 52.842
+      }
+    },
+    "biggestVisibleParts": [
+      {
+        "anchored": false,
+        "canCollide": false,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": -0.054,
+          "Y": 2.841,
+          "Z": -2.684
+        },
+        "massless": false,
+        "path": "C1/Union",
+        "size": {
+          "X": 6.882,
+          "Y": 5.316,
+          "Z": 13.853
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": false,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": -0.03,
+          "Y": 1.176,
+          "Z": -3.99
+        },
+        "massless": false,
+        "path": "C1/Union",
+        "size": {
+          "X": 7.071,
+          "Y": 5.731,
+          "Z": 12.408
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": true,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": 0.087,
+          "Y": 0.919,
+          "Z": 1.706
+        },
+        "massless": false,
+        "path": "Torso/Model/Union",
+        "size": {
+          "X": 6.24,
+          "Y": 6.602,
+          "Z": 9.414
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": false,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": 2.214,
+          "Y": -2.086,
+          "Z": -0.412
+        },
+        "massless": false,
+        "path": "RL/Union",
+        "size": {
+          "X": 4.949,
+          "Y": 11.015,
+          "Z": 6.665
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": false,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": -2.192,
+          "Y": -2.231,
+          "Z": -0.222
+        },
+        "massless": false,
+        "path": "LL/Union",
+        "size": {
+          "X": 4.949,
+          "Y": 11.015,
+          "Z": 6.665
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": false,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": 0.134,
+          "Y": 2.064,
+          "Z": -7.245
+        },
+        "massless": false,
+        "path": "C2/Union",
+        "size": {
+          "X": 6.019,
+          "Y": 6.643,
+          "Z": 7.899
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": true,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": 0.101,
+          "Y": 2.329,
+          "Z": 1.857
+        },
+        "massless": false,
+        "path": "Torso/Model/Union",
+        "size": {
+          "X": 6.344,
+          "Y": 4.812,
+          "Z": 9.529
+        },
+        "transparency": 0
+      },
+      {
+        "anchored": false,
+        "canCollide": true,
+        "canQuery": true,
+        "canTouch": true,
+        "class": "UnionOperation",
+        "localPos": {
+          "X": -0.054,
+          "Y": 1.533,
+          "Z": 1.679
+        },
+        "massless": false,
+        "path": "Torso",
+        "size": {
+          "X": 4.678,
+          "Y": 6.174,
+          "Z": 9.862
+        },
+        "transparency": 0
+      }
+    ],
+    "bodyExtentBehindHrp": 33.487,
+    "bodyExtentFrontOfHrp": 19.355,
+    "bodyMassIsBehindHrp": false,
+    "className": "Model",
+    "hitboxAttributeInstances": [
+      {
+        "attributes": {
+          "DamageStat": "DMG3",
+          "HitboxDuration": 5,
+          "HitboxOffsetX": 0,
+          "HitboxOffsetY": 0,
+          "HitboxOffsetZ": 10,
+          "HitboxSizeX": 16,
+          "HitboxSizeY": 12,
+          "HitboxSizeZ": 16,
+          "TravelDistance": "4500",
+          "TravelDuration": "2.45",
+          "TravelSpeed": "45"
+        },
+        "class": "RemoteEvent",
+        "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3"
+      },
+      {
+        "attributes": {
+          "DamageStat": "DMG2",
+          "HitboxDuration": 0.5,
+          "HitboxOffsetX": 0,
+          "HitboxOffsetY": 0,
+          "HitboxOffsetZ": 10,
+          "HitboxSizeX": 8,
+          "HitboxSizeY": 16,
+          "HitboxSizeZ": 8,
+          "TravelDistance": "12",
+          "TravelDuration": "0.045",
+          "TravelSpeed": "12"
+        },
+        "class": "RemoteEvent",
+        "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2"
+      },
+      {
+        "attributes": {
+          "DamageStat": "DMG4",
+          "HitboxOffsetX": 0,
+          "HitboxOffsetY": 0,
+          "HitboxOffsetZ": 0
+        },
+        "class": "RemoteEvent",
+        "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack4"
+      },
+      {
+        "attributes": {
+          "DamageStat": "DMG1",
+          "HitboxDuration": 1,
+          "HitboxOffsetX": 0,
+          "HitboxOffsetY": 0,
+          "HitboxOffsetZ": 10,
+          "HitboxSizeX": 8,
+          "HitboxSizeY": 16,
+          "HitboxSizeZ": 8,
+          "TravelDistance": "24",
+          "TravelDuration": "0.045",
+          "TravelSpeed": "12"
+        },
+        "class": "RemoteEvent",
+        "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack"
+      }
+    ],
+    "hitboxLikeParts": {},
+    "hrp": {
+      "anchored": false,
+      "canCollide": false,
+      "lookVector": {
+        "X": -0.86,
+        "Y": 0.014,
+        "Z": -0.51
+      },
+      "path": "ServerStorage/Kaijus/ZILLA/HumanoidRootPart",
+      "position": {
+        "X": -52.326,
+        "Y": 898.699,
+        "Z": -430.111
+      },
+      "rightVector": {
+        "X": 0.51,
+        "Y": 0.02,
+        "Z": -0.86
+      },
+      "size": {
+        "X": 6.358,
+        "Y": 6.676,
+        "Z": 6.994
+      },
+      "upVector": {
+        "X": 0.002,
+        "Y": 1,
+        "Z": 0.024
+      }
+    },
+    "meleeHitboxPredictions": [
+      {
+        "note": "Hitbox centre = HumanoidRootPart.CFrame * CFrame.new(offset). Negative Z is the direction the HRP faces.",
+        "offsetInHrpSpace": {
+          "X": 0,
+          "Y": 0,
+          "Z": 10
+        },
+        "remote": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3",
+        "sizeStuds": {
+          "X": 16,
+          "Y": 12,
+          "Z": 16
+        },
+        "usesDefaults": false
+      },
+      {
+        "note": "Hitbox centre = HumanoidRootPart.CFrame * CFrame.new(offset). Negative Z is the direction the HRP faces.",
+        "offsetInHrpSpace": {
+          "X": 0,
+          "Y": 0,
+          "Z": 10
+        },
+        "remote": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2",
+        "sizeStuds": {
+          "X": 8,
+          "Y": 16,
+          "Z": 8
+        },
+        "usesDefaults": false
+      },
+      {
+        "note": "Hitbox centre = HumanoidRootPart.CFrame * CFrame.new(offset). Negative Z is the direction the HRP faces.",
+        "offsetInHrpSpace": {
+          "X": 0,
+          "Y": 0,
+          "Z": 0
+        },
+        "remote": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack4",
+        "sizeStuds": {
+          "X": 15,
+          "Y": 15,
+          "Z": 15
+        },
+        "usesDefaults": false
+      },
+      {
+        "note": "Hitbox centre = HumanoidRootPart.CFrame * CFrame.new(offset). Negative Z is the direction the HRP faces.",
+        "offsetInHrpSpace": {
+          "X": 0,
+          "Y": 0,
+          "Z": 10
+        },
+        "remote": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack",
+        "sizeStuds": {
+          "X": 8,
+          "Y": 16,
+          "Z": 8
+        },
+        "usesDefaults": false
+      }
+    ],
+    "path": "ServerStorage/Kaijus/ZILLA",
+    "primaryPart": "ServerStorage/Kaijus/ZILLA/HumanoidRootPart",
+    "visibleBoundsInHrpSpace": {
+      "max": {
+        "X": 5.735,
+        "Y": 10.954,
+        "Z": 33.487
+      },
+      "min": {
+        "X": -5.857,
+        "Y": -11.936,
+        "Z": -19.355
+      },
+      "size": {
+        "X": 11.591,
+        "Y": 22.89,
+        "Z": 52.842
+      }
+    },
+    "visibleCenterOfMassInHrpSpace": {
+      "X": -0.022,
+      "Y": 1.273,
+      "Z": -1.304
+    },
+    "visiblePartCount": 181
+  }
+]

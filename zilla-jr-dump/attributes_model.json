@@ -1,0 +1,129 @@
+{
+  "ServerStorage/Kaijus/ZILLA": {
+    "KaijuDescription": "This Zilla was the offspring of the original Zilla and was the only offspring to survive the destruction of Madison Garden after the 1998 movie. It matured into an adult and showed that it was even stronger than its mother.",
+    "KaijuImage": "rbxassetid://136667775015228",
+    "KaijuName": "ZILLA JR"
+  },
+  "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack": {
+    "AttackDuration": 1,
+    "AttackImage": "",
+    "AttackName": "Swipe Assault",
+    "AttackType": "Melee",
+    "Charge": 5,
+    "CooldownDuration": 1,
+    "DamageStat": "DMG1",
+    "HitboxDuration": 1,
+    "HitboxOffsetX": 0,
+    "HitboxOffsetY": 0,
+    "HitboxOffsetZ": 10,
+    "HitboxSizeX": 8,
+    "HitboxSizeY": 16,
+    "HitboxSizeZ": 8,
+    "KnockbackDistance": "24",
+    "KnockbackDuration": "0.25",
+    "KnockbackSpeed": "30",
+    "TravelDistance": "24",
+    "TravelDuration": "0.045",
+    "TravelSpeed": "12"
+  },
+  "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2": {
+    "AttackDuration": 1,
+    "AttackImage": "",
+    "AttackName": "Bite",
+    "AttackType": "Melee",
+    "Charge": 10,
+    "CooldownDuration": 1,
+    "DamageStat": "DMG2",
+    "HitboxDuration": 0.5,
+    "HitboxOffsetX": 0,
+    "HitboxOffsetY": 0,
+    "HitboxOffsetZ": 10,
+    "HitboxSizeX": 8,
+    "HitboxSizeY": 16,
+    "HitboxSizeZ": 8,
+    "KnockbackDistance": "12",
+    "KnockbackDuration": "0.25",
+    "KnockbackSpeed": "15",
+    "TravelDistance": "12",
+    "TravelDuration": "0.045",
+    "TravelSpeed": "12"
+  },
+  "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3": {
+    "AttackDuration": 6,
+    "AttackImage": "",
+    "AttackName": "Atrocious Invasion",
+    "AttackType": "Melee",
+    "Charge": 10,
+    "CooldownDuration": 35,
+    "DamageStat": "DMG3",
+    "HitboxDuration": 5,
+    "HitboxOffsetX": 0,
+    "HitboxOffsetY": 0,
+    "HitboxOffsetZ": 10,
+    "HitboxSizeX": 16,
+    "HitboxSizeY": 12,
+    "HitboxSizeZ": 16,
+    "KnockbackDistance": "250",
+    "KnockbackDuration": "1.25",
+    "KnockbackSpeed": "30",
+    "TravelDistance": "4500",
+    "TravelDuration": "2.45",
+    "TravelSpeed": "45"
+  },
+  "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack4": {
+    "AttackDuration": 9.13,
+    "AttackImage": "",
+    "AttackName": "Beam",
+    "AttackType": "Beam",
+    "BeamChargeTime": 3.15,
+    "BeamDuration": 6,
+    "Charge": 30,
+    "CooldownDuration": 30,
+    "DamageStat": "DMG4",
+    "GlowColor": {
+      "B": 0,
+      "G": 1,
+      "R": 0.3490196168422699
+    },
+    "HitboxOffsetX": 0,
+    "HitboxOffsetY": 0,
+    "HitboxOffsetZ": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/CharacterScripts/Roar1": {
+    "AttackDuration": 3,
+    "AttackImage": "",
+    "AttackName": "Raging Roar",
+    "AttackType": "Roar",
+    "Charge": 0,
+    "CooldownDuration": 10
+  },
+  "ServerStorage/Kaijus/ZILLA/Fakehead/BeamEnd/Pulse": {
+    "EmitCount": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes": {
+    "BeamGlow": true,
+    "GlowColor": {
+      "B": 0,
+      "G": 1,
+      "R": 0.34902000427246094
+    }
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes/Spikes1/Pulse": {
+    "EmitCount": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes/Spikes2/Pulse": {
+    "EmitCount": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes/Spikes3/Pulse": {
+    "EmitCount": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes/Spikes4/Pulse": {
+    "EmitCount": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes/Spikes5/Pulse": {
+    "EmitCount": 0
+  },
+  "ServerStorage/Kaijus/ZILLA/Spikes/Spikes6/Pulse": {
+    "EmitCount": 0
+  }
+}

@@ -1,0 +1,5520 @@
+{
+  "allHitboxAttributeKeys": {
+    "HitboxDuration": {
+      "count": 115,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": 0.5
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam",
+          "value": 4.7
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": 0.5
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": 0.5
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": 0.5
+        }
+      ]
+    },
+    "HitboxOffsetX": {
+      "count": 157,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": 0
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": 0
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
+          "value": 0
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": 0
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": 0
+        }
+      ]
+    },
+    "HitboxOffsetY": {
+      "count": 157,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": 0
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": 0
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
+          "value": 0
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": 0
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": 0
+        }
+      ]
+    },
+    "HitboxOffsetZ": {
+      "count": 157,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": -10
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": -10
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
+          "value": -10
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": -10
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": -30
+        }
+      ]
+    },
+    "HitboxSizeX": {
+      "count": 124,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": 15
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": 15
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
+          "value": 20
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": 20
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": 15
+        }
+      ]
+    },
+    "HitboxSizeY": {
+      "count": 124,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": 15
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": 15
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
+          "value": 20
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": 20
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": 15
+        }
+      ]
+    },
+    "HitboxSizeZ": {
+      "count": 124,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
+          "value": 15
+        },
+        {
+          "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack",
+          "value": 15
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
+          "value": 20
+        },
+        {
+          "path": "ReplicatedStorage/MINILLA/CharacterScripts/Attack",
+          "value": 20
+        },
+        {
+          "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
+          "value": 30
+        }
+      ]
+    },
+    "KaijuDescription": {
+      "count": 52,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/MINILLA",
+          "value": "The Son of Godzilla"
+        },
+        {
+          "path": "ServerStorage/REDBOSS",
+          "value": "RUN..."
+        },
+        {
+          "path": "ServerStorage/TITANUS GHIDORAH",
+          "value": "The One Who Is Many..."
+        },
+        {
+          "path": "Lighting/Peak /GODZILLA 2014",
+          "value": "Saviour of San Francisco."
+        },
+        {
+          "path": "Lighting/KaijusUnused/Godzilla in Hell ",
+          "value": "Banished to the deepest pits of Hell."
+        }
+      ]
+    },
+    "KaijuImage": {
+      "count": 52,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/MINILLA",
+          "value": "rbxassetid://119247707195998"
+        },
+        {
+          "path": "ServerStorage/REDBOSS",
+          "value": "rbxassetid://85904763604854"
+        },
+        {
+          "path": "ServerStorage/TITANUS GHIDORAH",
+          "value": "http://www.roblox.com/asset/?id=3695320574"
+        },
+        {
+          "path": "Lighting/Peak /GODZILLA 2014",
+          "value": "rbxassetid://3608592733"
+        },
+        {
+          "path": "Lighting/KaijusUnused/Godzilla in Hell ",
+          "value": "rbxassetid://3577881791"
+        }
+      ]
+    },
+    "KaijuName": {
+      "count": 52,
+      "samples": [
+        {
+          "path": "ReplicatedStorage/MINILLA",
+          "value": "MINILLA"
+        },
+        {
+          "path": "ServerStorage/REDBOSS",
+          "value": "RED"
+        },
+        {
+          "path": "ServerStorage/TITANUS GHIDORAH",
+          "value": "Titanus Ghidorah"
+        },
+        {
+          "path": "Lighting/Peak /GODZILLA 2014",
+          "value": "Godzilla 2014"
+        },
+        {
+          "path": "Lighting/KaijusUnused/Godzilla in Hell ",
+          "value": "Godzilla in Hell"
+        }
+      ]
+    }
+  },
+  "ancestors": {
+    "ServerStorage": {},
+    "ServerStorage/Kaijus": {}
+  },
+  "relatedInstances": [
+    {
+      "class": "ObjectValue",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr"
+    },
+    {
+      "class": "KeyframeSequence",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam",
+      "tags": [
+        "1793487116"
+      ]
+    },
+    {
+      "class": "KeyframeSequence",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip",
+      "tags": [
+        "1793498889"
+      ]
+    },
+    {
+      "class": "KeyframeSequence",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save",
+      "tags": [
+        "1793498348"
+      ]
+    },
+    {
+      "class": "KeyframeSequence",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall",
+      "tags": [
+        "1793497104"
+      ]
+    },
+    {
+      "class": "KeyframeSequence",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3",
+      "tags": [
+        "1793496399"
+      ]
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Keyframe",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Stand Tall/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Throat2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/Thraor3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T10"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T12"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T14"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T12"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T10"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Throat1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4/T5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6/T7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2/T3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4/T5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6/T7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2/T3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T12/T13"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T10/T11"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/RL/RLL/RAnk/RF/T8/T9"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T4/T5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T6/T7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/LL/LLL/LAnk/LF/T2/T3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Attack3/Keyframe/HumanoidRootPart/Torso/C1/C2/N1/N2/Head/Jaw"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F14"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F12"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F17"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F20"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F9"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Untitled Animation Clip/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/Tai1/Tai2/Tai3/Tai4/Tai5/Tai6/Tai7/Tai8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F20"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F14"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F17"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F12"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F3"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F9"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F6"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F1"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F14/F15"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F12/F13"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F17/F18"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F20/F21"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F9/F10"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F6/F7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F3/F4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F1/F2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F20/F21"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F14/F15"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F17/F18"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F12/F13"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F3/F4"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F9/F10"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F6/F7"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F1/F2"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F14/F15/F16"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F17/F18/F19"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F20/F21/F22"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F9/F10/F11"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F6/F7/F8"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Beam/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F3/F4/F5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F20/F21/F22"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F14/F15/F16"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/RS/RA/RLA/RH/F17/F18/F19"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F3/F4/F5"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F9/F10/F11"
+    },
+    {
+      "class": "Pose",
+      "path": "ServerStorage/RBX_ANIMSAVES/zilla jr/Automatic Save/Keyframe/HumanoidRootPart/Torso/C1/C2/Shoulders/LS/LA/LLA/LH/F6/F7/F8"
+    }
+  ],
+  "services": {
+    "Lighting": {
+      "RBX_BackupBrightness": 1.5,
+      "RBX_BackupExposureCompensation": 0,
+      "RBX_LightingCompatibilityMigrated": true,
+      "RBX_LightingTechnologyUnifiedMigration": true,
+      "RBX_OriginalTechnologyOnFileLoad": 1
+    }
+  }
+}
