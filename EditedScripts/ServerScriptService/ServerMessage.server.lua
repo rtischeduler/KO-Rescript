@@ -1,6 +1,5 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TextService = game:GetService("TextService")
 
 local ALLOWED = "L0tzie"
 local MAX_LENGTH = 200
@@ -38,15 +37,7 @@ sendEvent.OnServerEvent:Connect(function(player, text)
 	end
 	lastSent[player] = now
 
-	local ok, result = pcall(function()
-		local filtered = TextService:FilterStringAsync(text, player.UserId)
-		return filtered:GetNonChatStringForBroadcastAsync()
-	end)
-	if not ok or typeof(result) ~= "string" then
-		return
-	end
-
-	showEvent:FireAllClients(player.Name, player.UserId, result)
+	showEvent:FireAllClients(player.Name, player.UserId, text)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
