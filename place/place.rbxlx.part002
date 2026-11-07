@@ -1404770,7 +1404770,7 @@ end</string>
             <Item class="RemoteEvent" referent="132685">
               <Properties>
                 <string name="Name">Attack</string>
-                <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCCgAAAFRhaWwgU3dpcGUKAAAAQXR0YWNrVHlwZQIFAAAATWVsZWUGAAAAQ2hhcmdlBgAAAAAAACRAEAAAAENvb2xkb3duRHVyYXRpb24GAAAAAAAAAEAKAAAARGFtYWdlU3RhdAIEAAAARE1HMQ4AAABIaXRib3hEdXJhdGlvbgYAAAAAAADgPw0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAkwAsAAABIaXRib3hTaXplWAYAAAAAAAAgQAsAAABIaXRib3hTaXplWQYAAAAAAAAYQAsAAABIaXRib3hTaXplWgYAAAAAAAAgQBEAAABLbm9ja2JhY2tEaXN0YW5jZQIAAAAAEQAAAEtub2NrYmFja0R1cmF0aW9uAgAAAAAOAAAAS25vY2tiYWNrU3BlZWQCAAAAAA4AAABUcmF2ZWxEaXN0YW5jZQIAAAAADgAAAFRyYXZlbER1cmF0aW9uAgAAAAALAAAAVHJhdmVsU3BlZWQCAAAAAA==</BinaryString>
+                <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCCgAAAFRhaWwgU3dpcGUKAAAAQXR0YWNrVHlwZQIFAAAATWVsZWUGAAAAQ2hhcmdlBgAAAAAAAC5AEAAAAENvb2xkb3duRHVyYXRpb24GAAAAAAAAAEAKAAAARGFtYWdlU3RhdAIEAAAARE1HMQ4AAABIaXRib3hEdXJhdGlvbgYAAAAAAADgPw0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAkwAsAAABIaXRib3hTaXplWAYAAAAAAAAgQAsAAABIaXRib3hTaXplWQYAAAAAAAAYQAsAAABIaXRib3hTaXplWgYAAAAAAAAgQBEAAABLbm9ja2JhY2tEaXN0YW5jZQIAAAAAEQAAAEtub2NrYmFja0R1cmF0aW9uAgAAAAAOAAAAS25vY2tiYWNrU3BlZWQCAAAAAA4AAABUcmF2ZWxEaXN0YW5jZQIAAAAADgAAAFRyYXZlbER1cmF0aW9uAgAAAAALAAAAVHJhdmVsU3BlZWQCAAAAAA==</BinaryString>
                 <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
                 <UniqueId name="HistoryId">0000000000000000000000000000e9be</UniqueId>
                 <bool name="DefinesCapabilities">false</bool>
@@ -1404784,7 +1404784,7 @@ end</string>
             <Item class="RemoteEvent" referent="132686">
               <Properties>
                 <string name="Name">Beam</string>
-                <BinaryString name="AttributesSerialize">DAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAkQAsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCBAAAAEJlYW0KAAAAQXR0YWNrVHlwZQIEAAAAQmVhbQ4AAABCZWFtQ2hhcmdlVGltZQYAAAAAAAAUQAwAAABCZWFtRHVyYXRpb24GAAAAAAAAHEAGAAAAQ2hhcmdlBgAAAAAAAD5AEAAAAENvb2xkb3duRHVyYXRpb24GAAAAAAAAPkAKAAAARGFtYWdlU3RhdAIEAAAARE1HMg0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAAAA==</BinaryString>
+                <BinaryString name="AttributesSerialize">DAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAkQAsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCBAAAAEJlYW0KAAAAQXR0YWNrVHlwZQIEAAAAQmVhbQ4AAABCZWFtQ2hhcmdlVGltZQYAAAAAAAAUQAwAAABCZWFtRHVyYXRpb24GAAAAAAAADEAGAAAAQ2hhcmdlBgAAAAAAAD5AEAAAAENvb2xkb3duRHVyYXRpb24GAAAAAACAQUAKAAAARGFtYWdlU3RhdAIEAAAARE1HMg0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAAAA==</BinaryString>
                 <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
                 <UniqueId name="HistoryId">0000000000000000000000000000e9c0</UniqueId>
                 <bool name="DefinesCapabilities">false</bool>
@@ -1404841,7 +1404841,7 @@ end</string>
             <Item class="RemoteEvent" referent="132690">
               <Properties>
                 <string name="Name">Attack3</string>
-                <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCDQAAAENydXNoaW5nIEJpdGUKAAAAQXR0YWNrVHlwZQIFAAAATWVsZWUGAAAAQ2hhcmdlBgAAAAAAACRAEAAAAENvb2xkb3duRHVyYXRpb24GAAAAAAAA8D8KAAAARGFtYWdlU3RhdAIEAAAARE1HMw4AAABIaXRib3hEdXJhdGlvbgYAAAAAAADgPw0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAkwAsAAABIaXRib3hTaXplWAYAAAAAAAAgQAsAAABIaXRib3hTaXplWQYAAAAAAAAYQAsAAABIaXRib3hTaXplWgYAAAAAAAAgQBEAAABLbm9ja2JhY2tEaXN0YW5jZQIAAAAAEQAAAEtub2NrYmFja0R1cmF0aW9uAgAAAAAOAAAAS25vY2tiYWNrU3BlZWQCAAAAAA4AAABUcmF2ZWxEaXN0YW5jZQIAAAAADgAAAFRyYXZlbER1cmF0aW9uAgAAAAALAAAAVHJhdmVsU3BlZWQCAAAAAA==</BinaryString>
+                <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCDQAAAENydXNoaW5nIEJpdGUKAAAAQXR0YWNrVHlwZQIFAAAATWVsZWUGAAAAQ2hhcmdlBgAAAAAAAC5AEAAAAENvb2xkb3duRHVyYXRpb24GAAAAAAAA8D8KAAAARGFtYWdlU3RhdAIEAAAARE1HMw4AAABIaXRib3hEdXJhdGlvbgYAAAAAAADgPw0AAABIaXRib3hPZmZzZXRYBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFkGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WgYAAAAAAAAkwAsAAABIaXRib3hTaXplWAYAAAAAAAAgQAsAAABIaXRib3hTaXplWQYAAAAAAAAYQAsAAABIaXRib3hTaXplWgYAAAAAAAAgQBEAAABLbm9ja2JhY2tEaXN0YW5jZQIAAAAAEQAAAEtub2NrYmFja0R1cmF0aW9uAgAAAAAOAAAAS25vY2tiYWNrU3BlZWQCAAAAAA4AAABUcmF2ZWxEaXN0YW5jZQIAAAAADgAAAFRyYXZlbER1cmF0aW9uAgAAAAALAAAAVHJhdmVsU3BlZWQCAAAAAA==</BinaryString>
                 <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
                 <UniqueId name="HistoryId">7a7dce87ba1857cb0a72e7ba0000423e</UniqueId>
                 <bool name="DefinesCapabilities">false</bool>
@@ -1542085,10 +1542085,10 @@ end</string>
                                       <Y>7.178671</Y>
                                       <Z>-0.00020714122</Z>
                                       <R00>0.6987835</R00>
-                                      <R01>0.29514906</R01>
+                                      <R01>0.29514903</R01>
                                       <R02>-0.6516048</R02>
                                       <R10>-0.71481276</R10>
-                                      <R11>0.32285258</R11>
+                                      <R11>0.3228526</R11>
                                       <R12>-0.6203298</R12>
                                       <R20>0.027282549</R20>
                                       <R21>0.8992516</R21>
@@ -1543667,10 +1543667,10 @@ end</string>
                                       <Y>7.178671</Y>
                                       <Z>-0.00020714122</Z>
                                       <R00>0.6987835</R00>
-                                      <R01>0.29514903</R01>
+                                      <R01>0.29514906</R01>
                                       <R02>-0.6516048</R02>
                                       <R10>-0.71481276</R10>
-                                      <R11>0.3228526</R11>
+                                      <R11>0.32285258</R11>
                                       <R12>-0.6203298</R12>
                                       <R20>0.027282549</R20>
                                       <R21>0.8992516</R21>

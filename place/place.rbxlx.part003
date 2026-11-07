@@ -134289,7 +134289,7 @@ nTint">
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">2e9234feabff15a40afc110500000f89</UniqueId>
-              <double name="Value">275</double>
+              <double name="Value">125</double>
             </Properties>
           </Item>
           <Item class="NumberValue" referent="146802">
@@ -134439,7 +134439,7 @@ nTint">
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">2e9234feabff15a40afc110500049cd1</UniqueId>
-              <double name="Value">3600</double>
+              <double name="Value">2750</double>
             </Properties>
           </Item>
           <Item class="NumberValue" referent="146812">
@@ -134454,7 +134454,7 @@ nTint">
               <int64 name="SourceAssetId">-1</int64>
               <BinaryString name="Tags"></BinaryString>
               <UniqueId name="UniqueId">2e9234feabff15a40afc110500049cd2</UniqueId>
-              <double name="Value">3600</double>
+              <double name="Value">2750</double>
             </Properties>
           </Item>
           <Item class="NumberValue" referent="146813">
@@ -272617,7 +272617,7 @@ end)</string>
           <Item class="RemoteEvent" referent="152051">
             <Properties>
               <string name="Name">Attack4</string>
-              <BinaryString name="AttributesSerialize">DAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAqQAoAAABBdHRhY2tOYW1lAgsAAABTdXBlckNoYXJnZQoAAABBdHRhY2tUeXBlAgQAAABCZWFtDgAAAEJlYW1DaGFyZ2VUaW1lBgAAAAAAAPA/DAAAAEJlYW1EdXJhdGlvbgbNzMzMzMwSQAYAAABDaGFyZ2UGAAAAAAAAPkAQAAAAQ29vbGRvd25EdXJhdGlvbgYAAAAAAABZQAoAAABEYW1hZ2VTdGF0AgQAAABETUc0CQAAAEdsb3dDb2xvcg/493c/g4ICPwAAgD8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAAAA=</BinaryString>
+              <BinaryString name="AttributesSerialize">DAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAqQAoAAABBdHRhY2tOYW1lAgsAAABTdXBlckNoYXJnZQoAAABBdHRhY2tUeXBlAgQAAABCZWFtDgAAAEJlYW1DaGFyZ2VUaW1lBgAAAAAAAPA/DAAAAEJlYW1EdXJhdGlvbgbNzMzMzMwSQAYAAABDaGFyZ2UGAAAAAAAASUAQAAAAQ29vbGRvd25EdXJhdGlvbgYAAAAAAABZQAoAAABEYW1hZ2VTdGF0AgQAAABETUc0CQAAAEdsb3dDb2xvcg/493c/g4ICPwAAgD8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAAAA=</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -272831,7 +272831,7 @@ end)</string>
           <Item class="RemoteEvent" referent="152053">
             <Properties>
               <string name="Name">Attack</string>
-              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCBQAAAFN3aXBlCgAAAEF0dGFja1R5cGUCBQAAAE1lbGVlBgAAAENoYXJnZQYAAAAAAIBBQBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAADRACgAAAERhbWFnZVN0YXQCBAAAAERNRzEOAAAASGl0Ym94RHVyYXRpb24GAAAAAAAA4D8NAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAAAALAAAASGl0Ym94U2l6ZVgGAAAAAAAALkALAAAASGl0Ym94U2l6ZVkGAAAAAAAALkALAAAASGl0Ym94U2l6ZVoGAAAAAAAALkARAAAAS25vY2tiYWNrRGlzdGFuY2UCAgAAADEwEQAAAEtub2NrYmFja0R1cmF0aW9uAgEAAAAxDgAAAEtub2NrYmFja1NwZWVkAgIAAAAyNQ4AAABUcmF2ZWxEaXN0YW5jZQICAAAAMzUOAAAAVHJhdmVsRHVyYXRpb24CAwAAADEuNQsAAABUcmF2ZWxTcGVlZAICAAAAMjU=</BinaryString>
+              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCBQAAAFN3aXBlCgAAAEF0dGFja1R5cGUCBQAAAE1lbGVlBgAAAENoYXJnZQYAAAAAAAA5QBAAAABDb29sZG93bkR1cmF0aW9uBgAAAAAAACBACgAAAERhbWFnZVN0YXQCBAAAAERNRzEOAAAASGl0Ym94RHVyYXRpb24GAAAAAAAACEANAAAASGl0Ym94T2Zmc2V0WAYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRZBgAAAAAAAAAADQAAAEhpdGJveE9mZnNldFoGAAAAAAAAAAALAAAASGl0Ym94U2l6ZVgGAAAAAAAALkALAAAASGl0Ym94U2l6ZVkGAAAAAAAALkALAAAASGl0Ym94U2l6ZVoGAAAAAAAALkARAAAAS25vY2tiYWNrRGlzdGFuY2UCAgAAADEwEQAAAEtub2NrYmFja0R1cmF0aW9uAgEAAAAxDgAAAEtub2NrYmFja1NwZWVkAgIAAAAyNQ4AAABUcmF2ZWxEaXN0YW5jZQICAAAAMzUOAAAAVHJhdmVsRHVyYXRpb24CAwAAADEuNQsAAABUcmF2ZWxTcGVlZAICAAAAMjU=</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">5cf0b50e057fa2390af5c19900004969</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -272845,7 +272845,7 @@ end)</string>
           <Item class="RemoteEvent" referent="152054">
             <Properties>
               <string name="Name">Attack3</string>
-              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCDAAAAEV2b2x2ZWQgVGVhcgoAAABBdHRhY2tUeXBlAgUAAABNZWxlZQYAAABDaGFyZ2UGAAAAAAAALkAQAAAAQ29vbGRvd25EdXJhdGlvbgYAAAAAAAAEQAoAAABEYW1hZ2VTdGF0AgQAAABETUcyDgAAAEhpdGJveER1cmF0aW9uBgAAAAAAAOA/DQAAAEhpdGJveE9mZnNldFgGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WQYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRaBgAAAAAAAAAACwAAAEhpdGJveFNpemVYBgAAAAAAAC5ACwAAAEhpdGJveFNpemVZBgAAAAAAAC5ACwAAAEhpdGJveFNpemVaBgAAAAAAAC5AEQAAAEtub2NrYmFja0Rpc3RhbmNlAgEAAAAwEQAAAEtub2NrYmFja0R1cmF0aW9uAgEAAAAwDgAAAEtub2NrYmFja1NwZWVkAgEAAAAwDgAAAFRyYXZlbERpc3RhbmNlAgEAAAAwDgAAAFRyYXZlbER1cmF0aW9uAgEAAAAwCwAAAFRyYXZlbFNwZWVkAgEAAAAw</BinaryString>
+              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCDAAAAEV2b2x2ZWQgVGVhcgoAAABBdHRhY2tUeXBlAgUAAABNZWxlZQYAAABDaGFyZ2UGAAAAAAAAAEAQAAAAQ29vbGRvd25EdXJhdGlvbgYAAAAAAADgPwoAAABEYW1hZ2VTdGF0AgQAAABETUcyDgAAAEhpdGJveER1cmF0aW9uBgAAAAAAAOA/DQAAAEhpdGJveE9mZnNldFgGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WQYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRaBgAAAAAAAAAACwAAAEhpdGJveFNpemVYBgAAAAAAAC5ACwAAAEhpdGJveFNpemVZBgAAAAAAAC5ACwAAAEhpdGJveFNpemVaBgAAAAAAAC5AEQAAAEtub2NrYmFja0Rpc3RhbmNlAgEAAAAwEQAAAEtub2NrYmFja0R1cmF0aW9uAgEAAAAwDgAAAEtub2NrYmFja1NwZWVkAgEAAAAwDgAAAFRyYXZlbERpc3RhbmNlAgEAAAAwDgAAAFRyYXZlbER1cmF0aW9uAgEAAAAwCwAAAFRyYXZlbFNwZWVkAgEAAAAw</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">5cf0b50e057fa2390af5c19900004969</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -272859,7 +272859,7 @@ end)</string>
           <Item class="RemoteEvent" referent="152055">
             <Properties>
               <string name="Name">Beam</string>
-              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAADwPwsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCBAAAAEJlYW0KAAAAQXR0YWNrVHlwZQIEAAAAQmVhbQYAAABDaGFyZ2UGAAAAAAAASUAQAAAAQ29vbGRvd25EdXJhdGlvbgYAAAAAAAA+QAoAAABEYW1hZ2VTdGF0AgQAAABETUcyDgAAAEhpdGJveER1cmF0aW9uBgAAAAAAABRADQAAAEhpdGJveE9mZnNldFgGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WQYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRaBgAAAAAAACTACwAAAEhpdGJveFNpemVYBgAAAAAAAC5ACwAAAEhpdGJveFNpemVZBgAAAAAAAC5ACwAAAEhpdGJveFNpemVaBgAAAAAAAC5AEQAAAEtub2NrYmFja0Rpc3RhbmNlAgMAAAAxMDARAAAAS25vY2tiYWNrRHVyYXRpb24CAQAAADEOAAAAS25vY2tiYWNrU3BlZWQCAgAAADEwDgAAAFRyYXZlbERpc3RhbmNlAgEAAAAwDgAAAFRyYXZlbER1cmF0aW9uAgEAAAAwCwAAAFRyYXZlbFNwZWVkAgEAAAAw</BinaryString>
+              <BinaryString name="AttributesSerialize">FAAAAA4AAABBdHRhY2tEdXJhdGlvbgYAAAAAAAAYQAsAAABBdHRhY2tJbWFnZQIAAAAACgAAAEF0dGFja05hbWUCBAAAAEJlYW0KAAAAQXR0YWNrVHlwZQIEAAAAQmVhbQYAAABDaGFyZ2UGAAAAAAAAOUAQAAAAQ29vbGRvd25EdXJhdGlvbgYAAAAAAAA+QAoAAABEYW1hZ2VTdGF0AgQAAABETUcyDgAAAEhpdGJveER1cmF0aW9uBgAAAAAAABhADQAAAEhpdGJveE9mZnNldFgGAAAAAAAAAAANAAAASGl0Ym94T2Zmc2V0WQYAAAAAAAAAAA0AAABIaXRib3hPZmZzZXRaBgAAAAAAACTACwAAAEhpdGJveFNpemVYBgAAAAAAAC5ACwAAAEhpdGJveFNpemVZBgAAAAAAAC5ACwAAAEhpdGJveFNpemVaBgAAAAAAAC5AEQAAAEtub2NrYmFja0Rpc3RhbmNlAgMAAAAxMDARAAAAS25vY2tiYWNrRHVyYXRpb24CAQAAADEOAAAAS25vY2tiYWNrU3BlZWQCAgAAADEwDgAAAFRyYXZlbERpc3RhbmNlAgEAAAAwDgAAAFRyYXZlbER1cmF0aW9uAgEAAAAwCwAAAFRyYXZlbFNwZWVkAgEAAAAw</BinaryString>
               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
               <UniqueId name="HistoryId">5cf0b50e057fa2390af5c19900004969</UniqueId>
               <bool name="DefinesCapabilities">false</bool>
@@ -688358,7 +688358,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000e80</UniqueId>
+      <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000e80</UniqueId>
     </Properties>
   </Item>
   <Item class="PermissionsService" referent="165675">
@@ -688372,7 +688372,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000eab</UniqueId>
+      <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea6</UniqueId>
     </Properties>
   </Item>
   <Item class="LuaWebService" referent="165676">
@@ -688386,7 +688386,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000fcb</UniqueId>
+      <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000fca</UniqueId>
     </Properties>
   </Item>
   <SharedStrings>

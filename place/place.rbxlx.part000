@@ -937596,7 +937596,7 @@ end
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea4</UniqueId>
+        <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000e9f</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10532">
         <Properties>
@@ -937654,7 +937654,7 @@ end
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea5</UniqueId>
+          <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea0</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10533">
@@ -937677,7 +937677,7 @@ end
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea6</UniqueId>
+          <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea1</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10534">
@@ -937722,7 +937722,7 @@ end
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea7</UniqueId>
+          <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea2</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -937771,7 +937771,7 @@ end
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea8</UniqueId>
+          <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea3</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -937829,7 +937829,7 @@ end
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000ea9</UniqueId>
+          <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea4</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10537">
@@ -937856,7 +937856,7 @@ end
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">7eefde2fbc3d8bfd0b00340600000eaa</UniqueId>
+          <UniqueId name="UniqueId">6c0e42a362ed62b70b00f1a900000ea5</UniqueId>
         </Properties>
       </Item>
     </Item>
