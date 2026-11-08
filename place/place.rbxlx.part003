@@ -1,4 +1,196 @@
-                  <int64 name="SourceAssetId">-1</int64>
+                     <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d40a</UniqueId>
+                              <float name="Weight">1</float>
+                            </Properties>
+                            <Item class="Folder" referent="143719">
+                              <Properties>
+                                <string name="Name">Ease</string>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                <Color3 name="IconTint">
+                                  <R>0</R>
+                                  <G>0</G>
+                                  <B>0</B>
+                                </Color3>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <BinaryString name="SerializedOverrides">
+                                </BinaryString>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d40b</UniqueId>
+                              </Properties>
+                              <Item class="StringValue" referent="143720">
+                                <Properties>
+                                  <string name="Name">Type</string>
+                                  <BinaryString name="AttributesSerialize"></BinaryString>
+                                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                  <bool name="DefinesCapabilities">false</bool>
+                                  <BinaryString name="SerializedOverrides">
+                                  </BinaryString>
+                                  <int64 name="SourceAssetId">-1</int64>
+                                  <BinaryString name="Tags"></BinaryString>
+                                  <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d40c</UniqueId>
+                                  <string name="Value">Linear</string>
+                                </Properties>
+                              </Item>
+                              <Item class="Folder" referent="143721">
+                                <Properties>
+                                  <string name="Name">Params</string>
+                                  <BinaryString name="AttributesSerialize"></BinaryString>
+                                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                  <Color3 name="IconTint">
+                                    <R>0</R>
+                                    <G>0</G>
+                                    <B>0</B>
+                                  </Color3>
+                                  <bool name="DefinesCapabilities">false</bool>
+                                  <BinaryString name="SerializedOverrides">
+                                  </BinaryString>
+                                  <int64 name="SourceAssetId">-1</int64>
+                                  <BinaryString name="Tags"></BinaryString>
+                                  <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d40d</UniqueId>
+                                </Properties>
+                                <Item class="StringValue" referent="143722">
+                                  <Properties>
+                                    <string name="Name">Direction</string>
+                                    <BinaryString name="AttributesSerialize"></BinaryString>
+                                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                    <bool name="DefinesCapabilities">false</bool>
+                                    <BinaryString name="SerializedOverrides">
+                                    </BinaryString>
+                                    <int64 name="SourceAssetId">-1</int64>
+                                    <BinaryString name="Tags"></BinaryString>
+                                    <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d40e</UniqueId>
+                                    <string name="Value">InOut</string>
+                                  </Properties>
+                                </Item>
+                                <Item class="NumberValue" referent="143723">
+                                  <Properties>
+                                    <string name="Name">Overshoot</string>
+                                    <BinaryString name="AttributesSerialize"></BinaryString>
+                                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                    <bool name="DefinesCapabilities">false</bool>
+                                    <BinaryString name="SerializedOverrides">
+                                    </BinaryString>
+                                    <int64 name="SourceAssetId">-1</int64>
+                                    <BinaryString name="Tags"></BinaryString>
+                                    <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d40f</UniqueId>
+                                    <double name="Value">1.70158</double>
+                                  </Properties>
+                                </Item>
+                                <Item class="NumberValue" referent="143724">
+                                  <Properties>
+                                    <string name="Name">Amplitude</string>
+                                    <BinaryString name="AttributesSerialize"></BinaryString>
+                                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                    <bool name="DefinesCapabilities">false</bool>
+                                    <BinaryString name="SerializedOverrides">
+                                    </BinaryString>
+                                    <int64 name="SourceAssetId">-1</int64>
+                                    <BinaryString name="Tags"></BinaryString>
+                                    <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d410</UniqueId>
+                                    <double name="Value">1</double>
+                                  </Properties>
+                                </Item>
+                                <Item class="NumberValue" referent="143725">
+                                  <Properties>
+                                    <string name="Name">Period</string>
+                                    <BinaryString name="AttributesSerialize"></BinaryString>
+                                    <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                    <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                    <bool name="DefinesCapabilities">false</bool>
+                                    <BinaryString name="SerializedOverrides">
+                                    </BinaryString>
+                                    <int64 name="SourceAssetId">-1</int64>
+                                    <BinaryString name="Tags"></BinaryString>
+                                    <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d411</UniqueId>
+                                    <double name="Value">0.3</double>
+                                  </Properties>
+                                </Item>
+                              </Item>
+                            </Item>
+                            <Item class="StringValue" referent="143726">
+                              <Properties>
+                                <string name="Name">HandleType</string>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <BinaryString name="SerializedOverrides">
+                                </BinaryString>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d412</UniqueId>
+                                <string name="Value">Automatic</string>
+                              </Properties>
+                            </Item>
+                          </Item>
+                          <Item class="Folder" referent="143727">
+                            <Properties>
+                              <string name="Name">Ease</string>
+                              <BinaryString name="AttributesSerialize"></BinaryString>
+                              <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                              <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                              <Color3 name="IconTint">
+                                <R>0</R>
+                                <G>0</G>
+                                <B>0</B>
+                              </Color3>
+                              <bool name="DefinesCapabilities">false</bool>
+                              <BinaryString name="SerializedOverrides">
+                              </BinaryString>
+                              <int64 name="SourceAssetId">-1</int64>
+                              <BinaryString name="Tags"></BinaryString>
+                              <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d413</UniqueId>
+                            </Properties>
+                            <Item class="StringValue" referent="143728">
+                              <Properties>
+                                <string name="Name">Type</string>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <BinaryString name="SerializedOverrides">
+                                </BinaryString>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d414</UniqueId>
+                                <string name="Value">Linear</string>
+                              </Properties>
+                            </Item>
+                            <Item class="Folder" referent="143729">
+                              <Properties>
+                                <string name="Name">Params</string>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                <Color3 name="IconTint">
+                                  <R>0</R>
+                                  <G>0</G>
+                                  <B>0</B>
+                                </Color3>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <BinaryString name="SerializedOverrides">
+                                </BinaryString>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d415</UniqueId>
+                              </Properties>
+                              <Item class="StringValue" referent="143730">
+                                <Properties>
+                                  <string name="Name">Direction</string>
+                                  <BinaryString name="AttributesSerialize"></BinaryString>
+                                  <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                  <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                  <bool name="DefinesCapabilities">false</bool>
+                                  <BinaryString name="SerializedOverrides">
+                                  </BinaryString>
+                                  <int64 name="SourceAssetId">-1</int64>
                                   <BinaryString name="Tags"></BinaryString>
                                   <UniqueId name="UniqueId">18a878ac0a9fddc60affecae0001d416</UniqueId>
                                   <string name="Value">InOut</string>

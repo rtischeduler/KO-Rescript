@@ -11,6 +11,13 @@ local NUM_GLOW_LIGHTS = 8
 local SHIFTLOCK_RAISE = 8
 local SHIFTLOCK_MIN_FORWARD = 8
 local TEMPLATE_TIMEOUT = 1.5
+local CLOSE_FULL_LENGTH = 50
+local CLOSE_MIN_SCALE = 0.12
+local GLOW_MIN_RANGE = 10
+
+local function closeScale(length)
+	return math.clamp(length / CLOSE_FULL_LENGTH, CLOSE_MIN_SCALE, 1)
+end
 
 local function scaleSequence(seq, k)
 	local points = {}
@@ -153,7 +160,7 @@ local function adoptServerImpact(self, inst)
 end
 
 local function hideServerCopy(inst)
-	if inst:IsA("ParticleEmitter") and inst.Name == "BeamStartSmoke" then
+	if inst:IsA("ParticleEmitter") and (inst.Name == "BeamStartSmoke" or inst.Name == "BeamStartShine") then
 		inst.Enabled = false
 	elseif inst:IsA("PointLight") and inst.Name == "GlowLight" then
 		inst.Enabled = false
@@ -169,6 +176,8 @@ function BeamClientFX.new(character)
 	self.startTime = os.clock()
 	self.built = false
 	self.fxGroup = {}
+	self.fxTracker = BeamVFX.NewTracker()
+	self.fxCleared = false
 	self.glow = {}
 	self.startSmoke = {}
 	self.surfaceOffset = nil
@@ -219,7 +228,7 @@ function BeamClientFX.new(character)
 	self.light.Brightness = 0
 	self.light.Parent = self.anchor
 
-	self.impactFx = BeamVFX.NewImpact(self.anchor, self.impactColor, {burn = false})
+	self.impactFx = BeamVFX.NewImpact(self.anchor, self.impactColor, {burn = false, noShine = BeamVFX.IsGhidorah(character)})
 	self.surfaceHit = false
 
 	self.params = RaycastParams.new()
@@ -227,6 +236,7 @@ function BeamClientFX.new(character)
 
 	for _, beamStart in ipairs(self.beamStarts) do
 		table.insert(self.startSmoke, BeamVFX.NewStartSmoke(beamStart, self.smokeColor, "LocalBeamStartSmoke"))
+		table.insert(self.startSmoke, BeamVFX.NewStartShine(beamStart, self.impactColor, "LocalBeamStartShine"))
 	end
 
 	if self.hrp and self.primaryStart then
@@ -285,7 +295,7 @@ function BeamClientFX:_syncTemplates(endsHolder, now)
 		for _, child in ipairs(endsHolder:GetChildren()) do
 			if child:IsA("Attachment") and child.Name == "BeamEnd" then
 				for _, emitter in ipairs(child:GetChildren()) do
-					if emitter:IsA("ParticleEmitter") and #sources < 4 then
+					if emitter:IsA("ParticleEmitter") and #sources < 4 and string.sub(emitter.Name, 1, 12) ~= "BeamEndShine" then
 						table.insert(sources, emitter)
 					end
 				end
@@ -301,12 +311,16 @@ function BeamClientFX:_syncTemplates(endsHolder, now)
 end
 
 function BeamClientFX:_setIntensity(intensity)
-	local enabled = intensity > 0.05
+	local retract = BeamVFX.Track(self.fxTracker, intensity)
+	local enabled = intensity > 0.05 and not retract
+	local clear = BeamVFX.ShouldClear(retract, intensity)
 	for _, entry in ipairs(self.fxGroup) do
 		local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
 		if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 		if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+		if clear and not self.fxCleared then entry.emitter:Clear() end
 	end
+	self.fxCleared = clear
 	self.impactFx:SetIntensity(intensity, self.surfaceHit)
 end
 
@@ -336,8 +350,12 @@ function BeamClientFX:_updateImpact(endPos, extent, endsHolder)
 	end
 	local impactPos = endPos + self.surfaceOffset
 	self.anchor.CFrame = CFrame.lookAt(impactPos, impactPos + self.surfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+	local impactScale = 1
+	if self.primaryStart and self.primaryStart.Parent then
+		impactScale = closeScale((endPos - self.primaryStart.WorldPosition).Magnitude)
+	end
 	self.light.Color = self.impactColor
-	self.light.Brightness = 1.5 * extent
+	self.light.Brightness = 1.5 * extent * impactScale
 	self.impactFx:Track(impactPos, now)
 	self:_setIntensity(extent)
 end
@@ -346,10 +364,12 @@ function BeamClientFX:_updateGlow(endPos, extent)
 	local startAtt = self.primaryStart
 	if not startAtt or not startAtt.Parent or #self.glow == 0 then return end
 	local startPos = startAtt.WorldPosition
-	local range = math.clamp((endPos - startPos).Magnitude / (NUM_GLOW_LIGHTS + 1) * 1.4, 20, 60)
+	local length = (endPos - startPos).Magnitude
+	local scale = closeScale(length)
+	local range = math.clamp(length / (NUM_GLOW_LIGHTS + 1) * 1.4, GLOW_MIN_RANGE, 60)
 	for i, entry in ipairs(self.glow) do
 		entry.att.WorldPosition = startPos:Lerp(endPos, i / (NUM_GLOW_LIGHTS + 1))
-		entry.light.Brightness = 0.9 * extent
+		entry.light.Brightness = 0.9 * extent * scale
 		entry.light.Range = range
 	end
 end

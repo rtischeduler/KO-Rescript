@@ -912960,15 +912960,18 @@ return Util
           <string name="ScriptGuid">{1A22A0DC-F185-4673-9843-18E87801A044}</string>
           <BinaryString name="SerializedOverrides">
           </BinaryString>
-          <string name="Source"><![CDATA[local ReplicatedStorage = game:GetService("ReplicatedStorage")
+          <string name="Source">local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 local Workspace = game:GetService("Workspace")
 
-local RUMBLE_TIME = 0.8
+local RUMBLE_TIME = 0.4
 local COLLAPSE_TIME = 2.6
 local DEBRIS_CHUNKS = 9
+local DUST_EMITTERS = 6
+local DUST_TEXTURE = "rbxasset://textures/particles/smoke_main.dds"
+local DUST_COLOR = ColorSequence.new(Color3.fromRGB(168, 158, 144), Color3.fromRGB(112, 110, 106))
 local FX_DISTANCE = 900
 local DEBRIS_GROUP = "CollapseDebris"
 local DARK = Color3.new(0, 0, 0)
@@ -912990,7 +912993,7 @@ end
 
 local function easeLinear(p) return p end
 local function easeInOut(p)
-	if p < 0.5 then return 2 * p * p end
+	if p &lt; 0.5 then return 2 * p * p end
 	return 1 - (-2 * p + 2) ^ 2 / 2
 end
 local function easeCollapse(p) return p ^ 1.7 end
@@ -912998,7 +913001,7 @@ local function easeTilt(p) return p ^ 1.6 end
 
 local function nearCamera(position)
 	local camera = Workspace.CurrentCamera
-	return camera ~= nil and (camera.CFrame.Position - position).Magnitude <= FX_DISTANCE
+	return camera ~= nil and (camera.CFrame.Position - position).Magnitude &lt;= FX_DISTANCE
 end
 
 local function playOneShot(parent, soundId, volume, lifetime)
@@ -913041,11 +913044,13 @@ local function getState(building)
 
 	local parts, origCFs = {}, {}
 	local minY = math.huge
+	local maxY = -math.huge
 	for _, d in building:GetDescendants() do
 		if d:IsA("BasePart") and not d.Name:lower():find("leftover") then
 			table.insert(parts, d)
 			table.insert(origCFs, d.CFrame)
 			minY = math.min(minY, d.Position.Y - d.Size.Y / 2)
+			maxY = math.max(maxY, d.Position.Y + d.Size.Y / 2)
 		end
 	end
 	if #parts == 0 then return nil end
@@ -913059,6 +913064,10 @@ local function getState(building)
 		origCFs = origCFs,
 		cframes = table.create(#parts),
 		pivot = Vector3.new(basePos.X, minY, basePos.Z),
+		basePos = basePos,
+		baseCF = base.CFrame,
+		topY = maxY,
+		dustToken = 0,
 		footW = footW,
 		footD = footD,
 		shakeScale = math.clamp(maxAxis(base) / 25, 0.4, 2.5),
@@ -913094,19 +913103,19 @@ local function step(s, now)
 		pose.tx = lerp(anim.from.tx, anim.to.tx, te)
 		pose.tz = lerp(anim.from.tz, anim.to.tz, te)
 		amp = anim.amp * math.sin(math.pi * p ^ 0.6)
-		if p >= 1 then s.anim = nil end
+		if p &gt;= 1 then s.anim = nil end
 	end
 	local jolt = s.jolt
 	if jolt then
 		local jp = (now - jolt.t0) / jolt.dur
-		if jp >= 1 then
+		if jp &gt;= 1 then
 			s.jolt = nil
 		else
 			amp += jolt.amp * (1 - jp) ^ 2
 		end
 	end
 	local sx, sy, sz, rx, rz = 0, 0, 0, 0, 0
-	if amp > 0.001 then
+	if amp &gt; 0.001 then
 		local t = now * 24
 		local ts = amp * s.shakeScale
 		local seed = s.seed
@@ -913154,7 +913163,7 @@ end
 
 local function addJolt(s, amp, dur)
 	local current = s.jolt
-	if current and current.amp * (1 - (os.clock() - current.t0) / current.dur) > amp then return end
+	if current and current.amp * (1 - (os.clock() - current.t0) / current.dur) &gt; amp then return end
 	s.seed = math.random() * 1000
 	s.jolt = { amp = amp, dur = dur, t0 = os.clock() }
 	activate(s)
@@ -913200,6 +913209,119 @@ local function dust(s, count, sources)
 	end
 end
 
+local function newSpreadEmitter(scale)
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = DUST_TEXTURE
+	e.Rate = 0
+	e.Lifetime = NumberRange.new(2.5, 4.5)
+	e.Speed = NumberRange.new(6, 12)
+	e.SpreadAngle = Vector2.new(22, 22)
+	e.Rotation = NumberRange.new(0, 360)
+	e.RotSpeed = NumberRange.new(-30, 30)
+	e.Drag = 2.2
+	e.Acceleration = Vector3.new(0, 1.2, 0)
+	e.LightEmission = 0
+	e.Color = DUST_COLOR
+	e.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, scale * 0.5),
+		NumberSequenceKeypoint.new(1, scale * 2.2),
+	})
+	e.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.55),
+		NumberSequenceKeypoint.new(0.5, 0.72),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	return e
+end
+
+local function newBillowEmitter(scale)
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = DUST_TEXTURE
+	e.Rate = 0
+	e.Lifetime = NumberRange.new(3, 5)
+	e.Speed = NumberRange.new(4, 10)
+	e.SpreadAngle = Vector2.new(55, 55)
+	e.EmissionDirection = Enum.NormalId.Top
+	e.Rotation = NumberRange.new(0, 360)
+	e.RotSpeed = NumberRange.new(-25, 25)
+	e.Drag = 1.6
+	e.Acceleration = Vector3.new(0, 2.2, 0)
+	e.LightEmission = 0
+	e.Color = DUST_COLOR
+	e.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, scale * 0.8),
+		NumberSequenceKeypoint.new(1, scale * 2.8),
+	})
+	e.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.6),
+		NumberSequenceKeypoint.new(0.55, 0.78),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	return e
+end
+
+local function collapseDust(s, duration, intensity)
+	if not nearCamera(s.pivot) then return end
+	s.dustToken += 1
+	local mine = s.dustToken
+	local center = Vector3.new(s.basePos.X, s.pivot.Y, s.basePos.Z)
+	local ring = {}
+	for i = 1, DUST_EMITTERS do
+		local a = (i - 1) / DUST_EMITTERS * math.pi * 2 + rand(-0.2, 0.2)
+		local edge = (s.baseCF * CFrame.new(math.cos(a) * s.footW * 0.45, 0, math.sin(a) * s.footD * 0.45)).Position
+		local pos = Vector3.new(edge.X, s.pivot.Y + 1, edge.Z)
+		local out = Vector3.new(pos.X - center.X, 0, pos.Z - center.Z)
+		out = out.Magnitude &lt; 0.1 and Vector3.xAxis or out.Unit
+		local att = Instance.new("Attachment")
+		att.Parent = Workspace.Terrain
+		att.WorldCFrame = CFrame.lookAt(pos, pos + out + Vector3.new(0, 0.15, 0)) * CFrame.Angles(-math.pi / 2, 0, 0)
+		local e = newSpreadEmitter(s.dustScale)
+		e.Parent = att
+		table.insert(ring, { att = att, emitter = e })
+	end
+	local top = Instance.new("Attachment")
+	top.Parent = Workspace.Terrain
+	top.WorldPosition = Vector3.new(center.X, s.topY, center.Z)
+	local billow = newBillowEmitter(s.dustScale)
+	billow.Parent = top
+
+	task.spawn(function()
+		local t0 = os.clock()
+		local finished = false
+		while s.dustToken == mine and s.base.Parent do
+			local p = (os.clock() - t0) / duration
+			if p &gt;= 1 then
+				finished = true
+				break
+			end
+			local grow = p ^ 1.4
+			for _, r in ring do
+				r.emitter.Rate = (6 + 34 * grow) * intensity
+				r.emitter.Speed = NumberRange.new(5 + 14 * grow, 10 + 26 * grow)
+			end
+			local roof = math.max(s.topY - s.pose.sink, s.pivot.Y + 2)
+			top.WorldPosition = Vector3.new(
+				center.X + rand(-s.footW / 2, s.footW / 2) * 0.7,
+				roof,
+				center.Z + rand(-s.footD / 2, s.footD / 2) * 0.7
+			)
+			billow:Emit(math.floor((3 + 2 * grow) * intensity + 0.5))
+			task.wait(0.07)
+		end
+		for _, r in ring do
+			r.emitter.Rate = 0
+			if finished and intensity &gt;= 1 then
+				r.emitter.Speed = NumberRange.new(18, 36)
+				r.emitter:Emit(22)
+			end
+		end
+		task.delay(6, function()
+			for _, r in ring do r.att:Destroy() end
+			top:Destroy()
+		end)
+	end)
+end
+
 local function throwChunks(s, count)
 	if not nearCamera(s.pivot) then return end
 	for _ = 1, count do
@@ -913231,9 +913353,9 @@ local function flickerWindow(window, duration, litColor, material, color)
 	local mine = flickerToken[window]
 	task.spawn(function()
 		local stop = os.clock() + duration
-		while flickerToken[window] == mine and window.Parent and os.clock() < stop do
+		while flickerToken[window] == mine and window.Parent and os.clock() &lt; stop do
 			window.Material = Enum.Material.Neon
-			window.Color = math.random() < 0.5 and litColor or DARK
+			window.Color = math.random() &lt; 0.5 and litColor or DARK
 			task.wait(0.03 + math.random() * 0.09)
 		end
 		if flickerToken[window] ~= mine or not window.Parent then return end
@@ -913260,6 +913382,7 @@ handlers.Half = function(building, fraction, angle, direction)
 	if not s then return end
 	startAnim(s, s.base.Size.Y * fraction, angle * math.cos(direction), angle * math.sin(direction), 1.6, 1.8, easeInOut)
 	dust(s, 25, 2)
+	collapseDust(s, 1.6, 0.55)
 end
 
 handlers.Destroy = function(building, direction, angle, useBaseSound)
@@ -913283,9 +913406,10 @@ handlers.Destroy = function(building, direction, angle, useBaseSound)
 		if s.epoch ~= epoch or not s.base.Parent then return end
 		startAnim(s, s.base.Size.Y, angle * math.cos(direction), angle * math.sin(direction), COLLAPSE_TIME, 3.4, easeCollapse, easeTilt)
 		dust(s, 35, 4)
+		collapseDust(s, COLLAPSE_TIME, 1)
 		task.spawn(function()
 			local t0 = os.clock()
-			while s.epoch == epoch and s.base.Parent and os.clock() - t0 < COLLAPSE_TIME do
+			while s.epoch == epoch and s.base.Parent and os.clock() - t0 &lt; COLLAPSE_TIME do
 				throwChunks(s, 1)
 				task.wait(COLLAPSE_TIME / DEBRIS_CHUNKS)
 			end
@@ -913302,9 +913426,16 @@ handlers.Respawn = function(building)
 	local s = getState(building)
 	if not s then return end
 	s.epoch += 1
+	s.dustToken += 1
 	setPose(s, 0, 0, 0)
 	local sound = s.base:FindFirstChildOfClass("Sound")
 	if sound then sound:Stop() end
+end
+
+handlers.WindowFlicker = function(window, duration, litColor, material, color)
+	if typeof(window) ~= "Instance" or not window:IsA("BasePart") or not window.Parent then return end
+	if not nearCamera(window.Position) then return end
+	flickerWindow(window, duration, litColor, material, color)
 end
 
 handlers.Flicker = function(building, windows)
@@ -913354,8 +913485,7 @@ task.spawn(function()
 			track(d)
 		end
 	end)
-end)
-]]></string>
+end)</string>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <UniqueId name="UniqueId">3bd646e3ed0b40ca0af7098c00000ec6</UniqueId>
@@ -2031146,80 +2031276,4 @@ end)
                         <CoordinateFrame name="CFrame">
                           <X>0</X>
                           <Y>-0.000008583069</Y>
-                          <Z>0.000006765127</Z>
-                          <R00>1</R00>
-                          <R01>0</R01>
-                          <R02>0</R02>
-                          <R10>0</R10>
-                          <R11>0.86600727</R11>
-                          <R12>-0.5000314</R12>
-                          <R20>0</R20>
-                          <R21>0.5000314</R21>
-                          <R22>0.86600727</R22>
-                        </CoordinateFrame>
-                        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                        <token name="EasingDirection">1</token>
-                        <token name="EasingStyle">0</token>
-                        <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                        <bool name="DefinesCapabilities">false</bool>
-                        <BinaryString name="SerializedOverrides">
-                        </BinaryString>
-                        <int64 name="SourceAssetId">-1</int64>
-                        <BinaryString name="Tags"></BinaryString>
-                        <UniqueId name="UniqueId">00000000000000000000000000017896</UniqueId>
-                        <float name="Weight">1</float>
-                      </Properties>
-                      <Item class="Pose" referent="35338">
-                        <Properties>
-                          <string name="Name">ArmB</string>
-                          <BinaryString name="AttributesSerialize"></BinaryString>
-                          <CoordinateFrame name="CFrame">
-                            <X>0</X>
-                            <Y>0</Y>
-                            <Z>0</Z>
-                            <R00>1</R00>
-                            <R01>0</R01>
-                            <R02>0</R02>
-                            <R10>0</R10>
-                            <R11>1</R11>
-                            <R12>0</R12>
-                            <R20>0</R20>
-                            <R21>0</R21>
-                            <R22>1</R22>
-                          </CoordinateFrame>
-                          <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                          <token name="EasingDirection">1</token>
-                          <token name="EasingStyle">0</token>
-                          <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                          <bool name="DefinesCapabilities">false</bool>
-                          <BinaryString name="SerializedOverrides">
-                          </BinaryString>
-                          <int64 name="SourceAssetId">-1</int64>
-                          <BinaryString name="Tags"></BinaryString>
-                          <UniqueId name="UniqueId">00000000000000000000000000017897</UniqueId>
-                          <float name="Weight">0</float>
-                        </Properties>
-                        <Item class="Pose" referent="35339">
-                          <Properties>
-                            <string name="Name">ElbowB</string>
-                            <BinaryString name="AttributesSerialize"></BinaryString>
-                            <CoordinateFrame name="CFrame">
-                              <X>-0.00000023841858</X>
-                              <Y>-0.00000047683716</Y>
-                              <Z>-0.000000000005456968</Z>
-                              <R00>0.9848125</R00>
-                              <R01>0.17362115</R01>
-                              <R02>0</R02>
-                              <R10>-0.17362115</R10>
-                              <R11>0.9848125</R11>
-                              <R12>-0</R12>
-                              <R20>-0</R20>
-                              <R21>0</R21>
-                              <R22>1</R22>
-                            </CoordinateFrame>
-                            <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                            <token name="EasingDirection">1</token>
-                            <token name="EasingStyle">0</token>
-                            <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                            <bool name="DefinesCapabilities">false</bool>
-                            <Bin
+                          <Z>

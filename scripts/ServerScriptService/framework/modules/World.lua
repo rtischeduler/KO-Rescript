@@ -230,7 +230,7 @@ local function initDayNight()
 			atmosphere.Decay = DAY.AtmDecay and NIGHT.AtmDecay and NIGHT.AtmDecay:Lerp(DAY.AtmDecay, t) or baseDecay
 		end
 
-		task.wait(1 / 15)
+		task.wait(1 / 5)
 	end
 end
 
@@ -383,30 +383,6 @@ local function initWindowLights()
 		end
 	end
 
-	local function flickerWindow(window, duration, final)
-		if not window.Parent then return end
-		capture(window)
-		winToken[window] = (winToken[window] or 0) + 1
-		local mine = winToken[window]
-		task.spawn(function()
-			local stop = os.clock() + duration
-			local litColor = colorOf(window)
-			while winToken[window] == mine and window.Parent and os.clock() < stop do
-				window.Material = Enum.Material.Neon
-				window.Color = math.random() < 0.5 and litColor or DARK
-				task.wait(0.03 + math.random() * 0.09)
-			end
-			if winToken[window] ~= mine or not window.Parent then return end
-			if final == "lit" then
-				setWindow(window, true)
-			elseif final == "dark" then
-				setWindow(window, false)
-			else
-				restoreWindow(window)
-			end
-		end)
-	end
-
 	local function finalProps(window, final)
 		if final == "lit" then return Enum.Material.Neon, colorOf(window) end
 		if final == "dark" then return Enum.Material.Neon, DARK end
@@ -423,6 +399,14 @@ local function initWindowLights()
 			if winToken[window] ~= mine or not window.Parent then return end
 			window.Material, window.Color = material, color
 		end)
+	end
+
+	local function flickerWindow(window, duration, final)
+		if not window.Parent then return end
+		capture(window)
+		local material, color = finalProps(window, final)
+		scheduleFinal(window, duration, material, color)
+		fireBuildingFX("WindowFlicker", window, duration, colorOf(window), material, color)
 	end
 
 	local function ensureLight(base)
@@ -777,7 +761,7 @@ local function initRain()
 end
 
 local function initBuilding()
-	local RUMBLE_TIME = 0.8
+	local RUMBLE_TIME = 0.4
 	local COLLAPSE_TIME = 2.6
 	local RESPAWN_DELAY = 60
 
@@ -786,8 +770,16 @@ local function initBuilding()
 	local destroyed = {}
 	local buildingRefs = {}
 	local beamLoops, blastLoops = {}, {}
+	local beamSegments = _G.BeamHitSegments or setmetatable({}, { __mode = "k" })
+	_G.BeamHitSegments = beamSegments
+	local BEAM_CONTACT_PAD = 3
 
 	local DAMAGE_KEYWORDS = { "hitbox", "beam", "blast", "firebomb" }
+	local MELEE_BUILDING_DAMAGE = 20
+	local MELEE_BUILDING_TICK = 0.5
+	local BEAM_INITIAL_DAMAGE = 50
+	local BEAM_BUILDING_DAMAGE = 25
+	local BEAM_BUILDING_TICK = 0.2
 
 	local function isValidDamager(name)
 		name = name:lower()
@@ -894,6 +886,34 @@ local function initBuilding()
 		end)
 	end
 
+	local function beamReaches(hitbox, pos, r, refs)
+		if (pos - refs.pos).Magnitude <= r + refs.radius then return true end
+		local from = beamSegments[hitbox]
+		if not from then return false end
+		local base = refs.base
+		local ab = pos - from
+		local t = math.clamp((refs.pos - from):Dot(ab) / math.max(ab:Dot(ab), 1e-4), 0, 1)
+		if (from + ab * t - refs.pos).Magnitude > base.Size.Magnitude / 2 + BEAM_CONTACT_PAD then return false end
+		local cf = base.CFrame
+		local half = base.Size / 2 + Vector3.new(BEAM_CONTACT_PAD, BEAM_CONTACT_PAD, BEAM_CONTACT_PAD)
+		local la = cf:PointToObjectSpace(from)
+		local d = cf:PointToObjectSpace(pos) - la
+		local tmin, tmax = 0, 1
+		for _, axis in { "X", "Y", "Z" } do
+			local o, dv, h = la[axis], d[axis], half[axis]
+			if math.abs(dv) < 1e-6 then
+				if o < -h or o > h then return false end
+			else
+				local t1, t2 = (-h - o) / dv, (h - o) / dv
+				if t1 > t2 then t1, t2 = t2, t1 end
+				tmin = math.max(tmin, t1)
+				tmax = math.min(tmax, t2)
+				if tmin > tmax then return false end
+			end
+		end
+		return true
+	end
+
 	local function startBeamCheck(hitbox)
 		if beamLoops[hitbox] then return end
 		beamLoops[hitbox] = true
@@ -903,7 +923,7 @@ local function initBuilding()
 				for building, refs in liveRefs() do
 					local set = touchingParts[building]
 					if set then
-						if (pos - refs.pos).Magnitude <= r + refs.radius then
+						if beamReaches(hitbox, pos, r, refs) then
 							if not set[hitbox] then
 								set[hitbox] = true
 								playHitSound(refs.base)
@@ -914,7 +934,7 @@ local function initBuilding()
 						end
 					end
 				end
-				task.wait(0.15)
+				task.wait(0.05)
 			end
 			beamLoops[hitbox] = nil
 		end)
@@ -1054,25 +1074,37 @@ local function initBuilding()
 			if damaging then return end
 			damaging = true
 			task.spawn(function()
+				local primed = false
 				while true do
 					local set = touchingParts[building]
 					if not set or HP.Value <= 0 or destroyed[building] then break end
 
-					local rewards, any = {}, false
+					local rewards, any, beamHit = {}, false, false
 					for hit in set do
 						if not hit.Parent then
 							set[hit] = nil
 							hitboxOwners[hit] = nil
 						else
 							any = true
+							if string.find(hit.Name:lower(), "beam", 1, true) then beamHit = true end
 							local owner = hitboxOwners[hit]
 							if owner then rewards[owner] = (rewards[owner] or 0) + 1 end
 						end
 					end
 					if not any then break end
 
-					applyDamage(20, rewards)
-					task.wait(0.5)
+					if beamHit then
+						if primed then
+							applyDamage(BEAM_BUILDING_DAMAGE, rewards)
+						else
+							primed = true
+							applyDamage(BEAM_INITIAL_DAMAGE, rewards)
+						end
+						task.wait(BEAM_BUILDING_TICK)
+					else
+						applyDamage(MELEE_BUILDING_DAMAGE, rewards)
+						task.wait(MELEE_BUILDING_TICK)
+					end
 				end
 				damaging = false
 			end)

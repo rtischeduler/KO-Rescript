@@ -1,4 +1,6 @@
 local BeamSystem = {}
+local BeamHitSegments = _G.BeamHitSegments or setmetatable({}, { __mode = "k" })
+_G.BeamHitSegments = BeamHitSegments
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
@@ -41,7 +43,7 @@ local function collectTemplateEmitters(beamEnds)
 	local list = {}
 	for _, beamEnd in ipairs(beamEnds) do
 		for _, child in ipairs(beamEnd:GetChildren()) do
-			if child:IsA("ParticleEmitter") and #list < 4 then
+			if child:IsA("ParticleEmitter") and #list < 4 and string.sub(child.Name, 1, 12) ~= "BeamEndShine" then
 				table.insert(list, child)
 			end
 		end
@@ -650,6 +652,7 @@ function BeamSystem.ActivateBeam(config)
 		local startSmoke = {}
 		for _, beamStart in ipairs(beamStarts) do
 			table.insert(startSmoke, BeamVFX.NewStartSmoke(beamStart, smokeColor))
+			table.insert(startSmoke, BeamVFX.NewStartShine(beamStart, impactColor))
 		end
 		impactFolder.Destroying:Connect(function()
 			for _, smoke in ipairs(startSmoke) do
@@ -695,7 +698,7 @@ function BeamSystem.ActivateBeam(config)
 				table.insert(fxGroup, {emitter = core, rate = 22})
 			end
 		end
-		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = false})
+		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = false, noShine = BeamVFX.IsGhidorah(character)})
 		activeBeams[player].impactFx = impactFx
 		local burnTrails = {}
 		for _, endAtt in ipairs(beamEnds) do
@@ -707,13 +710,19 @@ function BeamSystem.ActivateBeam(config)
 		activeBeams[player].burnTrails = burnTrails
 		local smokeOpenness = 1
 		local templateSpreadBase = {}
+		local fxTracker = BeamVFX.NewTracker()
+		local fxCleared = false
 		local function setFxIntensity(intensity, surfaceHit)
-			local enabled = intensity > 0.05
+			local retract = BeamVFX.Track(fxTracker, intensity)
+			local enabled = intensity > 0.05 and not retract
+			local clear = BeamVFX.ShouldClear(retract, intensity)
 			for _, entry in ipairs(fxGroup) do
 				local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
 				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+				if clear and not fxCleared then entry.emitter:Clear() end
 			end
+			fxCleared = clear
 			impactFx:SetIntensity(intensity, surfaceHit)
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
@@ -783,8 +792,12 @@ function BeamSystem.ActivateBeam(config)
 				end
 				local impactPos = endPos + impactSurfaceOffset
 				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local impactScale = 1
+				if startPos then
+					impactScale = math.clamp((endPos - startPos).Magnitude / 50, 0.12, 1)
+				end
 				impactLight.Color = impactColor
-				impactLight.Brightness = 1.5 * extent
+				impactLight.Brightness = 1.5 * extent * impactScale
 				impactFx:Track(impactPos, now)
 				setFxIntensity(extent, impactSurfaceHit)
 			end
@@ -887,20 +900,24 @@ function BeamSystem.ActivateBeam(config)
 				lastEndPos = endPos
 				lastTexTime = now
 			end
+			BeamVFX.SetExtent(vfx, ext)
 			hitbox.CFrame = orientHitbox(clashing and startPos or myHRP.Position, tip, endPos)
+			BeamHitSegments[hitbox] = startPos
 			positionSideHitboxes(startPos, hitbox.CFrame, sideHitboxes, ext)
 			for _, be in ipairs(beamEndOffsets) do
 				be.att.CFrame = CFrame.new(be.offset * ext)
 			end
 			if beamIteration % 2 == 0 and #glowAttachments > 0 and primaryBeamStart and primaryBeamStart.Parent then
 				local beamStartPos = primaryBeamStart.WorldPosition
-				local glowRange = math.clamp((endPos - beamStartPos).Magnitude / (NUM_GLOW_LIGHTS + 1) * 1.4, 20, 60)
+				local glowLength = (endPos - beamStartPos).Magnitude
+				local glowScale = math.clamp(glowLength / 50, 0.12, 1)
+				local glowRange = math.clamp(glowLength / (NUM_GLOW_LIGHTS + 1) * 1.4, 10, 60)
 				for i, att in ipairs(glowAttachments) do
 					local t = i / (NUM_GLOW_LIGHTS + 1)
 					att.WorldPosition = beamStartPos:Lerp(endPos, t)
 					local light = att:FindFirstChildOfClass("PointLight")
 					if light then
-						local b = 0.9 * ext
+						local b = 0.9 * ext * glowScale
 						if math.abs(light.Brightness - b) > 0.02 then light.Brightness = b end
 						if math.abs(light.Range - glowRange) > 0.5 then light.Range = glowRange end
 					end
