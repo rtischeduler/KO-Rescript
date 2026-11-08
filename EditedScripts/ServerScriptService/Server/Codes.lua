@@ -27,11 +27,23 @@ function Codes.normalize(text)
 	return cleaned ~= "" and cleaned or nil
 end
 
+local function findValue(root, name)
+	local found = root:FindFirstChild(name) or root:FindFirstChild(name, true)
+	if found and found:IsA("ValueBase") then
+		return found
+	end
+	return nil
+end
+
 local function getGCells(player)
 	local stats = player:FindFirstChild("leaderstats")
-	local gcells = stats and (stats:FindFirstChild("GCells") or stats:FindFirstChild("gcells"))
-	if gcells and gcells:IsA("IntValue") then
-		return gcells
+	if not stats then
+		return nil
+	end
+	for _, child in ipairs(stats:GetChildren()) do
+		if child.Name:lower() == "gcells" and child:IsA("ValueBase") and type(child.Value) == "number" then
+			return child
+		end
 	end
 	return nil
 end
@@ -39,20 +51,19 @@ end
 local function getLevelParts(player)
 	local character = player.Character
 	if not character then
-		return nil
+		return nil, "spawn in as a kaiju first"
 	end
-	local addXP = character:FindFirstChild("AddXP")
-	local level = character:FindFirstChild("Level")
-	local xp = character:FindFirstChild("XP")
-	local kaiju = character:FindFirstChild("Kaiju")
-	local humanoid = character:FindFirstChildOfClass("Humanoid")
-	if not (addXP and addXP:IsA("BindableEvent") and level and xp and kaiju and kaiju:IsA("StringValue")) then
-		return nil
+	local addXP = character:FindFirstChild("AddXP") or character:FindFirstChild("AddXP", true)
+	local level = findValue(character, "Level")
+	local xp = findValue(character, "XP")
+	local kaiju = findValue(character, "Kaiju")
+	if not (addXP and addXP:IsA("BindableEvent")) then
+		return nil, "your kaiju has no level system yet, try again in a few seconds"
 	end
-	if not humanoid or humanoid.Health <= 0 then
-		return nil
+	if not (level and xp and kaiju and type(level.Value) == "number" and type(xp.Value) == "number") then
+		return nil, "your kaiju level data is not loaded yet, try again in a few seconds"
 	end
-	return { addXP = addXP, level = level, xp = xp, kaiju = kaiju.Value }
+	return { addXP = addXP, level = level, xp = xp, kaiju = tostring(kaiju.Value) }
 end
 
 local function planLevels(parts, count)
@@ -72,11 +83,14 @@ end
 function Codes.grant(player, reward)
 	local gcells = reward.GCells and getGCells(player)
 	if reward.GCells and not gcells then
-		return false
+		return false, "your G-Cells stat was not found"
 	end
-	local parts = reward.Levels and getLevelParts(player)
-	if reward.Levels and not parts then
-		return false
+	local parts, reason
+	if reward.Levels then
+		parts, reason = getLevelParts(player)
+		if not parts then
+			return false, reason
+		end
 	end
 
 	local lines = {}
@@ -135,7 +149,7 @@ function Codes.Init(store)
 		end
 		local given, message = Codes.grant(player, reward)
 		if not given then
-			remote:FireClient(player, false, "Could not give the reward yet. Try again in a moment.")
+			remote:FireClient(player, false, "Could not give the reward: " .. tostring(message) .. ".")
 			return
 		end
 		store.mark(userId, key)
