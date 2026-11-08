@@ -1,5 +1,5 @@
--- Restyles the Settings screen to match the main menu: dark translucent panels, Comic Neue Angular, white text,
--- rounded 3px corners and the cyan accent. Layout only: every instance the other scripts use (FOVBack, FOVFront,
+-- Tidies the Settings screen layout while keeping its original colours: blue window/border, white content area,
+-- blue value boxes and the cyan slider fill, in Comic Neue Angular with 3px corners. Layout only: every instance the other scripts use (FOVBack, FOVFront,
 -- FOVUpdater, FOVText, InsertCode, Back) keeps its name and parent, so the slider and saving still work.
 
 local settings = script.Parent
@@ -9,11 +9,13 @@ if not panel then return end
 local FONT = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
 local FONT_BOLD = Font.new("rbxasset://fonts/families/ComicNeueAngular.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
 
-local BASE = Color3.fromRGB(40, 40, 40) -- same as the main menu buttons
-local FIELD = Color3.fromRGB(24, 24, 24)
-local ACCENT = Color3.fromRGB(156, 255, 248)
-local TEXT = Color3.fromRGB(255, 255, 255)
-local MUTED = Color3.fromRGB(170, 170, 170)
+local WINDOW = Color3.fromRGB(116, 125, 255) -- original blue window / border
+local WHITE = Color3.fromRGB(255, 255, 255)
+local BLUE = Color3.fromRGB(0, 132, 255) -- original value box blue
+local TRACK = Color3.fromRGB(153, 153, 153) -- original slider track
+local ACCENT = Color3.fromRGB(156, 255, 248) -- original slider fill
+local TEXT = Color3.fromRGB(0, 0, 0) -- text on the white area
+local MUTED = Color3.fromRGB(120, 120, 120)
 local RADIUS = UDim.new(0, 3)
 
 local LABEL_W = 170 -- left label column
@@ -69,8 +71,8 @@ end
 
 -- Window ---------------------------------------------------------------------------------------------------------
 if settings:IsA("GuiObject") then
-	settings.BackgroundColor3 = BASE
-	settings.BackgroundTransparency = 0.3
+	settings.BackgroundColor3 = WINDOW
+	settings.BackgroundTransparency = 0
 	settings.BorderSizePixel = 0
 	corner(settings)
 end
@@ -80,6 +82,7 @@ if title and title:IsA("TextLabel") then
 	title.Position = UDim2.fromOffset(PAD, 12)
 	title.Size = UDim2.new(1, -(PAD * 2 + 56), 0, 40)
 	styleLabel(title, "Settings", 32, FONT_BOLD)
+	title.TextColor3 = WHITE
 	textLimit(title, 32)
 end
 
@@ -88,11 +91,11 @@ if back and back:IsA("TextButton") then
 	back.AnchorPoint = Vector2.new(1, 0)
 	back.Position = UDim2.new(1, -PAD, 0, 12)
 	back.Size = UDim2.fromOffset(40, 40)
-	back.BackgroundColor3 = FIELD
-	back.BackgroundTransparency = 0.2
+	back.BackgroundColor3 = BLUE
+	back.BackgroundTransparency = 0
 	back.BorderSizePixel = 0
 	back.Text = "X"
-	back.TextColor3 = TEXT
+	back.TextColor3 = WHITE
 	back.FontFace = FONT_BOLD
 	back.TextScaled = false
 	back.TextSize = 24
@@ -103,7 +106,7 @@ if back and back:IsA("TextButton") then
 		back.BackgroundColor3 = Color3.fromRGB(190, 55, 55)
 	end)
 	back.MouseLeave:Connect(function()
-		back.BackgroundColor3 = FIELD
+		back.BackgroundColor3 = BLUE
 	end)
 end
 
@@ -111,8 +114,15 @@ end
 panel.AnchorPoint = Vector2.zero
 panel.Position = UDim2.new(0, PAD, 0, 64)
 panel.Size = UDim2.new(1, -PAD * 2, 1, -(64 + PAD))
-panel.BackgroundTransparency = 1
+panel.BackgroundColor3 = WHITE
+panel.BackgroundTransparency = 0
 panel.BorderSizePixel = 0
+corner(panel)
+local panelPad = ensure(panel, "UIPadding", "UIPadding")
+panelPad.PaddingLeft = UDim.new(0, PAD)
+panelPad.PaddingRight = UDim.new(0, PAD)
+panelPad.PaddingTop = UDim.new(0, PAD)
+panelPad.PaddingBottom = UDim.new(0, PAD)
 panel.CanvasSize = UDim2.fromOffset(0, 0)
 panel.AutomaticCanvasSize = Enum.AutomaticSize.Y
 panel.ScrollingDirection = Enum.ScrollingDirection.Y
@@ -150,8 +160,8 @@ if fovBack and fovBack:IsA("GuiObject") then
 	fovBack.AnchorPoint = Vector2.zero
 	fovBack.Position = trackPos
 	fovBack.Size = trackSize
-	fovBack.BackgroundColor3 = FIELD
-	fovBack.BackgroundTransparency = 0.1
+	fovBack.BackgroundColor3 = TRACK
+	fovBack.BackgroundTransparency = 0
 	fovBack.BorderSizePixel = 0
 	corner(fovBack)
 
@@ -179,10 +189,10 @@ if fovText and fovText:IsA("TextBox") then
 	fovText.AnchorPoint = Vector2.new(1, 0)
 	fovText.Position = UDim2.new(1, 0, 0, rowY(1) + 6)
 	fovText.Size = UDim2.fromOffset(VALUE_W, ROW_H - 12)
-	fovText.BackgroundColor3 = FIELD
-	fovText.BackgroundTransparency = 0.1
+	fovText.BackgroundColor3 = BLUE
+	fovText.BackgroundTransparency = 0
 	fovText.BorderSizePixel = 0
-	fovText.TextColor3 = TEXT
+	fovText.TextColor3 = WHITE
 	fovText.FontFace = FONT
 	fovText.TextScaled = true
 	fovText.TextXAlignment = Enum.TextXAlignment.Center
@@ -203,8 +213,8 @@ if insertCode and insertCode:IsA("TextBox") then
 	insertCode.AnchorPoint = Vector2.zero
 	insertCode.Position = UDim2.new(0, LABEL_W, 0, rowY(2) + 6)
 	insertCode.Size = UDim2.new(1, -LABEL_W, 0, ROW_H - 12)
-	insertCode.BackgroundColor3 = FIELD
-	insertCode.BackgroundTransparency = 0.1
+	insertCode.BackgroundColor3 = WHITE
+	insertCode.BackgroundTransparency = 0
 	insertCode.BorderSizePixel = 0
 	insertCode.TextColor3 = TEXT
 	insertCode.PlaceholderColor3 = MUTED
@@ -217,6 +227,7 @@ if insertCode and insertCode:IsA("TextBox") then
 	insertCode.ZIndex = 2
 	textLimit(insertCode, 24)
 	corner(insertCode)
+	stroke(insertCode, BLUE, 0)
 
 	local pad = ensure(insertCode, "UIPadding", "UIPadding")
 	pad.PaddingLeft = UDim.new(0, 12)
