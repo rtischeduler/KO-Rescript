@@ -772,6 +772,10 @@ local function initBuilding()
 	local beamLoops, blastLoops = {}, {}
 
 	local DAMAGE_KEYWORDS = { "hitbox", "beam", "blast", "firebomb" }
+	local MELEE_BUILDING_DAMAGE = 20
+	local MELEE_BUILDING_TICK = 0.5
+	local BEAM_BUILDING_DAMAGE = 25
+	local BEAM_BUILDING_TICK = 0.2
 
 	local function isValidDamager(name)
 		name = name:lower()
@@ -1042,21 +1046,27 @@ local function initBuilding()
 					local set = touchingParts[building]
 					if not set or HP.Value <= 0 or destroyed[building] then break end
 
-					local rewards, any = {}, false
+					local rewards, any, beamHit = {}, false, false
 					for hit in set do
 						if not hit.Parent then
 							set[hit] = nil
 							hitboxOwners[hit] = nil
 						else
 							any = true
+							if string.find(hit.Name:lower(), "beam", 1, true) then beamHit = true end
 							local owner = hitboxOwners[hit]
 							if owner then rewards[owner] = (rewards[owner] or 0) + 1 end
 						end
 					end
 					if not any then break end
 
-					applyDamage(20, rewards)
-					task.wait(0.5)
+					if beamHit then
+						applyDamage(BEAM_BUILDING_DAMAGE, rewards)
+						task.wait(BEAM_BUILDING_TICK)
+					else
+						applyDamage(MELEE_BUILDING_DAMAGE, rewards)
+						task.wait(MELEE_BUILDING_TICK)
+					end
 				end
 				damaging = false
 			end)
