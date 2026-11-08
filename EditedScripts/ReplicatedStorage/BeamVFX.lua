@@ -56,6 +56,51 @@ end
 
 BeamVFX.IsGhidorah = isGhidorah
 
+local RETRACT_BELOW = 0.95
+local CLEAR_BELOW = 0.3
+
+function BeamVFX.NewTracker()
+	return {last = nil, retract = false}
+end
+
+function BeamVFX.Track(tracker, value)
+	local last = tracker.last
+	if last then
+		local delta = value - last
+		if delta < -0.002 then
+			tracker.retract = true
+		elseif delta > 0.002 then
+			tracker.retract = false
+		end
+	end
+	tracker.last = value
+	return tracker.retract and value < RETRACT_BELOW
+end
+
+local baseSizes = setmetatable({}, {__mode = "k"})
+local appliedScale = setmetatable({}, {__mode = "k"})
+
+function BeamVFX.ScaleSize(emitter, k)
+	local base = baseSizes[emitter]
+	if not base then
+		base = emitter.Size
+		baseSizes[emitter] = base
+	end
+	k = math.max(k, 0.01)
+	local last = appliedScale[emitter]
+	if last and math.abs(last - k) < 0.02 then return end
+	appliedScale[emitter] = k
+	local points = {}
+	for _, kp in ipairs(base.Keypoints) do
+		table.insert(points, NumberSequenceKeypoint.new(kp.Time, kp.Value * k, kp.Envelope * k))
+	end
+	emitter.Size = NumberSequence.new(points)
+end
+
+function BeamVFX.ShouldClear(retract, value)
+	return (retract and value < CLEAR_BELOW) or value <= 0.05
+end
+
 local function nightBrightness()
 	local t = Lighting.ClockTime
 	if t >= 17.5 or t <= 6.5 then return MAIN_BRIGHTNESS_NIGHT end
@@ -115,7 +160,7 @@ local function addEntry(vfx, beam, base, boost)
 end
 
 function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
-	local vfx = {entries = {}, instances = {}, folders = {}, server = isServer == true}
+	local vfx = {entries = {}, instances = {}, folders = {}, server = isServer == true, endShines = {}, tracker = BeamVFX.NewTracker(), endCleared = false}
 	local ghidorah = isGhidorah(character)
 	local brightness = nightBrightness()
 	local shined = {}
@@ -401,6 +446,25 @@ addEndShines = function(vfx, finish, color)
 	hot.Parent = finish
 	table.insert(vfx.instances, shine)
 	table.insert(vfx.instances, hot)
+	table.insert(vfx.endShines, shine)
+	table.insert(vfx.endShines, hot)
+end
+
+function BeamVFX.SetExtent(vfx, extent)
+	if not vfx or #vfx.endShines == 0 then return end
+	local retract = BeamVFX.Track(vfx.tracker, extent)
+	local k = math.clamp(extent, 0, 1)
+	k = k * k
+	local on = extent > 0.05
+	local clear = BeamVFX.ShouldClear(retract, extent)
+	for _, emitter in ipairs(vfx.endShines) do
+		if emitter.Parent then
+			BeamVFX.ScaleSize(emitter, k)
+			if emitter.Enabled ~= on then emitter.Enabled = on end
+			if clear and not vfx.endCleared then emitter:Clear() end
+		end
+	end
+	vfx.endCleared = clear
 end
 
 function BeamVFX.NewStartShine(parent, color, name)
@@ -541,6 +605,8 @@ function BeamVFX.NewImpact(anchor, color, options)
 	self.lastTrackPos = nil
 	self.burnRate = -1
 	self.intensity = 0
+	self.tracker = BeamVFX.NewTracker()
+	self.cleared = false
 	for i = 1, SMOKE_DIRECTIONS do
 		self.smoke[i] = {}
 		for s = 1, SMOKE_SEGMENTS do
@@ -656,7 +722,8 @@ end
 function Impact:SetIntensity(intensity, surfaceHit)
 	self.intensity = intensity
 	self.surface = surfaceHit
-	local enabled = intensity > 0.05
+	local retract = BeamVFX.Track(self.tracker, intensity)
+	local enabled = intensity > 0.05 and not retract
 	local smokeRate = enabled and math.floor(8 * intensity + 0.5) or 0
 	for i = 1, SMOKE_DIRECTIONS do
 		for s = 1, SMOKE_SEGMENTS do
@@ -670,13 +737,32 @@ function Impact:SetIntensity(intensity, surfaceHit)
 	local sparkRate = enabled and math.floor(SPARK_RATE * intensity + 0.5) or 0
 	if self.spark.Rate ~= sparkRate then self.spark.Rate = sparkRate end
 	if self.spark.Enabled ~= enabled then self.spark.Enabled = enabled end
-	local shineRate = enabled and SHINE_RATE or 0
+	local shineOn = intensity > 0.05
+	local shineRate = shineOn and SHINE_RATE or 0
+	local scale = math.clamp(intensity, 0, 1)
+	scale = scale * scale
 	if self.shine then
+		BeamVFX.ScaleSize(self.shine, scale)
+		BeamVFX.ScaleSize(self.shineHot, scale)
 		if self.shine.Rate ~= shineRate then self.shine.Rate = shineRate end
-		if self.shine.Enabled ~= enabled then self.shine.Enabled = enabled end
+		if self.shine.Enabled ~= shineOn then self.shine.Enabled = shineOn end
 		if self.shineHot.Rate ~= shineRate then self.shineHot.Rate = shineRate end
-		if self.shineHot.Enabled ~= enabled then self.shineHot.Enabled = enabled end
+		if self.shineHot.Enabled ~= shineOn then self.shineHot.Enabled = shineOn end
 	end
+	local clear = BeamVFX.ShouldClear(retract, intensity)
+	if clear and not self.cleared then
+		pcall(function() self.spark:Clear() end)
+		if self.shine then
+			pcall(function() self.shine:Clear() end)
+			pcall(function() self.shineHot:Clear() end)
+		end
+		for i = 1, SMOKE_DIRECTIONS do
+			for s = 1, SMOKE_SEGMENTS do
+				pcall(function() self.smoke[i][s].emitter:Clear() end)
+			end
+		end
+	end
+	self.cleared = clear
 	if self.burn then
 		local burning = enabled and surfaceHit == true
 		local rate = 0

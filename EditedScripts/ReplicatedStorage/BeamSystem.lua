@@ -708,13 +708,19 @@ function BeamSystem.ActivateBeam(config)
 		activeBeams[player].burnTrails = burnTrails
 		local smokeOpenness = 1
 		local templateSpreadBase = {}
+		local fxTracker = BeamVFX.NewTracker()
+		local fxCleared = false
 		local function setFxIntensity(intensity, surfaceHit)
-			local enabled = intensity > 0.05
+			local retract = BeamVFX.Track(fxTracker, intensity)
+			local enabled = intensity > 0.05 and not retract
+			local clear = BeamVFX.ShouldClear(retract, intensity)
 			for _, entry in ipairs(fxGroup) do
 				local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
 				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+				if clear and not fxCleared then entry.emitter:Clear() end
 			end
+			fxCleared = clear
 			impactFx:SetIntensity(intensity, surfaceHit)
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
@@ -892,6 +898,7 @@ function BeamSystem.ActivateBeam(config)
 				lastEndPos = endPos
 				lastTexTime = now
 			end
+			BeamVFX.SetExtent(vfx, ext)
 			hitbox.CFrame = orientHitbox(clashing and startPos or myHRP.Position, tip, endPos)
 			positionSideHitboxes(startPos, hitbox.CFrame, sideHitboxes, ext)
 			for _, be in ipairs(beamEndOffsets) do

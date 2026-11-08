@@ -176,6 +176,8 @@ function BeamClientFX.new(character)
 	self.startTime = os.clock()
 	self.built = false
 	self.fxGroup = {}
+	self.fxTracker = BeamVFX.NewTracker()
+	self.fxCleared = false
 	self.glow = {}
 	self.startSmoke = {}
 	self.surfaceOffset = nil
@@ -309,12 +311,16 @@ function BeamClientFX:_syncTemplates(endsHolder, now)
 end
 
 function BeamClientFX:_setIntensity(intensity)
-	local enabled = intensity > 0.05
+	local retract = BeamVFX.Track(self.fxTracker, intensity)
+	local enabled = intensity > 0.05 and not retract
+	local clear = BeamVFX.ShouldClear(retract, intensity)
 	for _, entry in ipairs(self.fxGroup) do
 		local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
 		if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 		if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
+		if clear and not self.fxCleared then entry.emitter:Clear() end
 	end
+	self.fxCleared = clear
 	self.impactFx:SetIntensity(intensity, self.surfaceHit)
 end
 
