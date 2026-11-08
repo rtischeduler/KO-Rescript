@@ -1,0 +1,155 @@
+name: Pull GUI
+
+# Dumps one or more GUI instances (full property tree as JSON + an importable .rbxmx)
+# from the live place into gui-dump/ on main, so UI work can be done against real data.
+
+on:
+  workflow_dispatch:
+    inputs:
+      paths:
+        description: "Comma-separated instance paths (e.g. StarterGui/NEWMenu/Settings,StarterGui/GameGui)"
+        required: false
+        default: "StarterGui/NEWMenu/Settings"
+        type: string
+      include_defaults:
+        description: "Include properties that still have their default value (much bigger output)"
+        type: boolean
+        default: false
+      universe_id:
+        description: "Roblox Universe ID"
+        required: false
+        default: "3926279738"
+        type: string
+      place_id:
+        description: "Place ID (must belong to the universe above)"
+        required: false
+        default: "10879318443"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pull-gui
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tools
+            gui-dump
+
+      - name: Resolve universe ID -> root place ID
+        id: place
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          UNIVERSE_ID: ${{ inputs.universe_id || vars.ROBLOX_UNIVERSE_ID || '3926279738' }}
+          PLACE_ID_OVERRIDE: ${{ inputs.place_id || vars.ROBLOX_PLACE_ID || '10879318443' }}
+        run: |
+          set -uo pipefail
+          PLACE_ID="${PLACE_ID_OVERRIDE:-}"
+          if [ -z "$PLACE_ID" ]; then
+            PLACE_ID=$(curl -fsS -H "x-api-key: $ROBLOX_API_KEY" \
+              "https://apis.roblox.com/cloud/v2/universes/$UNIVERSE_ID" 2>/dev/null \
+              | jq -r '.rootPlace // empty' | sed 's#.*/places/##') || PLACE_ID=""
+          fi
+          if ! [[ "$PLACE_ID" =~ ^[0-9]+$ ]]; then
+            PLACE_ID=$(curl -fsS "https://games.roblox.com/v1/games?universeIds=$UNIVERSE_ID" 2>/dev/null \
+              | jq -r '.data[0].rootPlaceId // empty') || PLACE_ID=""
+          fi
+          if ! [[ "$PLACE_ID" =~ ^[0-9]+$ ]]; then
+            echo "::error::Could not resolve a place for universe $UNIVERSE_ID. Set the ROBLOX_PLACE_ID repo variable (or place_id input)."
+            exit 1
+          fi
+          echo "Using universe $UNIVERSE_ID place $PLACE_ID"
+          echo "place_id=$PLACE_ID" >> "$GITHUB_OUTPUT"
+          echo "universe_id=$UNIVERSE_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Download current place
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          PLACE_ID: ${{ steps.place.outputs.place_id }}
+        run: |
+          set -euo pipefail
+          CODE=$(curl -sS -o delivery.json -w '%{http_code}' -H "x-api-key: $ROBLOX_API_KEY" \
+            "https://apis.roblox.com/asset-delivery-api/v1/assetId/$PLACE_ID")
+          if [ "$CODE" != "200" ]; then
+            echo "Asset delivery for place $PLACE_ID returned HTTP $CODE:"
+            cat delivery.json; echo
+            echo "::error::Download failed (HTTP $CODE). The API key must include this experience (universe ${{ steps.place.outputs.universe_id }}) with place read and legacy-asset:manage / asset read, and the key owner must own or have access to the place."
+            exit 1
+          fi
+          LOCATION=$(jq -r '.location' delivery.json)
+          if [ -z "$LOCATION" ] || [ "$LOCATION" = "null" ]; then
+            echo "::error::Asset delivery returned no download location"
+            exit 1
+          fi
+          ok=0
+          for attempt in 1 2 3; do
+            curl -fsSL --compressed "$LOCATION" -o place.rbxl || true
+            if [ "$(head -c 2 place.rbxl | od -An -tx1 | tr -d ' \n')" = "1f8b" ]; then
+              mv place.rbxl place.gz && gunzip -c place.gz > place.rbxl && rm place.gz
+            fi
+            if head -c 7 place.rbxl | grep -aq '<roblox'; then ok=1; break; fi
+            sleep $((attempt * 5))
+          done
+          [ "$ok" = "1" ] || { echo "::error::Downloaded file is not a Roblox place file"; exit 1; }
+          ls -l place.rbxl
+
+      - name: Install Lune
+        run: |
+          set -euo pipefail
+          URL=$(curl -fsS -H "Authorization: Bearer ${{ github.token }}" \
+            "https://api.github.com/repos/lune-org/lune/releases/latest" \
+            | jq -r '.assets[].browser_download_url' \
+            | grep -i linux | grep -i x86_64 | grep '\.zip$' | head -n1)
+          [ -n "$URL" ] || { echo "::error::No Lune linux x86_64 asset found"; exit 1; }
+          curl -fsSL -o lune.zip "$URL"
+          unzip -q lune.zip -d "$RUNNER_TEMP/lune"
+          chmod +x "$RUNNER_TEMP/lune/lune"
+          echo "$RUNNER_TEMP/lune" >> "$GITHUB_PATH"
+
+      - name: Dump GUI into gui-dump/
+        env:
+          GUI_PATHS: ${{ inputs.paths }}
+        run: |
+          set -euo pipefail
+          DEFAULTS=0
+          [ "${{ inputs.include_defaults }}" = "true" ] && DEFAULTS=1
+          rm -rf gui-dump
+          lune run tools/pull_gui place.rbxl gui-dump "${GUI_PATHS:-StarterGui/NEWMenu/Settings}" "$DEFAULTS"
+          cat gui-dump/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gui-dump
+          path: gui-dump
+          retention-days: 30
+
+      - name: Commit gui-dump/ to main
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A gui-dump
+          if git diff --cached --quiet; then
+            echo "gui-dump/ is already up to date, nothing to commit."
+            exit 0
+          fi
+          git commit -m "Pull GUI (universe ${{ steps.place.outputs.universe_id }}, place ${{ steps.place.outputs.place_id }})"
+          for attempt in 1 2 3 4 5; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              exit 0
+            fi
+            git pull --rebase origin ${{ github.ref_name }}
+            sleep 5
+          done
+          echo "::error::Could not push gui-dump/ after 5 attempts"
+          exit 1

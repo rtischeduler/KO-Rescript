@@ -12,3 +12,4 @@ ReplicatedStorage/HolidayConfigs.lua
 ReplicatedStorage/CandyConfig.lua
 ServerScriptService/framework/modules/World.lua
 StarterPlayer/StarterPlayerScripts/BuildingFX.client.lua
+StarterGui/NEWMenu/Settings/SettingsStyle.client.lua
