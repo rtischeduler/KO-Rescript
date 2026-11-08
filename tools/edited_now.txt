@@ -10,3 +10,4 @@ StarterPlayer/StarterPlayerScripts/Client/Controllers/Graphics.lua
 StarterPlayer/StarterPlayerScripts/Client/Controllers/Indicators.lua
 ReplicatedStorage/PlayerScripts/Control/init.client.lua
 StarterGui/NEWMenu/UIScript.client.lua
+ServerScriptService/framework/modules/Data.lua
