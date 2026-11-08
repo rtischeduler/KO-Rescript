@@ -783,8 +783,12 @@ function BeamSystem.ActivateBeam(config)
 				end
 				local impactPos = endPos + impactSurfaceOffset
 				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+				local impactScale = 1
+				if startPos then
+					impactScale = math.clamp((endPos - startPos).Magnitude / 50, 0.12, 1)
+				end
 				impactLight.Color = impactColor
-				impactLight.Brightness = 1.5 * extent
+				impactLight.Brightness = 1.5 * extent * impactScale
 				impactFx:Track(impactPos, now)
 				setFxIntensity(extent, impactSurfaceHit)
 			end
@@ -894,13 +898,15 @@ function BeamSystem.ActivateBeam(config)
 			end
 			if beamIteration % 2 == 0 and #glowAttachments > 0 and primaryBeamStart and primaryBeamStart.Parent then
 				local beamStartPos = primaryBeamStart.WorldPosition
-				local glowRange = math.clamp((endPos - beamStartPos).Magnitude / (NUM_GLOW_LIGHTS + 1) * 1.4, 20, 60)
+				local glowLength = (endPos - beamStartPos).Magnitude
+				local glowScale = math.clamp(glowLength / 50, 0.12, 1)
+				local glowRange = math.clamp(glowLength / (NUM_GLOW_LIGHTS + 1) * 1.4, 10, 60)
 				for i, att in ipairs(glowAttachments) do
 					local t = i / (NUM_GLOW_LIGHTS + 1)
 					att.WorldPosition = beamStartPos:Lerp(endPos, t)
 					local light = att:FindFirstChildOfClass("PointLight")
 					if light then
-						local b = 0.9 * ext
+						local b = 0.9 * ext * glowScale
 						if math.abs(light.Brightness - b) > 0.02 then light.Brightness = b end
 						if math.abs(light.Range - glowRange) > 0.5 then light.Range = glowRange end
 					end

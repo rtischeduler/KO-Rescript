@@ -11,6 +11,13 @@ local NUM_GLOW_LIGHTS = 8
 local SHIFTLOCK_RAISE = 8
 local SHIFTLOCK_MIN_FORWARD = 8
 local TEMPLATE_TIMEOUT = 1.5
+local CLOSE_FULL_LENGTH = 50
+local CLOSE_MIN_SCALE = 0.12
+local GLOW_MIN_RANGE = 10
+
+local function closeScale(length)
+	return math.clamp(length / CLOSE_FULL_LENGTH, CLOSE_MIN_SCALE, 1)
+end
 
 local function scaleSequence(seq, k)
 	local points = {}
@@ -336,8 +343,12 @@ function BeamClientFX:_updateImpact(endPos, extent, endsHolder)
 	end
 	local impactPos = endPos + self.surfaceOffset
 	self.anchor.CFrame = CFrame.lookAt(impactPos, impactPos + self.surfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
+	local impactScale = 1
+	if self.primaryStart and self.primaryStart.Parent then
+		impactScale = closeScale((endPos - self.primaryStart.WorldPosition).Magnitude)
+	end
 	self.light.Color = self.impactColor
-	self.light.Brightness = 1.5 * extent
+	self.light.Brightness = 1.5 * extent * impactScale
 	self.impactFx:Track(impactPos, now)
 	self:_setIntensity(extent)
 end
@@ -346,10 +357,12 @@ function BeamClientFX:_updateGlow(endPos, extent)
 	local startAtt = self.primaryStart
 	if not startAtt or not startAtt.Parent or #self.glow == 0 then return end
 	local startPos = startAtt.WorldPosition
-	local range = math.clamp((endPos - startPos).Magnitude / (NUM_GLOW_LIGHTS + 1) * 1.4, 20, 60)
+	local length = (endPos - startPos).Magnitude
+	local scale = closeScale(length)
+	local range = math.clamp(length / (NUM_GLOW_LIGHTS + 1) * 1.4, GLOW_MIN_RANGE, 60)
 	for i, entry in ipairs(self.glow) do
 		entry.att.WorldPosition = startPos:Lerp(endPos, i / (NUM_GLOW_LIGHTS + 1))
-		entry.light.Brightness = 0.9 * extent
+		entry.light.Brightness = 0.9 * extent * scale
 		entry.light.Range = range
 	end
 end
