@@ -3,6 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local Lighting = game:GetService("Lighting")
 local SoundService = game:GetService("SoundService")
+local TweenService = game:GetService("TweenService")
 local Workspace = game:GetService("Workspace")
 
 local KOSettings = require(ReplicatedStorage:WaitForChild("KOSettings"))
@@ -22,6 +23,7 @@ end
 local masterGroup = makeGroup("KOMaster", SoundService)
 local musicGroup = makeGroup("KOMusic", masterGroup)
 local sfxGroup = makeGroup("KOSfx", masterGroup)
+local footGroup = makeGroup("KOFootsteps", sfxGroup)
 local footsteps = SoundService:FindFirstChild("Footsteps")
 local footstepBase
 
@@ -30,14 +32,19 @@ local function applyAudio()
 	masterGroup.Volume = master
 	musicGroup.Volume = KOSettings.Get("MusicVolume")
 	sfxGroup.Volume = KOSettings.Get("SoundVolume")
+	footGroup.Volume = KOSettings.Get("FootstepVolume")
 	if footsteps and footsteps:IsA("SoundGroup") then
 		footstepBase = footstepBase or footsteps.Volume
-		footsteps.Volume = footstepBase * master * KOSettings.Get("SoundVolume")
+		footsteps.Volume = footstepBase * master * KOSettings.Get("SoundVolume") * KOSettings.Get("FootstepVolume")
 	end
 end
 
 local function route(sound)
 	if sound.SoundGroup then
+		return
+	end
+	if sound.Name == "FootStep" or sound.Name == "Running" then
+		sound.SoundGroup = footGroup
 		return
 	end
 	local isMusic = sound.Name == "Music" or sound:FindFirstAncestor("Music") ~= nil
@@ -100,6 +107,70 @@ for _, root in ipairs({ Workspace, SoundService, playerGui }) do
 	task.spawn(scan, root)
 end
 
+local NEUTRAL = { LowGain = 0, MidGain = 0, HighGain = 0 }
+local MUFFLED = { LowGain = 0, MidGain = -12, HighGain = -50 }
+local muffles = {}
+
+local function addMuffle(group)
+	local effect = group:FindFirstChild("KOMuffle")
+	if not effect then
+		effect = Instance.new("EqualizerSoundEffect")
+		effect.Name = "KOMuffle"
+		effect.LowGain = 0
+		effect.MidGain = 0
+		effect.HighGain = 0
+		effect.Parent = group
+	end
+	table.insert(muffles, effect)
+end
+
+addMuffle(masterGroup)
+if footsteps and footsteps:IsA("SoundGroup") then
+	addMuffle(footsteps)
+end
+
+local muffled = false
+local function setMuffled(on)
+	if muffled == on then
+		return
+	end
+	muffled = on
+	for _, effect in ipairs(muffles) do
+		TweenService:Create(effect, TweenInfo.new(0.35), on and MUFFLED or NEUTRAL):Play()
+	end
+end
+
+local function cameraUnderwater()
+	local camera = Workspace.CurrentCamera
+	if not camera then
+		return false
+	end
+	local position = camera.CFrame.Position
+	local ocean = Workspace:FindFirstChild("Ocean")
+	if ocean and ocean:IsA("BasePart") then
+		return position.Y < ocean.Position.Y
+	end
+	local terrain = Workspace.Terrain
+	local cell = terrain:WorldToCell(position)
+	local origin = terrain:CellCenterToWorld(cell.X, cell.Y, cell.Z) - Vector3.new(2, 2, 2)
+	local ok, materials = pcall(terrain.ReadVoxels, terrain, Region3.new(origin, origin + Vector3.new(4, 4, 4)), 4)
+	return ok and materials[1][1][1] == Enum.Material.Water
+end
+
+local lastCheck = 0
+local function updateMuffle(force)
+	local now = os.clock()
+	if not force and now - lastCheck < 0.1 then
+		return
+	end
+	lastCheck = now
+	setMuffled(KOSettings.Get("UnderwaterMuffle") and cameraUnderwater())
+end
+
+RunService.Heartbeat:Connect(function()
+	updateMuffle(false)
+end)
+
 local clockConn
 local function applyDayNight()
 	if clockConn then
@@ -123,8 +194,10 @@ KOSettings.OnChanged(function(name)
 		for emitter in pairs(rainEmitters) do
 			applyRain(emitter)
 		end
-	elseif name == "MasterVolume" or name == "MusicVolume" or name == "SoundVolume" then
+	elseif name == "MasterVolume" or name == "MusicVolume" or name == "SoundVolume" or name == "FootstepVolume" then
 		applyAudio()
+	elseif name == "UnderwaterMuffle" then
+		updateMuffle(true)
 	end
 end)
 

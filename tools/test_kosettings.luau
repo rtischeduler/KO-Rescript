@@ -21,6 +21,8 @@ end
 check(K.Validate("Rain", true) == true and K.Validate("Rain", "x") == nil, "boolean validation")
 check(K.Validate("MasterVolume", 2) == 1 and K.Validate("MasterVolume", -1) == 0, "volume clamp")
 check(K.Validate("MusicVolume", 0.123) == 0.12, "volume rounding")
+check(K.Validate("FootstepVolume", 5) == 1 and K.Validate("FootstepVolume", 0.456) == 0.46, "footstep volume")
+check(K.Validate("UnderwaterMuffle", false) == false and K.Validate("UnderwaterMuffle", 1) == nil, "muffle toggle")
 check(K.Validate("Graphics", "Low") == "Low" and K.Validate("Graphics", "Ultra") == nil, "choice validation")
 check(K.Validate("Key_Fly", "G") == "G" and K.Validate("Key_Fly", "Escape") == nil and K.Validate("Key_Fly", "Nope") == nil, "key validation")
 check(K.Validate("Missing", true) == nil, "unknown name")

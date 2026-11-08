@@ -618,10 +618,12 @@ local function build()
 	addChoice(general, "Day / Night cycle", "DayNight", 2, { Day = "Always Day", Night = "Always Night" })
 	addToggle(general, "Rain", "Rain", 3)
 
-	local audio = newPage("Audio", 3, 0, {})
+	local audio = newPage("Audio", 5, 0, {})
 	addSlider(audio, "Master volume", "MasterVolume", 1)
 	addSlider(audio, "Music volume", "MusicVolume", 2)
 	addSlider(audio, "Sound volume", "SoundVolume", 3)
+	addSlider(audio, "Footstep volume", "FootstepVolume", 4)
+	addToggle(audio, "Underwater muffle", "UnderwaterMuffle", 5)
 
 	local ui = newPage("UI", 4, 0, {})
 	addToggle(ui, "Damage indicators", "DamageIndicator", 1)
