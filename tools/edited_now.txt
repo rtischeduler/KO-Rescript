@@ -4,3 +4,7 @@ ServerScriptService/Adonis_Loader/Config/Settings/General.lua
 ServerScriptService/framework/modules/Character.lua
 ServerScriptService/Server/Services/MorphService.lua
 ReplicatedStorage/Knockback.lua
+ReplicatedStorage/BeamVFX.lua
+ReplicatedStorage/BeamSystem.lua
+ReplicatedStorage/BeamClientFX.lua
+StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
