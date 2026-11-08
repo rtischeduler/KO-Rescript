@@ -226,7 +226,7 @@ function BeamClientFX.new(character)
 	self.light.Brightness = 0
 	self.light.Parent = self.anchor
 
-	self.impactFx = BeamVFX.NewImpact(self.anchor, self.impactColor, {burn = false})
+	self.impactFx = BeamVFX.NewImpact(self.anchor, self.impactColor, {burn = false, noShine = BeamVFX.IsGhidorah(character)})
 	self.surfaceHit = false
 
 	self.params = RaycastParams.new()
@@ -293,7 +293,7 @@ function BeamClientFX:_syncTemplates(endsHolder, now)
 		for _, child in ipairs(endsHolder:GetChildren()) do
 			if child:IsA("Attachment") and child.Name == "BeamEnd" then
 				for _, emitter in ipairs(child:GetChildren()) do
-					if emitter:IsA("ParticleEmitter") and #sources < 4 then
+					if emitter:IsA("ParticleEmitter") and #sources < 4 and string.sub(emitter.Name, 1, 12) ~= "BeamEndShine" then
 						table.insert(sources, emitter)
 					end
 				end

@@ -32,13 +32,15 @@ local HOT_BRIGHTNESS = 8
 local GLOW_WIDTH_SCALE = 2
 local GLOW_TRANSPARENCY = 0.6
 local GLOW_BRIGHTNESS = 1.5
-local SHINE_SIZE = 24
-local SHINE_START_SIZE = 9
+local SHINE_SIZE = 20
+local SHINE_START_SIZE = 4
 local SHINE_RATE = 14
 local SHINE_START_RATE = 10
 local SHINE_LIFETIME = 0.9
 local SHINE_HOT_SCALE = 0.7
 local SPARK_RATE = 40
+
+local addEndShines
 
 local function kaijuNameOf(character)
 	local value = character:FindFirstChild("Kaiju")
@@ -51,6 +53,8 @@ end
 local function isGhidorah(character)
 	return string.find(string.lower(kaijuNameOf(character)), "ghidorah", 1, true) ~= nil
 end
+
+BeamVFX.IsGhidorah = isGhidorah
 
 local function nightBrightness()
 	local t = Lighting.ClockTime
@@ -114,6 +118,7 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 	local vfx = {entries = {}, instances = {}, folders = {}, server = isServer == true}
 	local ghidorah = isGhidorah(character)
 	local brightness = nightBrightness()
+	local shined = {}
 	for _, group in ipairs(collectGroups(beamStarts, beamNameFilter)) do
 		local best = group.templates[1]
 		local bestSat = -1
@@ -192,6 +197,11 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 		glow.ZOffset = best.ZOffset - 1
 		glow:SetAttribute("BeamVFXServer", vfx.server)
 		table.insert(vfx.instances, glow)
+		if ghidorah and not shined[group.finish] then
+			shined[group.finish] = true
+			local keys = best.Color.Keypoints
+			addEndShines(vfx, group.finish, keys[#keys].Value)
+		end
 	end
 	return vfx
 end
@@ -218,7 +228,7 @@ function BeamVFX.Destroy(vfx)
 	if not vfx then return end
 	local list = vfx.instances
 	for _, inst in ipairs(list) do
-		if inst:IsA("Beam") then
+		if inst:IsA("Beam") or inst:IsA("ParticleEmitter") then
 			pcall(function() inst.Enabled = false end)
 		end
 	end
@@ -380,6 +390,19 @@ local function makeShineEmitter(color, size, name, hot)
 	return emitter
 end
 
+addEndShines = function(vfx, finish, color)
+	local shine = makeShineEmitter(color, nil, "BeamEndShine")
+	shine.Rate = SHINE_RATE
+	shine.Enabled = true
+	shine.Parent = finish
+	local hot = makeShineEmitter(color, nil, "BeamEndShineHot", true)
+	hot.Rate = SHINE_RATE
+	hot.Enabled = true
+	hot.Parent = finish
+	table.insert(vfx.instances, shine)
+	table.insert(vfx.instances, hot)
+end
+
 function BeamVFX.NewStartShine(parent, color, name)
 	local emitter = makeShineEmitter(color, SHINE_START_SIZE, name or "BeamStartShine")
 	emitter.Rate = SHINE_START_RATE
@@ -531,10 +554,12 @@ function BeamVFX.NewImpact(anchor, color, options)
 	end
 	self.spark = makeSparkEmitter(color)
 	self.spark.Parent = anchor
-	self.shine = makeShineEmitter(color)
-	self.shine.Parent = anchor
-	self.shineHot = makeShineEmitter(color, nil, "BeamShineHot", true)
-	self.shineHot.Parent = anchor
+	if not options.noShine then
+		self.shine = makeShineEmitter(color)
+		self.shine.Parent = anchor
+		self.shineHot = makeShineEmitter(color, nil, "BeamShineHot", true)
+		self.shineHot.Parent = anchor
+	end
 	if options.burn then
 		self.burn = makeBurnEmitter()
 		self.burn.Parent = anchor
@@ -646,10 +671,12 @@ function Impact:SetIntensity(intensity, surfaceHit)
 	if self.spark.Rate ~= sparkRate then self.spark.Rate = sparkRate end
 	if self.spark.Enabled ~= enabled then self.spark.Enabled = enabled end
 	local shineRate = enabled and SHINE_RATE or 0
-	if self.shine.Rate ~= shineRate then self.shine.Rate = shineRate end
-	if self.shine.Enabled ~= enabled then self.shine.Enabled = enabled end
-	if self.shineHot.Rate ~= shineRate then self.shineHot.Rate = shineRate end
-	if self.shineHot.Enabled ~= enabled then self.shineHot.Enabled = enabled end
+	if self.shine then
+		if self.shine.Rate ~= shineRate then self.shine.Rate = shineRate end
+		if self.shine.Enabled ~= enabled then self.shine.Enabled = enabled end
+		if self.shineHot.Rate ~= shineRate then self.shineHot.Rate = shineRate end
+		if self.shineHot.Enabled ~= enabled then self.shineHot.Enabled = enabled end
+	end
 	if self.burn then
 		local burning = enabled and surfaceHit == true
 		local rate = 0
@@ -671,8 +698,10 @@ function Impact:Destroy()
 		end
 	end
 	pcall(function() self.spark:Destroy() end)
-	pcall(function() self.shine:Destroy() end)
-	pcall(function() self.shineHot:Destroy() end)
+	if self.shine then
+		pcall(function() self.shine:Destroy() end)
+		pcall(function() self.shineHot:Destroy() end)
+	end
 	if self.burn then
 		local burn = self.burn
 		self.burn = nil

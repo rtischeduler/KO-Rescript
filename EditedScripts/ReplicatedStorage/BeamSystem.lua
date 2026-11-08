@@ -41,7 +41,7 @@ local function collectTemplateEmitters(beamEnds)
 	local list = {}
 	for _, beamEnd in ipairs(beamEnds) do
 		for _, child in ipairs(beamEnd:GetChildren()) do
-			if child:IsA("ParticleEmitter") and #list < 4 then
+			if child:IsA("ParticleEmitter") and #list < 4 and string.sub(child.Name, 1, 12) ~= "BeamEndShine" then
 				table.insert(list, child)
 			end
 		end
@@ -696,7 +696,7 @@ function BeamSystem.ActivateBeam(config)
 				table.insert(fxGroup, {emitter = core, rate = 22})
 			end
 		end
-		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = false})
+		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = false, noShine = BeamVFX.IsGhidorah(character)})
 		activeBeams[player].impactFx = impactFx
 		local burnTrails = {}
 		for _, endAtt in ipairs(beamEnds) do
