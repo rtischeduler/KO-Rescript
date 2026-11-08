@@ -7,10 +7,9 @@ local BeamVFX = {}
 local TEXTURES = {
 	Smoke = "rbxassetid://4770542473",
 	Burn = "rbxassetid://101217028801705",
-	Spark = "rbxassetid://90163371828645",
-	GlowA = "rbxassetid://6091474388",
-	GlowB = "rbxassetid://18654084346",
-	Ghidorah = "rbxassetid://7151778302",
+	Spark = "rbxassetid://117219392616758",
+	Shine = "rbxassetid://122607383215131",
+	Main = "rbxassetid://18654087326",
 }
 
 local SMOKE_DIRECTIONS = 10
@@ -22,16 +21,13 @@ local SMOKE_MOVE_REFRESH = 3
 local BURN_LIFETIME = 2
 local BURN_SIZE = 6
 
-local GHIDORAH_LAYERS = {
-	{scale = 0.42, speed = 48, length = 12, transparency = 0.3, curve = 0, z = 0, boost = 0.5},
-	{scale = 0.27, speed = 80, length = 8, transparency = 0.12, curve = 1.6, z = 1, boost = 0.5},
-	{scale = 0.13, speed = 125, length = 5, transparency = 0, curve = -1.3, z = 2, boost = 0.5},
-}
-
-local GLOW_LAYERS = {
-	{texture = TEXTURES.GlowA, scale = 0.85, speed = 14, length = 14, transparency = 0.32, z = -1, brightness = 2.2},
-	{texture = TEXTURES.GlowB, scale = 1, speed = -20, length = 20, transparency = 0.45, z = -2, brightness = 1.8},
-}
+local MAIN_TEXTURE_LENGTH = 10
+local MAIN_TEXTURE_SPEED = 30
+local MAIN_BRIGHTNESS_DAY = 0.8
+local MAIN_BRIGHTNESS_NIGHT = 1.3
+local SHINE_SIZE = 16
+local SHINE_RATE = 3
+local SPARK_RATE = 40
 
 local function kaijuNameOf(character)
 	local value = character:FindFirstChild("Kaiju")
@@ -47,8 +43,8 @@ end
 
 local function nightBrightness()
 	local t = Lighting.ClockTime
-	if t >= 17.5 or t <= 6.5 then return 2 end
-	return 1
+	if t >= 17.5 or t <= 6.5 then return MAIN_BRIGHTNESS_NIGHT end
+	return MAIN_BRIGHTNESS_DAY
 end
 
 local function saturation(seq)
@@ -108,14 +104,14 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 	local ghidorah = isGhidorah(character)
 	local brightness = nightBrightness()
 	for _, group in ipairs(collectGroups(beamStarts, beamNameFilter)) do
-		local colorSeq = group.templates[1].Color
+		local best = group.templates[1]
 		local bestSat = -1
 		local maxW0, maxW1 = 0, 0
 		for _, tpl in ipairs(group.templates) do
 			local sat = saturation(tpl.Color)
 			if sat > bestSat then
 				bestSat = sat
-				colorSeq = tpl.Color
+				best = tpl
 			end
 			maxW0 = math.max(maxW0, tpl.Width0)
 			maxW1 = math.max(maxW1, tpl.Width1)
@@ -124,81 +120,26 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 			maxW0 = maxW0 * 0.5
 			maxW1 = maxW1 * 0.5
 		end
-		local folder = Instance.new("Folder")
-		folder.Name = "BeamVFX"
-		folder.Parent = group.start
-		table.insert(vfx.folders, folder)
-		table.insert(vfx.instances, folder)
-		local function tag(beam)
-			beam:SetAttribute("BeamVFXServer", vfx.server)
-		end
-		for _, layer in ipairs(GLOW_LAYERS) do
-			local glow = newBeam(group.start, group.finish, folder, "BeamGlow")
-			glow.Texture = layer.texture
-			glow.TextureMode = Enum.TextureMode.Wrap
-			glow.TextureLength = layer.length
-			glow.TextureSpeed = layer.speed
-			glow.Color = colorSeq
-			glow.Width0 = math.max(maxW0 * layer.scale, 1)
-			glow.Width1 = math.max(maxW1 * layer.scale, 1)
-			glow.Transparency = NumberSequence.new({
-				NumberSequenceKeypoint.new(0, layer.transparency + 0.1),
-				NumberSequenceKeypoint.new(0.5, layer.transparency),
-				NumberSequenceKeypoint.new(1, layer.transparency + 0.15),
-			})
-			glow.Brightness = layer.brightness * brightness
-			glow.ZOffset = layer.z
-			tag(glow)
-			addEntry(vfx, glow, layer.speed, 0.25)
-		end
-		local first = true
-		local function place(beam)
-			if first then
-				beam.Name = "BeamVFXCore"
-				beam.Parent = group.start
-				first = false
-			else
-				beam.Name = "BeamVFXLayer"
-			end
-			tag(beam)
-		end
-		if ghidorah then
-			for _, layer in ipairs(GHIDORAH_LAYERS) do
-				local beam = newBeam(group.start, group.finish, folder, "BeamVFXLayer")
-				beam.Texture = TEXTURES.Ghidorah
-				beam.TextureMode = Enum.TextureMode.Wrap
-				beam.TextureLength = layer.length
-				beam.TextureSpeed = layer.speed
-				beam.Color = colorSeq
-				beam.Width0 = math.max(maxW0 * layer.scale, 0.5)
-				beam.Width1 = math.max(maxW1 * layer.scale, 0.7)
-				beam.CurveSize0 = layer.curve
-				beam.CurveSize1 = -layer.curve
-				beam.Transparency = NumberSequence.new(layer.transparency)
-				beam.Brightness = brightness * (1 + layer.z * 0.4)
-				beam.ZOffset = layer.z
-				place(beam)
-				addEntry(vfx, beam, layer.speed, layer.boost)
-			end
-		else
-			for _, tpl in ipairs(group.templates) do
-				local beam = newBeam(group.start, group.finish, folder, "BeamVFXLayer")
-				beam.Texture = tpl.Texture
-				beam.TextureMode = tpl.TextureMode
-				beam.TextureLength = tpl.TextureLength
-				beam.TextureSpeed = tpl.TextureSpeed
-				beam.Color = tpl.Color
-				beam.Width0 = tpl.Width0
-				beam.Width1 = tpl.Width1
-				beam.CurveSize0 = tpl.CurveSize0
-				beam.CurveSize1 = tpl.CurveSize1
-				beam.Transparency = NumberSequence.new(0)
-				beam.Brightness = brightness
-				beam.ZOffset = tpl.ZOffset
-				place(beam)
-				addEntry(vfx, beam, tpl.TextureSpeed, 1)
-			end
-		end
+		local beam = newBeam(group.start, group.finish, group.start, "BeamVFXCore")
+		beam.Texture = TEXTURES.Main
+		beam.TextureMode = Enum.TextureMode.Wrap
+		beam.TextureLength = MAIN_TEXTURE_LENGTH
+		beam.TextureSpeed = best.TextureSpeed ~= 0 and best.TextureSpeed or MAIN_TEXTURE_SPEED
+		beam.Color = best.Color
+		beam.Width0 = maxW0
+		beam.Width1 = maxW1
+		beam.CurveSize0 = best.CurveSize0
+		beam.CurveSize1 = best.CurveSize1
+		beam.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.2),
+			NumberSequenceKeypoint.new(0.12, 0.08),
+			NumberSequenceKeypoint.new(0.88, 0.08),
+			NumberSequenceKeypoint.new(1, 0.3),
+		})
+		beam.Brightness = brightness
+		beam.ZOffset = best.ZOffset
+		beam:SetAttribute("BeamVFXServer", vfx.server)
+		addEntry(vfx, beam, beam.TextureSpeed, 1)
 	end
 	return vfx
 end
@@ -321,19 +262,57 @@ local function makeSparkEmitter(color)
 	emitter.Name = "BeamSpark"
 	emitter.Texture = TEXTURES.Spark
 	emitter.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1):Lerp(color, 0.25)),
+		ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1):Lerp(color, 0.2)),
 		ColorSequenceKeypoint.new(1, color),
 	})
 	emitter.LightEmission = 1
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 1.1), NumberSequenceKeypoint.new(1, 0)})
-	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.7, 0.2), NumberSequenceKeypoint.new(1, 1)})
-	emitter.Lifetime = NumberRange.new(0.25, 0.6)
-	emitter.Speed = NumberRange.new(20, 55)
-	emitter.SpreadAngle = Vector2.new(60, 60)
-	emitter.Acceleration = Vector3.new(0, -60, 0)
-	emitter.Drag = 1
-	emitter.Orientation = Enum.ParticleOrientation.VelocityParallel
+	emitter.LightInfluence = 0
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.7), NumberSequenceKeypoint.new(1, 0)})
+	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.7, 0.15), NumberSequenceKeypoint.new(1, 1)})
+	emitter.Lifetime = NumberRange.new(0.3, 0.65)
+	emitter.Speed = NumberRange.new(28, 60)
+	emitter.SpreadAngle = Vector2.new(75, 75)
+	emitter.Acceleration = Vector3.new(0, -45, 0)
+	emitter.Drag = 1.5
+	emitter.Rotation = NumberRange.new(0, 360)
+	emitter.RotSpeed = NumberRange.new(-120, 120)
+	emitter.Orientation = Enum.ParticleOrientation.FacingCamera
 	emitter.LockedToPart = false
+	emitter.Rate = 0
+	emitter.Enabled = false
+	return emitter
+end
+
+local function makeShineEmitter(color)
+	local emitter = Instance.new("ParticleEmitter")
+	emitter.Name = "BeamShine"
+	emitter.Texture = TEXTURES.Shine
+	emitter.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
+		ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1):Lerp(color, 0.35)),
+	})
+	emitter.LightEmission = 1
+	emitter.LightInfluence = 0
+	emitter.ZOffset = 1
+	emitter.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, SHINE_SIZE * 0.6),
+		NumberSequenceKeypoint.new(0.4, SHINE_SIZE),
+		NumberSequenceKeypoint.new(1, SHINE_SIZE * 0.7),
+	})
+	emitter.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1),
+		NumberSequenceKeypoint.new(0.2, 0.05),
+		NumberSequenceKeypoint.new(0.8, 0.1),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	emitter.Lifetime = NumberRange.new(0.45, 0.55)
+	emitter.Speed = NumberRange.new(0, 0)
+	emitter.SpreadAngle = Vector2.new(0, 0)
+	emitter.Drag = 0
+	emitter.Rotation = NumberRange.new(0, 360)
+	emitter.RotSpeed = NumberRange.new(200, 280)
+	emitter.Orientation = Enum.ParticleOrientation.FacingCamera
+	emitter.LockedToPart = true
 	emitter.Rate = 0
 	emitter.Enabled = false
 	return emitter
@@ -482,6 +461,8 @@ function BeamVFX.NewImpact(anchor, color, options)
 	end
 	self.spark = makeSparkEmitter(color)
 	self.spark.Parent = anchor
+	self.shine = makeShineEmitter(color)
+	self.shine.Parent = anchor
 	if options.burn then
 		self.burn = makeBurnEmitter()
 		self.burn.Parent = anchor
@@ -589,9 +570,12 @@ function Impact:SetIntensity(intensity, surfaceHit)
 			if entry.emitter.Enabled ~= on then entry.emitter.Enabled = on end
 		end
 	end
-	local sparkRate = enabled and math.floor(34 * intensity + 0.5) or 0
+	local sparkRate = enabled and math.floor(SPARK_RATE * intensity + 0.5) or 0
 	if self.spark.Rate ~= sparkRate then self.spark.Rate = sparkRate end
 	if self.spark.Enabled ~= enabled then self.spark.Enabled = enabled end
+	local shineRate = enabled and SHINE_RATE or 0
+	if self.shine.Rate ~= shineRate then self.shine.Rate = shineRate end
+	if self.shine.Enabled ~= enabled then self.shine.Enabled = enabled end
 	if self.burn then
 		local burning = enabled and surfaceHit == true
 		local rate = 0
@@ -613,6 +597,7 @@ function Impact:Destroy()
 		end
 	end
 	pcall(function() self.spark:Destroy() end)
+	pcall(function() self.shine:Destroy() end)
 	if self.burn then
 		local burn = self.burn
 		self.burn = nil
