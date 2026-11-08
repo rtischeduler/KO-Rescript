@@ -112,8 +112,8 @@ end
 
 -- Content area ---------------------------------------------------------------------------------------------------
 panel.AnchorPoint = Vector2.zero
-panel.Position = UDim2.new(0, PAD, 0, 64)
-panel.Size = UDim2.new(1, -PAD * 2, 1, -(64 + PAD))
+panel.Position = UDim2.new(0, PAD, 0, 112)
+panel.Size = UDim2.new(1, -PAD * 2, 1, -(112 + PAD))
 panel.BackgroundColor3 = WHITE
 panel.BackgroundTransparency = 0
 panel.BorderSizePixel = 0
@@ -123,8 +123,6 @@ panelPad.PaddingLeft = UDim.new(0, PAD)
 panelPad.PaddingRight = UDim.new(0, PAD)
 panelPad.PaddingTop = UDim.new(0, PAD)
 panelPad.PaddingBottom = UDim.new(0, PAD)
-panel.CanvasSize = UDim2.fromOffset(0, 0)
-panel.AutomaticCanvasSize = Enum.AutomaticSize.Y
 panel.ScrollingDirection = Enum.ScrollingDirection.Y
 panel.ScrollBarThickness = 4
 panel.ScrollBarImageColor3 = MUTED
@@ -202,36 +200,4 @@ if fovText and fovText:IsA("TextBox") then
 	for _, c in fovText:GetChildren() do
 		if c:IsA("UIStroke") then c:Destroy() end
 	end
-end
-
--- Row 2: codes -----------------------------------------------------------------------------------------------------
-rowLabel("CodesLabel", "Redeem code", 2)
-hide("CodesBackground")
-
-local insertCode = panel:FindFirstChild("InsertCode")
-if insertCode and insertCode:IsA("TextBox") then
-	insertCode.AnchorPoint = Vector2.zero
-	insertCode.Position = UDim2.new(0, LABEL_W, 0, rowY(2) + 6)
-	insertCode.Size = UDim2.new(1, -LABEL_W, 0, ROW_H - 12)
-	insertCode.BackgroundColor3 = WHITE
-	insertCode.BackgroundTransparency = 0
-	insertCode.BorderSizePixel = 0
-	insertCode.TextColor3 = TEXT
-	insertCode.PlaceholderColor3 = MUTED
-	insertCode.PlaceholderText = "Enter a code"
-	insertCode.Text = ""
-	insertCode.FontFace = FONT
-	insertCode.TextScaled = true
-	insertCode.TextXAlignment = Enum.TextXAlignment.Left
-	insertCode.ClearTextOnFocus = false
-	insertCode.ZIndex = 2
-	textLimit(insertCode, 24)
-	corner(insertCode)
-	stroke(insertCode, BLUE, 0)
-
-	local pad = ensure(insertCode, "UIPadding", "UIPadding")
-	pad.PaddingLeft = UDim.new(0, 12)
-	pad.PaddingRight = UDim.new(0, 12)
-	pad.PaddingTop = UDim.new(0, 6)
-	pad.PaddingBottom = UDim.new(0, 6)
 end

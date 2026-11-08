@@ -1299,14 +1299,7 @@ player.CharacterAdded:Connect(function(character)
 	onCharacterDied(character)
 end)
 
-local KEY_TO_SLOT = {
-	[Enum.KeyCode.R] = 5,
-	[Enum.KeyCode.T] = 6,
-	[Enum.KeyCode.One] = 1,
-	[Enum.KeyCode.Two] = 2,
-	[Enum.KeyCode.Three] = 3,
-	[Enum.KeyCode.Four] = 4,
-}
+local KOSettings = require(game:GetService("ReplicatedStorage"):WaitForChild("KOSettings"))
 
 local GAMEPAD_TO_SLOT = {
 	[Enum.KeyCode.ButtonY] = 2,
@@ -1320,7 +1313,9 @@ local GAMEPAD_TO_SLOT = {
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if gameProcessed then return end
 
-	local slot = KEY_TO_SLOT[input.KeyCode] or GAMEPAD_TO_SLOT[input.KeyCode]
+	if KOSettings.IsRebinding() then return end
+
+	local slot = KOSettings.SlotForKey(input.KeyCode) or GAMEPAD_TO_SLOT[input.KeyCode]
 	if slot then
 		local eventName = slotToEvent[slot]
 		if eventName then

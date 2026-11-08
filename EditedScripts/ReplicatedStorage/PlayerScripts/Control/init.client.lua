@@ -1,0 +1,1080 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local ContextActionService = game:GetService("ContextActionService")
+local Debris = game:GetService("Debris")
+
+local player = Players.LocalPlayer
+local character = script.Parent
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+local head = character:WaitForChild("Head")
+
+local animator = humanoid:FindFirstChildOfClass("Animator") or humanoid:WaitForChild("Animator", 5)
+if not animator then
+	animator = Instance.new("Animator")
+	animator.Parent = humanoid
+end
+
+humanoid:SetStateEnabled(Enum.HumanoidStateType.Swimming, false)
+
+local CooldownManager = require(ReplicatedStorage:WaitForChild("CooldownManager"))
+local ChargeManager = require(ReplicatedStorage:WaitForChild("ChargeManager"))
+local knockbackModule = ReplicatedStorage:WaitForChild("Knockback", 5)
+if knockbackModule then
+	pcall(require, knockbackModule)
+end
+ChargeManager.reset()
+CooldownManager.reset()
+
+local waterStateEvent = ReplicatedStorage:FindFirstChild("WaterState")
+local stats = character:WaitForChild("Stats", 10)
+local animations = character:WaitForChild("Animations", 10)
+
+local FLY_SPEED = 80
+local FLY_SMOOTH = 3
+local FLY_VERTICAL_SMOOTH = 8
+local FLY_TURN = 14
+local FLY_MIN_HEALTH_PERCENT = 0.25
+local FLY_MIN_CHARGE = 5
+local FLY_CHARGE_DRAIN_RATE = 2
+local FLY_LAUNCH_MIN = 20
+local FLY_LAUNCH_MAX = 45
+local FLY_GROUND_CLEARANCE = 1.5
+local FLY_GROUND_BRAKE = 5
+
+local SWIM_SPEED = 80
+local SWIM_STRAFE = 0.6
+local SWIM_ACCEL = 3.2
+local SWIM_DRAG = 1.4
+local SWIM_ENTRY_DRAG = 4
+local SWIM_TURN = 5
+local SWIM_CLIMB_SPEED = 50
+
+local GLIDE_SPEED = 50
+local GLIDE_STEER = 1.2
+local GLIDE_DRAG = 0.3
+local GLIDE_GRAVITY_SCALE = 0.35
+local GLIDE_MAX_FALL = 45
+local GLIDE_TURN = 3
+
+local WATER_ENTER_MARGIN = 1
+local BREACH_HEIGHT = 2.5
+local WADE_OUT_MARGIN = 2
+local WATER_REPORT_DELAY = 0.25
+local MAX_PITCH = math.rad(80)
+
+local KOSettings = require(game:GetService("ReplicatedStorage"):WaitForChild("KOSettings"))
+local ASCEND_KEYS = { KOSettings.KeyCode("Ascend"), Enum.KeyCode.Space }
+local DESCEND_KEYS = { KOSettings.KeyCode("Descend") }
+KOSettings.OnChanged(function(name)
+	if name == "Key_Ascend" then
+		ASCEND_KEYS[1] = KOSettings.KeyCode("Ascend")
+	elseif name == "Key_Descend" then
+		DESCEND_KEYS[1] = KOSettings.KeyCode("Descend")
+	end
+end)
+
+local baseHipHeight = humanoid.HipHeight
+local originalHipHeight = baseHipHeight
+
+local function refreshHipHeight()
+	local scale = character:GetAttribute("KaijuScale")
+	originalHipHeight = baseHipHeight * ((typeof(scale) == "number" and scale > 0) and scale or 1)
+	return originalHipHeight
+end
+refreshHipHeight()
+character:GetAttributeChangedSignal("KaijuScale"):Connect(function()
+	local wasGrounded = humanoid.HipHeight <= originalHipHeight
+	refreshHipHeight()
+	if wasGrounded then
+		humanoid.HipHeight = originalHipHeight
+	end
+end)
+local baseWalkSpeed = humanoid.WalkSpeed
+local bodyHalf = math.max(character:GetExtentsSize().Y / 2, 2.5)
+local GROUND_RAY = bodyHalf + 14
+
+local mode = "Land"
+local sprintOn = false
+
+local SPRINT_FOV_BOOST = 12
+local sprintFovBase = nil
+local sprintFovTween = nil
+
+local function setSprintFov(on)
+	local camera = workspace.CurrentCamera
+	if not camera then return end
+	if sprintFovTween then
+		sprintFovTween:Cancel()
+		sprintFovTween = nil
+	end
+	local target
+	if on then
+		sprintFovBase = sprintFovBase or camera.FieldOfView
+		target = sprintFovBase + SPRINT_FOV_BOOST
+	elseif sprintFovBase then
+		target = sprintFovBase
+		sprintFovBase = nil
+	else
+		return
+	end
+	sprintFovTween = game:GetService("TweenService"):Create(camera, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), { FieldOfView = target })
+	sprintFovTween:Play()
+end
+local currentAnim = "Idle"
+local FLY_FADE_IN = 0.3
+local FLY_FADE_OUT = 0.35
+local GROUND_FADE = 0.15
+local landFadeUntil = 0
+local attackActive = false
+local lastAttackCheck = 0
+local flightVel = Vector3.zero
+local facing = Vector3.new(0, 0, -1)
+local lastYaw = 0
+local landLockUntil = 0
+local swimBlockedUntil = 0
+local swimBrakeUntil = 0
+local airTrack = nil
+
+local attachment, align, linear
+
+local reportedWet, pendingWet, pendingSince = false, false, 0
+local terrainSample = { time = 0, value = false }
+local oceanPart = nil
+
+local rayParams = RaycastParams.new()
+rayParams.FilterType = Enum.RaycastFilterType.Exclude
+rayParams.IgnoreWater = true
+rayParams.FilterDescendantsInstances = { character }
+
+local shoreParams = RaycastParams.new()
+shoreParams.FilterType = Enum.RaycastFilterType.Exclude
+shoreParams.IgnoreWater = true
+shoreParams.RespectCanCollide = true
+shoreParams.CollisionGroup = rootPart.CollisionGroup
+shoreParams.FilterDescendantsInstances = { character, workspace.Terrain }
+
+local clearParams = OverlapParams.new()
+clearParams.FilterType = Enum.RaycastFilterType.Exclude
+clearParams.RespectCanCollide = true
+clearParams.CollisionGroup = rootPart.CollisionGroup
+clearParams.FilterDescendantsInstances = { character, workspace.Terrain }
+
+local boxSize = Vector3.new(4, 5, 4)
+local boxOffsetY = 0
+local castSize = Vector3.new(3, 3, 3)
+local climbStep = 4
+
+local function measureBody()
+	local ok, cf, size = pcall(character.GetBoundingBox, character)
+	if not ok then return end
+	boxSize = size
+	boxOffsetY = cf.Position.Y - rootPart.Position.Y
+	local width = math.max(math.min(size.X, size.Z) * 0.8, 2)
+	castSize = Vector3.new(width, math.max(size.Y * 0.5, 2), width)
+	climbStep = math.max(size.Y * 0.5, 4)
+end
+measureBody()
+
+local controls = nil
+
+task.spawn(function()
+	local playerScripts = player:WaitForChild("PlayerScripts", 10)
+	local playerModule = playerScripts and playerScripts:WaitForChild("PlayerModule", 10)
+	if playerModule then
+		local ok, result = pcall(function()
+			return require(playerModule):GetControls()
+		end)
+		if ok then controls = result end
+	end
+end)
+
+task.spawn(function()
+	waterStateEvent = waterStateEvent or ReplicatedStorage:WaitForChild("WaterState", 10)
+end)
+
+local flightStateEvent = ReplicatedStorage:FindFirstChild("FlightState")
+local flightReported = false
+
+task.spawn(function()
+	flightStateEvent = flightStateEvent or ReplicatedStorage:WaitForChild("FlightState", 10)
+end)
+
+local function syncFlightState()
+	local flying = mode == "Fly" or mode == "Glide"
+	if flying == flightReported then return end
+	flightReported = flying
+	character:SetAttribute("Flying", flying)
+	if flightStateEvent then
+		flightStateEvent:FireServer(flying)
+	end
+end
+
+local function getStat(name, fallback)
+	local value = stats and stats:FindFirstChild(name)
+	return value and value.Value or fallback
+end
+
+local function applyWalkSpeed()
+	local canFly = character:FindFirstChild("canFly")
+	local sprinting = sprintOn and not (canFly and canFly.Value == true)
+	humanoid.WalkSpeed = sprinting and getStat("SS", baseWalkSpeed) or getStat("WS", baseWalkSpeed)
+end
+
+local function loadTrack(name, priority)
+	local animation = animations and animations:FindFirstChild(name)
+	if not animation then return nil end
+	local track = animator:LoadAnimation(animation)
+	track.Priority = priority
+	return track
+end
+
+local Idle = loadTrack("Idle", Enum.AnimationPriority.Idle)
+local Walk = loadTrack("Walk", Enum.AnimationPriority.Movement)
+local Sprint = loadTrack("Sprint", Enum.AnimationPriority.Movement)
+local Swim = loadTrack("Swim", Enum.AnimationPriority.Movement)
+local Fly = loadTrack("Fly", Enum.AnimationPriority.Movement)
+	or loadTrack("Sprint", Enum.AnimationPriority.Movement)
+	or loadTrack("Swim", Enum.AnimationPriority.Movement)
+
+local function play(track, fade)
+	if not track then return end
+	if fade then track:Play(fade) else track:Play() end
+end
+
+local function stopTrack(track, fade)
+	if track then track:Stop(fade or 0) end
+end
+
+local function stopAnimations(fade)
+	for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
+		if track.Priority.Value < Enum.AnimationPriority.Action.Value then
+			track:Stop(fade or 0)
+		end
+	end
+end
+
+local function groundMoveTrack()
+	local canFly = character:FindFirstChild("canFly")
+	if sprintOn and Sprint and not (canFly and canFly.Value == true) then
+		return Sprint
+	end
+	return Walk
+end
+
+-- While an attack (Action+ priority track that isn't ours) is playing, raise Walk/Sprint to the
+-- same priority so they blend with the attack instead of being fully overridden (legs keep moving).
+local function updateAttackState(now)
+	if now - lastAttackCheck < 0.1 then return end
+	lastAttackCheck = now
+	local active = false
+	for _, t in ipairs(animator:GetPlayingAnimationTracks()) do
+		local v = t.Priority.Value
+		if v >= Enum.AnimationPriority.Action.Value and v < 1000 and t.IsPlaying
+			and t ~= Idle and t ~= Walk and t ~= Sprint and t ~= Swim and t ~= Fly then
+			active = true
+			break
+		end
+	end
+	attackActive = active
+	local p = active and Enum.AnimationPriority.Action or Enum.AnimationPriority.Movement
+	if Walk and Walk.Priority ~= p then Walk.Priority = p end
+	if Sprint and Sprint.Priority ~= p then Sprint.Priority = p end
+end
+
+local function refreshGroundAnimation()
+	stopAnimations(GROUND_FADE)
+	local move = currentAnim == "Walk" and groundMoveTrack() or nil
+	if Walk and Walk ~= move then Walk:Stop(GROUND_FADE) end
+	if Sprint and Sprint ~= move then Sprint:Stop(GROUND_FADE) end
+	if move then
+		play(move, GROUND_FADE)
+	else
+		play(Idle, GROUND_FADE)
+	end
+end
+
+local FOOT_SOUND_ID = "rbxassetid://3165303798"
+local footParts = {}
+local footState = {}
+local lastFootTime = 0
+local footRayParams = RaycastParams.new()
+footRayParams.FilterType = Enum.RaycastFilterType.Exclude
+footRayParams.FilterDescendantsInstances = { character }
+
+local function collectFootParts()
+	table.clear(footParts)
+	for _, d in ipairs(character:GetDescendants()) do
+		if d:IsA("BasePart") then
+			local n = string.lower(d.Name)
+			if string.find(n, "foot", 1, true) and not string.find(n, "step", 1, true) then
+				table.insert(footParts, d)
+			end
+		end
+	end
+end
+
+local function playFootstep(foot)
+	local scripts = character:FindFirstChild("CharacterScripts")
+	local sounds = scripts and scripts:FindFirstChild("Sounds")
+	local template = sounds and sounds:FindFirstChild("FootStep")
+	local sound
+	if template then
+		sound = template:Clone()
+	else
+		sound = Instance.new("Sound")
+		sound.SoundId = FOOT_SOUND_ID
+	end
+	if sound.Volume <= 0 then sound.Volume = 2 end
+	local size = rootPart.Size.Magnitude
+	sound.RollOffMode = Enum.RollOffMode.InverseTapered
+	sound.RollOffMinDistance = math.max(sound.RollOffMinDistance, size * 3)
+	sound.RollOffMaxDistance = math.max(sound.RollOffMaxDistance, size * 40, 400)
+	sound.PlaybackSpeed = (sound.PlaybackSpeed > 0 and sound.PlaybackSpeed or 1) * (0.92 + math.random() * 0.16)
+	sound.Looped = false
+	sound.Parent = foot or rootPart
+	sound:Play()
+	sound.Ended:Once(function()
+		sound:Destroy()
+	end)
+	Debris:AddItem(sound, 10)
+end
+
+local function canStep()
+	return mode == "Land"
+		and humanoid.Health > 0
+		and humanoid.FloorMaterial ~= Enum.Material.Air
+		and humanoid.HipHeight <= originalHipHeight
+		and rootPart.AssemblyLinearVelocity.Magnitude > 1
+end
+
+local function footClearance(foot)
+	local cf, sz = foot.CFrame, foot.Size
+	local halfY = (math.abs(cf.UpVector.Y) * sz.Y + math.abs(cf.RightVector.Y) * sz.X + math.abs(cf.LookVector.Y) * sz.Z) / 2
+	local hit = workspace:Raycast(cf.Position, Vector3.new(0, -(halfY + 80), 0), footRayParams)
+	if not hit then return nil, halfY end
+	return (cf.Position.Y - hit.Position.Y) - halfY, halfY
+end
+
+local function updateFootsteps()
+	if #footParts == 0 then return end
+	local stepping = canStep()
+	local now = os.clock()
+	for _, foot in ipairs(footParts) do
+		if foot.Parent then
+			local clearance, halfY = footClearance(foot)
+			local st = footState[foot]
+			if not st then
+				st = { lifted = false, last = 0 }
+				footState[foot] = st
+			end
+			if clearance then
+				local plant = math.max(0.4, halfY * 0.2)
+				local lift = plant * 2.5
+				if clearance > lift then
+					st.lifted = true
+				elseif st.lifted and clearance < plant then
+					st.lifted = false
+					if stepping and now - st.last > 0.2 and now - lastFootTime > 0.12 then
+						st.last = now
+						lastFootTime = now
+						playFootstep(foot)
+					end
+				end
+			end
+		end
+	end
+end
+
+collectFootParts()
+character.DescendantAdded:Connect(function(d)
+	if d:IsA("BasePart") then
+		local n = string.lower(d.Name)
+		if string.find(n, "foot", 1, true) and not string.find(n, "step", 1, true) then
+			table.insert(footParts, d)
+		end
+	end
+end)
+
+local function clampMagnitude(vector, maxMagnitude)
+	if vector.Magnitude > maxMagnitude then
+		return vector.Unit * maxMagnitude
+	end
+	return vector
+end
+
+local function safeFlat(primary, fallback)
+	local flat = Vector3.new(primary.X, 0, primary.Z)
+	if flat.Magnitude > 0.05 then return flat.Unit end
+	flat = Vector3.new(fallback.X, 0, fallback.Z)
+	if flat.Magnitude > 0.05 then return flat.Unit end
+	return Vector3.new(0, 0, -1)
+end
+
+local function facingCFrame(direction)
+	if Vector3.new(direction.X, 0, direction.Z).Magnitude > 1e-3 then
+		lastYaw = math.atan2(-direction.X, -direction.Z)
+	end
+	local pitch = math.asin(math.clamp(direction.Y, -1, 1))
+	pitch = math.clamp(pitch, -MAX_PITCH, MAX_PITCH)
+	return CFrame.fromEulerAnglesYXZ(pitch, lastYaw, 0)
+end
+
+local function getOcean()
+	if oceanPart and oceanPart.Parent then return oceanPart end
+	local found = workspace:FindFirstChild("Ocean")
+	if found and found:IsA("BasePart") then
+		oceanPart = found
+		rayParams.FilterDescendantsInstances = { character, found }
+		shoreParams.FilterDescendantsInstances = { character, workspace.Terrain, found }
+		clearParams.FilterDescendantsInstances = { character, workspace.Terrain, found }
+	else
+		oceanPart = nil
+	end
+	return oceanPart
+end
+
+local function regionHasWater(terrain, region)
+	local ok, materials = pcall(terrain.ReadVoxels, terrain, region, 4)
+	if not ok then return false end
+	for x = 1, #materials do
+		for y = 1, #materials[x] do
+			for z = 1, #materials[x][y] do
+				if materials[x][y][z] == Enum.Material.Water then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
+local function terrainHasWater(position, now)
+	if now - terrainSample.time < 0.1 then return terrainSample.value end
+	terrainSample.time = now
+	local region = Region3.new(position - Vector3.new(2, 3, 2), position + Vector3.new(2, 3, 2)):ExpandToGrid(4)
+	terrainSample.value = regionHasWater(workspace.Terrain, region)
+	return terrainSample.value
+end
+
+local function sampleWater(position, now)
+	local ocean = getOcean()
+	if ocean then
+		local level = ocean.Position.Y + ocean.Size.Y / 2
+		return position.Y < level + WATER_ENTER_MARGIN, level
+	end
+	return terrainHasWater(position, now), nil
+end
+
+local function trackWater(wet, now)
+	if wet ~= pendingWet then
+		pendingWet = wet
+		pendingSince = now
+	end
+	if pendingWet ~= reportedWet and now - pendingSince >= WATER_REPORT_DELAY then
+		reportedWet = pendingWet
+		if waterStateEvent then
+			waterStateEvent:FireServer(reportedWet)
+		end
+	end
+end
+
+local function clearPosition(position)
+	local size = boxSize * 0.85
+	local step = math.max(boxSize.Y * 0.1, 1)
+	local limit = boxSize.Y * 0.6
+	local lifted = 0
+	while lifted <= limit do
+		local candidate = position + Vector3.new(0, lifted, 0)
+		local center = CFrame.new(candidate + Vector3.new(0, boxOffsetY, 0))
+		if #workspace:GetPartBoundsInBox(center, size, clearParams) == 0 then
+			return candidate
+		end
+		lifted += step
+	end
+	return position
+end
+
+local ledgeActiveUntil = 0
+
+local function shoreSlide(position, velocity, dt, pushing)
+	local speed = velocity.Magnitude
+	if speed < 1 then return velocity end
+	local direction = velocity.Unit
+	local reach = speed * dt * 2 + 1
+	local hit = workspace:Blockcast(CFrame.new(position), castSize, direction * reach, shoreParams)
+	if not hit then return velocity end
+	local normal = hit.Normal
+	if normal.Magnitude < 0.1 then return velocity end
+	local into = velocity:Dot(normal)
+	if into >= 0 then return velocity end
+	local slid = velocity - normal * into
+	if pushing and math.abs(normal.Y) < 0.75 and os.clock() >= ledgeActiveUntil then
+		local flat = Vector3.new(direction.X, 0, direction.Z)
+		if flat.Magnitude > 0.1 then
+			local raised = workspace:Blockcast(CFrame.new(position + Vector3.new(0, climbStep, 0)), castSize, flat.Unit * reach, shoreParams)
+			if not raised then
+				slid = Vector3.new(slid.X, math.max(slid.Y, SWIM_CLIMB_SPEED), slid.Z)
+			end
+		end
+	end
+	return slid
+end
+
+local function getMoveInput()
+	if UserInputService:GetFocusedTextBox() then return 0, 0 end
+	if controls then
+		local move = controls:GetMoveVector()
+		return -move.Z, move.X
+	end
+	local forward, right = 0, 0
+	if UserInputService:IsKeyDown(Enum.KeyCode.W) then forward += 1 end
+	if UserInputService:IsKeyDown(Enum.KeyCode.S) then forward -= 1 end
+	if UserInputService:IsKeyDown(Enum.KeyCode.D) then right += 1 end
+	if UserInputService:IsKeyDown(Enum.KeyCode.A) then right -= 1 end
+	return forward, right
+end
+
+local function getVerticalInput()
+	if UserInputService:GetFocusedTextBox() then return 0 end
+	local up, down = false, false
+	for _, key in ipairs(ASCEND_KEYS) do
+		if UserInputService:IsKeyDown(key) then up = true break end
+	end
+	for _, key in ipairs(DESCEND_KEYS) do
+		if UserInputService:IsKeyDown(key) then down = true break end
+	end
+	return (up and 1 or 0) - (down and 1 or 0)
+end
+
+local function limitDescent(vy, groundDistance, clearance, brake)
+	if vy >= 0 or not groundDistance then return vy end
+	local remaining = math.max(groundDistance - clearance, 0)
+	return math.max(vy, -remaining * brake)
+end
+
+local function lowestGround(position, groundDistance)
+	local lowest = groundDistance
+	local span = boxSize and math.max(boxSize.X, boxSize.Z) * 0.35 or 0
+	if span <= 0 then return lowest end
+	local flatFacing = safeFlat(facing, Vector3.new(0, 0, -1))
+	local side = Vector3.new(-flatFacing.Z, 0, flatFacing.X)
+	for _, offset in ipairs({ flatFacing * span, -flatFacing * span, side * span, -side * span }) do
+		local result = workspace:Raycast(position + offset, Vector3.new(0, -GROUND_RAY, 0), rayParams)
+		if result and (not lowest or result.Distance < lowest) then lowest = result.Distance end
+	end
+	return lowest
+end
+
+local function buildRig()
+	flightVel = rootPart.AssemblyLinearVelocity
+	facing = rootPart.CFrame.LookVector
+	lastYaw = math.atan2(-facing.X, -facing.Z)
+
+	attachment = Instance.new("Attachment")
+	attachment.Name = "FlyAttachment"
+	attachment.Parent = rootPart
+
+	align = Instance.new("AlignOrientation")
+	align.Name = "FlyAlignOrientation"
+	align.Mode = Enum.OrientationAlignmentMode.OneAttachment
+	align.Attachment0 = attachment
+	align.RigidityEnabled = false
+	align.MaxTorque = 1e9
+	align.Responsiveness = 25
+	align.CFrame = rootPart.CFrame.Rotation
+	align.Parent = rootPart
+
+	linear = Instance.new("LinearVelocity")
+	linear.Name = "FlyVelocity"
+	linear.Attachment0 = attachment
+	linear.VelocityConstraintMode = Enum.VelocityConstraintMode.Vector
+	linear.RelativeTo = Enum.ActuatorRelativeTo.World
+	linear.MaxForce = math.huge
+	linear.VectorVelocity = flightVel
+	linear.Parent = rootPart
+
+	humanoid.PlatformStand = true
+	humanoid.AutoRotate = false
+end
+
+local function destroyRig()
+	if linear then linear:Destroy() linear = nil end
+	if align then align:Destroy() align = nil end
+	if attachment then attachment:Destroy() attachment = nil end
+end
+
+local function refreshAirTrack(fade)
+	local track = (mode == "Fly") and Fly or (Swim or Fly)
+	if track == airTrack then return end
+	stopTrack(airTrack, fade)
+	airTrack = track
+	play(track, fade)
+end
+
+local function enterAir(newMode, fade)
+	if mode == newMode or humanoid.Health <= 0 then return end
+	fade = fade or 0
+	local previous = mode
+	mode = newMode
+	syncFlightState()
+	if previous == "Land" then
+		measureBody()
+		buildRig()
+		if newMode == "Fly" then
+			local launch = math.clamp(bodyHalf * 2.5, FLY_LAUNCH_MIN, FLY_LAUNCH_MAX)
+			flightVel = Vector3.new(flightVel.X, math.max(flightVel.Y, launch), flightVel.Z)
+			linear.VectorVelocity = flightVel
+		end
+		ChargeManager.setFlying(true)
+		stopTrack(Idle, fade)
+		stopTrack(Walk, fade)
+		stopTrack(Sprint, fade)
+	end
+	if newMode == "Swim" and previous == "Glide" then
+		swimBrakeUntil = os.clock() + 0.5
+	end
+	refreshAirTrack(fade)
+end
+
+local function endFlight(keepMomentum, fade)
+	if mode == "Land" then return end
+	fade = fade or 0
+	local previous = mode
+	local velocity = flightVel
+	local position = rootPart.Position
+	mode = "Land"
+	syncFlightState()
+	landFadeUntil = os.clock() + fade + 0.1
+
+	destroyRig()
+	ChargeManager.setFlying(false)
+	humanoid.PlatformStand = false
+	humanoid.AutoRotate = true
+	humanoid.HipHeight = originalHipHeight
+	applyWalkSpeed()
+
+	stopTrack(airTrack, fade)
+	stopTrack(Fly, fade)
+	stopTrack(Swim, fade)
+	airTrack = nil
+
+	if humanoid.Health > 0 then
+		currentAnim = "Idle"
+		stopAnimations(fade)
+		play(Idle, fade)
+		landLockUntil = os.clock() + 0.5
+		if previous == "Swim" or previous == "Glide" then
+			position = clearPosition(position)
+		end
+		rootPart.CFrame = CFrame.new(position) * CFrame.Angles(0, lastYaw, 0)
+		if keepMomentum then
+			rootPart.AssemblyLinearVelocity = Vector3.new(velocity.X * 0.5, 0, velocity.Z * 0.5)
+		else
+			rootPart.AssemblyLinearVelocity = Vector3.zero
+		end
+	end
+
+	if previous ~= "Fly" then
+		swimBlockedUntil = os.clock() + 0.35
+	end
+
+	task.defer(function()
+		if mode == "Land" then
+			stopTrack(Fly, fade)
+			stopTrack(Swim, fade)
+		end
+	end)
+end
+
+local function startManualFly(fade)
+	if mode == "Fly" or humanoid.Health <= 0 then return end
+	if humanoid.MaxHealth > 0 and humanoid.Health < humanoid.MaxHealth * FLY_MIN_HEALTH_PERCENT then return end
+	if ChargeManager.getCharge() < FLY_MIN_CHARGE then return end
+	enterAir("Fly", (fade and fade > 0) and fade or FLY_FADE_IN)
+end
+
+local function stopManualFly()
+	if mode ~= "Fly" then return end
+	local wet = sampleWater(head.Position, os.clock())
+	if wet then
+		enterAir("Swim", 0.3)
+	else
+		endFlight(false, FLY_FADE_OUT)
+	end
+end
+
+local function updateLand(now, wet)
+	if now >= landFadeUntil then
+		if Fly and Fly.IsPlaying then Fly:Stop(0) end
+		if Swim and Swim.IsPlaying and not wet then Swim:Stop(0) end
+	end
+	updateAttackState(now)
+	if now >= landLockUntil then
+		local velocity = rootPart.AssemblyLinearVelocity
+		local speed = Vector3.new(velocity.X, 0, velocity.Z).Magnitude
+		local moving = humanoid.MoveDirection.Magnitude > 0.05
+		if currentAnim ~= "Walk" and moving and speed > 1.5 then
+			currentAnim = "Walk"
+			refreshGroundAnimation()
+		elseif currentAnim == "Walk" and (not moving or speed < 1) then
+			currentAnim = "Idle"
+			refreshGroundAnimation()
+		end
+		if currentAnim ~= "Walk" then
+			if Walk and Walk.IsPlaying then Walk:Stop(GROUND_FADE) end
+			if Sprint and Sprint.IsPlaying then Sprint:Stop(GROUND_FADE) end
+			if Idle and not Idle.IsPlaying then play(Idle, GROUND_FADE) end
+		end
+	end
+	if wet and now >= swimBlockedUntil then
+		enterAir("Swim", 0.3)
+	end
+end
+
+local function updateAir(dt, now, wet, level)
+	local camera = workspace.CurrentCamera
+	if not camera then return end
+
+	local headPos = head.Position
+	local position = rootPart.Position
+
+	local groundDistance = nil
+	local hit = workspace:Raycast(position, Vector3.new(0, -GROUND_RAY, 0), rayParams)
+	if hit then groundDistance = hit.Distance end
+	local grounded = groundDistance ~= nil and groundDistance < bodyHalf + 2
+
+	if mode == "Fly" then
+		local lowHealth = humanoid.MaxHealth > 0 and humanoid.Health < humanoid.MaxHealth * FLY_MIN_HEALTH_PERCENT
+		if lowHealth or ChargeManager.getCharge() <= 0 then
+			stopManualFly()
+			if mode == "Land" then return end
+		end
+	end
+
+	if mode == "Swim" then
+		if level then
+			if grounded and headPos.Y > level + WADE_OUT_MARGIN then
+				endFlight(true, 0.2)
+				return
+			end
+			if position.Y > level + BREACH_HEIGHT then
+				enterAir("Glide", 0.25)
+			end
+		elseif not wet then
+			if grounded then
+				endFlight(true, 0.2)
+				return
+			end
+			enterAir("Glide", 0.25)
+		end
+	elseif mode == "Glide" then
+		if wet then
+			enterAir("Swim", 0.25)
+		elseif grounded and groundDistance < bodyHalf + 1 and flightVel.Y <= 0 then
+			endFlight(true, 0.2)
+			return
+		end
+	end
+
+	if not align or not linear then return end
+
+	local cf = camera.CFrame
+	local look = cf.LookVector
+	local rightFlat = safeFlat(cf.RightVector, Vector3.new(1, 0, 0))
+	local flatLook = safeFlat(look, facing)
+	local forwardIn, rightIn = getMoveInput()
+	local vertical = getVerticalInput()
+
+	local desired
+	local turn
+
+	if mode == "Fly" then
+		local moveDir = clampMagnitude(look * forwardIn + rightFlat * rightIn, 1)
+		local target = moveDir * FLY_SPEED + Vector3.new(0, vertical * FLY_SPEED, 0)
+		local alpha = 1 - math.exp(-FLY_SMOOTH * dt)
+		local alphaY = 1 - math.exp(-FLY_VERTICAL_SMOOTH * dt)
+		flightVel = Vector3.new(
+			flightVel.X + (target.X - flightVel.X) * alpha,
+			flightVel.Y + (target.Y - flightVel.Y) * alphaY,
+			flightVel.Z + (target.Z - flightVel.Z) * alpha
+		)
+		if not wet then
+			local lowest = lowestGround(position, groundDistance)
+			flightVel = Vector3.new(flightVel.X, limitDescent(flightVel.Y, lowest and (lowest - bodyHalf), FLY_GROUND_CLEARANCE, FLY_GROUND_BRAKE), flightVel.Z)
+		end
+		desired = look
+		turn = FLY_TURN
+		ChargeManager.drainCharge(dt * FLY_CHARGE_DRAIN_RATE)
+
+	elseif mode == "Swim" then
+		local moveDir = clampMagnitude(look * forwardIn + rightFlat * (rightIn * SWIM_STRAFE), 1)
+		local target = moveDir * SWIM_SPEED + Vector3.new(0, vertical * SWIM_SPEED, 0)
+		local hasInput = moveDir.Magnitude > 0.05 or vertical ~= 0
+		local rate = SWIM_ACCEL
+		if not hasInput then
+			rate = (now < swimBrakeUntil) and SWIM_ENTRY_DRAG or SWIM_DRAG
+		end
+		flightVel = flightVel:Lerp(target, 1 - math.exp(-rate * dt))
+
+		local flatFacing = safeFlat(facing, flatLook)
+		if moveDir.Magnitude > 0.05 then
+			desired = moveDir
+		elseif vertical ~= 0 then
+			desired = flatFacing * 0.6 + Vector3.new(0, vertical, 0)
+		else
+			desired = flatFacing
+		end
+		turn = SWIM_TURN
+
+	else
+		local horizontal = Vector3.new(flightVel.X, 0, flightVel.Z)
+		local steer = flatLook * forwardIn + rightFlat * (rightIn * 0.5)
+		if steer.Magnitude > 0.1 then
+			local targetHorizontal = clampMagnitude(steer, 1) * GLIDE_SPEED
+			horizontal = horizontal:Lerp(targetHorizontal, 1 - math.exp(-GLIDE_STEER * dt))
+		else
+			horizontal = horizontal * math.exp(-GLIDE_DRAG * dt)
+		end
+		local fall = flightVel.Y - workspace.Gravity * GLIDE_GRAVITY_SCALE * dt
+		fall = math.max(fall, -GLIDE_MAX_FALL)
+		flightVel = Vector3.new(horizontal.X, fall, horizontal.Z)
+
+		local flatFacing = safeFlat(facing, flatLook)
+		if flightVel.Magnitude > 8 then
+			desired = flightVel.Unit
+		else
+			desired = flatFacing + Vector3.new(0, -0.3, 0)
+		end
+		if groundDistance then
+			local flare = 1 - math.clamp((groundDistance - bodyHalf) / 8, 0, 1)
+			desired = desired:Lerp(safeFlat(desired, flatFacing), flare)
+		end
+		turn = GLIDE_TURN
+	end
+
+	if groundDistance and (mode == "Swim" or (mode == "Fly" and wet)) and groundDistance < bodyHalf + 1 then
+		if flightVel.Y < 0 then
+			flightVel = Vector3.new(flightVel.X, 0, flightVel.Z)
+		end
+	end
+
+	if mode == "Swim" then
+		flightVel = shoreSlide(position, flightVel, dt, forwardIn ~= 0 or rightIn ~= 0)
+		local over = workspace:Raycast(headPos + Vector3.new(0, 60, 0), Vector3.new(0, -60, 0), rayParams)
+		if over and over.Instance:IsA("Terrain") and over.Position.Y > headPos.Y + 1 and over.Position.Y - headPos.Y < 30 then
+			flightVel = Vector3.new(flightVel.X, math.max(flightVel.Y, SWIM_SPEED), flightVel.Z)
+		end
+	end
+
+	if desired.Magnitude < 1e-3 then desired = facing end
+	desired = desired.Unit
+	local mixed = facing:Lerp(desired, 1 - math.exp(-turn * dt))
+	facing = mixed.Magnitude > 1e-3 and mixed.Unit or desired
+
+	align.CFrame = facingCFrame(facing)
+	linear.VectorVelocity = flightVel
+
+	if airTrack and mode ~= "Land" and not airTrack.IsPlaying then
+		airTrack:Play(0.1)
+	end
+end
+
+-- Ledge assist: when your feet are in water (swimming OR wading) and you push into a ledge
+-- you could step onto, give a lift + forward push so you climb out easily.
+local LEDGE_COOLDOWN = 0.5
+local LEDGE_MAX_TIME = 1.2
+local ledgeSince = nil
+local ledgeBlockedUntil = 0
+local ledgeLastMode = nil
+local ledgeLifting = false
+
+local function ledgeFinish()
+	if not ledgeLifting then return end
+	ledgeLifting = false
+	ledgeActiveUntil = os.clock() + 0.4
+	local v = rootPart.AssemblyLinearVelocity
+	if v.Y > 4 then rootPart.AssemblyLinearVelocity = Vector3.new(v.X, 4, v.Z) end
+	if flightVel and flightVel.Y > 4 then
+		flightVel = Vector3.new(flightVel.X, 4, flightVel.Z)
+		if linear then linear.VectorVelocity = flightVel end
+	end
+end
+
+local function ledgeAssist(now)
+	if mode == "Swim" and ledgeLastMode == "Land" then ledgeBlockedUntil = now + 0.5 end
+	ledgeLastMode = mode
+	if mode ~= "Land" and mode ~= "Swim" then ledgeSince = nil ledgeFinish() return end
+	if now < ledgeBlockedUntil then ledgeSince = nil ledgeFinish() return end
+
+	local dir
+	if mode == "Land" then
+		local md = humanoid.MoveDirection
+		dir = Vector3.new(md.X, 0, md.Z)
+	else
+		local camera = workspace.CurrentCamera
+		if not camera then return end
+		local forwardIn, rightIn = getMoveInput()
+		local cf = camera.CFrame
+		dir = safeFlat(cf.LookVector, facing) * forwardIn + safeFlat(cf.RightVector, Vector3.new(1, 0, 0)) * rightIn
+		dir = Vector3.new(dir.X, 0, dir.Z)
+	end
+	if dir.Magnitude < 0.1 then ledgeSince = nil ledgeFinish() return end
+	dir = dir.Unit
+
+	local pos = rootPart.Position
+	if not sampleWater(pos - Vector3.new(0, bodyHalf * 0.8, 0), now) then ledgeSince = nil ledgeFinish() return end
+
+	local feetY = pos.Y - bodyHalf
+	local maxStep = bodyHalf * 1.6 + 3
+	local reach = bodyHalf + 6
+
+	local wall = workspace:Raycast(Vector3.new(pos.X, feetY + 1, pos.Z), dir * reach, rayParams)
+	if not wall or wall.Normal.Y > 0.6 or wall.Normal:Dot(dir) > -0.3 then ledgeSince = nil ledgeFinish() return end
+	-- too tall to climb?
+	if workspace:Raycast(Vector3.new(pos.X, feetY + maxStep + 1, pos.Z), dir * (reach + 2), rayParams) then
+		ledgeSince = nil
+		ledgeFinish()
+		return
+	end
+	local probe = wall.Position + dir * 2.5 + Vector3.new(0, maxStep + 1, 0)
+	local top = workspace:Raycast(probe, Vector3.new(0, -(maxStep + 6), 0), rayParams)
+	if not top or top.Normal.Y < 0.5 then ledgeSince = nil ledgeFinish() return end
+	local rise = top.Position.Y - feetY
+	if rise < 0.6 or rise > maxStep then ledgeSince = nil ledgeFinish() return end
+
+	ledgeSince = ledgeSince or now
+	if now - ledgeSince > LEDGE_MAX_TIME then
+		ledgeSince = nil
+		ledgeBlockedUntil = now + LEDGE_COOLDOWN
+		ledgeFinish()
+		return
+	end
+
+	ledgeLifting = true
+	ledgeActiveUntil = now + 0.3
+	local up = math.clamp(rise * 7 + 6, 10, 38)
+	local speed = math.max(humanoid.WalkSpeed, 18)
+	if mode == "Land" then
+		local v = rootPart.AssemblyLinearVelocity
+		rootPart.AssemblyLinearVelocity = Vector3.new(dir.X * speed, math.max(v.Y, up), dir.Z * speed)
+	else
+		flightVel = Vector3.new(dir.X * speed * 0.6, math.max(flightVel.Y, up), dir.Z * speed * 0.6)
+		if linear then linear.VectorVelocity = flightVel end
+	end
+end
+
+RunService.Heartbeat:Connect(function(dt)
+	if humanoid.Health <= 0 or not rootPart.Parent then return end
+	dt = math.min(dt, 0.1)
+	local now = os.clock()
+	local wet, level = sampleWater(head.Position, now)
+	trackWater(wet, now)
+	if mode == "Land" then
+		updateLand(now, wet)
+	else
+		updateAir(dt, now, wet, level)
+	end
+	ledgeAssist(now)
+end)
+
+humanoid.Died:Connect(function()
+	endFlight(false, 0)
+end)
+
+UserInputService.InputBegan:Connect(function(input, processed)
+	if processed or KOSettings.IsRebinding() or input.KeyCode ~= KOSettings.KeyCode("Fly") then return end
+	local canFly = character:FindFirstChild("canFly")
+	if not (canFly and canFly.Value == true and sprintOn) then return end
+	if mode == "Fly" then
+		stopManualFly()
+	else
+		startManualFly(0)
+	end
+end)
+
+local runFolder = script:FindFirstChild("Run")
+if not runFolder then
+	runFolder = Instance.new("Folder")
+	runFolder.Name = "Run"
+	runFolder.Parent = script
+end
+
+local runValue = runFolder:FindFirstChild("Running")
+if not runValue then
+	runValue = Instance.new("BoolValue")
+	runValue.Name = "Running"
+	runValue.Value = false
+	runValue.Parent = runFolder
+end
+
+local function onRunChanged()
+	if runValue.Value then
+		if humanoid:GetAttribute("Slowed") then
+			runValue.Value = false
+			return
+		end
+		sprintOn = true
+		setSprintFov(true)
+		applyWalkSpeed()
+		if mode == "Land" and currentAnim == "Walk" then
+			refreshGroundAnimation()
+		end
+		local canFly = character:FindFirstChild("canFly")
+		if canFly and canFly.Value == true then
+			startManualFly(0)
+		end
+	else
+		sprintOn = false
+		setSprintFov(false)
+		applyWalkSpeed()
+		if mode == "Fly" then
+			stopManualFly()
+		end
+		if mode == "Land" and currentAnim == "Walk" then
+			refreshGroundAnimation()
+		end
+		humanoid.HipHeight = originalHipHeight
+	end
+end
+
+runValue:GetPropertyChangedSignal("Value"):Connect(onRunChanged)
+
+local function runBindHandler(_, inputState)
+	if inputState ~= Enum.UserInputState.Begin then return end
+	if KOSettings.IsRebinding() then return end
+	if humanoid:GetAttribute("Slowed") then return end
+	runValue.Value = not runValue.Value
+end
+ContextActionService:BindAction("RunBind", runBindHandler, false, KOSettings.KeyCode("Sprint"))
+KOSettings.OnChanged(function(name)
+	if name == "Key_Sprint" then
+		ContextActionService:UnbindAction("RunBind")
+		ContextActionService:BindAction("RunBind", runBindHandler, false, KOSettings.KeyCode("Sprint"))
+	end
+end)
+
+humanoid:GetAttributeChangedSignal("Slowed"):Connect(function()
+	if humanoid:GetAttribute("Slowed") and runValue.Value then
+		runValue.Value = false
+	end
+end)
+
+local footConn
+footConn = RunService.Heartbeat:Connect(function()
+	if not character.Parent then footConn:Disconnect() return end
+	updateFootsteps()
+end)
+
+task.spawn(function()
+	while character.Parent do
+		task.wait(sprintOn and 0.55 or 0.8)
+		if #footParts == 0 and canStep() and currentAnim == "Walk" then
+			playFootstep()
+		end
+	end
+end)
+
+play(Idle)
