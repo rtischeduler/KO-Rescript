@@ -25,6 +25,9 @@ local MAIN_TEXTURE_LENGTH = 10
 local MAIN_TEXTURE_SPEED = 30
 local MAIN_BRIGHTNESS_DAY = 0.8
 local MAIN_BRIGHTNESS_NIGHT = 1.3
+local CONE_WIDEN = 1.7
+local HOT_WIDTH_SCALE = 0.4
+local HOT_BRIGHTNESS = 3
 local SHINE_SIZE = 16
 local SHINE_RATE = 3
 local SPARK_RATE = 40
@@ -119,6 +122,8 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 		if ghidorah then
 			maxW0 = maxW0 * 0.5
 			maxW1 = maxW1 * 0.5
+		else
+			maxW1 = maxW1 * CONE_WIDEN
 		end
 		local beam = newBeam(group.start, group.finish, group.start, "BeamVFXCore")
 		beam.Texture = TEXTURES.Main
@@ -140,6 +145,26 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 		beam.ZOffset = best.ZOffset
 		beam:SetAttribute("BeamVFXServer", vfx.server)
 		addEntry(vfx, beam, beam.TextureSpeed, 1)
+		local hot = newBeam(group.start, group.finish, group.start, "BeamVFXHot")
+		hot.Texture = TEXTURES.Main
+		hot.TextureMode = Enum.TextureMode.Wrap
+		hot.TextureLength = MAIN_TEXTURE_LENGTH
+		hot.TextureSpeed = beam.TextureSpeed
+		hot.Color = ColorSequence.new(Color3.new(1, 1, 1))
+		hot.Width0 = math.max(maxW0 * HOT_WIDTH_SCALE, 0.3)
+		hot.Width1 = math.max(maxW1 * HOT_WIDTH_SCALE, 0.3)
+		hot.CurveSize0 = best.CurveSize0
+		hot.CurveSize1 = best.CurveSize1
+		hot.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, 0.15),
+			NumberSequenceKeypoint.new(0.15, 0),
+			NumberSequenceKeypoint.new(0.85, 0),
+			NumberSequenceKeypoint.new(1, 0.2),
+		})
+		hot.Brightness = HOT_BRIGHTNESS
+		hot.ZOffset = best.ZOffset + 1
+		hot:SetAttribute("BeamVFXServer", vfx.server)
+		addEntry(vfx, hot, hot.TextureSpeed, 1)
 	end
 	return vfx
 end
