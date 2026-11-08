@@ -10,3 +10,5 @@ ReplicatedStorage/BeamClientFX.lua
 StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
 ReplicatedStorage/HolidayConfigs.lua
 ReplicatedStorage/CandyConfig.lua
+ServerScriptService/framework/modules/World.lua
+StarterPlayer/StarterPlayerScripts/BuildingFX.client.lua
