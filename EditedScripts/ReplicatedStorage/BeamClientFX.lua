@@ -160,7 +160,7 @@ local function adoptServerImpact(self, inst)
 end
 
 local function hideServerCopy(inst)
-	if inst:IsA("ParticleEmitter") and inst.Name == "BeamStartSmoke" then
+	if inst:IsA("ParticleEmitter") and (inst.Name == "BeamStartSmoke" or inst.Name == "BeamStartShine") then
 		inst.Enabled = false
 	elseif inst:IsA("PointLight") and inst.Name == "GlowLight" then
 		inst.Enabled = false
@@ -234,6 +234,7 @@ function BeamClientFX.new(character)
 
 	for _, beamStart in ipairs(self.beamStarts) do
 		table.insert(self.startSmoke, BeamVFX.NewStartSmoke(beamStart, self.smokeColor, "LocalBeamStartSmoke"))
+		table.insert(self.startSmoke, BeamVFX.NewStartShine(beamStart, self.impactColor, "LocalBeamStartShine"))
 	end
 
 	if self.hrp and self.primaryStart then

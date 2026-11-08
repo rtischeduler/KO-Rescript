@@ -650,6 +650,7 @@ function BeamSystem.ActivateBeam(config)
 		local startSmoke = {}
 		for _, beamStart in ipairs(beamStarts) do
 			table.insert(startSmoke, BeamVFX.NewStartSmoke(beamStart, smokeColor))
+			table.insert(startSmoke, BeamVFX.NewStartShine(beamStart, impactColor))
 		end
 		impactFolder.Destroying:Connect(function()
 			for _, smoke in ipairs(startSmoke) do

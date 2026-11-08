@@ -10,6 +10,7 @@ local TEXTURES = {
 	Spark = "rbxassetid://117219392616758",
 	Shine = "rbxassetid://122607383215131",
 	Main = "rbxassetid://18654087326",
+	Glow = "rbxassetid://128372145766358",
 }
 
 local SMOKE_DIRECTIONS = 10
@@ -27,9 +28,14 @@ local MAIN_BRIGHTNESS_DAY = 0.8
 local MAIN_BRIGHTNESS_NIGHT = 1.3
 local CONE_WIDEN = 1.7
 local HOT_WIDTH_SCALE = 0.4
-local HOT_BRIGHTNESS = 3
-local SHINE_SIZE = 16
-local SHINE_RATE = 3
+local HOT_BRIGHTNESS = 8
+local GLOW_WIDTH_SCALE = 2
+local GLOW_TRANSPARENCY = 0.6
+local GLOW_BRIGHTNESS = 1.5
+local SHINE_SIZE = 24
+local SHINE_START_SIZE = 9
+local SHINE_RATE = 6
+local SHINE_START_RATE = 4
 local SPARK_RATE = 40
 
 local function kaijuNameOf(character)
@@ -165,6 +171,25 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 		hot.ZOffset = best.ZOffset + 1
 		hot:SetAttribute("BeamVFXServer", vfx.server)
 		addEntry(vfx, hot, hot.TextureSpeed, 1)
+		local glow = newBeam(group.start, group.finish, group.start, "BeamVFXGlow")
+		glow.Texture = TEXTURES.Glow
+		glow.TextureMode = Enum.TextureMode.Stretch
+		glow.TextureLength = 1
+		glow.TextureSpeed = 0
+		glow.Color = best.Color
+		glow.Width0 = math.max(maxW0 * GLOW_WIDTH_SCALE, 1)
+		glow.Width1 = math.max(maxW1 * GLOW_WIDTH_SCALE, 1)
+		glow.CurveSize0 = best.CurveSize0
+		glow.CurveSize1 = best.CurveSize1
+		glow.Transparency = NumberSequence.new({
+			NumberSequenceKeypoint.new(0, GLOW_TRANSPARENCY + 0.15),
+			NumberSequenceKeypoint.new(0.5, GLOW_TRANSPARENCY),
+			NumberSequenceKeypoint.new(1, GLOW_TRANSPARENCY + 0.2),
+		})
+		glow.Brightness = GLOW_BRIGHTNESS * brightness
+		glow.ZOffset = best.ZOffset - 1
+		glow:SetAttribute("BeamVFXServer", vfx.server)
+		table.insert(vfx.instances, glow)
 	end
 	return vfx
 end
@@ -308,26 +333,27 @@ local function makeSparkEmitter(color)
 	return emitter
 end
 
-local function makeShineEmitter(color)
+local function makeShineEmitter(color, size, name)
+	size = size or SHINE_SIZE
 	local emitter = Instance.new("ParticleEmitter")
-	emitter.Name = "BeamShine"
+	emitter.Name = name or "BeamShine"
 	emitter.Texture = TEXTURES.Shine
 	emitter.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)),
-		ColorSequenceKeypoint.new(1, Color3.new(1, 1, 1):Lerp(color, 0.35)),
+		ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1):Lerp(color, 0.3)),
+		ColorSequenceKeypoint.new(1, color),
 	})
 	emitter.LightEmission = 1
 	emitter.LightInfluence = 0
-	emitter.ZOffset = 1
+	emitter.ZOffset = 2
 	emitter.Size = NumberSequence.new({
-		NumberSequenceKeypoint.new(0, SHINE_SIZE * 0.6),
-		NumberSequenceKeypoint.new(0.4, SHINE_SIZE),
-		NumberSequenceKeypoint.new(1, SHINE_SIZE * 0.7),
+		NumberSequenceKeypoint.new(0, size * 0.7),
+		NumberSequenceKeypoint.new(0.4, size),
+		NumberSequenceKeypoint.new(1, size * 0.8),
 	})
 	emitter.Transparency = NumberSequence.new({
-		NumberSequenceKeypoint.new(0, 1),
-		NumberSequenceKeypoint.new(0.2, 0.05),
-		NumberSequenceKeypoint.new(0.8, 0.1),
+		NumberSequenceKeypoint.new(0, 0.6),
+		NumberSequenceKeypoint.new(0.15, 0),
+		NumberSequenceKeypoint.new(0.85, 0.1),
 		NumberSequenceKeypoint.new(1, 1),
 	})
 	emitter.Lifetime = NumberRange.new(0.45, 0.55)
@@ -340,6 +366,14 @@ local function makeShineEmitter(color)
 	emitter.LockedToPart = true
 	emitter.Rate = 0
 	emitter.Enabled = false
+	return emitter
+end
+
+function BeamVFX.NewStartShine(parent, color, name)
+	local emitter = makeShineEmitter(color, SHINE_START_SIZE, name or "BeamStartShine")
+	emitter.Rate = SHINE_START_RATE
+	emitter.Enabled = true
+	emitter.Parent = parent
 	return emitter
 end
 
