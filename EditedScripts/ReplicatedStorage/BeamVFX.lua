@@ -20,17 +20,17 @@ local SMOKE_SPEED = 38
 local SMOKE_REFRESH = 0.1
 local SMOKE_MOVE_REFRESH = 3
 local BURN_LIFETIME = 2
-local BURN_SIZE = 7
+local BURN_SIZE = 9
 
 local GHIDORAH_LAYERS = {
-	{scale = 1, speed = 18, length = 12, transparency = 0.3, curve = 0, z = 0, boost = 0.35},
-	{scale = 0.62, speed = 31, length = 8, transparency = 0.12, curve = 1.6, z = 1, boost = 0.35},
-	{scale = 0.3, speed = 46, length = 5, transparency = 0, curve = -1.3, z = 2, boost = 0.35},
+	{scale = 1, speed = 48, length = 12, transparency = 0.3, curve = 0, z = 0, boost = 0.5},
+	{scale = 0.62, speed = 80, length = 8, transparency = 0.12, curve = 1.6, z = 1, boost = 0.5},
+	{scale = 0.3, speed = 125, length = 5, transparency = 0, curve = -1.3, z = 2, boost = 0.5},
 }
 
 local GLOW_LAYERS = {
-	{texture = TEXTURES.GlowA, scale = 1.3, speed = 5, length = 14, transparency = 0.32, z = -1, brightness = 2.2},
-	{texture = TEXTURES.GlowB, scale = 1.75, speed = -7, length = 20, transparency = 0.45, z = -2, brightness = 1.8},
+	{texture = TEXTURES.GlowA, scale = 1.08, speed = 14, length = 14, transparency = 0.32, z = -1, brightness = 2.2},
+	{texture = TEXTURES.GlowB, scale = 1.2, speed = -20, length = 20, transparency = 0.45, z = -2, brightness = 1.8},
 }
 
 local function kaijuNameOf(character)
@@ -327,12 +327,13 @@ local function makeBurnEmitter()
 	emitter.Texture = TEXTURES.Burn
 	emitter.Color = ColorSequence.new(Color3.fromRGB(18, 14, 12))
 	emitter.LightEmission = 0
-	emitter.LightInfluence = 1
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, BURN_SIZE * 0.85), NumberSequenceKeypoint.new(1, BURN_SIZE)})
+	emitter.LightInfluence = 0
+	emitter.ZOffset = 0.5
+	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, BURN_SIZE), NumberSequenceKeypoint.new(1, BURN_SIZE)})
 	emitter.Transparency = NumberSequence.new({
 		NumberSequenceKeypoint.new(0, 1),
-		NumberSequenceKeypoint.new(0.06, 0.2),
-		NumberSequenceKeypoint.new(0.35, 0.3),
+		NumberSequenceKeypoint.new(0.05, 0.05),
+		NumberSequenceKeypoint.new(0.4, 0.15),
 		NumberSequenceKeypoint.new(1, 1),
 	})
 	emitter.Lifetime = NumberRange.new(BURN_LIFETIME, BURN_LIFETIME)
@@ -492,7 +493,7 @@ function Impact:SetIntensity(intensity, surfaceHit)
 		local burning = enabled and surfaceHit == true
 		local rate = 0
 		if burning then
-			rate = math.clamp(math.floor(self.speed / 2.4 + 0.5), 4, 26)
+			rate = math.clamp(math.floor(self.speed / 2 + 0.5), 10, 30)
 		end
 		if self.burnRate ~= rate then
 			self.burnRate = rate
