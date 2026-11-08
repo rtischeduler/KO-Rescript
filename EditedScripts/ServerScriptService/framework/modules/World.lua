@@ -761,7 +761,7 @@ local function initRain()
 end
 
 local function initBuilding()
-	local RUMBLE_TIME = 0.8
+	local RUMBLE_TIME = 0.4
 	local COLLAPSE_TIME = 2.6
 	local RESPAWN_DELAY = 60
 
@@ -770,10 +770,14 @@ local function initBuilding()
 	local destroyed = {}
 	local buildingRefs = {}
 	local beamLoops, blastLoops = {}, {}
+	local beamSegments = _G.BeamHitSegments or setmetatable({}, { __mode = "k" })
+	_G.BeamHitSegments = beamSegments
+	local BEAM_CONTACT_PAD = 3
 
 	local DAMAGE_KEYWORDS = { "hitbox", "beam", "blast", "firebomb" }
 	local MELEE_BUILDING_DAMAGE = 20
 	local MELEE_BUILDING_TICK = 0.5
+	local BEAM_INITIAL_DAMAGE = 50
 	local BEAM_BUILDING_DAMAGE = 25
 	local BEAM_BUILDING_TICK = 0.2
 
@@ -882,6 +886,34 @@ local function initBuilding()
 		end)
 	end
 
+	local function beamReaches(hitbox, pos, r, refs)
+		if (pos - refs.pos).Magnitude <= r + refs.radius then return true end
+		local from = beamSegments[hitbox]
+		if not from then return false end
+		local base = refs.base
+		local ab = pos - from
+		local t = math.clamp((refs.pos - from):Dot(ab) / math.max(ab:Dot(ab), 1e-4), 0, 1)
+		if (from + ab * t - refs.pos).Magnitude > base.Size.Magnitude / 2 + BEAM_CONTACT_PAD then return false end
+		local cf = base.CFrame
+		local half = base.Size / 2 + Vector3.new(BEAM_CONTACT_PAD, BEAM_CONTACT_PAD, BEAM_CONTACT_PAD)
+		local la = cf:PointToObjectSpace(from)
+		local d = cf:PointToObjectSpace(pos) - la
+		local tmin, tmax = 0, 1
+		for _, axis in { "X", "Y", "Z" } do
+			local o, dv, h = la[axis], d[axis], half[axis]
+			if math.abs(dv) < 1e-6 then
+				if o < -h or o > h then return false end
+			else
+				local t1, t2 = (-h - o) / dv, (h - o) / dv
+				if t1 > t2 then t1, t2 = t2, t1 end
+				tmin = math.max(tmin, t1)
+				tmax = math.min(tmax, t2)
+				if tmin > tmax then return false end
+			end
+		end
+		return true
+	end
+
 	local function startBeamCheck(hitbox)
 		if beamLoops[hitbox] then return end
 		beamLoops[hitbox] = true
@@ -891,7 +923,7 @@ local function initBuilding()
 				for building, refs in liveRefs() do
 					local set = touchingParts[building]
 					if set then
-						if (pos - refs.pos).Magnitude <= r + refs.radius then
+						if beamReaches(hitbox, pos, r, refs) then
 							if not set[hitbox] then
 								set[hitbox] = true
 								playHitSound(refs.base)
@@ -902,7 +934,7 @@ local function initBuilding()
 						end
 					end
 				end
-				task.wait(0.15)
+				task.wait(0.05)
 			end
 			beamLoops[hitbox] = nil
 		end)
@@ -1042,6 +1074,7 @@ local function initBuilding()
 			if damaging then return end
 			damaging = true
 			task.spawn(function()
+				local primed = false
 				while true do
 					local set = touchingParts[building]
 					if not set or HP.Value <= 0 or destroyed[building] then break end
@@ -1061,7 +1094,12 @@ local function initBuilding()
 					if not any then break end
 
 					if beamHit then
-						applyDamage(BEAM_BUILDING_DAMAGE, rewards)
+						if primed then
+							applyDamage(BEAM_BUILDING_DAMAGE, rewards)
+						else
+							primed = true
+							applyDamage(BEAM_INITIAL_DAMAGE, rewards)
+						end
 						task.wait(BEAM_BUILDING_TICK)
 					else
 						applyDamage(MELEE_BUILDING_DAMAGE, rewards)

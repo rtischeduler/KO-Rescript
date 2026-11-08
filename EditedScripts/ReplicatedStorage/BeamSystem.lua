@@ -1,4 +1,6 @@
 local BeamSystem = {}
+local BeamHitSegments = _G.BeamHitSegments or setmetatable({}, { __mode = "k" })
+_G.BeamHitSegments = BeamHitSegments
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerStorage = game:GetService("ServerStorage")
@@ -900,6 +902,7 @@ function BeamSystem.ActivateBeam(config)
 			end
 			BeamVFX.SetExtent(vfx, ext)
 			hitbox.CFrame = orientHitbox(clashing and startPos or myHRP.Position, tip, endPos)
+			BeamHitSegments[hitbox] = startPos
 			positionSideHitboxes(startPos, hitbox.CFrame, sideHitboxes, ext)
 			for _, be in ipairs(beamEndOffsets) do
 				be.att.CFrame = CFrame.new(be.offset * ext)

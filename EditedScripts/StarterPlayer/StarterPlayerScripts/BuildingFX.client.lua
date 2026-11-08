@@ -4,9 +4,12 @@ local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 local Workspace = game:GetService("Workspace")
 
-local RUMBLE_TIME = 0.8
+local RUMBLE_TIME = 0.4
 local COLLAPSE_TIME = 2.6
 local DEBRIS_CHUNKS = 9
+local DUST_EMITTERS = 6
+local DUST_TEXTURE = "rbxasset://textures/particles/smoke_main.dds"
+local DUST_COLOR = ColorSequence.new(Color3.fromRGB(168, 158, 144), Color3.fromRGB(112, 110, 106))
 local FX_DISTANCE = 900
 local DEBRIS_GROUP = "CollapseDebris"
 local DARK = Color3.new(0, 0, 0)
@@ -79,11 +82,13 @@ local function getState(building)
 
 	local parts, origCFs = {}, {}
 	local minY = math.huge
+	local maxY = -math.huge
 	for _, d in building:GetDescendants() do
 		if d:IsA("BasePart") and not d.Name:lower():find("leftover") then
 			table.insert(parts, d)
 			table.insert(origCFs, d.CFrame)
 			minY = math.min(minY, d.Position.Y - d.Size.Y / 2)
+			maxY = math.max(maxY, d.Position.Y + d.Size.Y / 2)
 		end
 	end
 	if #parts == 0 then return nil end
@@ -97,6 +102,10 @@ local function getState(building)
 		origCFs = origCFs,
 		cframes = table.create(#parts),
 		pivot = Vector3.new(basePos.X, minY, basePos.Z),
+		basePos = basePos,
+		baseCF = base.CFrame,
+		topY = maxY,
+		dustToken = 0,
 		footW = footW,
 		footD = footD,
 		shakeScale = math.clamp(maxAxis(base) / 25, 0.4, 2.5),
@@ -238,6 +247,119 @@ local function dust(s, count, sources)
 	end
 end
 
+local function newSpreadEmitter(scale)
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = DUST_TEXTURE
+	e.Rate = 0
+	e.Lifetime = NumberRange.new(2.5, 4.5)
+	e.Speed = NumberRange.new(6, 12)
+	e.SpreadAngle = Vector2.new(22, 22)
+	e.Rotation = NumberRange.new(0, 360)
+	e.RotSpeed = NumberRange.new(-30, 30)
+	e.Drag = 2.2
+	e.Acceleration = Vector3.new(0, 1.2, 0)
+	e.LightEmission = 0
+	e.Color = DUST_COLOR
+	e.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, scale * 0.5),
+		NumberSequenceKeypoint.new(1, scale * 2.2),
+	})
+	e.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.55),
+		NumberSequenceKeypoint.new(0.5, 0.72),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	return e
+end
+
+local function newBillowEmitter(scale)
+	local e = Instance.new("ParticleEmitter")
+	e.Texture = DUST_TEXTURE
+	e.Rate = 0
+	e.Lifetime = NumberRange.new(3, 5)
+	e.Speed = NumberRange.new(4, 10)
+	e.SpreadAngle = Vector2.new(55, 55)
+	e.EmissionDirection = Enum.NormalId.Top
+	e.Rotation = NumberRange.new(0, 360)
+	e.RotSpeed = NumberRange.new(-25, 25)
+	e.Drag = 1.6
+	e.Acceleration = Vector3.new(0, 2.2, 0)
+	e.LightEmission = 0
+	e.Color = DUST_COLOR
+	e.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, scale * 0.8),
+		NumberSequenceKeypoint.new(1, scale * 2.8),
+	})
+	e.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.6),
+		NumberSequenceKeypoint.new(0.55, 0.78),
+		NumberSequenceKeypoint.new(1, 1),
+	})
+	return e
+end
+
+local function collapseDust(s, duration, intensity)
+	if not nearCamera(s.pivot) then return end
+	s.dustToken += 1
+	local mine = s.dustToken
+	local center = Vector3.new(s.basePos.X, s.pivot.Y, s.basePos.Z)
+	local ring = {}
+	for i = 1, DUST_EMITTERS do
+		local a = (i - 1) / DUST_EMITTERS * math.pi * 2 + rand(-0.2, 0.2)
+		local edge = (s.baseCF * CFrame.new(math.cos(a) * s.footW * 0.45, 0, math.sin(a) * s.footD * 0.45)).Position
+		local pos = Vector3.new(edge.X, s.pivot.Y + 1, edge.Z)
+		local out = Vector3.new(pos.X - center.X, 0, pos.Z - center.Z)
+		out = out.Magnitude < 0.1 and Vector3.xAxis or out.Unit
+		local att = Instance.new("Attachment")
+		att.Parent = Workspace.Terrain
+		att.WorldCFrame = CFrame.lookAt(pos, pos + out + Vector3.new(0, 0.15, 0)) * CFrame.Angles(-math.pi / 2, 0, 0)
+		local e = newSpreadEmitter(s.dustScale)
+		e.Parent = att
+		table.insert(ring, { att = att, emitter = e })
+	end
+	local top = Instance.new("Attachment")
+	top.Parent = Workspace.Terrain
+	top.WorldPosition = Vector3.new(center.X, s.topY, center.Z)
+	local billow = newBillowEmitter(s.dustScale)
+	billow.Parent = top
+
+	task.spawn(function()
+		local t0 = os.clock()
+		local finished = false
+		while s.dustToken == mine and s.base.Parent do
+			local p = (os.clock() - t0) / duration
+			if p >= 1 then
+				finished = true
+				break
+			end
+			local grow = p ^ 1.4
+			for _, r in ring do
+				r.emitter.Rate = (6 + 34 * grow) * intensity
+				r.emitter.Speed = NumberRange.new(5 + 14 * grow, 10 + 26 * grow)
+			end
+			local roof = math.max(s.topY - s.pose.sink, s.pivot.Y + 2)
+			top.WorldPosition = Vector3.new(
+				center.X + rand(-s.footW / 2, s.footW / 2) * 0.7,
+				roof,
+				center.Z + rand(-s.footD / 2, s.footD / 2) * 0.7
+			)
+			billow:Emit(math.floor((3 + 2 * grow) * intensity + 0.5))
+			task.wait(0.07)
+		end
+		for _, r in ring do
+			r.emitter.Rate = 0
+			if finished and intensity >= 1 then
+				r.emitter.Speed = NumberRange.new(18, 36)
+				r.emitter:Emit(22)
+			end
+		end
+		task.delay(6, function()
+			for _, r in ring do r.att:Destroy() end
+			top:Destroy()
+		end)
+	end)
+end
+
 local function throwChunks(s, count)
 	if not nearCamera(s.pivot) then return end
 	for _ = 1, count do
@@ -298,6 +420,7 @@ handlers.Half = function(building, fraction, angle, direction)
 	if not s then return end
 	startAnim(s, s.base.Size.Y * fraction, angle * math.cos(direction), angle * math.sin(direction), 1.6, 1.8, easeInOut)
 	dust(s, 25, 2)
+	collapseDust(s, 1.6, 0.55)
 end
 
 handlers.Destroy = function(building, direction, angle, useBaseSound)
@@ -321,6 +444,7 @@ handlers.Destroy = function(building, direction, angle, useBaseSound)
 		if s.epoch ~= epoch or not s.base.Parent then return end
 		startAnim(s, s.base.Size.Y, angle * math.cos(direction), angle * math.sin(direction), COLLAPSE_TIME, 3.4, easeCollapse, easeTilt)
 		dust(s, 35, 4)
+		collapseDust(s, COLLAPSE_TIME, 1)
 		task.spawn(function()
 			local t0 = os.clock()
 			while s.epoch == epoch and s.base.Parent and os.clock() - t0 < COLLAPSE_TIME do
@@ -340,6 +464,7 @@ handlers.Respawn = function(building)
 	local s = getState(building)
 	if not s then return end
 	s.epoch += 1
+	s.dustToken += 1
 	setPose(s, 0, 0, 0)
 	local sound = s.base:FindFirstChildOfClass("Sound")
 	if sound then sound:Stop() end
