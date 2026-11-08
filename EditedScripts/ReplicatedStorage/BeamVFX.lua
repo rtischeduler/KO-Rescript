@@ -20,7 +20,7 @@ local SMOKE_SPEED = 38
 local SMOKE_REFRESH = 0.1
 local SMOKE_MOVE_REFRESH = 3
 local BURN_LIFETIME = 2
-local BURN_SIZE = 9
+local BURN_SIZE = 6
 
 local GHIDORAH_LAYERS = {
 	{scale = 0.42, speed = 48, length = 12, transparency = 0.3, curve = 0, z = 0, boost = 0.5},
@@ -76,14 +76,20 @@ end
 
 local function collectGroups(beamStarts, beamNameFilter)
 	local groups = {}
+	local lookup = {}
 	for _, beamStart in ipairs(beamStarts) do
 		for _, child in ipairs(beamStart:GetChildren()) do
 			if child:IsA("Beam") and child.Attachment1 and string.sub(child.Name, 1, 7) ~= "BeamVFX" and (not beamNameFilter or beamNameFilter[child.Name]) then
-				local key = child.Attachment1
-				local group = groups[key]
+				local byStart = lookup[beamStart]
+				if not byStart then
+					byStart = {}
+					lookup[beamStart] = byStart
+				end
+				local group = byStart[child.Attachment1]
 				if not group then
 					group = {start = beamStart, finish = child.Attachment1, templates = {}}
-					groups[key] = group
+					byStart[child.Attachment1] = group
+					table.insert(groups, group)
 				end
 				table.insert(group.templates, child)
 			end
@@ -101,7 +107,7 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 	local vfx = {entries = {}, instances = {}, folders = {}, server = isServer == true}
 	local ghidorah = isGhidorah(character)
 	local brightness = nightBrightness()
-	for _, group in pairs(collectGroups(beamStarts, beamNameFilter)) do
+	for _, group in ipairs(collectGroups(beamStarts, beamNameFilter)) do
 		local colorSeq = group.templates[1].Color
 		local bestSat = -1
 		local maxW0, maxW1 = 0, 0
@@ -243,7 +249,7 @@ function BeamVFX.ServerPresent(beamStarts)
 	return false
 end
 
-function BeamVFX.FindSurface(endPos, dir, params)
+function BeamVFX.FindSurface(endPos, dir, params, maxDrop)
 	if dir and dir.Magnitude > 0.01 then
 		local unit = dir.Unit
 		local result = Workspace:Raycast(endPos - unit * 4, unit * 9, params)
@@ -252,7 +258,7 @@ function BeamVFX.FindSurface(endPos, dir, params)
 		end
 	end
 	local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), params)
-	if result and (result.Position - endPos).Magnitude <= 7 then
+	if result and (result.Position - endPos).Magnitude <= (maxDrop or 7) then
 		return result.Position + result.Normal * 0.15, result.Normal, true
 	end
 	return endPos, Vector3.yAxis, false
@@ -359,6 +365,91 @@ local function makeBurnEmitter()
 	emitter.Rate = 0
 	emitter.Enabled = false
 	return emitter
+end
+
+local BurnTrail = {}
+BurnTrail.__index = BurnTrail
+
+function BeamVFX.NewBurnTrail(parent)
+	local self = setmetatable({}, BurnTrail)
+	local part = Instance.new("Part")
+	part.Name = "BeamBurnAnchor"
+	part.Size = Vector3.new(1, 1, 1)
+	part.Transparency = 1
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanTouch = false
+	part.CanQuery = false
+	part.Parent = parent
+	self.part = part
+	self.burn = makeBurnEmitter()
+	self.burn.Parent = part
+	self.speed = 0
+	self.lastPos = nil
+	self.lastTime = nil
+	self.rate = -1
+	return self
+end
+
+function BurnTrail:Stop()
+	self.lastPos = nil
+	if self.burn then
+		if self.rate ~= 0 then
+			self.rate = 0
+			self.burn.Rate = 0
+		end
+		if self.burn.Enabled then self.burn.Enabled = false end
+	end
+end
+
+function BurnTrail:Update(endPos, dir, params, now, active)
+	if not active or not self.burn then
+		self:Stop()
+		return
+	end
+	local pos, normal, hit = BeamVFX.FindSurface(endPos, dir, params, 3.5)
+	if not hit then
+		self:Stop()
+		return
+	end
+	if self.lastPos and self.lastTime then
+		local speed = (pos - self.lastPos).Magnitude / math.max(now - self.lastTime, 0.01)
+		self.speed = self.speed + (speed - self.speed) * 0.4
+	end
+	self.lastPos = pos
+	self.lastTime = now
+	self.part.CFrame = CFrame.lookAt(pos, pos + normal) * CFrame.Angles(-math.pi / 2, 0, 0)
+	local rate = math.clamp(math.floor(self.speed / 2 + 0.5), 8, 28)
+	if rate ~= self.rate then
+		self.rate = rate
+		self.burn.Rate = rate
+	end
+	if not self.burn.Enabled then self.burn.Enabled = true end
+end
+
+function BurnTrail:Destroy()
+	local burn = self.burn
+	self.burn = nil
+	local part = self.part
+	if burn and part and part.Parent then
+		pcall(function()
+			local holder = Instance.new("Part")
+			holder.Name = "BeamBurnHolder"
+			holder.Size = Vector3.new(1, 1, 1)
+			holder.Transparency = 1
+			holder.Anchored = true
+			holder.CanCollide = false
+			holder.CanTouch = false
+			holder.CanQuery = false
+			holder.CFrame = part.CFrame
+			holder.Parent = Workspace
+			burn.Enabled = false
+			burn.Rate = 0
+			burn.Parent = holder
+			Debris:AddItem(holder, BURN_LIFETIME + 0.5)
+		end)
+	end
+	pcall(function() part:Destroy() end)
 end
 
 local Impact = {}

@@ -321,6 +321,12 @@ function BeamSystem.ForceCleanup(player)
 		pcall(function() data.impactFx:Destroy() end)
 		data.impactFx = nil
 	end
+	if data.burnTrails then
+		for _, bt in ipairs(data.burnTrails) do
+			pcall(function() bt.trail:Destroy() end)
+		end
+		data.burnTrails = nil
+	end
 	if data.impactFolder and data.impactFolder.Parent then
 		pcall(function() data.impactFolder:Destroy() end)
 	end
@@ -689,8 +695,16 @@ function BeamSystem.ActivateBeam(config)
 				table.insert(fxGroup, {emitter = core, rate = 22})
 			end
 		end
-		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = true})
+		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = false})
 		activeBeams[player].impactFx = impactFx
+		local burnTrails = {}
+		for _, endAtt in ipairs(beamEnds) do
+			table.insert(burnTrails, {att = endAtt, trail = BeamVFX.NewBurnTrail(impactFolder)})
+		end
+		if #burnTrails == 0 then
+			table.insert(burnTrails, {trail = BeamVFX.NewBurnTrail(impactFolder)})
+		end
+		activeBeams[player].burnTrails = burnTrails
 		local smokeOpenness = 1
 		local templateSpreadBase = {}
 		local function setFxIntensity(intensity, surfaceHit)
@@ -893,6 +907,14 @@ function BeamSystem.ActivateBeam(config)
 				end
 			end
 			updateImpact(endPos, ext, now, clashInfo, startPos)
+			if beamIteration % 2 == 0 then
+				local data = activeBeams[player]
+				local burning = not clashInfo and ext > 0.9 and not (data and data.ending)
+				for _, bt in ipairs(burnTrails) do
+					local at = bt.att and bt.att.Parent and bt.att.WorldPosition or endPos
+					bt.trail:Update(at, at - startPos, impactParams, now, burning)
+				end
+			end
 		end
 		renderFrame(0, smoothTip, false, tick())
 		while tick() - startTime < duration or overpower do
@@ -1256,6 +1278,12 @@ function BeamSystem.ActivateBeam(config)
 			if finishedData.impactFx then
 				pcall(function() finishedData.impactFx:Destroy() end)
 				finishedData.impactFx = nil
+			end
+			if finishedData.burnTrails then
+				for _, bt in ipairs(finishedData.burnTrails) do
+					pcall(function() bt.trail:Destroy() end)
+				end
+				finishedData.burnTrails = nil
 			end
 			BeamVFX.Destroy(finishedData.vfx)
 		end
