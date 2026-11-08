@@ -8,3 +8,5 @@ ReplicatedStorage/BeamVFX.lua
 ReplicatedStorage/BeamSystem.lua
 ReplicatedStorage/BeamClientFX.lua
 StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript.client.lua
+ReplicatedStorage/HolidayConfigs.lua
+ReplicatedStorage/CandyConfig.lua
