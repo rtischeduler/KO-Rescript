@@ -34,8 +34,10 @@ local GLOW_TRANSPARENCY = 0.6
 local GLOW_BRIGHTNESS = 1.5
 local SHINE_SIZE = 24
 local SHINE_START_SIZE = 9
-local SHINE_RATE = 6
-local SHINE_START_RATE = 4
+local SHINE_RATE = 14
+local SHINE_START_RATE = 10
+local SHINE_LIFETIME = 0.9
+local SHINE_HOT_SCALE = 0.7
 local SPARK_RATE = 40
 
 local function kaijuNameOf(character)
@@ -333,18 +335,23 @@ local function makeSparkEmitter(color)
 	return emitter
 end
 
-local function makeShineEmitter(color, size, name)
+local function makeShineEmitter(color, size, name, hot)
 	size = size or SHINE_SIZE
 	local emitter = Instance.new("ParticleEmitter")
 	emitter.Name = name or "BeamShine"
 	emitter.Texture = TEXTURES.Shine
-	emitter.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1):Lerp(color, 0.3)),
-		ColorSequenceKeypoint.new(1, color),
-	})
+	if hot then
+		size = size * SHINE_HOT_SCALE
+		emitter.Color = ColorSequence.new(Color3.new(1, 1, 1))
+	else
+		emitter.Color = ColorSequence.new({
+			ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1):Lerp(color, 0.3)),
+			ColorSequenceKeypoint.new(1, color),
+		})
+	end
 	emitter.LightEmission = 1
 	emitter.LightInfluence = 0
-	emitter.ZOffset = 2
+	emitter.ZOffset = hot and 3 or 2
 	emitter.Size = NumberSequence.new({
 		NumberSequenceKeypoint.new(0, size * 0.7),
 		NumberSequenceKeypoint.new(0.4, size),
@@ -356,12 +363,16 @@ local function makeShineEmitter(color, size, name)
 		NumberSequenceKeypoint.new(0.85, 0.1),
 		NumberSequenceKeypoint.new(1, 1),
 	})
-	emitter.Lifetime = NumberRange.new(0.45, 0.55)
+	emitter.Lifetime = NumberRange.new(SHINE_LIFETIME * 0.9, SHINE_LIFETIME)
 	emitter.Speed = NumberRange.new(0, 0)
 	emitter.SpreadAngle = Vector2.new(0, 0)
 	emitter.Drag = 0
 	emitter.Rotation = NumberRange.new(0, 360)
-	emitter.RotSpeed = NumberRange.new(200, 280)
+	if hot then
+		emitter.RotSpeed = NumberRange.new(-620, -480)
+	else
+		emitter.RotSpeed = NumberRange.new(420, 560)
+	end
 	emitter.Orientation = Enum.ParticleOrientation.FacingCamera
 	emitter.LockedToPart = true
 	emitter.Rate = 0
@@ -522,6 +533,8 @@ function BeamVFX.NewImpact(anchor, color, options)
 	self.spark.Parent = anchor
 	self.shine = makeShineEmitter(color)
 	self.shine.Parent = anchor
+	self.shineHot = makeShineEmitter(color, nil, "BeamShineHot", true)
+	self.shineHot.Parent = anchor
 	if options.burn then
 		self.burn = makeBurnEmitter()
 		self.burn.Parent = anchor
@@ -635,6 +648,8 @@ function Impact:SetIntensity(intensity, surfaceHit)
 	local shineRate = enabled and SHINE_RATE or 0
 	if self.shine.Rate ~= shineRate then self.shine.Rate = shineRate end
 	if self.shine.Enabled ~= enabled then self.shine.Enabled = enabled end
+	if self.shineHot.Rate ~= shineRate then self.shineHot.Rate = shineRate end
+	if self.shineHot.Enabled ~= enabled then self.shineHot.Enabled = enabled end
 	if self.burn then
 		local burning = enabled and surfaceHit == true
 		local rate = 0
@@ -657,6 +672,7 @@ function Impact:Destroy()
 	end
 	pcall(function() self.spark:Destroy() end)
 	pcall(function() self.shine:Destroy() end)
+	pcall(function() self.shineHot:Destroy() end)
 	if self.burn then
 		local burn = self.burn
 		self.burn = nil
