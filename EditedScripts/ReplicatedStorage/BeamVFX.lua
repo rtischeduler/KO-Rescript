@@ -28,14 +28,17 @@ local MAIN_BRIGHTNESS_DAY = 0.8
 local MAIN_BRIGHTNESS_NIGHT = 1.3
 local CONE_WIDEN = 2.6
 local HOT_WIDTH_SCALE = 0.4
-local HOT_BRIGHTNESS = 8
+local HOT_BRIGHTNESS = 3
+local HOT_WHITE = 0.4
+local SHINE_WHITE = 0.2
+local SHINE_HOT_WHITE = 0.45
 local GLOW_WIDTH_SCALE = 2
 local GLOW_TRANSPARENCY = 0.6
 local GLOW_BRIGHTNESS = 1.5
 local SHINE_SIZE = 20
 local SHINE_START_SIZE = 4
-local SHINE_RATE = 14
-local SHINE_START_RATE = 10
+local SHINE_RATE = 9
+local SHINE_START_RATE = 7
 local SHINE_LIFETIME = 0.9
 local SHINE_HOT_SCALE = 0.7
 local SPARK_RATE = 40
@@ -105,6 +108,14 @@ local function nightBrightness()
 	local t = Lighting.ClockTime
 	if t >= 17.5 or t <= 6.5 then return MAIN_BRIGHTNESS_NIGHT end
 	return MAIN_BRIGHTNESS_DAY
+end
+
+local function lightenSequence(seq, amount)
+	local points = {}
+	for _, kp in ipairs(seq.Keypoints) do
+		table.insert(points, ColorSequenceKeypoint.new(kp.Time, kp.Value:Lerp(Color3.new(1, 1, 1), amount)))
+	end
+	return ColorSequence.new(points)
 end
 
 local function saturation(seq)
@@ -208,7 +219,7 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 		hot.TextureMode = Enum.TextureMode.Wrap
 		hot.TextureLength = MAIN_TEXTURE_LENGTH
 		hot.TextureSpeed = beam.TextureSpeed
-		hot.Color = ColorSequence.new(Color3.new(1, 1, 1))
+		hot.Color = lightenSequence(best.Color, HOT_WHITE)
 		hot.Width0 = math.max(maxW0 * HOT_WIDTH_SCALE, 0.3)
 		hot.Width1 = math.max(maxW1 * HOT_WIDTH_SCALE, 0.3)
 		hot.CurveSize0 = best.CurveSize0
@@ -397,10 +408,10 @@ local function makeShineEmitter(color, size, name, hot)
 	emitter.Texture = TEXTURES.Shine
 	if hot then
 		size = size * SHINE_HOT_SCALE
-		emitter.Color = ColorSequence.new(Color3.new(1, 1, 1))
+		emitter.Color = ColorSequence.new(color:Lerp(Color3.new(1, 1, 1), SHINE_HOT_WHITE))
 	else
 		emitter.Color = ColorSequence.new({
-			ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1):Lerp(color, 0.3)),
+			ColorSequenceKeypoint.new(0, color:Lerp(Color3.new(1, 1, 1), SHINE_WHITE)),
 			ColorSequenceKeypoint.new(1, color),
 		})
 	end
