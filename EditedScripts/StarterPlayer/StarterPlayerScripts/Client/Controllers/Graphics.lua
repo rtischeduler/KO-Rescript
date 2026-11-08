@@ -16,16 +16,44 @@ function GraphicsController:Start()
 	local cfg = require(script:FindFirstAncestor("Client").Config).Graphics
 
 	local originals = setmetatable({}, { __mode = "k" })
+	local writes = setmetatable({}, { __mode = "k" })
+
+	local function same(a, b)
+		if type(a) == "number" and type(b) == "number" then
+			return math.abs(a - b) < 1e-4
+		end
+		return a == b
+	end
+
 	local function remember(inst, props)
 		local saved = originals[inst]
+		local written = writes[inst]
 		if not saved then
-			saved = {}
+			saved, written = {}, {}
 			originals[inst] = saved
+			writes[inst] = written
 			for _, prop in ipairs(props) do
 				saved[prop] = inst[prop]
 			end
+			return saved
+		end
+		for _, prop in ipairs(props) do
+			local last = written[prop]
+			if last == nil or not same(inst[prop], last) then
+				saved[prop] = inst[prop]
+				written[prop] = nil
+			end
 		end
 		return saved
+	end
+
+	local function put(inst, prop, value)
+		local written = writes[inst]
+		if written[prop] == nil and same(inst[prop], value) then
+			return
+		end
+		written[prop] = value
+		inst[prop] = value
 	end
 
 	local originalQuality
@@ -54,11 +82,11 @@ function GraphicsController:Start()
 			end
 			local saved = remember(inst, { "Rate" })
 			if saved.Rate > 0 then
-				inst.Rate = saved.Rate * s.ParticleScale
+				put(inst, "Rate", saved.Rate * s.ParticleScale)
 			end
 		elseif inst:IsA("PointLight") or inst:IsA("SpotLight") or inst:IsA("SurfaceLight") then
 			local saved = remember(inst, { "Shadows" })
-			inst.Shadows = saved.Shadows and s.LightShadows
+			put(inst, "Shadows", saved.Shadows and s.LightShadows)
 		end
 	end
 
@@ -66,20 +94,20 @@ function GraphicsController:Start()
 		local rule = s.Effects[inst.ClassName]
 		if rule ~= nil then
 			local saved = remember(inst, { "Enabled" })
-			inst.Enabled = saved.Enabled and rule
+			put(inst, "Enabled", saved.Enabled and rule)
 		elseif inst:IsA("Atmosphere") then
 			local saved = remember(inst, { "Density", "Haze", "Glare" })
-			inst.Density = saved.Density * s.Atmosphere
-			inst.Haze = saved.Haze * s.Atmosphere
-			inst.Glare = saved.Glare * s.Atmosphere
+			put(inst, "Density", saved.Density * s.Atmosphere)
+			put(inst, "Haze", saved.Haze * s.Atmosphere)
+			put(inst, "Glare", saved.Glare * s.Atmosphere)
 		end
 	end
 
 	local function applyGlobal(s)
 		pcall(function()
 			local saved = remember(Lighting, { "GlobalShadows", "EnvironmentSpecularScale" })
-			Lighting.GlobalShadows = saved.GlobalShadows and s.Shadows
-			Lighting.EnvironmentSpecularScale = saved.EnvironmentSpecularScale * s.Specular
+			put(Lighting, "GlobalShadows", saved.GlobalShadows and s.Shadows)
+			put(Lighting, "EnvironmentSpecularScale", saved.EnvironmentSpecularScale * s.Specular)
 		end)
 		for _, inst in ipairs(Lighting:GetChildren()) do
 			pcall(applyEffect, inst, s)
@@ -87,7 +115,7 @@ function GraphicsController:Start()
 		pcall(function()
 			local terrain = Workspace.Terrain
 			local saved = remember(terrain, { "Decoration" })
-			terrain.Decoration = saved.Decoration and s.Decoration
+			put(terrain, "Decoration", saved.Decoration and s.Decoration)
 		end)
 		pcall(function()
 			local target = originalQuality
@@ -102,6 +130,10 @@ function GraphicsController:Start()
 
 	local addedConn
 	local applyToken = 0
+
+	Lighting.ChildAdded:Connect(function(inst)
+		pcall(applyEffect, inst, Quality.Settings())
+	end)
 
 	local function applyAll()
 		applyToken += 1

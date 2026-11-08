@@ -367,10 +367,20 @@ local function addKey(parent, action, row)
 end
 
 local insertCode = panel:FindFirstChild("InsertCode")
+local codeRemote = ReplicatedStorage:WaitForChild("RedeemCode", 30)
 local redeeming = false
+local placeholderText, placeholderColor = "Enter a code", MUTED
+
+local function setPlaceholder(text, color)
+	placeholderText, placeholderColor = text, color
+	if insertCode and insertCode.Parent then
+		insertCode.PlaceholderText = text
+		insertCode.PlaceholderColor3 = color
+	end
+end
 
 local function redeem()
-	if redeeming or not insertCode or not remote then
+	if redeeming or not insertCode or not codeRemote then
 		return
 	end
 	if insertCode.Text:gsub("%s", "") == "" then
@@ -378,16 +388,26 @@ local function redeem()
 		return
 	end
 	redeeming = true
-	local ok, success, message = pcall(function()
-		return remote:InvokeServer("redeem", insertCode.Text)
+	codeRemote:FireServer(insertCode.Text)
+	task.delay(8, function()
+		redeeming = false
 	end)
-	redeeming = false
-	if ok and success then
-		insertCode.Text = ""
-		setStatus(message or "Code redeemed!", true)
-	else
-		setStatus((ok and message) or "Something went wrong. Try again.", false)
-	end
+end
+
+if codeRemote then
+	codeRemote.OnClientEvent:Connect(function(success, message)
+		redeeming = false
+		if success then
+			if insertCode then
+				insertCode.Text = ""
+			end
+			setStatus("", true)
+			setPlaceholder(message or "Code redeemed!", GREEN)
+		else
+			setPlaceholder("Enter a code", MUTED)
+			setStatus(message or "Something went wrong. Try again.", false)
+		end
+	end)
 end
 
 if insertCode then
@@ -548,8 +568,8 @@ local function layoutCode()
 	insertCode.BackgroundTransparency = 0
 	insertCode.BorderSizePixel = 0
 	insertCode.TextColor3 = TEXT
-	insertCode.PlaceholderColor3 = MUTED
-	insertCode.PlaceholderText = "Enter a code"
+	insertCode.PlaceholderColor3 = placeholderColor
+	insertCode.PlaceholderText = placeholderText
 	insertCode.FontFace = FONT
 	insertCode.TextScaled = true
 	insertCode.TextXAlignment = Enum.TextXAlignment.Left

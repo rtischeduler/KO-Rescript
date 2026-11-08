@@ -195,6 +195,21 @@ function SettingsService:Init()
 		return loaded[userId] == true
 	end
 
+	Codes.Init({
+		ready = function(userId)
+			waitLoaded(userId)
+			return loaded[userId] == true and not failed[userId] and redeemed[userId] ~= nil
+		end,
+		has = function(userId, key)
+			return redeemed[userId][key] == true
+		end,
+		mark = function(userId, key)
+			redeemed[userId][key] = true
+			touch(userId)
+			task.spawn(save, userId)
+		end,
+	})
+
 	prefsRemote.OnServerInvoke = function(player, action, name, value)
 		local userId = player.UserId
 		if action == "get" then
@@ -218,30 +233,6 @@ function SettingsService:Init()
 			values[userId] = cfg.DefaultFov
 			touch(userId)
 			return true
-		elseif action == "redeem" then
-			local now = os.clock()
-			if lastRedeem[userId] and now - lastRedeem[userId] < REDEEM_COOLDOWN then
-				return false, "Slow down."
-			end
-			lastRedeem[userId] = now
-			if failed[userId] then
-				return false, "Codes are unavailable right now. Try again later."
-			end
-			local key = Codes.normalize(name)
-			local reward = key and Codes.Rewards[key]
-			if not reward then
-				return false, "Invalid code."
-			end
-			if redeemed[userId][key] then
-				return false, "You already redeemed this code."
-			end
-			if not Codes.grant(player, reward) then
-				return false, "Could not give the reward yet. Try again in a moment."
-			end
-			redeemed[userId][key] = true
-			touch(userId)
-			task.spawn(save, userId)
-			return true, reward.Message or "Code redeemed!"
 		end
 		return false
 	end
