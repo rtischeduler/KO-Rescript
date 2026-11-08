@@ -23,14 +23,14 @@ local BURN_LIFETIME = 2
 local BURN_SIZE = 9
 
 local GHIDORAH_LAYERS = {
-	{scale = 1, speed = 48, length = 12, transparency = 0.3, curve = 0, z = 0, boost = 0.5},
-	{scale = 0.62, speed = 80, length = 8, transparency = 0.12, curve = 1.6, z = 1, boost = 0.5},
-	{scale = 0.3, speed = 125, length = 5, transparency = 0, curve = -1.3, z = 2, boost = 0.5},
+	{scale = 0.42, speed = 48, length = 12, transparency = 0.3, curve = 0, z = 0, boost = 0.5},
+	{scale = 0.27, speed = 80, length = 8, transparency = 0.12, curve = 1.6, z = 1, boost = 0.5},
+	{scale = 0.13, speed = 125, length = 5, transparency = 0, curve = -1.3, z = 2, boost = 0.5},
 }
 
 local GLOW_LAYERS = {
-	{texture = TEXTURES.GlowA, scale = 1.08, speed = 14, length = 14, transparency = 0.32, z = -1, brightness = 2.2},
-	{texture = TEXTURES.GlowB, scale = 1.2, speed = -20, length = 20, transparency = 0.45, z = -2, brightness = 1.8},
+	{texture = TEXTURES.GlowA, scale = 0.85, speed = 14, length = 14, transparency = 0.32, z = -1, brightness = 2.2},
+	{texture = TEXTURES.GlowB, scale = 1, speed = -20, length = 20, transparency = 0.45, z = -2, brightness = 1.8},
 }
 
 local function kaijuNameOf(character)
@@ -114,6 +114,10 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 			maxW0 = math.max(maxW0, tpl.Width0)
 			maxW1 = math.max(maxW1, tpl.Width1)
 		end
+		if ghidorah then
+			maxW0 = maxW0 * 0.5
+			maxW1 = maxW1 * 0.5
+		end
 		local folder = Instance.new("Folder")
 		folder.Name = "BeamVFX"
 		folder.Parent = group.start
@@ -160,8 +164,8 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 				beam.TextureLength = layer.length
 				beam.TextureSpeed = layer.speed
 				beam.Color = colorSeq
-				beam.Width0 = math.max(maxW0 * layer.scale, 0.6)
-				beam.Width1 = math.max(maxW1 * layer.scale, 0.8)
+				beam.Width0 = math.max(maxW0 * layer.scale, 0.5)
+				beam.Width1 = math.max(maxW1 * layer.scale, 0.7)
 				beam.CurveSize0 = layer.curve
 				beam.CurveSize1 = -layer.curve
 				beam.Transparency = NumberSequence.new(layer.transparency)
@@ -213,9 +217,17 @@ end
 
 function BeamVFX.Destroy(vfx)
 	if not vfx then return end
-	for _, inst in ipairs(vfx.instances) do
-		pcall(function() inst:Destroy() end)
+	local list = vfx.instances
+	for _, inst in ipairs(list) do
+		if inst:IsA("Beam") then
+			pcall(function() inst.Enabled = false end)
+		end
 	end
+	task.delay(0.35, function()
+		for _, inst in ipairs(list) do
+			pcall(function() inst:Destroy() end)
+		end
+	end)
 	vfx.entries = {}
 	vfx.instances = {}
 	vfx.folders = {}
