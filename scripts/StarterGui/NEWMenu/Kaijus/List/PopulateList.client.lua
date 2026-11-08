@@ -292,7 +292,9 @@ local function populate()
 		clone.AnchorPoint = Vector2.new(0, 0)
 		clone.BackgroundTransparency = 0
 		clone.ZIndex = 2
-		if model.Name == "ENTITY" and string.lower(player.Name) ~= "l0tzie" and string.lower(player.Name) ~= "badkid235321" and string.lower(player.Name) ~= "riotfan1223" and string.lower(player.Name) ~= "cjax1710" then
+		if model.Name == "MG21" and string.lower(player.Name) ~= "l0tzie" then
+			clone.Visible = false
+		elseif model.Name == "ENTITY" and string.lower(player.Name) ~= "l0tzie" and string.lower(player.Name) ~= "badkid235321" and string.lower(player.Name) ~= "riotfan1223" and string.lower(player.Name) ~= "cjax1710" then
 			clone.Visible = false
 		elseif model.Name == "LOTZIGAN" and string.lower(player.Name) ~= "l0tzie" then
 			clone.Visible = false

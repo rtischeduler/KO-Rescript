@@ -1,4 +1,6 @@
-0.000006765127</Z>
+               <X>0</X>
+                          <Y>-0.000008583069</Y>
+                          <Z>0.000006765127</Z>
                           <R00>1</R00>
                           <R01>0</R01>
                           <R02>0</R02>
@@ -342396,7 +342398,7 @@ end)
           </null>
         </ContentId>
         <bool name="DefinesCapabilities">false</bool>
-        <string name="ScriptGuid"></string>
+        <string name="ScriptGuid">{d1df0845-bd8d-4773-aa86-a4ee51edc89c}</string>
         <BinaryString name="SerializedOverrides">
         </BinaryString>
         <string name="Source">local Workspace = game:GetService("Workspace")
@@ -343237,7 +343239,7 @@ end
 return BeamVFX</string>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">00000000000000000000000000000000</UniqueId>
+        <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000e81</UniqueId>
       </Properties>
     </Item>
   </Item>
@@ -343597,9 +343599,13 @@ local function loadPlayerData(player)
 		return PlayerDataStore:GetAsync(tostring(player.UserId))
 	end)
 
+	local hadNegativeCoins = success and data and type(data.Coins) == "number" and data.Coins < 0
 	if success and data then
 		if data.Coins then
 			coins.Value = data.Coins
+			if coins.Value < 0 then
+				coins.Value = 0
+			end
 		end
 		if data.Kills then
 			kills.Value = data.Kills
@@ -343608,6 +343614,9 @@ local function loadPlayerData(player)
 	end
 
 	playerData[player.UserId] = { Coins = coins, Kills = kills, Level = level }
+	if hadNegativeCoins then
+		savePlayerData(player)
+	end
 
 	return coins, kills
 end
@@ -344485,15 +344494,24 @@ function Data.Init()
 		getKaijuInfoFunc.Name = "GetKaijuInfo"
 		getKaijuInfoFunc.OnServerInvoke = function(player, kaijuName)
 			if not Morphs then return nil end
+			local isL0tzie = string.lower(player.Name) == "l0tzie"
 			if type(kaijuName) == "string" then
 				local model = Morphs:FindFirstChild(kaijuName, true)
 				if model and model:IsA("Model") then
+					if model.Name == "MG21" and not isL0tzie then return nil end
 					return buildKaijuInfo(model, Morphs)
 				end
 				return nil
 			end
 			local list = {}
 			collectKaijuInfo(Morphs, Morphs, list)
+			if not isL0tzie then
+				for index = #list, 1, -1 do
+					if list[index].Name == "MG21" then
+						table.remove(list, index)
+					end
+				end
+			end
 			return list
 		end
 		getKaijuInfoFunc.Parent = ReplicatedStorage
@@ -344686,6 +344704,9 @@ function Data.Init()
 		end
 
 		local function ownsKaiju(player, kaijuName)
+			if kaijuName == "MG21" and string.lower(player.Name) ~= "l0tzie" then
+				return false
+			end
 			if isGamepassKaiju(kaijuName) or GamepassWhitelist[player.UserId] then
 				return ownsGamepass(player, kaijuName)
 			end
@@ -344778,6 +344799,9 @@ function Data.Init()
 				return false, "Invalid kaiju"
 			end
 			local canonicalName = nameMapping[kaijuName] or kaijuName
+			if canonicalName == "MG21" and string.lower(player.Name) ~= "l0tzie" then
+				return false, "This kaiju is not available to you"
+			end
 			if not Morphs or not Morphs:FindFirstChild(canonicalName, true) then
 				return false, "Unknown kaiju"
 			end
@@ -344920,6 +344944,7 @@ function Data.Init()
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
 			if type(morphName) ~= "string" then return end
 			morphName = nameMapping[morphName] or morphName
+			if morphName == "MG21" and string.lower(player.Name) ~= "l0tzie" then return end
 			if not Morphs or not Morphs:FindFirstChild(morphName, true) then return end
 			if not ownsKaiju(player, morphName) then
 				warn("[Data] SetSelectedKaiju blocked: " .. player.Name .. " does not own " .. morphName)
@@ -345961,6 +345986,9 @@ function Character.Init()
 			[string.lower("Evo shin")] = {
 				[string.lower("brickrig1again_alt")] = true,
 			},
+			[string.lower("MG21")] = {
+				[string.lower("L0tzie")] = true,
+			},
 		}
 
 		event.OnServerEvent:Connect(function(player, selectedCreature)
@@ -345985,14 +346013,13 @@ function Character.Init()
 					return
 				end
 
+				local exclusivePlayers = selectedCreature and EXCLUSIVE_KAIJU[string.lower(selectedCreature.Name)]
 				if selectedCreature and RESTRICTED_KAIJU[string.lower(selectedCreature.Name)] then
-					if not ALLOWED_PLAYERS[string.lower(player.Name)] then
+					if not ALLOWED_PLAYERS[string.lower(player.Name)] and not (exclusivePlayers and exclusivePlayers[string.lower(player.Name)]) then
 						player:Kick("You cannot use this kaiju.")
 						return
 					end
 				end
-
-				local exclusivePlayers = selectedCreature and EXCLUSIVE_KAIJU[string.lower(selectedCreature.Name)]
 				if exclusivePlayers and not exclusivePlayers[string.lower(player.Name)] then
 					morphResultEvent:FireClient(player, false, "This kaiju is not available to you")
 					return
@@ -351111,6 +351138,7 @@ function MorphService:Init()
 			if
 				restrictedKaiju[string.lower(selectedCreature.Name)]
 				and not (allowedPlayers[string.lower(player.Name)] or allowedUserIds[player.UserId])
+				and not (exclusivePlayers and exclusivePlayers[string.lower(player.Name)])
 			then
 				player:Kick("You cannot use this kaiju.")
 				return
@@ -351382,6 +351410,7 @@ return IndicatorService</string>
 		-- This overrides everything else, including AllowedPlayers.
 		ExclusiveKaiju = {
 			["evo shin"] = { "brickrig1again_alt" },
+			["mg21"] = { "L0tzie" },
 		},
 	},
 
@@ -351535,6 +351564,9 @@ local ExclusiveKaijus = {
 		["brickrig1again_alt"] = true,
 		["mr_bolde2"] = true,
 	},
+	["MG21"] = {
+		["l0tzie"] = true,
+	},
 }
 
 local function isExclusiveAllowed(player, morphName)
@@ -351655,6 +351687,9 @@ function SecurityPolicy.CanUseMorph(player, selectedCreature)
 		return false
 	end
 	if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
+		return false
+	end
+	if selectedCreature.Name == "MG21" and string.lower(player.Name) ~= "l0tzie" then
 		return false
 	end
 	
@@ -1718657,25 +1718692,4 @@ end
                                 <CoordinateFrame name="CFrame">
                                   <X>0</X>
                                   <Y>0</Y>
-                                  <Z>0</Z>
-                                  <R00>1</R00>
-                                  <R01>0</R01>
-                                  <R02>0</R02>
-                                  <R10>0</R10>
-                                  <R11>1</R11>
-                                  <R12>0</R12>
-                                  <R20>0</R20>
-                                  <R21>0</R21>
-                                  <R22>1</R22>
-                                </CoordinateFrame>
-                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                                <token name="EasingDirection">0</token>
-                                <token name="EasingStyle">0</token>
-                                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                                <bool name="DefinesCapabilities">false</bool>
-                                <BinaryString name="SerializedOverrides">
-                                </BinaryString>
-                                <int64 name="SourceAssetId">-1</int64>
-                                <BinaryString name="Tags"></BinaryString>
-                                <UniqueId name="UniqueId">5cf0b50e057fa2390af5c199000091fb</UniqueId>
-                                <float name="Weigh
+                   

@@ -1,4 +1,25 @@
-t">1</float>
+               <Z>0</Z>
+                                  <R00>1</R00>
+                                  <R01>0</R01>
+                                  <R02>0</R02>
+                                  <R10>0</R10>
+                                  <R11>1</R11>
+                                  <R12>0</R12>
+                                  <R20>0</R20>
+                                  <R21>0</R21>
+                                  <R22>1</R22>
+                                </CoordinateFrame>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <token name="EasingDirection">0</token>
+                                <token name="EasingStyle">0</token>
+                                <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <BinaryString name="SerializedOverrides">
+                                </BinaryString>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <UniqueId name="UniqueId">5cf0b50e057fa2390af5c199000091fb</UniqueId>
+                                <float name="Weight">1</float>
                               </Properties>
                               <Item class="Pose" referent="91900">
                                 <Properties>
@@ -1557926,10 +1557947,10 @@ end</string>
                                       <Y>7.178671</Y>
                                       <Z>-0.00020714122</Z>
                                       <R00>0.6987835</R00>
-                                      <R01>0.29514903</R01>
+                                      <R01>0.29514906</R01>
                                       <R02>-0.6516048</R02>
                                       <R10>-0.71481276</R10>
-                                      <R11>0.3228526</R11>
+                                      <R11>0.32285258</R11>
                                       <R12>-0.6203298</R12>
                                       <R20>0.027282549</R20>
                                       <R21>0.8992516</R21>
@@ -1559508,10 +1559529,10 @@ end</string>
                                       <Y>7.178671</Y>
                                       <Z>-0.00020714122</Z>
                                       <R00>0.6987835</R00>
-                                      <R01>0.29514906</R01>
+                                      <R01>0.29514903</R01>
                                       <R02>-0.6516048</R02>
                                       <R10>-0.71481276</R10>
-                                      <R11>0.32285258</R11>
+                                      <R11>0.3228526</R11>
                                       <R12>-0.6203298</R12>
                                       <R20>0.027282549</R20>
                                       <R21>0.8992516</R21>
@@ -1731601,28 +1731622,4 @@ end</string>
                           <Item class="Pose" referent="143718">
                             <Properties>
                               <string name="Name">Toe4</string>
-                              <BinaryString name="AttributesSerialize">AwAAAAkAAABFY2xpcHNlSUsDABAAAABFY2xpcHNlTG9jYWxQb3NlFAAAAAAAAAAAAAAAAAIPAAAARWNsaXBzZVBhcmVudGVkAwE=</BinaryString>
-                              <CoordinateFrame name="CFrame">
-                                <X>0</X>
-                                <Y>0</Y>
-                                <Z>0</Z>
-                                <R00>1</R00>
-                                <R01>0</R01>
-                                <R02>0</R02>
-                                <R10>0</R10>
-                                <R11>1</R11>
-                                <R12>0</R12>
-                                <R20>0</R20>
-                                <R21>0</R21>
-                                <R22>1</R22>
-                              </CoordinateFrame>
-                              <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                              <token name="EasingDirection">0</token>
-                              <token name="EasingStyle">0</token>
-                              <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                              <bool name="DefinesCapabilities">false</bool>
-                              <BinaryString name="SerializedOverrides">
-                              </BinaryString>
-                              <int64 name="SourceAssetId">-1</int64>
-                              <BinaryString name="Tags"></BinaryString>
-         
+                              <BinaryString name="AttributesSerialize">AwAAAAkAAABFY2xpcHNlSUsDABAAAABFY2xpcHNlTG9jYWxQb3NlFAAAAAAAAAAAAAAAAAIPAAAARWNsaXBzZVBhcmVudGVk

@@ -126,6 +126,9 @@ function Character.Init()
 			[string.lower("Evo shin")] = {
 				[string.lower("brickrig1again_alt")] = true,
 			},
+			[string.lower("MG21")] = {
+				[string.lower("L0tzie")] = true,
+			},
 		}
 
 		event.OnServerEvent:Connect(function(player, selectedCreature)
@@ -150,14 +153,13 @@ function Character.Init()
 					return
 				end
 
+				local exclusivePlayers = selectedCreature and EXCLUSIVE_KAIJU[string.lower(selectedCreature.Name)]
 				if selectedCreature and RESTRICTED_KAIJU[string.lower(selectedCreature.Name)] then
-					if not ALLOWED_PLAYERS[string.lower(player.Name)] then
+					if not ALLOWED_PLAYERS[string.lower(player.Name)] and not (exclusivePlayers and exclusivePlayers[string.lower(player.Name)]) then
 						player:Kick("You cannot use this kaiju.")
 						return
 					end
 				end
-
-				local exclusivePlayers = selectedCreature and EXCLUSIVE_KAIJU[string.lower(selectedCreature.Name)]
 				if exclusivePlayers and not exclusivePlayers[string.lower(player.Name)] then
 					morphResultEvent:FireClient(player, false, "This kaiju is not available to you")
 					return

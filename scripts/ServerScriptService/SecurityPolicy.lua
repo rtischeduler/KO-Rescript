@@ -62,6 +62,9 @@ local ExclusiveKaijus = {
 		["brickrig1again_alt"] = true,
 		["mr_bolde2"] = true,
 	},
+	["MG21"] = {
+		["l0tzie"] = true,
+	},
 }
 
 local function isExclusiveAllowed(player, morphName)
@@ -182,6 +185,9 @@ function SecurityPolicy.CanUseMorph(player, selectedCreature)
 		return false
 	end
 	if typeof(selectedCreature) ~= "Instance" or not selectedCreature:IsA("Model") then
+		return false
+	end
+	if selectedCreature.Name == "MG21" and string.lower(player.Name) ~= "l0tzie" then
 		return false
 	end
 	

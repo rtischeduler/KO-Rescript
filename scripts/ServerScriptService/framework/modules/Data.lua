@@ -92,15 +92,24 @@ function Data.Init()
 		getKaijuInfoFunc.Name = "GetKaijuInfo"
 		getKaijuInfoFunc.OnServerInvoke = function(player, kaijuName)
 			if not Morphs then return nil end
+			local isL0tzie = string.lower(player.Name) == "l0tzie"
 			if type(kaijuName) == "string" then
 				local model = Morphs:FindFirstChild(kaijuName, true)
 				if model and model:IsA("Model") then
+					if model.Name == "MG21" and not isL0tzie then return nil end
 					return buildKaijuInfo(model, Morphs)
 				end
 				return nil
 			end
 			local list = {}
 			collectKaijuInfo(Morphs, Morphs, list)
+			if not isL0tzie then
+				for index = #list, 1, -1 do
+					if list[index].Name == "MG21" then
+						table.remove(list, index)
+					end
+				end
+			end
 			return list
 		end
 		getKaijuInfoFunc.Parent = ReplicatedStorage
@@ -293,6 +302,9 @@ function Data.Init()
 		end
 
 		local function ownsKaiju(player, kaijuName)
+			if kaijuName == "MG21" and string.lower(player.Name) ~= "l0tzie" then
+				return false
+			end
 			if isGamepassKaiju(kaijuName) or GamepassWhitelist[player.UserId] then
 				return ownsGamepass(player, kaijuName)
 			end
@@ -385,6 +397,9 @@ function Data.Init()
 				return false, "Invalid kaiju"
 			end
 			local canonicalName = nameMapping[kaijuName] or kaijuName
+			if canonicalName == "MG21" and string.lower(player.Name) ~= "l0tzie" then
+				return false, "This kaiju is not available to you"
+			end
 			if not Morphs or not Morphs:FindFirstChild(canonicalName, true) then
 				return false, "Unknown kaiju"
 			end
@@ -527,6 +542,7 @@ function Data.Init()
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
 			if type(morphName) ~= "string" then return end
 			morphName = nameMapping[morphName] or morphName
+			if morphName == "MG21" and string.lower(player.Name) ~= "l0tzie" then return end
 			if not Morphs or not Morphs:FindFirstChild(morphName, true) then return end
 			if not ownsKaiju(player, morphName) then
 				warn("[Data] SetSelectedKaiju blocked: " .. player.Name .. " does not own " .. morphName)

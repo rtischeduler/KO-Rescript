@@ -12,6 +12,7 @@ return {
 		-- This overrides everything else, including AllowedPlayers.
 		ExclusiveKaiju = {
 			["evo shin"] = { "brickrig1again_alt" },
+			["mg21"] = { "L0tzie" },
 		},
 	},
 

@@ -49,9 +49,13 @@ local function loadPlayerData(player)
 		return PlayerDataStore:GetAsync(tostring(player.UserId))
 	end)
 
+	local hadNegativeCoins = success and data and type(data.Coins) == "number" and data.Coins < 0
 	if success and data then
 		if data.Coins then
 			coins.Value = data.Coins
+			if coins.Value < 0 then
+				coins.Value = 0
+			end
 		end
 		if data.Kills then
 			kills.Value = data.Kills
@@ -60,6 +64,9 @@ local function loadPlayerData(player)
 	end
 
 	playerData[player.UserId] = { Coins = coins, Kills = kills, Level = level }
+	if hadNegativeCoins then
+		savePlayerData(player)
+	end
 
 	return coins, kills
 end
