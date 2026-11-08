@@ -24,18 +24,18 @@ local BURN_SIZE = 6
 
 local MAIN_TEXTURE_LENGTH = 10
 local MAIN_TEXTURE_SPEED = 30
-local MAIN_BRIGHTNESS_DAY = 0.8
-local MAIN_BRIGHTNESS_NIGHT = 1.3
+local MAIN_BRIGHTNESS_DAY = 0.7
+local MAIN_BRIGHTNESS_NIGHT = 1.1
 local CONE_WIDEN = 2.6
-local HOT_WIDTH_SCALE = 0.4
-local HOT_BRIGHTNESS = 3
-local HOT_WHITE = 0.4
-local SHINE_WHITE = 0.2
-local SHINE_HOT_WHITE = 0.45
+local HOT_WIDTH_SCALE = 0.3
+local HOT_BRIGHTNESS = 1.2
+local HOT_WHITE = 0.1
+local SHINE_WHITE = 0.04
+local SHINE_HOT_WHITE = 0.1
 local GLOW_WIDTH_SCALE = 2
 local GLOW_TRANSPARENCY = 0.6
-local GLOW_BRIGHTNESS = 1.5
-local SHINE_SIZE = 20
+local GLOW_BRIGHTNESS = 1
+local SHINE_SIZE = 14
 local SHINE_START_SIZE = 4
 local SHINE_RATE = 9
 local SHINE_START_RATE = 7
@@ -104,10 +104,19 @@ function BeamVFX.ShouldClear(retract, value)
 	return (retract and value < CLEAR_BELOW) or value <= 0.05
 end
 
-local function nightBrightness()
+local function isNight()
 	local t = Lighting.ClockTime
-	if t >= 17.5 or t <= 6.5 then return MAIN_BRIGHTNESS_NIGHT end
+	return t >= 17.5 or t <= 6.5
+end
+
+local function nightBrightness()
+	if isNight() then return MAIN_BRIGHTNESS_NIGHT end
 	return MAIN_BRIGHTNESS_DAY
+end
+
+local function beamEmission()
+	if isNight() then return 1 end
+	return 0.7
 end
 
 local function lightenSequence(seq, amount)
@@ -174,6 +183,7 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 	local vfx = {entries = {}, instances = {}, folders = {}, server = isServer == true, endShines = {}, tracker = BeamVFX.NewTracker(), endCleared = false}
 	local ghidorah = isGhidorah(character)
 	local brightness = nightBrightness()
+	local emission = beamEmission()
 	local shined = {}
 	for _, group in ipairs(collectGroups(beamStarts, beamNameFilter)) do
 		local best = group.templates[1]
@@ -210,6 +220,7 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 			NumberSequenceKeypoint.new(0.88, 0.08),
 			NumberSequenceKeypoint.new(1, 0.3),
 		})
+		beam.LightEmission = emission
 		beam.Brightness = brightness
 		beam.ZOffset = best.ZOffset
 		beam:SetAttribute("BeamVFXServer", vfx.server)
@@ -225,11 +236,12 @@ function BeamVFX.Build(character, beamStarts, beamNameFilter, isServer)
 		hot.CurveSize0 = best.CurveSize0
 		hot.CurveSize1 = best.CurveSize1
 		hot.Transparency = NumberSequence.new({
-			NumberSequenceKeypoint.new(0, 0.15),
-			NumberSequenceKeypoint.new(0.15, 0),
-			NumberSequenceKeypoint.new(0.85, 0),
-			NumberSequenceKeypoint.new(1, 0.2),
+			NumberSequenceKeypoint.new(0, 0.3),
+			NumberSequenceKeypoint.new(0.15, 0.12),
+			NumberSequenceKeypoint.new(0.85, 0.12),
+			NumberSequenceKeypoint.new(1, 0.35),
 		})
+		hot.LightEmission = emission
 		hot.Brightness = HOT_BRIGHTNESS
 		hot.ZOffset = best.ZOffset + 1
 		hot:SetAttribute("BeamVFXServer", vfx.server)
