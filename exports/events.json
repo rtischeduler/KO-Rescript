@@ -283,12 +283,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "Lighting/KaijusUnused/Godzilla in Hell /CharacterScripts/Roar1",
@@ -416,12 +416,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar1",
@@ -1161,12 +1161,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar1",
@@ -1232,12 +1232,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1",
@@ -1495,12 +1495,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "Lighting/Peak /GODZILLA 2014/CharacterScripts/Roar1",
@@ -1603,12 +1603,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Roar1",
@@ -1697,12 +1697,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ReplicatedStorage/ModifyStat",
@@ -1837,12 +1837,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Roar1",
@@ -1908,12 +1908,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/BIOLLANTE/CharacterScripts/Roar1",
@@ -1979,12 +1979,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/BURNING GODZILLA/CharacterScripts/Roar1",
@@ -2118,12 +2118,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar1",
@@ -2200,12 +2200,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1",
@@ -2271,12 +2271,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/FEMALE MUTO/CharacterScripts/Roar1",
@@ -2353,12 +2353,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/FINAL WARS GODZILLA/CharacterScripts/Roar1",
@@ -2424,12 +2424,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/FROSTBITE GODZILLA/CharacterScripts/Roar1",
@@ -2508,12 +2508,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/GIGAN/CharacterScripts/Roar1",
@@ -2579,12 +2579,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/GODZILLA 2014/CharacterScripts/Roar1",
@@ -2637,12 +2637,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/GOJIRA [FREE]/CharacterScripts/Roar1",
@@ -2770,12 +2770,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/HEISEI GODZILLA/CharacterScripts/Roar1",
@@ -2841,12 +2841,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/CharacterScripts/Roar1",
@@ -2912,12 +2912,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Decaying Muto/CharacterScripts/Roar1",
@@ -2983,12 +2983,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/ENTITY/CharacterScripts/Roar1",
@@ -3054,12 +3054,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/CharacterScripts/Roar1",
@@ -3112,12 +3112,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Ghost Gojira/CharacterScripts/Roar1",
@@ -3183,12 +3183,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /CharacterScripts/Roar1",
@@ -3254,12 +3254,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Roar1",
@@ -3325,12 +3325,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/CharacterScripts/Roar1",
@@ -3396,12 +3396,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/CharacterScripts/Roar1",
@@ -3454,12 +3454,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/RED/CharacterScripts/Roar1",
@@ -3512,12 +3512,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/KING GHIDORAH/CharacterScripts/Attack",
@@ -3553,12 +3553,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/KING GHIDORAH/CharacterScripts/Roar1",
@@ -3624,12 +3624,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/KIRYU/CharacterScripts/Roar1",
@@ -3695,12 +3695,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/LOTZIGAN/CharacterScripts/Roar1",
@@ -3766,12 +3766,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/MALE MUTO/CharacterScripts/Roar1",
@@ -3835,12 +3835,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/MOTHRA/CharacterScripts/Attack",
@@ -3876,12 +3876,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/MOTHRA/CharacterScripts/Roar1",
@@ -3947,12 +3947,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/Munto/CharacterScripts/Roar1",
@@ -4018,12 +4018,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Attack",
@@ -4059,12 +4059,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Roar1",
@@ -4141,12 +4141,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Roar1",
@@ -4212,12 +4212,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/SPACE GODZILLA/CharacterScripts/Roar1",
@@ -4283,12 +4283,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/CharacterScripts/Roar1",
@@ -4365,12 +4365,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS BEHEMOTH/CharacterScripts/Roar1",
@@ -4436,12 +4436,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GHIDORAH/CharacterScripts/Roar1",
@@ -4507,12 +4507,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GOJIRA/CharacterScripts/Roar1",
@@ -4578,12 +4578,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS MOSURA/CharacterScripts/Roar1",
@@ -4649,12 +4649,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS RODAN/CharacterScripts/Roar1",
@@ -4720,12 +4720,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/UNCMINILLA/CharacterScripts/Roar1",
@@ -4791,12 +4791,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/VOLCANIC BIOLLANTE/CharacterScripts/Roar1",
@@ -4929,12 +4929,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/Kaijus/thedenis/CharacterScripts/Roar1",
@@ -4987,12 +4987,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/REDBOSS/CharacterScripts/Roar1",
@@ -5058,12 +5058,12 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript",
         "ReplicatedStorage/BeamClientFX",
         "ReplicatedStorage/BeamSystem",
+        "ReplicatedStorage/BeamVFX",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
-        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript"
+        "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript"
       ],
-      "reference_count": 17
+      "reference_count": 18
     },
     {
       "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Roar1",

@@ -94,6 +94,33 @@ else
 	local MAX_FLAT_SPEED = 70
 	local active = nil
 	local mover = nil
+	local TRIP_STATES = { Enum.HumanoidStateType.FallingDown, Enum.HumanoidStateType.Ragdoll }
+	local TRIP_GRACE = 1
+	local tripGuard = nil
+
+	local function releaseTripGuard()
+		local guard = tripGuard
+		tripGuard = nil
+		if guard and guard.humanoid.Parent then
+			for state, enabled in pairs(guard.previous) do
+				guard.humanoid:SetStateEnabled(state, enabled)
+			end
+		end
+	end
+
+	local function guardAgainstTrip(humanoid, untilT)
+		if tripGuard and tripGuard.humanoid == humanoid then
+			tripGuard.untilT = math.max(tripGuard.untilT, untilT)
+			return
+		end
+		releaseTripGuard()
+		local previous = {}
+		for _, state in ipairs(TRIP_STATES) do
+			previous[state] = humanoid:GetStateEnabled(state)
+			humanoid:SetStateEnabled(state, false)
+		end
+		tripGuard = { humanoid = humanoid, previous = previous, untilT = untilT }
+	end
 
 	local function getMover(root)
 		if mover and mover.Parent == root then
@@ -155,6 +182,7 @@ else
 			-- Travel mode: constant velocity for the full duration (no decay, no merging).
 			if typeof(duration) ~= "number" or duration <= 0 then return end
 			active = { vel = flat, untilT = now + duration, duration = duration, travel = true }
+			guardAgainstTrip(humanoid, now + duration + TRIP_GRACE)
 			if mover then
 				mover.Enabled = false
 			end
@@ -187,6 +215,23 @@ else
 			end
 		end)
 	end
+
+	RunService.Heartbeat:Connect(function()
+		local guard = tripGuard
+		if not guard then return end
+		local humanoid = guard.humanoid
+		if not humanoid.Parent then
+			tripGuard = nil
+			return
+		end
+		local state = humanoid:GetState()
+		if state == Enum.HumanoidStateType.FallingDown or state == Enum.HumanoidStateType.Ragdoll then
+			humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+		end
+		if os.clock() >= guard.untilT then
+			releaseTripGuard()
+		end
+	end)
 
 	RunService.Heartbeat:Connect(function()
 		if not active then return end

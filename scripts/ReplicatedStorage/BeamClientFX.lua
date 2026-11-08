@@ -1,13 +1,12 @@
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local BeamVFX = require(ReplicatedStorage:WaitForChild("BeamVFX"))
 
 local BeamClientFX = {}
 BeamClientFX.__index = BeamClientFX
 
 local localPlayer = Players.LocalPlayer
-local SMOKE_TEXTURE = "rbxasset://textures/particles/smoke_main.dds"
-local SMOKE_DIRECTIONS = 8
-local SMOKE_REACH = 32
 local NUM_GLOW_LIGHTS = 8
 local SHIFTLOCK_RAISE = 8
 local SHIFTLOCK_MIN_FORWARD = 8
@@ -65,48 +64,6 @@ local function makeFxEmitter(source, kind, power)
 		emitter.Drag = 2
 		emitter.Size = scaleSequence(source.Size, 2.2 * power)
 	end
-	return emitter
-end
-
-local function makeSmokeEmitter(color)
-	local emitter = Instance.new("ParticleEmitter")
-	emitter.Texture = SMOKE_TEXTURE
-	emitter.Color = ColorSequence.new(color)
-	emitter.LightEmission = 0.05
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2.5), NumberSequenceKeypoint.new(1, 9)})
-	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.45), NumberSequenceKeypoint.new(1, 1)})
-	emitter.Lifetime = NumberRange.new(0.25, 0.45)
-	emitter.Speed = NumberRange.new(35, 50)
-	emitter.Drag = 4
-	emitter.SpreadAngle = Vector2.new(18, 18)
-	emitter.Rotation = NumberRange.new(0, 360)
-	emitter.RotSpeed = NumberRange.new(-60, 60)
-	emitter.LockedToPart = false
-	emitter.Rate = 0
-	emitter.Enabled = false
-	return emitter
-end
-
-local function makeStartSmokeEmitter(color)
-	local emitter = Instance.new("ParticleEmitter")
-	emitter.Name = "LocalBeamStartSmoke"
-	emitter.Texture = SMOKE_TEXTURE
-	emitter.Color = ColorSequence.new(color)
-	emitter.LightEmission = 0
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 5)})
-	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.78), NumberSequenceKeypoint.new(1, 1)})
-	emitter.Lifetime = NumberRange.new(0.2, 0.35)
-	emitter.Speed = NumberRange.new(28, 44)
-	emitter.Drag = 3
-	emitter.Shape = Enum.ParticleEmitterShape.Sphere
-	emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
-	emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
-	emitter.SpreadAngle = Vector2.new(180, 180)
-	emitter.Rotation = NumberRange.new(0, 360)
-	emitter.RotSpeed = NumberRange.new(-40, 40)
-	emitter.LockedToPart = false
-	emitter.Rate = 12
-	emitter.Enabled = true
 	return emitter
 end
 
@@ -212,7 +169,6 @@ function BeamClientFX.new(character)
 	self.startTime = os.clock()
 	self.built = false
 	self.fxGroup = {}
-	self.smokeGroup = {}
 	self.glow = {}
 	self.startSmoke = {}
 	self.surfaceOffset = nil
@@ -263,21 +219,14 @@ function BeamClientFX.new(character)
 	self.light.Brightness = 0
 	self.light.Parent = self.anchor
 
-	for i = 1, SMOKE_DIRECTIONS do
-		local att = Instance.new("Attachment")
-		att.Parent = self.anchor
-		local smoke = makeSmokeEmitter(self.smokeColor)
-		smoke.Parent = att
-		self.smokeGroup[i] = {att = att, emitter = smoke}
-	end
+	self.impactFx = BeamVFX.NewImpact(self.anchor, self.impactColor, {burn = false})
+	self.surfaceHit = false
 
 	self.params = RaycastParams.new()
 	self.params.FilterType = Enum.RaycastFilterType.Exclude
 
 	for _, beamStart in ipairs(self.beamStarts) do
-		local smoke = makeStartSmokeEmitter(self.smokeColor)
-		smoke.Parent = beamStart
-		table.insert(self.startSmoke, smoke)
+		table.insert(self.startSmoke, BeamVFX.NewStartSmoke(beamStart, self.smokeColor, "LocalBeamStartSmoke"))
 	end
 
 	if self.hrp and self.primaryStart then
@@ -358,38 +307,11 @@ function BeamClientFX:_setIntensity(intensity)
 		if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 		if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
 	end
-	for _, entry in ipairs(self.smokeGroup) do
-		local rate = enabled and math.floor(9 * intensity + 0.5) or 0
-		if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
-		if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
-	end
-end
-
-function BeamClientFX:_updateSmoke(impactPos, normal)
-	local base = normal:Cross(Vector3.xAxis)
-	if base.Magnitude < 0.1 then
-		base = normal:Cross(Vector3.zAxis)
-	end
-	base = base.Unit
-	local origin = impactPos + normal * 2
-	for i, entry in ipairs(self.smokeGroup) do
-		local angle = (i - 1) / SMOKE_DIRECTIONS * math.pi * 2
-		local dir = CFrame.fromAxisAngle(normal, angle):VectorToWorldSpace(base)
-		local result = Workspace:Raycast(origin, dir * SMOKE_REACH, self.params)
-		local free = SMOKE_REACH
-		local emitDir = (dir * 0.85 + normal * 0.15).Unit
-		if result then
-			free = math.max(result.Distance - 1.5, 0)
-			local slide = dir - result.Normal * dir:Dot(result.Normal)
-			emitDir = (normal * 0.8 + slide * 0.2 + result.Normal * 0.2).Unit
-		end
-		entry.att.WorldCFrame = CFrame.lookAt(origin, origin + emitDir) * CFrame.Angles(-math.pi / 2, 0, 0)
-		local life = math.clamp(free / 50, 0.15, 0.5)
-		entry.emitter.Lifetime = NumberRange.new(life * 0.8, life)
-	end
+	self.impactFx:SetIntensity(intensity, self.surfaceHit)
 end
 
 function BeamClientFX:_updateImpact(endPos, extent, endsHolder)
+	local now = os.clock()
 	if self.iteration % 2 == 0 or not self.surfaceOffset then
 		local filter = {self.character, self.folder}
 		if endsHolder then
@@ -401,20 +323,22 @@ function BeamClientFX:_updateImpact(endPos, extent, endsHolder)
 			end
 		end
 		self.params.FilterDescendantsInstances = filter
-		local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), self.params)
-		if result and (result.Position - endPos).Magnitude <= 7 then
-			self.surfaceOffset = result.Position + result.Normal * 0.15 - endPos
-			self.surfaceNormal = result.Normal
-		else
-			self.surfaceOffset = Vector3.zero
-			self.surfaceNormal = Vector3.yAxis
+		local startAtt = self.primaryStart
+		local dir = nil
+		if startAtt and startAtt.Parent then
+			dir = endPos - startAtt.WorldPosition
 		end
-		self:_updateSmoke(endPos + self.surfaceOffset, self.surfaceNormal)
+		local surfacePos, surfaceNormal, surfaceHit = BeamVFX.FindSurface(endPos, dir, self.params)
+		self.surfaceOffset = surfacePos - endPos
+		self.surfaceNormal = surfaceNormal
+		self.surfaceHit = surfaceHit
+		self.impactFx:Update(surfacePos, surfaceNormal, self.params, now, false)
 	end
 	local impactPos = endPos + self.surfaceOffset
 	self.anchor.CFrame = CFrame.lookAt(impactPos, impactPos + self.surfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
 	self.light.Color = self.impactColor
 	self.light.Brightness = 1.5 * extent
+	self.impactFx:Track(impactPos, now)
 	self:_setIntensity(extent)
 end
 
@@ -440,7 +364,7 @@ function BeamClientFX:_suppressServer()
 	local clash = folder:GetAttribute("FxMode") == "clash"
 	for _, descendant in ipairs(folder:GetDescendants()) do
 		if descendant:IsA("ParticleEmitter") then
-			if not clash and descendant.Enabled then
+			if descendant.Name ~= "BeamBurn" and not clash and descendant.Enabled then
 				descendant.Enabled = false
 			end
 		elseif descendant:IsA("PointLight") then
@@ -481,7 +405,7 @@ function BeamClientFX:Destroy()
 	self.startSmoke = {}
 	self.glow = {}
 	self.fxGroup = {}
-	self.smokeGroup = {}
+	self.impactFx = nil
 	self.serverImpact = nil
 end
 

@@ -99,6 +99,7 @@ local beamPredictHitbox = nil
 local beamEndsReparented = false
 local beamClientFx = nil
 local BeamClientFX = require(game:GetService("ReplicatedStorage"):WaitForChild("BeamClientFX"))
+local BeamVFX = require(game:GetService("ReplicatedStorage"):WaitForChild("BeamVFX"))
 
 local stopBeamRotation
 local startBeamRotation
@@ -366,7 +367,8 @@ local beamPredictServerHitbox = nil
 local beamPredictLastTime = 0
 local beamPredictLocalOnly = false
 local beamPredictOrigins = {}
-local beamPredictLocalBeams = {}
+local beamPredictLocalVfx = nil
+local beamPredictStarts = {}
 local FOUR_SECOND_CHARGE = {["GODZILLA 2014"] = true, ["TITANUS GOJIRA"] = true, ["FROSTBITE GODZILLA"] = true}
 local PRED_CONFIRM_GRACE = 2
 
@@ -461,10 +463,10 @@ local function startBeamPrediction(localOnly)
 	end
 	beamClientFx = BeamClientFX.new(beamPredictChar)
 
-	-- Local-only prediction: the server has not started the beam yet, so show it ourselves.
 	beamPredictLocalOnly = localOnly == true
 	beamPredictOrigins = {}
-	beamPredictLocalBeams = {}
+	beamPredictLocalVfx = nil
+	beamPredictStarts = {}
 	if beamPredictLocalOnly then
 		for _, d in ipairs(beamPredictChar:GetDescendants()) do
 			if d:IsA("Attachment") and d.Name == "BeamEnd" then
@@ -480,14 +482,11 @@ local function startBeamPrediction(localOnly)
 				for _, c in ipairs(d:GetChildren()) do
 					if c:IsA("ParticleEmitter") or c:IsA("Light") then c.Enabled = true end
 				end
-			elseif d:IsA("Beam") and d.Parent and d.Parent:IsA("Attachment") and d.Parent.Name == "BeamStart" then
-				d.Transparency = NumberSequence.new(0)
-				d.LightEmission = 1
-				d.LightInfluence = 0
-				d.Enabled = true
-				table.insert(beamPredictLocalBeams, d)
+			elseif d:IsA("Attachment") and d.Name == "BeamStart" then
+				table.insert(beamPredictStarts, d)
 			end
 		end
+		beamPredictLocalVfx = BeamVFX.Build(beamPredictChar, beamPredictStarts, nil, false)
 	end
 
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
@@ -500,6 +499,11 @@ local function startBeamPrediction(localOnly)
 		beamPredictLastTime = now
 
 		local serverHitbox = findServerBeamHitbox()
+
+		if beamPredictLocalVfx and BeamVFX.ServerPresent(beamPredictStarts) then
+			BeamVFX.Destroy(beamPredictLocalVfx)
+			beamPredictLocalVfx = nil
+		end
 
 		if not beamEndsReparented and serverHitbox then
 			local reparentedAny = false
@@ -612,14 +616,11 @@ local function stopBeamPrediction()
 		beamPredictHitbox = nil
 	end
 
-	if beamPredictLocalOnly then
-		for _, b in ipairs(beamPredictLocalBeams) do
-			if b.Parent then b.Enabled = false end
-		end
-	end
+	BeamVFX.Destroy(beamPredictLocalVfx)
+	beamPredictLocalVfx = nil
+	beamPredictStarts = {}
 	beamPredictLocalOnly = false
 	beamPredictOrigins = {}
-	beamPredictLocalBeams = {}
 
 	beamEndsReparented = false
 	if beamPredictChar and beamPredictChar.Parent then
@@ -694,7 +695,6 @@ Knit.OnStart():andThen(function()
 			end
 		end
 		if beamActive and beamPredictionConnection then
-			-- already predicted locally; just adopt the server generation (no restart/flicker)
 			return
 		end
 		beamActive = true

@@ -12,7 +12,7 @@ HolidayConfigs.DefaultWeather = { Kind = "Rain", Gap = { 120, 200 }, Duration = 
 
 HolidayConfigs.Halloween = {
 	Name = "Halloween",
-	Months = { 10, 11 },
+	Months = { 10 },
 	ForceNight = true,
 	Lighting = {
 		Day = {

@@ -954647,7 +954647,7 @@ button.Activated:Connect(activateMenu)</string>
                 <string name="ScriptGuid">{ED1BE57A-E231-4707-A93C-6BCB83B0E104}</string>
                 <BinaryString name="SerializedOverrides">
                 </BinaryString>
-                <string name="Source"><![CDATA[local Players = game:GetService("Players")
+                <string name="Source">local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
 local backpack = script.Parent
@@ -954748,6 +954748,7 @@ local beamPredictHitbox = nil
 local beamEndsReparented = false
 local beamClientFx = nil
 local BeamClientFX = require(game:GetService("ReplicatedStorage"):WaitForChild("BeamClientFX"))
+local BeamVFX = require(game:GetService("ReplicatedStorage"):WaitForChild("BeamVFX"))
 
 local stopBeamRotation
 local startBeamRotation
@@ -954805,7 +954806,7 @@ local function isJoystickStart(position, gameProcessed)
 	local camera = workspace.CurrentCamera
 	if not camera then return false end
 	local viewport = camera.ViewportSize
-	return position.X < viewport.X * 0.5
+	return position.X &lt; viewport.X * 0.5
 end
 
 local function pickBestTouchPos()
@@ -954871,13 +954872,13 @@ local function raycastFiltered(origin, direction, character)
 		local inst = result.Instance
 		local model = inst:FindFirstAncestorOfClass("Model")
 		local isCharacterPart = model ~= nil and model:FindFirstChildOfClass("Humanoid") ~= nil
-		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and not isCharacterPart and (inst.Transparency >= 0.95 or not inst.CanCollide)
+		local isTransparent = inst:IsA("BasePart") and not inst:IsA("Terrain") and not isCharacterPart and (inst.Transparency &gt;= 0.95 or not inst.CanCollide)
 		local isWater = result.Material == Enum.Material.Water
 
 		if isTransparent or isWater then
 			local consumed = (result.Position - currentOrigin).Magnitude
 			remainingDist = remainingDist - consumed
-			if remainingDist <= 0.1 then return nil end
+			if remainingDist &lt;= 0.1 then return nil end
 			currentOrigin = result.Position
 			table.insert(excluded, inst)
 		else
@@ -954892,7 +954893,7 @@ local function advanceOrigin(origin, direction, character)
 	if not hrp then return origin end
 	local unit = direction.Unit
 	local along = (hrp.Position - origin):Dot(unit)
-	if along > 0 then return origin + unit * along end
+	if along &gt; 0 then return origin + unit * along end
 	return origin
 end
 
@@ -955015,7 +955016,8 @@ local beamPredictServerHitbox = nil
 local beamPredictLastTime = 0
 local beamPredictLocalOnly = false
 local beamPredictOrigins = {}
-local beamPredictLocalBeams = {}
+local beamPredictLocalVfx = nil
+local beamPredictStarts = {}
 local FOUR_SECOND_CHARGE = {["GODZILLA 2014"] = true, ["TITANUS GOJIRA"] = true, ["FROSTBITE GODZILLA"] = true}
 local PRED_CONFIRM_GRACE = 2
 
@@ -955035,7 +955037,7 @@ end
 local function orientHitbox(charPos, targetPos, placePos)
 	placePos = placePos or targetPos
 	local flatDir = Vector3.new(targetPos.X - charPos.X, 0, targetPos.Z - charPos.Z)
-	if flatDir.Magnitude < 0.01 then
+	if flatDir.Magnitude &lt; 0.01 then
 		return CFrame.new(placePos)
 	end
 	local lookCF = CFrame.lookAt(Vector3.new(charPos.X, 0, charPos.Z), Vector3.new(targetPos.X, 0, targetPos.Z))
@@ -955110,10 +955112,10 @@ local function startBeamPrediction(localOnly)
 	end
 	beamClientFx = BeamClientFX.new(beamPredictChar)
 
-	-- Local-only prediction: the server has not started the beam yet, so show it ourselves.
 	beamPredictLocalOnly = localOnly == true
 	beamPredictOrigins = {}
-	beamPredictLocalBeams = {}
+	beamPredictLocalVfx = nil
+	beamPredictStarts = {}
 	if beamPredictLocalOnly then
 		for _, d in ipairs(beamPredictChar:GetDescendants()) do
 			if d:IsA("Attachment") and d.Name == "BeamEnd" then
@@ -955129,14 +955131,11 @@ local function startBeamPrediction(localOnly)
 				for _, c in ipairs(d:GetChildren()) do
 					if c:IsA("ParticleEmitter") or c:IsA("Light") then c.Enabled = true end
 				end
-			elseif d:IsA("Beam") and d.Parent and d.Parent:IsA("Attachment") and d.Parent.Name == "BeamStart" then
-				d.Transparency = NumberSequence.new(0)
-				d.LightEmission = 1
-				d.LightInfluence = 0
-				d.Enabled = true
-				table.insert(beamPredictLocalBeams, d)
+			elseif d:IsA("Attachment") and d.Name == "BeamStart" then
+				table.insert(beamPredictStarts, d)
 			end
 		end
+		beamPredictLocalVfx = BeamVFX.Build(beamPredictChar, beamPredictStarts, nil, false)
 	end
 
 	beamPredictionConnection = RunService.RenderStepped:Connect(function()
@@ -955149,6 +955148,11 @@ local function startBeamPrediction(localOnly)
 		beamPredictLastTime = now
 
 		local serverHitbox = findServerBeamHitbox()
+
+		if beamPredictLocalVfx and BeamVFX.ServerPresent(beamPredictStarts) then
+			BeamVFX.Destroy(beamPredictLocalVfx)
+			beamPredictLocalVfx = nil
+		end
 
 		if not beamEndsReparented and serverHitbox then
 			local reparentedAny = false
@@ -955188,7 +955192,7 @@ local function startBeamPrediction(localOnly)
 			local aim = getAimPosition(beamPredictChar)
 			if aim and beamPredictTip then
 				local shaped = BeamClientFX.ShapeTip(beamPredictChar, startPos, aim, shiftLock)
-				local rate = now < beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
+				local rate = now &lt; beamPredictTransitionUntil and PRED_TRANSITION_RATE or PRED_FOLLOW_RATE
 				beamPredictTip = beamPredictTip:Lerp(shaped, 1 - math.exp(-rate * dt))
 			end
 			extent = easeOutCubic(math.clamp((now - beamPredictStartTime) / PRED_INTRO_TIME, 0, 1))
@@ -955261,14 +955265,11 @@ local function stopBeamPrediction()
 		beamPredictHitbox = nil
 	end
 
-	if beamPredictLocalOnly then
-		for _, b in ipairs(beamPredictLocalBeams) do
-			if b.Parent then b.Enabled = false end
-		end
-	end
+	BeamVFX.Destroy(beamPredictLocalVfx)
+	beamPredictLocalVfx = nil
+	beamPredictStarts = {}
 	beamPredictLocalOnly = false
 	beamPredictOrigins = {}
-	beamPredictLocalBeams = {}
 
 	beamEndsReparented = false
 	if beamPredictChar and beamPredictChar.Parent then
@@ -955314,7 +955315,7 @@ startBeamRotation = function()
 		if not targetPos then return end
 		local pos = currentHrp.Position
 		local lookDir = Vector3.new(targetPos.X - pos.X, 0, targetPos.Z - pos.Z)
-		if lookDir.Magnitude > 0.1 then
+		if lookDir.Magnitude &gt; 0.1 then
 			local yaw = math.atan2(-lookDir.X, -lookDir.Z)
 			currentHrp.CFrame = CFrame.new(pos) * CFrame.Angles(0, yaw, 0)
 		end
@@ -955343,7 +955344,6 @@ Knit.OnStart():andThen(function()
 			end
 		end
 		if beamActive and beamPredictionConnection then
-			-- already predicted locally; just adopt the server generation (no restart/flicker)
 			return
 		end
 		beamActive = true
@@ -955498,7 +955498,7 @@ local function playClientPrediction(eventName, char)
 					soundClone:Play()
 					local len = soundClone.TimeLength / soundClone.PlaybackSpeed
 					task.spawn(function()
-						task.wait(len > 0 and len or 5)
+						task.wait(len &gt; 0 and len or 5)
 						soundClone:Destroy()
 					end)
 					
@@ -955598,7 +955598,7 @@ local function fireAbility(eventName)
 			local c = player.Character
 			if c ~= char or not c.Parent then return end
 			local hum = c:FindFirstChildOfClass("Humanoid")
-			if not hum or hum.Health <= 0 then return end
+			if not hum or hum.Health &lt;= 0 then return end
 			beamActive = true
 			startBeamRotation()
 			startBeamPrediction(true)
@@ -955626,7 +955626,7 @@ local function fireAbility(eventName)
 
 	for _, otherButton in ipairs(backpack:GetChildren()) do
 		if otherButton:IsA("ImageButton") and otherButton.Name ~= "Template" and otherButton.Name ~= "Sprint" and otherButton ~= button then
-			if CooldownManager.getRemaining(otherButton.Name) <= 0 then
+			if CooldownManager.getRemaining(otherButton.Name) &lt;= 0 then
 				playChargeFill(otherButton, attackDuration, true)
 			end
 		end
@@ -955707,7 +955707,7 @@ local function buildButtons(character)
 	end
 
 	table.sort(events, function(a, b)
-		return (ORDER[a.Name] or 99) < (ORDER[b.Name] or 99)
+		return (ORDER[a.Name] or 99) &lt; (ORDER[b.Name] or 99)
 	end)
 
 	local slots = {}
@@ -955731,7 +955731,7 @@ local function buildButtons(character)
 	end
 
 	table.sort(events, function(a, b)
-		return slots[a] < slots[b]
+		return slots[a] &lt; slots[b]
 	end)
 
 	local sprintCount = (sprint and sprint.Visible) and 1 or 0
@@ -955984,8 +955984,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if input.KeyCode == Enum.KeyCode.ButtonL3 then
 		doSprintToggle()
 	end
-end)
-]]></string>
+end)</string>
                 <int64 name="SourceAssetId">-1</int64>
                 <BinaryString name="Tags"></BinaryString>
                 <UniqueId name="UniqueId">2e9234feabff15a40afc110500012e9e</UniqueId>
@@ -957532,7 +957531,7 @@ end
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea3</UniqueId>
+        <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea3</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10740">
         <Properties>
@@ -957590,7 +957589,7 @@ end
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea4</UniqueId>
+          <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea4</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10741">
@@ -957613,7 +957612,7 @@ end
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea5</UniqueId>
+          <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea5</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10742">
@@ -957658,7 +957657,7 @@ end
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea6</UniqueId>
+          <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea6</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -957707,7 +957706,7 @@ end
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea7</UniqueId>
+          <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea7</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -957765,7 +957764,7 @@ end
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea8</UniqueId>
+          <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea8</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10745">
@@ -957792,7 +957791,7 @@ end
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">78996740926c62d10b010c2700000ea9</UniqueId>
+          <UniqueId name="UniqueId">580b64fcdbaf6a090b0157b900000ea9</UniqueId>
         </Properties>
       </Item>
     </Item>
@@ -2031223,4 +2031222,4 @@ end)
                             <token name="EasingStyle">0</token>
                             <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
                             <bool name="DefinesCapabilities">false</bool>
-                     
+                            <Bin

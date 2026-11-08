@@ -2,7 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local CandyConfig = {}
 
-CandyConfig.Months = { 10, 11 }
+CandyConfig.Months = { 10 }
 CandyConfig.HealthStep = 1000
 CandyConfig.CandyPerStep = 5
 CandyConfig.FolderPrefix = "halloween"

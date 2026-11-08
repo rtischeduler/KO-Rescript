@@ -5,6 +5,7 @@ local ServerStorage = game:GetService("ServerStorage")
 local TweenService = game:GetService("TweenService")
 local Debris = game:GetService("Debris")
 local Workspace = game:GetService("Workspace")
+local BeamVFX = require(ReplicatedStorage:WaitForChild("BeamVFX"))
 local playerAims = {}
 local playerShiftLock = {}
 local activeBeams = {}
@@ -21,7 +22,7 @@ local OVERPOWER_TIME = 0.8
 local OVERPOWER_DAMAGE = 50
 local BEAM_SLOW_FACTOR = 0.7
 local BEAM_SLOW_LINGER = 0.35
-local BEAM_COUNTER_ENABLED = false -- true = melee hits overlapping your beam tip damage you
+local BEAM_COUNTER_ENABLED = false
 local function easeOutCubic(t)
 	return 1 - (1 - t) ^ 3
 end
@@ -89,54 +90,6 @@ local function makeFxEmitter(source, kind, power)
 		emitter.Size = scaleSequence(source.Size, 2.2 * power)
 	end
 	return emitter
-end
-local SMOKE_TEXTURE = "rbxasset://textures/particles/smoke_main.dds"
-local function makeSmokeEmitter(color)
-	local emitter = Instance.new("ParticleEmitter")
-	emitter.Texture = SMOKE_TEXTURE
-	emitter.Color = ColorSequence.new(color)
-	emitter.LightEmission = 0.05
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2.5), NumberSequenceKeypoint.new(1, 9)})
-	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.45), NumberSequenceKeypoint.new(1, 1)})
-	emitter.Lifetime = NumberRange.new(0.25, 0.45)
-	emitter.Speed = NumberRange.new(35, 50)
-	emitter.Drag = 4
-	emitter.SpreadAngle = Vector2.new(18, 18)
-	emitter.Rotation = NumberRange.new(0, 360)
-	emitter.RotSpeed = NumberRange.new(-60, 60)
-	emitter.LockedToPart = false
-	emitter.Rate = 0
-	emitter.Enabled = false
-	return emitter
-end
-local function makeStartSmokeEmitter(color)
-	local emitter = Instance.new("ParticleEmitter")
-	emitter.Texture = SMOKE_TEXTURE
-	emitter.Color = ColorSequence.new(color)
-	emitter.LightEmission = 0
-	emitter.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 5)})
-	emitter.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.78), NumberSequenceKeypoint.new(1, 1)})
-	emitter.Lifetime = NumberRange.new(0.2, 0.35)
-	emitter.Speed = NumberRange.new(28, 44)
-	emitter.Drag = 3
-	emitter.Shape = Enum.ParticleEmitterShape.Sphere
-	emitter.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
-	emitter.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
-	emitter.SpreadAngle = Vector2.new(180, 180)
-	emitter.Rotation = NumberRange.new(0, 360)
-	emitter.RotSpeed = NumberRange.new(-40, 40)
-	emitter.LockedToPart = false
-	emitter.Rate = 12
-	emitter.Enabled = true
-	return emitter
-end
-local function restoreBeamTextures(list)
-	if not list then return end
-	for _, entry in ipairs(list) do
-		if entry.beam and entry.beam.Parent then
-			pcall(function() entry.beam.TextureSpeed = entry.base end)
-		end
-	end
 end
 local function spawnClashExplosion(position, sourcesA, sourcesB, colorA, colorB)
 	local folder = Instance.new("Folder")
@@ -318,16 +271,7 @@ local function enableBeams(beamStarts, enabled, beamNameFilter)
 	for _, beamStart in ipairs(beamStarts) do
 		for _, child in ipairs(beamStart:GetChildren()) do
 			if child:IsA("Beam") then
-				if beamNameFilter and not beamNameFilter[child.Name] then
-				else
-					if enabled then
-						child.Transparency = NumberSequence.new(0)
-						child.LightEmission = 1
-						child.LightInfluence = 0
-						child.Brightness = beamBrightness()
-					end
-					child.Enabled = enabled
-				end
+				child.Enabled = false
 			elseif child:IsA("Light") then
 				child.Enabled = enabled
 			end
@@ -372,7 +316,17 @@ function BeamSystem.ForceCleanup(player)
 			end
 		end
 	end
-	restoreBeamTextures(data.beamTextureBases)
+	BeamVFX.Destroy(data.vfx)
+	if data.impactFx then
+		pcall(function() data.impactFx:Destroy() end)
+		data.impactFx = nil
+	end
+	if data.burnTrails then
+		for _, bt in ipairs(data.burnTrails) do
+			pcall(function() bt.trail:Destroy() end)
+		end
+		data.burnTrails = nil
+	end
 	if data.impactFolder and data.impactFolder.Parent then
 		pcall(function() data.impactFolder:Destroy() end)
 	end
@@ -690,22 +644,12 @@ function BeamSystem.ActivateBeam(config)
 		if #ownSources == 0 then
 			ownSources = {makeFallbackEmitter(impactColor)}
 		end
-		local beamTextures = {}
-		for _, beamStart in ipairs(beamStarts) do
-			for _, child in ipairs(beamStart:GetChildren()) do
-				if child:IsA("Beam") and (not beamNameFilter or beamNameFilter[child.Name]) then
-					table.insert(beamTextures, {beam = child, base = child.TextureSpeed})
-				end
-			end
-		end
-		activeBeams[player].beamTextureBases = beamTextures
+		local vfx = BeamVFX.Build(character, beamStarts, beamNameFilter, true)
+		activeBeams[player].vfx = vfx
 		local smokeColor = Color3.new(0.82, 0.82, 0.82):Lerp(impactColor, 0.2)
 		local startSmoke = {}
 		for _, beamStart in ipairs(beamStarts) do
-			local smoke = makeStartSmokeEmitter(smokeColor)
-			smoke.Name = "BeamStartSmoke"
-			smoke.Parent = beamStart
-			table.insert(startSmoke, smoke)
+			table.insert(startSmoke, BeamVFX.NewStartSmoke(beamStart, smokeColor))
 		end
 		impactFolder.Destroying:Connect(function()
 			for _, smoke in ipairs(startSmoke) do
@@ -751,61 +695,36 @@ function BeamSystem.ActivateBeam(config)
 				table.insert(fxGroup, {emitter = core, rate = 22})
 			end
 		end
-		local SMOKE_DIRECTIONS = 8
-		local SMOKE_REACH = 32
-		local smokeGroup = {}
-		for i = 1, SMOKE_DIRECTIONS do
-			local att = Instance.new("Attachment")
-			att.Parent = impactAnchor
-			local smoke = makeSmokeEmitter(smokeColor)
-			smoke.Parent = att
-			smokeGroup[i] = { att = att, emitter = smoke }
+		local impactFx = BeamVFX.NewImpact(impactAnchor, impactColor, {burn = false})
+		activeBeams[player].impactFx = impactFx
+		local burnTrails = {}
+		for _, endAtt in ipairs(beamEnds) do
+			table.insert(burnTrails, {att = endAtt, trail = BeamVFX.NewBurnTrail(impactFolder)})
 		end
+		if #burnTrails == 0 then
+			table.insert(burnTrails, {trail = BeamVFX.NewBurnTrail(impactFolder)})
+		end
+		activeBeams[player].burnTrails = burnTrails
 		local smokeOpenness = 1
 		local templateSpreadBase = {}
-		local function setFxIntensity(intensity)
+		local function setFxIntensity(intensity, surfaceHit)
 			local enabled = intensity > 0.05
 			for _, entry in ipairs(fxGroup) do
 				local rate = enabled and math.floor(entry.rate * intensity + 0.5) or 0
 				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
 				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
 			end
-			for _, entry in ipairs(smokeGroup) do
-				local rate = enabled and math.floor(9 * intensity + 0.5) or 0
-				if entry.emitter.Rate ~= rate then entry.emitter.Rate = rate end
-				if entry.emitter.Enabled ~= enabled then entry.emitter.Enabled = enabled end
-			end
+			impactFx:SetIntensity(intensity, surfaceHit)
 		end
 		local impactSurfaceOffset, impactSurfaceNormal = nil, Vector3.yAxis
 		local impactFilterBuilt = false
+		local impactSurfaceHit = false
 		local cachedClampTip, cachedClampAim = nil, Vector3.zero
 		local impactParams = RaycastParams.new()
 		impactParams.FilterType = Enum.RaycastFilterType.Exclude
-		local function updateSmoke(impactPos, normal)
-			local base = normal:Cross(Vector3.xAxis)
-			if base.Magnitude < 0.1 then
-				base = normal:Cross(Vector3.zAxis)
-			end
-			base = base.Unit
-			local origin = impactPos + normal * 2
-			local openTotal = 0
-			for i, entry in ipairs(smokeGroup) do
-				local angle = (i - 1) / SMOKE_DIRECTIONS * math.pi * 2
-				local dir = CFrame.fromAxisAngle(normal, angle):VectorToWorldSpace(base)
-				local result = Workspace:Raycast(origin, dir * SMOKE_REACH, impactParams)
-				local free = SMOKE_REACH
-				local emitDir = (dir * 0.85 + normal * 0.15).Unit
-				if result then
-					free = math.max(result.Distance - 1.5, 0)
-					local slide = dir - result.Normal * dir:Dot(result.Normal)
-					emitDir = (normal * 0.8 + slide * 0.2 + result.Normal * 0.2).Unit
-				end
-				openTotal = openTotal + free / SMOKE_REACH
-				entry.att.WorldCFrame = CFrame.lookAt(origin, origin + emitDir) * CFrame.Angles(-math.pi / 2, 0, 0)
-				local life = math.clamp(free / 50, 0.15, 0.5)
-				entry.emitter.Lifetime = NumberRange.new(life * 0.8, life)
-			end
-			smokeOpenness = openTotal / SMOKE_DIRECTIONS
+		local function updateSmoke(impactPos, normal, now, force)
+			impactFx:Update(impactPos, normal, impactParams, now, force)
+			smokeOpenness = impactFx.openness
 			for _, source in ipairs(templateEmitters) do
 				local baseSpread = templateSpreadBase[source]
 				if not baseSpread then
@@ -816,9 +735,9 @@ function BeamSystem.ActivateBeam(config)
 				source.SpreadAngle = Vector2.new(math.min(baseSpread.X + extra, 180), math.min(baseSpread.Y + extra, 180))
 			end
 		end
-		local function updateImpact(endPos, extent, now, clashInfo)
+		local function updateImpact(endPos, extent, now, clashInfo, startPos)
 			if clashInfo and not clashInfo.lead then
-				setFxIntensity(0)
+				setFxIntensity(0, false)
 				impactLight.Brightness = 0
 				return
 			end
@@ -844,8 +763,8 @@ function BeamSystem.ActivateBeam(config)
 				local mix = (math.sin(now * 9) + 1) / 2
 				impactLight.Color = impactColor:Lerp(clashInfo.partnerColor or impactColor, mix)
 				impactLight.Brightness = 3 * extent
-				if beamIteration % 3 == 0 then updateSmoke(endPos, Vector3.yAxis) end
-				setFxIntensity(extent * 1.4)
+				if beamIteration % 3 == 0 then updateSmoke(endPos, Vector3.yAxis, now, false) end
+				setFxIntensity(extent * 1.4, false)
 			else
 				if beamIteration % 3 == 0 or not impactSurfaceOffset then
 					if beamIteration % 15 == 0 or not impactFilterBuilt then
@@ -856,21 +775,18 @@ function BeamSystem.ActivateBeam(config)
 						end
 						impactParams.FilterDescendantsInstances = filter
 					end
-					local result = Workspace:Raycast(endPos + Vector3.new(0, 4, 0), Vector3.new(0, -14, 0), impactParams)
-					if result and (result.Position - endPos).Magnitude <= 7 then
-						impactSurfaceOffset = result.Position + result.Normal * 0.15 - endPos
-						impactSurfaceNormal = result.Normal
-					else
-						impactSurfaceOffset = Vector3.zero
-						impactSurfaceNormal = Vector3.yAxis
-					end
-					updateSmoke(endPos + impactSurfaceOffset, impactSurfaceNormal)
+					local surfacePos, surfaceNormal, surfaceHit = BeamVFX.FindSurface(endPos, startPos and (endPos - startPos) or nil, impactParams)
+					impactSurfaceOffset = surfacePos - endPos
+					impactSurfaceNormal = surfaceNormal
+					impactSurfaceHit = surfaceHit
+					updateSmoke(surfacePos, surfaceNormal, now, false)
 				end
 				local impactPos = endPos + impactSurfaceOffset
 				impactAnchor.CFrame = CFrame.lookAt(impactPos, impactPos + impactSurfaceNormal) * CFrame.Angles(-math.pi / 2, 0, 0)
 				impactLight.Color = impactColor
 				impactLight.Brightness = 1.5 * extent
-				setFxIntensity(extent)
+				impactFx:Track(impactPos, now)
+				setFxIntensity(extent, impactSurfaceHit)
 			end
 		end
 		local startTime = tick()
@@ -960,23 +876,13 @@ function BeamSystem.ActivateBeam(config)
 			if hitbox:GetAttribute("BeamExtent") ~= roundedExt then
 				hitbox:SetAttribute("BeamExtent", roundedExt)
 			end
-			if beamIteration % 2 == 0 and #beamTextures > 0 then
+			if beamIteration % 2 == 0 and #vfx.entries > 0 then
 				local texDt = math.max(now - lastTexTime, 0.016)
 				if lastEndPos then
 					local speed = (endPos - lastEndPos).Magnitude / texDt
 					local targetBoost = 1 + math.clamp(speed / 30, 0, 5)
 					texBoost = texBoost + (targetBoost - texBoost) * 0.5
-					for _, tex in ipairs(beamTextures) do
-						local want
-						if tex.base ~= 0 then
-							want = tex.base * texBoost
-						else
-							want = (texBoost - 1) * 2
-						end
-						if tex.beam.Parent and math.abs(tex.beam.TextureSpeed - want) > 0.1 then
-							tex.beam.TextureSpeed = want
-						end
-					end
+					BeamVFX.SetBoost(vfx, texBoost)
 				end
 				lastEndPos = endPos
 				lastTexTime = now
@@ -1000,7 +906,15 @@ function BeamSystem.ActivateBeam(config)
 					end
 				end
 			end
-			updateImpact(endPos, ext, now, clashInfo)
+			updateImpact(endPos, ext, now, clashInfo, startPos)
+			if beamIteration % 2 == 0 then
+				local data = activeBeams[player]
+				local burning = not clashInfo and ext > 0.9 and not (data and data.ending)
+				for _, bt in ipairs(burnTrails) do
+					local at = bt.att and bt.att.Parent and bt.att.WorldPosition or endPos
+					bt.trail:Update(at, at - startPos, impactParams, now, burning)
+				end
+			end
 		end
 		renderFrame(0, smoothTip, false, tick())
 		while tick() - startTime < duration or overpower do
@@ -1359,7 +1273,20 @@ function BeamSystem.ActivateBeam(config)
 		for _, side in ipairs(sideHitboxes) do
 			pcall(function() side.hitbox:Destroy() end)
 		end
-		restoreBeamTextures(activeBeams[player] and activeBeams[player].beamTextureBases)
+		local finishedData = activeBeams[player]
+		if finishedData then
+			if finishedData.impactFx then
+				pcall(function() finishedData.impactFx:Destroy() end)
+				finishedData.impactFx = nil
+			end
+			if finishedData.burnTrails then
+				for _, bt in ipairs(finishedData.burnTrails) do
+					pcall(function() bt.trail:Destroy() end)
+				end
+				finishedData.burnTrails = nil
+			end
+			BeamVFX.Destroy(finishedData.vfx)
+		end
 		local ib = activeBeams[player] and activeBeams[player].impactFolder
 		if ib then ib:Destroy() end
 		hitbox:Destroy()
