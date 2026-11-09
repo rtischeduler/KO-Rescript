@@ -1,2 +1,1 @@
 ServerScriptService/framework/modules/Data.lua
-ServerScriptService/Server/Services/FunnelService.lua

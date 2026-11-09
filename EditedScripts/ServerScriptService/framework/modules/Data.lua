@@ -152,6 +152,15 @@ function Data.Init()
 
 		local SelectedKaijuStore = DataStoreService:GetDataStore("SelectedKaiju")
 		local playerSelectedKaiju = {}
+		local selectedLoaded = {}
+		local DEFAULT_KAIJU = "GOJIRA [FREE]"
+
+		local function waitSelectedLoaded(player)
+			local started = os.clock()
+			while not selectedLoaded[player.UserId] and player.Parent and os.clock() - started < 10 do
+				task.wait(0.1)
+			end
+		end
 
 		local getSelectedKaijuFunc = Instance.new("RemoteFunction")
 		getSelectedKaijuFunc.Name = "GetSelectedKaiju"
@@ -538,17 +547,20 @@ function Data.Init()
 		end
 
 		getSelectedKaijuFunc.OnServerInvoke = function(player)
-			local selected = playerSelectedKaiju[player.UserId]
+			waitSelectedLoaded(player)
+			local selected = playerSelectedKaiju[player.UserId] or DEFAULT_KAIJU
 			return nameMapping[selected] or selected
 		end
 
 		_G.KUNGetSelectedKaiju = function(player)
-			local selected = playerSelectedKaiju[player.UserId]
+			waitSelectedLoaded(player)
+			local selected = playerSelectedKaiju[player.UserId] or DEFAULT_KAIJU
 			return nameMapping[selected] or selected
 		end
 
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
 			if type(morphName) ~= "string" then return end
+			waitSelectedLoaded(player)
 			morphName = nameMapping[morphName] or morphName
 			if morphName == "MG21" and string.lower(player.Name) ~= "l0tzie" then return end
 			if not Morphs or not Morphs:FindFirstChild(morphName, true) then return end
@@ -569,6 +581,7 @@ function Data.Init()
 			else
 				playerSelectedKaiju[player.UserId] = nil
 			end
+			selectedLoaded[player.UserId] = true
 		end
 
 		local function saveSelectedKaiju(player)
@@ -684,6 +697,7 @@ function Data.Init()
 			saveSelectedKaiju(player)
 			playerKaijus[player.UserId] = nil
 			playerSelectedKaiju[player.UserId] = nil
+			selectedLoaded[player.UserId] = nil
 			playerGamepassCache[player.UserId] = nil
 		end
 
