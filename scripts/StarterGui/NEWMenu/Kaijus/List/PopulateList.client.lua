@@ -39,6 +39,17 @@ local statsFrame = kaijusFrame:FindFirstChild("Stats")
 local kaijuNameLabel = statsFrame and statsFrame:FindFirstChild("KaijuName")
 local levelLabel = statsFrame and statsFrame:FindFirstChild("Level")
 local kaijuImageLabel = statsFrame and statsFrame:FindFirstChild("KaijuImage")
+if kaijuImageLabel and kaijuImageLabel:IsA("GuiObject") then
+	kaijuImageLabel.Size = UDim2.new(0, 0, kaijuImageLabel.Size.Y.Scale, kaijuImageLabel.Size.Y.Offset)
+	local ratio = kaijuImageLabel:FindFirstChildOfClass("UIAspectRatioConstraint") or Instance.new("UIAspectRatioConstraint")
+	ratio.AspectRatio = 1
+	ratio.AspectType = Enum.AspectType.ScaleWithParentSize
+	ratio.DominantAxis = Enum.DominantAxis.Height
+	ratio.Parent = kaijuImageLabel
+	if kaijuImageLabel:IsA("ImageLabel") then
+		kaijuImageLabel.ScaleType = Enum.ScaleType.Fit
+	end
+end
 local skillPointsTxt = statsFrame and statsFrame:FindFirstChild("SkillPointsTxt")
 local selectButton = statsFrame and statsFrame:FindFirstChild("Select")
 local selectTxt = selectButton and selectButton:FindFirstChild("TXT")
@@ -280,6 +291,32 @@ local function selectKaiju(morphName)
 		end
 	end
 end
+local TextService = game:GetService("TextService")
+local DESC_BOX_HEIGHT = 34
+local descLabels = {}
+local function applyDescSizes()
+	if #descLabels == 0 then return end
+	local width = scrollingFrame.AbsoluteSize.X * 0.968 - 90
+	if width < 100 then width = 220 end
+	local chosen = 7
+	for size = 12, 7, -1 do
+		local fits = true
+		for _, label in ipairs(descLabels) do
+			local bounds = TextService:GetTextSize(label.Text, size, label.Font, Vector2.new(width, 10000))
+			if bounds.Y > DESC_BOX_HEIGHT then
+				fits = false
+				break
+			end
+		end
+		if fits then
+			chosen = size
+			break
+		end
+	end
+	for _, label in ipairs(descLabels) do
+		label.TextSize = chosen
+	end
+end
 local function populate()
 	local function buildCard(model)
 		local clone = scrollingFrame:FindFirstChild(model.Name)
@@ -326,6 +363,14 @@ local function populate()
 		local descLabel = clone:FindFirstChild("KaijuDescription")
 		if descLabel then
 			descLabel.Text = kaijuDesc
+			descLabel.TextScaled = false
+			descLabel.TextWrapped = true
+			descLabel.TextTruncate = Enum.TextTruncate.None
+			descLabel.TextXAlignment = Enum.TextXAlignment.Left
+			descLabel.TextYAlignment = Enum.TextYAlignment.Top
+			descLabel.ClipsDescendants = true
+			descLabel.Size = UDim2.new(1, -90, 0, DESC_BOX_HEIGHT)
+			descLabels[#descLabels + 1] = descLabel
 		end
 		local imageLabel = clone:FindFirstChild("KaijuImage")
 		if imageLabel then
@@ -364,6 +409,8 @@ local function populate()
 		end
 	end
 	template.Visible = false
+	applyDescSizes()
+	scrollingFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(applyDescSizes)
 	task.defer(refreshListCanvas)
 end
 if selectButton then

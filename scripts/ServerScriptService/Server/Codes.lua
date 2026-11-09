@@ -11,6 +11,7 @@ local REMOTE_NAME = "RedeemCode"
 Codes.Rewards = {
 	WELCOME = { GCells = 100 },
 	LOTSZILLA = { GCells = 7000, Levels = 5 },
+	INTERNSWITHJUICE = { GCells = 12500, Levels = 10 },
 }
 
 local lastTry = {}

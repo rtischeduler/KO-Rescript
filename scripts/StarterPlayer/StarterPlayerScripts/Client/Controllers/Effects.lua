@@ -921,12 +921,11 @@ local function startBeamTrails()
 		local token = 0
 		local function refresh()
 			token += 1
-			if not beam.Enabled then
+			local a0, a1 = beam.Attachment0, beam.Attachment1
+			if not beam.Enabled or not (a0 and a1) then
 				trail.Enabled = false
 				return
 			end
-			local a0, a1 = beam.Attachment0, beam.Attachment1
-			if not (a0 and a1) then return end
 			trail.Enabled = false
 			trail.Attachment0 = a0
 			trail.Attachment1 = a1
@@ -940,11 +939,33 @@ local function startBeamTrails()
 			end)
 		end
 		beam:GetPropertyChangedSignal("Enabled"):Connect(refresh)
-		beam:GetPropertyChangedSignal("Attachment1"):Connect(function()
-			if beam.Enabled then refresh() end
+		beam:GetPropertyChangedSignal("Attachment1"):Connect(refresh)
+		beam:GetPropertyChangedSignal("Attachment0"):Connect(refresh)
+		beam.AncestryChanged:Connect(function()
+			if not beam:IsDescendantOf(Workspace) then
+				token += 1
+				trail.Enabled = false
+				trail:Destroy()
+				tracked[beam] = nil
+			end
 		end)
 		if beam.Enabled then refresh() end
 	end
+
+	task.spawn(function()
+		while true do
+			task.wait(0.5)
+			for beam, trail in pairs(tracked) do
+				if trail.Enabled then
+					local a0, a1 = beam.Attachment0, beam.Attachment1
+					if not beam.Parent or not beam.Enabled or not (a0 and a1)
+						or not a0:IsDescendantOf(Workspace) or not a1:IsDescendantOf(Workspace) then
+						trail.Enabled = false
+					end
+				end
+			end
+		end
+	end)
 
 	Workspace.DescendantAdded:Connect(function(d)
 		if d:IsA("Beam") then

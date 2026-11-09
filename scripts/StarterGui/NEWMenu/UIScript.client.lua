@@ -70,7 +70,12 @@ if mainMenu then
 	mainMenu.Position = UDim2.new(0, 0, -1, 0)
 	task.spawn(function()
 		local deadline = os.clock() + 60
+		local graceEnd = os.clock() + 5
 		while not player:GetAttribute("PreloadingDone") and os.clock() < deadline do
+			local pg = player:FindFirstChild("PlayerGui")
+			if os.clock() > graceEnd and not (pg and pg:FindFirstChild("Preload")) then
+				break
+			end
 			task.wait(0.1)
 		end
 		task.wait(0.1)
@@ -235,6 +240,8 @@ local function waitForMorphReady(timeout)
 end
 
 local playing = false
+local MIN_LOADING_SECONDS = 1.6
+local loadingToken = 0
 
 local function startPlay()
 	if playing then return end
@@ -284,7 +291,11 @@ local function startPlay()
 		if gameInterface then gameInterface.Visible = false end
 	end
 
+	local loadingShownAt = os.clock()
+	loadingToken += 1
+	local myToken = loadingToken
 	if loadingFrame then
+		cancelTween(loadingFrame)
 		loadingFrame.Visible = true
 		loadingFrame.Position = UDim2.new(0, 0, -1, 0)
 		local slideIn = playTween(loadingFrame, loadingTweenInfo, { Position = MENU_SHOWN })
@@ -295,6 +306,11 @@ local function startPlay()
 		end)
 	elseif mainMenu then
 		mainMenu.Visible = false
+	end
+
+	if mainMenu then
+		cancelTween(mainMenu)
+		playTween(mainMenu, tweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
 	end
 
 	if not waitForMorphReady(15) then
@@ -359,11 +375,15 @@ local function startPlay()
 
 	player:SetAttribute("HasMorphed", true)
 	task.wait(0.25)
+	local remaining = loadingShownAt + MIN_LOADING_SECONDS - os.clock()
+	if remaining > 0 then
+		task.wait(remaining)
+	end
 
 	if loadingFrame then
 		local slideOut = playTween(loadingFrame, loadingTweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
 		slideOut.Completed:Connect(function(state)
-			if state == Enum.PlaybackState.Completed then
+			if state == Enum.PlaybackState.Completed and myToken == loadingToken then
 				loadingFrame.Visible = false
 			end
 		end)

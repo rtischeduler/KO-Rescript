@@ -6,6 +6,11 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local gui = script.Parent
 
+if gui.Parent ~= playerGui then
+	gui:Destroy()
+	return
+end
+
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.DisplayOrder = 100
@@ -19,8 +24,8 @@ local function releaseMenu()
 end
 
 local function shutDown()
-	gui.Enabled = false
 	releaseMenu()
+	gui:Destroy()
 end
 
 if player:GetAttribute("PreloadingDone") or player:GetAttribute("HasMorphed") then
@@ -101,10 +106,7 @@ local function finish()
 	tween:Play()
 	tween.Completed:Wait()
 
-	gui.Enabled = false
-	gui:GetPropertyChangedSignal("Enabled"):Connect(function()
-		if gui.Enabled then gui.Enabled = false end
-	end)
+	gui:Destroy()
 end
 
 clicky.Activated:Connect(function()

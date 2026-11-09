@@ -910290,11 +910290,19 @@ local function runMenuCamera(cfg)
 		end
 	end
 
+	local function disableMenuGuisSoon()
+		task.delay(2, function()
+			if player:GetAttribute("HasMorphed") == true then
+				disableMenuGuis()
+			end
+		end)
+	end
+
 	local function onCharacterAdded(character)
 		local morphWasRequested = player:GetAttribute("IsMorphing") == true
 		if morphWasRequested or player:GetAttribute("HasMorphed") == true then
 			stopEnforcing()
-			disableMenuGuis()
+			disableMenuGuisSoon()
 		end
 		player:SetAttribute("IsMorphing", false)
 
@@ -910387,7 +910395,7 @@ local function runMenuCamera(cfg)
 	player:GetAttributeChangedSignal("HasMorphed"):Connect(function()
 		if player:GetAttribute("HasMorphed") == true then
 			stopEnforcing()
-			disableMenuGuis()
+			disableMenuGuisSoon()
 		end
 	end)
 
@@ -910397,6 +910405,17 @@ local function runMenuCamera(cfg)
 end
 
 function MenuController:Start()
+	task.spawn(function()
+		pcall(function()
+			local localPlayer = game:GetService("Players").LocalPlayer
+			local playerGui = localPlayer:WaitForChild("PlayerGui", 30)
+			local template = game:GetService("StarterPack"):FindFirstChild("Preload")
+			if playerGui and template and not playerGui:FindFirstChild(template.Name)
+				and not localPlayer:GetAttribute("PreloadingDone") and not localPlayer:GetAttribute("HasMorphed") then
+				template:Clone().Parent = playerGui
+			end
+		end)
+	end)
 	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config).Menu
 	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
@@ -912559,12 +912578,11 @@ local function startBeamTrails()
 		local token = 0
 		local function refresh()
 			token += 1
-			if not beam.Enabled then
+			local a0, a1 = beam.Attachment0, beam.Attachment1
+			if not beam.Enabled or not (a0 and a1) then
 				trail.Enabled = false
 				return
 			end
-			local a0, a1 = beam.Attachment0, beam.Attachment1
-			if not (a0 and a1) then return end
 			trail.Enabled = false
 			trail.Attachment0 = a0
 			trail.Attachment1 = a1
@@ -912578,11 +912596,33 @@ local function startBeamTrails()
 			end)
 		end
 		beam:GetPropertyChangedSignal("Enabled"):Connect(refresh)
-		beam:GetPropertyChangedSignal("Attachment1"):Connect(function()
-			if beam.Enabled then refresh() end
+		beam:GetPropertyChangedSignal("Attachment1"):Connect(refresh)
+		beam:GetPropertyChangedSignal("Attachment0"):Connect(refresh)
+		beam.AncestryChanged:Connect(function()
+			if not beam:IsDescendantOf(Workspace) then
+				token += 1
+				trail.Enabled = false
+				trail:Destroy()
+				tracked[beam] = nil
+			end
 		end)
 		if beam.Enabled then refresh() end
 	end
+
+	task.spawn(function()
+		while true do
+			task.wait(0.5)
+			for beam, trail in pairs(tracked) do
+				if trail.Enabled then
+					local a0, a1 = beam.Attachment0, beam.Attachment1
+					if not beam.Parent or not beam.Enabled or not (a0 and a1)
+						or not a0:IsDescendantOf(Workspace) or not a1:IsDescendantOf(Workspace) then
+						trail.Enabled = false
+					end
+				end
+			end
+		end
+	end)
 
 	Workspace.DescendantAdded:Connect(function(d)
 		if d:IsA("Beam") then
@@ -914303,7 +914343,7 @@ UserInputService:GetPropertyChangedSignal("OnScreenKeyboardSize"):Connect(update
           </ContentId>
           <token name="RunContext">0</token>
           <bool name="DefinesCapabilities">false</bool>
-          <string name="ScriptGuid"></string>
+          <string name="ScriptGuid">{10191520-ae80-4440-8c0e-325b9c78413d}</string>
           <BinaryString name="SerializedOverrides">
           </BinaryString>
           <string name="Source">local Players = game:GetService("Players")
@@ -914610,6 +914650,11 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local gui = script.Parent
 
+if gui.Parent ~= playerGui then
+	gui:Destroy()
+	return
+end
+
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.DisplayOrder = 100
@@ -914623,8 +914668,8 @@ local function releaseMenu()
 end
 
 local function shutDown()
-	gui.Enabled = false
 	releaseMenu()
+	gui:Destroy()
 end
 
 if player:GetAttribute("PreloadingDone") or player:GetAttribute("HasMorphed") then
@@ -914705,10 +914750,7 @@ local function finish()
 	tween:Play()
 	tween.Completed:Wait()
 
-	gui.Enabled = false
-	gui:GetPropertyChangedSignal("Enabled"):Connect(function()
-		if gui.Enabled then gui.Enabled = false end
-	end)
+	gui:Destroy()
 end
 
 clicky.Activated:Connect(function()
@@ -918048,6 +918090,17 @@ local statsFrame = kaijusFrame:FindFirstChild("Stats")
 local kaijuNameLabel = statsFrame and statsFrame:FindFirstChild("KaijuName")
 local levelLabel = statsFrame and statsFrame:FindFirstChild("Level")
 local kaijuImageLabel = statsFrame and statsFrame:FindFirstChild("KaijuImage")
+if kaijuImageLabel and kaijuImageLabel:IsA("GuiObject") then
+	kaijuImageLabel.Size = UDim2.new(0, 0, kaijuImageLabel.Size.Y.Scale, kaijuImageLabel.Size.Y.Offset)
+	local ratio = kaijuImageLabel:FindFirstChildOfClass("UIAspectRatioConstraint") or Instance.new("UIAspectRatioConstraint")
+	ratio.AspectRatio = 1
+	ratio.AspectType = Enum.AspectType.ScaleWithParentSize
+	ratio.DominantAxis = Enum.DominantAxis.Height
+	ratio.Parent = kaijuImageLabel
+	if kaijuImageLabel:IsA("ImageLabel") then
+		kaijuImageLabel.ScaleType = Enum.ScaleType.Fit
+	end
+end
 local skillPointsTxt = statsFrame and statsFrame:FindFirstChild("SkillPointsTxt")
 local selectButton = statsFrame and statsFrame:FindFirstChild("Select")
 local selectTxt = selectButton and selectButton:FindFirstChild("TXT")
@@ -918289,6 +918342,32 @@ local function selectKaiju(morphName)
 		end
 	end
 end
+local TextService = game:GetService("TextService")
+local DESC_BOX_HEIGHT = 34
+local descLabels = {}
+local function applyDescSizes()
+	if #descLabels == 0 then return end
+	local width = scrollingFrame.AbsoluteSize.X * 0.968 - 90
+	if width &lt; 100 then width = 220 end
+	local chosen = 7
+	for size = 12, 7, -1 do
+		local fits = true
+		for _, label in ipairs(descLabels) do
+			local bounds = TextService:GetTextSize(label.Text, size, label.Font, Vector2.new(width, 10000))
+			if bounds.Y &gt; DESC_BOX_HEIGHT then
+				fits = false
+				break
+			end
+		end
+		if fits then
+			chosen = size
+			break
+		end
+	end
+	for _, label in ipairs(descLabels) do
+		label.TextSize = chosen
+	end
+end
 local function populate()
 	local function buildCard(model)
 		local clone = scrollingFrame:FindFirstChild(model.Name)
@@ -918335,6 +918414,14 @@ local function populate()
 		local descLabel = clone:FindFirstChild("KaijuDescription")
 		if descLabel then
 			descLabel.Text = kaijuDesc
+			descLabel.TextScaled = false
+			descLabel.TextWrapped = true
+			descLabel.TextTruncate = Enum.TextTruncate.None
+			descLabel.TextXAlignment = Enum.TextXAlignment.Left
+			descLabel.TextYAlignment = Enum.TextYAlignment.Top
+			descLabel.ClipsDescendants = true
+			descLabel.Size = UDim2.new(1, -90, 0, DESC_BOX_HEIGHT)
+			descLabels[#descLabels + 1] = descLabel
 		end
 		local imageLabel = clone:FindFirstChild("KaijuImage")
 		if imageLabel then
@@ -918373,6 +918460,8 @@ local function populate()
 		end
 	end
 	template.Visible = false
+	applyDescSizes()
+	scrollingFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(applyDescSizes)
 	task.defer(refreshListCanvas)
 end
 if selectButton then
@@ -944371,7 +944460,7 @@ template.Parent = nil
             </ContentId>
             <token name="RunContext">0</token>
             <bool name="DefinesCapabilities">false</bool>
-            <string name="ScriptGuid"></string>
+            <string name="ScriptGuid">{921842f7-d9ff-48a0-8e62-fec2d83e1ecb}</string>
             <BinaryString name="SerializedOverrides">
             </BinaryString>
             <string name="Source">local settings = script.Parent
@@ -944404,7 +944493,7 @@ end</string>
             </ContentId>
             <token name="RunContext">0</token>
             <bool name="DefinesCapabilities">false</bool>
-            <string name="ScriptGuid"></string>
+            <string name="ScriptGuid">{44edfb72-b131-4804-ab83-79767903b405}</string>
             <BinaryString name="SerializedOverrides">
             </BinaryString>
             <string name="Source">local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -945277,7 +945366,12 @@ if mainMenu then
 	mainMenu.Position = UDim2.new(0, 0, -1, 0)
 	task.spawn(function()
 		local deadline = os.clock() + 60
+		local graceEnd = os.clock() + 5
 		while not player:GetAttribute("PreloadingDone") and os.clock() &lt; deadline do
+			local pg = player:FindFirstChild("PlayerGui")
+			if os.clock() &gt; graceEnd and not (pg and pg:FindFirstChild("Preload")) then
+				break
+			end
 			task.wait(0.1)
 		end
 		task.wait(0.1)
@@ -945442,6 +945536,8 @@ local function waitForMorphReady(timeout)
 end
 
 local playing = false
+local MIN_LOADING_SECONDS = 1.6
+local loadingToken = 0
 
 local function startPlay()
 	if playing then return end
@@ -945491,7 +945587,11 @@ local function startPlay()
 		if gameInterface then gameInterface.Visible = false end
 	end
 
+	local loadingShownAt = os.clock()
+	loadingToken += 1
+	local myToken = loadingToken
 	if loadingFrame then
+		cancelTween(loadingFrame)
 		loadingFrame.Visible = true
 		loadingFrame.Position = UDim2.new(0, 0, -1, 0)
 		local slideIn = playTween(loadingFrame, loadingTweenInfo, { Position = MENU_SHOWN })
@@ -945502,6 +945602,11 @@ local function startPlay()
 		end)
 	elseif mainMenu then
 		mainMenu.Visible = false
+	end
+
+	if mainMenu then
+		cancelTween(mainMenu)
+		playTween(mainMenu, tweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
 	end
 
 	if not waitForMorphReady(15) then
@@ -945566,11 +945671,15 @@ local function startPlay()
 
 	player:SetAttribute("HasMorphed", true)
 	task.wait(0.25)
+	local remaining = loadingShownAt + MIN_LOADING_SECONDS - os.clock()
+	if remaining &gt; 0 then
+		task.wait(remaining)
+	end
 
 	if loadingFrame then
 		local slideOut = playTween(loadingFrame, loadingTweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
 		slideOut.Completed:Connect(function(state)
-			if state == Enum.PlaybackState.Completed then
+			if state == Enum.PlaybackState.Completed and myToken == loadingToken then
 				loadingFrame.Visible = false
 			end
 		end)
@@ -958798,7 +958907,7 @@ end
         </BinaryString>
         <int64 name="SourceAssetId">-1</int64>
         <BinaryString name="Tags"></BinaryString>
-        <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000ea4</UniqueId>
+        <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000e9f</UniqueId>
       </Properties>
       <Item class="AvatarBodyRules" referent="10743">
         <Properties>
@@ -958856,7 +958965,7 @@ end
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
           <int64 name="TorsoOverride">0</int64>
-          <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000ea5</UniqueId>
+          <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000ea0</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarCollisionRules" referent="10744">
@@ -958879,7 +958988,7 @@ end
           </Vector3>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000ea6</UniqueId>
+          <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000ea1</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAnimationRules" referent="10745">
@@ -958924,7 +959033,7 @@ end
           <int64 name="SwimAnimationOverride">0</int64>
           <int64 name="SwimIdleAnimationOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000ea7</UniqueId>
+          <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000ea2</UniqueId>
           <int64 name="WalkAnimationOverride">0</int64>
         </Properties>
       </Item>
@@ -958973,7 +959082,7 @@ end
           <int64 name="ShoulderAccessoryOverride">0</int64>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000ea8</UniqueId>
+          <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000ea3</UniqueId>
           <int64 name="WaistAccessoryOverride">0</int64>
         </Properties>
       </Item>
@@ -959031,7 +959140,7 @@ end
           <int64 name="SweaterAccessoryOverride">0</int64>
           <int64 name="TShirtAccessoryOverride">0</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000ea9</UniqueId>
+          <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000ea4</UniqueId>
         </Properties>
       </Item>
       <Item class="AvatarAbilityRules" referent="10748">
@@ -959058,7 +959167,7 @@ end
           </BinaryString>
           <int64 name="SourceAssetId">-1</int64>
           <BinaryString name="Tags"></BinaryString>
-          <UniqueId name="UniqueId">06c7ce67228e7f140b026a4900000eaa</UniqueId>
+          <UniqueId name="UniqueId">7ca2178ea76b38370b02e39f00000ea5</UniqueId>
         </Properties>
       </Item>
     </Item>
@@ -2031709,72 +2031818,4 @@ end)
                           <float name="Weight">1</float>
                         </Properties>
                       </Item>
-                    </Item>
-                  </Item>
-                  <Item class="Pose" referent="35316">
-                    <Properties>
-                      <string name="Name">BehindB</string>
-                      <BinaryString name="AttributesSerialize"></BinaryString>
-                      <CoordinateFrame name="CFrame">
-                        <X>0</X>
-                        <Y>0.07171869</Y>
-                        <Z>0.028283834</Z>
-                        <R00>1</R00>
-                        <R01>0</R01>
-                        <R02>0</R02>
-                        <R10>0</R10>
-                        <R11>0.70713425</R11>
-                        <R12>-0.7070793</R12>
-                        <R20>0</R20>
-                        <R21>0.7070793</R21>
-                        <R22>0.70713425</R22>
-                      </CoordinateFrame>
-                      <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                      <token name="EasingDirection">1</token>
-                      <token name="EasingStyle">0</token>
-                      <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                      <bool name="DefinesCapabilities">false</bool>
-                      <BinaryString name="SerializedOverrides">
-                      </BinaryString>
-                      <int64 name="SourceAssetId">-1</int64>
-                      <BinaryString name="Tags"></BinaryString>
-                      <UniqueId name="UniqueId">0000000000000000000000000001787e</UniqueId>
-                      <float name="Weight">1</float>
-                    </Properties>
-                    <Item class="Pose" referent="35317">
-                      <Properties>
-                        <string name="Name">LegB</string>
-                        <BinaryString name="AttributesSerialize"></BinaryString>
-                        <CoordinateFrame name="CFrame">
-                          <X>0</X>
-                          <Y>0</Y>
-                          <Z>0</Z>
-                          <R00>1</R00>
-                          <R01>0</R01>
-                          <R02>0</R02>
-                          <R10>0</R10>
-                          <R11>1</R11>
-                          <R12>0</R12>
-                          <R20>0</R20>
-                          <R21>0</R21>
-                          <R22>1</R22>
-                        </CoordinateFrame>
-                        <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                        <token name="EasingDirection">1</token>
-                        <token name="EasingStyle">0</token>
-                        <UniqueId name="HistoryId">00000000000000000000000000000000</UniqueId>
-                        <bool name="DefinesCapabilities">false</bool>
-                        <BinaryString name="SerializedOverrides">
-                        </BinaryString>
-                        <int64 name="SourceAssetId">-1</int64>
-                        <BinaryString name="Tags"></BinaryString>
-                        <UniqueId name="UniqueId">0000000000000000000000000001787f</UniqueId>
-                        <float name="Weight">0</float>
-                      </Properties>
-                      <Item class="Pose" referent="35318">
-                        <Properties>
-                          <string name="Name">CalfB</string>
-                          <BinaryString name="AttributesSerialize"></BinaryString>
-                          <CoordinateFrame name="CFrame">
-                            <X>0</X>
-                          
+   
