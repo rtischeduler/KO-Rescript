@@ -152,15 +152,6 @@ function Data.Init()
 
 		local SelectedKaijuStore = DataStoreService:GetDataStore("SelectedKaiju")
 		local playerSelectedKaiju = {}
-		local selectedLoaded = {}
-		local DEFAULT_KAIJU = "GOJIRA [FREE]"
-
-		local function waitSelectedLoaded(player)
-			local started = os.clock()
-			while not selectedLoaded[player.UserId] and player.Parent and os.clock() - started < 10 do
-				task.wait(0.1)
-			end
-		end
 
 		local getSelectedKaijuFunc = Instance.new("RemoteFunction")
 		getSelectedKaijuFunc.Name = "GetSelectedKaiju"
@@ -535,9 +526,6 @@ function Data.Init()
 				warn("Error in buyKaiju: " .. tostring(buySuccess))
 				buyKaijuEvent:FireClient(player, kaijuName, false, "Server error")
 			else
-				if _G.LogShopPurchase then
-					_G.LogShopPurchase(player, kaijuName, buySuccess == true, buyMessage)
-				end
 				buyKaijuEvent:FireClient(player, kaijuName, buySuccess, buyMessage)
 			end
 		end)
@@ -546,21 +534,20 @@ function Data.Init()
 			return gamepassKaijus
 		end
 
+		local DEFAULT_KAIJU = "GOJIRA [FREE]"
+
 		getSelectedKaijuFunc.OnServerInvoke = function(player)
-			waitSelectedLoaded(player)
-			local selected = playerSelectedKaiju[player.UserId] or DEFAULT_KAIJU
-			return nameMapping[selected] or selected
+			local selected = playerSelectedKaiju[player.UserId]
+			return nameMapping[selected] or selected or DEFAULT_KAIJU
 		end
 
 		_G.KUNGetSelectedKaiju = function(player)
-			waitSelectedLoaded(player)
-			local selected = playerSelectedKaiju[player.UserId] or DEFAULT_KAIJU
-			return nameMapping[selected] or selected
+			local selected = playerSelectedKaiju[player.UserId]
+			return nameMapping[selected] or selected or DEFAULT_KAIJU
 		end
 
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
 			if type(morphName) ~= "string" then return end
-			waitSelectedLoaded(player)
 			morphName = nameMapping[morphName] or morphName
 			if morphName == "MG21" and string.lower(player.Name) ~= "l0tzie" then return end
 			if not Morphs or not Morphs:FindFirstChild(morphName, true) then return end
@@ -572,24 +559,26 @@ function Data.Init()
 		end)
 
 		local function loadSelectedKaiju(player)
-			local success, data = pcall(function()
-				return SelectedKaijuStore:GetAsync(tostring(player.UserId))
-			end)
+			local success, data
+			for _ = 1, 3 do
+				success, data = pcall(function()
+					return SelectedKaijuStore:GetAsync(tostring(player.UserId))
+				end)
+				if success then break end
+				task.wait(1)
+			end
+			if playerSelectedKaiju[player.UserId] ~= nil then
+				return
+			end
 			local canonicalName = nameMapping[data] or data
 			if success and type(data) == "string" and ownsKaiju(player, canonicalName) then
 				playerSelectedKaiju[player.UserId] = canonicalName
-			else
-				playerSelectedKaiju[player.UserId] = nil
 			end
-			selectedLoaded[player.UserId] = true
 		end
 
 		local function saveSelectedKaiju(player)
 			local data = playerSelectedKaiju[player.UserId]
 			if data == nil then
-				pcall(function()
-					SelectedKaijuStore:RemoveAsync(tostring(player.UserId))
-				end)
 				return
 			end
 			local success, err = pcall(function()
@@ -697,7 +686,6 @@ function Data.Init()
 			saveSelectedKaiju(player)
 			playerKaijus[player.UserId] = nil
 			playerSelectedKaiju[player.UserId] = nil
-			selectedLoaded[player.UserId] = nil
 			playerGamepassCache[player.UserId] = nil
 		end
 
