@@ -4,11 +4,17 @@ function MorphService:Init()
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	local ServerScriptService = game:GetService("ServerScriptService")
 	local Workspace = game:GetService("Workspace")
+	local Players = game:GetService("Players")
 
 	local framework = script:FindFirstAncestor("Server")
 	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
 	local Logger = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Logger"))
-	local cfg = require(framework.Config).Morph
+	local fullCfg = require(framework.Config)
+	local cfg = fullCfg.Morph
+	local starterNames = {}
+	for _, name in ipairs(fullCfg.RewardScaling.FreeMorphs) do
+		starterNames[name] = true
+	end
 	local log = Logger.new("Morph")
 
 	if ServerScriptService:GetAttribute("MorphBootstrapActive") then
@@ -55,7 +61,7 @@ function MorphService:Init()
 
 	local lastSpawnPoints = setmetatable({}, { __mode = "k" })
 
-	local function pickSpawnPoint(player, folder)
+	local function pickSpawnPoint(player, folder, safeFromThreats)
 		if not folder then
 			return nil
 		end
@@ -67,6 +73,29 @@ function MorphService:Init()
 		end
 		if #candidates == 0 then
 			return nil
+		end
+		if safeFromThreats then
+			local threats = {}
+			for _, other in ipairs(Players:GetPlayers()) do
+				local character = other ~= player and other.Character
+				local kaiju = character and character:FindFirstChild("Kaiju")
+				if kaiju and kaiju:IsA("StringValue") and not starterNames[kaiju.Value] then
+					table.insert(threats, character:GetPivot().Position)
+				end
+			end
+			if #threats > 0 then
+				local best, bestDistance = nil, -1
+				for _, candidate in ipairs(candidates) do
+					local nearest = math.huge
+					for _, position in ipairs(threats) do
+						nearest = math.min(nearest, (candidate.Position - position).Magnitude)
+					end
+					if nearest > bestDistance then
+						best, bestDistance = candidate, nearest
+					end
+				end
+				return best
+			end
 		end
 		local record = lastSpawnPoints[player]
 		if not record then
@@ -89,7 +118,7 @@ function MorphService:Init()
 	local function pickSpawnCFrame(player, morphName)
 		local isTank = tankSpawnMorphs[morphName] == true
 		local folder = Workspace:FindFirstChild(isTank and "TankSpawns" or "SpawnPoints")
-		local point = pickSpawnPoint(player, folder)
+		local point = pickSpawnPoint(player, folder, starterNames[morphName] == true and not isTank)
 		if point then
 			return point.CFrame + Vector3.new(0, isTank and cfg.TankSpawnHeight or cfg.SpawnHeight, 0)
 		end
