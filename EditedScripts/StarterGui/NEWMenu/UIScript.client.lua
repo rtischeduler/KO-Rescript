@@ -235,6 +235,8 @@ local function waitForMorphReady(timeout)
 end
 
 local playing = false
+local MIN_LOADING_SECONDS = 1.6
+local loadingToken = 0
 
 local function startPlay()
 	if playing then return end
@@ -284,7 +286,11 @@ local function startPlay()
 		if gameInterface then gameInterface.Visible = false end
 	end
 
+	local loadingShownAt = os.clock()
+	loadingToken += 1
+	local myToken = loadingToken
 	if loadingFrame then
+		cancelTween(loadingFrame)
 		loadingFrame.Visible = true
 		loadingFrame.Position = UDim2.new(0, 0, -1, 0)
 		local slideIn = playTween(loadingFrame, loadingTweenInfo, { Position = MENU_SHOWN })
@@ -359,11 +365,15 @@ local function startPlay()
 
 	player:SetAttribute("HasMorphed", true)
 	task.wait(0.25)
+	local remaining = loadingShownAt + MIN_LOADING_SECONDS - os.clock()
+	if remaining > 0 then
+		task.wait(remaining)
+	end
 
 	if loadingFrame then
 		local slideOut = playTween(loadingFrame, loadingTweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
 		slideOut.Completed:Connect(function(state)
-			if state == Enum.PlaybackState.Completed then
+			if state == Enum.PlaybackState.Completed and myToken == loadingToken then
 				loadingFrame.Visible = false
 			end
 		end)
