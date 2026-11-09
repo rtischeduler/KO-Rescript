@@ -1,2 +1,2 @@
-ServerScriptService/Server/Config.lua
-ServerScriptService/Server/Services/RewardScalingService.lua
+ServerScriptService/Server/init.server.lua
+ServerScriptService/Server/Services/FunnelService.lua
