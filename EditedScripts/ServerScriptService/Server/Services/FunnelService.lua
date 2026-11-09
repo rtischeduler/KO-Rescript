@@ -63,8 +63,6 @@ function FunnelService:Init()
 		if success then
 			funnel(player, "Shop", 2, "Purchase Success", fields)
 		else
-			fields[Enum.AnalyticsCustomFieldKeys.CustomField02.Name] = tostring(reason)
-			funnel(player, "Shop", 1, "Purchase Attempt", fields)
 		end
 		sessions[player] = nil
 	end

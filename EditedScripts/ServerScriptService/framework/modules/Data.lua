@@ -526,6 +526,9 @@ function Data.Init()
 				warn("Error in buyKaiju: " .. tostring(buySuccess))
 				buyKaijuEvent:FireClient(player, kaijuName, false, "Server error")
 			else
+				if _G.LogShopPurchase then
+					_G.LogShopPurchase(player, kaijuName, buySuccess == true, buyMessage)
+				end
 				buyKaijuEvent:FireClient(player, kaijuName, buySuccess, buyMessage)
 			end
 		end)
