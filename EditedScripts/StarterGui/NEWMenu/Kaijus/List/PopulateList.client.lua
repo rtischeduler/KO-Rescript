@@ -326,10 +326,10 @@ local function populate()
 		local descLabel = clone:FindFirstChild("KaijuDescription")
 		if descLabel then
 			descLabel.Text = kaijuDesc
-			descLabel.TextScaled = false
-			descLabel.TextSize = 12
+			descLabel.TextScaled = true
+			descLabel.MaxTextSize = 9
 			descLabel.TextWrapped = true
-			descLabel.TextTruncate = Enum.TextTruncate.AtEnd
+			descLabel.TextTruncate = Enum.TextTruncate.None
 			descLabel.TextXAlignment = Enum.TextXAlignment.Left
 			descLabel.TextYAlignment = Enum.TextYAlignment.Top
 			descLabel.ClipsDescendants = true
