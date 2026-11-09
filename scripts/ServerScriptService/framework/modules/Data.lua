@@ -539,6 +539,11 @@ function Data.Init()
 			return nameMapping[selected] or selected
 		end
 
+		_G.KUNGetSelectedKaiju = function(player)
+			local selected = playerSelectedKaiju[player.UserId]
+			return nameMapping[selected] or selected
+		end
+
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
 			if type(morphName) ~= "string" then return end
 			morphName = nameMapping[morphName] or morphName

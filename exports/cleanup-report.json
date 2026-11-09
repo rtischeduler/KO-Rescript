@@ -1,6 +1,6 @@
 {
   "totals": {
-    "scripts": 750,
+    "scripts": 755,
     "events": 428,
     "modules_never_required": 2,
     "modules_maybe_loaded_dynamically": 28,

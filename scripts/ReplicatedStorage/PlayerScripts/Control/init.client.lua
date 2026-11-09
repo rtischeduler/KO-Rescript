@@ -65,8 +65,16 @@ local WADE_OUT_MARGIN = 2
 local WATER_REPORT_DELAY = 0.25
 local MAX_PITCH = math.rad(80)
 
-local ASCEND_KEYS = { Enum.KeyCode.Q, Enum.KeyCode.Space }
-local DESCEND_KEYS = { Enum.KeyCode.E }
+local KOSettings = require(game:GetService("ReplicatedStorage"):WaitForChild("KOSettings"))
+local ASCEND_KEYS = { KOSettings.KeyCode("Ascend"), Enum.KeyCode.Space }
+local DESCEND_KEYS = { KOSettings.KeyCode("Descend") }
+KOSettings.OnChanged(function(name)
+	if name == "Key_Ascend" then
+		ASCEND_KEYS[1] = KOSettings.KeyCode("Ascend")
+	elseif name == "Key_Descend" then
+		DESCEND_KEYS[1] = KOSettings.KeyCode("Descend")
+	end
+end)
 
 local baseHipHeight = humanoid.HipHeight
 local originalHipHeight = baseHipHeight
@@ -977,7 +985,7 @@ humanoid.Died:Connect(function()
 end)
 
 UserInputService.InputBegan:Connect(function(input, processed)
-	if processed or input.KeyCode ~= Enum.KeyCode.F then return end
+	if processed or KOSettings.IsRebinding() or input.KeyCode ~= KOSettings.KeyCode("Fly") then return end
 	local canFly = character:FindFirstChild("canFly")
 	if not (canFly and canFly.Value == true and sprintOn) then return end
 	if mode == "Fly" then
@@ -1034,11 +1042,19 @@ end
 
 runValue:GetPropertyChangedSignal("Value"):Connect(onRunChanged)
 
-ContextActionService:BindAction("RunBind", function(_, inputState)
+local function runBindHandler(_, inputState)
 	if inputState ~= Enum.UserInputState.Begin then return end
+	if KOSettings.IsRebinding() then return end
 	if humanoid:GetAttribute("Slowed") then return end
 	runValue.Value = not runValue.Value
-end, false, Enum.KeyCode.LeftShift)
+end
+ContextActionService:BindAction("RunBind", runBindHandler, false, KOSettings.KeyCode("Sprint"))
+KOSettings.OnChanged(function(name)
+	if name == "Key_Sprint" then
+		ContextActionService:UnbindAction("RunBind")
+		ContextActionService:BindAction("RunBind", runBindHandler, false, KOSettings.KeyCode("Sprint"))
+	end
+end)
 
 humanoid:GetAttributeChangedSignal("Slowed"):Connect(function()
 	if humanoid:GetAttribute("Slowed") and runValue.Value then

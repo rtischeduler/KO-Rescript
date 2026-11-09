@@ -36,6 +36,7 @@ function IndicatorsController:Start()
 		local player = Players.LocalPlayer
 		local remote = ReplicatedStorage:WaitForChild("RewardIndicator")
 		local playerGui = player:WaitForChild("PlayerGui")
+		local KOSettings = require(ReplicatedStorage:WaitForChild("KOSettings"))
 
 		local guiFolder
 		local anchorFolder
@@ -189,12 +190,21 @@ function IndicatorsController:Start()
 			if ownerId ~= player.UserId or typeof(position) ~= "Vector3" then
 				return
 			end
-			pcall(spawnIndicator, position, {
-				damage = tonumber(damage) or 0,
-				gcells = tonumber(gcells) or 0,
-				xp = tonumber(xp) or 0,
-				candy = tonumber(candy) or 0,
-			})
+			local showDamage = KOSettings.Get("DamageIndicator")
+			local showGCells = KOSettings.Get("GCellIndicator")
+			local showXP = KOSettings.Get("XPIndicator")
+			local showCandy = KOSettings.Get("CandyIndicator")
+			local values = {
+				damage = showDamage and tonumber(damage) or 0,
+				gcells = showGCells and tonumber(gcells) or 0,
+				xp = showXP and tonumber(xp) or 0,
+				candy = showCandy and tonumber(candy) or 0,
+			}
+			local allShown = showDamage and showGCells and showXP and showCandy
+			if not allShown and values.damage + values.gcells + values.xp + values.candy <= 0 then
+				return
+			end
+			pcall(spawnIndicator, position, values)
 		end)
 	end)
 end

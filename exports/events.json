@@ -255,10 +255,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "Lighting/KaijusUnused/Godzilla in Hell /CharacterScripts/Attack3",
@@ -268,10 +269,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "Lighting/KaijusUnused/Godzilla in Hell /CharacterScripts/Beam",
@@ -300,10 +302,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/Godzilla in Hell /CharacterScripts/Roar2",
@@ -315,10 +318,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/AnimEvents/Attack1Event",
@@ -388,10 +392,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Attack3",
@@ -401,10 +406,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Beam",
@@ -433,10 +439,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/HEISEI GODZILLA/CharacterScripts/Roar2",
@@ -448,10 +455,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/Human/CharacterScripts/AnimEvents/Attack1Event",
@@ -1133,10 +1141,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Attack3",
@@ -1146,10 +1155,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Beam",
@@ -1178,10 +1188,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/Space Godzilla/CharacterScripts/Roar2",
@@ -1193,10 +1204,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack",
@@ -1204,10 +1216,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3",
@@ -1217,10 +1230,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Beam",
@@ -1249,10 +1263,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2",
@@ -1264,10 +1279,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/KaijusUnused/Tank/CharacterScripts/AnimEvents/Attack1Event",
@@ -1467,10 +1483,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "Lighting/Peak /GODZILLA 2014/CharacterScripts/Attack3",
@@ -1480,10 +1497,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "Lighting/Peak /GODZILLA 2014/CharacterScripts/Beam",
@@ -1512,10 +1530,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "Lighting/Peak /GODZILLA 2014/CharacterScripts/Roar2",
@@ -1527,10 +1546,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ReplicatedStorage/BlindPulse",
@@ -1575,10 +1595,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3",
@@ -1588,10 +1609,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam",
@@ -1620,10 +1642,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Roar2",
@@ -1635,10 +1658,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ReplicatedStorage/GetModifierData",
@@ -1682,10 +1706,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ReplicatedStorage/MINILLA/CharacterScripts/Beam",
@@ -1809,10 +1834,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Attack3",
@@ -1822,10 +1848,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Beam",
@@ -1854,10 +1881,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Roar2",
@@ -1869,10 +1897,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/BIOLLANTE/CharacterScripts/Attack",
@@ -1880,10 +1909,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/BIOLLANTE/CharacterScripts/Attack3",
@@ -1893,10 +1923,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/BIOLLANTE/CharacterScripts/Beam",
@@ -1925,10 +1956,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/BIOLLANTE/CharacterScripts/Roar2",
@@ -1940,10 +1972,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/BURNING GODZILLA/CharacterScripts/Attack",
@@ -1951,10 +1984,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/BURNING GODZILLA/CharacterScripts/Attack3",
@@ -1964,10 +1998,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/BURNING GODZILLA/CharacterScripts/Beam",
@@ -1996,10 +2031,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/BURNING GODZILLA/CharacterScripts/Roar2",
@@ -2011,10 +2047,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/CIVILIAN [FREE]/CharacterScripts/AnimEvents/Attack1Event",
@@ -2090,10 +2127,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack3",
@@ -2103,10 +2141,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Beam",
@@ -2135,10 +2174,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar2",
@@ -2150,10 +2190,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack",
@@ -2161,10 +2202,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack3",
@@ -2174,10 +2216,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4",
@@ -2185,10 +2228,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Beam",
@@ -2217,10 +2261,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2",
@@ -2232,10 +2277,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/FEMALE MUTO/CharacterScripts/Attack",
@@ -2243,10 +2289,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/FEMALE MUTO/CharacterScripts/Attack3",
@@ -2256,10 +2303,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/FEMALE MUTO/CharacterScripts/Beam",
@@ -2288,10 +2336,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/FEMALE MUTO/CharacterScripts/Roar2",
@@ -2303,10 +2352,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/FINAL WARS GODZILLA/CharacterScripts/Attack",
@@ -2314,10 +2364,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/FINAL WARS GODZILLA/CharacterScripts/Attack3",
@@ -2327,10 +2378,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/FINAL WARS GODZILLA/CharacterScripts/Attack4",
@@ -2338,10 +2390,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/FINAL WARS GODZILLA/CharacterScripts/Beam",
@@ -2370,10 +2423,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/FINAL WARS GODZILLA/CharacterScripts/Roar2",
@@ -2385,10 +2439,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/FROSTBITE GODZILLA/CharacterScripts/Attack",
@@ -2396,10 +2451,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/FROSTBITE GODZILLA/CharacterScripts/Attack3",
@@ -2409,10 +2465,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/FROSTBITE GODZILLA/CharacterScripts/Beam",
@@ -2441,10 +2498,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/FROSTBITE GODZILLA/CharacterScripts/Roar2",
@@ -2456,10 +2514,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/GIGAN/CharacterScripts/Attack",
@@ -2467,10 +2526,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/GIGAN/CharacterScripts/Attack/Attack3",
@@ -2480,10 +2540,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/GIGAN/CharacterScripts/Attack3",
@@ -2493,10 +2554,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/GIGAN/CharacterScripts/Beam",
@@ -2525,10 +2587,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/GIGAN/CharacterScripts/Roar2",
@@ -2540,10 +2603,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/GODZILLA 2014/CharacterScripts/Attack",
@@ -2551,10 +2615,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/GODZILLA 2014/CharacterScripts/Attack3",
@@ -2564,10 +2629,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/GODZILLA 2014/CharacterScripts/Beam",
@@ -2596,10 +2662,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/GODZILLA 2014/CharacterScripts/Roar2",
@@ -2611,10 +2678,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/GOJIRA [FREE]/CharacterScripts/Attack",
@@ -2622,10 +2690,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/GOJIRA [FREE]/CharacterScripts/Beam",
@@ -2654,10 +2723,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/GOJIRA [FREE]/CharacterScripts/Roar2",
@@ -2669,10 +2739,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/HEISEI GODZILLA/CharacterScripts/AnimEvents/Attack1Event",
@@ -2742,10 +2813,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/HEISEI GODZILLA/CharacterScripts/Attack3",
@@ -2755,10 +2827,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/HEISEI GODZILLA/CharacterScripts/Beam",
@@ -2787,10 +2860,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/HEISEI GODZILLA/CharacterScripts/Roar2",
@@ -2802,10 +2876,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/CharacterScripts/Attack",
@@ -2813,10 +2888,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/CharacterScripts/Attack3",
@@ -2826,10 +2902,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/CharacterScripts/Beam",
@@ -2858,10 +2935,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Candy Corn Space Godzilla/CharacterScripts/Roar2",
@@ -2873,10 +2951,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Decaying Muto/CharacterScripts/Attack",
@@ -2884,10 +2963,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Decaying Muto/CharacterScripts/Attack3",
@@ -2897,10 +2977,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Decaying Muto/CharacterScripts/Beam",
@@ -2929,10 +3010,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Decaying Muto/CharacterScripts/Roar2",
@@ -2944,10 +3026,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/ENTITY/CharacterScripts/Attack",
@@ -2955,10 +3038,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/ENTITY/CharacterScripts/Attack3",
@@ -2968,10 +3052,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/ENTITY/CharacterScripts/Beam",
@@ -3000,10 +3085,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/ENTITY/CharacterScripts/Roar2",
@@ -3015,10 +3101,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/CharacterScripts/Attack",
@@ -3026,10 +3113,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/CharacterScripts/Attack3",
@@ -3039,10 +3127,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/CharacterScripts/Beam",
@@ -3071,10 +3160,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Final Meltdown/CharacterScripts/Roar2",
@@ -3086,10 +3176,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Ghost Gojira/CharacterScripts/Attack",
@@ -3097,10 +3188,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Ghost Gojira/CharacterScripts/Beam",
@@ -3129,10 +3221,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Ghost Gojira/CharacterScripts/Roar2",
@@ -3144,10 +3237,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /CharacterScripts/Attack",
@@ -3155,10 +3249,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /CharacterScripts/Attack3",
@@ -3168,10 +3263,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /CharacterScripts/Beam",
@@ -3200,10 +3296,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Godzilla in Hell /CharacterScripts/Roar2",
@@ -3215,10 +3312,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Attack",
@@ -3226,10 +3324,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Attack3",
@@ -3239,10 +3338,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Beam",
@@ -3271,10 +3371,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Headless Female Muto/CharacterScripts/Roar2",
@@ -3286,10 +3387,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/CharacterScripts/Attack",
@@ -3297,10 +3399,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/CharacterScripts/Attack3",
@@ -3310,10 +3413,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/CharacterScripts/Beam",
@@ -3342,10 +3446,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Hellfire Rodan/CharacterScripts/Roar2",
@@ -3357,10 +3462,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/CharacterScripts/Attack",
@@ -3368,10 +3474,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/CharacterScripts/Attack3",
@@ -3381,10 +3488,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/CharacterScripts/Beam",
@@ -3413,10 +3521,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Pumpkin Biollante/CharacterScripts/Roar2",
@@ -3428,10 +3537,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/RED/CharacterScripts/Attack",
@@ -3439,10 +3549,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/RED/CharacterScripts/Beam",
@@ -3471,10 +3582,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/RED/CharacterScripts/Roar2",
@@ -3486,10 +3598,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Attack",
@@ -3497,10 +3610,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Halloween/Vampire Minilla/CharacterScripts/Beam",
@@ -3525,10 +3639,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/KING GHIDORAH/CharacterScripts/Attack3",
@@ -3538,10 +3653,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/KING GHIDORAH/CharacterScripts/Beam",
@@ -3570,10 +3686,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/KING GHIDORAH/CharacterScripts/Roar2",
@@ -3585,10 +3702,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/KIRYU/CharacterScripts/Attack",
@@ -3596,10 +3714,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/KIRYU/CharacterScripts/Attack3",
@@ -3609,10 +3728,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/KIRYU/CharacterScripts/Beam",
@@ -3641,10 +3761,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/KIRYU/CharacterScripts/Roar2",
@@ -3656,10 +3777,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/LOTZIGAN/CharacterScripts/Attack",
@@ -3667,10 +3789,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/LOTZIGAN/CharacterScripts/Attack3",
@@ -3680,10 +3803,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/LOTZIGAN/CharacterScripts/Beam",
@@ -3712,10 +3836,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/LOTZIGAN/CharacterScripts/Roar2",
@@ -3727,10 +3852,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/MALE MUTO/CharacterScripts/Attack",
@@ -3738,10 +3864,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/MALE MUTO/CharacterScripts/Attack3",
@@ -3751,10 +3878,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/MALE MUTO/CharacterScripts/Beam",
@@ -3783,10 +3911,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/MALE MUTO/CharacterScripts/Roar2",
@@ -3798,10 +3927,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/MG21/CharacterScripts/Attack",
@@ -3809,10 +3939,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/MG21/CharacterScripts/Beam",
@@ -3841,10 +3972,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/MILITARY TANK [FREE]/CharacterScripts/Attack",
@@ -3852,10 +3984,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/MINILLA/CharacterScripts/Attack",
@@ -3863,10 +3996,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/MINILLA/CharacterScripts/Beam",
@@ -3891,10 +4025,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/MOTHRA/CharacterScripts/Attack3",
@@ -3904,10 +4039,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/MOTHRA/CharacterScripts/Beam",
@@ -3936,10 +4072,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/MOTHRA/CharacterScripts/Roar2",
@@ -3951,10 +4088,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Munto/CharacterScripts/Attack",
@@ -3962,10 +4100,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/Munto/CharacterScripts/Attack3",
@@ -3975,10 +4114,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/Munto/CharacterScripts/Beam",
@@ -4007,10 +4147,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/Munto/CharacterScripts/Roar2",
@@ -4022,10 +4163,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/CharacterScripts/Attack",
@@ -4033,10 +4175,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/CharacterScripts/Attack3",
@@ -4046,10 +4189,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 2 [FREE]/CharacterScripts/Beam",
@@ -4074,10 +4218,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Attack3",
@@ -4087,10 +4232,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Beam",
@@ -4119,10 +4265,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/SHIN FORM 3/CharacterScripts/Roar2",
@@ -4134,10 +4281,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Attack",
@@ -4145,10 +4293,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Attack3",
@@ -4158,10 +4307,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Attack4",
@@ -4169,10 +4319,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Beam",
@@ -4201,10 +4352,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/SHIN GOJIRA/CharacterScripts/Roar2",
@@ -4216,10 +4368,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/SPACE GODZILLA/CharacterScripts/Attack",
@@ -4227,10 +4380,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/SPACE GODZILLA/CharacterScripts/Attack3",
@@ -4240,10 +4394,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/SPACE GODZILLA/CharacterScripts/Beam",
@@ -4272,10 +4427,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/SPACE GODZILLA/CharacterScripts/Roar2",
@@ -4287,10 +4443,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/CharacterScripts/Attack",
@@ -4298,10 +4455,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/CharacterScripts/Attack3",
@@ -4311,10 +4469,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/CharacterScripts/Beam",
@@ -4343,10 +4502,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/THERMONUCLEAR GODZILLA/CharacterScripts/Roar2",
@@ -4358,10 +4518,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS BEHEMOTH/CharacterScripts/Attack",
@@ -4369,10 +4530,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS BEHEMOTH/CharacterScripts/Attack3",
@@ -4382,10 +4544,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS BEHEMOTH/CharacterScripts/Attack4",
@@ -4393,10 +4556,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS BEHEMOTH/CharacterScripts/Beam",
@@ -4425,10 +4589,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS BEHEMOTH/CharacterScripts/Roar2",
@@ -4440,10 +4605,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GHIDORAH/CharacterScripts/Attack",
@@ -4451,10 +4617,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GHIDORAH/CharacterScripts/Attack3",
@@ -4464,10 +4631,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GHIDORAH/CharacterScripts/Beam",
@@ -4496,10 +4664,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GHIDORAH/CharacterScripts/Roar2",
@@ -4511,10 +4680,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GOJIRA/CharacterScripts/Attack",
@@ -4522,10 +4692,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GOJIRA/CharacterScripts/Attack3",
@@ -4535,10 +4706,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GOJIRA/CharacterScripts/Beam",
@@ -4567,10 +4739,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS GOJIRA/CharacterScripts/Roar2",
@@ -4582,10 +4755,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS MOSURA/CharacterScripts/Attack",
@@ -4593,10 +4767,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS MOSURA/CharacterScripts/Attack3",
@@ -4606,10 +4781,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS MOSURA/CharacterScripts/Beam",
@@ -4638,10 +4814,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS MOSURA/CharacterScripts/Roar2",
@@ -4653,10 +4830,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS RODAN/CharacterScripts/Attack",
@@ -4664,10 +4842,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS RODAN/CharacterScripts/Attack3",
@@ -4677,10 +4856,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS RODAN/CharacterScripts/Beam",
@@ -4709,10 +4889,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/TITANUS RODAN/CharacterScripts/Roar2",
@@ -4724,10 +4905,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/UNCMINILLA/CharacterScripts/Attack",
@@ -4735,10 +4917,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/UNCMINILLA/CharacterScripts/Attack3",
@@ -4748,10 +4931,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/UNCMINILLA/CharacterScripts/Beam",
@@ -4780,10 +4964,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/UNCMINILLA/CharacterScripts/Roar2",
@@ -4795,10 +4980,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/VOLCANIC BIOLLANTE/CharacterScripts/Attack",
@@ -4806,10 +4992,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/VOLCANIC BIOLLANTE/CharacterScripts/Attack3",
@@ -4819,10 +5006,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/VOLCANIC BIOLLANTE/CharacterScripts/Beam",
@@ -4851,10 +5039,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/VOLCANIC BIOLLANTE/CharacterScripts/Roar2",
@@ -4866,10 +5055,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack",
@@ -4877,10 +5067,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack2",
@@ -4893,11 +5084,11 @@
         "ReplicatedStorage/CooldownManager",
         "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/FINAL WARS GODZILLA/CharacterScripts/Beam/ServerScript",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
-        "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Beam/ServerScript",
-        "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript"
+        "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Beam/ServerScript"
       ],
-      "reference_count": 11
+      "reference_count": 12
     },
     {
       "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack3",
@@ -4907,10 +5098,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Attack4",
@@ -4918,10 +5110,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/ZILLA/CharacterScripts/Roar1",
@@ -4933,10 +5126,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/thedenis/CharacterScripts/Attack",
@@ -4944,10 +5138,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/Kaijus/thedenis/CharacterScripts/Attack3",
@@ -4957,10 +5152,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/Kaijus/thedenis/CharacterScripts/Beam",
@@ -4989,10 +5185,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/Kaijus/thedenis/CharacterScripts/Roar2",
@@ -5004,10 +5201,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/REDBOSS/CharacterScripts/Attack",
@@ -5015,10 +5213,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/REDBOSS/CharacterScripts/Beam",
@@ -5047,10 +5246,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/REDBOSS/CharacterScripts/Roar2",
@@ -5062,10 +5262,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack",
@@ -5073,10 +5274,11 @@
       "referenced_by": [
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerScriptService/framework/modules/Combat",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 4
+      "reference_count": 5
     },
     {
       "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3",
@@ -5086,10 +5288,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 6
+      "reference_count": 7
     },
     {
       "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam",
@@ -5118,10 +5321,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar1/Roar1Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     },
     {
       "path": "ServerStorage/TITANUS GHIDORAH/CharacterScripts/Roar2",
@@ -5133,10 +5337,11 @@
         "Lighting/KaijusUnused/TITANUS GHIDORAH/CharacterScripts/Roar2/Roar2Script",
         "ReplicatedStorage/ChargeManager",
         "ReplicatedStorage/CooldownManager",
+        "ReplicatedStorage/KOSettings",
         "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
         "StarterGui/GameGui/MainFrame/Interface/Backpack/BackpackScript"
       ],
-      "reference_count": 8
+      "reference_count": 9
     }
   ]
 }

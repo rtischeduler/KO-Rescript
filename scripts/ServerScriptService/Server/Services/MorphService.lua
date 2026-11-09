@@ -119,7 +119,6 @@ function MorphService:Init()
 			if
 				restrictedKaiju[string.lower(selectedCreature.Name)]
 				and not (allowedPlayers[string.lower(player.Name)] or allowedUserIds[player.UserId])
-				and not (exclusivePlayers and exclusivePlayers[string.lower(player.Name)])
 			then
 				player:Kick("You cannot use this kaiju.")
 				return

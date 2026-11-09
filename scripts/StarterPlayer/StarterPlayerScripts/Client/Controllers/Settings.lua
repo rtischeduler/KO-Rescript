@@ -14,29 +14,48 @@ function SettingsController:Start()
 	local fovShowcase = settingsGui:FindFirstChild("FOVText")
 	local fovSlider = settingsGui:FindFirstChild("FOVBack"):FindFirstChild("FOVFront")
 
-	fovValue.Changed:Connect(function()
-		saveRemote:InvokeServer(fovValue.Value)
-	end)
+	local currentFOV = saveRemote:InvokeServer()
+	local lastSaved = currentFOV
+	local saveQueued = false
 
-	local savedFOV = saveRemote:InvokeServer()
-
-	local function applyFOV()
-		local camera = Workspace.CurrentCamera
-		if camera and savedFOV then
-			camera.FieldOfView = savedFOV
-
-			local clampedNumber = math.clamp(savedFOV, cfg.MinFov, cfg.MaxFov)
-			local calculatedSize = (clampedNumber - cfg.MinFov) / (cfg.MaxFov - cfg.MinFov)
-			fovSlider.Size = UDim2.fromScale(calculatedSize, 1)
-			fovShowcase.Text = tostring(savedFOV)
-		end
+	local function toFov(raw)
+		return math.clamp(math.round(raw > 10 and raw or raw * 100), cfg.MinFov, cfg.MaxFov)
 	end
 
-	applyFOV()
+	local function showFOV(fov)
+		local camera = Workspace.CurrentCamera
+		if camera then
+			camera.FieldOfView = fov
+		end
+		fovSlider.Size = UDim2.fromScale((fov - cfg.MinFov) / (cfg.MaxFov - cfg.MinFov), 1)
+		fovShowcase.Text = tostring(fov)
+	end
+
+	fovValue.Changed:Connect(function()
+		currentFOV = toFov(fovValue.Value)
+		showFOV(currentFOV)
+		if currentFOV == lastSaved or saveQueued then
+			return
+		end
+		saveQueued = true
+		task.delay(0.5, function()
+			saveQueued = false
+			lastSaved = currentFOV
+			saveRemote:InvokeServer(currentFOV)
+		end)
+	end)
+
+	if type(currentFOV) == "number" then
+		currentFOV = toFov(currentFOV)
+		showFOV(currentFOV)
+		fovValue.Value = currentFOV / 100
+	end
 
 	player.CharacterAdded:Connect(function()
 		task.wait()
-		applyFOV()
+		if type(currentFOV) == "number" then
+			showFOV(currentFOV)
+		end
 	end)
 end
 

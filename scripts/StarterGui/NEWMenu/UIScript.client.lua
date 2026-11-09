@@ -169,7 +169,7 @@ if buttonContainer and settingsFrame then
 			cancelTween(settingsFrame)
 			settingsFrame.Visible = true
 			settingsFrame.Position = UDim2.new(0, 0, -1.1, 0)
-			playTween(settingsFrame, tweenInfo, { Position = UDim2.new(0.15, 0, 0.15, 0) })
+			playTween(settingsFrame, tweenInfo, { Position = UDim2.new(0.083, 0, 0.033, 0) })
 			playTween(mainMenu, tweenInfo, { Position = MENU_HIDDEN })
 		end)
 	end
