@@ -1,1 +1,2 @@
-ServerScriptService/Server/Services/MorphService.lua
+ServerScriptService/Server/Config.lua
+ServerScriptService/Server/Services/RewardScalingService.lua
