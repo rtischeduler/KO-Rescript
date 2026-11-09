@@ -1,1 +1,1 @@
-StarterPlayer/StarterPlayerScripts/Client/Controllers/Effects.lua
+StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
