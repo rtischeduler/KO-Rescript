@@ -70,7 +70,12 @@ if mainMenu then
 	mainMenu.Position = UDim2.new(0, 0, -1, 0)
 	task.spawn(function()
 		local deadline = os.clock() + 60
+		local graceEnd = os.clock() + 5
 		while not player:GetAttribute("PreloadingDone") and os.clock() < deadline do
+			local pg = player:FindFirstChild("PlayerGui")
+			if os.clock() > graceEnd and not (pg and pg:FindFirstChild("Preload")) then
+				break
+			end
 			task.wait(0.1)
 		end
 		task.wait(0.1)

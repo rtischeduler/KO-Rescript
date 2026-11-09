@@ -6,6 +6,11 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local gui = script.Parent
 
+if gui.Parent ~= playerGui then
+	gui:Destroy()
+	return
+end
+
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
 gui.DisplayOrder = 100
@@ -19,8 +24,8 @@ local function releaseMenu()
 end
 
 local function shutDown()
-	gui.Enabled = false
 	releaseMenu()
+	gui:Destroy()
 end
 
 if player:GetAttribute("PreloadingDone") or player:GetAttribute("HasMorphed") then
@@ -41,8 +46,7 @@ if not mainFrame or not preloadText or not mover or not clicky then
 	return
 end
 
-local WORKER_COUNT = 16
-local MAX_PRELOAD_SECONDS = 10
+local WORKER_COUNT = 8
 local ASSET_TIMEOUT = 3
 
 local moverXOffset = mover.Size.X.Offset
@@ -102,10 +106,7 @@ local function finish()
 	tween:Play()
 	tween.Completed:Wait()
 
-	gui.Enabled = false
-	gui:GetPropertyChangedSignal("Enabled"):Connect(function()
-		if gui.Enabled then gui.Enabled = false end
-	end)
+	gui:Destroy()
 end
 
 clicky.Activated:Connect(function()
@@ -147,12 +148,7 @@ task.spawn(function()
 		task.spawn(worker)
 	end
 
-	local startedAt = os.clock()
 	while (activeWorkers > 0 or nextIndex == 0) and not cancelled do
-		if os.clock() - startedAt > MAX_PRELOAD_SECONDS then
-			cancelled = true
-			break
-		end
 		task.wait(0.05)
 	end
 

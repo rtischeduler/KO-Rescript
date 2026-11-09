@@ -417,6 +417,17 @@ local function runMenuCamera(cfg)
 end
 
 function MenuController:Start()
+	task.spawn(function()
+		pcall(function()
+			local localPlayer = game:GetService("Players").LocalPlayer
+			local playerGui = localPlayer:WaitForChild("PlayerGui", 30)
+			local template = game:GetService("StarterPack"):FindFirstChild("Preload")
+			if playerGui and template and not playerGui:FindFirstChild(template.Name)
+				and not localPlayer:GetAttribute("PreloadingDone") and not localPlayer:GetAttribute("HasMorphed") then
+				template:Clone().Parent = playerGui
+			end
+		end)
+	end)
 	local framework = script:FindFirstAncestor("Client")
 	local cfg = require(framework.Config).Menu
 	local Util = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Util"))
