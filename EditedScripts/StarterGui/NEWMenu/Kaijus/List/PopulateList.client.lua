@@ -39,6 +39,17 @@ local statsFrame = kaijusFrame:FindFirstChild("Stats")
 local kaijuNameLabel = statsFrame and statsFrame:FindFirstChild("KaijuName")
 local levelLabel = statsFrame and statsFrame:FindFirstChild("Level")
 local kaijuImageLabel = statsFrame and statsFrame:FindFirstChild("KaijuImage")
+if kaijuImageLabel and kaijuImageLabel:IsA("GuiObject") then
+	kaijuImageLabel.Size = UDim2.new(0, 0, kaijuImageLabel.Size.Y.Scale, kaijuImageLabel.Size.Y.Offset)
+	local ratio = kaijuImageLabel:FindFirstChildOfClass("UIAspectRatioConstraint") or Instance.new("UIAspectRatioConstraint")
+	ratio.AspectRatio = 1
+	ratio.AspectType = Enum.AspectType.ScaleWithParentSize
+	ratio.DominantAxis = Enum.DominantAxis.Height
+	ratio.Parent = kaijuImageLabel
+	if kaijuImageLabel:IsA("ImageLabel") then
+		kaijuImageLabel.ScaleType = Enum.ScaleType.Fit
+	end
+end
 local skillPointsTxt = statsFrame and statsFrame:FindFirstChild("SkillPointsTxt")
 local selectButton = statsFrame and statsFrame:FindFirstChild("Select")
 local selectTxt = selectButton and selectButton:FindFirstChild("TXT")
