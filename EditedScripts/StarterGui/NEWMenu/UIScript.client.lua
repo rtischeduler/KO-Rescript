@@ -303,6 +303,11 @@ local function startPlay()
 		mainMenu.Visible = false
 	end
 
+	if mainMenu then
+		cancelTween(mainMenu)
+		playTween(mainMenu, tweenInfo, { Position = UDim2.new(0, 0, -1, 0) })
+	end
+
 	if not waitForMorphReady(15) then
 		restoreMenu()
 		warn("Morph server is not ready")

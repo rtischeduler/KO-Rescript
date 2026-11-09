@@ -1,1 +1,2 @@
 StarterGui/NEWMenu/UIScript.client.lua
+StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu.lua
