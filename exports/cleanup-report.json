@@ -1,14 +1,14 @@
 {
   "totals": {
-    "scripts": 756,
-    "events": 428,
+    "scripts": 762,
+    "events": 433,
     "modules_never_required": 2,
     "modules_maybe_loaded_dynamically": 28,
-    "scripts_that_never_run": 122,
+    "scripts_that_never_run": 127,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
-    "unused_trees_holding_dead_scripts": 7
+    "unused_trees_holding_dead_scripts": 8
   },
   "safe_to_delete": {
     "events_never_referenced": [
@@ -510,6 +510,16 @@
         "reason": "sits in a container where it never runs"
       },
       {
+        "path": "ServerStorage/Bricks/Evo shin/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/Bricks/Evo shin/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
         "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim",
         "class": "LocalScript",
         "reason": "disabled"
@@ -535,14 +545,29 @@
         "reason": "disabled"
       },
       {
-        "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/BlastScript",
+        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack/ServerScript",
         "class": "Script",
-        "reason": "disabled"
+        "reason": "sits in a container where it never runs"
       },
       {
-        "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/BlastScript2",
+        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Attack3/ServerScript",
         "class": "Script",
-        "reason": "disabled"
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar1/Roar1Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Roar2/Roar2Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
       },
       {
         "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
@@ -640,7 +665,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 20,
+        "scripts_inside": 23,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",
@@ -664,6 +689,11 @@
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/framework/modules/Data"
         ]
+      },
+      {
+        "path": "ServerStorage/Bricks",
+        "scripts_inside": 2,
+        "name_referenced_by": []
       },
       {
         "path": "Lighting/Rocket",
