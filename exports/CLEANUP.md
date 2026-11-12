@@ -2,11 +2,11 @@
 
 Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
 
-- scripts: 760
+- scripts: 768
 - events: 428
 - modules never required: 2
 - modules maybe loaded dynamically: 28
-- scripts that never run: 125
+- scripts that never run: 124
 - empty running scripts: 302
 - events never referenced: 1
 - events maybe fired dynamically: 51
@@ -27,12 +27,12 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/Kaijus (20 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/Server/Services/MorphService, ServerScriptService/framework/modules/Character, ServerScriptService/framework/modules/Data, StarterGui/NEWMenu/UIScript)`
 - `ReplicatedStorage/FINAL WARS GODZILLA (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
-- `ServerStorage/incomplete (3 dead scripts, referenced by: nothing)`
-- `Lighting/Rocket (1 dead scripts, referenced by: nothing)`
+- `ServerStorage/incomplete (2 dead scripts, referenced by: nothing)`
+- `Lighting/Rocket (1 dead scripts, referenced by: Workspace/Robot)`
 - `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/LevelManager, ServerScriptService/GrantUncMinilla, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, StarterGui/ClientHandler, StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu, StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch)`
 
-## Scripts that never run (125)
+## Scripts that never run (124)
 
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/Anim (LocalScript, disabled)`
 - `Lighting/KaijusUnused/Behemoth/CharacterScripts/ChargeScript (Script, disabled)`
@@ -156,7 +156,6 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Attack3/ServerScript (Script, disabled)`
 - `ServerStorage/TITANUS GHIDORAH/CharacterScripts/Beam/ServerScript (Script, disabled)`
 - `ServerStorage/incomplete/KO:O SHIT/Model/Orga/55/WelderPart (Script, sits in a container where it never runs)`
-- `ServerStorage/incomplete/KO:O SHIT/Model/SPJetJaguar/Spear/Nail/Weld (Script, sits in a container where it never runs)`
 - `ServerStorage/incomplete/KO:O SHIT/Model/SPJetJaguar/Spear/Nail/WeldBackup (LocalScript, sits in a container where it never runs)`
 - `StarterGui/GameGui/MainFrame/Interface/LightingEffects/LocalScript (LocalScript, disabled)`
 

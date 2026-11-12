@@ -4,7 +4,7 @@ return {
 		CameraPriorityOffset = 1000,
 		TweenSeconds = 0.6,
 		DeathReturnDelay = 4,
-		EntityUnlockUser = "L0tzie",
+		EntityUnlockUser = "L0tzie","JustaProGamer8",
 	},
 
 	Settings = {
