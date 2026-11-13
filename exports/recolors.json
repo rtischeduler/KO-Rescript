@@ -3,10 +3,12 @@
     "ReplicatedStorage/GetRecolorData": 0,
     "ReplicatedStorage/Recolors": 0,
     "ReplicatedStorage/SetRecolor": 0,
+    "ServerStorage/incomplete/TitanusGodzilla-Default/Aspects/Colors": 3,
+    "ServerStorage/incomplete/TitanusGodzilla-Default/Aspects/Colors/NormalColor/FireColor": 0,
     "StarterGui/NEWMenu/Kaijus/Stats/Recolors": 4,
     "StarterGui/NEWMenu/Kaijus/Stats/Recolors/RecolorPopulator": 0
   },
-  "count": 8,
+  "count": 12,
   "entries": [
     {
       "class": "ScrollingFrame",
@@ -39,6 +41,43 @@
     {
       "class": "RemoteFunction",
       "path": "ReplicatedStorage/GetRecolorData"
+    },
+    {
+      "class": "Folder",
+      "path": "ServerStorage/incomplete/TitanusGodzilla-Default/Aspects/Colors"
+    },
+    {
+      "class": "Color3Value",
+      "path": "ServerStorage/incomplete/TitanusGodzilla-Default/Aspects/Colors/UltColor",
+      "value": {
+        "b": 255,
+        "g": 255,
+        "hex": "00FFFF",
+        "r": 0,
+        "type": "Color3"
+      }
+    },
+    {
+      "class": "Color3Value",
+      "path": "ServerStorage/incomplete/TitanusGodzilla-Default/Aspects/Colors/NormalColor",
+      "value": {
+        "b": 72,
+        "g": 72,
+        "hex": "484848",
+        "r": 72,
+        "type": "Color3"
+      }
+    },
+    {
+      "class": "Color3Value",
+      "path": "ServerStorage/incomplete/TitanusGodzilla-Default/Aspects/Colors/NormalColor/FireColor",
+      "value": {
+        "b": 255,
+        "g": 255,
+        "hex": "00FFFF",
+        "r": 0,
+        "type": "Color3"
+      }
     }
   ]
 }
