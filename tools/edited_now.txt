@@ -1,1 +1,6 @@
-StarterGui/NEWMenu/Kaijus/List/PopulateList.client.lua
+ReplicatedStorage/ChargeManager.lua
+ServerScriptService/Levels/Levels.server.lua
+ServerScriptService/Server/Config.lua
+ServerScriptService/Server/Services/HealthService.lua
+ServerScriptService/framework/modules/Data.lua
+StarterGui/NEWMenu/Kaijus/Stats/SkillPoints/Modifiers/ModifierUIHandler.client.lua
