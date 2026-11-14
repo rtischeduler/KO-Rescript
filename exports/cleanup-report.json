@@ -690,11 +690,11 @@
         "path": "ReplicatedStorage/MINILLA",
         "scripts_inside": 1,
         "name_referenced_by": [
+          "ReplicatedStorage/ChargeManager",
           "ReplicatedStorage/LevelManager",
           "ServerScriptService/GrantUncMinilla",
           "ServerScriptService/Levels/Levels",
-          "ServerScriptService/SecurityPolicy",
-          "ServerScriptService/framework/modules/Data"
+          "ServerScriptService/SecurityPolicy"
         ]
       },
       {

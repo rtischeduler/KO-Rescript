@@ -1008,6 +1008,10 @@ function Data.Init()
 				player.Character:SetAttribute("RegenModifier", modifiers.Regen or 0)
 			end
 
+			if modifierName == "Speed" and player.Character then
+				player.Character:SetAttribute("SpeedModifier", modifiers.Speed or 0)
+			end
+
 			modifyStatEvent:FireClient(player, {
 				kaijuName = kaijuName,
 				modifiers = {

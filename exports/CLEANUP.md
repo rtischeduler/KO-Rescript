@@ -29,7 +29,7 @@ Names are matched against every script's identifiers and string literals. Anythi
 - `ServerStorage/TITANUS GHIDORAH (3 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
 - `ServerStorage/Evo shin (2 dead scripts, referenced by: ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Character, StarterGui/NEWMenu/Kaijus/List/PopulateList)`
 - `Lighting/Rocket (1 dead scripts, referenced by: Workspace/Boss/REDBOSS/Robot)`
-- `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/LevelManager, ServerScriptService/GrantUncMinilla, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy, ServerScriptService/framework/modules/Data)`
+- `ReplicatedStorage/MINILLA (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, ReplicatedStorage/LevelManager, ServerScriptService/GrantUncMinilla, ServerScriptService/Levels/Levels, ServerScriptService/SecurityPolicy)`
 - `StarterGui/GameGui (1 dead scripts, referenced by: ReplicatedStorage/ChargeManager, StarterGui/ClientHandler, StarterGui/NEWMenu/UIScript, StarterPlayer/StarterPlayerScripts/Client/Controllers/Menu, StarterPlayer/StarterPlayerScripts/Client/Controllers/Touch)`
 
 ## Scripts that never run (123)

@@ -448,6 +448,7 @@ local function initialize()
 	end
 
 	character:SetAttribute("RegenModifier", playerModifiers.Regen or 0)
+	character:SetAttribute("SpeedModifier", playerModifiers.Speed or 0)
 
 	local stats = character:FindFirstChild("Stats")
 	if stats then

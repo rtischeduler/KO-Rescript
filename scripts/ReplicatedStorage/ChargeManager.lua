@@ -15,6 +15,22 @@ local MAX_CHARGE = 100
 local currentCharge = 100
 local isFlying = false
 
+local BASE_CHARGE_PER_SECOND = 5
+local CHARGE_PER_POINT = 0.05
+local CHARGE_PER_POINT_MINILLA = 0.055
+
+local function getChargeMultiplier()
+	local character = player and player.Character
+	if not character then return 1 end
+	local points = character:GetAttribute("SpeedModifier") or 0
+	local kaiju = character:FindFirstChild("Kaiju")
+	local perPoint = CHARGE_PER_POINT
+	if kaiju and kaiju.Value == "MINILLA" then
+		perPoint = CHARGE_PER_POINT_MINILLA
+	end
+	return 1 + points * perPoint
+end
+
 local CHARGE_REQUIREMENTS = {
 	Attack1 = 10,
 	Attack2 = 30,
@@ -114,7 +130,13 @@ local function updateUI()
 			fill.Size = UDim2.new(pct, 0, 1, 0)
 		end
 		if text then
-			text.Text = "Charge: " .. tostring(math.floor(currentCharge)) .. "/" .. tostring(MAX_CHARGE)
+			text.TextScaled = true
+			local rate = BASE_CHARGE_PER_SECOND * getChargeMultiplier()
+			local label = "Charge: " .. tostring(math.floor(currentCharge)) .. "/" .. tostring(MAX_CHARGE)
+			if rate > BASE_CHARGE_PER_SECOND then
+				label = label .. " (+" .. tostring(math.floor(rate * 10 + 0.5) / 10) .. "/s)"
+			end
+			text.Text = label
 		end
 	end
 
@@ -141,6 +163,10 @@ end)]]
 
 function ChargeManager.getCharge()
 	return currentCharge
+end
+
+function ChargeManager.getChargeRate()
+	return BASE_CHARGE_PER_SECOND * getChargeMultiplier()
 end
 
 function ChargeManager.getMaxCharge()
@@ -195,9 +221,13 @@ end
 
 if isClient then
 	task.spawn(function()
-		while task.wait(0.2) do
+		local last = os.clock()
+		while task.wait(0.1) do
+			local now = os.clock()
+			local dt = now - last
+			last = now
 			if not isFlying and currentCharge < MAX_CHARGE then
-				currentCharge = math.min(currentCharge + 1, MAX_CHARGE)
+				currentCharge = math.min(currentCharge + ChargeManager.getChargeRate() * dt, MAX_CHARGE)
 			end
 			updateUI()
 		end

@@ -1,7 +1,7 @@
 local HealthService = { Name = "Health" }
 
-function HealthService.regenAmount(maxHealth, regenPoints, cfg)
-	local multiplier = 1 + ((regenPoints or 0) * cfg.RegenPerPoint)
+function HealthService.regenAmount(maxHealth, regenPoints, cfg, perPoint)
+	local multiplier = 1 + ((regenPoints or 0) * (perPoint or cfg.RegenPerPoint))
 	return maxHealth * cfg.RegenBasePercent * multiplier
 end
 
@@ -65,7 +65,12 @@ function HealthService:Init()
 						cfg.RegenDelay
 					)
 				then
-					local heal = HealthService.regenAmount(humanoid.MaxHealth, character:GetAttribute("RegenModifier"), cfg)
+					local kaijuValue = character:FindFirstChild("Kaiju")
+					local perPoint = cfg.RegenPerPoint
+					if kaijuValue and kaijuValue.Value == "MINILLA" then
+						perPoint = cfg.RegenPerPointMinilla or cfg.RegenPerPoint
+					end
+					local heal = HealthService.regenAmount(humanoid.MaxHealth, character:GetAttribute("RegenModifier"), cfg, perPoint)
 					humanoid.Health = math.min(humanoid.Health + heal, humanoid.MaxHealth)
 				end
 			end

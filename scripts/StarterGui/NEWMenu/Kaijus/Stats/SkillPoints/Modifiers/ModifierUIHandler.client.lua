@@ -17,6 +17,8 @@ local MINILLA_MULTIPLIERS = {
 }
 
 local BASE_HEAL_AMOUNT = 125
+local BASE_REGEN_PERCENT = 0.01015
+local BASE_CHARGE_RATE = 5
 
 local ACTIVE_COLOR = Color3.fromRGB(116, 125, 255)
 local INACTIVE_COLOR = Color3.new(0.816, 0.816, 0.816)
@@ -55,7 +57,7 @@ local statLabelNames = {
 local morphStatNames = {
 	Damage = {"DMG1", "DMG2", "DMG3"},
 	Health = {"MaxHP"},
-	Regen = {"GPA", "HEAL_AMOUNT"},
+	Regen = {"CHARGE_RATE", "HEAL_AMOUNT"},
 	Speed = {"WS", "SwimSpeed", "SS"},
 }
 
@@ -112,47 +114,47 @@ end
 
 local function getStatValue(modifierName, labelIndex)
 	local statName = morphStatNames[modifierName][labelIndex]
+	if statName == "CHARGE_RATE" then
+		return BASE_CHARGE_RATE
+	end
 	if statName == "HEAL_AMOUNT" then
+		local maxHp = baseStats.MaxHP
+		if maxHp then
+			return maxHp * BASE_REGEN_PERCENT
+		end
 		return BASE_HEAL_AMOUNT
 	end
 	return baseStats[statName]
 end
 
+local function getEffectiveModifier(modifierName, labelIndex)
+	local statName = morphStatNames[modifierName][labelIndex]
+	if statName == "CHARGE_RATE" then
+		return "Speed"
+	end
+	return modifierName
+end
+
+local function getStatMultiplier(effectiveModifier, points)
+	local multipliers = MULTIPLIERS
+	if currentMorphName == "MINILLA" then
+		multipliers = MINILLA_MULTIPLIERS
+	end
+	return 1 + points * multipliers[effectiveModifier]
+end
+
 local function getMultipliedStat(modifierName, labelIndex)
 	local original = getStatValue(modifierName, labelIndex)
 	if not original then return nil end
-	local statName = morphStatNames[modifierName][labelIndex]
-
-	if statName == "HEAL_AMOUNT" then
-		return original
-	end
-
-	local points = modifierData[modifierName] or 0
-	local mult
-	if currentMorphName == "MINILLA" then
-		mult = 1 + points * MINILLA_MULTIPLIERS[modifierName]
-	else
-		mult = 1 + points * MULTIPLIERS[modifierName]
-	end
-	return original * mult
+	local effective = getEffectiveModifier(modifierName, labelIndex)
+	return original * getStatMultiplier(effective, modifierData[effective] or 0)
 end
 
 local function getMaxedStat(modifierName, labelIndex)
 	local original = getStatValue(modifierName, labelIndex)
 	if not original then return nil end
-	local statName = morphStatNames[modifierName][labelIndex]
-	
-	if statName == "HEAL_AMOUNT" then
-		return original
-	end
-	local maxPoints = getMaxPointsPerModifier(currentMorphName)
-	local mult
-	if currentMorphName == "MINILLA" then
-		mult = 1 + maxPoints * MINILLA_MULTIPLIERS[modifierName]
-	else
-		mult = 1 + maxPoints * MULTIPLIERS[modifierName]
-	end
-	return original * mult
+	local effective = getEffectiveModifier(modifierName, labelIndex)
+	return original * getStatMultiplier(effective, getMaxPointsPerModifier(currentMorphName))
 end
 
 local function updateModifierUI(modifierName)

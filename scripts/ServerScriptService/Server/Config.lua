@@ -21,6 +21,7 @@ return {
 		RegenInterval = 3,
 		RegenBasePercent = 0.01015,
 		RegenPerPoint = 0.15,
+		RegenPerPointMinilla = 0.3,
 		CharacterParentTimeout = 30,
 	},
 
