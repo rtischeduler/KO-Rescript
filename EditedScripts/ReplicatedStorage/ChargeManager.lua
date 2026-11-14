@@ -16,13 +16,13 @@ local currentCharge = 100
 local isFlying = false
 
 local BASE_CHARGE_PER_SECOND = 5
-local CHARGE_PER_POINT = 0.15
-local CHARGE_PER_POINT_MINILLA = 0.3
+local CHARGE_PER_POINT = 0.05
+local CHARGE_PER_POINT_MINILLA = 0.055
 
 local function getChargeMultiplier()
 	local character = player and player.Character
 	if not character then return 1 end
-	local points = character:GetAttribute("RegenModifier") or 0
+	local points = character:GetAttribute("SpeedModifier") or 0
 	local kaiju = character:FindFirstChild("Kaiju")
 	local perPoint = CHARGE_PER_POINT
 	if kaiju and kaiju.Value == "MINILLA" then

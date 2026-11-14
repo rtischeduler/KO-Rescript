@@ -534,16 +534,14 @@ function Data.Init()
 			return gamepassKaijus
 		end
 
-		local DEFAULT_KAIJU = "GOJIRA [FREE]"
-
 		getSelectedKaijuFunc.OnServerInvoke = function(player)
 			local selected = playerSelectedKaiju[player.UserId]
-			return nameMapping[selected] or selected or DEFAULT_KAIJU
+			return nameMapping[selected] or selected
 		end
 
 		_G.KUNGetSelectedKaiju = function(player)
 			local selected = playerSelectedKaiju[player.UserId]
-			return nameMapping[selected] or selected or DEFAULT_KAIJU
+			return nameMapping[selected] or selected
 		end
 
 		setSelectedKaijuEvent.OnServerEvent:Connect(function(player, morphName)
@@ -559,26 +557,23 @@ function Data.Init()
 		end)
 
 		local function loadSelectedKaiju(player)
-			local success, data
-			for _ = 1, 3 do
-				success, data = pcall(function()
-					return SelectedKaijuStore:GetAsync(tostring(player.UserId))
-				end)
-				if success then break end
-				task.wait(1)
-			end
-			if playerSelectedKaiju[player.UserId] ~= nil then
-				return
-			end
+			local success, data = pcall(function()
+				return SelectedKaijuStore:GetAsync(tostring(player.UserId))
+			end)
 			local canonicalName = nameMapping[data] or data
 			if success and type(data) == "string" and ownsKaiju(player, canonicalName) then
 				playerSelectedKaiju[player.UserId] = canonicalName
+			else
+				playerSelectedKaiju[player.UserId] = nil
 			end
 		end
 
 		local function saveSelectedKaiju(player)
 			local data = playerSelectedKaiju[player.UserId]
 			if data == nil then
+				pcall(function()
+					SelectedKaijuStore:RemoveAsync(tostring(player.UserId))
+				end)
 				return
 			end
 			local success, err = pcall(function()
@@ -1011,6 +1006,10 @@ function Data.Init()
 
 			if modifierName == "Regen" and player.Character then
 				player.Character:SetAttribute("RegenModifier", modifiers.Regen or 0)
+			end
+
+			if modifierName == "Speed" and player.Character then
+				player.Character:SetAttribute("SpeedModifier", modifiers.Speed or 0)
 			end
 
 			modifyStatEvent:FireClient(player, {

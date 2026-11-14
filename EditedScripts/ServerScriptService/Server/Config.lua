@@ -65,7 +65,6 @@ return {
 		GCellsZeroAt = 10,
 		XpZeroAt = 25,
 		StarterXp = 0.05,
-		StarterBoost = 1.25,
 	},
 
 	Performance = {
