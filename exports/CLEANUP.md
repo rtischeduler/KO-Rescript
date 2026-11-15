@@ -2,9 +2,9 @@
 
 Names are matched against every script's identifiers and string literals. Anything below has no match anywhere.
 
-- scripts: 766
+- scripts: 767
 - events: 430
-- modules never required: 2
+- modules never required: 3
 - modules maybe loaded dynamically: 28
 - scripts that never run: 123
 - empty running scripts: 302
@@ -16,8 +16,9 @@ Names are matched against every script's identifiers and string literals. Anythi
 
 - `ReplicatedStorage/Buy`
 
-## ModuleScripts never required (2)
+## ModuleScripts never required (3)
 
+- `ServerScriptService/TemplateGlowManager`
 - `ServerStorage/TemplateGlowManager`
 - `TestService/LuauLSP_Settings`
 
