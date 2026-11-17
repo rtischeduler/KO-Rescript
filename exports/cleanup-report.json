@@ -1,14 +1,14 @@
 {
   "totals": {
-    "scripts": 767,
-    "events": 430,
+    "scripts": 765,
+    "events": 425,
     "modules_never_required": 3,
     "modules_maybe_loaded_dynamically": 28,
-    "scripts_that_never_run": 123,
+    "scripts_that_never_run": 122,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
-    "unused_trees_holding_dead_scripts": 8
+    "unused_trees_holding_dead_scripts": 7
   },
   "safe_to_delete": {
     "events_never_referenced": [
@@ -511,16 +511,6 @@
         "reason": "sits in a container where it never runs"
       },
       {
-        "path": "ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript",
-        "class": "Script",
-        "reason": "disabled"
-      },
-      {
-        "path": "ServerStorage/Evo shin/HitParts/HeiseiBlast/BlastScript2",
-        "class": "Script",
-        "reason": "disabled"
-      },
-      {
         "path": "ServerStorage/Kaijus/ANGUIRUS [FREE]/CharacterScripts/Anim",
         "class": "LocalScript",
         "reason": "disabled"
@@ -546,8 +536,13 @@
         "reason": "disabled"
       },
       {
-        "path": "ServerStorage/Kaijus/Evo shin/CharacterScripts/Anim",
-        "class": "LocalScript",
+        "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/BlastScript",
+        "class": "Script",
+        "reason": "disabled"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evo shin/HitParts/HeiseiBlast/BlastScript2",
+        "class": "Script",
         "reason": "disabled"
       },
       {
@@ -646,7 +641,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 19,
+        "scripts_inside": 20,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",
@@ -669,15 +664,6 @@
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/framework/modules/Data"
-        ]
-      },
-      {
-        "path": "ServerStorage/Evo shin",
-        "scripts_inside": 2,
-        "name_referenced_by": [
-          "ServerScriptService/SecurityPolicy",
-          "ServerScriptService/framework/modules/Character",
-          "StarterGui/NEWMenu/Kaijus/List/PopulateList"
         ]
       },
       {
