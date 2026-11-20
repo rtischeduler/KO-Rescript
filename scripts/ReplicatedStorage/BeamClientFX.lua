@@ -1,4 +1,4 @@
-local Players = game:GetService("Players")
+alocal Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local BeamVFX = require(ReplicatedStorage:WaitForChild("BeamVFX"))
