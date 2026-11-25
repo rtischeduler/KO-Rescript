@@ -1,10 +1,10 @@
 {
   "totals": {
-    "scripts": 761,
-    "events": 424,
+    "scripts": 765,
+    "events": 430,
     "modules_never_required": 3,
     "modules_maybe_loaded_dynamically": 28,
-    "scripts_that_never_run": 118,
+    "scripts_that_never_run": 122,
     "empty_running_scripts": 302,
     "events_never_referenced": 1,
     "events_maybe_fired_dynamically": 51,
@@ -546,6 +546,26 @@
         "reason": "disabled"
       },
       {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Attack4/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Beam/ServerScript",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar1/Roar1Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
+        "path": "ServerStorage/Kaijus/Evolved Godzilla/CharacterScripts/Roar2/Roar2Script",
+        "class": "Script",
+        "reason": "sits in a container where it never runs"
+      },
+      {
         "path": "ServerStorage/Kaijus/F16C [FREE]/CharacterScripts/Anim",
         "class": "LocalScript",
         "reason": "disabled"
@@ -621,7 +641,7 @@
       },
       {
         "path": "ServerStorage/Kaijus",
-        "scripts_inside": 14,
+        "scripts_inside": 18,
         "name_referenced_by": [
           "ServerScriptService/SecurityPolicy",
           "ServerScriptService/Server/Services/MorphService",
