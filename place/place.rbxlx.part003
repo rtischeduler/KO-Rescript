@@ -851378,7 +851378,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">0f858e28528359a60b152cdc00000e9f</UniqueId>
+      <UniqueId name="UniqueId">4cb2d5607a6f70430b17a97000000e9f</UniqueId>
     </Properties>
   </Item>
   <Item class="PermissionsService" referent="166202">
@@ -851392,7 +851392,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">0f858e28528359a60b152cdc00000ec7</UniqueId>
+      <UniqueId name="UniqueId">4cb2d5607a6f70430b17a97000000ec7</UniqueId>
     </Properties>
   </Item>
   <Item class="LuaWebService" referent="166203">
@@ -851406,7 +851406,7 @@ return {
       </BinaryString>
       <int64 name="SourceAssetId">-1</int64>
       <BinaryString name="Tags"></BinaryString>
-      <UniqueId name="UniqueId">0f858e28528359a60b152cdc00000fc2</UniqueId>
+      <UniqueId name="UniqueId">4cb2d5607a6f70430b17a97000000fc2</UniqueId>
     </Properties>
   </Item>
   <SharedStrings>
